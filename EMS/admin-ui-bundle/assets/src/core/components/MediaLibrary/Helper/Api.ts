@@ -1,4 +1,4 @@
-export default class ApiClient {
+export default class Api {
     readonly #pathPrefix: string
     readonly #onRequest: () => void
 

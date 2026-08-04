@@ -1,4 +1,4 @@
-export interface DragDropControllerOptions {
+export interface DragDropOptions {
     filesContainer: HTMLElement
     getActiveFolderId: () => string | null
     getSelectionFiles: () => NodeListOf<HTMLElement>
@@ -7,13 +7,13 @@ export interface DragDropControllerOptions {
     onFilesMove: (targetFolderId: string | null) => void
 }
 
-export default class DragDropController {
-    readonly #options: DragDropControllerOptions
+export default class DragDrop {
+    readonly #options: DragDropOptions
     #counter = 0
     #files: HTMLElement[] | NodeListOf<Element> = []
     #highlighted: HTMLElement | null = null
 
-    constructor(options: DragDropControllerOptions) {
+    constructor(options: DragDropOptions) {
         this.#options = options
     }
 

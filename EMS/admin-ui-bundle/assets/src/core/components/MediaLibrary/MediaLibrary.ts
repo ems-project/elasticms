@@ -1,9 +1,8 @@
-import ApiClient from './ApiClient.ts'
-import JobPoller from './JobPoller.ts'
-import SelectionManager from './SelectionManager.ts'
-import DragDropController from './DragDropController.ts'
-import UploadManager from './UploadManager.ts'
-import Renderer from './Renderer.ts'
+import ApiClient from './Helper/Api.ts'
+import Job from './Helper/Job.ts'
+import Selection from './Dom/Selection.ts'
+import DragDrop from './Dom/DragDrop.ts'
+import Upload from './Helper/Upload.ts'
 
 import ProgressBar from '../../helpers/progressBar'
 import { Dialog, DialogSize } from '../Dialog.ts'
@@ -14,7 +13,7 @@ export interface MediaLibraryOptions {
     hashAlgo: string
 }
 
-export interface Elements {
+interface Elements {
     header: HTMLElement
     breadcrumb: HTMLElement
     footer: HTMLElement
@@ -38,11 +37,10 @@ export default class MediaLibrary {
     element: HTMLElement
 
     readonly #api: ApiClient
-    readonly #jobPoller: JobPoller
-    readonly #selection: SelectionManager
-    readonly #dragDrop: DragDropController
-    readonly #uploads: UploadManager
-    readonly #renderer: Renderer
+    readonly #jobPoller: Job
+    readonly #selection: Selection
+    readonly #dragDrop: DragDrop
+    readonly #uploads: Upload
 
     #elements: Elements
     readonly #state: State = {
@@ -52,6 +50,8 @@ export default class MediaLibrary {
         sortOrder: null
     }
 
+    #activeFolderHeader = ''
+    #loadedFiles = 0
     #debounceTimer: number | undefined
     #searchType = 'term'
 
@@ -78,7 +78,7 @@ export default class MediaLibrary {
         this.#api = new ApiClient(`${options.urlMediaLib}/${element.dataset.hash}`, () =>
             this.loading(true)
         )
-        this.#jobPoller = new JobPoller()
+        this.#jobPoller = new Job()
         this.#searchType = element.dataset.searchType ?? 'term'
 
         this.#elements = {
@@ -95,7 +95,7 @@ export default class MediaLibrary {
             listUploads: element.querySelector('ul.media-lib-list-uploads') as HTMLElement
         }
 
-        this.#uploads = new UploadManager({
+        this.#uploads = new Upload({
             container: this.#elements.listUploads,
             api: this.#api,
             hashAlgo: options.hashAlgo,
@@ -103,7 +103,7 @@ export default class MediaLibrary {
             getActiveFolderId: () => this.#state.activeFolderId
         })
 
-        this.#dragDrop = new DragDropController({
+        this.#dragDrop = new DragDrop({
             filesContainer: this.#elements.files,
             getActiveFolderId: () => this.#state.activeFolderId,
             getSelectionFiles: () => this.getSelectionFiles(),
@@ -117,19 +117,9 @@ export default class MediaLibrary {
             }
         })
 
-        this.#selection = new SelectionManager(this.#elements.listFiles, (event) =>
+        this.#selection = new Selection(this.#elements.listFiles, (event) =>
             this.#dragDrop.onDragFile(event)
         )
-
-        this.#renderer = new Renderer({
-            api: this.#api,
-            elements: this.#elements,
-            state: this.#state,
-            selection: this.#selection,
-            searchType: this.#searchType,
-            onFolderDrag: (event) => this.#dragDrop.onDragFolder(event),
-            onOpenFolder: (folder) => this._onClickFolder(folder)
-        })
 
         this._init()
     }
@@ -139,7 +129,7 @@ export default class MediaLibrary {
         this._addEventListeners()
         this._initInfiniteScrollFiles(this.#elements.files, this.#elements.loadMoreFiles)
 
-        Promise.allSettled([this.#renderer.loadFolders(), this.#renderer.loadFiles()]).then(() => this.loading(false))
+        Promise.allSettled([this._getFolders(), this._getFiles()]).then(() => this.loading(false))
     }
 
     isLoading() {
@@ -233,7 +223,7 @@ export default class MediaLibrary {
         this.loading(true)
         const selection = this.#selection.select(item, event)
         const fileId = selection.length === 1 ? (item.dataset.id ?? null) : null
-        this.#renderer.loadLayout(fileId).then(() => {
+        this._getLayout(fileId).then(() => {
             this.loading(false)
         })
     }
@@ -245,7 +235,7 @@ export default class MediaLibrary {
             this.#state.sortOrder = target.dataset.sortOrder === 'asc' ? 'desc' : 'asc'
         }
 
-        this.#renderer.loadFiles().then(() => this.loading(false))
+        this._getFiles().then(() => this.loading(false))
     }
 
     _onClickButtonFileView(button: HTMLElement, event: MouseEvent) {
@@ -345,7 +335,7 @@ export default class MediaLibrary {
                     if (li) li.innerHTML = fileRow
                 }
 
-                this.#renderer.loadLayout().then(() => {
+                this._getLayout().then(() => {
                     dialog.close()
                     this.loading(false)
                 })
@@ -419,7 +409,9 @@ export default class MediaLibrary {
         const selection = this.getSelectionFiles()
         if (selection.length === 0) return
 
-        const path = this.#state.activeFolderId ? `/move-files/${this.#state.activeFolderId}` : '/move-files'
+        const path = this.#state.activeFolderId
+            ? `/move-files/${this.#state.activeFolderId}`
+            : '/move-files'
         const query = new URLSearchParams({
             selectionFiles: selection.length.toString()
         })
@@ -494,7 +486,7 @@ export default class MediaLibrary {
                         })
                     })
                 )
-                    .then(() => this.#renderer.loadFiles())
+                    .then(() => this._getFiles())
                     .then(() => this.loading(false))
                     .then(() => {
                         if (Object.keys(errorList).length === 0)
@@ -519,18 +511,20 @@ export default class MediaLibrary {
         }
 
         this.#state.activeFolderId = folder.dataset.id ?? null
-        this.#renderer.loadFiles().then(() => this.loading(false))
+        this._getFiles().then(() => this.loading(false))
     }
 
     _onClickButtonFolderAdd() {
-        const path = this.#state.activeFolderId ? `/add-folder/${this.#state.activeFolderId}` : '/add-folder'
+        const path = this.#state.activeFolderId
+            ? `/add-folder/${this.#state.activeFolderId}`
+            : '/add-folder'
         new Dialog({
             url: this.#api.pathPrefix + path,
             ajaxModal: true,
             onAjaxModalResponse: (json) => {
                 if (!json.success) return
                 this.loading(true)
-                this.#renderer.loadFolders(json.path as string).then(() => this.loading(false))
+                this._getFolders(json.path as string).then(() => this.loading(false))
             }
         }).open()
     }
@@ -548,7 +542,7 @@ export default class MediaLibrary {
 
                 this._runFolderJob(json, dialog, 'Deleting folder', () => {
                     this._onClickButtonHome()
-                    return this.#renderer.loadFolders()
+                    return this._getFolders()
                 })
                     .then(() => this.loading(false))
                     .then(() => dialog.close())
@@ -568,7 +562,7 @@ export default class MediaLibrary {
 
                 const path = json.path as string
 
-                this._runFolderJob(json, dialog, 'Renaming', () => this.#renderer.loadFolders(path))
+                this._runFolderJob(json, dialog, 'Renaming', () => this._getFolders(path))
                     .then(() => this.loading(false))
                     .then(() => dialog.close())
             }
@@ -592,7 +586,7 @@ export default class MediaLibrary {
 
                 const path = json.path as string
 
-                this._runFolderJob(json, dialog, 'Moving', () => this.#renderer.loadFolders(path))
+                this._runFolderJob(json, dialog, 'Moving', () => this._getFolders(path))
                     .then(() => this.loading(false))
                     .then(() => dialog.close())
             }
@@ -603,7 +597,7 @@ export default class MediaLibrary {
         this.loading(true)
         this.getFolders().forEach((f) => f.classList.remove('active'))
         this.#state.activeFolderId = null
-        this.#renderer.loadFiles().then(() => this.loading(false))
+        this._getFiles().then(() => this.loading(false))
     }
 
     _onClickBreadcrumbItem(item: HTMLElement) {
@@ -622,16 +616,146 @@ export default class MediaLibrary {
         clearTimeout(this.#debounceTimer)
         this.#debounceTimer = window.setTimeout(() => {
             this.#state.searchValue = input.value
-            this.#renderer.loadFiles(0).then(() => this.loading(false))
+            this._getFiles(0).then(() => this.loading(false))
         }, delay)
+    }
+
+    _getLayout(fileId: string | null = null) {
+        let path = '/layout'
+        const query = new URLSearchParams({
+            loaded: this.#loadedFiles.toString()
+        })
+
+        if (fileId) query.append('fileId', fileId)
+        if (this.getSelectionFiles().length > 0)
+            query.append('selectionFiles', this.getSelectionFiles().length.toString())
+        if (this.#state.activeFolderId) query.append('folderId', this.#state.activeFolderId)
+        if (this.#state.searchValue) query.append('search', this.#state.searchValue)
+
+        if (Array.from(query).length > 0) path = path + '?' + query.toString()
+
+        return this.#api.get(path).then((json) => {
+            if (Object.hasOwn(json, 'header')) this._refreshHeader(json.header)
+            if (Object.hasOwn(json, 'breadcrumb'))
+                this.#elements.breadcrumb.innerHTML = json.breadcrumb
+            if (Object.hasOwn(json, 'footer')) this.#elements.footer.innerHTML = json.footer
+        })
+    }
+
+    _getFiles(from = 0) {
+        if (from === 0) {
+            this.#loadedFiles = 0
+            this.#elements.loadMoreFiles.classList.remove('show-load-more')
+            this.#elements.listFiles.innerHTML = ''
+        }
+
+        const query = new URLSearchParams({ from: from.toString(), searchType: this.#searchType })
+        if (this.getSelectionFiles().length > 0)
+            query.append('selectionFiles', this.getSelectionFiles().length.toString())
+        if (this.#state.searchValue) query.append('search', this.#state.searchValue)
+        if (this.#state.sortId) query.append('sortId', this.#state.sortId)
+        if (this.#state.sortOrder) query.append('sortOrder', this.#state.sortOrder)
+        const path = this.#state.activeFolderId ? `/files/${this.#state.activeFolderId}` : '/files'
+
+        return this.#api.get(`${path}?${query.toString()}`).then((files) => {
+            this._appendFiles(files)
+        })
+    }
+
+    _getFolders(openPath: string | undefined = undefined) {
+        this.#elements.listFolders.innerHTML = ''
+        return this.#api.get('/folders').then((json) => {
+            this._appendFolderItems(json)
+            if (openPath) {
+                this._openPath(openPath)
+            }
+        })
+    }
+
+    _openPath(path: string) {
+        let currentPath = ''
+        path.split('/')
+            .filter((f) => f !== '')
+            .forEach((folderName) => {
+                currentPath += `/${folderName}`
+                const parentFolder = document.querySelector(
+                    `.media-lib-folder[data-path="${currentPath}"]`
+                )
+                const parentLi = parentFolder ? parentFolder.closest('li') : null
+
+                if (parentLi && parentLi.classList.contains('has-children')) {
+                    parentLi.classList.add('open')
+                }
+            })
+
+        if (currentPath !== '') {
+            const folder = document.querySelector(
+                `.media-lib-folder[data-path="${currentPath}"]`
+            ) as HTMLElement | null
+            if (folder) this._onClickFolder(folder)
+        }
+    }
+
+    _appendFiles(json: any) {
+        if (Object.hasOwn(json, 'header')) {
+            this._refreshHeader(json.header)
+            this.#activeFolderHeader = json.header
+        }
+        if (Object.hasOwn(json, 'breadcrumb')) this.#elements.breadcrumb.innerHTML = json.breadcrumb
+        if (Object.hasOwn(json, 'footer')) this.#elements.footer.innerHTML = json.footer
+
+        const { rowHeader, totalRows, rows, remaining = false } = json
+        if (rowHeader !== undefined) {
+            this.#elements.listFiles.innerHTML += rowHeader
+            if (Object.hasOwn(json, 'sort')) this._displaySort(json.sort.id, json.sort.order)
+        }
+        if (totalRows !== undefined) this.#loadedFiles += totalRows
+        if (rows !== undefined) this.#elements.listFiles.innerHTML += rows
+
+        if (remaining) {
+            this.#elements.loadMoreFiles.classList.add('show-load-more')
+        } else {
+            this.#elements.loadMoreFiles.classList.remove('show-load-more')
+        }
+    }
+
+    _appendFolderItems(json: { folders: string }) {
+        this.#elements.listFolders.innerHTML = json.folders
+
+        this.getFolders().forEach((folder) => {
+            ;(['dragenter', 'dragover', 'dragleave', 'drop'] as const).forEach((dragEvent) => {
+                folder.addEventListener(dragEvent, (event) =>
+                    this.#dragDrop.onDragFolder(event as DragEvent)
+                )
+            })
+        })
+    }
+
+    _refreshHeader(html: string) {
+        const searchBoxHasFocus = document.activeElement === this.getSearchBox()
+
+        this.#elements.header.innerHTML = html
+        if (searchBoxHasFocus) {
+            const searchBox = this.getSearchBox()
+            searchBox.focus()
+            const val = searchBox.value
+            searchBox.value = ''
+            searchBox.value = val
+        }
+    }
+
+    _displaySort(sortId: string, sortOrder: string) {
+        const sortElement = this.#elements.listFiles.querySelector(
+            `[data-sort-id="${sortId}"]`
+        ) as HTMLElement | null
+        if (!sortElement) return
+        sortElement.dataset.sortOrder = sortOrder
     }
 
     _uploadFiles(files: File[]) {
         this.loading(true)
 
-        this.#uploads
-            .uploadAll(files)
-            .then(() => this.#renderer.loadFiles().then(() => this.loading(false)))
+        this.#uploads.uploadAll(files).then(() => this._getFiles().then(() => this.loading(false)))
     }
 
     _initInfiniteScrollFiles(scrollArea: HTMLElement, divLoadMore: HTMLElement) {
@@ -645,7 +769,7 @@ export default class MediaLibrary {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     this.loading(true)
-                    this.#renderer.loadFiles(this.#renderer.getLoadedFilesCount()).then(() => this.loading(false))
+                    this._getFiles(this.#loadedFiles).then(() => this.loading(false))
                 }
             })
         }, options)
@@ -659,13 +783,13 @@ export default class MediaLibrary {
 
         this.loading(true)
         this.#selection.selectAll()
-        this.#renderer.loadLayout().then(() => {
+        this._getLayout().then(() => {
             this.loading(false)
         })
     }
 
     _selectFilesReset(refreshHeader = true) {
-        if (refreshHeader) this.#renderer.refreshHeader(this.#renderer.getActiveFolderHeader())
+        if (refreshHeader) this._refreshHeader(this.#activeFolderHeader)
         this.#selection.reset()
     }
 

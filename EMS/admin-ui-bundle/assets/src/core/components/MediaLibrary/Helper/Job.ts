@@ -1,6 +1,6 @@
-import ProgressBar from '../../helpers/progressBar'
+import ProgressBar from '../../../helpers/progressBar'
 
-export default class JobPoller {
+export default class Job {
     async run(jobId: string, progressBar: ProgressBar) {
         return Promise.allSettled([this.#start(jobId), this.#poll(jobId, progressBar)])
     }

@@ -11,7 +11,7 @@ const PRESERVING_CLASSES = [
     'btn-file-view'
 ]
 
-export default class SelectionManager {
+export default class Selection {
     readonly #container: HTMLElement
     readonly #onDragFile: (event: DragEvent) => void
     #lastFile: HTMLElement | null = null

@@ -1,9 +1,9 @@
-import ProgressBar from '../../helpers/progressBar'
-import { FileUploader } from '../FileUploader.ts'
-import { resizeImage } from '../../helpers/resizeImage'
-import ApiClient from './ApiClient.ts'
+import ProgressBar from '../../../helpers/progressBar'
+import { FileUploader } from '../../FileUploader.ts'
+import { resizeImage } from '../../../helpers/resizeImage'
+import ApiClient from './Api.ts'
 
-export interface UploadManagerOptions {
+export interface UploadOptions {
     container: HTMLElement
     api: ApiClient
     hashAlgo: string
@@ -11,10 +11,10 @@ export interface UploadManagerOptions {
     getActiveFolderId: () => string | null
 }
 
-export default class UploadManager {
-    readonly #options: UploadManagerOptions
+export default class Upload {
+    readonly #options: UploadOptions
 
-    constructor(options: UploadManagerOptions) {
+    constructor(options: UploadOptions) {
         this.#options = options
     }
 

@@ -1,5 +1,6 @@
 import ApiClient from './ApiClient.ts'
 import JobPoller from './JobPoller.ts'
+import SelectionManager from './SelectionManager.ts'
 import ProgressBar from '../../helpers/progressBar'
 import { FileUploader } from '../FileUploader.ts'
 import { resizeImage } from '../../helpers/resizeImage'
@@ -23,23 +24,20 @@ interface MediaLibraryElements {
     listUploads: HTMLElement
 }
 
-type DraggableElement = HTMLElement & {
-    _dragEventHandlers?: { [event: string]: (event: DragEvent) => void }
-}
-
 export default class MediaLibrary {
     id: string
     element: HTMLElement
 
     readonly #api: ApiClient
     readonly #jobPoller: JobPoller
+    readonly #selection: SelectionManager
 
     #options: MediaLibraryOptions
     #elements: MediaLibraryElements
     #activeFolderId: string | null = null
     #activeFolderHeader = ''
     #loadedFiles = 0
-    #selectionLastFile: HTMLElement | null = null
+
     #dragCounter = 0
     #dragFiles: HTMLElement[] | NodeListOf<Element> = []
     #debounceTimer: number | undefined
@@ -72,6 +70,8 @@ export default class MediaLibrary {
         }
 
         this._init()
+
+        this.#selection = new SelectionManager(this.#elements.listFiles, (event) => this._onDragFile(event))
     }
 
     _init() {
@@ -114,12 +114,11 @@ export default class MediaLibrary {
     }
 
     getSelectionFile() {
-        const selection = this.getSelectionFiles()
-        return selection.length === 1 ? selection[0] : null
+        return this.#selection.getFile()
     }
 
     getSelectionFiles() {
-        return this.#elements.listFiles.querySelectorAll<HTMLElement>('.active')
+        return this.#selection.getFiles()
     }
 
     _addEventListeners() {
@@ -128,7 +127,7 @@ export default class MediaLibrary {
         })
 
         this.element.onkeyup = (event) => {
-            if (event.shiftKey) this.#selectionLastFile = null
+            if (event.shiftKey) this.#selection.clearAnchor()
             const target = event.target as HTMLElement
             if (target.classList.contains('media-lib-search'))
                 this._onSearchInput(target as HTMLInputElement, 1000)
@@ -192,7 +191,7 @@ export default class MediaLibrary {
 
     _onClickFile(item: HTMLElement, event: MouseEvent) {
         this.loading(true)
-        const selection = this._selectFiles(item, event)
+        const selection = this.#selection.select(item, event)
         const fileId = selection.length === 1 ? (item.dataset.id ?? null) : null
         this._getLayout(fileId).then(() => {
             this.loading(false)
@@ -244,7 +243,7 @@ export default class MediaLibrary {
                 const headerHeight = header ? header.getBoundingClientRect().height : 0
 
                 this._selectFilesReset()
-                this._selectFile(file)
+                this.#selection.add(file)
                 this.#elements.files.scrollTop =
                     file.offsetTop - this.#elements.files.offsetTop - headerHeight
 
@@ -981,79 +980,19 @@ export default class MediaLibrary {
         observer.observe(divLoadMore)
     }
 
-    _selectFile(item: HTMLElement, deselect = false) {
-        const dragItem = item as DraggableElement
-        if (!dragItem._dragEventHandlers) dragItem._dragEventHandlers = {}
-
-        if (!item.classList.contains('active')) {
-            item.classList.add('active')
-            ;(item as HTMLElement).draggable = true
-            ;(['dragstart', 'dragend'] as const).forEach((dragEvent) => {
-                if (!dragItem._dragEventHandlers?.[dragEvent]) {
-                    const handler = (event: DragEvent) => this._onDragFile(event)
-                    dragItem._dragEventHandlers![dragEvent] = handler
-                    item.addEventListener(dragEvent, handler)
-                }
-            })
-        } else if (deselect) {
-            item.classList.remove('active')
-            item.draggable = false
-            ;(['dragstart', 'dragend'] as const).forEach((dragEvent) => {
-                const handler = dragItem._dragEventHandlers?.[dragEvent]
-                if (handler) {
-                    item.removeEventListener(dragEvent, handler)
-                    delete dragItem._dragEventHandlers![dragEvent]
-                }
-            })
-        }
-    }
-
-    _selectFiles(item: HTMLElement, event: MouseEvent) {
-        if (event.shiftKey && this.#selectionLastFile !== null) {
-            const files = Array.from(
-                this.#elements.listFiles.querySelectorAll<HTMLElement>('.media-lib-file')
-            )
-            let start = files.indexOf(item)
-            let end = files.indexOf(this.#selectionLastFile)
-            if (start > end) [start, end] = [end, start]
-
-            files.forEach((f, index) => {
-                if (index >= start && index <= end) this._selectFile(f)
-            })
-        } else if (event.ctrlKey || event.metaKey) {
-            this._selectFile(item, true)
-        } else {
-            this._selectFilesReset(false)
-            this._selectFile(item)
-        }
-
-        this.#selectionLastFile = item
-
-        return this.getSelectionFiles()
-    }
-
     _selectAllFiles(event: KeyboardEvent) {
         if (event.target !== document.body) return
         event.preventDefault()
 
         this.loading(true)
-        const files = this.#elements.listFiles.querySelectorAll<HTMLElement>('.media-lib-file')
-        files.forEach((f) => this._selectFile(f))
+        this.#selection.selectAll()
         this._getLayout().then(() => {
             this.loading(false)
         })
     }
 
     _selectFilesReset(refreshHeader = true) {
-        if (refreshHeader === true) this._refreshHeader(this.#activeFolderHeader)
-        this.getSelectionFiles().forEach((file) => {
-            const dragFile = file as DraggableElement
-            file.classList.remove('active')
-            file.draggable = false
-            ;(['dragstart', 'dragend'] as const).forEach((dragEvent) => {
-                const handler = dragFile._dragEventHandlers?.[dragEvent]
-                if (handler) file.removeEventListener(dragEvent, handler)
-            })
-        })
+        if (refreshHeader) this._refreshHeader(this.#activeFolderHeader)
+        this.#selection.reset()
     }
 }

@@ -16,7 +16,7 @@ export default class MediaLibrary {
                 new MediaLibraryComponent(element, {
                     urlMediaLib: '/component/media-lib',
                     urlInitUpload: body.dataset.initUpload ?? '',
-                    hashAlgo: body.dataset.hashAlgo ?? '',
+                    hashAlgo: body.dataset.hashAlgo ?? ''
                 })
             )
         }

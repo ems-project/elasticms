@@ -25,6 +25,15 @@ interface MediaLibraryElements {
     listUploads: HTMLElement
 }
 
+const KEEP_SELECTION_CLASSES = [
+    'media-lib-file',
+    'btn-file-rename',
+    'btn-file-delete',
+    'btn-files-delete',
+    'btn-files-move',
+    'btn-file-view'
+]
+
 export default class MediaLibrary {
     id: string
     element: HTMLElement
@@ -45,6 +54,23 @@ export default class MediaLibrary {
     #sortId: string | null = null
     #sortOrder: string | null = null
     #searchType = 'term'
+
+    readonly #clickHandlers = new Map<string, (target: HTMLElement, event: MouseEvent) => void>([
+        ['media-lib-file', (target, event) => this._onClickFile(target, event)],
+        ['media-lib-folder', (target) => this._onClickFolder(target)],
+        ['btn-file-upload', () => this.#elements.inputUpload.click()],
+        ['btn-file-view', (target, event) => this._onClickButtonFileView(target, event)],
+        ['btn-file-rename', (target) => this._onClickButtonFileRename(target)],
+        ['btn-file-delete', (target) => this._onClickButtonFileDelete(target)],
+        ['btn-files-delete', (target) => this._onClickButtonFilesDelete(target)],
+        ['btn-files-move', (target) => this._onClickButtonFilesMove(target)],
+        ['btn-folder-add', () => this._onClickButtonFolderAdd()],
+        ['btn-folder-delete', (target) => this._onClickButtonFolderDelete(target)],
+        ['btn-folder-rename', (target) => this._onClickButtonFolderRename(target)],
+        ['btn-folder-move', (target) => this._onClickButtonFolderMove(target)],
+        ['btn-home', () => this._onClickButtonHome()],
+        ['breadcrumb-item', (target) => this._onClickBreadcrumbItem(target)]
+    ])
 
     constructor(element: HTMLElement, options: MediaLibraryOptions) {
         this.id = element.id
@@ -164,34 +190,14 @@ export default class MediaLibrary {
             const classList = target.classList
 
             if (classList.contains('media-lib-search')) return
-            if (classList.contains('media-lib-file')) this._onClickFile(target, event)
-            if (classList.contains('media-lib-folder')) this._onClickFolder(target)
 
-            if (classList.contains('btn-file-upload')) this.#elements.inputUpload.click()
-            if (classList.contains('btn-file-view')) this._onClickButtonFileView(target, event)
-            if (classList.contains('btn-file-rename')) this._onClickButtonFileRename(target)
-            if (classList.contains('btn-file-delete')) this._onClickButtonFileDelete(target)
-            if (classList.contains('btn-files-delete')) this._onClickButtonFilesDelete(target)
-            if (classList.contains('btn-files-move')) this._onClickButtonFilesMove(target)
+            this.#clickHandlers.forEach((handler, className) => {
+                if (classList.contains(className)) handler(target, event)
+            })
 
-            if (classList.contains('btn-folder-add')) this._onClickButtonFolderAdd()
-            if (classList.contains('btn-folder-delete')) this._onClickButtonFolderDelete(target)
-            if (classList.contains('btn-folder-rename')) this._onClickButtonFolderRename(target)
-            if (classList.contains('btn-folder-move')) this._onClickButtonFolderMove(target)
-
-            if (classList.contains('btn-home')) this._onClickButtonHome()
-            if (classList.contains('breadcrumb-item')) this._onClickBreadcrumbItem(target)
             if (Object.hasOwn(target.dataset, 'sortId')) this._onClickFileSort(target)
 
-            const keepSelection = [
-                'media-lib-file',
-                'btn-file-rename',
-                'btn-file-delete',
-                'btn-files-delete',
-                'btn-files-move',
-                'btn-file-view'
-            ]
-            if (!keepSelection.some((className) => classList.contains(className))) {
+            if (!this.#selection.shouldPreserve(classList)) {
                 this._selectFilesReset()
             }
         }
@@ -802,6 +808,6 @@ export default class MediaLibrary {
 
         await this.#jobPoller.run(jobId, jobProgressBar)
         await refresh()
-        return await new Promise((resolve_1) => setTimeout(resolve_1, 2000))
+        return await new Promise((resolve) => setTimeout(resolve, 2000))
     }
 }

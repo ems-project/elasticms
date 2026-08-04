@@ -2,6 +2,15 @@ type DraggableElement = HTMLElement & {
     _dragEventHandlers?: { [event: string]: (event: DragEvent) => void }
 }
 
+const PRESERVING_CLASSES = [
+    'media-lib-file',
+    'btn-file-rename',
+    'btn-file-delete',
+    'btn-files-delete',
+    'btn-files-move',
+    'btn-file-view'
+]
+
 export default class SelectionManager {
     readonly #container: HTMLElement
     readonly #onDragFile: (event: DragEvent) => void
@@ -23,6 +32,10 @@ export default class SelectionManager {
 
     clearAnchor() {
         this.#lastFile = null
+    }
+
+    shouldPreserve(classList: DOMTokenList) {
+        return PRESERVING_CLASSES.some((className) => classList.contains(className))
     }
 
     select(item: HTMLElement, event: MouseEvent) {

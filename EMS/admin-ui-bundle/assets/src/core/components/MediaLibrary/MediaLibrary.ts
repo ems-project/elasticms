@@ -596,6 +596,7 @@ export default class MediaLibrary {
                 Promise.allSettled([this._startJob(jobId), this._jobPolling(jobId, jobProgressBar)])
                     .then(() => this._getFolders(path))
                     .then(() => new Promise((resolve) => setTimeout(resolve, 2000)))
+                    .then(() => this.loading(false))
                     .then(() => dialog.close())
             }
         }).open()
@@ -603,39 +604,45 @@ export default class MediaLibrary {
 
     _onClickButtonFolderMove(button: HTMLElement, targetId: string | null = null) {
         const folderId = button.dataset.id
-        const modalSize = button.dataset.modalSize ?? 'sm'
+        const modalSize = (button.dataset.modalSize ?? 'sm') as DialogSize
 
         const path = `${this.#pathPrefix}/folder/${folderId}/move`
         const query = new URLSearchParams({})
         if (targetId) query.append('targetId', targetId)
 
-        this.#ajaxModal.load({ url: path + '?' + query.toString(), size: modalSize }, (json) => {
-            if (!Object.hasOwn(json, 'success') || json.success === false) return
-            if (!Object.hasOwn(json, 'jobId') || !Object.hasOwn(json, 'path')) return
+        new Dialog({
+            url: path + '?' + query.toString(),
+            size: modalSize,
+            ajaxModal: true,
+            onAjaxModalResponse: (json, dialog) => {
+                if (!json.success || !json.jobId || !json.path) return
 
-            if (Object.hasOwn(json, 'async') && json.async === true) {
-                Promise.allSettled([new Promise((resolve) => setTimeout(resolve, 3500))])
-                    .then(() => this.#ajaxModal.close())
-                    .then(() => location.reload())
-                return
+                if (json.async === true) {
+                    Promise.allSettled([new Promise((resolve) => setTimeout(resolve, 3500))])
+                        .then(() => dialog.close())
+                        .then(() => location.reload())
+                    return
+                }
+
+                const jobId = json.jobId as string
+                const path = json.path as string
+
+                const jobProgressBar = new ProgressBar('progress-' + jobId, {
+                    label: 'Moving',
+                    value: 100,
+                    showPercentage: false
+                })
+
+                dialog.body.append(jobProgressBar.element())
+                this.loading(true)
+
+                Promise.allSettled([this._startJob(jobId), this._jobPolling(jobId, jobProgressBar)])
+                    .then(() => this._getFolders(path))
+                    .then(() => new Promise((resolve) => setTimeout(resolve, 2000)))
+                    .then(() => this.loading(false))
+                    .then(() => dialog.close())
             }
-
-            const { jobId } = json
-
-            const jobProgressBar = new ProgressBar('progress-' + jobId, {
-                label: 'Moving',
-                value: 100,
-                showPercentage: false
-            })
-
-            this.#ajaxModal.getBodyElement().append(jobProgressBar.element())
-            this.loading(true)
-
-            Promise.allSettled([this._startJob(jobId), this._jobPolling(jobId, jobProgressBar)])
-                .then(() => this._getFolders(json.path))
-                .then(() => new Promise((resolve) => setTimeout(resolve, 2000)))
-                .then(() => this.#ajaxModal.close())
-        })
+        }).open()
     }
 
     _onClickButtonHome() {

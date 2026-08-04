@@ -212,7 +212,7 @@ export class Dialog {
             const res = await fetch(this.currentUrl, { method: 'POST', body: formData })
             this.applyResponse(await res.json())
         } catch {
-            this.body.innerHTML = '<div class="dialog-error"></div>'
+            this.setBody(`<div class="dialog-error">Something went wrong.</div>`)
             this.setFormDisabled(form, false)
         } finally {
             this.isBusy = false

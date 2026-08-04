@@ -18,6 +18,16 @@ dialog.ems-dialog {
     background: rgba(0, 0, 0, 0.5);
   }
 
+  .dialog-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    padding: 16px;
+    text-align: center;
+    color: var(--dialog-error-color, #dc3545);
+  }
+
   .dialog-content {
     background: var(--dialog-bg, #fff);
     border-radius: 4px;

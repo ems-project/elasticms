@@ -1,17 +1,7 @@
-import MediaLibraryComponent, { AjaxModalLike } from '../components/MediaLibrary/MediaLibrary.ts'
+import MediaLibraryComponent from '../components/MediaLibrary/MediaLibrary.ts'
 
 export default class MediaLibrary {
     components: MediaLibraryComponent[] = []
-    #ajaxModal?: AjaxModalLike
-
-    /**
-     * `ajaxModal` can be provided to reuse the ajaxModal singleton matching the current
-     * theme (e.g. the legacy bootstrap3 core-bundle one). When omitted, the component falls
-     * back to the admin-ui-bundle bootstrap5 ajaxModal.
-     */
-    constructor(ajaxModal?: AjaxModalLike) {
-        this.#ajaxModal = ajaxModal
-    }
 
     load(target: HTMLElement | Document) {
         const elements = target.getElementsByClassName('media-lib')
@@ -27,7 +17,6 @@ export default class MediaLibrary {
                     urlMediaLib: '/component/media-lib',
                     urlInitUpload: body.dataset.initUpload ?? '',
                     hashAlgo: body.dataset.hashAlgo ?? '',
-                    ajaxModal: this.#ajaxModal
                 })
             )
         }

@@ -236,7 +236,7 @@ export class Dialog {
         const { title, body, footer, messages, close } = this.normalizeResponse(data)
 
         if (title) this.setTitle(title)
-        if (body)  this.setBody(body)
+        if (body) this.setBody(body)
         if (messages) this.setMessages(messages)
 
         if (footer) {

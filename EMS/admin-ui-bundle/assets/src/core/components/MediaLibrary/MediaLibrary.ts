@@ -1,37 +1,12 @@
-import defaultAjaxModal from '../../helpers/ajaxModal'
 import ProgressBar from '../../helpers/progressBar'
 import { FileUploader } from '../FileUploader.ts'
 import { resizeImage } from '../../helpers/resizeImage'
 import { Dialog, DialogSize } from '../Dialog.ts'
 
-/**
- * The media library component is used both by the bootstrap5 admin-ui-bundle theme and by
- * the legacy bootstrap3 core-bundle theme. Both themes expose their own `ajaxModal`
- * singleton (identical public API, different Bootstrap version bindings under the hood), so
- * the applicable instance is passed in through the options instead of being hard imported.
- * This keeps the component itself framework independent.
- */
-export interface AjaxModalLike {
-    modal: HTMLElement
-    load(
-        options: {
-            url: string
-            size?: string
-            data?: BodyInit
-            title?: string
-            noLoading?: boolean
-        },
-        callback?: (json: any, modal?: HTMLElement) => void
-    ): void
-    close(): void
-    getBodyElement(): HTMLElement
-}
-
 export interface MediaLibraryOptions {
     urlMediaLib: string
     urlInitUpload: string
     hashAlgo: string
-    ajaxModal?: AjaxModalLike
 }
 
 interface MediaLibraryElements {
@@ -53,7 +28,6 @@ type DraggableElement = HTMLElement & {
 export default class MediaLibrary {
     id: string
     element: HTMLElement
-    #ajaxModal: AjaxModalLike
     #pathPrefix: string
     #options: MediaLibraryOptions
     #elements: MediaLibraryElements
@@ -72,7 +46,6 @@ export default class MediaLibrary {
     constructor(element: HTMLElement, options: MediaLibraryOptions) {
         this.id = element.id
         this.element = element
-        this.#ajaxModal = options.ajaxModal ?? defaultAjaxModal
         this.#pathPrefix = `${options.urlMediaLib}/${element.dataset.hash}`
         this.#options = options
         this.#searchType = element.dataset.searchType ?? 'term'
@@ -290,7 +263,9 @@ export default class MediaLibrary {
             const action = actions[e.key] || false
             if (!action) return
 
-            const navButton = dialog.element.querySelector(`.btn-preview-${action}`) as HTMLElement | null
+            const navButton = dialog.element.querySelector(
+                `.btn-preview-${action}`
+            ) as HTMLElement | null
             if (navButton) navButton.click()
         }
 
@@ -437,7 +412,10 @@ export default class MediaLibrary {
                         return new Promise<void>((resolve, reject) => {
                             this._post(`/file/${fileRow.dataset.id}/move`, { targetFolderId })
                                 .then((moveOk) => {
-                                    if (!Object.hasOwn(moveOk, 'success') || moveOk.success === false)
+                                    if (
+                                        !Object.hasOwn(moveOk, 'success') ||
+                                        moveOk.success === false
+                                    )
                                         return
                                     fileRow.closest('li')?.remove()
                                     resolve()
@@ -461,7 +439,9 @@ export default class MediaLibrary {
                                 .finally(() => {
                                     progressBar
                                         .style('success')
-                                        .progress(Math.round((++processed / selection.length) * 100))
+                                        .progress(
+                                            Math.round((++processed / selection.length) * 100)
+                                        )
                                         .status(`${processed} / ${selection.length}`)
                                 })
                         })

@@ -1,3 +1,4 @@
+import ApiClient from './ApiClient.ts'
 import ProgressBar from '../../helpers/progressBar'
 import { FileUploader } from '../FileUploader.ts'
 import { resizeImage } from '../../helpers/resizeImage'
@@ -28,7 +29,7 @@ type DraggableElement = HTMLElement & {
 export default class MediaLibrary {
     id: string
     element: HTMLElement
-    #pathPrefix: string
+    #api: ApiClient
     #options: MediaLibraryOptions
     #elements: MediaLibraryElements
     #activeFolderId: string | null = null
@@ -46,7 +47,7 @@ export default class MediaLibrary {
     constructor(element: HTMLElement, options: MediaLibraryOptions) {
         this.id = element.id
         this.element = element
-        this.#pathPrefix = `${options.urlMediaLib}/${element.dataset.hash}`
+        this.#api = new ApiClient(`${options.urlMediaLib}/${element.dataset.hash}`, () => this.loading(true))
         this.#options = options
         this.#searchType = element.dataset.searchType ?? 'term'
 
@@ -242,12 +243,12 @@ export default class MediaLibrary {
                     file.offsetTop - this.#elements.files.offsetTop - headerHeight
 
                 currentFileId = file.dataset.id as string
-                void dialog.load(`${this.#pathPrefix}/file/${currentFileId}/view`)
+                void dialog.load(`${this.#api.pathPrefix}/file/${currentFileId}/view`)
             })
         }
 
         const dialog = new Dialog({
-            url: `${this.#pathPrefix}/file/${currentFileId}/view`,
+            url: `${this.#api.pathPrefix}/file/${currentFileId}/view`,
             ajaxModal: true,
             onAjaxModalResponse: (_, dialog) => {
                 navigation(dialog, 'prev', 'previousSibling')
@@ -287,7 +288,7 @@ export default class MediaLibrary {
         ) as HTMLElement
 
         new Dialog({
-            url: `${this.#pathPrefix}/file/${fileId}/rename`,
+            url: `${this.#api.pathPrefix}/file/${fileId}/rename`,
             size: 'sm',
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
@@ -313,7 +314,7 @@ export default class MediaLibrary {
             `.media-lib-file[data-id='${fileId}']`
         ) as HTMLElement
 
-        this._post(`/file/${fileId}/delete`).then((json) => {
+        this.#api.post(`/file/${fileId}/delete`).then((json) => {
             if (!Object.hasOwn(json, 'success') || json.success === false) return
 
             fileRow.closest('li')?.remove()
@@ -335,7 +336,7 @@ export default class MediaLibrary {
         const modalSize = (button.dataset.modalSize ?? 'sm') as DialogSize
 
         new Dialog({
-            url: this.#pathPrefix + path + '?' + query.toString(),
+            url: this.#api.pathPrefix + path + '?' + query.toString(),
             size: modalSize,
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
@@ -353,7 +354,7 @@ export default class MediaLibrary {
 
                 Promise.allSettled(
                     Array.from(selection).map((fileRow) => {
-                        return this._post(`/file/${fileRow.dataset.id}/delete`).then(() => {
+                        return this.#api.post(`/file/${fileRow.dataset.id}/delete`).then(() => {
                             fileRow.closest('li')?.remove()
                             progressBar
                                 .progress(Math.round((++processed / selection.length) * 100))
@@ -381,7 +382,7 @@ export default class MediaLibrary {
         const modalSize = (button.dataset.modalSize ?? 'sm') as DialogSize
 
         new Dialog({
-            url: this.#pathPrefix + path + '?' + query.toString(),
+            url: this.#api.pathPrefix + path + '?' + query.toString(),
             size: modalSize,
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
@@ -410,7 +411,7 @@ export default class MediaLibrary {
                 Promise.allSettled(
                     Array.from(selection).map((fileRow) => {
                         return new Promise<void>((resolve, reject) => {
-                            this._post(`/file/${fileRow.dataset.id}/move`, { targetFolderId })
+                            this.#api.post(`/file/${fileRow.dataset.id}/move`, { targetFolderId })
                                 .then((moveOk) => {
                                     if (
                                         !Object.hasOwn(moveOk, 'success') ||
@@ -478,7 +479,7 @@ export default class MediaLibrary {
     _onClickButtonFolderAdd() {
         const path = this.#activeFolderId ? `/add-folder/${this.#activeFolderId}` : '/add-folder'
         new Dialog({
-            url: this.#pathPrefix + path,
+            url: this.#api.pathPrefix + path,
             ajaxModal: true,
             onAjaxModalResponse: (json) => {
                 if (!json.success) return
@@ -493,7 +494,7 @@ export default class MediaLibrary {
         const modalSize = button.dataset.modalSize ?? 'sm'
 
         new Dialog({
-            url: `${this.#pathPrefix}/folder/${folderId}/delete`,
+            url: `${this.#api.pathPrefix}/folder/${folderId}/delete`,
             size: modalSize as DialogSize,
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
@@ -529,7 +530,7 @@ export default class MediaLibrary {
         const folderId = button.dataset.id
 
         new Dialog({
-            url: `${this.#pathPrefix}/folder/${folderId}/rename`,
+            url: `${this.#api.pathPrefix}/folder/${folderId}/rename`,
             size: 'sm',
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
@@ -567,7 +568,7 @@ export default class MediaLibrary {
         const folderId = button.dataset.id
         const modalSize = (button.dataset.modalSize ?? 'sm') as DialogSize
 
-        const path = `${this.#pathPrefix}/folder/${folderId}/move`
+        const path = `${this.#api.pathPrefix}/folder/${folderId}/move`
         const query = new URLSearchParams({})
         if (targetId) query.append('targetId', targetId)
 
@@ -647,7 +648,7 @@ export default class MediaLibrary {
 
         if (Array.from(query).length > 0) path = path + '?' + query.toString()
 
-        return this._get(path).then((json) => {
+        return this.#api.get(path).then((json) => {
             if (Object.hasOwn(json, 'header')) this._refreshHeader(json.header)
             if (Object.hasOwn(json, 'breadcrumb'))
                 this.#elements.breadcrumb.innerHTML = json.breadcrumb
@@ -670,14 +671,14 @@ export default class MediaLibrary {
         if (this.#sortOrder) query.append('sortOrder', this.#sortOrder)
         const path = this.#activeFolderId ? `/files/${this.#activeFolderId}` : '/files'
 
-        return this._get(`${path}?${query.toString()}`).then((files) => {
+        return this.#api.get(`${path}?${query.toString()}`).then((files) => {
             this._appendFiles(files)
         })
     }
 
     _getFolders(openPath: string | undefined = undefined) {
         this.#elements.listFolders.innerHTML = ''
-        return this._get('/folders').then((json) => {
+        return this.#api.get('/folders').then((json) => {
             this._appendFolderItems(json)
             if (openPath) {
                 this._openPath(openPath)
@@ -912,7 +913,7 @@ export default class MediaLibrary {
         formData.append('fileResizedHash', resizedHash ?? '')
 
         const path = this.#activeFolderId ? `/add-file/${this.#activeFolderId}` : '/add-file'
-        await this._post(path, formData, true).catch((response) =>
+        await this.#api.post(path, formData, true).catch((response) =>
             response.json().then((json: { error: string }) => {
                 throw new Error(json.error)
             })
@@ -1079,33 +1080,5 @@ export default class MediaLibrary {
             headers: { 'Content-Type': 'application/json' }
         })
         return response.json()
-    }
-
-    async _get(path: string) {
-        this.loading(true)
-        const response = await fetch(`${this.#pathPrefix}${path}`, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
-        })
-        return response.json()
-    }
-
-    async _post(path: string, data: unknown = {}, isFormData = false) {
-        this.loading(true)
-        let options: RequestInit
-
-        if (isFormData) {
-            options = { method: 'POST', body: data as BodyInit }
-        } else {
-            options = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            }
-        }
-
-        const response = await fetch(`${this.#pathPrefix}${path}`, options)
-
-        return response.ok ? response.json() : Promise.reject(response)
     }
 }

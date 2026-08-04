@@ -1,6 +1,8 @@
 import ApiClient from './ApiClient.ts'
 import JobPoller from './JobPoller.ts'
 import SelectionManager from './SelectionManager.ts'
+import DragDropController from './DragDropController.ts'
+
 import ProgressBar from '../../helpers/progressBar'
 import { FileUploader } from '../FileUploader.ts'
 import { resizeImage } from '../../helpers/resizeImage'
@@ -31,6 +33,7 @@ export default class MediaLibrary {
     readonly #api: ApiClient
     readonly #jobPoller: JobPoller
     readonly #selection: SelectionManager
+    readonly #dragDrop: DragDropController
 
     #options: MediaLibraryOptions
     #elements: MediaLibraryElements
@@ -38,8 +41,6 @@ export default class MediaLibrary {
     #activeFolderHeader = ''
     #loadedFiles = 0
 
-    #dragCounter = 0
-    #dragFiles: HTMLElement[] | NodeListOf<Element> = []
     #debounceTimer: number | undefined
     #searchValue: string | null = null
     #sortId: string | null = null
@@ -69,9 +70,22 @@ export default class MediaLibrary {
             listUploads: element.querySelector('ul.media-lib-list-uploads') as HTMLElement
         }
 
+        this.#dragDrop = new DragDropController({
+            filesContainer: this.#elements.files,
+            getActiveFolderId: () => this.#activeFolderId,
+            getSelectionFiles: () => this.getSelectionFiles(),
+            onUpload: (files) => this._uploadFiles(files),
+            onSelectionReset: () => this._selectFilesReset(),
+            onFilesMove: (targetFolderId) => {
+                const moveButton = this.#elements.header.querySelector('.btn-files-move') as HTMLElement
+                this._onClickButtonFilesMove(moveButton, targetFolderId)
+            }
+        })
+
+        this.#selection = new SelectionManager(this.#elements.listFiles, (event) => this.#dragDrop.onDragFile(event))
+
         this._init()
 
-        this.#selection = new SelectionManager(this.#elements.listFiles, (event) => this._onDragFile(event))
     }
 
     _init() {
@@ -183,7 +197,7 @@ export default class MediaLibrary {
         ;(['dragenter', 'dragover', 'dragleave', 'drop', 'dragend'] as const).forEach(
             (dragEvent) => {
                 this.#elements.files.addEventListener(dragEvent, (event) =>
-                    this._onDragUpload(event as DragEvent)
+                    this.#dragDrop.onDragUpload(event as DragEvent)
                 )
             }
         )
@@ -744,7 +758,7 @@ export default class MediaLibrary {
         this.getFolders().forEach((folder) => {
             ;(['dragenter', 'dragover', 'dragleave', 'drop'] as const).forEach((dragEvent) => {
                 folder.addEventListener(dragEvent, (event) =>
-                    this._onDragFolder(event as DragEvent)
+                    this.#dragDrop.onDragFolder(event as DragEvent)
                 )
             })
         })
@@ -769,64 +783,6 @@ export default class MediaLibrary {
         ) as HTMLElement | null
         if (!sortElement) return
         sortElement.dataset.sortOrder = sortOrder
-    }
-
-    _onDragUpload(event: DragEvent) {
-        if (this.#dragFiles.length > 0) return
-
-        if (event.type === 'dragend') this.#dragCounter = 0
-        if (event.type === 'dragover') event.preventDefault()
-        if (event.type === 'dragenter') {
-            this.#dragCounter++
-            this.#elements.files.classList.add('media-lib-drop-area')
-            this._selectFilesReset()
-        }
-        if (event.type === 'dragleave') {
-            this.#dragCounter--
-            if (this.#dragCounter === 0)
-                this.#elements.files.classList.remove('media-lib-drop-area')
-        }
-        if (event.type === 'drop') {
-            event.preventDefault()
-            this.#dragCounter = 0
-            this.#elements.files.classList.remove('media-lib-drop-area')
-
-            const files = event.dataTransfer?.files
-            if (files) this._uploadFiles(Array.from(files))
-        }
-    }
-
-    _onDragFolder(event: DragEvent) {
-        if (this.#dragFiles.length === 0) return
-        const target = event.target as HTMLElement
-        if (target.dataset.id === this.#activeFolderId) return
-
-        if (event.type === 'dragover') event.preventDefault()
-        if (event.type === 'dragenter') {
-            this.getFolders().forEach((f) => f.classList.remove('media-lib-drop-area'))
-            target.classList.add('media-lib-drop-area')
-        }
-        if (event.type === 'dragleave') {
-            target.classList.remove('media-lib-drop-area')
-        }
-        if (event.type === 'drop') {
-            event.preventDefault()
-            target.classList.remove('media-lib-drop-area')
-            const folderId = target.dataset.id ?? null
-            const moveButton = this.#elements.header.querySelector('.btn-files-move') as HTMLElement
-
-            this._onClickButtonFilesMove(moveButton, folderId)
-        }
-    }
-
-    _onDragFile(event: DragEvent) {
-        if (event.type === 'dragstart') {
-            this.#dragFiles = this.getSelectionFiles()
-        }
-        if (event.type === 'dragend') {
-            this.#dragFiles = []
-            this._selectFilesReset()
-        }
     }
 
     _uploadFiles(files: File[]) {

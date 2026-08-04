@@ -360,15 +360,14 @@ export default class MediaLibrary {
         const query = new URLSearchParams({
             selectionFiles: selection.length.toString()
         })
-        const modalSize = button.dataset.modalSize ?? 'sm'
+        const modalSize = (button.dataset.modalSize ?? 'sm') as DialogSize
 
-        this.#ajaxModal.load(
-            {
-                url: this.#pathPrefix + path + '?' + query.toString(),
-                size: modalSize
-            },
-            (json) => {
-                if (!Object.hasOwn(json, 'success') || json.success === false) return
+        new Dialog({
+            url: this.#pathPrefix + path + '?' + query.toString(),
+            size: modalSize,
+            ajaxModal: true,
+            onAjaxModalResponse: (json, dialog) => {
+                if (!json.success) return
 
                 let processed = 0
                 const progressBar = new ProgressBar('progress-delete-files', {
@@ -377,14 +376,12 @@ export default class MediaLibrary {
                     showPercentage: true
                 })
 
-                this.#ajaxModal.getBodyElement().append(progressBar.element())
+                dialog.body.append(progressBar.element())
                 this.loading(true)
 
                 Promise.allSettled(
                     Array.from(selection).map((fileRow) => {
                         return this._post(`/file/${fileRow.dataset.id}/delete`).then(() => {
-                            if (!Object.hasOwn(json, 'success') || json.success === false) return
-
                             fileRow.closest('li')?.remove()
                             progressBar
                                 .progress(Math.round((++processed / selection.length) * 100))
@@ -395,9 +392,9 @@ export default class MediaLibrary {
                     .then(() => this._selectFilesReset())
                     .then(() => this.loading(false))
                     .then(() => new Promise((resolve) => setTimeout(resolve, 2000)))
-                    .then(() => this.#ajaxModal.close())
+                    .then(() => dialog.close())
             }
-        )
+        }).open()
     }
 
     _onClickButtonFilesMove(button: HTMLElement, targetId: string | null = null) {

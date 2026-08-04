@@ -91,7 +91,7 @@ export default class UploadManager {
             })
             .catch(() => {
                 return this.#createFile(file, fileHash)
-            });
+            })
     }
 
     async #createFile(file: File, fileHash: string, resizedHash: string | null = null) {

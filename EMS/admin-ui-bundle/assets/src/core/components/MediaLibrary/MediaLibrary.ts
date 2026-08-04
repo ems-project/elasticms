@@ -35,7 +35,6 @@ export default class MediaLibrary {
     readonly #dragDrop: DragDropController
     readonly #uploads: UploadManager
 
-
     #elements: MediaLibraryElements
     #activeFolderId: string | null = null
     #activeFolderHeader = ''
@@ -47,11 +46,12 @@ export default class MediaLibrary {
     #sortOrder: string | null = null
     #searchType = 'term'
 
-
     constructor(element: HTMLElement, options: MediaLibraryOptions) {
         this.id = element.id
         this.element = element
-        this.#api = new ApiClient(`${options.urlMediaLib}/${element.dataset.hash}`, () => this.loading(true))
+        this.#api = new ApiClient(`${options.urlMediaLib}/${element.dataset.hash}`, () =>
+            this.loading(true)
+        )
         this.#jobPoller = new JobPoller()
         this.#searchType = element.dataset.searchType ?? 'term'
 
@@ -84,15 +84,18 @@ export default class MediaLibrary {
             onUpload: (files) => this._uploadFiles(files),
             onSelectionReset: () => this._selectFilesReset(),
             onFilesMove: (targetFolderId) => {
-                const moveButton = this.#elements.header.querySelector('.btn-files-move') as HTMLElement
+                const moveButton = this.#elements.header.querySelector(
+                    '.btn-files-move'
+                ) as HTMLElement
                 this._onClickButtonFilesMove(moveButton, targetFolderId)
             }
         })
 
-        this.#selection = new SelectionManager(this.#elements.listFiles, (event) => this.#dragDrop.onDragFile(event))
+        this.#selection = new SelectionManager(this.#elements.listFiles, (event) =>
+            this.#dragDrop.onDragFile(event)
+        )
 
         this._init()
-
     }
 
     _init() {
@@ -437,7 +440,8 @@ export default class MediaLibrary {
                 Promise.allSettled(
                     Array.from(selection).map((fileRow) => {
                         return new Promise<void>((resolve, reject) => {
-                            this.#api.post(`/file/${fileRow.dataset.id}/move`, { targetFolderId })
+                            this.#api
+                                .post(`/file/${fileRow.dataset.id}/move`, { targetFolderId })
                                 .then((moveOk) => {
                                     if (
                                         !Object.hasOwn(moveOk, 'success') ||
@@ -526,27 +530,11 @@ export default class MediaLibrary {
             onAjaxModalResponse: (json, dialog) => {
                 if (!json.jobId || !json.success) return
 
-                if (json.async === true) {
-                    Promise.allSettled([new Promise((resolve) => setTimeout(resolve, 3500))])
-                        .then(() => dialog.close())
-                        .then(() => location.reload())
-                    return
-                }
-
-                const jobId = json.jobId as string
-                const jobProgressBar = new ProgressBar('progress-' + jobId, {
-                    label: 'Deleting folder',
-                    value: 100,
-                    showPercentage: false
+                this._runFolderJob(json, dialog, 'Deleting folder', () => {
+                    this._onClickButtonHome()
+                    return this._getFolders()
                 })
-
-                dialog.body.append(jobProgressBar.element())
-                this.loading(true)
-
-                this.#jobPoller.run(jobId, jobProgressBar)
-                    .then(() => this._onClickButtonHome())
-                    .then(() => this._getFolders())
-                    .then(() => new Promise((resolve) => setTimeout(resolve, 2000)))
+                    .then(() => this.loading(false))
                     .then(() => dialog.close())
             }
         }).open()
@@ -562,28 +550,9 @@ export default class MediaLibrary {
             onAjaxModalResponse: (json, dialog) => {
                 if (!json.success || !json.jobId || !json.path) return
 
-                if (json.async === true) {
-                    Promise.allSettled([new Promise((resolve) => setTimeout(resolve, 3500))])
-                        .then(() => dialog.close())
-                        .then(() => location.reload())
-                    return
-                }
-
-                const jobId = json.jobId as string
                 const path = json.path as string
 
-                const jobProgressBar = new ProgressBar('progress-' + jobId, {
-                    label: 'Renaming',
-                    value: 100,
-                    showPercentage: false
-                })
-
-                dialog.body.append(jobProgressBar.element())
-                this.loading(true)
-
-                this.#jobPoller.run(jobId, jobProgressBar)
-                    .then(() => this._getFolders(path))
-                    .then(() => new Promise((resolve) => setTimeout(resolve, 2000)))
+                this._runFolderJob(json, dialog, 'Renaming', () => this._getFolders(path))
                     .then(() => this.loading(false))
                     .then(() => dialog.close())
             }
@@ -605,28 +574,9 @@ export default class MediaLibrary {
             onAjaxModalResponse: (json, dialog) => {
                 if (!json.success || !json.jobId || !json.path) return
 
-                if (json.async === true) {
-                    Promise.allSettled([new Promise((resolve) => setTimeout(resolve, 3500))])
-                        .then(() => dialog.close())
-                        .then(() => location.reload())
-                    return
-                }
-
-                const jobId = json.jobId as string
                 const path = json.path as string
 
-                const jobProgressBar = new ProgressBar('progress-' + jobId, {
-                    label: 'Moving',
-                    value: 100,
-                    showPercentage: false
-                })
-
-                dialog.body.append(jobProgressBar.element())
-                this.loading(true)
-
-                this.#jobPoller.run(jobId, jobProgressBar)
-                    .then(() => this._getFolders(path))
-                    .then(() => new Promise((resolve) => setTimeout(resolve, 2000)))
+                this._runFolderJob(json, dialog, 'Moving', () => this._getFolders(path))
                     .then(() => this.loading(false))
                     .then(() => dialog.close())
             }
@@ -795,9 +745,7 @@ export default class MediaLibrary {
     _uploadFiles(files: File[]) {
         this.loading(true)
 
-        this.#uploads.uploadAll(files).then(() =>
-            this._getFiles().then(() => this.loading(false))
-        )
+        this.#uploads.uploadAll(files).then(() => this._getFiles().then(() => this.loading(false)))
     }
 
     _initInfiniteScrollFiles(scrollArea: HTMLElement, divLoadMore: HTMLElement) {
@@ -833,5 +781,27 @@ export default class MediaLibrary {
     _selectFilesReset(refreshHeader = true) {
         if (refreshHeader) this._refreshHeader(this.#activeFolderHeader)
         this.#selection.reset()
+    }
+
+    async _runFolderJob(json: any, dialog: Dialog, label: string, refresh: () => Promise<unknown>) {
+        if (json.async === true) {
+            await Promise.allSettled([new Promise((resolve) => setTimeout(resolve, 3500))])
+            dialog.close()
+            return location.reload()
+        }
+
+        const jobId = json.jobId as string
+        const jobProgressBar = new ProgressBar('progress-' + jobId, {
+            label,
+            value: 100,
+            showPercentage: false
+        })
+
+        dialog.body.append(jobProgressBar.element())
+        this.loading(true)
+
+        await this.#jobPoller.run(jobId, jobProgressBar)
+        await refresh()
+        return await new Promise((resolve_1) => setTimeout(resolve_1, 2000))
     }
 }

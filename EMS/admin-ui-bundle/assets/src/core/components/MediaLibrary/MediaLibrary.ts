@@ -1,4 +1,5 @@
 import ApiClient from './ApiClient.ts'
+import JobPoller from './JobPoller.ts'
 import ProgressBar from '../../helpers/progressBar'
 import { FileUploader } from '../FileUploader.ts'
 import { resizeImage } from '../../helpers/resizeImage'
@@ -29,7 +30,10 @@ type DraggableElement = HTMLElement & {
 export default class MediaLibrary {
     id: string
     element: HTMLElement
-    #api: ApiClient
+
+    readonly #api: ApiClient
+    readonly #jobPoller: JobPoller
+
     #options: MediaLibraryOptions
     #elements: MediaLibraryElements
     #activeFolderId: string | null = null
@@ -44,10 +48,12 @@ export default class MediaLibrary {
     #sortOrder: string | null = null
     #searchType = 'term'
 
+
     constructor(element: HTMLElement, options: MediaLibraryOptions) {
         this.id = element.id
         this.element = element
         this.#api = new ApiClient(`${options.urlMediaLib}/${element.dataset.hash}`, () => this.loading(true))
+        this.#jobPoller = new JobPoller()
         this.#options = options
         this.#searchType = element.dataset.searchType ?? 'term'
 
@@ -517,7 +523,7 @@ export default class MediaLibrary {
                 dialog.body.append(jobProgressBar.element())
                 this.loading(true)
 
-                Promise.allSettled([this._startJob(jobId), this._jobPolling(jobId, jobProgressBar)])
+                this.#jobPoller.run(jobId, jobProgressBar)
                     .then(() => this._onClickButtonHome())
                     .then(() => this._getFolders())
                     .then(() => new Promise((resolve) => setTimeout(resolve, 2000)))
@@ -555,7 +561,7 @@ export default class MediaLibrary {
                 dialog.body.append(jobProgressBar.element())
                 this.loading(true)
 
-                Promise.allSettled([this._startJob(jobId), this._jobPolling(jobId, jobProgressBar)])
+                this.#jobPoller.run(jobId, jobProgressBar)
                     .then(() => this._getFolders(path))
                     .then(() => new Promise((resolve) => setTimeout(resolve, 2000)))
                     .then(() => this.loading(false))
@@ -598,7 +604,7 @@ export default class MediaLibrary {
                 dialog.body.append(jobProgressBar.element())
                 this.loading(true)
 
-                Promise.allSettled([this._startJob(jobId), this._jobPolling(jobId, jobProgressBar)])
+                this.#jobPoller.run(jobId, jobProgressBar)
                     .then(() => this._getFolders(path))
                     .then(() => new Promise((resolve) => setTimeout(resolve, 2000)))
                     .then(() => this.loading(false))
@@ -1049,36 +1055,5 @@ export default class MediaLibrary {
                 if (handler) file.removeEventListener(dragEvent, handler)
             })
         })
-    }
-
-    async _jobPolling(jobId: string, jobProgressBar: ProgressBar): Promise<any> {
-        const jobStatus = await this._getJobStatus(jobId)
-
-        if (jobStatus.started === true && jobStatus.progress > 0) {
-            jobProgressBar.status('Running ...').progress(jobStatus.progress).style('success')
-        }
-        if (jobStatus.done === true) {
-            jobProgressBar.status('Finished').progress(100)
-            return jobStatus
-        }
-
-        await new Promise((_resolve) => setTimeout(_resolve, 1500))
-        return await this._jobPolling(jobId, jobProgressBar)
-    }
-
-    async _startJob(jobId: string) {
-        const response = await fetch(`/job/start/${jobId}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-        })
-        return response.json()
-    }
-
-    async _getJobStatus(jobId: string) {
-        const response = await fetch(`/job/status/${jobId}`, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
-        })
-        return response.json()
     }
 }

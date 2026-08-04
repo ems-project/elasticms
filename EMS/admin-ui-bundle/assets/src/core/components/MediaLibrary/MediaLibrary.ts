@@ -406,16 +406,14 @@ export default class MediaLibrary {
             selectionFiles: selection.length.toString()
         })
         if (targetId) query.append('targetId', targetId)
-        const modalSize = button.dataset.modalSize ?? 'sm'
+        const modalSize = (button.dataset.modalSize ?? 'sm') as DialogSize
 
-        this.#ajaxModal.load(
-            {
-                url: this.#pathPrefix + path + '?' + query.toString(),
-                size: modalSize
-            },
-            (json) => {
-                if (!Object.hasOwn(json, 'success') || json.success === false) return
-                if (!Object.hasOwn(json, 'targetFolderId')) return
+        new Dialog({
+            url: this.#pathPrefix + path + '?' + query.toString(),
+            size: modalSize,
+            ajaxModal: true,
+            onAjaxModalResponse: (json, dialog) => {
+                if (!json.success || !json.targetFolderId) return
 
                 const targetFolderId = json.targetFolderId
 
@@ -433,8 +431,8 @@ export default class MediaLibrary {
                 divAlert.style.display = 'none'
                 divAlert.setAttribute('role', 'alert')
 
-                this.#ajaxModal.getBodyElement().append(divAlert)
-                this.#ajaxModal.getBodyElement().append(progressBar.element())
+                dialog.body.append(divAlert)
+                dialog.body.append(progressBar.element())
                 this.loading(true)
 
                 Promise.allSettled(
@@ -442,10 +440,7 @@ export default class MediaLibrary {
                         return new Promise<void>((resolve, reject) => {
                             this._post(`/file/${fileRow.dataset.id}/move`, { targetFolderId })
                                 .then((moveOk) => {
-                                    if (
-                                        !Object.hasOwn(moveOk, 'success') ||
-                                        moveOk.success === false
-                                    )
+                                    if (!Object.hasOwn(moveOk, 'success') || moveOk.success === false)
                                         return
                                     fileRow.closest('li')?.remove()
                                     resolve()
@@ -469,18 +464,8 @@ export default class MediaLibrary {
                                 .finally(() => {
                                     progressBar
                                         .style('success')
-                                        .progress(
-                                            Math.round((++processed / selection.length) * 100)
-                                        )
+                                        .progress(Math.round((++processed / selection.length) * 100))
                                         .status(`${processed} / ${selection.length}`)
-
-                                    const currentDivAlert = this.#ajaxModal
-                                        .getBodyElement()
-                                        .querySelector('div#move-errors')
-                                    if (currentDivAlert)
-                                        this.#ajaxModal
-                                            .getBodyElement()
-                                            .replaceChild(divAlert, currentDivAlert)
                                 })
                         })
                     })
@@ -490,11 +475,11 @@ export default class MediaLibrary {
                     .then(() => {
                         if (Object.keys(errorList).length === 0)
                             setTimeout(() => {
-                                this.#ajaxModal.close()
+                                dialog.close()
                             }, 2000)
                     })
             }
-        )
+        }).open()
     }
 
     _onClickFolder(folder: HTMLElement) {

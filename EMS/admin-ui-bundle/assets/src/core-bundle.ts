@@ -8,9 +8,7 @@ import { initIcons } from './core/components/UI/Icons.ts'
 const mediaLibrary = new MediaLibraryPlugin()
 
 window.addEventListener('emsReady', function () {
-
-    initIcons(document.body);
-
+    initIcons(document.body)
 
     mediaLibrary.load(document)
 

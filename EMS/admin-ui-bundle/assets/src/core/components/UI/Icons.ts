@@ -6,14 +6,14 @@ const iconLoaders: Record<string, () => Promise<{ default: string }>> = {
     'folder-delete': () => import('@tabler/icons/outline/folder-x.svg?raw'),
     'folder-rename': () => import('@tabler/icons/outline/folder-pin.svg?raw'),
     'folder-move': () => import('@tabler/icons/outline/folder-symlink.svg?raw'),
-    'upload': () => import('@tabler/icons/outline/file-upload.svg?raw'),
+    upload: () => import('@tabler/icons/outline/file-upload.svg?raw'),
     'file-delete': () => import('@tabler/icons/outline/file-x.svg?raw'),
     'file-rename': () => import('@tabler/icons/outline/file-pencil.svg?raw'),
     'file-move': () => import('@tabler/icons/outline/file-symlink.svg?raw'),
     'file-view': () => import('@tabler/icons/outline/file-info.svg?raw'),
-    'revision': () => import('@tabler/icons/outline/archive.svg?raw'),
+    revision: () => import('@tabler/icons/outline/archive.svg?raw'),
     'chevrons-right': () => import('@tabler/icons/outline/chevrons-right.svg?raw'),
-    'chevrons-left': () => import('@tabler/icons/outline/chevrons-left.svg?raw'),
+    'chevrons-left': () => import('@tabler/icons/outline/chevrons-left.svg?raw')
 }
 
 const cache = new Map<string, string>()

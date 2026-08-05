@@ -525,7 +525,7 @@ export default class MediaLibrary {
             onAjaxModalResponse: (json, dialog) => {
                 if (!json.success) return
                 this.loading(true)
-                dialog.close();
+                dialog.close()
                 this._getFolders(json.path as string).then(() => this.loading(false))
             }
         }).open()

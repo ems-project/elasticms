@@ -1,5 +1,5 @@
 import 'bootstrap'
-import '../../../css/core/components/_inline_editor.scss'
+import '@css/core/components/_inline_editor.scss'
 
 import { InlineEditor } from './editor/editor'
 

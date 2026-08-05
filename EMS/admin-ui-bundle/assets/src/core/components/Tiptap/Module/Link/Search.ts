@@ -1,4 +1,4 @@
-import '../../../../../../css/core/components/tiptap/_link_search.scss'
+import '@css/core/components/tiptap/_link_search.scss'
 
 export type SearchLinkItem<T = unknown> = { id: string; title: string; text: string; data?: T }
 export type SearchLinkValue<T = unknown> = { id: string; title: string; data: T | null } | null

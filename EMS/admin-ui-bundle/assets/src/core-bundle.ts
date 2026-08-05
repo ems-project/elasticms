@@ -3,10 +3,15 @@ import '../css/core/_core_bundle.scss'
 import WYSIWYG from './core/plugins/wysiwyg.ts'
 import { getWysiwygProfile } from './core/components/Wysiwyg/Wysiwyg.ts'
 import MediaLibraryPlugin from './core/plugins/mediaLibrary.ts'
+import { initIcons } from './core/components/UI/Icons.ts'
 
 const mediaLibrary = new MediaLibraryPlugin()
 
 window.addEventListener('emsReady', function () {
+
+    initIcons(document.body);
+
+
     mediaLibrary.load(document)
 
     let mediaLibraryTimeout: number | null = null

@@ -318,7 +318,6 @@ return static function (ContainerConfigurator $container) {
             service('ems_core.core_ui.flash_message_logger'),
             service('translator'),
             service('form.factory'),
-            '%ems_core.template_namespace%',
             '%ems_core.async.enabled%',
         ])
         ->tag('controller.service_arguments');

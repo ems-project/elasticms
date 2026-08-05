@@ -1,4 +1,4 @@
-import '../../../css/core/components/_inline_editor_iframe.scss'
+import '@css/core/components/_inline_editor_iframe.scss'
 import { Iframe } from './iframe/iframe'
 
 function setup() {

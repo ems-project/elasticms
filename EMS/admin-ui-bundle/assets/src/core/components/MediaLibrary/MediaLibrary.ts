@@ -1,3 +1,5 @@
+import '@css/core/components/_media_library.scss'
+
 import ApiClient from './Helper/Api.ts'
 import Job from './Helper/Job.ts'
 import Selection from './Dom/Selection.ts'
@@ -53,7 +55,7 @@ export default class MediaLibrary {
     #activeFolderHeader = ''
     #loadedFiles = 0
     #debounceTimer: number | undefined
-    #searchType = 'term'
+    readonly #searchType: string
 
     readonly #clickHandlers = new Map<string, (target: HTMLElement, event: MouseEvent) => void>([
         ['media-lib-file', (target, event) => this._onClickFile(target, event)],
@@ -388,13 +390,12 @@ export default class MediaLibrary {
                 this.loading(true)
 
                 Promise.allSettled(
-                    Array.from(selection).map((fileRow) => {
-                        return this.#api.post(`/file/${fileRow.dataset.id}/delete`).then(() => {
-                            fileRow.closest('li')?.remove()
-                            progressBar
-                                .progress(Math.round((++processed / selection.length) * 100))
-                                .style('success')
-                        })
+                    Array.from(selection).map(async (fileRow) => {
+                        await this.#api.post(`/file/${fileRow.dataset.id}/delete`)
+                        fileRow.closest('li')?.remove()
+                        progressBar
+                            .progress(Math.round((++processed / selection.length) * 100))
+                            .style('success')
                     })
                 )
                     .then(() => this._selectFilesReset())
@@ -521,9 +522,10 @@ export default class MediaLibrary {
         new Dialog({
             url: this.#api.pathPrefix + path,
             ajaxModal: true,
-            onAjaxModalResponse: (json) => {
+            onAjaxModalResponse: (json, dialog) => {
                 if (!json.success) return
                 this.loading(true)
+                dialog.close();
                 this._getFolders(json.path as string).then(() => this.loading(false))
             }
         }).open()
@@ -620,7 +622,7 @@ export default class MediaLibrary {
         }, delay)
     }
 
-    _getLayout(fileId: string | null = null) {
+    async _getLayout(fileId: string | null = null) {
         let path = '/layout'
         const query = new URLSearchParams({
             loaded: this.#loadedFiles.toString()
@@ -634,15 +636,13 @@ export default class MediaLibrary {
 
         if (Array.from(query).length > 0) path = path + '?' + query.toString()
 
-        return this.#api.get(path).then((json) => {
-            if (Object.hasOwn(json, 'header')) this._refreshHeader(json.header)
-            if (Object.hasOwn(json, 'breadcrumb'))
-                this.#elements.breadcrumb.innerHTML = json.breadcrumb
-            if (Object.hasOwn(json, 'footer')) this.#elements.footer.innerHTML = json.footer
-        })
+        const json = await this.#api.get(path)
+        if (Object.hasOwn(json, 'header')) this._refreshHeader(json.header)
+        if (Object.hasOwn(json, 'breadcrumb')) this.#elements.breadcrumb.innerHTML = json.breadcrumb
+        if (Object.hasOwn(json, 'footer')) this.#elements.footer.innerHTML = json.footer
     }
 
-    _getFiles(from = 0) {
+    async _getFiles(from = 0) {
         if (from === 0) {
             this.#loadedFiles = 0
             this.#elements.loadMoreFiles.classList.remove('show-load-more')
@@ -657,19 +657,17 @@ export default class MediaLibrary {
         if (this.#state.sortOrder) query.append('sortOrder', this.#state.sortOrder)
         const path = this.#state.activeFolderId ? `/files/${this.#state.activeFolderId}` : '/files'
 
-        return this.#api.get(`${path}?${query.toString()}`).then((files) => {
-            this._appendFiles(files)
-        })
+        const files = await this.#api.get(`${path}?${query.toString()}`)
+        this._appendFiles(files)
     }
 
-    _getFolders(openPath: string | undefined = undefined) {
+    async _getFolders(openPath: string | undefined = undefined) {
         this.#elements.listFolders.innerHTML = ''
-        return this.#api.get('/folders').then((json) => {
-            this._appendFolderItems(json)
-            if (openPath) {
-                this._openPath(openPath)
-            }
-        })
+        const json = await this.#api.get('/folders')
+        this._appendFolderItems(json)
+        if (openPath) {
+            this._openPath(openPath)
+        }
     }
 
     _openPath(path: string) {

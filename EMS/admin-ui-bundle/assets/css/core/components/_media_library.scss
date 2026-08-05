@@ -1,6 +1,3 @@
-@import "../helpers/mixins";
-@import "../../admin-lte/bootstrap-variables";
-
 div.media-lib {
   --color-active: #337AB7;
   --color-link: #337AB7;
@@ -29,12 +26,16 @@ div.media-lib {
   }
 
   .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
     color: var(--color-text);
     border-color: var(--color-border);
 
-    & i {
-      margin-right: 4px;
-      color: var(--color-icon)
+    & svg.icon {
+      color: var(--color-icon);
+      width: 1.25rem;
+      height: 1.25rem;
     }
     &.btn-default { background-color: var(--background-white); }
     &.btn-file-upload { font-weight: normal; }
@@ -93,7 +94,7 @@ div.media-lib {
         border: 0;
         padding: 5px 10px;
         line-height: 1.5;
-        font-size: $font-size-sm;
+        font-size: 12px;
         background-color: transparent;
         color: var(--color-link);
 
@@ -101,9 +102,12 @@ div.media-lib {
       }
 
       li:not(:last-child)::after {
-        @include icon($fa-var-angle-right);
-
-        font-size: $font-size-sm;
+        content: '';
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+        background-color: var(--color-border);
+        mask: url('@tabler-icons/outline/chevron-right.svg') no-repeat center / contain;
       }
     }
   }
@@ -134,18 +138,24 @@ div.media-lib {
   }
 
   div.media-lib-folder {
+    display: flex;
+    align-items: center;
+
     &:hover { background-color: var(--background-hover); }
 
     &::before {
-      @include icon($fa-var-folder);
-
-      color: var(--color-icon);
-      padding: 7px 0 7px 7px;
+      content: '';
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      margin-right: 7px;
+      background-color: var(--color-icon);
+      mask: url('@tabler-icons/outline/folder.svg') no-repeat center / contain;
     }
 
     &.active {
       color: var(--color-active);
-      &::before { color: var(--color-active); }
+      &::before { background-color: var(--color-active); }
     }
   }
 
@@ -189,16 +199,22 @@ div.media-lib {
             text-align: left;
             background-color: var(--background-white);
 
-            &.has-children  > div.media-lib-container > div.media-lib-folder::after {
-              @include icon($fa-var-angle-left);
-
-              float: right;
-              padding: 7px;
+            &.has-children > div.media-lib-container > div.media-lib-folder::after {
+              content: '';
+              display: inline-block;
+              width: 1rem;
+              height: 1rem;
+              margin-left: auto;
+              background-color: var(--color-icon);
+              transition: transform 0.15s ease;
+              mask: url('@tabler-icons/outline/chevron-right.svg') no-repeat center / contain;
             }
 
             &.open {
-              & > div.media-lib-container > div.media-lib-folder::before { @include icon($fa-var-folder-open); }
-              & > div.media-lib-container > div.media-lib-folder::after { @include icon($fa-var-angle-down); }
+              & > div.media-lib-container > div.media-lib-folder::before {
+                mask-image: url('@tabler-icons/outline/folder-open.svg');
+              }
+              & > div.media-lib-container > div.media-lib-folder::after { transform: rotate(90deg); }
               & > ul { display: block; }
             }
 
@@ -267,23 +283,24 @@ div.media-lib {
               cursor: pointer;
 
               &::after {
-                @include icon($fa-var-sort);
-
+                content: '';
+                display: inline-block;
+                width: 1rem;
+                height: 1rem;
                 float: right;
-                padding-left: 7px;
-                color: var(--color-border);
+                margin-left: 7px;
+                background-color: var(--color-border);
+                mask: url('@tabler-icons/outline/arrows-sort.svg') no-repeat center / contain;
               }
 
               &[data-sort-order='asc']::after {
-                @include icon($fa-var-sort-up);
-
-                color: var(--color-active);
+                background-color: var(--color-active);
+                mask-image: url('@tabler-icons/outline/sort-ascending.svg');
               }
 
               &[data-sort-order='desc']::after {
-                @include icon($fa-var-sort-down);
-
-                color: var(--color-active);
+                background-color: var(--color-active);
+                mask-image: url('@tabler-icons/outline/sort-descending.svg');
               }
             }
           }

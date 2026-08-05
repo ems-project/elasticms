@@ -30,6 +30,7 @@ import Action from './components/action'
 import { EMS_ADDED_DOM_EVENT } from './events/addedDomEvent'
 import CtrlSaveEvent from './events/ctrlSaveEvent'
 import $ from 'jquery'
+import { initIcons } from './components/UI/Icons.ts'
 
 class Core {
     constructor() {
@@ -82,6 +83,7 @@ class Core {
         }
         this.initStatusRefresh()
         this.initCtrlSaveEvent()
+        initIcons(document.body);
         this.components = [new RevisionTask(), new Modal(), new Sidebar()]
     }
 

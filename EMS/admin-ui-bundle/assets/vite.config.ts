@@ -1,4 +1,3 @@
-import inject from '@rollup/plugin-inject'
 import { defineConfig } from 'vite'
 import liveReload from 'vite-plugin-live-reload'
 import { resolve } from 'path'
@@ -29,6 +28,12 @@ export default defineConfig({
                 inline_editor_iframe: 'src/core/inline-editor/iframe.ts',
                 core_bundle: 'src/core-bundle.ts'
             },
+            transform: {
+                inject: {
+                    $: 'jquery',
+                    jQuery: 'jquery'
+                }
+            },
             output: {
                 codeSplitting: {
                     groups: [
@@ -46,11 +51,6 @@ export default defineConfig({
     plugins: [
         liveReload('../templates/**/*.twig'),
         liveReload('../../core-bundle/templates/**/*.twig'),
-        inject({
-            jQuery: 'jquery',
-            $: 'jquery',
-            exclude: ['**/*.scss', '**/*.css']
-        })
     ],
     resolve: {
         extensions: ['.js', '.ts'],

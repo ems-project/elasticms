@@ -14,7 +14,6 @@
         "watch": "tsc && vite build --watch"
     },
     "devDependencies": {
-        "@rollup/plugin-inject": "5.0.5",
         "@rushstack/eslint-patch": "1.16.1",
         "@types/bootstrap": "5.2.10",
         "@types/js-beautify": "^1.14.3",

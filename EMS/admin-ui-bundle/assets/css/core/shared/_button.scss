@@ -30,37 +30,37 @@
 
   &[data-variant="primary"] {
     color: #fff;
-    background-color: var(--ems-btn-primary-bg, #0d6efd);
-    border-color: var(--ems-btn-primary-bg, #0d6efd);
+    background-color: var(--ems-btn-primary-bg);
+    border-color: var(--ems-btn-primary-bg);
 
     &:hover {
-      background-color: var(--ems-btn-primary-hover-bg, #0b5ed7);
-      border-color: var(--ems-btn-primary-hover-bg, #0b5ed7);
+      background-color: var(--ems-btn-primary-hover-bg);
+      border-color: var(--ems-btn-primary-hover-bg);
     }
   }
 
   &[data-variant="danger"] {
-    color: var(--ems-btn-danger-color, #bb2d3b);
-    background-color: var(--ems-btn-secondary-bg, #fff);
-    border-color: var(--ems-btn-danger-border, #bb2d3b);
+    color: var(--ems-btn-danger-color);
+    background-color: var(--ems-btn-secondary-bg);
+    border-color: var(--ems-btn-danger-border);
 
     &:hover {
-      color: var(--ems-btn-danger-hover-color, #dc3545);
-      background-color: var(--ems-btn-secondary-hover-bg, #e9ecef);
-      border-color: var(--ems-btn-danger-hover-border, #dc3545);
+      color: var(--ems-btn-danger-hover-color);
+      background-color: var(--ems-btn-secondary-hover-bg);
+      border-color: var(--ems-btn-danger-hover-border);
     }
   }
 
   &:not([data-variant]),
   &[data-variant="secondary"],
   &[data-variant="default"] {
-    color: var(--ems-btn-secondary-color, #212529);
-    background-color: var(--ems-btn-secondary-bg, #fff);
-    border-color: var(--ems-btn-secondary-border, #ced4da);
+    color: var(--ems-btn-secondary-color);
+    background-color: var(--ems-btn-secondary-bg);
+    border-color: var(--ems-btn-secondary-border);
 
     &:hover {
-      background-color: var(--ems-btn-secondary-hover-bg, #e9ecef);
-      border-color: var(--ems-btn-secondary-hover-border, #ced4da);
+      background-color: var(--ems-btn-secondary-hover-bg);
+      border-color: var(--ems-btn-secondary-hover-border);
     }
   }
 }

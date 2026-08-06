@@ -23,11 +23,11 @@ dialog.ems-dialog {
     min-height: 100px;
     padding: 16px;
     text-align: center;
-    color: var(--ems-error-color, #dc3545);
+    color: var(--ems-error-color);
   }
 
   .dialog-content {
-    background: var(--ems-bg, #fff);
+    background: var(--ems-bg);
     border-radius: 4px;
     display: flex;
     flex-direction: column;
@@ -41,7 +41,7 @@ dialog.ems-dialog {
     justify-content: space-between;
     gap: 16px;
     padding: 16px;
-    border-bottom: 1px solid var(--ems-border-color, #dee2e6);
+    border-bottom: 1px solid var(--ems-border-color);
 
     &.draggable {
       cursor: grab;
@@ -58,7 +58,7 @@ dialog.ems-dialog {
     font-size: 18px;
     font-weight: 500;
     line-height: 1.5;
-    color: var(--ems-text-color, #212529);
+    color: var(--ems-text-color);
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -72,7 +72,7 @@ dialog.ems-dialog {
     font-size: 24px;
     font-weight: 700;
     line-height: 1;
-    color: var(--ems-text-color, #212529);
+    color: var(--ems-text-color);
     opacity: 0.5;
     cursor: pointer;
     padding: 0;
@@ -104,8 +104,8 @@ dialog.ems-dialog {
         content: '';
         width: 32px;
         height: 32px;
-        border: 3px solid var(--ems-border-color, #dee2e6);
-        border-top-color: var(--ems-btn-primary-bg, #0d6efd);
+        border: 3px solid var(--ems-border-color);
+        border-top-color: var(--ems-btn-primary-bg);
         border-radius: 50%;
         animation: dialog-spin 0.7s linear infinite;
       }
@@ -136,7 +136,7 @@ dialog.ems-dialog {
     justify-content: flex-end;
     gap: 8px;
     padding: 16px;
-    border-top: 1px solid var(--ems-border-color, #dee2e6);
+    border-top: 1px solid var(--ems-border-color);
 
     &:empty {
       display: none;

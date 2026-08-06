@@ -1,2 +1,29 @@
 @import "./shared/button";
 @import "./shared/dialog";
+
+:root {
+  --ems-bg: #fff;
+  --ems-bg-light: #f8f9fa;
+  --ems-bg-hover: #e9ecef;
+  --ems-bg-active: #cfe2ff;
+  --ems-bg-dark: #dee2e6;
+  --ems-border-color: #dee2e6;
+  --ems-text-color: #212529;
+  --ems-input-color: #212529;
+  --ems-input-border: #ced4da;
+  --ems-focus-color: #86b7fe;
+  --ems-icon-color: #6c757d;
+  --ems-error-color: #dc3545;
+
+  --ems-btn-primary-bg: #0d6efd;
+  --ems-btn-primary-hover-bg: #0b5ed7;
+  --ems-btn-secondary-bg: #fff;
+  --ems-btn-secondary-color: #212529;
+  --ems-btn-secondary-border: #ced4da;
+  --ems-btn-secondary-hover-bg: #e9ecef;
+  --ems-btn-secondary-hover-border: #ced4da;
+  --ems-btn-danger-color: #bb2d3b;
+  --ems-btn-danger-border: #bb2d3b;
+  --ems-btn-danger-hover-color: #dc3545;
+  --ems-btn-danger-hover-border: #dc3545;
+}

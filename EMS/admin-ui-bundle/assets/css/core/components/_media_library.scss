@@ -1,20 +1,9 @@
 div.media-lib {
-  --color-active: #337AB7;
-  --color-link: #337AB7;
-  --color-icon: #666;
-  --color-text: #333;
-  --color-border: #D7D7D7;
-  --background-active: #E2F7FF;
-  --background-hover: #F5F5F5;
-  --background-white: #FFF;
-  --background-light: #F5F5F5;
-  --background-dark: #D2D6DE;
-
   display: flex;
   flex-direction: column;
-  background-color: var(--background-light);
-  border: solid 1px var(--color-border);
-  color: var(--color-text);
+  background-color: var(--ems-bg-light);
+  border: solid 1px var(--ems-border-color);
+  color: var(--ems-text-color);
   user-select: none;
 
   button[disabled], label[disabled] {
@@ -26,11 +15,11 @@ div.media-lib {
   }
 
   .ems-btn {
-    background: #ffffff;
+    background: var(--ems-bg);
   }
 
   a:not(.ems-btn) {
-    color: var(--color-link);
+    color: var(--ems-btn-primary-bg);
     &:hover { text-decoration: underline; }
   }
 
@@ -42,7 +31,7 @@ div.media-lib {
 
   div.media-nav-bar {
     min-height: 50px;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--ems-border-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -55,19 +44,30 @@ div.media-lib {
     }
 
     input.media-lib-search {
-      border-color: var(--color-border);
+      padding: 6px 10px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--ems-input-color);
+      background-color: var(--ems-bg);
+      border: 1px solid var(--ems-input-border);
+      border-radius: 3px;
       user-select: auto;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
       &:focus {
         outline: none;
-        border-color: var(--color-border);
+        border-color: var(--ems-focus-color);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--ems-focus-color) 25%, transparent);
       }
-      &.active { border: 1px solid var(--color-active); }
+
+      &.active {
+        border-color: var(--ems-btn-primary-bg);
+      }
     }
   }
 
   div.media-lib-breadcrumb {
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--ems-border-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -83,7 +83,7 @@ div.media-lib {
         line-height: 1.5;
         font-size: 12px;
         background-color: transparent;
-        color: var(--color-link);
+        color: var(--ems-btn-primary-bg);
 
         &:hover { text-decoration: underline; }
       }
@@ -93,7 +93,7 @@ div.media-lib {
         display: inline-block;
         width: 1rem;
         height: 1rem;
-        background-color: var(--color-border);
+        background-color: var(--ems-border-color);
         mask: url('@tabler-icons/outline/chevron-right.svg') no-repeat center / contain;
       }
     }
@@ -118,19 +118,19 @@ div.media-lib {
   div.media-lib-file {
     button { pointer-events: auto; }
 
-    &:hover { background-color: var(--background-hover); }
+    &:hover { background-color: var(--ems-bg-hover); }
 
     &.active {
-      border-color: var(--color-active);
-      background-color: var(--background-active);
-      &:hover { background-color: var(--background-active); }
+      border-color: var(--ems-btn-primary-bg);
+      background-color: var(--ems-bg-active);
+      &:hover { background-color: var(--ems-bg-active); }
     }
   }
 
   div.media-lib-folder {
     align-items: center;
 
-    &:hover { background-color: var(--background-hover); }
+    &:hover { background-color: var(--ems-bg-hover); }
 
     &::before {
       content: '';
@@ -138,19 +138,19 @@ div.media-lib {
       width: 1rem;
       height: 1rem;
       margin-right: 7px;
-      background-color: var(--color-icon);
+      background-color: var(--ems-icon-color);
       mask: url('@tabler-icons/outline/folder.svg') no-repeat center / contain;
     }
 
     &.active {
-      color: var(--color-active);
-      &::before { background-color: var(--color-active); }
+      color: var(--ems-btn-primary-bg);
+      &::before { background-color: var(--ems-btn-primary-bg); }
     }
   }
 
   div.media-lib-drop-area {
-    border: 1px solid var(--color-active);
-    background-color: var(--background-active);
+    border: 1px solid var(--ems-btn-primary-bg);
+    background-color: var(--ems-bg-active);
 
     div.media-lib-file a { pointer-events: none; }
   }
@@ -169,8 +169,8 @@ div.media-lib {
       min-width: 20%;
       max-width: 50%;
       flex-shrink: 0;
-      background-color: var(--background-dark);
-      border-right: solid 1px var(--color-border);
+      background-color: var(--ems-bg-dark);
+      border-right: solid 1px var(--ems-border-color);
 
       div.media-lib-folders {
         overflow: auto;
@@ -188,7 +188,7 @@ div.media-lib {
 
           li {
             text-align: left;
-            background-color: var(--background-white);
+            background-color: var(--ems-bg);
 
             &.has-children > div.media-lib-container > div.media-lib-folder::after {
               content: '';
@@ -196,7 +196,7 @@ div.media-lib {
               width: 1rem;
               height: 1rem;
               margin-left: auto;
-              background-color: var(--color-icon);
+              background-color: var(--ems-icon-color);
               transition: transform 0.15s ease;
               mask: url('@tabler-icons/outline/chevron-right.svg') no-repeat center / contain;
             }
@@ -210,7 +210,7 @@ div.media-lib {
             }
 
             div.media-lib-container {
-              border-bottom: 1px solid var(--color-border);
+              border-bottom: 1px solid var(--ems-border-color);
             }
           }
         }
@@ -222,7 +222,7 @@ div.media-lib {
       flex-direction: column;
       width: 80%;
       flex-grow: 1;
-      background-color: var(--background-white);
+      background-color: var(--ems-bg);
 
       div.media-lib-files {
         overflow-y: auto;
@@ -235,13 +235,13 @@ div.media-lib {
             display: flex;
             flex-direction: column;
             padding: 8px;
-            background-color: var(--background-light);
+            background-color: var(--ems-bg-light);
 
             .upload-file {
-              background: var(--background-white);
+              background: var(--ems-bg);
               padding: 8px;
               border-radius: 3px;
-              border: 1px solid var(--color-border);
+              border: 1px solid var(--ems-border-color);
               display: flex;
               align-items: flex-start;
               column-gap: 8px;
@@ -251,7 +251,7 @@ div.media-lib {
               button {
                 display: none;
                 background: none;
-                color: var(--color-icon);
+                color: var(--ems-icon-color);
                 border: none;
                 padding: 0;
                 font: inherit;
@@ -280,24 +280,24 @@ div.media-lib {
                 height: 1rem;
                 float: right;
                 margin-left: 7px;
-                background-color: var(--color-border);
+                background-color: var(--ems-border-color);
                 mask: url('@tabler-icons/outline/arrows-sort.svg') no-repeat center / contain;
               }
 
               &[data-sort-order='asc']::after {
-                background-color: var(--color-active);
+                background-color: var(--ems-btn-primary-bg);
                 mask-image: url('@tabler-icons/outline/sort-ascending.svg');
               }
 
               &[data-sort-order='desc']::after {
-                background-color: var(--color-active);
+                background-color: var(--ems-btn-primary-bg);
                 mask-image: url('@tabler-icons/outline/sort-descending.svg');
               }
             }
           }
 
           div.media-lib-container {
-            border-bottom: 1px dashed var(--color-border);
+            border-bottom: 1px dashed var(--ems-border-color);
           }
         }
       }
@@ -319,7 +319,7 @@ div.media-lib {
     flex-shrink: 0;
 
     & > div {
-      border-top: 1px solid var(--color-border);
+      border-top: 1px solid var(--ems-border-color);
       padding: 8px;
       height: 100%;
       min-height: 30px;
@@ -346,7 +346,7 @@ div.media-lib-preview-modal {
     flex-direction: row;
 
     .media-lib-preview-file {
-      border: 1px solid #D7D7D7;
+      border: 1px solid var(--ems-border-color);
       border-radius: 5px;
       padding: 16px;
       display: flex;

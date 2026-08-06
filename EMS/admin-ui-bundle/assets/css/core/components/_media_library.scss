@@ -1,7 +1,7 @@
 div.media-lib {
   display: flex;
   flex-direction: column;
-  background-color: var(--ems-bg-light);
+  background-color: var(--ems-light-gray);
   border: solid 1px var(--ems-border-color);
   color: var(--ems-text-color);
   user-select: none;
@@ -15,7 +15,7 @@ div.media-lib {
   }
 
   .ems-btn {
-    background: var(--ems-bg);
+    background: var(--ems-white);
   }
 
   a:not(.ems-btn) {
@@ -48,7 +48,7 @@ div.media-lib {
       font-size: 13px;
       line-height: 1.5;
       color: var(--ems-input-color);
-      background-color: var(--ems-bg);
+      background-color: var(--ems-white);
       border: 1px solid var(--ems-input-border);
       border-radius: 3px;
       user-select: auto;
@@ -118,7 +118,7 @@ div.media-lib {
   div.media-lib-file {
     button { pointer-events: auto; }
 
-    &:hover { background-color: var(--ems-bg-hover); }
+    &:hover { background-color: var(--ems-light-gray); }
 
     &.active {
       border-color: var(--ems-btn-primary-bg);
@@ -130,7 +130,7 @@ div.media-lib {
   div.media-lib-folder {
     align-items: center;
 
-    &:hover { background-color: var(--ems-bg-hover); }
+    &:hover { background-color: var(--ems-light-gray); }
 
     &::before {
       content: '';
@@ -188,7 +188,7 @@ div.media-lib {
 
           li {
             text-align: left;
-            background-color: var(--ems-bg);
+            background-color: var(--ems-white);
 
             &.has-children > div.media-lib-container > div.media-lib-folder::after {
               content: '';
@@ -222,7 +222,7 @@ div.media-lib {
       flex-direction: column;
       width: 80%;
       flex-grow: 1;
-      background-color: var(--ems-bg);
+      background-color: var(--ems-white);
 
       div.media-lib-files {
         overflow-y: auto;
@@ -235,10 +235,10 @@ div.media-lib {
             display: flex;
             flex-direction: column;
             padding: 8px;
-            background-color: var(--ems-bg-light);
+            background-color: var(--ems-light-gray);
 
             .upload-file {
-              background: var(--ems-bg);
+              background: var(--ems-white);
               padding: 8px;
               border-radius: 3px;
               border: 1px solid var(--ems-border-color);

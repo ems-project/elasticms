@@ -25,24 +25,11 @@ div.media-lib {
     cursor: progress;
   }
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    color: var(--color-text);
-    border-color: var(--color-border);
-
-    & svg.icon {
-      color: var(--color-icon);
-      width: 1.25rem;
-      height: 1.25rem;
-    }
-    &.btn-default { background-color: var(--background-white); }
-    &.btn-file-upload { font-weight: normal; }
-    &:focus, &:active:focus { outline: none; }
+  .ems-btn {
+    background: #ffffff;
   }
 
-  a {
+  a:not(.ems-btn) {
     color: var(--color-link);
     &:hover { text-decoration: underline; }
   }
@@ -112,10 +99,6 @@ div.media-lib {
     }
   }
 
-  div.media-lib-folder > *, div.media-lib-file > * { pointer-events: none; }
-  div.media-lib-folder a, div.media-lib-file a, div.media-lib-file button { pointer-events: auto; }
-  div.media-lib-drop-area div.media-lib-file a { pointer-events: none; }
-
   div.media-lib-folder, div.media-lib-file, div.media-lib-file-header {
     display: flex;
     flex-wrap: nowrap;
@@ -127,7 +110,14 @@ div.media-lib {
     }
   }
 
-  div.media-lib-file{
+  div.media-lib-folder, div.media-lib-file {
+    > * { pointer-events: none; }
+    a { pointer-events: auto; }
+  }
+
+  div.media-lib-file {
+    button { pointer-events: auto; }
+
     &:hover { background-color: var(--background-hover); }
 
     &.active {
@@ -138,7 +128,6 @@ div.media-lib {
   }
 
   div.media-lib-folder {
-    display: flex;
     align-items: center;
 
     &:hover { background-color: var(--background-hover); }
@@ -162,6 +151,8 @@ div.media-lib {
   div.media-lib-drop-area {
     border: 1px solid var(--color-active);
     background-color: var(--background-active);
+
+    div.media-lib-file a { pointer-events: none; }
   }
 
   div.media-lib-content {
@@ -255,7 +246,7 @@ div.media-lib {
               align-items: flex-start;
               column-gap: 8px;
 
-              .core-js-progress {flex: 1}
+              .core-js-progress { flex: 1; }
 
               button {
                 display: none;

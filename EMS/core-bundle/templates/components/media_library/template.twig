@@ -6,22 +6,30 @@
 
 {%- block media_lib_header -%}
     <div class="media-lib-container">
-        {{- template.block('media_lib_button_home', _context)|raw -}}
-        {{- template.block('media_lib_button_folder_add', _context)|raw -}}
-        {{- template.block('media_lib_button_upload', _context)|raw -}}
+        <div class="ems-btn-group">
+            {{- template.block('media_lib_button_home', _context)|raw -}}
+            {{- template.block('media_lib_button_folder_add', _context)|raw -}}
+            {{- template.block('media_lib_button_upload', _context)|raw -}}
+        </div>
         {%- if mediaFile is defined -%}
-            {{- template.block('media_lib_button_file_view', _context)|raw -}}
-            {{- template.block('media_lib_button_file_revision', _context)|raw -}}
-            {{- template.block('media_lib_button_file_rename', _context)|raw -}}
-            {{- template.block('media_lib_button_files_move', _context)|raw -}}
-            {{- template.block('media_lib_button_file_delete', _context)|raw -}}
+            <div class="ems-btn-group">
+                {{- template.block('media_lib_button_file_view', _context)|raw -}}
+                {{- template.block('media_lib_button_file_revision', _context)|raw -}}
+                {{- template.block('media_lib_button_file_rename', _context)|raw -}}
+                {{- template.block('media_lib_button_files_move', _context)|raw -}}
+                {{- template.block('media_lib_button_file_delete', _context)|raw -}}
+            </div>
         {%- elseif selectionFiles > 0 -%}
-            {{- template.block('media_lib_button_files_move', _context)|raw -}}
-            {{- template.block('media_lib_button_files_delete', _context)|raw -}}
+            <div class="ems-btn-group">
+                {{- template.block('media_lib_button_files_move', _context)|raw -}}
+                {{- template.block('media_lib_button_files_delete', _context)|raw -}}
+            </div>
         {%- elseif mediaFolder is defined -%}
-            {{- template.block('media_lib_button_folder_delete', _context)|raw -}}
-            {{- template.block('media_lib_button_folder_move', _context)|raw -}}
-            {{- template.block('media_lib_button_folder_rename', _context)|raw -}}
+            <div class="ems-btn-group">
+                {{- template.block('media_lib_button_folder_delete', _context)|raw -}}
+                {{- template.block('media_lib_button_folder_move', _context)|raw -}}
+                {{- template.block('media_lib_button_folder_rename', _context)|raw -}}
+            </div>
         {%- endif -%}
     </div>
     <div class="media-lib-container">
@@ -113,73 +121,73 @@
 {%- endblock media_lib_footer -%}
 
 {%- block media_lib_button_home -%}
-    <button class="btn-home" data-icon="home" data-testid="media-lib-button-home">
+    <button class="ems-btn btn-home" data-icon="home" data-testid="media-lib-button-home">
         {{- buttonLabel|default('media_library.home'|trans) -}}
     </button>
 {%- endblock media_lib_button_home -%}
 
 {%- block media_lib_button_folder_add -%}
-    <button class="btn-folder-add" data-icon="folder" data-testid="media-lib-button-folder-add">
+    <button class="ems-btn btn-folder-add" data-icon="folder" data-testid="media-lib-button-folder-add">
         {{- buttonLabel|default('media_library.folder.add.title'|trans) -}}
     </button>
 {%- endblock media_lib_button_folder_add -%}
 
 {%- block media_lib_button_folder_delete -%}
-    <button class="btn-folder-delete" data-icon="folder-delete" data-id="{{- mediaFolder.id -}}" data-modal-size="md" data-testid="media-lib-button-folder-delete">
+    <button class="ems-btn btn-folder-delete" data-icon="folder-delete" data-id="{{- mediaFolder.id -}}" data-modal-size="md" data-testid="media-lib-button-folder-delete">
         {{- buttonLabel|default('media_library.folder.delete.title'|trans) -}}
     </button>
 {%- endblock media_lib_button_folder_delete -%}
 
 {%- block media_lib_button_folder_rename -%}
-    <button class="btn-folder-rename" data-icon="folder-rename" data-id="{{- mediaFolder.id -}}" data-testid="media-lib-button-folder-rename">
+    <button class="ems-btn btn-folder-rename" data-icon="folder-rename" data-id="{{- mediaFolder.id -}}" data-testid="media-lib-button-folder-rename">
         {{- buttonLabel|default('media_library.folder.rename.title'|trans) -}}
     </button>
 {%- endblock media_lib_button_folder_rename -%}
 
 {%- block media_lib_button_folder_move -%}
-    <button class="btn-folder-move" data-icon="folder-move" data-id="{{- mediaFolder.id -}}" data-modal-size="md" data-testid="media-lib-button-folder-move">
+    <button class="ems-btn btn-folder-move" data-icon="folder-move" data-id="{{- mediaFolder.id -}}" data-modal-size="md" data-testid="media-lib-button-folder-move">
         {{- buttonLabel|default('media_library.folder.move.title'|trans) -}}
     </button>
 {%- endblock media_lib_button_folder_move -%}
 
 {%- block media_lib_button_file_rename -%}
-    <button class="btn-file-rename" data-icon="file-rename" data-id="{{- mediaFile.id -}}" data-testid="media-lib-button-file-rename">
+    <button class="ems-btn btn-file-rename" data-icon="file-rename" data-id="{{- mediaFile.id -}}" data-testid="media-lib-button-file-rename">
         {{- buttonLabel|default('media_library.file.rename.title'|trans) -}}
     </button>
 {%- endblock media_lib_button_file_rename -%}
 
 {%- block media_lib_button_file_delete -%}
-    <button class="btn-file-delete" data-icon="file-delete" data-id="{{- mediaFile.id -}}" data-testid="media-lib-button-file-delete">
+    <button class="ems-btn btn-file-delete" data-icon="file-delete" data-id="{{- mediaFile.id -}}" data-testid="media-lib-button-file-delete">
         {{- buttonLabel|default('media_library.file.delete.title'|trans) -}}
     </button>
 {%- endblock media_lib_button_file_delete -%}
 
 {%- block media_lib_button_file_view -%}
-    <button class="btn-file-view" data-icon="file-view" data-id="{{- mediaFile.id -}}" data-testid="media-lib-button-file-view">
+    <button class="ems-btn btn-file-view" data-icon="file-view" data-id="{{- mediaFile.id -}}" data-testid="media-lib-button-file-view">
         {{- buttonLabel|default('media_library.file.view.title'|trans) -}}
     </button>
 {%- endblock media_lib_button_file_view -%}
 
 {%- block media_lib_button_file_revision -%}
-    <a href="{{ path('emsco_view_revisions', { 'type': mediaFile.document.contentType, 'ouuid': mediaFile.id  }) }}" data-icon="revision" data-testid="media-lib-button-file-revision">
+    <a class="ems-btn" href="{{ path('emsco_view_revisions', { 'type': mediaFile.document.contentType, 'ouuid': mediaFile.id  }) }}" data-icon="revision" data-testid="media-lib-button-file-revision">
         {{- buttonLabel|default('media_library.file.revision.title'|trans) -}}
     </a>
 {%- endblock media_lib_button_file_revision -%}
 
 {%- block media_lib_button_files_delete -%}
-    <button class="btn-files-delete" data-icon="file-delete" data-modal-size="md" data-testid="media-lib-button-files-delete">
+    <button class="ems-btn btn-files-delete" data-icon="file-delete" data-modal-size="md" data-testid="media-lib-button-files-delete">
         {{- buttonLabel|default('media_library.files.delete.title'|trans({ '%count%': selectionFiles })) -}}
     </button>
 {%- endblock media_lib_button_files_delete -%}
 
 {%- block media_lib_button_files_move -%}
-    <button class="btn-files-move" data-icon="file-move" data-modal-size="md" data-testid="media-lib-button-files-move">
+    <button class="ems-btn btn-files-move" data-icon="file-move" data-modal-size="md" data-testid="media-lib-button-files-move">
         {{- buttonLabel|default('media_library.files.move.title'|trans({ '%count%': selectionFiles })) -}}
     </button>
 {%- endblock media_lib_button_files_move -%}
 
 {%- block media_lib_button_upload -%}
-    <label class="btn-file-upload" data-icon="upload" for="media-lib-upload-{{- id -}}">
+    <label class="ems-btn btn-file-upload" data-icon="upload" for="media-lib-upload-{{- id -}}">
         {{- buttonLabel|default('media_library.file.add.title'|trans) -}}
     </label>
 {%- endblock media_lib_button_upload -%}
@@ -294,10 +302,10 @@
 {% endblock media_lib_modal_preview_info %}
 
 {% block media_lib_modal_preview_footer %}
-    <button class="btn-preview-prev" data-icon="chevrons-left" style="display: none;">
+    <button class="ems-btn btn-preview-prev" data-icon="chevrons-left" style="display: none;">
         {{ 'media_library.file.view.previous'|trans }}
     </button>
-    <button class="btn-preview-next" data-icon="chevrons-right" data-icon-position="end" style="display: none;">
+    <button class="ems-btn btn-preview-next" data-icon="chevrons-right" data-icon-position="end" style="display: none;">
         {{ 'media_library.file.view.next'|trans }}
     </button>
 {% endblock media_lib_modal_preview_footer %}

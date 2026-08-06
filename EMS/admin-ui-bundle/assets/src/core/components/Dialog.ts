@@ -1,4 +1,3 @@
-import '@css/core/components/_dialog.scss'
 import AddedDomEvent from '../events/addedDomEvent'
 
 export type DialogSize = 'xs' | 'sm' | 'md' | 'lg'

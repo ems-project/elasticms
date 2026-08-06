@@ -1,10 +1,11 @@
-import MediaLibraryComponent from '../components/MediaLibrary/MediaLibrary.ts'
-
 export default class MediaLibrary {
-    components: MediaLibraryComponent[] = []
+    components: any[] = []
 
-    load(target: HTMLElement | Document) {
+    async load(target: HTMLElement | Document) {
         const elements = target.getElementsByClassName('media-lib')
+        if (elements.length === 0) return
+
+        const { default: MediaLibraryComponent } = await import('../components/MediaLibrary/MediaLibrary.ts')
         const body = document.querySelector('body') as HTMLElement
 
         for (const el of elements) {

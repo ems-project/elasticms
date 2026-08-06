@@ -75,6 +75,8 @@ export default class MediaLibrary {
     ])
 
     constructor(element: HTMLElement, options: MediaLibraryOptions) {
+        console.debug("jajaja");
+
         this.id = element.id
         this.element = element
         this.#api = new ApiClient(`${options.urlMediaLib}/${element.dataset.hash}`, () =>

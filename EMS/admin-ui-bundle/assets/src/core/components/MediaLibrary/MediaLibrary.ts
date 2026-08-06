@@ -60,6 +60,7 @@ export default class MediaLibrary {
     readonly #clickHandlers = new Map<string, (target: HTMLElement, event: MouseEvent) => void>([
         ['media-lib-file', (target, event) => this._onClickFile(target, event)],
         ['media-lib-folder', (target) => this._onClickFolder(target)],
+        ['media-lib-breadcrumb-item', (target) => this._onClickBreadcrumbItem(target)],
         ['btn-file-upload', () => this.#elements.inputUpload.click()],
         ['btn-file-view', (target, event) => this._onClickButtonFileView(target, event)],
         ['btn-file-rename', (target) => this._onClickButtonFileRename(target)],
@@ -71,7 +72,6 @@ export default class MediaLibrary {
         ['btn-folder-rename', (target) => this._onClickButtonFolderRename(target)],
         ['btn-folder-move', (target) => this._onClickButtonFolderMove(target)],
         ['btn-home', () => this._onClickButtonHome()],
-        ['breadcrumb-item', (target) => this._onClickBreadcrumbItem(target)]
     ])
 
     constructor(element: HTMLElement, options: MediaLibraryOptions) {

@@ -3,7 +3,7 @@ div.media-lib {
   flex-direction: column;
   background-color: var(--ems-light-gray);
   border: solid 1px var(--ems-border-color);
-  color: var(--ems-text-color);
+  color: var(--ems-dark-gray);
   user-select: none;
 
   button[disabled], label[disabled] {
@@ -77,15 +77,32 @@ div.media-lib {
       flex-flow: row wrap;
       align-items: center;
 
+      li {
+        display: flex;
+        align-items: center;
+      }
+
       button {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
         border: 0;
         padding: 5px 10px;
         line-height: 1.5;
         font-size: 12px;
         background-color: transparent;
         color: var(--ems-btn-primary-bg);
+        cursor: pointer;
 
-        &:hover { text-decoration: underline; }
+        svg {
+          width: 1em;
+          height: 1em;
+          flex-shrink: 0;
+        }
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
 
       li:not(:last-child)::after {
@@ -93,7 +110,7 @@ div.media-lib {
         display: inline-block;
         width: 1rem;
         height: 1rem;
-        background-color: var(--ems-border-color);
+        background-color: var(--ems-dark-gray);
         mask: url('@tabler-icons/outline/chevron-right.svg') no-repeat center / contain;
       }
     }

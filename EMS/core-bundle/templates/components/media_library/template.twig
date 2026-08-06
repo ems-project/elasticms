@@ -194,10 +194,10 @@
 
 {%- block media_lib_breadcrumb -%}
     <ul class="media-lib-list-breadcrumb" data-testid="media-lib-breadcrumb">
-        <li><button data-icon="home">Home</button></li>
+        <li><button class="media-lib-breadcrumb-item" data-icon="home">Home</button></li>
         {%- if mediaFolder is defined -%}
             {%- for parent in mediaFolder.parents -%}
-                <li><button data-id="{{- parent.id -}}">{{- parent.name -}}</button></li>
+                <li><button class="media-lib-breadcrumb-item" data-id="{{- parent.id -}}">{{- parent.name -}}</button></li>
             {%- endfor -%}
             {%- if mediaFile is defined -%}
                 <li><button>{{- mediaFile.file.filename -}}</button></li>

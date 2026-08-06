@@ -19,13 +19,13 @@
 
 {%- block media_lib_header -%}
     <div class="media-lib-container">
-        <div class="ems-btn-group">
-            {%- if mediaFolder is defined and mediaFile is not defined and selectionFiles == 0 -%}
+        {%- if mediaFolder is defined and mediaFile is not defined and selectionFiles == 0 -%}
+            <div class="ems-btn-group">
                 {{- template.block('media_lib_button_folder_rename', _context)|raw -}}
                 {{- template.block('media_lib_button_folder_move', _context)|raw -}}
                 {{- template.block('media_lib_button_folder_delete', _context)|raw -}}
-            {%- endif -%}
-        </div>
+            </div>
+        {%- endif -%}
         <div class="ems-btn-group">
             {{- template.block('media_lib_button_folder_add', _context)|raw -}}
             {{- template.block('media_lib_button_upload', _context)|raw -}}

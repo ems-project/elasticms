@@ -40,7 +40,7 @@ export function linkDialog(e: TiptapEditor, defaultTarget: string | null = null)
 
     const dialog = e.createDialog('link', {
         resizable: true,
-        minWidth: 600,
+        size: 'md',
         bodyClasses: ['tiptap-dialog-link']
     })
     dialog.setContent(
@@ -397,7 +397,7 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
     browseServerBtn?.addEventListener('click', async () => {
         const dialog = e.createDialog('link_file_browse_server', {
             resizable: true,
-            minWidth: 800,
+            size: 'lg',
             url: e.profile.config.url.browseUploadedFiles,
             tiptapModal: false
         })
@@ -425,7 +425,7 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
         if (!dashboardFile) return
         const dialog = e.createDialog('link_file_browse_dashboard', {
             resizable: true,
-            minWidth: 800,
+            size: 'lg',
             url: dashboardFile.urlModal,
             tiptapModal: false
         })

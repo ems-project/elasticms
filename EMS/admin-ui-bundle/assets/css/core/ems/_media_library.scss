@@ -31,11 +31,14 @@ div.media-lib {
   div.media-nav-bar {
     min-height: 50px;
     display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+    padding: 8px;
+    border-bottom: 1px solid var(--ems-border-color);
 
     .media-lib-container {
-      padding: 8px;
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
@@ -192,7 +195,9 @@ div.media-lib {
     display: flex;
     flex-grow: 1;
     height: var(--media-lib-content-height, calc(90vh - 200px));
-    max-height: var(--media-lib-content-max-height, none);
+    min-height: 300px;
+    border-top: 1px solid var(--ems-border-color);
+    border-bottom: 1px solid var(--ems-border-color);
 
     div.media-lib-left-column {
       display: flex;
@@ -394,10 +399,9 @@ div.media-lib {
   }
 }
 
-dialog.ems-dialog {
+dialog {
   .media-lib {
-    --media-lib-content-height: 100%;
-    --media-lib-content-max-height: 60vh;
+    --media-lib-content-height: calc(90vh - 400px);
   }
 }
 

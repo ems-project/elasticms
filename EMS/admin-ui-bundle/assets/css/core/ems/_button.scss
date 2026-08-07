@@ -21,6 +21,7 @@
   &[disabled], &.disabled {
     opacity: 0.5;
     cursor: not-allowed;
+    pointer-events: none;
   }
 
   svg {
@@ -74,6 +75,7 @@
 
 .ems-btn-group {
   display: inline-flex;
+  flex-wrap: wrap;
 
   .ems-btn {
     border-radius: 0;

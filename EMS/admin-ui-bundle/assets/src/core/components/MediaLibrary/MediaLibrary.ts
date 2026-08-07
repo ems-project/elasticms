@@ -137,20 +137,18 @@ export default class MediaLibrary {
     }
 
     loading(flag: boolean) {
-        const buttons = this.element.querySelectorAll<HTMLButtonElement>(
-            'button:not(.close-button)'
-        )
+        const items = this.element.querySelectorAll<HTMLButtonElement | HTMLAnchorElement>('.ems-btn')
         const uploadButton = this.#elements.inputUpload
             ? this.#elements.header.querySelector(`label[for="${this.#elements.inputUpload.id}"]`)
             : false
 
         if (flag) {
             this.element.classList.add('loading')
-            buttons.forEach((button) => (button.disabled = true))
+            items.forEach((item) => item.classList.add('disabled'))
             if (uploadButton) uploadButton.setAttribute('disabled', 'disabled')
         } else {
             this.element.classList.remove('loading')
-            buttons.forEach((button) => (button.disabled = false))
+            items.forEach((item) => item.classList.remove('disabled'))
             if (uploadButton) uploadButton.removeAttribute('disabled')
         }
     }

@@ -72,7 +72,7 @@ export function openImageDialog(editor: TiptapEditor): void {
     const dialog = editor.createDialog(isEdit ? 'image_edit' : 'image_insert', {
         bodyClasses: ['tiptap-dialog-image'],
         resizable: true,
-        minWidth: 420
+        size: 'sm'
     })
 
     const preview = document.createElement('div')

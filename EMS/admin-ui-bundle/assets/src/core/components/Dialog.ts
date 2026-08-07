@@ -30,7 +30,6 @@ export interface DialogOptions {
     size?: DialogSize
     draggable?: boolean
     resizable?: boolean
-    minWidth?: number
     closeLabel?: string
     classes?: string[]
     bodyClasses?: string[]
@@ -105,9 +104,6 @@ export class Dialog {
         this.element.showModal()
         if (this.options.resizable) {
             const content = this.element.querySelector<HTMLElement>('.dialog-content')!
-            if (this.options.minWidth) {
-                content.style.minWidth = `${this.options.minWidth}px`
-            }
             content.style.width = `${content.getBoundingClientRect().width}px`
         }
         this.element.querySelector<HTMLElement>('input, select, textarea')?.focus()
@@ -355,10 +351,9 @@ export class Dialog {
         const doc = this.doc
         let startX = 0
         let startWidth = 0
-        const minWidth = this.options.minWidth ?? 300
 
         const onMouseMove = (e: MouseEvent) => {
-            const newWidth = Math.max(minWidth, startWidth + (e.clientX - startX))
+            const newWidth = Math.max(300, startWidth + (e.clientX - startX))
             content.style.width = `${newWidth}px`
         }
 

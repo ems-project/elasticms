@@ -33,6 +33,9 @@ dialog.ems-dialog {
     flex-direction: column;
     position: relative;
     max-height: 90vh;
+    width: fit-content;
+    min-width: min(320px, 90vw);
+    max-width: 90vw;
   }
 
   .dialog-header {

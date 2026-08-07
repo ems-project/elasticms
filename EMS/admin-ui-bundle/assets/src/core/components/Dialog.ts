@@ -195,6 +195,12 @@ export class Dialog {
     private bindLifecycleEvents(): void {
         this.element.querySelector('.dialog-close')!.addEventListener('click', () => this.close())
 
+        this.element.addEventListener('click', (e) => {
+            if ((e.target as HTMLElement).closest('[data-dismiss="modal"]')) {
+                this.close()
+            }
+        })
+
         this.element.addEventListener('close', () => {
             this.doc.body.classList.remove('dialog-open')
             this.element.remove()

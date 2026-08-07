@@ -55,5 +55,4 @@ window.addEventListener('emsReady', async function () {
 
 document.addEventListener('emsAddedDomEvent', function (e) {
     new window.EmsListeners(e.detail.target)
-    mediaLibrary.load(e.detail.target)
 })

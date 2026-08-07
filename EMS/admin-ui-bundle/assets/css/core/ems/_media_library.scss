@@ -191,7 +191,8 @@ div.media-lib {
   div.media-lib-content {
     display: flex;
     flex-grow: 1;
-    height: calc(90vh - 200px);
+    height: var(--media-lib-content-height, calc(90vh - 200px));
+    max-height: var(--media-lib-content-max-height, none);
 
     div.media-lib-left-column {
       display: flex;
@@ -390,6 +391,13 @@ div.media-lib {
       height: 100%;
       min-height: 30px;
     }
+  }
+}
+
+dialog.ems-dialog {
+  .media-lib {
+    --media-lib-content-height: 100%;
+    --media-lib-content-max-height: 60vh;
   }
 }
 

@@ -85,7 +85,6 @@ export class TiptapEditor {
 
         options.closeLabel = this.trans('modal_close')
         options.doc = this.docParent
-        options.draggable = true
         options.title = this.trans(title)
 
         return new Dialog(options)

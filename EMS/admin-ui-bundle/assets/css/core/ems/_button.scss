@@ -16,6 +16,7 @@
   border: 1px solid transparent;
   cursor: pointer;
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  text-wrap: nowrap;
 
   &[disabled], &.disabled {
     opacity: 0.5;

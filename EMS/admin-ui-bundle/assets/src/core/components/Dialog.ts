@@ -81,7 +81,7 @@ export class Dialog {
 
         this.bindLifecycleEvents()
 
-        if (options.draggable) {
+        if (options.draggable !== false) {
             this.makeDraggable()
         }
 

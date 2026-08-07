@@ -405,8 +405,6 @@ dialog.media-lib-dialog-file-view {
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      min-width: 600px;
-      min-height: 350px;
     }
 
     &[data-type^="image"] {
@@ -440,6 +438,7 @@ dialog.media-lib-dialog-file-view {
       li {
         margin: 0;
         padding: 10px;
+        text-wrap: nowrap;
       }
 
       li:not(:last-child) {

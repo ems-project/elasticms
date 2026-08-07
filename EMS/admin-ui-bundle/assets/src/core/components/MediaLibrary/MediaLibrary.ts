@@ -65,7 +65,7 @@ export default class MediaLibrary {
         ['btn-file-delete', (target) => this._onClickButtonFileDelete(target)],
         ['btn-files-delete', (target) => this._onClickButtonFilesDelete(target)],
         ['btn-files-move', (target) => this._onClickButtonFilesMove(target)],
-        ['btn-folder-add', () => this._onClickButtonFolderAdd()],
+        ['btn-folder-add', (target) => this._onClickButtonFolderAdd(target)],
         ['btn-folder-delete', (target) => this._onClickButtonFolderDelete(target)],
         ['btn-folder-rename', (target) => this._onClickButtonFolderRename(target)],
         ['btn-folder-move', (target) => this._onClickButtonFolderMove(target)],
@@ -285,6 +285,7 @@ export default class MediaLibrary {
         const dialog = new Dialog({
             url: `${this.#api.pathPrefix}/file/${currentFileId}/view`,
             classes: ['media-lib-dialog-file-view'],
+            ...(button.dataset.modalSize ? { size: button.dataset.modalSize as DialogSize } : {}),
             ajaxModal: true,
             onAjaxModalResponse: (_, dialog) => {
                 navigation(dialog, 'prev', 'previousSibling')
@@ -326,7 +327,7 @@ export default class MediaLibrary {
         new Dialog({
             url: `${this.#api.pathPrefix}/file/${fileId}/rename`,
             classes: ['media-lib-dialog-file-rename'],
-            size: 'sm',
+            size: (button.dataset.modalSize ?? 'sm') as DialogSize,
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
                 if (!json.success) return
@@ -370,12 +371,11 @@ export default class MediaLibrary {
         const query = new URLSearchParams({
             selectionFiles: selection.length.toString()
         })
-        const modalSize = (button.dataset.modalSize ?? 'sm') as DialogSize
 
         new Dialog({
             url: this.#api.pathPrefix + path + '?' + query.toString(),
             classes: ['media-lib-dialog-files-delete'],
-            size: modalSize,
+            size: (button.dataset.modalSize ?? 'sm') as DialogSize,
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
                 if (!json.success) return
@@ -418,12 +418,11 @@ export default class MediaLibrary {
             selectionFiles: selection.length.toString()
         })
         if (targetId) query.append('targetId', targetId)
-        const modalSize = (button.dataset.modalSize ?? 'sm') as DialogSize
 
         new Dialog({
             url: this.#api.pathPrefix + path + '?' + query.toString(),
             classes: ['media-lib-dialog-files-move'],
-            size: modalSize,
+            size: (button.dataset.modalSize ?? 'sm') as DialogSize,
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
                 if (!json.success || !json.targetFolderId) return
@@ -517,13 +516,14 @@ export default class MediaLibrary {
         this._getFiles().then(() => this.loading(false))
     }
 
-    _onClickButtonFolderAdd() {
+    _onClickButtonFolderAdd(button: HTMLElement) {
         const path = this.#state.activeFolderId
             ? `/add-folder/${this.#state.activeFolderId}`
             : '/add-folder'
         new Dialog({
             url: this.#api.pathPrefix + path,
             classes: ['media-lib-dialog-folder-add'],
+            size: (button.dataset.modalSize ?? 'sm') as DialogSize,
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
                 if (!json.success) return
@@ -536,12 +536,10 @@ export default class MediaLibrary {
 
     _onClickButtonFolderDelete(button: HTMLElement) {
         const folderId = button.dataset.id
-        const modalSize = button.dataset.modalSize ?? 'sm'
-
         new Dialog({
             url: `${this.#api.pathPrefix}/folder/${folderId}/delete`,
             classes: ['media-lib-dialog-folder-delete'],
-            size: modalSize as DialogSize,
+            size: (button.dataset.modalSize ?? 'sm') as DialogSize,
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
                 if (!json.jobId || !json.success) return
@@ -562,7 +560,7 @@ export default class MediaLibrary {
         new Dialog({
             url: `${this.#api.pathPrefix}/folder/${folderId}/rename`,
             classes: ['media-lib-dialog-folder-rename'],
-            size: 'sm',
+            size: (button.dataset.modalSize ?? 'sm') as DialogSize,
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
                 if (!json.success || !json.jobId || !json.path) return
@@ -578,7 +576,6 @@ export default class MediaLibrary {
 
     _onClickButtonFolderMove(button: HTMLElement, targetId: string | null = null) {
         const folderId = button.dataset.id
-        const modalSize = (button.dataset.modalSize ?? 'sm') as DialogSize
 
         const path = `${this.#api.pathPrefix}/folder/${folderId}/move`
         const query = new URLSearchParams({})
@@ -587,7 +584,7 @@ export default class MediaLibrary {
         new Dialog({
             url: path + '?' + query.toString(),
             classes: ['media-lib-dialog-folder-move'],
-            size: modalSize,
+            size: (button.dataset.modalSize ?? 'sm') as DialogSize,
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
                 if (!json.success || !json.jobId || !json.path) return

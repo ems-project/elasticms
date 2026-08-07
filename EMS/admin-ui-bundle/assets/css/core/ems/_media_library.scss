@@ -6,10 +6,6 @@ div.media-lib {
   color: var(--ems-gray-900);
   user-select: none;
 
-  button[disabled], label[disabled] {
-    opacity: 1;
-  }
-
   &.loading {
     cursor: progress;
   }
@@ -397,39 +393,62 @@ div.media-lib {
   }
 }
 
-div.media-lib-preview-modal {
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  gap: 16px;
-
-  object {
+dialog.media-lib-dialog-file-view {
+  div.media-lib-preview-modal {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    min-width: 600px;
-    min-height: 350px;
-  }
+    justify-content: space-evenly;
+    flex-direction: column;
+    gap: 16px;
 
-  &[data-type^="image"] {
-    flex-direction: row;
-
-    .media-lib-preview-file {
-      border: 1px solid var(--ems-border-color);
-      border-radius: 5px;
-      padding: 16px;
+    object {
       display: flex;
-      place-content: center center;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      min-width: 600px;
+      min-height: 350px;
+    }
 
-      & > img {
-        display: block;
-        width: 100%;
-        max-width: 600px;
-        max-height: 400px;
-        height: auto;
-        margin: auto;
+    &[data-type^="image"] {
+      flex-direction: row;
+
+      .media-lib-preview-file {
+        border: 1px solid var(--ems-border-color);
+        border-radius: var(--ems-border-radius);
+        padding: 16px;
+        display: flex;
+        place-content: center center;
+
+        & > img {
+          display: block;
+          width: 100%;
+          max-width: 600px;
+          max-height: 400px;
+          height: auto;
+          margin: auto;
+        }
       }
     }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-radius: var(--ems-border-radius);
+      border: 1px solid var(--ems-border-color);
+
+      li {
+        margin: 0;
+        padding: 10px;
+      }
+
+      li:not(:last-child) {
+        border-bottom: 1px solid var(--ems-border-color);
+      }
+    }
+  }
+
+  div.dialog-footer {
+    justify-content: center;
   }
 }

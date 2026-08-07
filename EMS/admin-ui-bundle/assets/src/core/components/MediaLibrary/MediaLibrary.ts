@@ -284,6 +284,7 @@ export default class MediaLibrary {
 
         const dialog = new Dialog({
             url: `${this.#api.pathPrefix}/file/${currentFileId}/view`,
+            classes: ['media-lib-dialog-file-view'],
             ajaxModal: true,
             onAjaxModalResponse: (_, dialog) => {
                 navigation(dialog, 'prev', 'previousSibling')
@@ -324,6 +325,7 @@ export default class MediaLibrary {
 
         new Dialog({
             url: `${this.#api.pathPrefix}/file/${fileId}/rename`,
+            classes: ['media-lib-dialog-file-rename'],
             size: 'sm',
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
@@ -372,6 +374,7 @@ export default class MediaLibrary {
 
         new Dialog({
             url: this.#api.pathPrefix + path + '?' + query.toString(),
+            classes: ['media-lib-dialog-files-delete'],
             size: modalSize,
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
@@ -419,6 +422,7 @@ export default class MediaLibrary {
 
         new Dialog({
             url: this.#api.pathPrefix + path + '?' + query.toString(),
+            classes: ['media-lib-dialog-files-move'],
             size: modalSize,
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
@@ -519,6 +523,7 @@ export default class MediaLibrary {
             : '/add-folder'
         new Dialog({
             url: this.#api.pathPrefix + path,
+            classes: ['media-lib-dialog-folder-add'],
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
                 if (!json.success) return
@@ -535,6 +540,7 @@ export default class MediaLibrary {
 
         new Dialog({
             url: `${this.#api.pathPrefix}/folder/${folderId}/delete`,
+            classes: ['media-lib-dialog-folder-delete'],
             size: modalSize as DialogSize,
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
@@ -555,6 +561,7 @@ export default class MediaLibrary {
 
         new Dialog({
             url: `${this.#api.pathPrefix}/folder/${folderId}/rename`,
+            classes: ['media-lib-dialog-folder-rename'],
             size: 'sm',
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {
@@ -579,6 +586,7 @@ export default class MediaLibrary {
 
         new Dialog({
             url: path + '?' + query.toString(),
+            classes: ['media-lib-dialog-folder-move'],
             size: modalSize,
             ajaxModal: true,
             onAjaxModalResponse: (json, dialog) => {

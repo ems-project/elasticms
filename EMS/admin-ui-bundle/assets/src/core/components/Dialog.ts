@@ -32,6 +32,7 @@ export interface DialogOptions {
     resizable?: boolean
     minWidth?: number
     closeLabel?: string
+    classes?: string[]
     bodyClasses?: string[]
     doc?: Document
     url?: string
@@ -178,6 +179,10 @@ export class Dialog {
                 <div class="dialog-footer"></div>
             </div>
         `
+
+        if (options.classes) {
+            element.classList.add(...options.classes)
+        }
 
         if (options.size) {
             const content = element.querySelector<HTMLElement>('.dialog-content')!

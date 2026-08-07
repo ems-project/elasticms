@@ -1,19 +1,18 @@
-@import "./shared/button";
-@import "./shared/dialog";
-
 :root {
+  --ems-icon-size: 16px;
+
   --ems-white: #ffffff;
-  --ems-light-gray: #f8f9fa;
-  --ems-dark-gray: #333333;
+  --ems-blue: #3c8dbc;
+  --ems-gray-100: #f8f9fa;
+  --ems-gray-200: #dee2e6;
+  --ems-gray-300: #d7d7d7;
+  --ems-gray-500: #999999;
+  --ems-gray-700: #666666;
+  --ems-gray-900: #333333;
 
-  --ems-bg-active: #cfe2ff;
-  --ems-bg-dark: #dee2e6;
+  --ems-focus-bg: #e2f7ff;
+  --ems-focus-border: #3c8dbc;
   --ems-border-color: #dee2e6;
-  --ems-input-color: #212529;
-  --ems-input-border: #ced4da;
-  --ems-icon-color: #6c757d;
-
-  --ems-focus-color: #86b7fe;
   --ems-error-color: #dc3545;
 
   --ems-btn-primary-bg: #0d6efd;

@@ -18,8 +18,9 @@
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 
   svg {
-    width: 1.4em;
-    height: 1.4em;
+    display: block;
+    width: var(--ems-icon-size);
+    height: var(--ems-icon-size);
     flex-shrink: 0;
   }
 

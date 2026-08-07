@@ -1,9 +1,9 @@
 div.media-lib {
   display: flex;
   flex-direction: column;
-  background-color: var(--ems-light-gray);
+  background-color: var(--ems-gray-100);
   border: solid 1px var(--ems-border-color);
-  color: var(--ems-dark-gray);
+  color: var(--ems-gray-900);
   user-select: none;
 
   button[disabled], label[disabled] {
@@ -19,8 +19,11 @@ div.media-lib {
   }
 
   a:not(.ems-btn) {
-    color: var(--ems-btn-primary-bg);
-    &:hover { text-decoration: underline; }
+    color: var(--ems-blue);
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   ul {
@@ -47,21 +50,20 @@ div.media-lib {
       padding: 6px 10px;
       font-size: 13px;
       line-height: 1.5;
-      color: var(--ems-input-color);
       background-color: var(--ems-white);
-      border: 1px solid var(--ems-input-border);
+      border: 1px solid var(--ems-border-color);
       border-radius: 3px;
       user-select: auto;
       transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
       &:focus {
         outline: none;
-        border-color: var(--ems-focus-color);
-        box-shadow: 0 0 0 3px color-mix(in srgb, var(--ems-focus-color) 25%, transparent);
+        border-color: var(--ems-focus-border);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--ems-focus-border) 25%, transparent);
       }
 
       &.active {
-        border-color: var(--ems-btn-primary-bg);
+        border-color: var(--ems-blue);
       }
     }
   }
@@ -91,12 +93,12 @@ div.media-lib {
         line-height: 1.5;
         font-size: 12px;
         background-color: transparent;
-        color: var(--ems-btn-primary-bg);
+        color: var(--ems-blue);
         cursor: pointer;
 
         svg {
-          width: 1em;
-          height: 1em;
+          width: 1.4em;
+          height: 1.4em;
           flex-shrink: 0;
         }
 
@@ -108,9 +110,9 @@ div.media-lib {
       li:not(:last-child)::after {
         content: '';
         display: inline-block;
-        width: 1rem;
-        height: 1rem;
-        background-color: var(--ems-dark-gray);
+        width: var(--ems-icon-size);
+        height: var(--ems-icon-size);
+        background-color: var(--ems-gray-700);
         mask: url('@tabler-icons/outline/chevron-right.svg') no-repeat center / contain;
       }
     }
@@ -128,48 +130,68 @@ div.media-lib {
   }
 
   div.media-lib-folder, div.media-lib-file {
-    > * { pointer-events: none; }
-    a { pointer-events: auto; }
+    > * {
+      pointer-events: none;
+    }
+
+    a {
+      pointer-events: auto;
+    }
   }
 
   div.media-lib-file {
-    button { pointer-events: auto; }
+    button {
+      pointer-events: auto;
+    }
 
-    &:hover { background-color: var(--ems-light-gray); }
+    &:hover {
+      background-color: var(--ems-gray-100);
+    }
 
     &.active {
-      border-color: var(--ems-btn-primary-bg);
-      background-color: var(--ems-bg-active);
-      &:hover { background-color: var(--ems-bg-active); }
+      border-color: var(--ems-focus-border);
+      background-color: var(--ems-focus-bg);
+
+      &:hover {
+        background-color: var(--ems-focus-bg);
+      }
     }
   }
 
   div.media-lib-folder {
     align-items: center;
 
-    &:hover { background-color: var(--ems-light-gray); }
+    &:hover {
+      background-color: var(--ems-gray-100);
+    }
 
     &::before {
       content: '';
       display: inline-block;
-      width: 1rem;
-      height: 1rem;
-      margin-right: 7px;
-      background-color: var(--ems-icon-color);
+      width: var(--ems-icon-size);
+      height: var(--ems-icon-size);
+      margin-left: 7px;
+      flex-shrink: 0;
+      background-color: var(--ems-gray-700);
       mask: url('@tabler-icons/outline/folder.svg') no-repeat center / contain;
     }
 
     &.active {
-      color: var(--ems-btn-primary-bg);
-      &::before { background-color: var(--ems-btn-primary-bg); }
+      color: var(--ems-blue);
+
+      &::before {
+        background-color: var(--ems-blue);
+      }
     }
   }
 
   div.media-lib-drop-area {
-    border: 1px solid var(--ems-btn-primary-bg);
-    background-color: var(--ems-bg-active);
+    border: 1px solid var(--ems-focus-border);
+    background-color: var(--ems-focus-bg);
 
-    div.media-lib-file a { pointer-events: none; }
+    div.media-lib-file a {
+      pointer-events: none;
+    }
   }
 
   div.media-lib-content {
@@ -186,7 +208,7 @@ div.media-lib {
       min-width: 20%;
       max-width: 50%;
       flex-shrink: 0;
-      background-color: var(--ems-bg-dark);
+      background-color: var(--ems-gray-200);
       border-right: solid 1px var(--ems-border-color);
 
       div.media-lib-folders {
@@ -210,10 +232,11 @@ div.media-lib {
             &.has-children > div.media-lib-container > div.media-lib-folder::after {
               content: '';
               display: inline-block;
-              width: 1rem;
-              height: 1rem;
+              width: var(--ems-icon-size);
+              height: var(--ems-icon-size);
+              flex-shrink: 0;
               margin-left: auto;
-              background-color: var(--ems-icon-color);
+              background-color: var(--ems-gray-700);
               transition: transform 0.15s ease;
               mask: url('@tabler-icons/outline/chevron-right.svg') no-repeat center / contain;
             }
@@ -222,8 +245,14 @@ div.media-lib {
               & > div.media-lib-container > div.media-lib-folder::before {
                 mask-image: url('@tabler-icons/outline/folder-open.svg');
               }
-              & > div.media-lib-container > div.media-lib-folder::after { transform: rotate(90deg); }
-              & > ul { display: block; }
+
+              & > div.media-lib-container > div.media-lib-folder::after {
+                transform: rotate(90deg);
+              }
+
+              & > ul {
+                display: block;
+              }
             }
 
             div.media-lib-container {
@@ -252,7 +281,7 @@ div.media-lib {
             display: flex;
             flex-direction: column;
             padding: 8px;
-            background-color: var(--ems-light-gray);
+            background-color: var(--ems-gray-100);
 
             .upload-file {
               background: var(--ems-white);
@@ -263,19 +292,27 @@ div.media-lib {
               align-items: flex-start;
               column-gap: 8px;
 
-              .core-js-progress { flex: 1; }
+              .core-js-progress {
+                flex: 1;
+              }
 
-              button {
+              .close-button {
                 display: none;
                 background: none;
-                color: var(--ems-icon-color);
+                color: var(--ems-gray-700);
                 border: none;
                 padding: 0;
                 font: inherit;
+                font-weight: 700;
                 cursor: pointer;
                 outline: inherit;
               }
-              &.upload-error { button { display: inline-block; } }
+
+              &.upload-error {
+                button {
+                  display: inline-block;
+                }
+              }
             }
           }
         }
@@ -289,25 +326,28 @@ div.media-lib {
 
             [data-sort-id] {
               cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              gap: 7px;
 
               &::after {
                 content: '';
                 display: inline-block;
-                width: 1rem;
-                height: 1rem;
-                float: right;
-                margin-left: 7px;
-                background-color: var(--ems-border-color);
+                width: var(--ems-icon-size);
+                height: var(--ems-icon-size);
+                flex-shrink: 0;
+                background-color: var(--ems-gray-300);
                 mask: url('@tabler-icons/outline/arrows-sort.svg') no-repeat center / contain;
               }
 
               &[data-sort-order='asc']::after {
-                background-color: var(--ems-btn-primary-bg);
+                background-color: var(--ems-blue);
                 mask-image: url('@tabler-icons/outline/sort-ascending.svg');
               }
 
               &[data-sort-order='desc']::after {
-                background-color: var(--ems-btn-primary-bg);
+                background-color: var(--ems-blue);
                 mask-image: url('@tabler-icons/outline/sort-descending.svg');
               }
             }
@@ -321,7 +361,9 @@ div.media-lib {
     }
 
     div.media-lib-load-more {
-      &.show-load-more { display: flex; }
+      &.show-load-more {
+        display: flex;
+      }
 
       display: none;
       justify-content: center;

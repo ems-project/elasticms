@@ -1,5 +1,3 @@
-import '@css/core/components/_media_library.scss'
-
 import ApiClient from './Helper/Api.ts'
 import Job from './Helper/Job.ts'
 import Selection from './Dom/Selection.ts'
@@ -75,8 +73,6 @@ export default class MediaLibrary {
     ])
 
     constructor(element: HTMLElement, options: MediaLibraryOptions) {
-        console.debug("jajaja");
-
         this.id = element.id
         this.element = element
         this.#api = new ApiClient(`${options.urlMediaLib}/${element.dataset.hash}`, () =>

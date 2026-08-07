@@ -34,7 +34,6 @@ div.media-lib {
 
   div.media-nav-bar {
     min-height: 50px;
-    border-bottom: 1px solid var(--ems-border-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -69,7 +68,6 @@ div.media-lib {
   }
 
   div.media-lib-breadcrumb {
-    border-bottom: 1px solid var(--ems-border-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -371,6 +369,20 @@ div.media-lib {
       column-gap: 8px;
       padding: 16px 16px 64px;
       font-weight: bold;
+
+      &::before {
+        content: '';
+        display: inline-block;
+        width: var(--ems-icon-size);
+        height: var(--ems-icon-size);
+        background-color: var(--ems-gray-700);
+        mask: url('@tabler-icons/outline/loader-2.svg') no-repeat center / contain;
+        animation: spin 1s linear infinite;
+      }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   }
 
@@ -378,7 +390,6 @@ div.media-lib {
     flex-shrink: 0;
 
     & > div {
-      border-top: 1px solid var(--ems-border-color);
       padding: 8px;
       height: 100%;
       min-height: 30px;

@@ -7,8 +7,6 @@ namespace EMS\CoreBundle\Controller\Component;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolder;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
-use EMS\CoreBundle\Core\UI\AjaxModal;
-use EMS\CoreBundle\Core\UI\AjaxService;
 use EMS\CoreBundle\Core\UI\FlashMessageLogger;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Form\Form\MediaLibrary\MediaLibraryDocumentFormType;
@@ -31,7 +29,6 @@ class MediaLibraryController
 {
     public function __construct(
         private readonly MediaLibraryService $mediaLibraryService,
-        private readonly AjaxService $ajax,
         private readonly FlashMessageLogger $flashMessageLogger,
         private readonly TranslatorInterface $translator,
         private readonly FormFactory $formFactory,
@@ -170,7 +167,7 @@ class MediaLibraryController
 
         $componentModal->template->context->append([
             'confirmMessage' => $this->translator->trans('media_library.folder.delete.warning', [], EMSCoreBundle::TRANS_COMPONENT),
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
 
         return new JsonResponse($componentModal->render());
@@ -294,7 +291,7 @@ class MediaLibraryController
 
         $componentModal->template->context->append([
             'infoMessage' => $this->translator->trans('media_library.files.move.info', ['%path%' => $currentPath], EMSCoreBundle::TRANS_COMPONENT),
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
 
         return new JsonResponse($componentModal->render());

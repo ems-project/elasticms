@@ -69,7 +69,7 @@ export default class MediaLibrary {
         ['btn-folder-delete', (target) => this._onClickButtonFolderDelete(target)],
         ['btn-folder-rename', (target) => this._onClickButtonFolderRename(target)],
         ['btn-folder-move', (target) => this._onClickButtonFolderMove(target)],
-        ['btn-home', () => this._onClickButtonHome()],
+        ['btn-home', () => this._onClickButtonHome()]
     ])
 
     constructor(element: HTMLElement, options: MediaLibraryOptions) {
@@ -137,7 +137,9 @@ export default class MediaLibrary {
     }
 
     loading(flag: boolean) {
-        const items = this.element.querySelectorAll<HTMLButtonElement | HTMLAnchorElement>('.ems-btn')
+        const items = this.element.querySelectorAll<HTMLButtonElement | HTMLAnchorElement>(
+            '.ems-btn'
+        )
         const uploadButton = this.#elements.inputUpload
             ? this.#elements.header.querySelector(`label[for="${this.#elements.inputUpload.id}"]`)
             : false

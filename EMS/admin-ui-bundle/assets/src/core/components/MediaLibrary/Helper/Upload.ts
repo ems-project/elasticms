@@ -33,7 +33,7 @@ export default class Upload {
 
             const closeButton = document.createElement('button')
             closeButton.type = 'button'
-            closeButton.innerHTML = '&times';
+            closeButton.innerHTML = '&times'
             closeButton.className = 'close-button'
             closeButton.addEventListener('click', () => {
                 if (liUpload) this.#options.container.removeChild(liUpload)

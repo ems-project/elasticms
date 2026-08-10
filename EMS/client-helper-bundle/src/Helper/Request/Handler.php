@@ -89,7 +89,7 @@ final readonly class Handler implements HandlerInterface
             return null;
         }
 
-        $json = RequestHelper::replace($request, $query);
+        $json = RequestHelper::replaceJson($request, $query);
 
         $indexRegex = $route->getOption('index_regex');
         if (null !== $indexRegex) {

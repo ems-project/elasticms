@@ -1,5 +1,9 @@
 # Changelog 6.x
 
+## 6.9.27 (2026-08-10)
+### Bug Fixes
+* fix(core/api): sort keys user roles api by @Davidmattei in https://github.com/ems-project/elasticms/pull/1785
+
 ## 6.9.26 (2026-08-10)
 ### Bug Fixes
 * fix(web/routing): escape param in request json by @Davidmattei in https://github.com/ems-project/elasticms/pull/1784

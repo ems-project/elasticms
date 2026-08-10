@@ -1,5 +1,9 @@
 # Changelog 6.x
 
+## 6.9.26 (2026-08-10)
+### Bug Fixes
+* fix(web/routing): escape param in request json by @Davidmattei in https://github.com/ems-project/elasticms/pull/1784
+
 ## 6.9.25 (2026-07-31)
 ### Bug Fixes
 * fix(admin/user): update email canonical by @Davidmattei in https://github.com/ems-project/elasticms/pull/1780

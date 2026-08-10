@@ -170,7 +170,7 @@ final class Search
 
         $jsonQuerySearch = Json::encode($this->querySearch);
         $jsonQuerySearch = u($jsonQuerySearch)->replace('%query%', Json::escape($queryString))->toString();
-        $jsonQuerySearch = RequestHelper::replace($this->request, $jsonQuerySearch);
+        $jsonQuerySearch = RequestHelper::replaceJson($this->request, $jsonQuerySearch);
 
         $querySearch = Json::decode($jsonQuerySearch);
 

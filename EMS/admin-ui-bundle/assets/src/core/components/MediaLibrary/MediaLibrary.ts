@@ -54,6 +54,7 @@ export default class MediaLibrary {
     #loadedFiles = 0
     #debounceTimer: number | undefined
     readonly #searchType: string
+    #onSelectionChange?: (files: HTMLElement[]) => void
 
     readonly #clickHandlers = new Map<string, (target: HTMLElement, event: MouseEvent) => void>([
         ['media-lib-file', (target, event) => this._onClickFile(target, event)],
@@ -171,6 +172,10 @@ export default class MediaLibrary {
         return this.#selection.getFiles()
     }
 
+    setOnSelectionChange(callback: (files: HTMLElement[]) => void) {
+        this.#onSelectionChange = callback
+    }
+
     _addEventListeners() {
         document.addEventListener('keydown', (event) => {
             if ((event.ctrlKey || event.metaKey) && event.key === 'a') this._selectAllFiles(event)
@@ -191,9 +196,10 @@ export default class MediaLibrary {
 
             if (classList.contains('media-lib-search')) return
 
-            this.#clickHandlers.forEach((handler, className) => {
-                if (classList.contains(className)) handler(target, event)
-            })
+            for (const [className, handler] of this.#clickHandlers) {
+                const match = target.closest(`.${className}`) as HTMLElement | null
+                if (match) handler(match, event)
+            }
 
             if (Object.hasOwn(target.dataset, 'sortId')) this._onClickFileSort(target)
 
@@ -225,6 +231,7 @@ export default class MediaLibrary {
         const fileId = selection.length === 1 ? (item.dataset.id ?? null) : null
         this._getLayout(fileId).then(() => {
             this.loading(false)
+            this.#onSelectionChange?.(Array.from(selection))
         })
     }
 
@@ -786,12 +793,14 @@ export default class MediaLibrary {
         this.#selection.selectAll()
         this._getLayout().then(() => {
             this.loading(false)
+            this.#onSelectionChange?.(Array.from(this.getSelectionFiles()))
         })
     }
 
     _selectFilesReset(refreshHeader = true) {
         if (refreshHeader) this._refreshHeader(this.#activeFolderHeader)
         this.#selection.reset()
+        this.#onSelectionChange?.([])
     }
 
     async _runFolderJob(json: any, dialog: Dialog, label: string, refresh: () => Promise<unknown>) {

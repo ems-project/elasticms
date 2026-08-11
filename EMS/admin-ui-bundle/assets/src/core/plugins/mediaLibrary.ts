@@ -14,12 +14,14 @@ export default class MediaLibrary {
             if (element.dataset.mediaLibInitialized) continue
             element.dataset.mediaLibInitialized = 'true'
 
-            this.components.push(
-                new MediaLibraryComponent(element, {
-                    urlMediaLib: '/component/media-lib',
-                    urlInitUpload: body.dataset.initUpload ?? '',
-                    hashAlgo: body.dataset.hashAlgo ?? ''
-                })
+            const component = new MediaLibraryComponent(element, {
+                urlMediaLib: '/component/media-lib',
+                urlInitUpload: body.dataset.initUpload ?? '',
+                hashAlgo: body.dataset.hashAlgo ?? ''
+            })
+
+            element.dispatchEvent(
+                new CustomEvent('mediaLibraryInit', { detail: { component }, bubbles: true })
             )
         }
     }

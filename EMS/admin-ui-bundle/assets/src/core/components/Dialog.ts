@@ -142,7 +142,12 @@ export class Dialog {
         return this
     }
 
-    addButton({ label, variant = 'default', align = 'right', onClick }: DialogButton): this {
+    private makeButton({
+        label,
+        variant = 'default',
+        align = 'right',
+        onClick
+    }: DialogButton): HTMLButtonElement {
         const btn = this.doc.createElement('button')
         btn.innerText = label
         btn.type = 'button'
@@ -153,8 +158,26 @@ export class Dialog {
             e.preventDefault()
             onClick(this)
         }
+
+        return btn
+    }
+
+    addButton({ label, variant = 'default', align = 'right', onClick }: DialogButton): this {
+        const btn = this.makeButton({ label, variant, align, onClick })
+
         this.footer.appendChild(btn)
         return this
+    }
+
+    addButtonRef({
+        label,
+        variant = 'default',
+        align = 'right',
+        onClick
+    }: DialogButton): HTMLButtonElement {
+        const btn = this.makeButton({ label, variant, align, onClick })
+        this.footer.appendChild(btn)
+        return btn
     }
 
     getFieldValue(id: string): string {

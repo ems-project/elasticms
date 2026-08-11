@@ -429,26 +429,48 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
             url: dashboardFile.urlModal,
             tiptapModal: false
         })
-        dialog.body.addEventListener('click', (ev) => {
-            const target = ev.target as HTMLElement
-            if (
-                target.tagName.toLowerCase() !== 'a' ||
-                target.hasAttribute('data-skip-click-event')
-            )
-                return
 
-            ev.preventDefault()
-            ev.stopPropagation()
+        let selectedFiles: HTMLElement[] = []
 
-            const anchor = target as HTMLAnchorElement
-            const url = new URL(anchor.href)
-            const text = anchor.innerText
+        const confirmSelection = () => {
+            const file = selectedFiles[0]
+            if (!file) return
 
-            hrefInput.value = url.toString()
-            nameLabel.textContent = text
-            textInput.value = text
+            const emsId = file.dataset.emsId
+            const data = JSON.parse(file.dataset.json ?? '{}')
+
+            if (!emsId) return
+
+            hrefInput.value = emsId
+            nameLabel.textContent = data.filename ?? ''
+            textInput.value = data.filename ?? ''
             dialog.close()
-        })
+        }
+
+        dialog.body.addEventListener(
+            'mediaLibraryInit',
+            (ev) => {
+                const { component } = (ev as CustomEvent).detail
+
+                const submitBtn = dialog.addButtonRef({
+                    label: e.trans('button_select'),
+                    variant: 'primary',
+                    onClick: () => confirmSelection()
+                })
+                submitBtn.disabled = true
+                component.setOnSelectionChange((files: HTMLElement[]) => {
+                    selectedFiles = files
+                    submitBtn.disabled = files.length !== 1
+                })
+
+                dialog.addButton({
+                    label: e.trans('button_cancel'),
+                    onClick: (d) => d.close()
+                })
+            },
+            { once: true }
+        )
+
         dialog.open()
     })
 }

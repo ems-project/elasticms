@@ -62,7 +62,7 @@
 {%- block media_lib_file_row -%}
     <li>
         <div class="media-lib-container">
-            <div class="media-lib-file" data-id="{{- mediaFile.id -}}" data-testid="media-lib-file-item">
+            <div class="media-lib-file" data-id="{{- mediaFile.id -}}" data-ems-id="{{- mediaFile.emsId -}}" data-json="{{ mediaFile.getDataJson()|e('html_attr') }}" data-testid="media-lib-file-item">
                 {{- template.block('media_lib_file', _context)|raw -}}
             </div>
         </div>
@@ -70,7 +70,11 @@
 {%- endblock media_lib_file_row -%}
 
 {% block media_lib_file %}
-    <div><a href="{{- mediaFile.urlView -}}" download="{{- mediaFile.name -}}" data-ems-id="{{- mediaFile.emsId -}}" data-json="{{ mediaFile.getDataJson()|e('html_attr') }}">{{- mediaFile.name -}}</a></div>
+    <div>
+        <a class="btn-file-view" href="{{- mediaFile.urlView -}}" data-id="{{- mediaFile.id -}}">
+            {{ mediaFile.folder[folder.path|default('')|length + 1:] }}{{- mediaFile.name -}}
+        </a>
+    </div>
     <div>{{- mediaFile.file.mimetype|trans({}, 'emsco-mimetypes') -}}</div>
     <div class="text-right">{{- mediaFile.file.filesize|ems_format_bytes -}}</div>
 {% endblock media_lib_file %}

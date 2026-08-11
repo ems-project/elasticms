@@ -26,6 +26,8 @@ final class RequestHelper
 
     public static function replaceJson(Request $request, string $subject): string
     {
+        $subject = self::replaceLocale($subject, $request->getLocale());
+
         $all = [...$request->query->all(), ...$request->attributes->all()];
         $result = \preg_replace_callback(self::PATTERN, function ($match) use ($all) {
             if (!isset($all[$match['parameter']]) || !\is_scalar($all[$match['parameter']])) {

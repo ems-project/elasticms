@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": "^8.5",
-        "elasticms/client-helper-bundle": "7.3.x",
+        "elasticms/client-helper-bundle": "7.3.*",
         "giggsey/libphonenumber-for-php": "^9.0",
         "symfony/form": "7.4.*",
         "symfony/intl": "7.4.*",

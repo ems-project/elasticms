@@ -102,10 +102,6 @@ export class Dialog {
     open(): void {
         this.doc.body.classList.add('dialog-open')
         this.element.showModal()
-        if (this.options.resizable) {
-            const content = this.element.querySelector<HTMLElement>('.dialog-content')!
-            content.style.width = `${content.getBoundingClientRect().width}px`
-        }
         this.element.querySelector<HTMLElement>('input, select, textarea')?.focus()
     }
 
@@ -122,6 +118,8 @@ export class Dialog {
         if (this.isBusy) return
         this.isBusy = true
         this.currentUrl = url
+        const content = this.element.querySelector<HTMLElement>('.dialog-content')!
+        content.style.minHeight = `${content.getBoundingClientRect().height}px`
         this.body.innerHTML = '<div class="dialog-loading"></div>'
         try {
             const res = await fetch(url)
@@ -130,6 +128,7 @@ export class Dialog {
             this.body.innerHTML = '<div class="dialog-error"></div>'
         } finally {
             this.isBusy = false
+            content.style.minHeight = ''
         }
     }
 
@@ -372,11 +371,12 @@ export class Dialog {
         content.appendChild(handle)
 
         const doc = this.doc
+        const minWidth = this.options.size ? DIALOG_SIZE_WIDTHS[this.options.size] : 300
         let startX = 0
         let startWidth = 0
 
         const onMouseMove = (e: MouseEvent) => {
-            const newWidth = Math.max(300, startWidth + (e.clientX - startX))
+            const newWidth = Math.max(minWidth, startWidth + (e.clientX - startX))
             content.style.width = `${newWidth}px`
         }
 

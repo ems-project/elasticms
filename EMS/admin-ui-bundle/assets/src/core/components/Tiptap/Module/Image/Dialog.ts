@@ -85,7 +85,6 @@ export function openImageDialog(editor: TiptapEditor): void {
     let ratio: number | null = null
     let naturalWidth: number | null = null
     let naturalHeight: number | null = null
-    let sizeSetByUser = Boolean(existing.width || existing.height)
     previewImg.addEventListener('load', () => {
         if (previewImg.naturalWidth && previewImg.naturalHeight) {
             naturalWidth = previewImg.naturalWidth
@@ -196,16 +195,13 @@ export function openImageDialog(editor: TiptapEditor): void {
         if (!naturalWidth || !naturalHeight) return
         widthInput.value = String(naturalWidth)
         heightInput.value = String(naturalHeight)
-        sizeSetByUser = true
     })
 
     widthInput.addEventListener('input', () => {
-        sizeSetByUser = true
         if (!locked || !ratio || !widthInput.value) return
         heightInput.value = String(Math.round(Number(widthInput.value) * ratio))
     })
     heightInput.addEventListener('input', () => {
-        sizeSetByUser = true
         if (!locked || !ratio || !heightInput.value) return
         widthInput.value = String(Math.round(Number(heightInput.value) / ratio))
     })
@@ -320,8 +316,8 @@ export function openImageDialog(editor: TiptapEditor): void {
                 const attrs: ImageAttrs = {
                     src,
                     alt: altInput.value.trim() || null,
-                    width: sizeSetByUser ? widthInput.value.trim() || null : null,
-                    height: sizeSetByUser ? heightInput.value.trim() || null : null
+                    width: widthInput.value.trim() || null,
+                    height: heightInput.value.trim() || null
                 }
                 const caption = captionInput.value.trim()
 

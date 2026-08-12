@@ -64,6 +64,7 @@ export class Dialog {
     private readonly doc: Document
     private currentUrl?: string
     private isBusy = false
+    private loadToken = 0
     private onCloseCallback?: () => void
 
     constructor(options: DialogOptions) {
@@ -115,20 +116,21 @@ export class Dialog {
     }
 
     async load(url: string): Promise<void> {
-        if (this.isBusy) return
-        this.isBusy = true
+        const token = ++this.loadToken
         this.currentUrl = url
         const content = this.element.querySelector<HTMLElement>('.dialog-content')!
         content.style.minHeight = `${content.getBoundingClientRect().height}px`
         this.body.innerHTML = '<div class="dialog-loading"></div>'
         try {
             const res = await fetch(url)
-            this.applyResponse(await res.json())
+            const data = await res.json()
+            if (token !== this.loadToken) return
+            this.applyResponse(data)
         } catch {
+            if (token !== this.loadToken) return
             this.body.innerHTML = '<div class="dialog-error"></div>'
         } finally {
-            this.isBusy = false
-            content.style.minHeight = ''
+            if (token === this.loadToken) content.style.minHeight = ''
         }
     }
 

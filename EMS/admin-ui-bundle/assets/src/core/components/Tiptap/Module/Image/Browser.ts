@@ -6,14 +6,6 @@ interface BrowsableImage {
     folder: string
 }
 
-export function getImageBrowserListUrl(editor: TiptapEditor): string | null {
-    return (
-        editor.profile.config.emsBrowsers?.browser_image?.url ??
-        editor.profile.config.imageBrowser_listUrl ??
-        null
-    )
-}
-
 function groupImagesByFolder(items: BrowsableImage[]): Map<string, BrowsableImage[]> {
     const folders = new Map<string, BrowsableImage[]>()
     for (const item of items) {
@@ -25,7 +17,7 @@ function groupImagesByFolder(items: BrowsableImage[]): Map<string, BrowsableImag
 }
 
 export function openImageBrowser(editor: TiptapEditor, onSelect: (url: string) => void): void {
-    const listUrl = getImageBrowserListUrl(editor)
+    const listUrl = editor.profile.config.imageBrowser_listUrl ?? null
     if (!listUrl) return
 
     const dialog = editor.createDialog('image_browse', {

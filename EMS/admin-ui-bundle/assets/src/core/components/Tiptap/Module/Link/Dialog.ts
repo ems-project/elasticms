@@ -5,6 +5,7 @@ import { createSearch } from './Search.ts'
 import { UrlType } from '../../../Wysiwyg/Wysiwyg.ts'
 import { FileUploader } from '../../../FileUploader.ts'
 import { getMarkRange } from '@tiptap/core'
+import { buttonDashboardFile } from '../../UI/BrowseDashboard.ts'
 
 export function linkDialog(e: TiptapEditor, defaultTarget: string | null = null) {
     const isEdit = e.tiptap.isActive('link')
@@ -321,14 +322,12 @@ function buildLocalPageWrapper(
 }
 
 function buildFileFields(e: TiptapEditor, ctx: LinkContext, linkText: string) {
-    const dashboardFile = e.profile.config.emsBrowsers?.browser_file
     const existingName = ctx.type === 'fileLink' ? getFileNameFromHref(ctx.href) : ''
     return `<div id="link-fields-fileLink" style="display: none; flex-direction: column; gap: 10px;">
         <div>
             <div class="file-browse-actions">
                 <button type="button" class="ems-btn" id="link-file-browse">${e.trans('link_file_browse')}</button>
                 <button type="button" class="ems-btn" id="link-file-browse-server">${e.trans('link_file_browse_server')}</button>
-                 ${dashboardFile ? `<button type="button" class="ems-btn" id="link-file-browse-dashboard">${escapeHtml(dashboardFile.label)}</button>` : ''}
             </div>
             <input type="file" id="link-file-input" style="display: none;">
             <input type="hidden" id="link-file-href" value="${escapeHtml(ctx.type === 'fileLink' ? ctx.href : '')}">
@@ -419,60 +418,17 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
         dialog.open()
     })
 
-    const dashboardFile = e.profile.config.emsBrowsers?.browser_file
-    const dashboardBtn = root.querySelector<HTMLButtonElement>('#link-file-browse-dashboard')
-    dashboardBtn?.addEventListener('click', async () => {
-        if (!dashboardFile) return
-        const dialog = e.createDialog('link_file_browse_dashboard', {
-            resizable: true,
-            size: 'lg',
-            url: dashboardFile.urlModal,
-            tiptapModal: false
-        })
+    const actionsRow = root.querySelector<HTMLElement>('.file-browse-actions')
+    const dashboardBtn = buttonDashboardFile(e, (file) => {
+        const emsId = file.dataset.emsId
+        if (!emsId) return
+        const data = JSON.parse(file.dataset.json ?? '{}')
 
-        let selectedFiles: HTMLElement[] = []
-
-        const confirmSelection = () => {
-            const file = selectedFiles[0]
-            if (!file) return
-
-            const emsId = file.dataset.emsId
-            const data = JSON.parse(file.dataset.json ?? '{}')
-
-            if (!emsId) return
-
-            hrefInput.value = emsId
-            nameLabel.textContent = data.filename ?? ''
-            textInput.value = data.filename ?? ''
-            dialog.close()
-        }
-
-        dialog.body.addEventListener(
-            'mediaLibraryInit',
-            (ev) => {
-                const { component } = (ev as CustomEvent).detail
-
-                const submitBtn = dialog.addButtonRef({
-                    label: e.trans('button_select'),
-                    variant: 'primary',
-                    onClick: () => confirmSelection()
-                })
-                submitBtn.disabled = true
-                component.setOnSelectionChange((files: HTMLElement[]) => {
-                    selectedFiles = files
-                    submitBtn.disabled = files.length !== 1
-                })
-
-                dialog.addButton({
-                    label: e.trans('button_cancel'),
-                    onClick: (d) => d.close()
-                })
-            },
-            { once: true }
-        )
-
-        dialog.open()
+        hrefInput.value = emsId
+        nameLabel.textContent = data.filename ?? ''
+        textInput.value = data.filename ?? ''
     })
+    if (dashboardBtn) actionsRow?.appendChild(dashboardBtn)
 }
 
 function getFileNameFromHref(href: string): string {

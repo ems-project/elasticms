@@ -48,24 +48,12 @@ dialog.ems-dialog .dialog-body.tiptap-dialog-image {
         }
     }
 
-    .tiptap-image-browse-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        white-space: nowrap;
-        padding: 4px 10px;
-        border: 1px solid #ccc;
-        background: #f5f5f5;
-        cursor: pointer;
-        border-radius: 4px;
+    .tiptap-image-url-buttons-row {
+        display: flex;
+        gap: 8px;
 
-        svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        &:hover {
-            background: #e8e8e8;
+        .ems-btn {
+            flex: 1;
         }
     }
 

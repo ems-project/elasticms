@@ -143,7 +143,7 @@ function getLinkContext(e: TiptapEditor): LinkContext {
         return { ...empty, type: 'anchor', href, target, anchor: href.slice(1) }
     }
 
-    const mediaContentType = e.profile.config.ems?.mediaContentType;
+    const mediaContentType = e.profile.config.ems?.mediaContentType
 
     if (mediaContentType && href.startsWith(`ems://object:${mediaContentType}`)) {
         return { ...empty, type: 'fileLink', href, target }
@@ -429,7 +429,7 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
         const emsId = file.dataset.emsId
         if (!emsId) return
         const data = JSON.parse(file.dataset.json ?? '{}')
-        const filename = data.filename ?? '';
+        const filename = data.filename ?? ''
 
         hrefInput.value = `${emsId}?name=${filename}`
         nameLabel.textContent = filename

@@ -142,6 +142,12 @@ function getLinkContext(e: TiptapEditor): LinkContext {
     if (href.startsWith('#')) {
         return { ...empty, type: 'anchor', href, target, anchor: href.slice(1) }
     }
+
+    const mediaContentType = e.profile.config.ems?.mediaContentType;
+
+    if (mediaContentType && href.startsWith(`ems://object:${mediaContentType}`)) {
+        return { ...empty, type: 'fileLink', href, target }
+    }
     if (href.startsWith('ems://object:')) {
         return {
             ...empty,
@@ -423,17 +429,21 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
         const emsId = file.dataset.emsId
         if (!emsId) return
         const data = JSON.parse(file.dataset.json ?? '{}')
+        const filename = data.filename ?? '';
 
-        hrefInput.value = emsId
-        nameLabel.textContent = data.filename ?? ''
-        textInput.value = data.filename ?? ''
+        hrefInput.value = `${emsId}?name=${filename}`
+        nameLabel.textContent = filename
+        textInput.value = filename
     })
     if (dashboardBtn) actionsRow?.appendChild(dashboardBtn)
 }
 
 function getFileNameFromHref(href: string): string {
     const query = href.split('?')[1]
-    if (!query) return decodeURIComponent(href.split('/').pop() ?? '')
+    if (!query)
+        return href.startsWith('ems://object:')
+            ? ''
+            : decodeURIComponent(href.split('/').pop() ?? '')
     return new URLSearchParams(query).get('name') ?? ''
 }
 

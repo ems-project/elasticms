@@ -18,7 +18,11 @@
       "strict": true,
       "noUnusedLocals": true,
       "noUnusedParameters": true,
-      "noFallthroughCasesInSwitch": true
+      "noFallthroughCasesInSwitch": true,
+
+      "paths": {
+          "@css/*": ["./css/*"]
+      }
   },
   "include": ["src", "vite.config.ts"]
 }

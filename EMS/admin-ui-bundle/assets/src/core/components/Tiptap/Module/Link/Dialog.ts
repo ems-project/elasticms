@@ -40,8 +40,8 @@ export function linkDialog(e: TiptapEditor, defaultTarget: string | null = null)
 
     const dialog = e.createDialog('link', {
         resizable: true,
-        minWidth: 600,
-        bodyClass: 'tiptap-dialog-link'
+        size: 'md',
+        bodyClasses: ['tiptap-dialog-link']
     })
     dialog.setContent(
         `<div style="display: flex; flex-direction: column; gap: 10px;">
@@ -397,12 +397,10 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
     browseServerBtn?.addEventListener('click', async () => {
         const dialog = e.createDialog('link_file_browse_server', {
             resizable: true,
-            minWidth: 800,
+            size: 'lg',
+            url: e.profile.config.url.browseUploadedFiles,
             tiptapModal: false
         })
-        dialog.open()
-        await dialog.loadUrl(e.profile.config.url.browseUploadedFiles)
-
         dialog.body.addEventListener('click', (ev) => {
             const target = (ev.target as HTMLElement).closest<HTMLAnchorElement>('td a')
             if (!target) return
@@ -418,6 +416,7 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
             textInput.value = text
             dialog.close()
         })
+        dialog.open()
     })
 
     const dashboardFile = e.profile.config.emsBrowsers?.browser_file
@@ -426,32 +425,53 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
         if (!dashboardFile) return
         const dialog = e.createDialog('link_file_browse_dashboard', {
             resizable: true,
-            minWidth: 800,
+            size: 'lg',
+            url: dashboardFile.urlModal,
             tiptapModal: false
         })
-        dialog.open()
-        await dialog.loadUrl(dashboardFile.urlModal)
 
-        dialog.body.addEventListener('click', (ev) => {
-            const target = ev.target as HTMLElement
-            if (
-                target.tagName.toLowerCase() !== 'a' ||
-                target.hasAttribute('data-skip-click-event')
-            )
-                return
+        let selectedFiles: HTMLElement[] = []
 
-            ev.preventDefault()
-            ev.stopPropagation()
+        const confirmSelection = () => {
+            const file = selectedFiles[0]
+            if (!file) return
 
-            const anchor = target as HTMLAnchorElement
-            const url = new URL(anchor.href)
-            const text = anchor.innerText
+            const emsId = file.dataset.emsId
+            const data = JSON.parse(file.dataset.json ?? '{}')
 
-            hrefInput.value = url.toString()
-            nameLabel.textContent = text
-            textInput.value = text
+            if (!emsId) return
+
+            hrefInput.value = emsId
+            nameLabel.textContent = data.filename ?? ''
+            textInput.value = data.filename ?? ''
             dialog.close()
-        })
+        }
+
+        dialog.body.addEventListener(
+            'mediaLibraryInit',
+            (ev) => {
+                const { component } = (ev as CustomEvent).detail
+
+                const submitBtn = dialog.addButtonRef({
+                    label: e.trans('button_select'),
+                    variant: 'primary',
+                    onClick: () => confirmSelection()
+                })
+                submitBtn.disabled = true
+                component.setOnSelectionChange((files: HTMLElement[]) => {
+                    selectedFiles = files
+                    submitBtn.disabled = files.length !== 1
+                })
+
+                dialog.addButton({
+                    label: e.trans('button_cancel'),
+                    onClick: (d) => d.close()
+                })
+            },
+            { once: true }
+        )
+
+        dialog.open()
     })
 }
 

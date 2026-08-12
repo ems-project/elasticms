@@ -5,6 +5,8 @@ interface FileUploaderOptions {
     file: File
     algo?: string
     initUrl: string
+    onHashAvailable?: (hash: string, type?: string, name?: string) => void
+    onProgress?: (status: string, progress: number, remaining: string) => void
     onUploaded?: (assetUrl: string, previewUrl: string) => void
     onError?: (message: string, code?: number) => void
 }

@@ -7,6 +7,9 @@ outline: [2, 2]
 > [!TIP] It is recommended to rebuild all indexes after an upgrade:
 > `emsco:environment:rebuild --all`
 
+## 7.3
+- BC: media library template no longer relies on Bootstrap classes or Font Awesome icons by default
+
 ## 7.2
 
 - The command option `--user` is deprecated, use `--username` instead for the following commands

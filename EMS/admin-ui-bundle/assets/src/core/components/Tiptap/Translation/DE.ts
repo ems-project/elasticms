@@ -19,6 +19,7 @@ export const DE: Record<TranslationKey, string> = {
     button_erase: 'Löschen',
     button_insert: 'Einfügen',
     button_update: 'Aktualisieren',
+    button_select: 'Auswählen',
     caption: 'Beschriftung',
     choice_no: 'Nein',
     choice_yes: 'Ja',

@@ -17,6 +17,7 @@ const EN = {
     button_erase: 'Erase',
     button_insert: 'Insert',
     button_update: 'Update',
+    button_select: 'Select',
     caption: 'Caption',
     choice_no: 'No',
     choice_yes: 'Yes',

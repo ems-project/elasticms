@@ -19,6 +19,7 @@ export const NL: Record<TranslationKey, string> = {
     button_erase: 'Wissen',
     button_insert: 'Invoegen',
     button_update: 'Bijwerken',
+    button_select: 'Selecteren',
     caption: 'Bijschrift',
     choice_no: 'Nee',
     choice_yes: 'Ja',

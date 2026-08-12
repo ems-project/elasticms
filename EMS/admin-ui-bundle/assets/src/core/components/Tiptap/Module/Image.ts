@@ -1,6 +1,6 @@
 import IconPhoto from '@tabler/icons/outline/photo.svg?raw'
 import IconTrash from '@tabler/icons/outline/trash.svg?raw'
-import '../../../../../css/core/components/tiptap/_image.scss'
+import '@css/core/components/tiptap/_image.scss'
 import { TiptapModule } from '../Types.ts'
 import { TiptapEditor } from '../Editor.ts'
 import { createImageBlockNode, createImageNode } from './Image/Node.ts'

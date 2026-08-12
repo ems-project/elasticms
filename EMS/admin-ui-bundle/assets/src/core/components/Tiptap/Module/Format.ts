@@ -2,7 +2,7 @@ import { TiptapModule } from '../Types.ts'
 import { TiptapEditor } from '../Editor.ts'
 import { BLOCK_NODES } from './../Extensions.ts'
 import { createDropdown, Dropdown } from './../UI/Dropdown.ts'
-import formatIframeCss from './../../../../../css/core/components/tiptap/_menu_format.scss?inline'
+import formatIframeCss from '@css/core/components/tiptap/_menu_format.scss?inline'
 import Heading from '@tiptap/extension-heading'
 
 const DEFAULT_FORMAT_TAGS = 'p;h1;h2;h3;pre'

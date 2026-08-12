@@ -1,4 +1,4 @@
-import '../../../../../css/core/components/tiptap/_toolbar.scss'
+import '@css/core/components/tiptap/_toolbar.scss'
 
 import { ToolbarItem, ToolbarItemCustom } from './../Types.ts'
 import { TiptapEditor } from './../Editor.ts'

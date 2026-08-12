@@ -297,7 +297,7 @@ function setupPanel(panel: HTMLElement, e: TiptapEditor) {
 }
 
 function openDialog(e: TiptapEditor, initialTab: Tab) {
-    const dialog = e.createDialog('find_replace', { bodyClass: 'flush-x' })
+    const dialog = e.createDialog('find_replace', { bodyClasses: ['flush-x'] })
     dialog.setContent(buildContent(e))
     dialog
         .onClose(() => setPluginState(e, [], -1))

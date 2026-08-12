@@ -29,9 +29,9 @@ export function openImageBrowser(editor: TiptapEditor, onSelect: (url: string) =
     if (!listUrl) return
 
     const dialog = editor.createDialog('image_browse', {
-        bodyClass: 'tiptap-dialog-image-browser',
+        bodyClasses: ['tiptap-dialog-image-browser'],
         resizable: true,
-        minWidth: 640
+        size: 'md'
     })
 
     const folderTabs = document.createElement('div')

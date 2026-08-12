@@ -1,5 +1,5 @@
-import './../../../../css/core/components/_wysiwyg_tiptap.scss'
-import tiptapIframeCss from './../../../../css/core/components/_wysiwyg_tiptap_iframe.scss?inline'
+import '@css/core/components/_wysiwyg_tiptap.scss'
+import tiptapIframeCss from '@css/core/components/_wysiwyg_tiptap_iframe.scss?inline'
 
 import { TiptapEditor } from '../Tiptap/Editor.ts'
 import { TiptapModule } from '../Tiptap/Types.ts'

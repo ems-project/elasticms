@@ -65,6 +65,7 @@ export class Dialog {
     private currentUrl?: string
     private isBusy = false
     private loadToken = 0
+    private abortController?: AbortController
     private onCloseCallback?: () => void
 
     constructor(options: DialogOptions) {
@@ -118,20 +119,35 @@ export class Dialog {
     async load(url: string): Promise<void> {
         const token = ++this.loadToken
         this.currentUrl = url
+        this.abortController?.abort()
+        const controller = new AbortController()
+        this.abortController = controller
+
         const content = this.element.querySelector<HTMLElement>('.dialog-content')!
-        content.style.minHeight = `${content.getBoundingClientRect().height}px`
+        if (this.element.open) {
+            content.style.minHeight = `${content.getBoundingClientRect().height}px`
+        }
         this.body.innerHTML = '<div class="dialog-loading"></div>'
         try {
-            const res = await fetch(url)
+            const res = await fetch(url, { signal: controller.signal })
             const data = await res.json()
             if (token !== this.loadToken) return
             this.applyResponse(data)
-        } catch {
+        } catch (err) {
+            if (err instanceof DOMException && err.name === 'AbortError') return
             if (token !== this.loadToken) return
             this.body.innerHTML = '<div class="dialog-error"></div>'
         } finally {
-            if (token === this.loadToken) content.style.minHeight = ''
+            if (token === this.loadToken) {
+                await this.waitForImages()
+                if (token === this.loadToken) content.style.minHeight = ''
+            }
         }
+    }
+
+    private async waitForImages(): Promise<void> {
+        const images = Array.from(this.body.querySelectorAll('img'))
+        await Promise.all(images.map((img) => img.decode().catch(() => {})))
     }
 
     setContent(html: string | HTMLElement): this {

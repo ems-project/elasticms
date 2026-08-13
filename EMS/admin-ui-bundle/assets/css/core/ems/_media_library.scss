@@ -418,6 +418,7 @@ dialog.media-lib-dialog-file-view {
       justify-content: center;
       align-items: center;
       width: 100%;
+      aspect-ratio: 16 / 9;
     }
 
     &[data-type^="image"] {

@@ -79,7 +79,7 @@ class NestedChoiceType extends Form
     }
 
     #[\Override]
-    public function getBlockPrefix(): ?string
+    public function getBlockPrefix(): string
     {
         return 'ems_nested_choice';
     }

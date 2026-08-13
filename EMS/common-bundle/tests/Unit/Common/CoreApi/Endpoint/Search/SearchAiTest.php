@@ -24,7 +24,7 @@ class SearchAiTest extends TestCase
     protected function setUp(): void
     {
         $this->client = $this->createMock(Client::class);
-        $this->search = new Search($this->client, $this->createMock(Admin::class));
+        $this->search = new Search($this->client, $this->createStub(Admin::class));
     }
 
     #[AllowMockObjectsWithoutExpectations]

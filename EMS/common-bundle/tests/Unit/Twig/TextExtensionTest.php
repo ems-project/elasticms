@@ -23,8 +23,8 @@ class TextExtensionTest extends TestCase
         $this->textExtension = new TextExtension(
             new Encoder(),
             new Decoder(),
-            $this->createMock(ValidatorInterface::class),
-            $this->createMock(LoggerInterface::class)
+            $this->createStub(ValidatorInterface::class),
+            $this->createStub(LoggerInterface::class)
         );
     }
 

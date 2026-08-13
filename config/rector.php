@@ -11,6 +11,7 @@ use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector;
+use Rector\DeadCode\Rector\ClassMethod\RemoveUselessUnionReturnDocblockRector;
 use Rector\DeadCode\Rector\Property\RemoveUselessVarTagRector;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Symfony\Set\SymfonySetList;
@@ -64,6 +65,7 @@ return RectorConfig::configure()
         ],
         RemoveUselessParamTagRector::class,
         RemoveUselessReturnTagRector::class,
+        RemoveUselessUnionReturnDocblockRector::class,
         RemoveUselessVarTagRector::class,
         RepeatedAndNotEqualToNotInArrayRector::class,
         RepeatedOrEqualToInArrayRector::class,

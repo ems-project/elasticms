@@ -64,6 +64,8 @@ export class Dialog {
     private readonly doc: Document
     private currentUrl?: string
     private isBusy = false
+    private loadToken = 0
+    private abortController?: AbortController
     private onCloseCallback?: () => void
 
     constructor(options: DialogOptions) {
@@ -102,10 +104,6 @@ export class Dialog {
     open(): void {
         this.doc.body.classList.add('dialog-open')
         this.element.showModal()
-        if (this.options.resizable) {
-            const content = this.element.querySelector<HTMLElement>('.dialog-content')!
-            content.style.width = `${content.getBoundingClientRect().width}px`
-        }
         this.element.querySelector<HTMLElement>('input, select, textarea')?.focus()
     }
 
@@ -119,18 +117,37 @@ export class Dialog {
     }
 
     async load(url: string): Promise<void> {
-        if (this.isBusy) return
-        this.isBusy = true
+        const token = ++this.loadToken
         this.currentUrl = url
+        this.abortController?.abort()
+        const controller = new AbortController()
+        this.abortController = controller
+
+        const content = this.element.querySelector<HTMLElement>('.dialog-content')!
+        if (this.element.open) {
+            content.style.minHeight = `${content.getBoundingClientRect().height}px`
+        }
         this.body.innerHTML = '<div class="dialog-loading"></div>'
         try {
-            const res = await fetch(url)
-            this.applyResponse(await res.json())
-        } catch {
+            const res = await fetch(url, { signal: controller.signal })
+            const data = await res.json()
+            if (token !== this.loadToken) return
+            this.applyResponse(data)
+        } catch (err) {
+            if (err instanceof DOMException && err.name === 'AbortError') return
+            if (token !== this.loadToken) return
             this.body.innerHTML = '<div class="dialog-error"></div>'
         } finally {
-            this.isBusy = false
+            if (token === this.loadToken) {
+                await this.waitForImages()
+                if (token === this.loadToken) content.style.minHeight = ''
+            }
         }
+    }
+
+    private async waitForImages(): Promise<void> {
+        const images = Array.from(this.body.querySelectorAll('img'))
+        await Promise.all(images.map((img) => img.decode().catch(() => {})))
     }
 
     setContent(html: string | HTMLElement): this {
@@ -205,7 +222,7 @@ export class Dialog {
 
         if (options.size) {
             const content = element.querySelector<HTMLElement>('.dialog-content')!
-            content.style.width = `${DIALOG_SIZE_WIDTHS[options.size]}px`
+            content.style.minWidth = `${DIALOG_SIZE_WIDTHS[options.size]}px`
         }
 
         return element
@@ -372,11 +389,12 @@ export class Dialog {
         content.appendChild(handle)
 
         const doc = this.doc
+        const minWidth = this.options.size ? DIALOG_SIZE_WIDTHS[this.options.size] : 300
         let startX = 0
         let startWidth = 0
 
         const onMouseMove = (e: MouseEvent) => {
-            const newWidth = Math.max(300, startWidth + (e.clientX - startX))
+            const newWidth = Math.max(minWidth, startWidth + (e.clientX - startX))
             content.style.width = `${newWidth}px`
         }
 

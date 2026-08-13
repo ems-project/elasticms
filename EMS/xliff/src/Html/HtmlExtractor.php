@@ -298,7 +298,7 @@ class HtmlExtractor
             throw new \RuntimeException('Unexpected null DOMNode');
         }
         if (null !== $attributeName) {
-            $resourceName = \sprintf('%s[@%s]', $resourceName, $attributeName);
+            return \sprintf('%s[@%s]', $resourceName, $attributeName);
         }
 
         return $resourceName;

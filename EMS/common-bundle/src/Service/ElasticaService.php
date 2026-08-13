@@ -564,7 +564,7 @@ class ElasticaService
                     return [];
                 }
                 if (\is_string($value)) {
-                    $value = Json::decode($value);
+                    return Json::decode($value);
                 }
 
                 return $value;
@@ -730,7 +730,7 @@ class ElasticaService
         foreach (['query', 'aggs', 'post_filter'] as $attribute) {
             $resolver->setNormalizer($attribute, function (Options $options, $value) {
                 if (\is_string($value)) {
-                    $value = Json::decode($value);
+                    return Json::decode($value);
                 }
 
                 return $value;

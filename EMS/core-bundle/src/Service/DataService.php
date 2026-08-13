@@ -1614,7 +1614,7 @@ class DataService
         }
 
         if ($form->getErrors(true, true)->count() > 0) {
-            $isValid = false;
+            return false;
         }
 
         return $isValid;

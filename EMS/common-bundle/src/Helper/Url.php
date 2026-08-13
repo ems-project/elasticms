@@ -192,7 +192,7 @@ class Url
             $url = \sprintf('%s?%s', $url, $this->query);
         }
         if ($withFragment && null !== $this->fragment) {
-            $url = \sprintf('%s#%s', $url, $this->fragment);
+            return \sprintf('%s#%s', $url, $this->fragment);
         }
 
         return $url;

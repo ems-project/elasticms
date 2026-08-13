@@ -64,7 +64,7 @@ class Xliff12Reader implements ReaderInterface
             }
         }
         if (null === $package) {
-            $package = new Package($insertReport);
+            return new Package($insertReport);
         }
 
         return $package;

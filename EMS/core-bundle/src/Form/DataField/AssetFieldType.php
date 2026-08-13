@@ -286,7 +286,7 @@ class AssetFieldType extends DataFieldType
 
         $out = parent::viewTransform($dataField);
         if (true !== $fieldType->getDisplayOption('multiple') && \is_array($out) && empty($out['sha1'])) {
-            $out = null;
+            return null;
         }
 
         return $out;

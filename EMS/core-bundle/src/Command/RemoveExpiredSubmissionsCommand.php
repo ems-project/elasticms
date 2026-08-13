@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\Form\Submission\FormSubmissionService;
 use Psr\Log\LoggerInterface;
@@ -64,6 +65,6 @@ class RemoveExpiredSubmissionsCommand extends AbstractCoreCommand
             $this->io->text(\sprintf('%d submissions were removed', $removedCount));
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use EMS\CoreBundle\Commands;
@@ -114,6 +115,6 @@ class CleanDeletedContentTypeCommand extends AbstractCoreCommand
 
         $this->io->success('Done');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

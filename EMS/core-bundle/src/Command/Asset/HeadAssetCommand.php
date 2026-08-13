@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Asset;
 
+use Symfony\Component\Console\Command\Command;
 use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\UploadedAsset;
@@ -49,6 +50,6 @@ final class HeadAssetCommand extends AbstractCoreCommand
             $this->io->success(\sprintf('%d assets have been found', $counter));
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

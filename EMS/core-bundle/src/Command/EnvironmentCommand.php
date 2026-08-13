@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Service\EnvironmentService;
@@ -47,6 +48,6 @@ class EnvironmentCommand extends AbstractCoreCommand
             $this->io->text($environment->getName());
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

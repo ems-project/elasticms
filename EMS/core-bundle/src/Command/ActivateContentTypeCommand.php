@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\ContentTypeService;
@@ -89,7 +90,7 @@ class ActivateContentTypeCommand extends AbstractCoreCommand
             }
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     #[\Override]

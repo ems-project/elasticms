@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Command\Revision\ArchiveCommand;
@@ -279,7 +280,7 @@ class MigrateCommand extends AbstractCoreCommand
         $this->io->writeln('');
         $this->io->writeln('Migration done');
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     private function archive(\DateTimeInterface $archiveModifiedBefore): void

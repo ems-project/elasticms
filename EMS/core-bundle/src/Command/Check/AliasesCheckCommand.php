@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Check;
 
+use Symfony\Component\Console\Command\Command;
 use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\User;
@@ -76,6 +77,6 @@ final class AliasesCheckCommand extends AbstractCoreCommand
             break;
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

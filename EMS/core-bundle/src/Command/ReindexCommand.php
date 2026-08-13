@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use EMS\CommonBundle\Helper\EmsFields;
@@ -117,7 +118,7 @@ class ReindexCommand extends AbstractCoreCommand
             $this->reindex($name, $contentType, $index, $output, $signData, $bulkSize, $reloadData);
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     public function reindex(string $name, ContentType $contentType, ?string $index, OutputInterface $output, bool $signData = true, int $bulkSize = 1000, bool $reloadData = false): void

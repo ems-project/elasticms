@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Persistence\ObjectManager;
 use EMS\CommonBundle\Service\ElasticaService;
@@ -139,7 +140,7 @@ class RebuildCommand extends AbstractCoreCommand
             throw new \RuntimeException('A content type name argument or the flag --all must be defined');
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     private function waitFor(bool $yellowOk): void

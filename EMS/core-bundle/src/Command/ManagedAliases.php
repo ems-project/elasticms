@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\ManagedAlias;
 use EMS\CoreBundle\Service\AliasService;
@@ -43,6 +44,6 @@ class ManagedAliases extends AbstractCoreCommand
             }
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Mail\MailerService;
 use EMS\CoreBundle\Service\Form\Submission\FormSubmissionService;
@@ -56,6 +57,6 @@ class EmailSubmissionsCommand extends AbstractCoreCommand
         $this->logger->notice('Submission list was sent');
         $this->io->success('Submission list was sent');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\AliasService;
 use Psr\Log\LoggerInterface;
@@ -69,11 +70,11 @@ class AlignManagedAliases extends AbstractCoreCommand
         if (empty($actions['add']) && empty($actions['remove'])) {
             $this->io->text(\sprintf('The alias %s was already aligned to the alias %s', $targetName, $sourceName));
 
-            return 0;
+            return Command::SUCCESS;
         }
         $this->aliasService->updateAlias($target->getAlias(), $actions);
         $this->io->success(\sprintf('The alias %s has been aligned to the alias %s', $targetName, $sourceName));
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

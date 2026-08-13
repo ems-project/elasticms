@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use EMS\CommonBundle\Storage\NotFoundException;
@@ -50,7 +51,7 @@ class SynchronizeAssetCommand extends AbstractCoreCommand
         if (\count($storagesList) < 2) {
             $this->io->error('There is nothing to synchronize as there is less than 2 healthy storage services');
 
-            return 1;
+            return Command::FAILURE;
         }
 
         $progress = new ProgressBar($output, $repository->countHashes());
@@ -90,6 +91,6 @@ class SynchronizeAssetCommand extends AbstractCoreCommand
             $this->io->note(\sprintf('%d files not found or in error', $filesInError));
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

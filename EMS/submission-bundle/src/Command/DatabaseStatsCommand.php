@@ -79,7 +79,7 @@ final class DatabaseStatsCommand extends Command
             $style->success(\sprintf('Send stats email to: %s', $emailTo));
         }
 
-        return 1;
+        return Command::FAILURE;
     }
 
     private function createMessage(InputInterface $input): TemplatedEmail

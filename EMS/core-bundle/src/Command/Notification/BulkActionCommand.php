@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Notification;
 
+use Symfony\Component\Console\Command\Command;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Search\Search;
@@ -100,7 +101,7 @@ final class BulkActionCommand extends AbstractCoreCommand
         if (true !== $input->getOption('force')) {
             $this->io->caution('For executing the bulk please rerun with --force');
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         $username = $this->getUsername();
@@ -129,7 +130,7 @@ final class BulkActionCommand extends AbstractCoreCommand
         $this->io->newLine(2);
         $this->io->success(\sprintf('Created %d new notification with username "%s"', $countSend, $username));
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

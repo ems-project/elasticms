@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Notification;
 
+use Symfony\Component\Console\Command\Command;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
@@ -101,6 +102,6 @@ final class SendAllCommand extends AbstractCoreCommand
             $this->sendEmails($notifications, $output);
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

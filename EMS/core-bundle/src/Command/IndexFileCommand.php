@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
@@ -164,7 +165,7 @@ class IndexFileCommand extends AbstractCoreCommand
         $this->io->write('DB size after the migration : ');
         $this->dbSize();
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

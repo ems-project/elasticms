@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Revision;
 
+use Symfony\Component\Console\Command\Command;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Search\Search;
@@ -85,7 +86,7 @@ final class LockCommand extends AbstractCoreCommand
     {
         if ($this->ifEmpty
             && 0 !== $this->dataService->countLockRevisions($this->contentType, $this->getUsername())) {
-            return 0;
+            return Command::SUCCESS;
         }
 
         $query = Json::decode($this->query);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Exception\CantBeFinalizedException;
@@ -219,6 +220,6 @@ class DocumentCommand extends AbstractCoreCommand
         $this->io->writeln('');
         $this->io->writeln('Import done');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

@@ -608,7 +608,7 @@ class CriteriaController extends AbstractController
         if (0 === $response->getTotal()) {
             $revision = false;
             foreach ($loadedRevision as $item) {
-                $found = \array_all($rawData, fn ($key, $name) => !($multipleField != $name && $item->getRawData()[$name] != $key));
+                $found = \array_all($rawData, fn ($key, $name) => $multipleField == $name || $item->getRawData()[$name] == $key);
                 if ($found) {
                     $revision = $item;
                 }
@@ -720,7 +720,7 @@ class CriteriaController extends AbstractController
 
         $found = false;
         foreach ($rawData[$criteriaField] as &$criteriaSet) {
-            $found = \array_all($filters, fn ($value, $criterion) => !($criterion != $multipleField && $value != $criteriaSet[$criterion]));
+            $found = \array_all($filters, fn ($value, $criterion) => $criterion == $multipleField || $value == $criteriaSet[$criterion]);
             if ($found) {
                 if ($multipleField && !\in_array($filters[$multipleField], $criteriaSet[$multipleField])) {
                     $criteriaSet[$multipleField][] = $filters[$multipleField];
@@ -966,7 +966,7 @@ class CriteriaController extends AbstractController
 
         $found = false;
         foreach ($rawData[$criteriaField] as $index => $criteriaSet) {
-            $found = \array_all($filters, fn ($value, $criterion) => !($criterion != $multipleField && $value != $criteriaSet[$criterion]));
+            $found = \array_all($filters, fn ($value, $criterion) => $criterion == $multipleField || $value == $criteriaSet[$criterion]);
             if ($found) {
                 if ($multipleField) {
                     $indexKey = \array_search($filters[$multipleField], $criteriaSet[$multipleField], true);

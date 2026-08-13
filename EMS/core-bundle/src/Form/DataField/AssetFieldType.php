@@ -11,7 +11,6 @@ use EMS\CoreBundle\Form\Field\AssetType;
 use EMS\CoreBundle\Form\Field\IconPickerType;
 use EMS\CoreBundle\Service\ElasticsearchService;
 use EMS\CoreBundle\Service\FileService;
-use EMS\Helpers\Standard\Type;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;

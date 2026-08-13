@@ -23,6 +23,9 @@ class StorageManagerTest extends WebTestCase
     private StorageManager $storageManager;
     private TempFile $tempFile;
     private string $hash;
+    /**
+     * @var Stub&LoggerInterface
+     */
     private Stub $mockLogger;
 
     #[\Override]

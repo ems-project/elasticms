@@ -16,6 +16,9 @@ class JobOutputAiTest extends TestCase
 {
     private JobOutput $jobOutput;
     private AdminInterface $admin;
+    /**
+     * @var Stub&Job
+     */
     private Stub $job;
     private OutputInterface $otherOutput;
 

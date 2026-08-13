@@ -18,6 +18,9 @@ class DoctrineHandlerAiTest extends TestCase
 {
     private DoctrineHandler $doctrineHandler;
     private LogRepository $logRepository;
+    /**
+     * @var Stub&TokenStorageInterface
+     */
     private Stub $tokenStorage;
 
     #[\Override]

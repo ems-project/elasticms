@@ -24,7 +24,7 @@ class ManagedAliases extends AbstractCoreCommand
     #[\Override]
     protected function configure(): void
     {
-        $this->setDescription('')
+        $this
             ->addOption('detailed', null, InputOption::VALUE_NONE, 'List all indexes in each managed alias');
     }
 

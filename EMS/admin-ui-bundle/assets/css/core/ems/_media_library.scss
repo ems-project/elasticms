@@ -417,12 +417,16 @@ dialog.media-lib-dialog-file-view {
       flex-direction: row;
       justify-content: center;
       align-items: center;
+      width: 100%;
+      aspect-ratio: 16 / 9;
     }
 
     &[data-type^="image"] {
       flex-direction: row;
 
       .media-lib-preview-file {
+        flex: 1;
+        min-width: 0;
         border: 1px solid var(--ems-border-color);
         border-radius: var(--ems-border-radius);
         padding: 16px;
@@ -432,10 +436,7 @@ dialog.media-lib-dialog-file-view {
         & > img {
           display: block;
           width: 100%;
-          max-width: 600px;
-          max-height: 400px;
-          height: auto;
-          margin: auto;
+          object-fit: contain;
         }
       }
     }

@@ -19,6 +19,7 @@ export class WysiwygProfile {
             urlTypes?: string[]
             urlTargetDefaultBlank?: string[]
             urlAllContentTypes?: boolean
+            mediaContentType?: string
         }
         emsBrowsers: {
             browser_object?: { url: string; label: string; urlModal: string }

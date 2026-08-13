@@ -294,6 +294,8 @@ export default class MediaLibrary {
             classes: ['media-lib-dialog-file-view'],
             ...(button.dataset.modalSize ? { size: button.dataset.modalSize as DialogSize } : {}),
             ajaxModal: true,
+            resizable: true,
+            size: 'sm',
             onAjaxModalResponse: (_, dialog) => {
                 navigation(dialog, 'prev', 'previousSibling')
                 navigation(dialog, 'next', 'nextSibling')

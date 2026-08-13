@@ -1485,6 +1485,10 @@
                     "extension": null,
                     "active": false,
                     "role": "not-defined",
+                    "environments": [
+                        "live",
+                        "preview"
+                    ],
                     "roleTo": "not-defined",
                     "roleCc": "not-defined",
                     "circlesTo": null,
@@ -1499,7 +1503,9 @@
                     "tag": null,
                     "allowedRemoteHosts": []
                 },
-                "replaced": []
+                "replaced": [
+                    "environments"
+                ]
             },
             {
                 "class": "EMS\\CoreBundle\\Entity\\Template",
@@ -1520,6 +1526,10 @@
                     "extension": null,
                     "active": false,
                     "role": "not-defined",
+                    "environments": [
+                        "live",
+                        "preview"
+                    ],
                     "roleTo": "not-defined",
                     "roleCc": "not-defined",
                     "circlesTo": null,
@@ -1534,7 +1544,9 @@
                     "tag": null,
                     "allowedRemoteHosts": []
                 },
-                "replaced": []
+                "replaced": [
+                    "environments"
+                ]
             },
             {
                 "class": "EMS\\CoreBundle\\Entity\\Template",

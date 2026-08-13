@@ -18,6 +18,9 @@ use Symfony\Component\Mime\Email;
 
 final class DatabaseStatsCommandTest extends KernelTestCase
 {
+    /**
+     * @var MockObject&FormSubmissionRepository
+     */
     private MockObject $repository;
     private Application $application;
     private MessageLoggerListener $messageLogger;

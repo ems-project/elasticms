@@ -604,7 +604,6 @@ class CriteriaController extends AbstractController
 
         $search = new Search([$view->getContentType()->giveEnvironment()->getAlias()], $query);
         $response = EmsResponse::fromResultSet($this->elasticaService->search($search));
-
         if (0 === $response->getTotal()) {
             $revision = false;
             foreach ($loadedRevision as $item) {
@@ -613,7 +612,6 @@ class CriteriaController extends AbstractController
                     $revision = $item;
                 }
             }
-
             $multipleValueToAdd = $rawData[$multipleField];
             if (!$revision) {
                 $revision = new Revision();
@@ -625,16 +623,13 @@ class CriteriaController extends AbstractController
             $rawData = $revision->getRawData();
             $rawData[$multipleField][] = $multipleValueToAdd;
             $revision->setRawData($rawData);
-
             $message = $multipleValueToAdd;
             foreach ($rawData as $key => $value) {
                 if ($key != $multipleField && $key != $targetFieldName) {
                     $message .= ', '.$value;
                 }
             }
-
             $revision = $this->dataService->finalizeDraft($revision);
-
             $this->logger->notice('log.view.criteria.new_criteria', [
                 EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
                 EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
@@ -643,9 +638,10 @@ class CriteriaController extends AbstractController
                 'target_field_data' => $rawData[$targetFieldName],
                 'message' => $message,
             ]);
-
             return $revision;
-        } elseif (1 === $response->getTotal()) {
+        }
+
+        if (1 === $response->getTotal()) {
             $revision = null;
             /** @var Document $document */
             foreach ($response->getDocuments() as $document) {
@@ -655,7 +651,6 @@ class CriteriaController extends AbstractController
                     $revision = $this->dataService->initNewDraft($view->getContentType()->getName(), $document->getId());
                 }
             }
-
             $multipleValueToAdd = $rawData[$multipleField];
             $rawData = $revision->getRawData();
             if (\in_array($multipleValueToAdd, $rawData[$multipleField] ?? [])) {
@@ -684,7 +679,6 @@ class CriteriaController extends AbstractController
                     'message' => $message,
                 ]);
             }
-
             return $revision;
         }
         $message = false;

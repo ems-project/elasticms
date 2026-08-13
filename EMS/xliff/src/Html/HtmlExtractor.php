@@ -205,9 +205,9 @@ class HtmlExtractor
                     type: $node->nodeName,
                     equivalentText: $node->hasAttributes() ? $this->buildEquivTextOpeningTag($node).$this->buildEquivTextClosingTag($node) : ' ',
                 );
-
                 return [$placeholder];
-            } elseif ($node->hasAttributes() && $node instanceof \DOMElement) {
+            }
+            if ($node->hasAttributes() && $node instanceof \DOMElement) {
                 $pairedCode = new PairedCode(
                     referenceId: $this->idGenerator->nextReferenceId(),
                     id: $this->idGenerator->nextInlineCodeId(),
@@ -223,7 +223,6 @@ class HtmlExtractor
                     }
                     $pairedCode->addChildren($this->buildNodes($child));
                 }
-
                 return [$pairedCode];
             }
             $group = new Group(

@@ -941,19 +941,18 @@ class DataService
             'contentType' => $contentType,
             'deleted' => false,
         ]);
-
         if (1 === \count($revisions)) {
             $endTime = $revisions[0]->getEndTime();
-
             if (null === $endTime) {
                 return $revisions[0];
             }
             throw new NotFoundHttpException('Revision for ouuid '.$ouuid.' and contenttype '.$contentType->getName().' with end time '.$endTime->format(\DateTimeInterface::ATOM));
-        } elseif (0 === \count($revisions)) {
-            throw new NotFoundHttpException('Revision not found for ouuid '.$ouuid.' and contenttype '.$contentType->getName());
-        } else {
-            throw new \Exception('Too much newest revisions available for ouuid '.$ouuid.' and contenttype '.$contentType->getName());
         }
+
+        if (0 === \count($revisions)) {
+            throw new NotFoundHttpException('Revision not found for ouuid '.$ouuid.' and contenttype '.$contentType->getName());
+        }
+        throw new \Exception('Too much newest revisions available for ouuid '.$ouuid.' and contenttype '.$contentType->getName());
     }
 
     /**
@@ -1647,19 +1646,18 @@ class DataService
             'contentType' => $contentType,
             'deleted' => false,
         ]);
-
         if (1 === \count($revisions)) {
             $endTime = $revisions[0]->getEndTime();
-
             if (null === $endTime) {
                 return $revisions[0];
             }
             throw new \Exception('Revision for ouuid '.$id.' and contenttype '.$type.' with end time '.$endTime->format(\DateTimeInterface::ATOM));
-        } elseif (0 === \count($revisions)) {
-            throw new NotFoundHttpException('Revision not found for id '.$id.' and contenttype '.$type);
-        } else {
-            throw new \Exception('Too much newest revisions available for ouuid '.$id.' and contenttype '.$type);
         }
+
+        if (0 === \count($revisions)) {
+            throw new NotFoundHttpException('Revision not found for id '.$id.' and contenttype '.$type);
+        }
+        throw new \Exception('Too much newest revisions available for ouuid '.$id.' and contenttype '.$type);
     }
 
     /**

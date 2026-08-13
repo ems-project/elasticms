@@ -20,14 +20,11 @@ class TextExtensionTest extends TestCase
     #[\Override]
     protected function setUp(): void
     {
-        $logger = $this->createMock(LoggerInterface::class);
-        $validator = $this->createMock(ValidatorInterface::class);
-
         $this->textExtension = new TextExtension(
             new Encoder(),
             new Decoder(),
-            $validator,
-            $logger
+            $this->createMock(ValidatorInterface::class),
+            $this->createMock(LoggerInterface::class)
         );
     }
 

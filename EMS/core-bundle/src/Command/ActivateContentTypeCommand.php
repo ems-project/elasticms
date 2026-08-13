@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
-use Symfony\Component\Console\Command\Command;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\ContentTypeService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

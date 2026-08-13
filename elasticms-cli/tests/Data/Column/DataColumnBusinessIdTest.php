@@ -75,11 +75,11 @@ final class DataColumnBusinessIdTest extends TestCase
         ]);
 
         $scroll = $this->createMock(Scroll::class);
-        $scroll->expects($this->any())->method('current')->willReturnCallback($iterator->current(...));
-        $scroll->expects($this->any())->method('next')->willReturnCallback($iterator->next(...));
-        $scroll->expects($this->any())->method('rewind')->willReturnCallback($iterator->rewind(...));
-        $scroll->expects($this->any())->method('valid')->willReturnCallback($iterator->valid(...));
-        $scroll->expects($this->any())->method('key')->willReturnCallback($iterator->key(...));
+        $scroll->method('current')->willReturnCallback($iterator->current(...));
+        $scroll->method('next')->willReturnCallback($iterator->next(...));
+        $scroll->method('rewind')->willReturnCallback($iterator->rewind(...));
+        $scroll->method('valid')->willReturnCallback($iterator->valid(...));
+        $scroll->method('key')->willReturnCallback($iterator->key(...));
 
         $search = $this->createMock(Search::class);
         $search

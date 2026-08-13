@@ -429,9 +429,10 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
         const emsId = file.dataset.emsId
         if (!emsId) return
         const data = JSON.parse(file.dataset.json ?? '{}')
+        const type = data.mimetype ?? 'application/bin'
         const filename = data.filename ?? ''
 
-        hrefInput.value = `${emsId}?name=${filename}`
+        hrefInput.value = `${emsId}?type=${type}&name=${filename}`
         nameLabel.textContent = filename
         textInput.value = filename
     })

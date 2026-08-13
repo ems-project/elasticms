@@ -4,17 +4,26 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\Text;
 
-use Twig\Markup;
-
-final class EmsHtml extends Markup implements \Stringable
+class EmsHtml implements \Countable, \JsonSerializable, \Stringable
 {
-    public function __construct(private string $html)
+    public function __construct(private string $html, private string $charset = 'UTF-8')
     {
-        parent::__construct($html, 'UTF-8');
     }
 
     #[\Override]
     public function __toString(): string
+    {
+        return $this->html;
+    }
+
+    #[\Override]
+    public function count(): int
+    {
+        return \mb_strlen($this->html, $this->charset);
+    }
+
+    #[\Override]
+    public function jsonSerialize(): string
     {
         return $this->html;
     }

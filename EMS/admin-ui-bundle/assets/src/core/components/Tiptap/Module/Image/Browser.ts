@@ -20,7 +20,7 @@ export function openImageBrowser(editor: TiptapEditor, onSelect: (url: string) =
     const listUrl = editor.profile.config.imageBrowser_listUrl ?? null
     if (!listUrl) return
 
-    const dialog = editor.createDialog('image_browse', {
+    const dialog = editor.createDialog('browse_server', {
         bodyClasses: ['tiptap-dialog-image-browser'],
         resizable: true,
         size: 'md'

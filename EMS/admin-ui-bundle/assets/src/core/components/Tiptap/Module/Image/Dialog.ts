@@ -1,12 +1,11 @@
-import IconFolderOpen from '@tabler/icons/outline/folder-open.svg?raw'
 import IconLink from '@tabler/icons/outline/link.svg?raw'
 import IconLinkOff from '@tabler/icons/outline/link-off.svg?raw'
 import IconRefresh from '@tabler/icons/outline/refresh.svg?raw'
 import IconJustifyLeft from '@tabler/icons/outline/align-left.svg?raw'
 import IconJustifyCenter from '@tabler/icons/outline/align-center.svg?raw'
 import IconJustifyRight from '@tabler/icons/outline/align-right.svg?raw'
+import { FileUploader } from '../../../FileUploader.ts'
 import { TiptapEditor } from '../../Editor.ts'
-import { escapeHtml } from '../../Helper.ts'
 import type { ImageAttrs } from './Node.ts'
 import { openImageBrowser } from './Browser.ts'
 import { findImageFigure, getImageCaption, removeImage, updateImageCaption } from './Caption.ts'
@@ -384,10 +383,12 @@ function buildImageUrlButtons(
     const browseBtn = document.createElement('button')
     browseBtn.type = 'button'
     browseBtn.className = 'ems-btn'
-    browseBtn.innerHTML = `${IconFolderOpen}<span>${escapeHtml(editor.trans('image_browse'))}</span>`
+    browseBtn.innerHTML = editor.trans('browse_server')
     browseBtn.addEventListener('click', () => {
         openImageBrowser(editor, onSelect)
     })
+
+    const uploadBtn = buildImageUploadButton(editor, onSelect)
 
     const dashboardBtn = buttonDashboardImage(editor, (file) => {
         const data = JSON.parse(file.dataset.json ?? '{}')
@@ -395,5 +396,58 @@ function buildImageUrlButtons(
         onSelect(data.view_url)
     })
 
-    return dashboardBtn ? [browseBtn, dashboardBtn] : [browseBtn]
+    return dashboardBtn ? [uploadBtn, browseBtn, dashboardBtn] : [browseBtn, uploadBtn]
+}
+
+function buildImageUploadButton(
+    editor: TiptapEditor,
+    onSelect: (url: string) => void
+): HTMLElement {
+    const fileInput = document.createElement('input')
+    fileInput.type = 'file'
+    fileInput.accept = 'image/*'
+    fileInput.style.display = 'none'
+
+    const btn = document.createElement('button')
+    btn.type = 'button'
+    btn.className = 'ems-btn'
+    btn.innerHTML = editor.trans('browse')
+    btn.appendChild(fileInput)
+    btn.addEventListener('click', () => fileInput.click())
+
+    fileInput.addEventListener('change', () => {
+        const file = fileInput.files?.[0]
+        if (!file) return
+
+        const initUrl = editor.docParent.body.dataset.initUpload
+        const hashAlgo = editor.docParent.body.dataset.hashAlgo
+        if (!initUrl) {
+            editor.showNotice(
+                editor.trans('file_upload_error').replace('{file}', file.name),
+                'error'
+            )
+            return
+        }
+
+        btn.disabled = true
+
+        new FileUploader({
+            file,
+            algo: hashAlgo,
+            initUrl,
+            onUploaded: (assetUrl: string) => {
+                onSelect(assetUrl)
+                btn.disabled = false
+            },
+            onError: () => {
+                btn.disabled = false
+                editor.showNotice(
+                    editor.trans('file_upload_error').replace('{file}', file.name),
+                    'error'
+                )
+            }
+        })
+    })
+
+    return btn
 }

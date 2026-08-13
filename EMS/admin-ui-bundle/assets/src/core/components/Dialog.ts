@@ -222,7 +222,7 @@ export class Dialog {
 
         if (options.size) {
             const content = element.querySelector<HTMLElement>('.dialog-content')!
-            content.style.width = `${DIALOG_SIZE_WIDTHS[options.size]}px`
+            content.style.minWidth = `${DIALOG_SIZE_WIDTHS[options.size]}px`
         }
 
         return element

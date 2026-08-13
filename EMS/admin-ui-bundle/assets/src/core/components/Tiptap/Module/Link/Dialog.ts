@@ -332,8 +332,8 @@ function buildFileFields(e: TiptapEditor, ctx: LinkContext, linkText: string) {
     return `<div id="link-fields-fileLink" style="display: none; flex-direction: column; gap: 10px;">
         <div>
             <div class="file-browse-actions">
-                <button type="button" class="ems-btn" id="link-file-browse">${e.trans('link_file_browse')}</button>
-                <button type="button" class="ems-btn" id="link-file-browse-server">${e.trans('link_file_browse_server')}</button>
+                <button type="button" class="ems-btn" id="link-file-browse">${e.trans('browse')}</button>
+                <button type="button" class="ems-btn" id="link-file-browse-server">${e.trans('browse_server')}</button>
             </div>
             <input type="file" id="link-file-input" style="display: none;">
             <input type="hidden" id="link-file-href" value="${escapeHtml(ctx.type === 'fileLink' ? ctx.href : '')}">
@@ -400,7 +400,7 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
 
     const browseServerBtn = root.querySelector<HTMLButtonElement>('#link-file-browse-server')
     browseServerBtn?.addEventListener('click', async () => {
-        const dialog = e.createDialog('link_file_browse_server', {
+        const dialog = e.createDialog('browse_server', {
             resizable: true,
             size: 'lg',
             url: e.profile.config.url.browseUploadedFiles,

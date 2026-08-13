@@ -205,6 +205,7 @@ class HtmlExtractor
                     type: $node->nodeName,
                     equivalentText: $node->hasAttributes() ? $this->buildEquivTextOpeningTag($node).$this->buildEquivTextClosingTag($node) : ' ',
                 );
+
                 return [$placeholder];
             }
             if ($node->hasAttributes() && $node instanceof \DOMElement) {
@@ -223,6 +224,7 @@ class HtmlExtractor
                     }
                     $pairedCode->addChildren($this->buildNodes($child));
                 }
+
                 return [$pairedCode];
             }
             $group = new Group(

@@ -538,6 +538,7 @@ class ElasticsearchController extends AbstractController
                         'icon' => 'fa fa-save',
                     ])
                     ->getForm();
+
                 return $this->render(\sprintf('@%s/elasticsearch/save-search.html.twig', $this->templateNamespace), [
                     'form' => $form->createView(),
                     'title' => t('type.title_create', ['type' => 'search'], 'emsco-core'),

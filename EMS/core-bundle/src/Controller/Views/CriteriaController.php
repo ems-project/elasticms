@@ -638,6 +638,7 @@ class CriteriaController extends AbstractController
                 'target_field_data' => $rawData[$targetFieldName],
                 'message' => $message,
             ]);
+
             return $revision;
         }
 
@@ -679,6 +680,7 @@ class CriteriaController extends AbstractController
                     'message' => $message,
                 ]);
             }
+
             return $revision;
         }
         $message = false;

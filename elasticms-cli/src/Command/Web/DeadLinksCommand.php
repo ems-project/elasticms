@@ -297,7 +297,7 @@ class DeadLinksCommand extends AbstractCommand
             case 'ems':
                 return t('web.audit.missing-document');
         }
-        if (0 === $status && \in_array($scheme, ['http', 'https'])) {
+        if (0 === $status && \in_array($scheme, ['http', 'https'], true)) {
             return t('web.audit.server-gone');
         }
         if (0 === $status && 'file' === $scheme) {

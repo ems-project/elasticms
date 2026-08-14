@@ -32,9 +32,9 @@ final class McpControllerTest extends WebTestCase
     protected function setUp(): void
     {
         self::ensureKernelShutdown();
-        $this->client = static::createClient();
+        $this->client = self::createClient();
 
-        $container = static::getContainer();
+        $container = self::getContainer();
         $this->entityManager = $container->get('doctrine')->getManager();
 
         $metadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
@@ -166,7 +166,7 @@ final class McpControllerTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
         $currentStorageAlgorithmResponse = $this->decodeResponse($this->client);
-        self::assertSame(static::getContainer()->get('ems.service.file')->getAlgo(), $currentStorageAlgorithmResponse['result']['structuredContent']['algorithm'] ?? null);
+        self::assertSame(self::getContainer()->get('ems.service.file')->getAlgo(), $currentStorageAlgorithmResponse['result']['structuredContent']['algorithm'] ?? null);
 
         $createDraftPayload = [
             'jsonrpc' => '2.0',

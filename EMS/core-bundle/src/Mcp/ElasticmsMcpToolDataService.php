@@ -88,7 +88,7 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
         return $this->wrapToolCall($toolName, [
             'content_type' => $contentType,
             'ouuid' => $ouuid,
-            'raw_data_keys' => \array_map('strval', \array_keys($rawData)),
+            'raw_data_keys' => \array_map(strval(...), \array_keys($rawData)),
         ], function () use ($rawData, $ouuid, $contentType, $finalize): array {
             $resolvedContentType = $this->contentTypeService->getByName($contentType);
             if (false === $resolvedContentType) {

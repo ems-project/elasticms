@@ -83,7 +83,6 @@ class DataLinkFieldType extends DataFieldType
         }
 
         $data = $dataField->getRawData();
-        $out = [];
         if (\is_array($data)) {
             return [
                 'terms' => [

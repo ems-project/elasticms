@@ -15,6 +15,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class LocalizedLoggerFactoryAiTest extends TestCase
 {
     private LocalizedLoggerFactory $localizedLoggerFactory;
+    /**
+     * @var Stub&TranslatorInterface
+     */
     private Stub $translator;
 
     #[\Override]

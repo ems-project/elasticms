@@ -13,6 +13,9 @@ use PHPUnit\Framework\TestCase;
 
 final class ElasticaFactoryAiTest extends TestCase
 {
+    /**
+     * @var Stub&ElasticaLogger
+     */
     private Stub $logger;
     private ElasticaFactory $factory;
 

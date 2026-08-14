@@ -16,8 +16,17 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class CoreApiFactoryAiTest extends TestCase
 {
+    /**
+     * @var Stub&HttpClientInterface
+     */
     private Stub $httpClient;
+    /**
+     * @var Stub&LoggerInterface
+     */
     private Stub $logger;
+    /**
+     * @var Stub&StorageManager
+     */
     private Stub $storageManager;
     private CoreApiFactory $factory;
 

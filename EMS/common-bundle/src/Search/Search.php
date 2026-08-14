@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Serializer;
 
 class Search
 {
-    private const SERIALIZER_CONTEXT = [
+    private const array SERIALIZER_CONTEXT = [
         AbstractNormalizer::IGNORED_ATTRIBUTES => ['aggregations', 'suggest'],
     ];
 

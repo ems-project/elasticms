@@ -21,7 +21,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AllowMockObjectsWithoutExpectations]
 final class DocumentUpdaterTest extends TestCase
 {
+    /**
+     * @var MockObject&CoreApiInterface
+     */
     private MockObject $coreApi;
+    /**
+     * @var MockObject&SymfonyStyle
+     */
     private MockObject $io;
 
     #[\Override]

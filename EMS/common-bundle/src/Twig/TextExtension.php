@@ -160,7 +160,7 @@ class TextExtension
     #[AsTwigFilter(name: 'ems_url_decode')]
     public function urlDecode(string $string): string|array
     {
-        if (false === \mb_strpos($string, '=')) {
+        if (!\str_contains($string, '=')) {
             return \urldecode($string);
         }
 

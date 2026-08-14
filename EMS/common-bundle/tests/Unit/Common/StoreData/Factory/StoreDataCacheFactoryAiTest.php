@@ -14,6 +14,9 @@ use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class StoreDataCacheFactoryAiTest extends TestCase
 {
+    /**
+     * @var Stub&Cache
+     */
     private Stub $cache;
 
     #[\Override]

@@ -39,7 +39,7 @@ class SubFormType extends Form
     }
 
     #[\Override]
-    public function getBlockPrefix(): ?string
+    public function getBlockPrefix(): string
     {
         return 'ems_subform';
     }

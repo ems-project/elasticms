@@ -46,7 +46,7 @@ class DoctrineHandler extends AbstractProcessingHandler
     private static function secretContext(array $context): array
     {
         $contextKeys = \array_keys($context);
-        $secretKeys = \array_filter($contextKeys, fn ($key) => \in_array($key, self::SECRET_KEYS));
+        $secretKeys = \array_filter($contextKeys, fn ($key) => \in_array($key, self::SECRET_KEYS, true));
 
         foreach ($secretKeys as $secretKey) {
             $context[$secretKey] = self::SECRET_VALUE;

@@ -52,7 +52,7 @@ class TikaHelper
         }
 
         if (null !== $this->tikaCacheFolder) {
-            $promise = new TikaCachePromise($stream, $this->tikaCacheFolder, $promise);
+            return new TikaCachePromise($stream, $this->tikaCacheFolder, $promise);
         }
 
         return $promise;

@@ -58,7 +58,7 @@ final class ElasticaLoggerAiTest extends TestCase
     #[AllowMockObjectsWithoutExpectations]
     public function testReset(): void
     {
-        $request = new ServerRequest('/test_path', 'GET', ['key' => 'value']);
+        $request = new ServerRequest('GET', '/test_path', ['key' => 'value']);
 
         $this->elasticaLogger->logResponse($request, new Response(''));
         $this->assertSame(1, $this->elasticaLogger->getNbQueries());

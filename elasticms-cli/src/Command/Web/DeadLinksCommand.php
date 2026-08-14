@@ -313,28 +313,15 @@ class DeadLinksCommand extends AbstractCommand
                 return t('web.audit.permanent-redirect');
             }
         }
-        switch ($status) {
-            case 301:
-            case 303:
-            case 308:
-                return t('web.audit.permanent-redirect');
-            case 302:
-            case 307:
-                return t('web.audit.temporary-redirect');
-            case 403:
-                return t('web.audit.access-denied');
-            case 404:
-            case 410:
-                return t('web.audit.page-not-found');
-            case 500:
-                return t('web.audit.internal-server-error');
-            case 502:
-            case 503:
-            case 504:
-                return t('web.audit.server-gone');
-        }
-
-        return t('web.audit.problem-without-solution');
+        return match ($status) {
+            301, 303, 308 => t('web.audit.permanent-redirect'),
+            302, 307 => t('web.audit.temporary-redirect'),
+            403 => t('web.audit.access-denied'),
+            404, 410 => t('web.audit.page-not-found'),
+            500 => t('web.audit.internal-server-error'),
+            502, 503, 504 => t('web.audit.server-gone'),
+            default => t('web.audit.problem-without-solution'),
+        };
     }
 
     private function isBlockedByEnterprisePolicyUrl(string $url): bool

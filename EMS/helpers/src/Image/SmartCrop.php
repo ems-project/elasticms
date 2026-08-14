@@ -70,7 +70,7 @@ class SmartCrop
         $this->cropWidth = (int) \floor($this->width * $scale);
         $this->cropHeight = (int) \floor($this->height * $scale);
 
-        $this->minScale = \min($this->maxScale, \max(1 / $scale, $this->minScale));
+        $this->minScale = \min($this->maxScale, \max(1 / $scale, 1.0));
 
         if ($this->prescale) {
             $preScale = 1 / $scale / $this->minScale;

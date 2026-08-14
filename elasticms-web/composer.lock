@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.392.1",
+            "version": "3.392.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "a49869bffa584611d22742708e69c632e1c18beb"
+                "reference": "19a454280155f5a6fe096c0d4adf1c37508115b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a49869bffa584611d22742708e69c632e1c18beb",
-                "reference": "a49869bffa584611d22742708e69c632e1c18beb",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/19a454280155f5a6fe096c0d4adf1c37508115b2",
+                "reference": "19a454280155f5a6fe096c0d4adf1c37508115b2",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.392.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.392.2"
             },
-            "time": "2026-08-12T18:06:57+00:00"
+            "time": "2026-08-13T18:05:48+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -2010,16 +2010,16 @@
         },
         {
             "name": "elasticms/client-helper-bundle",
-            "version": "7.3.2",
+            "version": "7.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
-                "reference": "5dfaec611e1c1316224a6749abcd6822ab51ff64"
+                "reference": "59958764081bef3fff272a58bc20b7138ac92ad4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/5dfaec611e1c1316224a6749abcd6822ab51ff64",
-                "reference": "5dfaec611e1c1316224a6749abcd6822ab51ff64",
+                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/59958764081bef3fff272a58bc20b7138ac92ad4",
+                "reference": "59958764081bef3fff272a58bc20b7138ac92ad4",
                 "shasum": ""
             },
             "require": {
@@ -2061,22 +2061,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/7.3.2"
+                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/7.3.4"
             },
-            "time": "2026-06-19T13:50:07+00:00"
+            "time": "2026-08-14T09:46:14+00:00"
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "7.3.2",
+            "version": "7.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "043eaec2f3cc80c52173f2ef8b9404fecd383ed7"
+                "reference": "23645cc50aa6239a40fd3dbdf454129bd9d68910"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/043eaec2f3cc80c52173f2ef8b9404fecd383ed7",
-                "reference": "043eaec2f3cc80c52173f2ef8b9404fecd383ed7",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/23645cc50aa6239a40fd3dbdf454129bd9d68910",
+                "reference": "23645cc50aa6239a40fd3dbdf454129bd9d68910",
                 "shasum": ""
             },
             "require": {
@@ -2149,22 +2149,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/7.3.2"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/7.3.4"
             },
-            "time": "2026-06-19T13:50:07+00:00"
+            "time": "2026-08-14T09:46:14+00:00"
         },
         {
             "name": "elasticms/form-bundle",
-            "version": "7.3.2",
+            "version": "7.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSFormBundle.git",
-                "reference": "18138528ea02716fa25db3e9f6ff95c241a0ee53"
+                "reference": "e1433fdc9061101e1b788514fdb9104b92145e27"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSFormBundle/zipball/18138528ea02716fa25db3e9f6ff95c241a0ee53",
-                "reference": "18138528ea02716fa25db3e9f6ff95c241a0ee53",
+                "url": "https://api.github.com/repos/ems-project/EMSFormBundle/zipball/e1433fdc9061101e1b788514fdb9104b92145e27",
+                "reference": "e1433fdc9061101e1b788514fdb9104b92145e27",
                 "shasum": ""
             },
             "require": {
@@ -2198,22 +2198,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSFormBundle/tree/7.3.2"
+                "source": "https://github.com/ems-project/EMSFormBundle/tree/7.3.4"
             },
-            "time": "2026-06-19T13:50:07+00:00"
+            "time": "2026-08-14T09:46:14+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "7.3.2",
+            "version": "7.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
-                "reference": "5e5146b2cb782fb01e0ebb293c90129da1acfc29"
+                "reference": "61fad0d2e09bdf13e21b4de87f0ad60213e8c0bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/helpers/zipball/5e5146b2cb782fb01e0ebb293c90129da1acfc29",
-                "reference": "5e5146b2cb782fb01e0ebb293c90129da1acfc29",
+                "url": "https://api.github.com/repos/ems-project/helpers/zipball/61fad0d2e09bdf13e21b4de87f0ad60213e8c0bb",
+                "reference": "61fad0d2e09bdf13e21b4de87f0ad60213e8c0bb",
                 "shasum": ""
             },
             "require": {
@@ -2248,22 +2248,22 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/7.3.2"
+                "source": "https://github.com/ems-project/helpers/tree/7.3.4"
             },
-            "time": "2026-04-26T06:23:04+00:00"
+            "time": "2026-08-14T09:46:14+00:00"
         },
         {
             "name": "elasticms/submission-bundle",
-            "version": "7.3.2",
+            "version": "7.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSSubmissionBundle.git",
-                "reference": "cf29dafd2a49b64e2890df9d87490b83b3e26432"
+                "reference": "fcb37a12ffb3ed73e1157b0aedf6840f451745bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSSubmissionBundle/zipball/cf29dafd2a49b64e2890df9d87490b83b3e26432",
-                "reference": "cf29dafd2a49b64e2890df9d87490b83b3e26432",
+                "url": "https://api.github.com/repos/ems-project/EMSSubmissionBundle/zipball/fcb37a12ffb3ed73e1157b0aedf6840f451745bc",
+                "reference": "fcb37a12ffb3ed73e1157b0aedf6840f451745bc",
                 "shasum": ""
             },
             "require": {
@@ -2300,9 +2300,9 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/7.3.2"
+                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/7.3.4"
             },
-            "time": "2026-06-19T13:50:07+00:00"
+            "time": "2026-08-14T09:46:14+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",

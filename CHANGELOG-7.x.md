@@ -1,5 +1,31 @@
 # Changelog 7.x
 
+## 7.3.4 (2026-08-14)
+### Features
+* feat(admin/tip): support internal links in link module by @Davidmattei in https://github.com/ems-project/elasticms/pull/1768
+* feat(admin/tiptap): dashboard browsing image & link by @Davidmattei in https://github.com/ems-project/elasticms/pull/1787
+* feat(admin/tiptap): image extension by @Davidmattei in https://github.com/ems-project/elasticms/pull/1776
+* feat(admin/tiptap): link browse modals by @Davidmattei in https://github.com/ems-project/elasticms/pull/1781
+* feat(admin/tiptap): link drag&drop plus fixes by @Davidmattei in https://github.com/ems-project/elasticms/pull/1778
+* feat(ai): add mcp by @theus77 in https://github.com/ems-project/elasticms/pull/1753
+* feat(docker): remove embedded varnish from web image by @zebby76 in https://github.com/ems-project/elasticms/pull/1767
+### Bug Fixes
+* fix(admin/contentType): export actions include environments by @Davidmattei in https://github.com/ems-project/elasticms/pull/1788
+* fix(admin/tiptap): resolve issues by @Davidmattei in https://github.com/ems-project/elasticms/pull/1775
+* fix(admin/user): update email canonical by @Davidmattei in https://github.com/ems-project/elasticms/pull/1780
+* fix(common/api): create job with tag by @Davidmattei in https://github.com/ems-project/elasticms/pull/1773
+* fix(core/api): sort keys user roles api by @Davidmattei in https://github.com/ems-project/elasticms/pull/1785
+* fix(form): support multiple forms by @Davidmattei in https://github.com/ems-project/elasticms/pull/1782
+* fix(web/request): replaceJson replace legacy locale by @Davidmattei in https://github.com/ems-project/elasticms/pull/1786
+* fix(web/routing): escape param in request json by @Davidmattei in https://github.com/ems-project/elasticms/pull/1784
+* fix: give access to the host from the sandbox: e.g. http://host.docke… by @theus77 in https://github.com/ems-project/elasticms/pull/1769
+### Code Refactoring
+* refactor(admin-ui/js): rename typescript file to PascalCase by @Davidmattei in https://github.com/ems-project/elasticms/pull/1777
+* refactor(admin/mediaLibrary): full typescript and native dialogs by @Davidmattei in https://github.com/ems-project/elasticms/pull/1783
+### Chores
+* chore: update composer dependencies 6.9.x by @Davidmattei in https://github.com/ems-project/elasticms/pull/1789
+* chore: update composer dependencies 7.3.x and rector by @Davidmattei in https://github.com/ems-project/elasticms/pull/1790
+
 ## 7.3.2 (2026-06-23)
 ### Features
 * feat(admin/tiptap): ace code editor for source view by @Davidmattei in https://github.com/ems-project/elasticms/pull/1763

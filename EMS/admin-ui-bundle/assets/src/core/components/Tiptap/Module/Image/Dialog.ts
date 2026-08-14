@@ -1,15 +1,15 @@
-import IconFolderOpen from '@tabler/icons/outline/folder-open.svg?raw'
 import IconLink from '@tabler/icons/outline/link.svg?raw'
 import IconLinkOff from '@tabler/icons/outline/link-off.svg?raw'
 import IconRefresh from '@tabler/icons/outline/refresh.svg?raw'
 import IconJustifyLeft from '@tabler/icons/outline/align-left.svg?raw'
 import IconJustifyCenter from '@tabler/icons/outline/align-center.svg?raw'
 import IconJustifyRight from '@tabler/icons/outline/align-right.svg?raw'
+import { FileUploader } from '../../../FileUploader.ts'
 import { TiptapEditor } from '../../Editor.ts'
-import { escapeHtml } from '../../Helper.ts'
 import type { ImageAttrs } from './Node.ts'
-import { getImageBrowserListUrl, openImageBrowser } from './Browser.ts'
+import { openImageBrowser } from './Browser.ts'
 import { findImageFigure, getImageCaption, removeImage, updateImageCaption } from './Caption.ts'
+import { buttonDashboardImage } from '../../UI/BrowseDashboard.ts'
 
 function applyAlignment(editor: TiptapEditor, align: string | null): void {
     const figure = findImageFigure(editor.tiptap.state)
@@ -70,9 +70,9 @@ export function openImageDialog(editor: TiptapEditor): void {
             : editor.tiptap.getAttributes('image').float) ?? null
 
     const dialog = editor.createDialog(isEdit ? 'image_edit' : 'image_insert', {
-        bodyClass: 'tiptap-dialog-image',
+        bodyClasses: ['tiptap-dialog-image'],
         resizable: true,
-        minWidth: 420
+        size: 'sm'
     })
 
     const preview = document.createElement('div')
@@ -84,7 +84,6 @@ export function openImageDialog(editor: TiptapEditor): void {
     let ratio: number | null = null
     let naturalWidth: number | null = null
     let naturalHeight: number | null = null
-    let sizeSetByUser = Boolean(existing.width || existing.height)
     previewImg.addEventListener('load', () => {
         if (previewImg.naturalWidth && previewImg.naturalHeight) {
             naturalWidth = previewImg.naturalWidth
@@ -112,29 +111,25 @@ export function openImageDialog(editor: TiptapEditor): void {
         if (url) error.hidden = true
     })
 
-    const browseBtn = document.createElement('button')
-    browseBtn.type = 'button'
-    browseBtn.className = 'tiptap-image-browse-btn'
-    browseBtn.innerHTML = `${IconFolderOpen}<span>${escapeHtml(editor.profile.config.emsBrowsers?.browser_image?.label ?? editor.trans('image_browse'))}</span>`
-    browseBtn.hidden = !getImageBrowserListUrl(editor)
-    browseBtn.addEventListener('click', () => {
-        openImageBrowser(editor, (url) => {
-            urlInput.value = url
-            widthInput.value = ''
-            heightInput.value = ''
-            previewImg.src = url
-            error.hidden = true
-        })
-    })
-
-    const urlRow = document.createElement('div')
-    urlRow.className = 'tiptap-image-url-row'
-    urlRow.append(urlInput, browseBtn)
-
     const urlField = document.createElement('div')
     urlField.className = 'tiptap-image-field'
     urlField.innerHTML = `<label for="image-url">${editor.trans('image_url')} <span style="color: red">*</span></label>`
-    urlField.appendChild(urlRow)
+    urlField.appendChild(urlInput)
+
+    const handleUrlSelected = (url: string) => {
+        urlInput.value = url
+        widthInput.value = ''
+        heightInput.value = ''
+        previewImg.src = url
+        error.hidden = true
+    }
+
+    const browseField = document.createElement('div')
+
+    const urlButtonsRow = document.createElement('div')
+    urlButtonsRow.className = 'tiptap-image-url-buttons-row'
+    urlButtonsRow.append(...buildImageUrlButtons(editor, handleUrlSelected))
+    browseField.appendChild(urlButtonsRow)
 
     const altInput = document.createElement('input')
     altInput.type = 'text'
@@ -199,16 +194,13 @@ export function openImageDialog(editor: TiptapEditor): void {
         if (!naturalWidth || !naturalHeight) return
         widthInput.value = String(naturalWidth)
         heightInput.value = String(naturalHeight)
-        sizeSetByUser = true
     })
 
     widthInput.addEventListener('input', () => {
-        sizeSetByUser = true
         if (!locked || !ratio || !widthInput.value) return
         heightInput.value = String(Math.round(Number(widthInput.value) * ratio))
     })
     heightInput.addEventListener('input', () => {
-        sizeSetByUser = true
         if (!locked || !ratio || !heightInput.value) return
         widthInput.value = String(Math.round(Number(heightInput.value) / ratio))
     })
@@ -299,7 +291,16 @@ export function openImageDialog(editor: TiptapEditor): void {
     error.hidden = true
     error.textContent = editor.trans('image_url_required')
 
-    dialog.body.append(preview, urlField, dimensionsInner, layoutRow, altField, captionField, error)
+    dialog.body.append(
+        preview,
+        urlField,
+        browseField,
+        dimensionsInner,
+        layoutRow,
+        altField,
+        captionField,
+        error
+    )
 
     dialog
         .addButton({
@@ -314,8 +315,8 @@ export function openImageDialog(editor: TiptapEditor): void {
                 const attrs: ImageAttrs = {
                     src,
                     alt: altInput.value.trim() || null,
-                    width: sizeSetByUser ? widthInput.value.trim() || null : null,
-                    height: sizeSetByUser ? heightInput.value.trim() || null : null
+                    width: widthInput.value.trim() || null,
+                    height: heightInput.value.trim() || null
                 }
                 const caption = captionInput.value.trim()
 
@@ -373,4 +374,80 @@ export function openImageDialog(editor: TiptapEditor): void {
     }
 
     dialog.open()
+}
+
+function buildImageUrlButtons(
+    editor: TiptapEditor,
+    onSelect: (url: string) => void
+): HTMLElement[] {
+    const browseBtn = document.createElement('button')
+    browseBtn.type = 'button'
+    browseBtn.className = 'ems-btn'
+    browseBtn.innerHTML = editor.trans('browse_server')
+    browseBtn.addEventListener('click', () => {
+        openImageBrowser(editor, onSelect)
+    })
+
+    const uploadBtn = buildImageUploadButton(editor, onSelect)
+
+    const dashboardBtn = buttonDashboardImage(editor, (file) => {
+        const data = JSON.parse(file.dataset.json ?? '{}')
+        if (!data.view_url) return
+        onSelect(data.view_url)
+    })
+
+    return dashboardBtn ? [uploadBtn, browseBtn, dashboardBtn] : [browseBtn, uploadBtn]
+}
+
+function buildImageUploadButton(
+    editor: TiptapEditor,
+    onSelect: (url: string) => void
+): HTMLElement {
+    const fileInput = document.createElement('input')
+    fileInput.type = 'file'
+    fileInput.accept = 'image/*'
+    fileInput.style.display = 'none'
+
+    const btn = document.createElement('button')
+    btn.type = 'button'
+    btn.className = 'ems-btn'
+    btn.innerHTML = editor.trans('browse')
+    btn.appendChild(fileInput)
+    btn.addEventListener('click', () => fileInput.click())
+
+    fileInput.addEventListener('change', () => {
+        const file = fileInput.files?.[0]
+        if (!file) return
+
+        const initUrl = editor.docParent.body.dataset.initUpload
+        const hashAlgo = editor.docParent.body.dataset.hashAlgo
+        if (!initUrl) {
+            editor.showNotice(
+                editor.trans('file_upload_error').replace('{file}', file.name),
+                'error'
+            )
+            return
+        }
+
+        btn.disabled = true
+
+        new FileUploader({
+            file,
+            algo: hashAlgo,
+            initUrl,
+            onUploaded: (assetUrl: string) => {
+                onSelect(assetUrl)
+                btn.disabled = false
+            },
+            onError: () => {
+                btn.disabled = false
+                editor.showNotice(
+                    editor.trans('file_upload_error').replace('{file}', file.name),
+                    'error'
+                )
+            }
+        })
+    })
+
+    return btn
 }

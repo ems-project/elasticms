@@ -19,21 +19,19 @@
 
 {%- block media_lib_header -%}
     <div class="media-lib-container">
-        <div class="btn-group">
-            {%- if mediaFolder is defined and mediaFile is not defined and selectionFiles == 0 -%}
+        {%- if mediaFolder is defined and mediaFile is not defined and selectionFiles == 0 -%}
+            <div class="ems-btn-group">
                 {{- template.block('media_lib_button_folder_rename', _context)|raw -}}
                 {{- template.block('media_lib_button_folder_move', _context)|raw -}}
                 {{- template.block('media_lib_button_folder_delete', _context)|raw -}}
-            {%- endif -%}
-        </div>
-
-        <div class="btn-group">
+            </div>
+        {%- endif -%}
+        <div class="ems-btn-group">
             {{- template.block('media_lib_button_folder_add', _context)|raw -}}
             {{- template.block('media_lib_button_upload', _context)|raw -}}
         </div>
-
         {%- if mediaFile is defined -%}
-            <div class="btn-group">
+            <div class="ems-btn-group">
                 {{- template.block('media_lib_button_file_view', _context)|raw -}}
                 {{- template.block('file_download_file', _context)|raw -}}
                 {{- template.block('button_file_edit', _context)|raw -}}
@@ -43,7 +41,7 @@
                 {{- template.block('media_lib_button_file_delete', _context)|raw -}}
             </div>
         {%- elseif selectionFiles > 0 -%}
-            <div class="btn-group">
+            <div class="ems-btn-group">
                 {{- template.block('media_lib_button_files_move', _context)|raw -}}
                 {{- template.block('media_lib_button_files_delete', _context)|raw -}}
             </div>
@@ -64,7 +62,7 @@
 
 {%- block media_lib_file -%}
     <div style="flex: 4">
-        <a class="btn-file-view" href="{{- mediaFile.urlView -}}" data-id="{{- mediaFile.id -}}" data-json="{{ mediaFile.getDataJson()|e('html_attr') }}">
+        <a class="btn-file-view" href="{{- mediaFile.urlView -}}" data-id="{{- mediaFile.id -}}">
             {{ mediaFile.folder[folder.path|default('')|length + 1:] }}{{- mediaFile.name -}}
         </a>
     </div>
@@ -74,53 +72,28 @@
     <div class="text-right">{{- mediaFile.file.filesize|default(0)|ems_format_bytes -}}</div>
 {%- endblock media_lib_file -%}
 
-{%- block media_lib_button_files_delete -%}
-    {% trans_default_domain 'emsco-component' %}
-    <button class="btn btn-sm btn-default btn-files-delete" data-modal-size="md" data-testid="media-lib-button-files-delete">
-        <i class="fa fa-trash" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.delete.title'|trans({ '%count%': selectionFiles })) -}}
-    </button>
-{%- endblock media_lib_button_files_delete -%}
-
-{%- block media_lib_button_file_delete -%}
-    {% trans_default_domain 'emsco-component' %}
-    <button class="btn btn-sm btn-default btn-file-delete" data-id="{{- mediaFile.id -}}" data-testid="media-lib-button-file-delete">
-        <i class="fa fa-trash" aria-hidden="true"></i> {{- buttonLabel|default('media_library.file.delete.title'|trans) -}}
-    </button>
-{%- endblock media_lib_button_file_delete -%}
-
 {% block media_lib_modal_preview_footer %}
     {% trans_default_domain 'emsco-component' %}
-    <div class="text-center" style="width: 100%;">
-        <div class="btn-group">
-            <button class="btn btn-sm btn-default btn-preview-prev disabled">
-                <i class="fa fa-angle-double-left"></i>
-                {{ 'media_library.file.view.previous'|trans }}
-            </button>
-            {{- template.block('file_download_file', _context)|raw -}}
-            {{- template.block('button_file_edit', _context)|raw -}}
-            <button class="btn btn-sm btn-default btn-preview-next disabled">
-                {{ 'media_library.file.view.next'|trans }}
-                <i class="fa fa-angle-double-right"></i>
-            </button>
-        </div>
-    </div>
+    <button class="ems-btn btn-preview-prev disabled">
+        <i class="fa fa-angle-double-left"></i>
+        {{ 'media_library.file.view.previous'|trans }}
+    </button>
+    {{- template.block('file_download_file', _context)|raw -}}
+    {{- template.block('button_file_edit', _context)|raw -}}
+    <button class="ems-btn btn-preview-next disabled">
+        {{ 'media_library.file.view.next'|trans }}
+        <i class="fa fa-angle-double-right"></i>
+    </button>
 {% endblock media_lib_modal_preview_footer %}
 
-{%- block media_lib_button_file_rename -%}
-    {% trans_default_domain 'emsco-component' %}
-    <button class="btn btn-sm btn-default btn-file-rename" data-id="{{- mediaFile.id -}}" data-testid="media-lib-button-file-rename">
-        <i class="fa fa-i-cursor" aria-hidden="true"></i> {{- buttonLabel|default('media_library.file.rename.title'|trans) -}}
-    </button>
-{%- endblock media_lib_button_file_rename -%}
-
 {% block button_file_edit %}
-    <a class="btn btn-sm btn-default" href="{{ path('emsco_view_revisions', { 'type': mediaFile.document.contentType, 'ouuid': mediaFile.id  }) }}">
+    <a class="ems-btn" href="{{ path('emsco_view_revisions', { 'type': mediaFile.document.contentType, 'ouuid': mediaFile.id  }) }}">
         <i class="fa fa-pencil"></i> Edit
     </a>
 {% endblock button_file_edit %}
 
 {% block file_download_file %}
-    <a class="btn btn-sm btn-default" href="{{ ems_asset_path(mediaFile.file, {_disposition: 'attachment'}) }}">
+    <a class="ems-btn" href="{{ ems_asset_path(mediaFile.file, {_disposition: 'attachment'}) }}">
         <i class="fa fa-download"></i> Download file
     </a>
 {% endblock file_download_file %}

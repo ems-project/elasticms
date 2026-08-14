@@ -4,7 +4,7 @@ import { CkeditorStyle } from '../../Wysiwyg/CKEditorConfig.ts'
 import { Extension, Mark, mergeAttributes } from '@tiptap/core'
 import { BLOCK_NODES, ExtensionType } from './../Extensions.ts'
 import { createDropdown, Dropdown } from './../UI/Dropdown.ts'
-import stylesIframeCss from './../../../../../css/core/components/tiptap/_menu_styles.scss?inline'
+import stylesIframeCss from '@css/core/components/tiptap/_menu_styles.scss?inline'
 import Heading from '@tiptap/extension-heading'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 

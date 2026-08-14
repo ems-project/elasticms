@@ -91,7 +91,7 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
         $redirectUri = $this->getRedirectUri();
 
         if (\str_starts_with($redirectUri, '/')) {
-            $redirectUri = $request->getSchemeAndHttpHost().$redirectUri;
+            return $request->getSchemeAndHttpHost().$redirectUri;
         }
 
         return $redirectUri;

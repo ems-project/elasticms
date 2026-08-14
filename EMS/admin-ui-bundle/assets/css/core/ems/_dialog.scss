@@ -1,5 +1,3 @@
-@import "./button";
-
 body.dialog-open {
   overflow: hidden;
 }
@@ -18,13 +16,24 @@ dialog.ems-dialog {
     background: rgba(0, 0, 0, 0.5);
   }
 
+  .dialog-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    padding: 16px;
+    text-align: center;
+    color: var(--ems-error-color);
+  }
+
   .dialog-content {
-    background: var(--dialog-bg, #fff);
+    background: var(--ems-white);
     border-radius: 4px;
     display: flex;
     flex-direction: column;
     position: relative;
     max-height: 90vh;
+    max-width: 90vw;
   }
 
   .dialog-header {
@@ -33,7 +42,7 @@ dialog.ems-dialog {
     justify-content: space-between;
     gap: 16px;
     padding: 16px;
-    border-bottom: 1px solid var(--dialog-border-color, #dee2e6);
+    border-bottom: 1px solid var(--ems-border-color);
 
     &.draggable {
       cursor: grab;
@@ -50,7 +59,7 @@ dialog.ems-dialog {
     font-size: 18px;
     font-weight: 500;
     line-height: 1.5;
-    color: var(--dialog-text-color, #212529);
+    color: var(--ems-gray-900);
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -64,7 +73,7 @@ dialog.ems-dialog {
     font-size: 24px;
     font-weight: 700;
     line-height: 1;
-    color: var(--dialog-text-color, #212529);
+    color: var(--ems-gray-900);
     opacity: 0.5;
     cursor: pointer;
     padding: 0;
@@ -96,8 +105,8 @@ dialog.ems-dialog {
         content: '';
         width: 32px;
         height: 32px;
-        border: 3px solid var(--dialog-border-color, #dee2e6);
-        border-top-color: var(--dialog-btn-primary-bg, #0d6efd);
+        border: 3px solid var(--ems-border-color);
+        border-top-color: var(--ems-btn-primary-bg);
         border-radius: 50%;
         animation: dialog-spin 0.7s linear infinite;
       }
@@ -128,7 +137,7 @@ dialog.ems-dialog {
     justify-content: flex-end;
     gap: 8px;
     padding: 16px;
-    border-top: 1px solid var(--dialog-border-color, #dee2e6);
+    border-top: 1px solid var(--ems-border-color);
 
     &:empty {
       display: none;

@@ -3,6 +3,9 @@ import { defineConfig } from 'vite'
 import liveReload from 'vite-plugin-live-reload'
 import { resolve } from 'path'
 
+const componentChunks = ['MediaLibrary', 'Tiptap', 'UI', 'Wysiwyg']
+    .map(name => ({ name: name.toLowerCase(), test: new RegExp(`components/${name}`) }))
+
 export default defineConfig({
     base: './',
     build: {
@@ -25,6 +28,15 @@ export default defineConfig({
                 inline_editor: 'src/core/inline-editor/editor.ts',
                 inline_editor_iframe: 'src/core/inline-editor/iframe.ts',
                 core_bundle: 'src/core-bundle.ts'
+            },
+            output: {
+                codeSplitting: {
+                    groups: [
+                        ...componentChunks,
+                        { name: 'plugin-media-library', test: /plugins\/mediaLibrary/ },
+                        { name: 'plugin-wysiwyg', test: /plugins\/wysiwyg/ }
+                    ]
+                }
             }
         }
     },
@@ -44,7 +56,8 @@ export default defineConfig({
         extensions: ['.js', '.ts'],
         alias: {
             '@fonts': resolve('./public/fonts'),
-            '@tabler-icons': resolve('./node_modules/@tabler/icons/icons')
+            '@tabler-icons': resolve('./node_modules/@tabler/icons/icons'),
+            '@css': resolve('./css')
         }
     },
     server: {

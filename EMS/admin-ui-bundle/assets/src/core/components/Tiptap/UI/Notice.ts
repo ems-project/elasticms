@@ -1,4 +1,4 @@
-import '../../../../../css/core/components/tiptap/_notice.scss'
+import '@css/core/components/tiptap/_notice.scss'
 
 type NoticeType = 'error' | 'success'
 

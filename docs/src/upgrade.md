@@ -7,6 +7,11 @@ outline: [2, 2]
 > [!TIP] It is recommended to rebuild all indexes after an upgrade:
 > `emsco:environment:rebuild --all`
 
+## 7.3
+- BC: media library template no longer relies on Bootstrap classes or Font Awesome icons by default
+- BC: CKEditor is deprecated and will be removed in 8.*, you should use [tiptap](./elasticms-admin/wysiwyg/tiptap.md).
+- BC: dashboard type `media_lib_browse_object` is deprecated, not needed anymore with tiptap.
+
 ## 7.2
 
 - The command option `--user` is deprecated, use `--username` instead for the following commands

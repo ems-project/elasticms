@@ -1,19 +1,17 @@
-dialog.ems-dialog {
-  --dialog-bg: #fff;
-  --dialog-border-color: #d2d6de;
-  --dialog-text-color: #333;
-  --dialog-input-color: #555;
-  --dialog-input-border: #d2d6de;
-  --dialog-focus-color: #3c8dbc;
-  --dialog-btn-primary-bg: #3c8dbc;
-  --dialog-btn-primary-hover-bg: #367fa9;
-  --dialog-btn-danger-border: #b52f1f;
-  --dialog-btn-danger-color: #b52f1f;
-  --dialog-btn-danger-hover-color: #dd4b39;
-  --dialog-btn-danger-hover-border: #dd4b39;
-  --dialog-btn-secondary-bg: #f4f4f4;
-  --dialog-btn-secondary-color: #444444;
-  --dialog-btn-secondary-border: #dddddd;
-  --dialog-btn-secondary-hover-bg: #e7e7e7;
-  --dialog-btn-secondary-hover-border: #adadad;
+@import "ems";
+
+:root {
+  --ems-error-color: #dd4b39;
+
+  --ems-btn-primary-bg: #3c8dbc;
+  --ems-btn-primary-hover-bg: #367fa9;
+  --ems-btn-secondary-bg: #f4f4f4;
+  --ems-btn-secondary-color: #444444;
+  --ems-btn-secondary-border: #dddddd;
+  --ems-btn-secondary-hover-bg: #e7e7e7;
+  --ems-btn-secondary-hover-border: #adadad;
+  --ems-btn-danger-color: #b52f1f;
+  --ems-btn-danger-border: #b52f1f;
+  --ems-btn-danger-hover-color: #dd4b39;
+  --ems-btn-danger-hover-border: #dd4b39;
 }

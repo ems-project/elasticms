@@ -111,7 +111,7 @@ class OpenShift implements RunnerInterface
             }
         }
         if (RunnerStatus::Unknown === $status && $active > 0) {
-            $status = RunnerStatus::Running;
+            return RunnerStatus::Running;
         }
 
         return $status;

@@ -313,7 +313,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         $path = [$map ? $map($this) : $this];
 
         if (null !== $this->parent && !$this->parent->isRoot()) {
-            $path = \array_merge($this->parent->getPath($map), $path);
+            return \array_merge($this->parent->getPath($map), $path);
         }
 
         return $path;

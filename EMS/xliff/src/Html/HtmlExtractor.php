@@ -207,7 +207,8 @@ class HtmlExtractor
                 );
 
                 return [$placeholder];
-            } elseif ($node->hasAttributes() && $node instanceof \DOMElement) {
+            }
+            if ($node->hasAttributes() && $node instanceof \DOMElement) {
                 $pairedCode = new PairedCode(
                     referenceId: $this->idGenerator->nextReferenceId(),
                     id: $this->idGenerator->nextInlineCodeId(),
@@ -298,7 +299,7 @@ class HtmlExtractor
             throw new \RuntimeException('Unexpected null DOMNode');
         }
         if (null !== $attributeName) {
-            $resourceName = \sprintf('%s[@%s]', $resourceName, $attributeName);
+            return \sprintf('%s[@%s]', $resourceName, $attributeName);
         }
 
         return $resourceName;

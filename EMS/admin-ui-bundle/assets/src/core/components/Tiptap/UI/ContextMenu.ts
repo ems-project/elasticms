@@ -1,4 +1,4 @@
-import '../../../../../css/core/components/tiptap/_context_menu.scss'
+import '@css/core/components/tiptap/_context_menu.scss'
 
 import type { TiptapEditor } from './../Editor.ts'
 import { CellSelection } from '@tiptap/pm/tables'

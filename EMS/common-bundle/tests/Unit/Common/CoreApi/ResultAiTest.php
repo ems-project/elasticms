@@ -14,6 +14,9 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 final class ResultAiTest extends TestCase
 {
     private ResponseInterface $response;
+    /**
+     * @var Stub&LoggerInterface
+     */
     private Stub $logger;
 
     #[\Override]

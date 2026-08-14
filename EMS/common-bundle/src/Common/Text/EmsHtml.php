@@ -6,7 +6,7 @@ namespace EMS\CommonBundle\Common\Text;
 
 class EmsHtml implements \Countable, \JsonSerializable, \Stringable
 {
-    public function __construct(private string $html, private string $charset = 'UTF-8')
+    public function __construct(private string $html, private readonly string $charset = 'UTF-8')
     {
     }
 

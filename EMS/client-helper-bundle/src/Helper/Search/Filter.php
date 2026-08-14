@@ -20,22 +20,22 @@ final class Filter
 {
     private readonly string $type;
     private string $field;
-    private ?string $secondaryField;
-    private ?string $parentField;
+    private readonly ?string $secondaryField;
+    private readonly ?string $parentField;
 
-    private ?string $sortField;
+    private readonly ?string $sortField;
     private readonly string $sortOrder;
-    private bool $reversedNested;
+    private readonly bool $reversedNested;
 
-    private ?int $aggSize;
+    private readonly ?int $aggSize;
     /** default true for terms, when value passed default false */
     private bool $postFilter = true;
     /** only public filters will handle a request value. */
-    private bool $public;
+    private readonly bool $public;
     /** you can deactivate a filter and activate it by passing the filter name in the request */
     private bool $active;
     /** if not all doc contain the filter */
-    private bool $optional;
+    private readonly bool $optional;
     private ?AbstractQuery $queryFilters = null;
     /** @var list<string> */
     private array $queryTypes = [];

@@ -27,7 +27,7 @@ final class Search
     /** @var string[] */
     private readonly array $fieldsExclude;
     /** @var ?array<mixed> */
-    private ?array $querySearch;
+    private readonly ?array $querySearch;
     /** @var string[] */
     private array $suggestFields;
     /** @var Filter[] */

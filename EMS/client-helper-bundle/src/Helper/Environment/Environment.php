@@ -30,7 +30,7 @@ final class Environment
     private readonly ?string $routePrefix;
     private readonly ?string $backend;
     /** @var array<string, mixed> */
-    private array $request;
+    private readonly array $request;
     /** @var array<mixed> */
     private array $options;
     private readonly string $hash;

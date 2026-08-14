@@ -222,7 +222,7 @@ class DeadLinksCommand extends AbstractCommand
 
     private function log(string $level, string $url, string $scheme, int $status, string $message, string $referer, string $text, ?string $location, ?string $error): void
     {
-        $problemDescription = $this->getProblemDescription($level, $url, $scheme, $status, $message, $referer, $text, $location, $error);
+        $problemDescription = $this->getProblemDescription($scheme, $status, $location);
         $problemDescription = $this->translator->trans($problemDescription->getMessage(), $problemDescription->getParameters(), $problemDescription->getDomain(), $this->locale);
 
         $this->report[] = [
@@ -291,7 +291,7 @@ class DeadLinksCommand extends AbstractCommand
         return $data;
     }
 
-    private function getProblemDescription(string $level, string $url, string $scheme, int $status, string $message, string $referer, string $text, ?string $location, ?string $error): TranslatableMessage
+    private function getProblemDescription(string $scheme, int $status, ?string $location): TranslatableMessage
     {
         if ('ems' === $scheme) {
             return t('web.audit.missing-document');

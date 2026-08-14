@@ -8,8 +8,8 @@ use EMS\Helpers\Standard\Type;
 
 class SmartCrop
 {
-    private int $cropWidth = 0;
-    private int $cropHeight = 0;
+    private int $cropWidth;
+    private int $cropHeight;
     private float $detailWeight = 0.2;
     /** @var float[] */
     private array $skinColor = [
@@ -30,7 +30,7 @@ class SmartCrop
     private int $scoreDownSample = 8;
     private int $step = 8;
     private float $scaleStep = 0.1;
-    private float $minScale = 1.0;
+    private float $minScale;
     private float $maxScale = 1.0;
     private float $edgeRadius = 0.4;
     private float $edgeWeight = -20.0;

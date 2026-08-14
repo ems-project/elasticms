@@ -92,7 +92,7 @@ final class Search
 
     private function bindRequest(Request $request): void
     {
-        $this->queryString = $request->query->get('q', null);
+        $this->queryString = $request->query->get('q');
 
         $all = [...$request->query->all(), ...$request->attributes->all()];
         $this->page = isset($all['p']) ? (int) $all['p'] : $this->page;

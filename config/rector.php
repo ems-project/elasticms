@@ -14,6 +14,7 @@ use Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessUnionReturnDocblockRector;
 use Rector\DeadCode\Rector\Property\RemoveUselessVarTagRector;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
+use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
 use Rector\Symfony\Set\SymfonySetList;
 
 return RectorConfig::configure()
@@ -67,6 +68,7 @@ return RectorConfig::configure()
         RemoveUselessReturnTagRector::class,
         RemoveUselessUnionReturnDocblockRector::class,
         RemoveUselessVarTagRector::class,
+        RenameMethodRector::class,
         RepeatedAndNotEqualToNotInArrayRector::class,
         RepeatedOrEqualToInArrayRector::class,
     ]);

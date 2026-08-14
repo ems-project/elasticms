@@ -12,6 +12,7 @@ use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessUnionReturnDocblockRector;
+use Rector\DeadCode\Rector\Property\RemoveDefaultValueFromAssignedPropertyRector;
 use Rector\DeadCode\Rector\Property\RemoveUselessVarTagRector;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
@@ -59,11 +60,8 @@ return RectorConfig::configure()
         FlipTypeControlToUseExclusiveTypeRector::class,
         NewlineAfterStatementRector::class,
         NewlineBetweenClassLikeStmtsRector::class,
-        ReadOnlyPropertyRector::class => [
-            __DIR__ . '/../EMS/common-bundle/src/Entity',
-            __DIR__ . '/../EMS/core-bundle/src/Entity',
-            __DIR__ . '/../EMS/submission-bundle/src/Entity',
-        ],
+        ReadOnlyPropertyRector::class,
+        RemoveDefaultValueFromAssignedPropertyRector::class,
         RemoveUselessParamTagRector::class,
         RemoveUselessReturnTagRector::class,
         RemoveUselessUnionReturnDocblockRector::class,

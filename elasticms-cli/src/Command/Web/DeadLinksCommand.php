@@ -293,9 +293,8 @@ class DeadLinksCommand extends AbstractCommand
 
     private function getProblemDescription(string $level, string $url, string $scheme, int $status, string $message, string $referer, string $text, ?string $location, ?string $error): TranslatableMessage
     {
-        switch ($scheme) {
-            case 'ems':
-                return t('web.audit.missing-document');
+        if ($scheme === 'ems') {
+            return t('web.audit.missing-document');
         }
         if (0 === $status && \in_array($scheme, ['http', 'https'], true)) {
             return t('web.audit.server-gone');

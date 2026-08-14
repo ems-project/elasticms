@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Tests\Integration;
 
+use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
@@ -46,7 +47,7 @@ final class McpControllerTest extends WebTestCase
     public function testInitializeRequiresValidBearerToken(): void
     {
         $this->client->request(
-            'POST',
+            Request::METHOD_POST,
             '/api/mcp',
             server: [
                 'CONTENT_TYPE' => 'application/json',
@@ -72,7 +73,7 @@ final class McpControllerTest extends WebTestCase
         ];
 
         $this->client->request(
-            'POST',
+            Request::METHOD_POST,
             '/api/mcp',
             server: $this->mcpHeaders($sessionId),
             content: $this->jsonEncode($payload)
@@ -134,7 +135,7 @@ final class McpControllerTest extends WebTestCase
         ];
 
         $this->client->request(
-            'POST',
+            Request::METHOD_POST,
             '/api/mcp',
             server: $this->mcpHeaders($sessionId),
             content: $this->jsonEncode($currentUserPayload)
@@ -158,7 +159,7 @@ final class McpControllerTest extends WebTestCase
         ];
 
         $this->client->request(
-            'POST',
+            Request::METHOD_POST,
             '/api/mcp',
             server: $this->mcpHeaders($sessionId),
             content: $this->jsonEncode($currentStorageAlgorithmPayload)
@@ -183,7 +184,7 @@ final class McpControllerTest extends WebTestCase
         ];
 
         $this->client->request(
-            'POST',
+            Request::METHOD_POST,
             '/api/mcp',
             server: $this->mcpHeaders($sessionId),
             content: $this->jsonEncode($createDraftPayload)
@@ -231,7 +232,7 @@ final class McpControllerTest extends WebTestCase
         ];
 
         $this->client->request(
-            'POST',
+            Request::METHOD_POST,
             '/api/mcp',
             server: $this->mcpHeaders($sessionId),
             content: $this->jsonEncode($createFinalizedPayload)
@@ -288,7 +289,7 @@ final class McpControllerTest extends WebTestCase
         ];
 
         $this->client->request(
-            'POST',
+            Request::METHOD_POST,
             '/api/mcp',
             server: $this->mcpHeaders($sessionId),
             content: $this->jsonEncode($initPayload)
@@ -316,7 +317,7 @@ final class McpControllerTest extends WebTestCase
             ];
 
             $this->client->request(
-                'POST',
+                Request::METHOD_POST,
                 '/api/mcp',
                 server: $this->mcpHeaders($sessionId),
                 content: $this->jsonEncode($uploadPayload)
@@ -344,7 +345,7 @@ final class McpControllerTest extends WebTestCase
         ];
 
         $this->client->request(
-            'POST',
+            Request::METHOD_POST,
             '/api/mcp',
             server: $this->mcpHeaders($sessionId),
             content: $this->jsonEncode($infoPayload)
@@ -372,7 +373,7 @@ final class McpControllerTest extends WebTestCase
         ];
 
         $this->client->request(
-            'POST',
+            Request::METHOD_POST,
             '/api/mcp',
             server: $this->mcpHeaders($sessionId),
             content: $this->jsonEncode($downloadPayload)
@@ -406,7 +407,7 @@ final class McpControllerTest extends WebTestCase
         ];
 
         $this->client->request(
-            'POST',
+            Request::METHOD_POST,
             '/api/mcp',
             server: $this->mcpHeaders($sessionId),
             content: $this->jsonEncode($payload)
@@ -624,7 +625,7 @@ final class McpControllerTest extends WebTestCase
     private function initializeSession(KernelBrowser $client): string
     {
         $client->request(
-            'POST',
+            Request::METHOD_POST,
             '/api/mcp',
             server: $this->mcpHeaders(),
             content: $this->jsonEncode($this->initializePayload())

@@ -13,7 +13,7 @@ class FieldChoicesConfig
     /** @var mixed[] */
     private array $choices = [];
     private ?string $placeholder = null;
-    private ?string $sort;
+    private ?string $sort = null;
 
     /**
      * @param mixed[] $values

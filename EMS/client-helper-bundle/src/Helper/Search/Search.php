@@ -23,13 +23,13 @@ final class Search
     /** @var Synonym[] */
     private array $synonyms = [];
     /** @var string[] */
-    private array $fields;
+    private array $fields = [];
     /** @var string[] */
     private readonly array $fieldsExclude;
     /** @var ?array<mixed> */
-    private readonly ?array $querySearch;
+    private ?array $querySearch = null;
     /** @var string[] */
-    private array $suggestFields;
+    private array $suggestFields = [];
     /** @var Filter[] */
     private array $filters = [];
     /** @var int[] */
@@ -42,9 +42,9 @@ final class Search
     private array $highlight = [];
 
     /** @var string|null free text search */
-    private ?string $queryString;
+    private ?string $queryString = null;
 
-    private int $page;
+    private int $page = 0;
     private int $size = 100;
     private ?string $sortBy = null;
     private string $analyzer;

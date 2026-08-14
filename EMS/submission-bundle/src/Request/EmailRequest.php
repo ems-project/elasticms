@@ -11,8 +11,8 @@ final class EmailRequest
     /** @var string */
     private $from;
     private readonly string $subject;
-    private readonly string $body;
-    private readonly string $contentType;
+    private string $body = '';
+    private string $contentType = '';
     /** @var array<array<mixed>> */
     private readonly array $attachments;
     private readonly ?string $replyTo;

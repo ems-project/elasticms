@@ -293,7 +293,7 @@ class DeadLinksCommand extends AbstractCommand
 
     private function getProblemDescription(string $level, string $url, string $scheme, int $status, string $message, string $referer, string $text, ?string $location, ?string $error): TranslatableMessage
     {
-        if ($scheme === 'ems') {
+        if ('ems' === $scheme) {
             return t('web.audit.missing-document');
         }
         if (0 === $status && \in_array($scheme, ['http', 'https'], true)) {
@@ -313,6 +313,7 @@ class DeadLinksCommand extends AbstractCommand
                 return t('web.audit.permanent-redirect');
             }
         }
+
         return match ($status) {
             301, 303, 308 => t('web.audit.permanent-redirect'),
             302, 307 => t('web.audit.temporary-redirect'),

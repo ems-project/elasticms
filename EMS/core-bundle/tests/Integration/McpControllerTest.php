@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Tests\Integration;
 
-use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
@@ -22,6 +21,7 @@ use EMS\CoreBundle\Form\DataField\TextStringFieldType;
 use EMS\CoreBundle\Tests\Integration\App\Kernel;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
 
 final class McpControllerTest extends WebTestCase
 {

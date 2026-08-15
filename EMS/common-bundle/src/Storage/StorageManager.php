@@ -177,7 +177,7 @@ class StorageManager implements FileManagerInterface
         $this->contentSavedDuringRequest[] = $hash;
 
         $count = 0;
-        foreach ($this->adapters as $index  => $adapter) {
+        foreach ($this->adapters as $index => $adapter) {
             try {
                 if ($count > 0 && $usageType < StorageInterface::STORAGE_USAGE_ASSET) {
                     break;

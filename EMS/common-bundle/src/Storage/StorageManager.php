@@ -414,7 +414,7 @@ class StorageManager implements FileManagerInterface
     public function saveConfig(array $config, int $usageType = StorageInterface::STORAGE_USAGE_CONFIG): string
     {
         if (\is_array($config[EmsFields::ASSET_CONFIG_FILE_NAMES] ?? null) && \count($config[EmsFields::ASSET_CONFIG_FILE_NAMES]) > 0) {
-            $hashContext = \hash_init('sha1');
+            $hashContext = \hash_init($this->hashAlgo);
             foreach ($config[EmsFields::ASSET_CONFIG_FILE_NAMES] as $filename) {
                 if (!\file_exists($filename)) {
                     continue;

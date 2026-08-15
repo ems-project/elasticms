@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Storage;
 
 use EMS\CommonBundle\Contracts\File\FileManagerInterface;
+use EMS\CommonBundle\Exception\StorageNotAvailableException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\Factory\StorageFactoryInterface;
@@ -169,7 +170,7 @@ class StorageManager implements FileManagerInterface
     {
         $hash = $this->computeStringHash($contents);
         $count = 0;
-        foreach ($this->adapters as $adapter) {
+        foreach ($this->adapters as $index  => $adapter) {
             try {
                 if ($count > 0 && $usageType < StorageInterface::STORAGE_USAGE_ASSET) {
                     break;
@@ -197,6 +198,9 @@ class StorageManager implements FileManagerInterface
                 if ($adapter->finalizeUpload($hash)) {
                     ++$count;
                 }
+            } catch (StorageNotAvailableException $storageNotAvailableException) {
+                unset($this->adapters[$index]);
+                $this->logger->error($storageNotAvailableException->getMessage());
             } catch (\Throwable $e) {
                 $this->logger->error(\sprintf('Not able to save %s in %s with message: %s', $hash, $adapter->__toString(), $e->getMessage()));
             }

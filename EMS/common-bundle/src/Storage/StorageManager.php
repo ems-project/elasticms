@@ -37,6 +37,8 @@ class StorageManager implements FileManagerInterface
      * @var int<1, max>
      */
     private int $headChunkSize = FileManagerInterface::HEADS_CHUNK_SIZE;
+    /** @var string[] */
+    private array $contentSavedDuringRequest = [];
 
     /**
      * @param iterable<StorageFactoryInterface>                                            $factories
@@ -169,6 +171,11 @@ class StorageManager implements FileManagerInterface
     public function saveContents(string $contents, string $filename, string $mimetype, int $usageType): string
     {
         $hash = $this->computeStringHash($contents);
+        if (\in_array($hash, $this->contentSavedDuringRequest, true)) {
+            return $hash;
+        }
+        $this->contentSavedDuringRequest[] = $hash;
+
         $count = 0;
         foreach ($this->adapters as $index  => $adapter) {
             try {

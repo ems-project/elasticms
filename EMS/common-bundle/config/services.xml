@@ -16,6 +16,7 @@
         <service id="ems.vite" class="EMS\CommonBundle\Common\Asset\ViteService">
             <argument type="service" id="ems_common.storage.manager"/>
             <argument type="service" id="http_client"/>
+            <argument type="service" id="ems.common.cache"/>
             <argument>%ems_common.vite_dev_server%</argument>
         </service>
 

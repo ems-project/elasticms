@@ -1,5 +1,12 @@
 # Changelog 6.x
 
+## 6.9.29 (2026-08-17)
+### Bug Fixes
+* fix(admin/contentType): export actions include environments by @Davidmattei in https://github.com/ems-project/elasticms/pull/1788
+* fix(web/assets): ems manifest in cache and other perf issues when S3 is down by @theus77 in https://github.com/ems-project/elasticms/pull/1795
+### Chores
+* chore: update composer dependencies 6.9.x by @Davidmattei in https://github.com/ems-project/elasticms/pull/1789
+
 ## 6.9.28 (2026-08-11)
 ### Bug Fixes
 * fix(web/request): replaceJson replace legacy locale by @Davidmattei in https://github.com/ems-project/elasticms/pull/1786

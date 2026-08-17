@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Storage;
 
 use EMS\CommonBundle\Contracts\File\FileManagerInterface;
+use EMS\CommonBundle\Exception\StorageNotAvailableException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\Factory\StorageFactoryInterface;
@@ -36,6 +37,8 @@ class StorageManager implements FileManagerInterface
      * @var int<1, max>
      */
     private int $headChunkSize = FileManagerInterface::HEADS_CHUNK_SIZE;
+    /** @var string[] */
+    private array $contentSavedDuringRequest = [];
 
     /**
      * @param iterable<StorageFactoryInterface>                                            $factories
@@ -168,8 +171,13 @@ class StorageManager implements FileManagerInterface
     public function saveContents(string $contents, string $filename, string $mimetype, int $usageType): string
     {
         $hash = $this->computeStringHash($contents);
+        if (\in_array($hash, $this->contentSavedDuringRequest, true)) {
+            return $hash;
+        }
+        $this->contentSavedDuringRequest[] = $hash;
+
         $count = 0;
-        foreach ($this->adapters as $adapter) {
+        foreach ($this->adapters as $index => $adapter) {
             try {
                 if ($count > 0 && $usageType < StorageInterface::STORAGE_USAGE_ASSET) {
                     break;
@@ -197,6 +205,9 @@ class StorageManager implements FileManagerInterface
                 if ($adapter->finalizeUpload($hash)) {
                     ++$count;
                 }
+            } catch (StorageNotAvailableException $storageNotAvailableException) {
+                unset($this->adapters[$index]);
+                $this->logger->error($storageNotAvailableException->getMessage());
             } catch (\Throwable $e) {
                 $this->logger->error(\sprintf('Not able to save %s in %s with message: %s', $hash, $adapter->__toString(), $e->getMessage()));
             }
@@ -414,7 +425,7 @@ class StorageManager implements FileManagerInterface
     public function saveConfig(array $config, int $usageType = StorageInterface::STORAGE_USAGE_CONFIG): string
     {
         if (\is_array($config[EmsFields::ASSET_CONFIG_FILE_NAMES] ?? null) && \count($config[EmsFields::ASSET_CONFIG_FILE_NAMES]) > 0) {
-            $hashContext = \hash_init('sha1');
+            $hashContext = \hash_init($this->hashAlgo);
             foreach ($config[EmsFields::ASSET_CONFIG_FILE_NAMES] as $filename) {
                 if (!\file_exists($filename)) {
                     continue;

@@ -51,6 +51,7 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('ems_common.storage.manager'),
             service('http_client'),
+            service('ems.common.cache'),
             '%ems_common.vite_dev_server%',
         ]);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\Asset;
 
+use EMS\CommonBundle\Common\Cache\Cache;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\File;
 use EMS\Helpers\Standard\Json;
@@ -22,6 +23,7 @@ class ViteService
     public function __construct(
         private readonly StorageManager $storageManager,
         private readonly HttpClientInterface $httpClient,
+        private readonly Cache $cacheManager,
         private readonly ?string $devServerUrl = null,
     ) {
     }
@@ -43,9 +45,19 @@ class ViteService
             return;
         }
 
+        $cacheKey = "ems-manifest-$hash";
+        $cacheItem = $this->cacheManager->getItem($cacheKey);
+        if ($cacheItem->isHit()) {
+            $this->manifest = $cacheItem->get();
+            $this->manifestLoaded = true;
+
+            return;
+        }
         try {
             $jsonManifest = $this->storageManager->getStreamFromArchive($hash, self::FILE)->getStream()->getContents();
             $this->manifest = Json::decode($jsonManifest);
+            $cacheItem->set($this->manifest);
+            $this->cacheManager->save($cacheItem);
         } catch (\Throwable) {
         }
 

@@ -9,6 +9,7 @@ use Aws\Exception\AwsException;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use EMS\CommonBundle\Common\Cache\Cache;
+use EMS\CommonBundle\Exception\StorageNotAvailableException;
 use EMS\CommonBundle\Storage\Archive;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\Processor\Config;
@@ -403,6 +404,25 @@ class S3Storage extends AbstractUrlStorage implements \Stringable
         $promise->wait();
 
         return true;
+    }
+
+    #[\Override]
+    public function head(string $hash): bool
+    {
+        try {
+            $this->getS3Client()->headObject([
+                'Bucket' => $this->bucket,
+                'Key' => \implode('/', [\substr($hash, 0, 3), $hash]),
+            ]);
+
+            return true;
+        } catch (S3Exception $exception) {
+            if (null === $exception->getStatusCode() || $exception->getStatusCode() >= 500) {
+                throw new StorageNotAvailableException($this);
+            }
+
+            return false;
+        }
     }
 
     #[\Override]

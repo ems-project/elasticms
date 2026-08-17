@@ -417,7 +417,7 @@ class S3Storage extends AbstractUrlStorage
 
             return true;
         } catch (S3Exception $exception) {
-            if (null === $exception->getStatusCode()) {
+            if (null === $exception->getStatusCode() || $exception->getStatusCode() >= 500) {
                 throw new StorageNotAvailableException($this);
             }
 

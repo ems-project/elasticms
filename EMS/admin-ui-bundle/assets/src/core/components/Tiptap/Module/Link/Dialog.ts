@@ -306,7 +306,7 @@ function buildLocalPageWrapper(
                 searchPlaceholder: e.trans('link_internal_search_placeholder'),
                 noResultsLabel: e.trans('link_internal_no_results'),
                 initialId: ctx.localPageId || undefined,
-                extraParams: currentType ? { type: currentType } : {},
+                extraParams: typeSelect?.value ? { type: typeSelect.value } : {},
                 onChange: (value) => {
                     selectedId = value?.id ?? null
                     selectedLabel = value?.title ?? null

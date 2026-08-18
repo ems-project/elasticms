@@ -1,5 +1,12 @@
 # Changelog 7.x
 
+## 7.3.5 (2026-08-18)
+### Bug Fixes
+* fix(admin/tiptap): color auto mode inside parent element by @Davidmattei in https://github.com/ems-project/elasticms/pull/1798
+* fix(admin/tiptap): correct internal link all contentTypes by @Davidmattei in https://github.com/ems-project/elasticms/pull/1799
+* fix(admin/tiptap): uploaded files not working correctly by @Davidmattei in https://github.com/ems-project/elasticms/pull/1797
+* fix(web/assets): ems manifest in cache and other perf issues when S3 is down by @theus77 in https://github.com/ems-project/elasticms/pull/1795
+
 ## 7.3.4 (2026-08-14)
 ### Features
 * feat(admin/tip): support internal links in link module by @Davidmattei in https://github.com/ems-project/elasticms/pull/1768

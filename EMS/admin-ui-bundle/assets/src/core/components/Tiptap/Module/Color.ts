@@ -1,6 +1,6 @@
 import IconTextColor from '@tabler/icons/outline/letter-case.svg?raw'
 import IconHighlight from '@tabler/icons/outline/highlight.svg?raw'
-import { TextStyle, Color } from '@tiptap/extension-text-style'
+import { TextStyle as TextStyleBase, Color } from '@tiptap/extension-text-style'
 import { Extension } from '@tiptap/core'
 import { TiptapModule } from '../Types.ts'
 import { TiptapEditor } from '../Editor.ts'
@@ -40,6 +40,30 @@ const BackgroundColor = Extension.create({
                         .setMark('textStyle', { backgroundColor: null })
                         .removeEmptyTextStyle()
                         .run()
+        }
+    }
+})
+
+const TextStyle = TextStyleBase.extend({
+    addCommands() {
+        return {
+            ...this.parent?.(),
+            removeEmptyTextStyle:
+                () =>
+                ({ tr }) => {
+                    const { selection } = tr
+                    tr.doc.nodesBetween(selection.from, selection.to, (node, pos) => {
+                        if (!node.isText) return true
+                        if (
+                            !node.marks
+                                .filter((mark) => mark.type === this.type)
+                                .some((mark) => Object.values(mark.attrs).some((value) => !!value))
+                        ) {
+                            tr.removeMark(pos, pos + node.nodeSize, this.type)
+                        }
+                    })
+                    return true
+                }
         }
     }
 })

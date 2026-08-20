@@ -23,7 +23,7 @@ final class Version20260820095624 extends AbstractMigration
             !$this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform,
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
         );
-        $this->addSql('update user set roles = \'["ROLE_USER"]\' where enabled = true and roles::jsonb = \'[]\'::jsonb;');
+        $this->addSql('UPDATE "user" SET roles = \'["ROLE_USER"]\' WHERE enabled = true AND roles::jsonb = \'[]\'::jsonb;');
     }
     
     #[\Override]

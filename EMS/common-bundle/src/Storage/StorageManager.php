@@ -89,7 +89,18 @@ class StorageManager implements FileManagerInterface
 
     public function head(string $hash): bool
     {
-        return \array_any($this->adapters, fn ($adapter) => $adapter->head($hash));
+        foreach ($this->adapters as $index => $adapter) {
+            try {
+                if ($adapter->head($hash)) {
+                    return true;
+                }
+            } catch (StorageNotAvailableException $storageNotAvailableException) {
+                unset($this->adapters[$index]);
+                $this->logger->error($storageNotAvailableException->getMessage());
+            }
+        }
+
+        return false;
     }
 
     #[\Override]
@@ -127,17 +138,22 @@ class StorageManager implements FileManagerInterface
         /** @var StorageInterface[] $missingIn */
         $missingIn = [];
 
-        foreach ($this->adapters as $adapter) {
-            if ($adapter->head($hash)) {
-                try {
-                    $this->hotSynchronize($hash, $adapter, $missingIn);
+        foreach ($this->adapters as $index => $adapter) {
+            try {
+                if ($adapter->head($hash)) {
+                    try {
+                        $this->hotSynchronize($hash, $adapter, $missingIn);
 
-                    return $adapter->read($hash);
-                } catch (\Throwable) {
-                    continue;
+                        return $adapter->read($hash);
+                    } catch (\Throwable) {
+                        continue;
+                    }
+                } else {
+                    $missingIn[] = $adapter;
                 }
-            } else {
-                $missingIn[] = $adapter;
+            } catch (StorageNotAvailableException $storageNotAvailableException) {
+                unset($this->adapters[$index]);
+                $this->logger->error($storageNotAvailableException->getMessage());
             }
         }
         throw new NotFoundException($hash);
@@ -550,9 +566,14 @@ class StorageManager implements FileManagerInterface
 
     public function getStreamFromArchive(string $hash, string $path, bool $extract = true, ?string $indexResource = null): StreamWrapper
     {
+        \dump(new \DateTime());
         if (null !== $indexResource && ('' === $path || \str_ends_with($path, '/'))) {
             $path .= $indexResource;
         }
+        if (!$this->head($hash)) {
+            throw new NotFoundHttpException(\sprintf('Archive %s not found', $hash));
+        }
+        \dump(new \DateTime());
         foreach ($this->adapters as $adapter) {
             $stream = $adapter->readFromArchiveInCache($hash, $path);
             if (null !== $stream) {
@@ -563,10 +584,6 @@ class StorageManager implements FileManagerInterface
             throw new NotFoundHttpException(\sprintf('File %s not found', $path));
         }
         $this->logger->debug(\sprintf('File %s from archive %s is not in cache', $path, $hash));
-
-        if (!$this->head($hash)) {
-            throw new NotFoundHttpException(\sprintf('Archive %s not found', $hash));
-        }
 
         $archiveFile = TempFile::create()->loadFromStream($this->getStream($hash));
         $mimeType = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);

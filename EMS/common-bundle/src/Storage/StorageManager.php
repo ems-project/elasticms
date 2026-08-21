@@ -87,7 +87,6 @@ class StorageManager implements FileManagerInterface
             }
             $cacheItem = $this->getNotAvailableStorageCacheItem($storage);
             if ($cacheItem->isHit()) {
-                \dump('hit: storage not available');
                 continue;
             }
             $this->addAdapter($storage);

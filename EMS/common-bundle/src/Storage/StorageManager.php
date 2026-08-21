@@ -566,14 +566,12 @@ class StorageManager implements FileManagerInterface
 
     public function getStreamFromArchive(string $hash, string $path, bool $extract = true, ?string $indexResource = null): StreamWrapper
     {
-        \dump(new \DateTime());
         if (null !== $indexResource && ('' === $path || \str_ends_with($path, '/'))) {
             $path .= $indexResource;
         }
         if (!$this->head($hash)) {
             throw new NotFoundHttpException(\sprintf('Archive %s not found', $hash));
         }
-        \dump(new \DateTime());
         foreach ($this->adapters as $adapter) {
             $stream = $adapter->readFromArchiveInCache($hash, $path);
             if (null !== $stream) {

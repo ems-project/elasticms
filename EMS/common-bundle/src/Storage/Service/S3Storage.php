@@ -413,6 +413,11 @@ class S3Storage extends AbstractUrlStorage
             $this->getS3Client()->headObject([
                 'Bucket' => $this->bucket,
                 'Key' => \implode('/', [\substr($hash, 0, 3), $hash]),
+                '@http' => [
+                    'connect_timeout' => 0.1,
+                    'timeout' => 0.5,
+                    'retries' => 0,
+                ],
             ]);
 
             return true;

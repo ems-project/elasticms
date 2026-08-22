@@ -109,7 +109,6 @@ They will instantiate an HTTP service to read/save assets, typically an elasticm
 
  ### S3
 This will instantiate an S3 client service to read and save assets in an S3 (or S3-compatible, e.g. MinIO) bucket.
-
  - `type` (mandatory): `"s3"`
  - `credentials` (mandatory): S3 credentials object
  - `bucket` (mandatory): Name of the bucket to use
@@ -120,7 +119,7 @@ This will instantiate an S3 client service to read and save assets in an S3 (or 
  - `upload-folder`: Deprecated option.
 - `http-options`: Allows overriding [S3 HTTP options](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_configuration.html#config-http), especially for `HEAD` requests. Default value: `{"connect_timeout":0.1,"timeout":0.5,"retries":0}`.
  
-Example:
+ Example:
  ```yaml
 [
   {

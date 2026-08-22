@@ -29,22 +29,22 @@ class S3Storage extends AbstractUrlStorage
 
     /**
      * @param array{version?: string, credentials?: array{key: string, secret: string}, region?: string} $credentials
-     * @param mixed[] $httpOptions
+     * @param mixed[]                                                                                    $httpOptions
      */
     public function __construct(
         LoggerInterface $logger,
-        private readonly Cache $cache, 
-        private readonly array $credentials, 
-        private readonly string $bucket, 
-        int $usage, 
-        int $hotSynchronizeLimit = 0, 
-        private readonly bool $multipartUpload = false, 
+        private readonly Cache $cache,
+        private readonly array $credentials,
+        private readonly string $bucket,
+        int $usage,
+        int $hotSynchronizeLimit = 0,
+        private readonly bool $multipartUpload = false,
         private readonly array $httpOptions = [
             'connect_timeout' => 0.1,
             'timeout' => 0.5,
             'retries' => 0,
-        ])
-    {
+        ]
+    ) {
         parent::__construct($logger, $usage, $hotSynchronizeLimit);
     }
 

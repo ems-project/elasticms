@@ -333,7 +333,31 @@
         "containerId" : "c78ee7a7-ca0c-4ea3-aa9b-9c772e1d9251",
         "attributes" : { }
       } ],
-      "demo-skeleton-oauth2" : [ ]
+      "demo-skeleton-oauth2" : [ {
+        "id" : "baf4a9b9-f340-4023-aa6d-15f77a5ee950",
+        "name" : "webmaster",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "55e433be-33a4-46cf-b972-36eccc5cebb0",
+        "attributes" : { }
+      }, {
+        "id" : "264d2b26-fb43-4b94-95c3-58fc3e336c50",
+        "name" : "publisher",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "55e433be-33a4-46cf-b972-36eccc5cebb0",
+        "attributes" : { }
+      }, {
+        "id" : "ccefef2e-6578-4427-af63-c87bf74dc615",
+        "name" : "author",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "55e433be-33a4-46cf-b972-36eccc5cebb0",
+        "attributes" : { }
+      } ]
     }
   },
   "groups" : [ {
@@ -555,7 +579,7 @@
       "access.token.signed.response.alg" : "RS256",
       "backchannel.logout.revoke.offline.tokens" : "false",
       "use.refresh.tokens" : "true",
-      "jwt.credential.certificate" : "MIICtzCCAZ8CBgGO8vnndjANBgkqhkiG9w0BAQsFADAfMR0wGwYDVQQDDBRkZW1vLXNrZWxldG9uLW9hdXRoMjAeFw0yNDA0MTgyMDQ5MDdaFw0zNDA0MTgyMDUwNDdaMB8xHTAbBgNVBAMMFGRlbW8tc2tlbGV0b24tb2F1dGgyMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvBU89ccQI2uPxX28H7XAH1+Lix4nmppB+fW7l2PqF1l2j915yvcZfzIFFi7kb84zsT2alF6tXNKTrieBsuritce7YDQGlLRrb3RqCP+BCgWgXnVXs3XKbwfM1KxtlXAtruD+hBFMuXKa47mZGLp35EgOs66oABODDzRPzSVJlTZ67177+q1zMmkQsFPNIoq0lKq+xPQ7Oyf9yf44Z73FNCVEjqKVohZJHUb6Seoc+i1bTubeu7N58myfo1YeZehWXZCL0m6bFgL5bj5++4sXi8nHpjaPJujZZ57V6LrECXpjfR1q22Ec0C1jpopA2EUcJgJCbBpFKS9UeSV7b7lNnwIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQBYHBrlIdkdKdmMfH2fzfcvIrK+PmV2QVJWQiCI0KJd6AUByl6SBPKI1NJvR+Zy/OLO6tC0kOCMUBknoye29TX57j1WMV69S9ptvKMQQqVxB3GoJ4MCV3eREAOS2VEsI4kSs8y6MtCGEWr0cEGdf5+r4Gd8mDo4hDbbUxF4TEUzmDqCAq1KG/dONJwLNsfRGN1rZij5zmZ/l8BrSll8+LeA0JJuz0UpHYSLVf6qu6aYBzrPp3mZtqyxFmHDuEKfgIY6wQmlD/cBW9MPZDQqOBcSBnFsIogSgOOTXe8dTNjcRiMyFUaGgs6rqkTgmnsixraLNzIVcwquezoyWPw+Pl8P",
+      "jwt.credential.certificate" : "MIICtzCCAZ8CBgGZlLbd3zANBgkqhkiG9w0BAQsFADAfMR0wGwYDVQQDDBRkZW1vLXNrZWxldG9uLW9hdXRoMjAeFw0yNTA5MjkwOTAyMTZaFw0zNTA5MjkwOTAzNTZaMB8xHTAbBgNVBAMMFGRlbW8tc2tlbGV0b24tb2F1dGgyMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2mCeiR3i8vCiOq4MSTSG8kKvQRUZpx6PjedYDHYrD+UMTpiiXU+km0D2fLOmKH23/CxOTIbY3euknvfiRwlXJD1/eyXKrfMWaYycJC7N2+t8vu2Rf6iIVT8pMwYV7s/QqSi4S8pquxQkbGMyw2CzdC/Mo3mi9V6gA1tdD526SFqEERr1f0akv2NYWCDsgNGe2jfeS7Tlsz66IMtzaLMm9Hz9xuKqS9b52JlTPc+Jbf4KinYk2j8AlrcnarxdFKISRuzuLUSgCP6ZawrhrjHBxDq6WzLmWtAQyjHUwu2eZDY9OAiMZUwscy85z7tKmjg4aiGrafq/nLz+OcUVhFmwKQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAYhAEJLtqhW9hA32BnF7DeuB+qul8pkEwB7BW3o0/Aux0/Zk86ElOz9A0BmTXEgqIyh2HyU2oVeY3/U31Zw+VDvfhc5blb496T0Ngzu/VRN8qQAVg7VwNbr5ZpwqXt6yhFDSVSTc9BDnq3LlLaInmXzhFkclpWan7C4NQA0GLnTgwNQZwXIquIff9R3Af3lKoUXdrsU7N0OMl9S0O4dBtRteEbmf/kYuGI6ZsF+Mf6PXkf/2F0WYMdfUUodv5tiJ3Rz/1p98zaGPXmyTtJRSfoqYo8enoMjoBVu9Whe8J5YKQlOSYOq+77Ij1zJpVKwapvT3u5uXCrZuXrd6iveOPw",
       "tls-client-certificate-bound-access-tokens" : "false",
       "oidc.ciba.grant.enabled" : "false",
       "client.use.lightweight.access.token.enabled" : "false",
@@ -584,6 +608,23 @@
         "id.token.claim" : "true",
         "access.token.claim" : "true",
         "claim.name" : "email",
+        "jsonType.label" : "String"
+      }
+    }, {
+      "id" : "549a44e1-c073-484a-b500-b3e8df1c694b",
+      "name" : "client roles",
+      "protocol" : "openid-connect",
+      "protocolMapper" : "oidc-usermodel-client-role-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "introspection.token.claim" : "true",
+        "multivalued" : "true",
+        "userinfo.token.claim" : "true",
+        "user.attribute" : "foo",
+        "lightweight.claim" : "false",
+        "id.token.claim" : "true",
+        "access.token.claim" : "true",
+        "claim.name" : "roles",
         "jsonType.label" : "String"
       }
     }, {
@@ -1958,7 +1999,7 @@
     "shortVerificationUri" : "",
     "actionTokenGeneratedByUserLifespan.reset-credentials" : ""
   },
-  "keycloakVersion" : "24.0.3",
+  "keycloakVersion" : "24.0.5",
   "userManagedAccessAllowed" : false,
   "clientProfiles" : {
     "profiles" : [ ]

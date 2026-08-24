@@ -6,7 +6,6 @@ namespace EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider;
 
 use EMS\Helpers\Standard\Base64;
 use League\OAuth2\Client\Provider\AbstractProvider;
-use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,14 +66,14 @@ class KeycloakOAuth2Provider extends AbstractOAuth2Provider
         return $this->keycloak;
     }
 
-    /** @param AccessToken $accessToken */
     public function getUserInfo(AccessTokenInterface $accessToken): array
     {
-        $data = $this->keycloak->getResourceOwner($accessToken)->toArray();
+        $token = $this->keycloak->decryptResponse($accessToken->getToken());
 
         return [
-            'username' => $data['preferred_username'] ?? null,
-            'email' => $data['email'] ?? null,
+            'username' => $token['preferred_username'] ?? null,
+            'email' => $token['email'] ?? null,
+            'roles' => $token['roles'] ?? [],
         ];
     }
 }

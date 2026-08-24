@@ -51,7 +51,7 @@ class OAuth2Authenticator extends AbstractAuthenticator
 
         $passport = new SelfValidatingPassport(
             userBadge: new UserBadge(
-                $userInfo['username'],
+                $identifier,
                 fn (string $userIdentifier) => $this->sso->loadUser($userIdentifier, $email),
             )
         );

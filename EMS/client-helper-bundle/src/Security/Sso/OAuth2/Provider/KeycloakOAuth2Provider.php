@@ -9,6 +9,7 @@ use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class KeycloakOAuth2Provider extends AbstractOAuth2Provider
 {
@@ -66,14 +67,18 @@ class KeycloakOAuth2Provider extends AbstractOAuth2Provider
         return $this->keycloak;
     }
 
-    public function getUserInfo(AccessTokenInterface $accessToken): array
+    public function decodeAccessToken(AccessTokenInterface $accessToken): array
     {
         $token = $this->keycloak->decryptResponse($accessToken->getToken());
+
+        if (!\is_array($token)) {
+            throw new AuthenticationException('Invalid token');
+        }
 
         return [
             'username' => $token['preferred_username'] ?? null,
             'email' => $token['email'] ?? null,
-            'roles' => $token['roles'] ?? [],
+            ...$token,
         ];
     }
 }

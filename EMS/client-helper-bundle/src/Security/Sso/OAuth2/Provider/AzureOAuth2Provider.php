@@ -114,13 +114,14 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
         return $this->azure;
     }
 
-    public function getUserInfo(AccessTokenInterface $accessToken): array
+    public function decodeAccessToken(AccessTokenInterface $accessToken): array
     {
         $token = $this->azure->validateAccessToken($accessToken->getToken());
 
         return [
             'username' => $token['upn'] ?? $token['preferred_username'] ?? null,
             'email' => $token['mail'] ?? $token['email'] ?? null,
+            ...$token,
         ];
     }
 }

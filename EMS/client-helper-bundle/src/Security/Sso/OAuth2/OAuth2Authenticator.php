@@ -41,18 +41,19 @@ class OAuth2Authenticator extends AbstractAuthenticator
     {
         $provider = $this->sso->oauth2()->getProvider();
         $accessToken = $provider->getAccessToken($request);
-        $userInfo = $provider->getUserInfo($accessToken);
+        $token = $provider->decodeAccessToken($accessToken);
 
-        $identifier = $userInfo['username'] ?? null;
-        $email = $userInfo['email'] ?? null;
+        $identifier = $token['username'] ?? null;
+        $email = $token['email'] ?? null;
         if (!$identifier) {
             throw new AuthenticationException('No username found');
         }
 
+        $roles = $this->sso->getRoles($token);
         $passport = new SelfValidatingPassport(
             userBadge: new UserBadge(
                 $identifier,
-                fn (string $userIdentifier) => $this->sso->loadUser($userIdentifier, $email),
+                fn (string $userIdentifier) => $this->sso->loadUser($userIdentifier, $email, $roles),
             )
         );
         $passport->setAttribute('access_token', $accessToken);

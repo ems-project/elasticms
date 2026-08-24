@@ -65,7 +65,7 @@ final class PingIdentityOAuth2Provider extends AbstractOAuth2Provider
         return $this->provider;
     }
 
-    public function getUserInfo(AccessTokenInterface $accessToken): array
+    public function decodeAccessToken(AccessTokenInterface $accessToken): array
     {
         $jwt = $accessToken->getValues()['id_token'];
         $token = $this->decodeJwtPayload($jwt);
@@ -73,7 +73,7 @@ final class PingIdentityOAuth2Provider extends AbstractOAuth2Provider
         return [
             'username' => $token['name'] ?? $token['sub'] ?? null,
             'email' => $token['email'] ?? null,
-            'roles' => $token['roles'] ?? [],
+            ...$token,
         ];
     }
 

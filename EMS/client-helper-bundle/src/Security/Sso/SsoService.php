@@ -9,6 +9,7 @@ use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Service;
 use EMS\ClientHelperBundle\Security\Sso\Saml\SamlService;
 use EMS\ClientHelperBundle\Security\Sso\User\SsoUserProvider;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Loader\Configurator\CollectionConfigurator;
@@ -16,13 +17,17 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class SsoService
 {
+    /**
+     * @param array<int, array{expression: string, roles: string[]}> $roleMapping
+     */
     public function __construct(
         private readonly OAuth2Service $oAuth2Service,
         private readonly SamlService $samlService,
         private readonly SsoUserProvider $ssoUserProvider,
         private readonly CoreApiUserProvider $coreApiUserProvider,
         private readonly CoreApiInterface $coreApi,
-        private readonly bool $loadCoreUser
+        private readonly bool $loadCoreUser,
+        private readonly array $roleMapping
     ) {
     }
 
@@ -31,7 +36,33 @@ class SsoService
         return $this->samlService->isEnabled() || $this->oAuth2Service->isEnabled();
     }
 
-    public function loadUser(string $userIdentifier, ?string $email = null): UserInterface
+    /**
+     * @param array<mixed> $token
+     *
+     * @return string[]
+     */
+    public function getRoles(array $token): array
+    {
+        if (0 === \count($this->roleMapping)) {
+            return [];
+        }
+
+        $roles = [];
+        $expressionLanguage = new ExpressionLanguage();
+
+        foreach ($this->roleMapping as $entry) {
+            if ($expressionLanguage->evaluate($entry['expression'], $token)) {
+                $roles = [...$roles, ...$entry['roles']];
+            }
+        }
+
+        return \array_values(\array_unique($roles));
+    }
+
+    /**
+     * @param array<mixed> $roles
+     */
+    public function loadUser(string $userIdentifier, ?string $email = null, array $roles = []): UserInterface
     {
         if ($this->loadCoreUser
             && $this->coreApi->isAuthenticated()

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider;
 
+use EMS\Helpers\Standard\Base64;
+use EMS\Helpers\Standard\Json;
 use League\OAuth2\Client\OptionProvider\HttpBasicAuthOptionProvider;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\GenericProvider;
-use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -64,14 +65,26 @@ final class PingIdentityOAuth2Provider extends AbstractOAuth2Provider
         return $this->provider;
     }
 
-    /** @param AccessToken $accessToken */
-    public function getUserInfo(AccessTokenInterface $accessToken): array
+    public function decodeAccessToken(AccessTokenInterface $accessToken): array
     {
-        $data = $this->provider->getResourceOwner($accessToken)->toArray();
+        $jwt = $accessToken->getValues()['id_token'];
+        $token = $this->decodeJwtPayload($jwt);
 
         return [
-            'username' => $data['preferred_username'] ?? $data['name'] ?? $data['sub'] ?? null,
-            'email' => $data['email'] ?? null,
+            'username' => $token['name'] ?? $token['sub'] ?? null,
+            'email' => $token['email'] ?? null,
+            ...$token,
         ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function decodeJwtPayload(string $jwt): array
+    {
+        $payload = \explode('.', $jwt)[1];
+        $json = Base64::decode(\strtr($payload, '-_', '+/'));
+
+        return Json::decode($json);
     }
 }

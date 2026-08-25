@@ -54,10 +54,18 @@ class Processor
 
     public function getResponse(Request $request, string $hash, string $configHash, string $filename, bool $immutableRoute = false): Response
     {
-        $configJson = Json::decode($this->storageManager->getContents($configHash));
-        $config = new Config($this->storageManager, $hash, $configHash, $configJson);
+        try {
+            $configJson = Json::decode($this->storageManager->getContents($configHash));
+            $config = new Config($this->storageManager, $hash, $configHash, $configJson);
+        } catch (NotFoundException) {
+            throw new NotFoundHttpException(\sprintf('Config %s not found', $hash));
+        }
 
-        return $this->getStreamedResponse($request, $config, $filename, $immutableRoute);
+        try {
+            return $this->getStreamedResponse($request, $config, $filename, $immutableRoute);
+        } catch (NotFoundException) {
+            throw new NotFoundHttpException(\sprintf('File %s not found', $filename));
+        }
     }
 
     public function getStreamedResponse(Request $request, Config $config, string $filename, bool $immutableRoute): Response

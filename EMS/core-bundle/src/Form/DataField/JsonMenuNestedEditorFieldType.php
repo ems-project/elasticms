@@ -55,6 +55,7 @@ class JsonMenuNestedEditorFieldType extends DataFieldType
         $resolver
             ->setDefaults([
                 'icon' => null,
+                'blocks_template' => null,
                 'json_menu_nested_modal' => true,
             ]);
     }
@@ -78,7 +79,7 @@ class JsonMenuNestedEditorFieldType extends DataFieldType
 
         $optionsForm->get('displayOptions')->add('icon', IconPickerType::class, [
             'required' => false,
-        ])->add('blocksTemplate', IconTextType::class, [
+        ])->add('blocks_template', IconTextType::class, [
             'required' => false,
             'icon' => 'fa fa-html5',
         ]);

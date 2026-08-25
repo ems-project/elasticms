@@ -7,12 +7,10 @@ namespace EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider;
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Token;
 use EMS\Helpers\Standard\Type;
 use League\OAuth2\Client\Provider\AbstractProvider;
-use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use TheNetworg\OAuth2\Client\Provider\Azure;
-use TheNetworg\OAuth2\Client\Provider\AzureResourceOwner;
 
 use function Symfony\Component\String\u;
 
@@ -22,7 +20,7 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
     /** @var array<string, string[]> */
     private array $serviceScopes = [];
 
-    public const DEFAULT_SCOPES = ['openid', 'profile', 'offline_access'];
+    public const array DEFAULT_SCOPES = ['openid', 'profile', 'offline_access'];
 
     /**
      * @param string[] $scopes
@@ -116,16 +114,14 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
         return $this->azure;
     }
 
-    /** @param AccessToken $accessToken */
-    public function getUserInfo(AccessTokenInterface $accessToken): array
+    public function decodeAccessToken(AccessTokenInterface $accessToken): array
     {
-        /** @var AzureResourceOwner $resourceOwner */
-        $resourceOwner = $this->azure->getResourceOwner($accessToken);
-        $data = $resourceOwner->toArray();
+        $token = $this->azure->validateAccessToken($accessToken->getToken());
 
         return [
-            'username' => $data['upn'] ?? $data['preferred_username'] ?? null,
-            'email' => $data['mail'] ?? $data['email'] ?? null,
+            'username' => $token['upn'] ?? $token['preferred_username'] ?? null,
+            'email' => $token['mail'] ?? $token['email'] ?? null,
+            ...$token,
         ];
     }
 }

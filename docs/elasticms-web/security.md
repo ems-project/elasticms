@@ -136,15 +136,15 @@ the `users` group if none match.
 ```json
 [
     {
-        "expression": "'webmaster' in (resource_access['demo-skeleton-oauth2']['roles'] ?? [])",
+        "expression": "\"webmaster\" in (resource_access[\"demo-skeleton-oauth2\"][\"roles\"] ?? [])",
         "group": "webmasters"
     },
     {
-        "expression": "'publisher' in (resource_access['demo-skeleton-oauth2']['roles'] ?? [])",
+        "expression": "\"publisher\" in (resource_access[\"demo-skeleton-oauth2\"][\"roles\"] ?? [])",
         "group": "publishers"
     },
     {
-        "expression": "'author' in (resource_access['demo-skeleton-oauth2']['roles'] ?? [])",
+        "expression": "\"author\" in (resource_access[\"demo-skeleton-oauth2\"][\"roles\"] ?? [])",
         "group": "authors"
     },
     {
@@ -153,10 +153,8 @@ the `users` group if none match.
 ]
 ```
 
-This JSON needs to be escaped and placed between double quotes in the `.env` file.
-
 ```.dotenv
-EMSCH_SSO_CORE_USER_GROUPS="[{\"expression\": \"'webmaster' in (resource_access['demo-skeleton-oauth2']['roles'] ?? [])\", \"group\": \"webmasters\"}, {\"expression\": \"'publisher' in (resource_access['demo-skeleton-oauth2']['roles'] ?? [])\", \"group\": \"publishers\"}, {\"expression\": \"'author' in (resource_access['demo-skeleton-oauth2']['roles'] ?? [])\", \"group\": \"authors\"}, {\"group\": \"users\"}]"
+EMSCH_SSO_CORE_USER_GROUPS='[{"expression": "\"webmaster\" in (resource_access[\"demo-skeleton-oauth2\"][\"roles\"] ?? [])", "group": "webmasters"}, {"expression": "\"publisher\" in (resource_access[\"demo-skeleton-oauth2\"][\"roles\"] ?? [])", "group": "publishers"}, {"expression": "\"author\" in (resource_access[\"demo-skeleton-oauth2\"][\"roles\"] ?? [])", "group": "authors"}, {"group": "users"}]'
 ```
 
 ## OAuth2 (OpenId connect)

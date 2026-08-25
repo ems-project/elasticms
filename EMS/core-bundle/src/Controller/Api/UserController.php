@@ -29,13 +29,17 @@ class UserController
 
         $group = isset($data['group']) ? $this->groupManager->getByItemName($data['group']) : null;
 
-        return new JsonResponse([
-            'success' => true,
-            'token' => $this->userManager->proxyAuthenticate(
-                username: $data['username'],
-                email: $data['email'],
-                group: $group
-            ),
-        ]);
+        try {
+            return new JsonResponse([
+                'success' => true,
+                'token' => $this->userManager->proxyAuthenticate(
+                    username: $data['username'],
+                    email: $data['email'],
+                    group: $group
+                ),
+            ]);
+        } catch (\Throwable $e) {
+            return new JsonResponse(['success' => false, 'error' => [$e->getMessage()]]);
+        }
     }
 }

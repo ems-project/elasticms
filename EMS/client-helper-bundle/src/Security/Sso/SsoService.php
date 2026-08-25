@@ -81,7 +81,13 @@ class SsoService
             return null;
         }
 
-        return $this->coreApi->user()->proxyAuthenticate($userIdentifier, $email, $group);
+        try {
+            return $this->coreApi->user()->proxyAuthenticate($userIdentifier, $email, $group);
+        } catch (\Throwable $throwable) {
+            $this->logger->error(\sprintf('Core proxy authentication failed: %s', $throwable->getMessage()));
+
+            return null;
+        }
     }
 
     public function oauth2(): OAuth2Service

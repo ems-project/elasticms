@@ -34,16 +34,12 @@ final readonly class User implements UserInterface
     #[\Override]
     public function proxyAuthenticate(string $username, ?string $email = null, ?string $group = null): ?string
     {
-        try {
-            $response = $this->client->post('/api/user/proxy-authenticate', [
-                'username' => $username,
-                'email' => $email,
-                'group' => $group,
-            ]);
+        $response = $this->client->post('/api/user/proxy-authenticate', [
+            'username' => $username,
+            'email' => $email,
+            'group' => $group,
+        ]);
 
-            return $response->getData()['token'] ?? null;
-        } catch (\Throwable) {
-            return null;
-        }
+        return $response->getData()['token'] ?? null;
     }
 }

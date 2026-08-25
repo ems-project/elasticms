@@ -24,6 +24,7 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('logger'),
             service('file_locator'),
+            service('ems.common.cache'),
             tagged_iterator('ems_common.storage.factory'),
             '%ems_common.hash_algo%',
             '%ems_common.storages%',

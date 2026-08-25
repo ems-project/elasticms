@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class SsoService
 {
     /**
-     * @param array<int, array{expression?: string, roles: string[]}> $roleMapping
+     * @param array<int, array{expression?: string, group: string}> $coreUserGroups
      */
     public function __construct(
         private readonly OAuth2Service $oAuth2Service,
@@ -26,8 +26,8 @@ class SsoService
         private readonly SsoUserProvider $ssoUserProvider,
         private readonly CoreApiUserProvider $coreApiUserProvider,
         private readonly CoreApiInterface $coreApi,
-        private readonly bool $loadCoreUser,
-        private readonly array $roleMapping
+        private readonly bool $coreUser,
+        private readonly array $coreUserGroups
     ) {
     }
 
@@ -38,33 +38,27 @@ class SsoService
 
     /**
      * @param array<mixed> $token
-     *
-     * @return string[]
      */
-    public function getRoles(array $token): array
+    public function getUserGroup(array $token): ?string
     {
-        if (0 === \count($this->roleMapping)) {
-            return [];
+        if (0 === \count($this->coreUserGroups)) {
+            return null;
         }
 
-        $roles = [];
         $expressionLanguage = new ExpressionLanguage();
 
-        foreach ($this->roleMapping as $entry) {
+        foreach ($this->coreUserGroups as $entry) {
             if (!isset($entry['expression']) || $expressionLanguage->evaluate($entry['expression'], $token)) {
-                $roles = [...$roles, ...$entry['roles']];
+                return $entry['group'];
             }
         }
 
-        return \array_values(\array_unique($roles));
+        return null;
     }
 
-    /**
-     * @param array<mixed> $roles
-     */
-    public function loadUser(string $userIdentifier, ?string $email = null, array $roles = []): UserInterface
+    public function loadUser(string $userIdentifier, ?string $email = null, ?string $group = null): UserInterface
     {
-        $token = $this->authenticateCoreUser($userIdentifier, $email, $roles);
+        $token = $this->authenticateCoreUser($userIdentifier, $email, $group);
 
         if (null !== $token) {
             return $this->coreApiUserProvider->loadUserByIdentifier($token);
@@ -73,16 +67,13 @@ class SsoService
         return $this->ssoUserProvider->loadUserByIdentifierOrEmail($userIdentifier, $email);
     }
 
-    /**
-     * @param array<mixed> $roles
-     */
-    private function authenticateCoreUser(string $userIdentifier, ?string $email, array $roles): ?string
+    private function authenticateCoreUser(string $userIdentifier, ?string $email, ?string $group): ?string
     {
-        if (!$this->loadCoreUser || !$this->coreApi->isAuthenticated()) {
+        if (!$this->coreUser || !$this->coreApi->isAuthenticated()) {
             return null;
         }
 
-        return $this->coreApi->user()->proxyAuthenticate($userIdentifier, $email, $roles);
+        return $this->coreApi->user()->proxyAuthenticate($userIdentifier, $email, $group);
     }
 
     public function oauth2(): OAuth2Service

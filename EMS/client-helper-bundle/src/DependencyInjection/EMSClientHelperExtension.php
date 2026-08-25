@@ -38,8 +38,8 @@ final class EMSClientHelperExtension extends Extension implements PrependExtensi
         $container->setParameter('emsch.asset_local_folder', $config['asset_local_folder'] ?? null);
         $container->setParameter('emsch.request_environments', $config['request_environments']);
         $container->setParameter('emsch.search_limit', $config['search_limit']);
-        $container->setParameter('emsch.security.sso.core_user', $config['security']['sso']['core_user'] ?? false);
-        $container->setParameter('emsch.security.sso.roles', $config['security']['sso']['roles'] ?? []);
+        $container->setParameter('emsch.security.sso.core_user', $config['security']['sso']['core_user']['enabled'] ?? false);
+        $container->setParameter('emsch.security.sso.core_user.groups', $config['security']['sso']['core_user']['groups'] ?? []);
         $container->setParameter('emsch.security.sso.oauth2', $config['security']['sso']['oauth2'] ?? []);
         $container->setParameter('emsch.security.sso.saml', $config['security']['sso']['saml'] ?? []);
         $container->setParameter('emsch.security.route_login', $config['security']['route_login']);

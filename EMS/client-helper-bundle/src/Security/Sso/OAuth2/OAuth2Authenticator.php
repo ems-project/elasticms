@@ -49,11 +49,11 @@ class OAuth2Authenticator extends AbstractAuthenticator
             throw new AuthenticationException('No username found');
         }
 
-        $roles = $this->sso->getRoles($token);
+        $group = $this->sso->getUserGroup($token);
         $passport = new SelfValidatingPassport(
             userBadge: new UserBadge(
                 $identifier,
-                fn (string $userIdentifier) => $this->sso->loadUser($userIdentifier, $email, $roles),
+                fn (string $userIdentifier) => $this->sso->loadUser($userIdentifier, $email, $group),
             )
         );
         $passport->setAttribute('access_token', $accessToken);

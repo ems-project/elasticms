@@ -20,8 +20,5 @@ interface UserInterface
      */
     public function getProfiles(): array;
 
-    /**
-     * @param string[] $roles
-     */
-    public function proxyAuthenticate(string $username, ?string $email, array $roles = []): ?string;
+    public function proxyAuthenticate(string $username, ?string $email = null, ?string $group = null): ?string;
 }

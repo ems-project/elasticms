@@ -23,7 +23,7 @@ parameters:
     env(EMSCH_SECURITY_ROUTE_LOGIN):    'emsch_login'
     env(EMSCH_SECURITY_FIREWALL):       ~
     env(EMSCH_SSO_CORE_USER):           false
-    env(EMSCH_SSO_ROLES):               '[]'
+    env(EMSCH_SSO_CORE_USER_GROUPS):               '[]'
 
     env(EMSCH_OAUTH2):                      false
     env(EMSCH_OAUTH2_PROVIDER):             'keycloak'
@@ -75,8 +75,9 @@ ems_client_helper:
         route_login: '%env(string:EMSCH_SECURITY_ROUTE_LOGIN)%'
         firewall: '%env(string:EMSCH_SECURITY_FIREWALL)%'
         sso:
-            core_user: '%env(bool:EMSCH_SSO_CORE_USER)%'
-            roles: '%env(json:EMSCH_SSO_ROLES)%'
+            core_user: 
+                enabled: '%env(bool:EMSCH_SSO_CORE_USER)%'
+                groups: '%env(json:EMSCH_SSO_CORE_USER_GROUPS)%'
             oauth2:
                 enabled: '%env(bool:EMSCH_OAUTH2)%'
                 provider: '%env(string:EMSCH_OAUTH2_PROVIDER)%'

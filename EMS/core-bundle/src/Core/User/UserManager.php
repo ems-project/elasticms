@@ -8,9 +8,8 @@ use EMS\CoreBundle\Core\Mail\MailerService;
 use EMS\CoreBundle\Core\Security\Canonicalizer;
 use EMS\CoreBundle\Core\Security\Token;
 use EMS\CoreBundle\EMSCoreBundle;
+use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Entity\User;
-use EMS\CoreBundle\Entity\UserInterface;
-use EMS\CoreBundle\Exception\NotFoundException;
 use EMS\CoreBundle\Repository\AuthTokenRepository;
 use EMS\CoreBundle\Repository\UserRepository;
 use EMS\CoreBundle\Roles;
@@ -107,16 +106,14 @@ class UserManager
         return $this->userRepository->findOneBy(['confirmationToken' => $token]);
     }
 
-    /**
-     * @param string[] $roles
-     */
-    public function proxyAuthenticate(string $username, string $email, array $roles): string
+    public function proxyAuthenticate(string $username, string $email, ?Group $group = null): string
     {
         if (!$this->authorizationChecker->isGranted(Roles::ROLE_USER_MANAGEMENT)) {
             throw new AccessDeniedException();
         }
 
-        $user = $this->findUser($username, $email) ?? $this->create($username, ByteString::fromRandom(32)->toString(), $email, true, false);
+        $user = $this->findUser($username, $email)
+            ?? $this->create($username, ByteString::fromRandom(32)->toString(), $email, true, false);
 
         if ($user->isExpired()) {
             throw new AccountExpiredException(\sprintf('The account "%s" is expired', $user->getUserIdentifier()));
@@ -126,7 +123,12 @@ class UserManager
         }
 
         $user->setEmail($email);
-        $user->setRoles($roles);
+
+        if (null !== $group) {
+            $user->setRoles([]);
+            $user->setGroup($group);
+        }
+
         $this->loginUser($user);
 
         return $this->authTokenRepository->create($user)->getValue();

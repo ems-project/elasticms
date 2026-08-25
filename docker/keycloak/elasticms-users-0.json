@@ -21,7 +21,10 @@
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
     "realmRoles" : [ "default-roles-elasticms" ],
-    "notBefore" : 0,
+    "clientRoles" : {
+      "demo-skeleton-oauth2" : [ "webmaster", "publisher" ]
+    },
+    "notBefore" : 1758716046,
     "groups" : [ ]
   }, {
     "id" : "cd1f27f3-9bbb-42f5-a00c-bd813bac4b48",
@@ -44,7 +47,10 @@
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
     "realmRoles" : [ "default-roles-elasticms" ],
-    "notBefore" : 0,
+    "clientRoles" : {
+      "demo-skeleton-oauth2" : [ "author" ]
+    },
+    "notBefore" : 1758716375,
     "groups" : [ ]
   } ]
 }

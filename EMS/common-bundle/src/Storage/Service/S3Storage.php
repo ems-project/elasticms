@@ -28,9 +28,22 @@ class S3Storage extends AbstractUrlStorage implements \Stringable
 
     /**
      * @param array{version?: string, credentials?: array{key: string, secret: string}, region?: string} $credentials
+     * @param mixed[]                                                                                    $httpOptions
      */
-    public function __construct(LoggerInterface $logger, private readonly Cache $cache, private readonly array $credentials, private readonly string $bucket, int $usage, int $hotSynchronizeLimit = 0, private readonly bool $multipartUpload = false)
-    {
+    public function __construct(
+        LoggerInterface $logger,
+        private readonly Cache $cache,
+        private readonly array $credentials,
+        private readonly string $bucket,
+        int $usage,
+        int $hotSynchronizeLimit = 0,
+        private readonly bool $multipartUpload = false,
+        private readonly array $httpOptions = [
+            'connect_timeout' => 0.1,
+            'timeout' => 0.5,
+            'retries' => 0,
+        ]
+    ) {
         parent::__construct($logger, $usage, $hotSynchronizeLimit);
     }
 
@@ -412,6 +425,7 @@ class S3Storage extends AbstractUrlStorage implements \Stringable
             $this->getS3Client()->headObject([
                 'Bucket' => $this->bucket,
                 'Key' => \implode('/', [\substr($hash, 0, 3), $hash]),
+                '@http' => $this->httpOptions,
             ]);
 
             return true;

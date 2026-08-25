@@ -66,7 +66,9 @@ return static function (ContainerConfigurator $container) {
             service('emsch.security.sso.user_provider'),
             service('emsch.security.core_api.user_provider'),
             service('ems_common.core_api'),
-            '%emsch.security.sso.core_user%',
+            service('logger'),
+            '%emsch.security.sso.core_user.enabled%',
+            '%emsch.security.sso.core_user.groups%',
         ]);
 
     $services->set('emsch.security.sso.user_provider', SsoUserProvider::class);

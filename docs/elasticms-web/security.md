@@ -114,8 +114,6 @@ Note: the current SSO implementation does only support the login. The logout on 
 
 ## Core Users
 
-## Core Users
-
 After a successful SSO login, the skeleton can make an API proxy authentication call. You can enable this feature by
 setting `EMSCH_SSO_CORE_USER` to `true` and making sure you have defined an `EMS_BACKEND_API_KEY` that has the
 `ROLE_USER_MANAGEMENT` grant.

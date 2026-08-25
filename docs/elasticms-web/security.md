@@ -87,9 +87,6 @@ Enable a dev IDP see [dev-env](/getting-started/dev-env.md#identity-provider-idp
 
 Note: the current SSO implementation does only support the login. The logout on the IDP was not required.
 
-> To enable combined core authentication, define an `EMS_BACKEND_API_KEY` that has the ROLE_USER_MANAGEMENT grant.
-> And enable it by setting EMSCH_SSO_CORE_USER to true.
-
 !> If Keycloak runs on a different domain, you need to set the environment variable [SESSION_COOKIE_SAMESITE](/elasticms-web/parameters.md#SESSION_COOKIE_SAMESITE) to lax.
 
 ## Implementation
@@ -114,6 +111,51 @@ Note: the current SSO implementation does only support the login. The logout on 
       {% endif %}
    {% endif %}
    ```
+
+## Core Users
+
+After a successful SSO login, the skeleton can make an API proxy authentication call. You can enable this feature by
+setting `EMSCH_SSO_CORE_USER` to `true` and making sure you have defined an `EMS_BACKEND_API_KEY` that has the
+`ROLE_USER_MANAGEMENT` grant.
+
+If the SSO user's username or email already exists in the admin, the user's existing roles will be used.
+
+Since version 6.9.30 we can also create users on the fly. This requires the corresponding groups to already exist in the
+admin, and the mapping between SSO roles and those groups to be configured via the JSON structure below in the
+environment variable `EMSCH_SSO_CORE_USER_GROUPS`.
+
+On successful login, each expression is evaluated against the access token, and the first one that evaluates to `true`
+determines the group. Add an entry without an `expression` as the last item to define a default group.
+
+The resolved group is then passed along in the proxy call. If the user doesn't exist yet, it will be created with this
+group; if it already exists, its email and group will be updated accordingly.
+
+The example below checks whether `webmaster`, `publisher`, or `author` is present in the access token, falling back to
+the `users` group if none match.
+
+```json
+[
+    {
+        "expression": "\"webmaster\" in (resource_access[\"demo-skeleton-oauth2\"][\"roles\"] ?? [])",
+        "group": "webmasters"
+    },
+    {
+        "expression": "\"publisher\" in (resource_access[\"demo-skeleton-oauth2\"][\"roles\"] ?? [])",
+        "group": "publishers"
+    },
+    {
+        "expression": "\"author\" in (resource_access[\"demo-skeleton-oauth2\"][\"roles\"] ?? [])",
+        "group": "authors"
+    },
+    {
+        "group": "users"
+    }
+]
+```
+
+```.dotenv
+EMSCH_SSO_CORE_USER_GROUPS='[{"expression": "\"webmaster\" in (resource_access[\"demo-skeleton-oauth2\"][\"roles\"] ?? [])", "group": "webmasters"}, {"expression": "\"publisher\" in (resource_access[\"demo-skeleton-oauth2\"][\"roles\"] ?? [])", "group": "publishers"}, {"expression": "\"author\" in (resource_access[\"demo-skeleton-oauth2\"][\"roles\"] ?? [])", "group": "authors"}, {"group": "users"}]'
+```
 
 ## OAuth2 (OpenId connect)
 

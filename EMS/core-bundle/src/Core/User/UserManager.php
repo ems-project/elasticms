@@ -21,6 +21,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AccountExpiredException;
 use Symfony\Component\Security\Core\Exception\DisabledException;
+use Symfony\Component\String\ByteString;
 
 class UserManager
 {
@@ -74,6 +75,11 @@ class UserManager
         return $this->userRepository->countFindAll($email);
     }
 
+    private function findUser(string $username, string $email): ?User
+    {
+        return $this->getUserByUsername($username) ?? $this->getUserByEmail($email);
+    }
+
     public function getAuthenticatedUser(): User
     {
         $token = $this->getToken();
@@ -101,19 +107,16 @@ class UserManager
         return $this->userRepository->findOneBy(['confirmationToken' => $token]);
     }
 
-    public function proxyAuthenticate(string $username, ?string $email): string
+    /**
+     * @param string[] $roles
+     */
+    public function proxyAuthenticate(string $username, string $email, array $roles): string
     {
         if (!$this->authorizationChecker->isGranted(Roles::ROLE_USER_MANAGEMENT)) {
             throw new AccessDeniedException();
         }
 
-        $user = $email
-            ? $this->getUserByEmail($email) ?? $this->getUserByUsername($username)
-            : $this->getUserByUsername($username);
-
-        if (!$user instanceof UserInterface) {
-            throw new NotFoundException('User not found');
-        }
+        $user = $this->findUser($username, $email) ?? $this->create($username, ByteString::fromRandom(32)->toString(), $email, true, false);
 
         if ($user->isExpired()) {
             throw new AccountExpiredException(\sprintf('The account "%s" is expired', $user->getUserIdentifier()));
@@ -122,6 +125,8 @@ class UserManager
             throw new DisabledException(\sprintf('The account "%s" is disabled', $user->getUserIdentifier()));
         }
 
+        $user->setEmail($email);
+        $user->setRoles($roles);
         $this->loginUser($user);
 
         return $this->authTokenRepository->create($user)->getValue();

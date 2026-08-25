@@ -27,7 +27,11 @@ class UserController
 
         return new JsonResponse([
             'success' => true,
-            'token' => $this->userManager->proxyAuthenticate($data['username'], $data['email']),
+            'token' => $this->userManager->proxyAuthenticate(
+                username: $data['username'],
+                email: $data['email'],
+                roles: $data['roles'] ?? []
+            ),
         ]);
     }
 }

@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class SsoService
 {
     /**
-     * @param array<int, array{expression: string, roles: string[]}> $roleMapping
+     * @param array<int, array{expression?: string, roles: string[]}> $roleMapping
      */
     public function __construct(
         private readonly OAuth2Service $oAuth2Service,
@@ -51,7 +51,7 @@ class SsoService
         $expressionLanguage = new ExpressionLanguage();
 
         foreach ($this->roleMapping as $entry) {
-            if ($expressionLanguage->evaluate($entry['expression'], $token)) {
+            if (!isset($entry['expression']) || $expressionLanguage->evaluate($entry['expression'], $token)) {
                 $roles = [...$roles, ...$entry['roles']];
             }
         }
@@ -64,13 +64,25 @@ class SsoService
      */
     public function loadUser(string $userIdentifier, ?string $email = null, array $roles = []): UserInterface
     {
-        if ($this->loadCoreUser
-            && $this->coreApi->isAuthenticated()
-            && null !== $token = $this->coreApi->user()->proxyAuthenticate($userIdentifier, $email)) {
+        $token = $this->authenticateCoreUser($userIdentifier, $email, $roles);
+
+        if (null !== $token) {
             return $this->coreApiUserProvider->loadUserByIdentifier($token);
         }
 
         return $this->ssoUserProvider->loadUserByIdentifierOrEmail($userIdentifier, $email);
+    }
+
+    /**
+     * @param array<mixed> $roles
+     */
+    private function authenticateCoreUser(string $userIdentifier, ?string $email, array $roles): ?string
+    {
+        if (!$this->loadCoreUser || !$this->coreApi->isAuthenticated()) {
+            return null;
+        }
+
+        return $this->coreApi->user()->proxyAuthenticate($userIdentifier, $email, $roles);
     }
 
     public function oauth2(): OAuth2Service

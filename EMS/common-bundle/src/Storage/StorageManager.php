@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage;
 
+use EMS\CommonBundle\Common\Cache\Cache;
 use EMS\CommonBundle\Contracts\File\FileManagerInterface;
 use EMS\CommonBundle\Exception\StorageNotAvailableException;
 use EMS\CommonBundle\Helper\EmsFields;
@@ -20,6 +21,7 @@ use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
+use Psr\Cache\CacheItemInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\FileLocatorInterface;
@@ -44,8 +46,14 @@ class StorageManager implements FileManagerInterface
      * @param iterable<StorageFactoryInterface>                                            $factories
      * @param array<array{type?: string, url?: string, required?: bool, read-only?: bool}> $storageConfigs
      */
-    public function __construct(private readonly LoggerInterface $logger, private readonly FileLocatorInterface $fileLocator, iterable $factories, private readonly string $hashAlgo, private readonly array $storageConfigs = [])
-    {
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly FileLocatorInterface $fileLocator,
+        private readonly Cache $cacheManager,
+        iterable $factories,
+        private readonly string $hashAlgo,
+        private readonly array $storageConfigs = []
+    ) {
         foreach ($factories as $factory) {
             if (!$factory instanceof StorageFactoryInterface) {
                 throw new \RuntimeException('Unexpected StorageFactoryInterface class');
@@ -74,9 +82,14 @@ class StorageManager implements FileManagerInterface
                 continue;
             }
             $storage = $factory->createService($storageConfig);
-            if (null !== $storage) {
-                $this->addAdapter($storage);
+            if (null === $storage) {
+                continue;
             }
+            $cacheItem = $this->getNotAvailableStorageCacheItem($storage);
+            if ($cacheItem->isHit()) {
+                continue;
+            }
+            $this->addAdapter($storage);
         }
     }
 
@@ -89,7 +102,17 @@ class StorageManager implements FileManagerInterface
 
     public function head(string $hash): bool
     {
-        return \array_any($this->adapters, fn ($adapter) => $adapter->head($hash));
+        foreach ($this->adapters as $index => $adapter) {
+            try {
+                if ($adapter->head($hash)) {
+                    return true;
+                }
+            } catch (StorageNotAvailableException $storageNotAvailableException) {
+                $this->adaptorNotAvailable($index, $storageNotAvailableException);
+            }
+        }
+
+        return false;
     }
 
     #[\Override]
@@ -127,17 +150,21 @@ class StorageManager implements FileManagerInterface
         /** @var StorageInterface[] $missingIn */
         $missingIn = [];
 
-        foreach ($this->adapters as $adapter) {
-            if ($adapter->head($hash)) {
-                try {
-                    $this->hotSynchronize($hash, $adapter, $missingIn);
+        foreach ($this->adapters as $index => $adapter) {
+            try {
+                if ($adapter->head($hash)) {
+                    try {
+                        $this->hotSynchronize($hash, $adapter, $missingIn);
 
-                    return $adapter->read($hash);
-                } catch (\Throwable) {
-                    continue;
+                        return $adapter->read($hash);
+                    } catch (\Throwable) {
+                        continue;
+                    }
+                } else {
+                    $missingIn[] = $adapter;
                 }
-            } else {
-                $missingIn[] = $adapter;
+            } catch (StorageNotAvailableException $storageNotAvailableException) {
+                $this->adaptorNotAvailable($index, $storageNotAvailableException);
             }
         }
         throw new NotFoundException($hash);
@@ -206,8 +233,7 @@ class StorageManager implements FileManagerInterface
                     ++$count;
                 }
             } catch (StorageNotAvailableException $storageNotAvailableException) {
-                unset($this->adapters[$index]);
-                $this->logger->error($storageNotAvailableException->getMessage());
+                $this->adaptorNotAvailable($index, $storageNotAvailableException);
             } catch (\Throwable $e) {
                 $this->logger->error(\sprintf('Not able to save %s in %s with message: %s', $hash, $adapter->__toString(), $e->getMessage()));
             }
@@ -553,6 +579,9 @@ class StorageManager implements FileManagerInterface
         if (null !== $indexResource && ('' === $path || \str_ends_with($path, '/'))) {
             $path .= $indexResource;
         }
+        if (!$this->head($hash)) {
+            throw new NotFoundHttpException(\sprintf('Archive %s not found', $hash));
+        }
         foreach ($this->adapters as $adapter) {
             $stream = $adapter->readFromArchiveInCache($hash, $path);
             if (null !== $stream) {
@@ -563,10 +592,6 @@ class StorageManager implements FileManagerInterface
             throw new NotFoundHttpException(\sprintf('File %s not found', $path));
         }
         $this->logger->debug(\sprintf('File %s from archive %s is not in cache', $path, $hash));
-
-        if (!$this->head($hash)) {
-            throw new NotFoundHttpException(\sprintf('Archive %s not found', $hash));
-        }
 
         $archiveFile = TempFile::create()->loadFromStream($this->getStream($hash));
         $mimeType = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
@@ -792,5 +817,20 @@ class StorageManager implements FileManagerInterface
             EmsFields::CONTENT_MIME_TYPE_FIELD_ => $type,
             EmsFields::CONTENT_FILE_ALGO_FIELD_ => $algo,
         ];
+    }
+
+    private function adaptorNotAvailable(int|string $index, StorageNotAvailableException $storageNotAvailableException): void
+    {
+        $cacheItem = $this->getNotAvailableStorageCacheItem($this->adapters[$index]);
+        $cacheItem->set(true);
+        $cacheItem->expiresAfter(5);
+        $this->cacheManager->save($cacheItem);
+        unset($this->adapters[$index]);
+        $this->logger->error($storageNotAvailableException->getMessage());
+    }
+
+    private function getNotAvailableStorageCacheItem(StorageInterface $storage): CacheItemInterface
+    {
+        return $this->cacheManager->getItem(\sprintf('%s is not available', $storage->__toString()));
     }
 }

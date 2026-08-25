@@ -108,15 +108,16 @@ They will instantiate an HTTP service to read/save assets, typically an elasticm
 ```
 
  ### S3
-The will instantiate a S3 client service to read/save assets in a S3 (or a s3-like i.e. minio) bucket. .
+This will instantiate an S3 client service to read and save assets in an S3 (or S3-compatible, e.g. MinIO) bucket.
  - `type` (mandatory): `"s3"`
- - `credentials` (mandatory): S3 credential object
+ - `credentials` (mandatory): S3 credentials object
  - `bucket` (mandatory): Name of the bucket to use
- - `usage` Default value: `"cache"`
- - `multipart-upload` Default value `true`
-   - `false`: The S3 multipart upload API is not used: the uploads are resumable but slow
-   - `true`: Activate the S3 multipart upload API: the uploads are fast but not resumable
- - `upload-folder` Deprecated option
+ - `usage`: Default value: `"cache"`
+ - `multipart-upload`: Default value: `true`
+   - `false`: The S3 multipart upload API is not used. Uploads are resumable but slower.
+   - `true`: Enables the S3 multipart upload API. Uploads are faster but not resumable.
+ - `upload-folder`: Deprecated option.
+- `http-options`: Allows overriding [S3 HTTP options](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_configuration.html#config-http), especially for `HEAD` requests. Default value: `{"connect_timeout":0.1,"timeout":0.5,"retries":0}`.
  
  Example:
  ```yaml

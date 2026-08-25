@@ -44,6 +44,7 @@
             <argument type="service" id="emsch.security.sso.user_provider"/>
             <argument type="service" id="emsch.security.core_api.user_provider"/>
             <argument type="service" id="ems_common.core_api"/>
+            <argument type="service" id="logger"/>
             <argument type="string">%emsch.security.sso.core_user%</argument>
             <argument type="string">%emsch.security.sso.core_user.groups%</argument>
         </service>

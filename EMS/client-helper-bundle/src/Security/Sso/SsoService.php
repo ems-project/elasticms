@@ -9,6 +9,7 @@ use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Service;
 use EMS\ClientHelperBundle\Security\Sso\Saml\SamlService;
 use EMS\ClientHelperBundle\Security\Sso\User\SsoUserProvider;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +27,7 @@ class SsoService
         private readonly SsoUserProvider $ssoUserProvider,
         private readonly CoreApiUserProvider $coreApiUserProvider,
         private readonly CoreApiInterface $coreApi,
+        private readonly LoggerInterface $logger,
         private readonly bool $coreUser,
         private readonly array $coreUserGroups
     ) {
@@ -45,15 +47,21 @@ class SsoService
             return null;
         }
 
-        $expressionLanguage = new ExpressionLanguage();
+        try {
+            $expressionLanguage = new ExpressionLanguage();
 
-        foreach ($this->coreUserGroups as $entry) {
-            if (!isset($entry['expression']) || $expressionLanguage->evaluate($entry['expression'], $token)) {
-                return $entry['group'];
+            foreach ($this->coreUserGroups as $entry) {
+                if (!isset($entry['expression']) || $expressionLanguage->evaluate($entry['expression'], $token)) {
+                    return $entry['group'];
+                }
             }
-        }
 
-        return null;
+            return null;
+        } catch (\Throwable $throwable) {
+            $this->logger->error(\sprintf('EMSCH_SSO_CORE_USER_GROUPS failed: %s', $throwable->getMessage()));
+
+            return null;
+        }
     }
 
     public function loadUser(string $userIdentifier, ?string $email = null, ?string $group = null): UserInterface

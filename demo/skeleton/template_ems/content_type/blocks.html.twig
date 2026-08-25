@@ -1,0 +1,5 @@
+{% block paragraph %}
+    {%- if item.object.body is defined -%}
+        {{- emsco_diff_html(item.object.body, false, item.id, null)|raw -}}
+    {%- endif -%}
+{% endblock paragraph %}

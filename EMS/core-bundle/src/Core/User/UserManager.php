@@ -112,8 +112,13 @@ class UserManager
             throw new AccessDeniedException();
         }
 
-        $user = $this->findUser($username, $email)
-            ?? $this->create($username, ByteString::fromRandom(32)->toString(), $email, true, false);
+        $user = $this->findUser($username, $email);
+
+        if (null === $user && null === $group) {
+            throw new AccessDeniedException('User not found');
+        }
+
+        $user ??= $this->create($username, ByteString::fromRandom(32)->toString(), $email, true, false);
 
         if ($user->isExpired()) {
             throw new AccountExpiredException(\sprintf('The account "%s" is expired', $user->getUserIdentifier()));

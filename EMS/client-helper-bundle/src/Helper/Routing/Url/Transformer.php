@@ -89,14 +89,14 @@ final class Transformer
             }
 
             $generation = $this->generate($cleanMatch, $config);
-            if ('asset' === $match['link_type'] && ($match['query'] ?? null)) {
-                $query = \str_replace('&amp;', '&', $match['query']);
-                \parse_str($query, $params);
-                unset($params['name']);
-                unset($params['type']);
-                $match['query'] = \http_build_query($params);
+            $query = $match['query'] ?? '';
+            if ('' !== $query) {
+                \parse_str(\str_replace('&amp;', '&', $query), $params);
+                unset($params['name'], $params['type']);
+                $query = \http_build_query($params);
+                $match['query'] = $query;
             }
-            $route = ($generation ?? $match[0]);
+            $route = $generation ?? $match[0];
             $srcAttribute = '' !== $match['src'];
             if ('asset' === $match['link_type'] && ($config['asset_file_path'] ?? false) && $srcAttribute) {
                 $baseUrl = '';
@@ -104,8 +104,8 @@ final class Transformer
                 $baseUrl = $config['baseUrl'] ?? '';
             }
             $transformed = $baseUrl.$route;
-            if (($match['query'] ?? '') !== '') {
-                $transformed = \implode('?', [$transformed, $match['query']]);
+            if ('' !== $query) {
+                $transformed = $transformed.'?'.$query;
             }
 
             return $srcAttribute ? 'src="'.$transformed : $transformed;

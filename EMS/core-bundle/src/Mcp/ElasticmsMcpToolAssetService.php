@@ -233,7 +233,7 @@ final readonly class ElasticmsMcpToolAssetService extends AbstractElasticmsMcpTo
             ->addTool(
                 handler: $this->getAssetInfo(...),
                 name: 'get_asset_info',
-                description: 'Return the metadata and file object of an uploaded asset.',
+                description: \sprintf('Return the metadata and file object of an uploaded asset identified by its hash. The hash is computed with the %s algorithm.', $this->fileService->getAlgo()),
                 inputSchema: [
                     'type' => 'object',
                     'properties' => [

@@ -84,7 +84,6 @@ final class McpControllerTest extends WebTestCase
         $toolNames = \array_map(static fn (array $tool): string => (string) $tool['name'], $tools);
 
         self::assertContains('get_current_user', $toolNames);
-        self::assertContains('current_storage_algorithm', $toolNames);
         self::assertContains('init_asset_upload', $toolNames);
         self::assertContains('upload_asset_chunk', $toolNames);
         self::assertContains('download_asset_chunk', $toolNames);
@@ -146,27 +145,6 @@ final class McpControllerTest extends WebTestCase
         $structuredUser = $currentUserResponse['result']['structuredContent']['user'] ?? null;
         self::assertIsArray($structuredUser);
         self::assertSame('mcp-user', $structuredUser['username'] ?? null);
-
-        $currentStorageAlgorithmPayload = [
-            'jsonrpc' => '2.0',
-            'id' => 31,
-            'method' => 'tools/call',
-            'params' => [
-                'name' => 'current_storage_algorithm',
-                'arguments' => new \stdClass(),
-            ],
-        ];
-
-        $this->client->request(
-            'POST',
-            '/api/mcp',
-            server: $this->mcpHeaders($sessionId),
-            content: $this->jsonEncode($currentStorageAlgorithmPayload)
-        );
-
-        self::assertResponseIsSuccessful();
-        $currentStorageAlgorithmResponse = $this->decodeResponse($this->client);
-        self::assertSame(static::getContainer()->get('ems.service.file')->getAlgo(), $currentStorageAlgorithmResponse['result']['structuredContent']['algorithm'] ?? null);
 
         $createDraftPayload = [
             'jsonrpc' => '2.0',

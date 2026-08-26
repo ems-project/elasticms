@@ -103,6 +103,7 @@ use EMS\CoreBundle\Service\IndexService;
 use EMS\CoreBundle\Service\Internationalization\XliffService;
 use EMS\CoreBundle\Service\JobService;
 use EMS\CoreBundle\Service\Mapping;
+use EMS\CoreBundle\Service\Mcp\McpToolService;
 use EMS\CoreBundle\Service\NotificationService;
 use EMS\CoreBundle\Service\ObjectChoiceCacheService;
 use EMS\CoreBundle\Service\PublishService;
@@ -248,6 +249,15 @@ return static function (ContainerConfigurator $container) {
             '%ems_core.security.firewall.core%',
             '%ems_core.instance_id%',
         ]);
+
+    $services->alias('ems.service.mcp_tool', McpToolService::class);
+
+    $services->set(McpToolService::class)
+        ->args([
+            service('ems.repository.mcp_tool'),
+            service('logger'),
+        ])
+        ->tag('emsco.entity.service', ['priority' => 40]);
 
     $services->set('emsco.data_table.type.collection', DataTableTypeCollection::class)
         ->args([tagged_iterator('emsco.datatable')]);

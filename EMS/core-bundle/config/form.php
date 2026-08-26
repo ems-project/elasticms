@@ -89,7 +89,6 @@ use EMS\CoreBundle\Form\Submission\ProcessType;
 use EMS\CoreBundle\Form\View\Criteria\CriteriaFilterType;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\EnvironmentService;
-use EMS\CoreBundle\Service\Mcp\McpToolService;
 
 return static function (ContainerConfigurator $container) {
     $services = $container->services();
@@ -657,7 +656,7 @@ return static function (ContainerConfigurator $container) {
         ->args([service(ContentTypeService::class)])
         ->tag('form.type');
     $services->set(McpToolType::class)
-        ->args([service(McpToolService::class)])
+        ->args([service('ems.service.user')])
         ->tag('form.type');
 
     $services->set('emsco.form_extension.locale_form_extension', LocaleFormExtension::class)

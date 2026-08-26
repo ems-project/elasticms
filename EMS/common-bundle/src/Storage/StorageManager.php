@@ -831,6 +831,6 @@ class StorageManager implements FileManagerInterface
 
     private function getNotAvailableStorageCacheItem(StorageInterface $storage): CacheItemInterface
     {
-        return $this->cacheManager->getItem($this->computeDataHash([\sprintf('%s is not available', $storage->__toString())]));
+        return $this->cacheManager->getItem(\sprintf('storage_service_na_%s', \hash($this->hashAlgo, $storage->__toString())));
     }
 }

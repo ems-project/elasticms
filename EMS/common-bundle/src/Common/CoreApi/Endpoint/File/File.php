@@ -236,8 +236,8 @@ final class File implements FileInterface
     }
 
     #[\Override]
-    public function getFile(string $hash): StorageFileInterface
+    public function getFile(string $filenameOrHash): StorageFileInterface
     {
-        return new StorageFile($this->getStream($hash));
+        return new StorageFile($this->getStream($filenameOrHash));
     }
 }

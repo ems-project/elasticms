@@ -11,6 +11,13 @@
 
     <field name="name" length="255" unique="true"/>
     <field name="label" length="255"/>
+    <field name="roles" type="json"/>
+    <field name="description" type="text" nullable="true"/>
+    <field name="enabled" type="boolean">
+      <options>
+        <option name="default">1</option>
+      </options>
+    </field>
 
     <field name="created" type="datetime"/>
     <field name="modified" type="datetime"/>

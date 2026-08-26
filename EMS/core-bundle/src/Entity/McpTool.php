@@ -17,6 +17,10 @@ class McpTool extends JsonDeserializer implements \JsonSerializable, EntityInter
     private UuidInterface $id;
     protected string $name = '';
     protected string $label = '';
+    /** @var string[] */
+    protected array $roles = [];
+    protected ?string $description = null;
+    protected bool $enabled = true;
 
     public function __construct()
     {
@@ -61,6 +65,42 @@ class McpTool extends JsonDeserializer implements \JsonSerializable, EntityInter
     public function setLabel(string $label): void
     {
         $this->label = $label;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param string[] $roles
+     */
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled): void
+    {
+        $this->enabled = $enabled;
     }
 
     #[\Override]

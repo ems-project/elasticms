@@ -20,6 +20,7 @@ action:
     export: Export
     rebuild: Rebuild
     relaunch: Relaunch
+    remove: Remove
     reorder: Reorder
     save: Save
     save_close: 'Save and Close'

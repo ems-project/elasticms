@@ -20,6 +20,7 @@ action:
     export: Exporteren
     rebuild: Heropbouwen
     relaunch: Herstarten
+    remove: Verwijderen
     reorder: Hersorteren
     save: Opslaan
     save_close: 'Opslaan en sluiten'

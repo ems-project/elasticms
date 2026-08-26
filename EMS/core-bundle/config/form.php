@@ -657,7 +657,10 @@ return static function (ContainerConfigurator $container) {
         ->args([service(ContentTypeService::class)])
         ->tag('form.type');
     $services->set(McpToolType::class)
-        ->args([service('ems.service.user')])
+        ->args([
+            service('ems.service.user'),
+            service('translator'),
+        ])
         ->tag('form.type');
     $services->set(McpToolInputType::class)
         ->tag('form.type');

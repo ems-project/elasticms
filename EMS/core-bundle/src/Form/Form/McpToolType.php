@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function Symfony\Component\Translation\t;
 
@@ -23,7 +24,7 @@ use function Symfony\Component\Translation\t;
  */
 final class McpToolType extends AbstractType
 {
-    public function __construct(private readonly UserService $userService)
+    public function __construct(private readonly UserService $userService, private readonly TranslatorInterface $translator)
     {
     }
 
@@ -84,8 +85,8 @@ final class McpToolType extends AbstractType
                 'allow_delete' => true,
                 'attr' => [
                     'class' => 'a2lix_lib_sf_collection',
-                    'data-lang-add' => 'Add input',
-                    'data-lang-remove' => 'Remove input',
+                    'data-lang-add' => $this->translator->trans('action.add', [], 'emsco-core'),
+                    'data-lang-remove' => $this->translator->trans('action.remove', [], 'emsco-core'),
                     'data-entry-remove-class' => 'btn btn-sm btn-danger',
                 ],
                 'block_prefix' => 'inputs',

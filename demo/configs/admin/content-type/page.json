@@ -27,7 +27,8 @@
                         "class": null,
                         "lastOfRow": false,
                         "helptext": null,
-                        "icon": null
+                        "icon": null,
+                        "language": null
                     },
                     "restrictionOptions": {
                         "minimum_role": null
@@ -64,7 +65,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 1,
+                            "orderKey": 0,
                             "children": []
                         },
                         "replaced": []
@@ -113,7 +114,7 @@
                                     "protected": false
                                 }
                             },
-                            "orderKey": 2,
+                            "orderKey": 1,
                             "children": []
                         },
                         "replaced": []
@@ -132,7 +133,8 @@
                                     "label": "Tabs",
                                     "class": "col-md-12",
                                     "lastOfRow": false,
-                                    "helptext": null
+                                    "helptext": null,
+                                    "localePreferredFirst": false
                                 },
                                 "mappingOptions": [],
                                 "restrictionOptions": {
@@ -145,7 +147,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 3,
+                            "orderKey": 2,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -177,7 +179,7 @@
                                             },
                                             "raw_data": []
                                         },
-                                        "orderKey": 1,
+                                        "orderKey": 0,
                                         "children": [
                                             {
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -371,7 +373,8 @@
                                                             "class": "col-md-12",
                                                             "lastOfRow": false,
                                                             "helptext": null,
-                                                            "icon": "fa fa-sitemap"
+                                                            "icon": "fa fa-sitemap",
+                                                            "blocks_template": "@EMSCH/template_ems/content_type/blocks.html.twig"
                                                         },
                                                         "mappingOptions": {
                                                             "index": null,
@@ -411,7 +414,8 @@
                                                                         "class": "col-md-12",
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
-                                                                        "icon": "fa fa-file-text"
+                                                                        "icon": "fa fa-file-text",
+                                                                        "language": null
                                                                     },
                                                                     "mappingOptions": [],
                                                                     "restrictionOptions": {
@@ -484,10 +488,31 @@
                                                                             "options": {
                                                                                 "displayOptions": {
                                                                                     "label": "Label",
-                                                                                    "class": "col-md-12"
+                                                                                    "class": "col-md-12",
+                                                                                    "lastOfRow": false,
+                                                                                    "helptext": null,
+                                                                                    "prefixIcon": null,
+                                                                                    "prefixText": null,
+                                                                                    "suffixIcon": null,
+                                                                                    "suffixText": null,
+                                                                                    "placeholder": null,
+                                                                                    "icon": null
+                                                                                },
+                                                                                "restrictionOptions": {
+                                                                                    "mandatory": false,
+                                                                                    "mandatory_if": null,
+                                                                                    "minimum_role": null
+                                                                                },
+                                                                                "migrationOptions": {
+                                                                                    "protected": false
+                                                                                },
+                                                                                "extraOptions": {
+                                                                                    "extra": null,
+                                                                                    "clear_on_copy": false,
+                                                                                    "postProcessing": null
                                                                                 }
                                                                             },
-                                                                            "orderKey": 0,
+                                                                            "orderKey": 1,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -527,7 +552,7 @@
                                                                                     "protected": false
                                                                                 }
                                                                             },
-                                                                            "orderKey": 1,
+                                                                            "orderKey": 2,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -551,7 +576,8 @@
                                                                         "class": "col-md-12",
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
-                                                                        "icon": "fa fa-table"
+                                                                        "icon": "fa fa-table",
+                                                                        "language": null
                                                                     },
                                                                     "mappingOptions": [],
                                                                     "restrictionOptions": {
@@ -626,10 +652,31 @@
                                                                             "options": {
                                                                                 "displayOptions": {
                                                                                     "label": "Label",
-                                                                                    "class": "col-md-12"
+                                                                                    "class": "col-md-12",
+                                                                                    "lastOfRow": false,
+                                                                                    "helptext": null,
+                                                                                    "prefixIcon": null,
+                                                                                    "prefixText": null,
+                                                                                    "suffixIcon": null,
+                                                                                    "suffixText": null,
+                                                                                    "placeholder": null,
+                                                                                    "icon": null
+                                                                                },
+                                                                                "restrictionOptions": {
+                                                                                    "mandatory": false,
+                                                                                    "mandatory_if": null,
+                                                                                    "minimum_role": null
+                                                                                },
+                                                                                "migrationOptions": {
+                                                                                    "protected": false
+                                                                                },
+                                                                                "extraOptions": {
+                                                                                    "extra": null,
+                                                                                    "clear_on_copy": false,
+                                                                                    "postProcessing": null
                                                                                 }
                                                                             },
-                                                                            "orderKey": 0,
+                                                                            "orderKey": 1,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -652,8 +699,8 @@
                                                                                     "multiple": false,
                                                                                     "expanded": false,
                                                                                     "select2": false,
-                                                                                    "choices": "grid-with-dark-background\r\ngrid-with-hr\r\ngrid-narrow\r\ngrid-with-blue-background",
-                                                                                    "labels": "With dark background\r\nWith horizontal rule (HR)\r\nNarrow\r\nWith blue background",
+                                                                                    "choices": "grid-with-dark-background\ngrid-with-hr\ngrid-narrow\ngrid-with-blue-background",
+                                                                                    "labels": "With dark background\nWith horizontal rule (HR)\nNarrow\nWith blue background",
                                                                                     "linked_collection": null,
                                                                                     "collection_label_field": null,
                                                                                     "placeholder": null
@@ -676,7 +723,7 @@
                                                                                     "protected": false
                                                                                 }
                                                                             },
-                                                                            "orderKey": 1,
+                                                                            "orderKey": 2,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -696,7 +743,8 @@
                                                                                     "class": "col-md-12",
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
-                                                                                    "icon": "fa fa-link"
+                                                                                    "icon": "fa fa-link",
+                                                                                    "language": null
                                                                                 },
                                                                                 "mappingOptions": [],
                                                                                 "restrictionOptions": {
@@ -709,7 +757,7 @@
                                                                                 },
                                                                                 "raw_data": []
                                                                             },
-                                                                            "orderKey": 2,
+                                                                            "orderKey": 3,
                                                                             "children": [
                                                                                 {
                                                                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -824,7 +872,8 @@
                                                                         "class": "col-md-12",
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
-                                                                        "icon": "fa fa-photo"
+                                                                        "icon": "fa fa-photo",
+                                                                        "language": null
                                                                     },
                                                                     "mappingOptions": [],
                                                                     "restrictionOptions": {
@@ -900,10 +949,31 @@
                                                                             "options": {
                                                                                 "displayOptions": {
                                                                                     "label": "Label",
-                                                                                    "class": "col-md-12"
+                                                                                    "class": "col-md-12",
+                                                                                    "lastOfRow": false,
+                                                                                    "helptext": null,
+                                                                                    "prefixIcon": null,
+                                                                                    "prefixText": null,
+                                                                                    "suffixIcon": null,
+                                                                                    "suffixText": null,
+                                                                                    "placeholder": null,
+                                                                                    "icon": null
+                                                                                },
+                                                                                "restrictionOptions": {
+                                                                                    "mandatory": false,
+                                                                                    "mandatory_if": null,
+                                                                                    "minimum_role": null
+                                                                                },
+                                                                                "migrationOptions": {
+                                                                                    "protected": false
+                                                                                },
+                                                                                "extraOptions": {
+                                                                                    "extra": null,
+                                                                                    "clear_on_copy": false,
+                                                                                    "postProcessing": null
                                                                                 }
                                                                             },
-                                                                            "orderKey": 0,
+                                                                            "orderKey": 1,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -927,7 +997,8 @@
                                                                         "class": "col-md-12",
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
-                                                                        "icon": "fa fa-clone"
+                                                                        "icon": "fa fa-clone",
+                                                                        "language": null
                                                                     },
                                                                     "mappingOptions": [],
                                                                     "restrictionOptions": {
@@ -962,8 +1033,8 @@
                                                                                     "multiple": false,
                                                                                     "expanded": false,
                                                                                     "select2": false,
-                                                                                    "choices": "accessibility_report\r\nnews",
-                                                                                    "labels": "Accessibility report\r\nNews",
+                                                                                    "choices": "accessibility_report\nnews",
+                                                                                    "labels": "Accessibility report\nNews",
                                                                                     "linked_collection": null,
                                                                                     "collection_label_field": null,
                                                                                     "placeholder": null
@@ -1003,10 +1074,31 @@
                                                                             "options": {
                                                                                 "displayOptions": {
                                                                                     "label": "Label",
-                                                                                    "class": "col-md-12"
+                                                                                    "class": "col-md-12",
+                                                                                    "lastOfRow": false,
+                                                                                    "helptext": null,
+                                                                                    "prefixIcon": null,
+                                                                                    "prefixText": null,
+                                                                                    "suffixIcon": null,
+                                                                                    "suffixText": null,
+                                                                                    "placeholder": null,
+                                                                                    "icon": null
+                                                                                },
+                                                                                "restrictionOptions": {
+                                                                                    "mandatory": false,
+                                                                                    "mandatory_if": null,
+                                                                                    "minimum_role": null
+                                                                                },
+                                                                                "migrationOptions": {
+                                                                                    "protected": false
+                                                                                },
+                                                                                "extraOptions": {
+                                                                                    "extra": null,
+                                                                                    "clear_on_copy": false,
+                                                                                    "postProcessing": null
                                                                                 }
                                                                             },
-                                                                            "orderKey": 0,
+                                                                            "orderKey": 1,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -1030,7 +1122,8 @@
                                                                         "class": "col-md-12",
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
-                                                                        "icon": "fa fa-mouse-pointer"
+                                                                        "icon": "fa fa-mouse-pointer",
+                                                                        "language": null
                                                                     },
                                                                     "mappingOptions": [],
                                                                     "restrictionOptions": {
@@ -1106,10 +1199,31 @@
                                                                             "options": {
                                                                                 "displayOptions": {
                                                                                     "label": "Label",
-                                                                                    "class": "col-md-12"
+                                                                                    "class": "col-md-12",
+                                                                                    "lastOfRow": false,
+                                                                                    "helptext": null,
+                                                                                    "prefixIcon": null,
+                                                                                    "prefixText": null,
+                                                                                    "suffixIcon": null,
+                                                                                    "suffixText": null,
+                                                                                    "placeholder": null,
+                                                                                    "icon": null
+                                                                                },
+                                                                                "restrictionOptions": {
+                                                                                    "mandatory": false,
+                                                                                    "mandatory_if": null,
+                                                                                    "minimum_role": null
+                                                                                },
+                                                                                "migrationOptions": {
+                                                                                    "protected": false
+                                                                                },
+                                                                                "extraOptions": {
+                                                                                    "extra": null,
+                                                                                    "clear_on_copy": false,
+                                                                                    "postProcessing": null
                                                                                 }
                                                                             },
-                                                                            "orderKey": 0,
+                                                                            "orderKey": 1,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -1185,7 +1299,8 @@
                                                             "class": "col-md-12",
                                                             "lastOfRow": false,
                                                             "helptext": null,
-                                                            "icon": "fa fa-search"
+                                                            "icon": "fa fa-search",
+                                                            "language": null
                                                         },
                                                         "mappingOptions": [],
                                                         "restrictionOptions": {
@@ -1356,7 +1471,8 @@
                                                 "class": "col-md-12",
                                                 "lastOfRow": false,
                                                 "helptext": null,
-                                                "icon": "fa fa-gears"
+                                                "icon": "fa fa-gears",
+                                                "language": null
                                             },
                                             "mappingOptions": [],
                                             "restrictionOptions": {
@@ -1369,7 +1485,7 @@
                                             },
                                             "raw_data": []
                                         },
-                                        "orderKey": 2,
+                                        "orderKey": 1,
                                         "children": [
                                             {
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -1414,7 +1530,7 @@
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 1,
+                                                    "orderKey": 0,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -1443,7 +1559,7 @@
                                                         },
                                                         "raw_data": []
                                                     },
-                                                    "orderKey": 2,
+                                                    "orderKey": 1,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -1616,7 +1732,9 @@
                 "Publication request",
                 "Validation request"
             ],
-            "hide_revision_sidebar": false
+            "tasks_helptexts": [],
+            "hide_revision_sidebar": false,
+            "recompute_on_publish": false
         }
     },
     "replaced": []

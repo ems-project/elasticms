@@ -41,6 +41,7 @@ Current local untracked files observed during setup were `.DS_Store` files and `
 - Keep generated assets, manifests, lock files, and changelogs untouched unless they are part of the requested change.
 - Do not revert user changes or local untracked files.
 - Use `rg` for searches and inspect nearby tests before changing behavior.
+- If a `.mcp.json` file exists at the project root, agents may use it to test ElasticMS MCP development.
 
 ## PHP Conventions
 

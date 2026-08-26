@@ -172,6 +172,7 @@ field:
     date_run_previous: 'Vorige uitvoeringsdatum'
     date_upload: Uploaddatum
     definition: Definitie
+    description: Beschrijving
     editor: Editor
     email_content_type: 'Contenttype (bv. text/html)'
     enabled: Ingeschakeld
@@ -289,6 +290,8 @@ key:
     logs: Logs
     loop_count: '#'
     managed_aliases: 'Beheerde aliassen'
+    mcp: MCP
+    mcp_tools: 'MCP-tools'
     none: Geen
     notice: Melding
     orphan_indexes: 'Verweesde indexen'

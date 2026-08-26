@@ -172,6 +172,7 @@ field:
     date_run_previous: 'Date previous run'
     date_upload: 'Date upload'
     definition: Definition
+    description: Description
     editor: Editor
     email_content_type: 'Content type (ie: text/html)'
     enabled: Enabled
@@ -289,6 +290,8 @@ key:
     logs: Logs
     loop_count: '#'
     managed_aliases: 'Managed aliases'
+    mcp: MCP
+    mcp_tools: 'MCP tools'
     none: None
     notice: Notice
     orphan_indexes: 'Orphan indexes'

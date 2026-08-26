@@ -72,6 +72,7 @@ use EMS\CoreBundle\Form\Form\FormType;
 use EMS\CoreBundle\Form\Form\GroupType;
 use EMS\CoreBundle\Form\Form\LoadLinkModalType;
 use EMS\CoreBundle\Form\Form\ManagedAliasType;
+use EMS\CoreBundle\Form\Form\McpToolType;
 use EMS\CoreBundle\Form\Form\NotificationFormType;
 use EMS\CoreBundle\Form\Form\QuerySearchType;
 use EMS\CoreBundle\Form\Form\RevisionJsonMenuNestedType;
@@ -88,6 +89,7 @@ use EMS\CoreBundle\Form\Submission\ProcessType;
 use EMS\CoreBundle\Form\View\Criteria\CriteriaFilterType;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\EnvironmentService;
+use EMS\CoreBundle\Service\Mcp\McpToolService;
 
 return static function (ContainerConfigurator $container) {
     $services = $container->services();
@@ -653,6 +655,9 @@ return static function (ContainerConfigurator $container) {
         ->tag('form.type');
     $services->set(ReorganizeType::class)
         ->args([service(ContentTypeService::class)])
+        ->tag('form.type');
+    $services->set(McpToolType::class)
+        ->args([service(McpToolService::class)])
         ->tag('form.type');
 
     $services->set('emsco.form_extension.locale_form_extension', LocaleFormExtension::class)

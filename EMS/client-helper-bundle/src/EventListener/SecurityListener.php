@@ -8,11 +8,10 @@ use EMS\ClientHelperBundle\Security\CoreApi\User\CoreApiUser;
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Service;
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Token;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
-use EMS\Helpers\Standard\Type;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
-use Symfony\Component\HttpKernel\Event\KernelEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -48,9 +47,9 @@ readonly class SecurityListener implements EventSubscriberInterface
         ];
     }
 
-    public function setToken(KernelEvent $event): void
+    public function setToken(RequestEvent $event): void
     {
-        if (!$this->isAuthenticatedRequest($event->getRequest())) {
+        if (!$this->isAuthenticatable($event->getRequest())) {
             return;
         }
         $user = $this->tokenStorage->getToken()?->getUser();
@@ -61,7 +60,7 @@ readonly class SecurityListener implements EventSubscriberInterface
 
     public function refreshToken(ControllerEvent $event): void
     {
-        if (!$this->isAuthenticatedRequest($event->getRequest())) {
+        if (!$this->isAuthenticatable($event->getRequest())) {
             return;
         }
         $token = $this->tokenStorage->getToken();
@@ -71,26 +70,15 @@ readonly class SecurityListener implements EventSubscriberInterface
         }
     }
 
-    public function forceAuthenticated(ControllerEvent $event): void
+    private function isAuthenticatable(Request $request): bool
     {
-        if (!$event->isMainRequest()) {
-            return;
-        }
-
-        $request = $event->getRequest();
-
-        if ($this->authorizationChecker->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY)) {
-            return;
-        }
-
-        if ($this->isAuthenticatedRequest($event->getRequest()) || $this->firewallMatch($request)) {
-            throw new AccessDeniedException();
-        }
+        return $this->firewallMatch($request)
+            || $request->attributes->get('_authenticated', false);
     }
 
     private function firewallMatch(Request $request): bool
     {
-        if (($this->firewallRegex ?? '') === '') {
+        if (0 === \strlen($this->firewallRegex ?? '')) {
             return false;
         }
 
@@ -101,8 +89,20 @@ readonly class SecurityListener implements EventSubscriberInterface
         return (bool) \preg_match('#'.$this->firewallRegex.'#', $request->getPathInfo());
     }
 
-    private function isAuthenticatedRequest(Request $request): bool
+    public function forceAuthenticated(ControllerEvent $event): void
     {
-        return Type::bool($request->attributes->get('_authenticated', false));
+        if (!$event->isMainRequest()) {
+            return;
+        }
+
+        $request = $event->getRequest();
+
+        if (!$this->firewallMatch($request) && !$request->attributes->get('_authenticated', false)) {
+            return;
+        }
+
+        if (!$this->authorizationChecker->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY)) {
+            throw new AccessDeniedException();
+        }
     }
 }

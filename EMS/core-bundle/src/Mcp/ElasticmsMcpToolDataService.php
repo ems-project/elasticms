@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Mcp;
 
-use EMS\CommonBundle\Search\Search;
-use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\FieldType;
@@ -16,7 +14,6 @@ use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\CoreBundle\Service\UserService;
-use EMS\Helpers\Standard\Json;
 use Mcp\Exception\ToolCallException;
 use Mcp\Server\Builder;
 use Psr\Log\LoggerInterface;

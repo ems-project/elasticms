@@ -378,7 +378,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         route_login?: scalar|Param|null, // Default: "emsch_login"
  *         firewall?: scalar|Param|null, // Default: null
  *         sso?: array{
- *             core_user?: scalar|Param|null, // Default: false
+ *             core_user?: array{
+ *                 enabled?: scalar|Param|null, // Default: false
+ *                 groups?: mixed, // Default: []
+ *             },
  *             oauth2?: bool|array{
  *                 enabled?: bool|Param, // Default: false
  *                 provider?: scalar|Param|null, // Default: "keycloak"

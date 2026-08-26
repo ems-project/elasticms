@@ -725,7 +725,6 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.data'),
             service('form.registry'),
             service('security.authorization_checker'),
-            service(ElasticaService::class),
             service('logger'),
             service('emsco.logger.audit'),
         ]);

@@ -80,7 +80,6 @@ final readonly class ElasticmsMcpServerFactory
                 ],
             );
         $this->toolAssetService->addAssetTools($builder);
-        // $this->toolDataService->addSearchTool($builder);
         $this->toolDataService->addGetDocumentTools($builder);
         $this->toolDataService->addCreateDocumentTools($builder);
 

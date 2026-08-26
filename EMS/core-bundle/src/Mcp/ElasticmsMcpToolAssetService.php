@@ -25,18 +25,6 @@ final readonly class ElasticmsMcpToolAssetService extends AbstractElasticmsMcpTo
     }
 
     /**
-     * @return array{algorithm:string}
-     */
-    public function currentStorageAlgorithm(): array
-    {
-        $toolName = 'current_storage_algorithm';
-
-        return $this->wrapToolCall($toolName, [], fn (): array => [
-            'algorithm' => $this->fileService->getAlgo(),
-        ]);
-    }
-
-    /**
      * @return array{hash:string, name:string, type:string, size:int, algo:string, available:bool, uploaded:int, status:?string, user:string, chunkSize:int}
      */
     public function initAssetUpload(string $hash, int $size, string $name, string $type, ?string $algo = null): array
@@ -170,21 +158,9 @@ final readonly class ElasticmsMcpToolAssetService extends AbstractElasticmsMcpTo
     {
         $builder
             ->addTool(
-                handler: $this->currentStorageAlgorithm(...),
-                name: 'current_storage_algorithm',
-                description: 'Return the currently configured storage hash algorithm for assets.',
-                inputSchema: [
-                    'type' => 'object',
-                    'properties' => new \stdClass(),
-                    'required' => [],
-                    'additionalProperties' => false,
-                ],
-                outputSchema: $this->buildCurrentStorageAlgorithmSchema(),
-            )
-            ->addTool(
                 handler: $this->initAssetUpload(...),
                 name: 'init_asset_upload',
-                description: \sprintf('Initialize or resume a chunked asset upload. Chunks must not exceed %d bytes and the hash must use the current storage algorithm.', File::DEFAULT_CHUNK_SIZE),
+                description: \sprintf('Initialize or resume a chunked asset upload. Chunks must not exceed %d bytes and the hash must use the %s algorithm.', File::DEFAULT_CHUNK_SIZE, $this->fileService->getAlgo()),
                 inputSchema: [
                     'type' => 'object',
                     'properties' => [
@@ -202,7 +178,7 @@ final readonly class ElasticmsMcpToolAssetService extends AbstractElasticmsMcpTo
             ->addTool(
                 handler: $this->uploadAssetChunk(...),
                 name: 'upload_asset_chunk',
-                description: \sprintf('Upload one asset chunk encoded as base64. The decoded chunk size must not exceed %d bytes.', File::DEFAULT_CHUNK_SIZE),
+                description: \sprintf('Upload one asset chunk encoded as base64 for an upload that has been initialized first with the tools `init_asset_upload`. The decoded chunk size must not exceed %d bytes.', File::DEFAULT_CHUNK_SIZE),
                 inputSchema: [
                     'type' => 'object',
                     'properties' => [
@@ -217,7 +193,7 @@ final readonly class ElasticmsMcpToolAssetService extends AbstractElasticmsMcpTo
             ->addTool(
                 handler: $this->downloadAssetChunk(...),
                 name: 'download_asset_chunk',
-                description: \sprintf('Download one asset chunk encoded as base64. The requested chunk length defaults to and must not exceed %d bytes.', File::DEFAULT_CHUNK_SIZE),
+                description: \sprintf('Download one asset chunk encoded as base64 for a given hash. The requested chunk length defaults to and must not exceed %d bytes.', File::DEFAULT_CHUNK_SIZE),
                 inputSchema: [
                     'type' => 'object',
                     'properties' => [
@@ -289,21 +265,6 @@ final readonly class ElasticmsMcpToolAssetService extends AbstractElasticmsMcpTo
                 'chunkSize' => ['type' => 'integer'],
             ],
             'required' => ['hash', 'name', 'type', 'size', 'algo', 'available', 'uploaded', 'status', 'user', 'chunkSize'],
-            'additionalProperties' => false,
-        ];
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    private function buildCurrentStorageAlgorithmSchema(): array
-    {
-        return [
-            'type' => 'object',
-            'properties' => [
-                'algorithm' => ['type' => 'string'],
-            ],
-            'required' => ['algorithm'],
             'additionalProperties' => false,
         ];
     }

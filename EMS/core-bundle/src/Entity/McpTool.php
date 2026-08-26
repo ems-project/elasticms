@@ -21,6 +21,8 @@ class McpTool extends JsonDeserializer implements \JsonSerializable, EntityInter
     protected array $roles = [];
     protected ?string $description = null;
     protected bool $enabled = true;
+    /** @var array<int, array{name?: string, type?: string, description?: string, example?: string}> */
+    protected array $inputs = [];
 
     public function __construct()
     {
@@ -101,6 +103,22 @@ class McpTool extends JsonDeserializer implements \JsonSerializable, EntityInter
     public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
+    }
+
+    /**
+     * @return array<int, array{name?: string, type?: string, description?: string, example?: string}>
+     */
+    public function getInputs(): array
+    {
+        return $this->inputs;
+    }
+
+    /**
+     * @param array<int, array{name?: string, type?: string, description?: string, example?: string}> $inputs
+     */
+    public function setInputs(array $inputs): void
+    {
+        $this->inputs = $inputs;
     }
 
     #[\Override]

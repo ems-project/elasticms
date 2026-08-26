@@ -183,6 +183,7 @@ field:
     environments: Environments
     error: 'Error message'
     events: Events
+    example: Example
     extra: Extra
     file:
         disposition: Disposition
@@ -201,6 +202,7 @@ field:
     icon: Icon
     index: Index
     indexes: Indexes
+    inputs: Inputs
     is_active: Active
     is_dirty: Dirty
     is_edit_wysiwyg: 'Edit with WYSIWYG'

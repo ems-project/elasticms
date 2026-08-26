@@ -183,6 +183,7 @@ field:
     environments: Omgevingen
     error: Foutmelding
     events: Events
+    example: Voorbeeld
     extra: Extra
     file:
         disposition: Dispositie
@@ -201,6 +202,7 @@ field:
     icon: Icoon
     index: Index
     indexes: Indexen
+    inputs: Invoer
     is_active: Actief
     is_dirty: Gewijzigd
     is_edit_wysiwyg: 'Bewerken met WYSIWYG'

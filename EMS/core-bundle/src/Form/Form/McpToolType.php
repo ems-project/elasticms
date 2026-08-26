@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Form;
 
 use EMS\CoreBundle\Entity\McpTool;
+use EMS\CoreBundle\Form\Field\McpToolInputType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
 use EMS\CoreBundle\Service\UserService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -66,6 +68,27 @@ final class McpToolType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'label' => t('field.description', [], 'emsco-core'),
+                'required' => false,
+                'row_attr' => [
+                    'class' => 'col-md-12',
+                ],
+            ])
+            ->add('inputs', CollectionType::class, [
+                'label' => t('field.inputs', [], 'emsco-core'),
+                'entry_type' => McpToolInputType::class,
+                'entry_options' => [
+                    'label' => false,
+                    'row_attr' => ['class' => 'col-md-12'],
+                ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'attr' => [
+                    'class' => 'a2lix_lib_sf_collection',
+                    'data-lang-add' => 'Add input',
+                    'data-lang-remove' => 'Remove input',
+                    'data-entry-remove-class' => 'btn btn-sm btn-danger',
+                ],
+                'block_prefix' => 'inputs',
                 'required' => false,
                 'row_attr' => [
                     'class' => 'col-md-12',

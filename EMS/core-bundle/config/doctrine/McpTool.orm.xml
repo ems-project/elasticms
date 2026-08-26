@@ -13,6 +13,7 @@
     <field name="label" length="255"/>
     <field name="roles" type="json"/>
     <field name="description" type="text" nullable="true"/>
+    <field name="inputs" type="json"/>
     <field name="enabled" type="boolean">
       <options>
         <option name="default">1</option>

@@ -95,13 +95,24 @@ final class McpControllerTest extends WebTestCase
 
         $currentUserTool = \array_values(\array_filter($tools, static fn (array $tool): bool => 'get_current_user' === ($tool['name'] ?? null)))[0] ?? null;
         self::assertIsArray($currentUserTool);
+        self::assertStringContainsString('elasticMS user profile', (string) ($currentUserTool['description'] ?? ''));
         self::assertSame('object', $currentUserTool['outputSchema']['type'] ?? null);
         self::assertSame('object', $currentUserTool['outputSchema']['properties']['user']['type'] ?? null);
         self::assertSame('string', $currentUserTool['outputSchema']['properties']['user']['properties']['username']['type'] ?? null);
 
-        $createNewsTool = \array_values(\array_filter($tools, static fn (array $tool): bool => 'create_document_news' === ($tool['name'] ?? null)))[0] ?? null;
+        $initAssetTool = \array_values(\array_filter($tools, static fn (array $tool): bool => 'init_asset_upload' === ($tool['name'] ?? null)))[0] ?? null;
+        self::assertIsArray($initAssetTool);
+        self::assertSame(['sha1'], $initAssetTool['inputSchema']['properties']['algo']['enum'] ?? null);
+        self::assertSame('sha1', $initAssetTool['inputSchema']['properties']['algo']['default'] ?? null);
 
+        $downloadAssetTool = \array_values(\array_filter($tools, static fn (array $tool): bool => 'download_asset_chunk' === ($tool['name'] ?? null)))[0] ?? null;
+        self::assertIsArray($downloadAssetTool);
+        self::assertSame(0, $downloadAssetTool['inputSchema']['properties']['offset']['default'] ?? null);
+        self::assertSame(5_242_880, $downloadAssetTool['inputSchema']['properties']['length']['default'] ?? null);
+
+        $createNewsTool = \array_values(\array_filter($tools, static fn (array $tool): bool => 'create_document_news' === ($tool['name'] ?? null)))[0] ?? null;
         self::assertIsArray($createNewsTool);
+        self::assertStringContainsString('elasticMS news document', (string) ($createNewsTool['description'] ?? ''));
         self::assertSame(['title'], $createNewsTool['inputSchema']['properties']['rawData']['required'] ?? null);
         self::assertSame('string', $createNewsTool['inputSchema']['properties']['rawData']['properties']['title']['type'] ?? null);
         self::assertSame('object', $createNewsTool['inputSchema']['properties']['rawData']['properties']['body']['type'] ?? null);

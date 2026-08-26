@@ -291,7 +291,7 @@ key:
     loop_count: '#'
     managed_aliases: 'Beheerde aliassen'
     mcp: MCP
-    mcp_tools: 'MCP-tools'
+    mcp_tools: MCP-tools
     none: Geen
     notice: Melding
     orphan_indexes: 'Verweesde indexen'
@@ -308,6 +308,7 @@ key:
     schedule_tag: 'Gebruikt om workers (bv. CLI) te identificeren die de job op afstand zouden uitvoeren'
     search: Zoeken
     structure: Structuur
+    system_logs: Systeemlogboeken
     tiptap: Tiptap
     trash: Prullenbak
     unreferenced_aliases: 'Niet-gerefereerde aliassen'

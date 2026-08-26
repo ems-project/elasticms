@@ -308,6 +308,7 @@ key:
     schedule_tag: 'Utilisé pour identifier les workers (ex. CLI) qui exécuteraient le job à distance'
     search: Recherche
     structure: Structure
+    system_logs: 'Journaux système'
     tiptap: Tiptap
     trash: Corbeille
     unreferenced_aliases: 'Alias non référencés'

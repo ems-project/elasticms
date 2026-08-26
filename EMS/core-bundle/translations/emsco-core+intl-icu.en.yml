@@ -308,6 +308,7 @@ key:
     schedule_tag: 'Used to indentify workers (e.g. CLI) which would remotely execute the job'
     search: Search
     structure: Structure
+    system_logs: 'System logs'
     tiptap: Tiptap
     trash: Trash
     unreferenced_aliases: 'Unreferenced aliases'

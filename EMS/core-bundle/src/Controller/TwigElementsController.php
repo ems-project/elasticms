@@ -154,8 +154,9 @@ class TwigElementsController extends AbstractController
         );
         $mcpMenu->addChild(t('key.mcp_tools', [], 'emsco-core'), 'fa fa-wrench', Routes::MCP_TOOL_INDEX);
 
-        $menu->addChild(t('key.logs', [], 'emsco-core'), 'fa fa-file-text', Routes::LOG_INDEX);
-        $menu->addChild(t('key.uploaded_files_logs', [], 'emsco-core'), 'fa fa-upload', Routes::UPLOAD_ASSET_ADMIN_OVERVIEW);
+        $logsMenu = $menu->addChild(t('key.logs', [], 'emsco-core'), 'fa fa-file-text', Routes::LOG_INDEX);
+        $logsMenu->addChild(t('key.system_logs', [], 'emsco-core'), 'fa fa-file-text', Routes::LOG_INDEX);
+        $logsMenu->addChild(t('key.uploaded_files_logs', [], 'emsco-core'), 'fa fa-upload', Routes::UPLOAD_ASSET_ADMIN_OVERVIEW);
 
         return $menu;
     }

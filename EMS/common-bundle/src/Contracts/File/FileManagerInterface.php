@@ -14,7 +14,7 @@ interface FileManagerInterface
 
     public function downloadFile(string $hash): string;
 
-    public function getFile(string $hash): FileInterface;
+    public function getFile(string $filenameOrHash): FileInterface;
 
     public function getContents(string $hash): string;
 

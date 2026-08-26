@@ -378,7 +378,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         route_login?: scalar|Param|null, // Default: "emsch_login"
  *         firewall?: scalar|Param|null, // Default: null
  *         sso?: array{
- *             core_user?: scalar|Param|null, // Default: false
+ *             core_user?: array{
+ *                 enabled?: scalar|Param|null, // Default: false
+ *                 groups?: mixed, // Default: []
+ *             },
  *             oauth2?: bool|array{
  *                 enabled?: bool|Param, // Default: false
  *                 provider?: scalar|Param|null, // Default: "keycloak"
@@ -778,7 +781,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         resources?: Param|string|array<string, scalar|Param|null>,
  *     },
  *     messenger?: bool|array{ // Messenger configuration
- *         enabled?: bool|Param, // Default: false
+ *         enabled?: bool|Param, // Default: true
  *         routing?: array<string, Param|string|array{ // Default: []
  *             senders?: list<scalar|Param|null>,
  *         }>,
@@ -997,7 +1000,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         }>,
  *     },
  *     uid?: bool|array{ // Uid configuration
- *         enabled?: bool|Param, // Default: false
+ *         enabled?: bool|Param, // Default: true
  *         default_uuid_version?: 7|6|4|1|Param, // Default: 7
  *         name_based_uuid_version?: 5|3|Param, // Default: 5
  *         name_based_uuid_namespace?: scalar|Param|null,

@@ -176,7 +176,13 @@ Here is an example.
 }
 ```
 
-## version 6.0.x
+## 6.0.x
+
+The container filesystem layout for both Web and Admin has been updated. Please refer to the dedicated documentation for
+details:
+
+- [elasticms-admin](https://github.com/ems-project/elasticms-admin-docker/tree/6.0.0#6x--php-v84---road-to-readonly-containers--)
+- [elasticms-web](https://github.com/ems-project/elasticms-web-docker/tree/6.0.0#6x--php-v84---road-to-readonly-containers--)
 
 ### Postgres 17
 

@@ -140,11 +140,14 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
             $builder->addTool(
                 handler: fn (string $ouuid): array => $this->getDocument($contentTypeName, $ouuid),
                 name: \sprintf('get_document_%s', $contentTypeName),
-                description: \sprintf('Read the current content revision for the %s content type indexed in the %s environment.', $contentTypeName, $contentType->giveEnvironment()->getName()),
+                description: \sprintf('Read the current elasticMS revision for a %s document from the %s environment. You must already know the document OUUID; use the search tool first when you need to discover documents. Recoverable errors include missing OUUIDs, archived or deleted revisions and permission failures.', $contentTypeName, $contentType->giveEnvironment()->getName()),
                 inputSchema: [
                     'type' => 'object',
                     'properties' => [
-                        'ouuid' => ['type' => 'string'],
+                        'ouuid' => [
+                            'type' => 'string',
+                            'description' => 'elasticMS object UUID of the document revision to read.',
+                        ],
                     ],
                     'required' => ['ouuid'],
                     'additionalProperties' => false,
@@ -166,7 +169,7 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
             $builder->addTool(
                 handler: fn (array $rawData = [], ?string $ouuid = null, bool $finalize = false): array => $this->createDocument($contentTypeName, $rawData, $ouuid, $finalize),
                 name: \sprintf('create_document_%s', $contentTypeName),
-                description: \sprintf('Create a new document in the %s content type indexed in the %s environment.', $contentTypeName, $contentType->giveEnvironment()->getName()),
+                description: \sprintf('Create a new elasticMS %s document targeting the %s environment. Provide rawData according to the generated schema for this content type. Omit ouuid to let elasticMS generate one; if an explicit ouuid already exists, creation may fail. By default the new revision remains a draft in progress. Set finalize=true only when the rawData is complete and should be finalized directly in the content type default environment, which triggers the normal elasticMS validation/finalization flow. Recoverable errors include invalid rawData, duplicate OUUIDs, validation failures and permission failures.', $contentTypeName, $contentType->giveEnvironment()->getName()),
                 inputSchema: $this->buildCreateDocumentInputSchema($contentType),
                 outputSchema: [
                     'type' => 'object',
@@ -290,11 +293,12 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
                 'rawData' => $rawDataSchema,
                 'ouuid' => [
                     'type' => 'string',
-                    'description' => 'Optional OUUID. When omitted, elasticMS will generate one.',
+                    'description' => 'Optional elasticMS object UUID. When omitted, elasticMS will generate one. If provided, it must be unique for all content types.',
                 ],
                 'finalize' => [
                     'type' => 'boolean',
-                    'description' => 'If set to true, the document will be finalized directly in the content type default environment. If set to false or omitted, the document will remain a draft in progress.',
+                    'default' => false,
+                    'description' => 'When true, finalize the new revision directly in the content type default environment and run the normal elasticMS validation/finalization flow. When false or omitted, keep the document as a draft in progress.',
                 ],
             ],
             'required' => ['rawData'],

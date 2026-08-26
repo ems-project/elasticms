@@ -27,16 +27,16 @@ final readonly class ElasticmsMcpServerFactory
             ->setServerInfo(
                 name: 'elasticMS MCP',
                 version: '1.0.0',
-                description: 'Minimal elasticMS MCP server over HTTP using elasticMS API bearer tokens.',
+                description: 'elasticMS MCP server over HTTP using elasticMS API bearer tokens.',
             )
-            ->setInstructions('Authenticate with an elasticMS API bearer token. The server exposes a minimal set of content tools and preserves the authenticated user permissions.')
+            ->setInstructions('Authenticate with an elasticMS API bearer token. The server exposes content, search, user and asset tools while preserving the authenticated user permissions.')
             ->setContainer($this->container)
             ->setLogger($this->logger)
             ->setSession(new FileSessionStore($this->cacheDir.'/mcp-sessions'))
             ->addTool(
                 handler: $this->toolUserService->getCurrentUser(...),
                 name: 'get_current_user',
-                description: 'Return the authenticated elasticMS user profile.',
+                description: 'Return the authenticated elasticMS user profile, including roles, circles, locale preferences and user options. Use this tool to check which identity and permissions the MCP calls run with.',
                 inputSchema: [
                     'type' => 'object',
                     'properties' => new \stdClass(),

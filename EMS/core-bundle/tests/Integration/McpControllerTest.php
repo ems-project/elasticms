@@ -101,12 +101,12 @@ final class McpControllerTest extends WebTestCase
         self::assertSame('object', $currentUserTool['outputSchema']['properties']['user']['type'] ?? null);
         self::assertSame('string', $currentUserTool['outputSchema']['properties']['user']['properties']['username']['type'] ?? null);
 
-        $initAssetTool = \array_values(\array_filter($tools, static fn (array $tool): bool => 'init_asset_upload' === ($tool['name'] ?? null)))[0] ?? null;
+        $initAssetTool = \array_first(\array_filter($tools, static fn (array $tool): bool => 'init_asset_upload' === ($tool['name'] ?? null))) ?? null;
         self::assertIsArray($initAssetTool);
         self::assertSame(['sha1'], $initAssetTool['inputSchema']['properties']['algo']['enum'] ?? null);
         self::assertSame('sha1', $initAssetTool['inputSchema']['properties']['algo']['default'] ?? null);
 
-        $downloadAssetTool = \array_values(\array_filter($tools, static fn (array $tool): bool => 'download_asset_chunk' === ($tool['name'] ?? null)))[0] ?? null;
+        $downloadAssetTool = \array_first(\array_filter($tools, static fn (array $tool): bool => 'download_asset_chunk' === ($tool['name'] ?? null))) ?? null;
         self::assertIsArray($downloadAssetTool);
         self::assertSame(0, $downloadAssetTool['inputSchema']['properties']['offset']['default'] ?? null);
         self::assertSame(5_242_880, $downloadAssetTool['inputSchema']['properties']['length']['default'] ?? null);
@@ -146,7 +146,7 @@ final class McpControllerTest extends WebTestCase
         ];
 
         $this->client->request(
-            'POST',
+            Request::METHOD_POST,
             '/api/mcp',
             server: $this->mcpHeaders($sessionId),
             content: $this->jsonEncode($currentUserPayload)

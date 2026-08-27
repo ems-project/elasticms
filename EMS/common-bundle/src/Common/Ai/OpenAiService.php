@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\Ai;
 
 use EMS\CommonBundle\Common\KeyStore;
-use EMS\Helpers\Standard\Json;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class OpenAiService

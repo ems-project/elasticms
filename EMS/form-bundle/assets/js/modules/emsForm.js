@@ -103,6 +103,9 @@ export class emsForm {
             return
         }
 
+        if (e.source !== this.elementIframe.contentWindow) {
+            return
+        }
         if (typeof e.data !== 'string') {
             //Probably a message from a browser plugin
             return

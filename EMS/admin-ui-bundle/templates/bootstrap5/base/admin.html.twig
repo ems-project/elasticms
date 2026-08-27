@@ -1,21 +1,7 @@
 {% extends '@EMSAdminUI/bootstrap5/base/html5.html.twig' %}
 {%- trans_default_domain 'ems-adminui-twigs' -%}
-{% set wysiwygInfo = emsco_wysiwyg_info() %}
 
-{%- set type_filters = [] -%}
-{%- set all_types = false %}
-{%- if emsco_get_content_types()|length > 0 -%}
-    {%- for contentType in emsco_get_content_types()|filter(contentType => contentType.webContent) -%}
-        {%- if all_types -%}
-            {% set all_types = all_types ~ ',' ~ contentType.name -%}
-        {%- else %}
-            {% set all_types = contentType.name -%}
-        {%- endif -%}
-        {%- set type_filters = type_filters|merge([[contentType.singularName, contentType.name]]) -%}
-    {%- endfor -%}
-{%- endif -%}
-{%- set type_filters = [['content_type.all'|trans, all_types]]|merge(type_filters) -%}
-
+{%- set wysiwygInfo = emsco_wysiwyg_info() -%}
 {% set body_attr = {
     class: 'hold-transition sidebar-mini sidebar-mini-md layout-fixed layout-navbar-fixed',
     'data-theme-color': theme_color,
@@ -31,8 +17,8 @@
     'data-file-view': path('ems.file.view', {sha1: '__file_identifier__', name: '__file_name__'}),
     'data-file-extract': path('ems_file_extract', {sha1: '__file_identifier__', name: '__file_name__'}),
     'data-file-extract-forced': path('ems_file_extract_forced', {sha1: '__file_identifier__', name: '__file_name__'}),
-    'data-wysiwyg-type-filters': type_filters|json_encode,
-    'data-wysiwyg-info': wysiwygInfo,
+    'data-wysiwyg-type-filters': wysiwygInfo.linkTypes|json_encode,
+    'data-wysiwyg-info': wysiwygInfo|json_encode,
     'data-asset-path': asset(''),
 } %}
 {% set theme_color_contrast = theme_color in ['yellow', 'lime', 'white', 'cyan'] ? 'light' : 'dark' %}

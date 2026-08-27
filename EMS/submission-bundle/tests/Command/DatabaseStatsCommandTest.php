@@ -18,6 +18,9 @@ use Symfony\Component\Mime\Email;
 
 final class DatabaseStatsCommandTest extends KernelTestCase
 {
+    /**
+     * @var MockObject&FormSubmissionRepository
+     */
     private MockObject $repository;
     private Application $application;
     private MessageLoggerListener $messageLogger;
@@ -54,7 +57,7 @@ final class DatabaseStatsCommandTest extends KernelTestCase
         $countDto->setProcessed(3);
         $countDto->setTotal(6);
 
-        $this->repository->expects($this->any())->method('getCounts')->willReturn($countDto);
+        $this->repository->method('getCounts')->willReturn($countDto);
 
         $command = $this->application->find('emss:database:stats');
         $commandTester = new CommandTester($command);

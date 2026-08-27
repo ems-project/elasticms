@@ -167,6 +167,12 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     }
 
     #[\Override]
+    public function hasWysiwygProfile(): bool
+    {
+        return null !== $this->wysiwygProfile;
+    }
+
+    #[\Override]
     public function setWysiwygProfile(?WysiwygProfile $wysiwygProfile): self
     {
         $this->wysiwygProfile = $wysiwygProfile;
@@ -286,9 +292,6 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     public function addRole(string $role): void
     {
         $role = \strtoupper($role);
-        if (Roles::ROLE_USER === $role) {
-            return;
-        }
 
         if (!\in_array($role, $this->roles, true)) {
             $this->roles[] = $role;
@@ -392,7 +395,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
             $roles = \array_merge($roles, $group->getRoles());
         }
 
-        return \array_unique($roles);
+        return \array_values(\array_unique($roles));
     }
 
     #[\Override]

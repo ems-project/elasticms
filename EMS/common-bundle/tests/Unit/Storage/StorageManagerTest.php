@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Tests\Unit\Storage;
 
+use EMS\CommonBundle\Common\Cache\Cache;
 use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\Factory\FileSystemFactory;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
@@ -23,13 +24,18 @@ class StorageManagerTest extends WebTestCase
     private StorageManager $storageManager;
     private TempFile $tempFile;
     private string $hash;
+    /**
+     * @var Stub&LoggerInterface
+     */
     private Stub $mockLogger;
+    private Cache $mockCache;
 
     #[\Override]
     protected function setUp(): void
     {
         $this->mockLogger = $this->createStub(LoggerInterface::class);
-        $this->storageManager = new StorageManager($this->mockLogger, new FileLocator(), [$this->getFsFactory()], 'sha1', [[
+        $this->mockCache = $this->createMock(Cache::class);
+        $this->storageManager = new StorageManager($this->mockLogger, new FileLocator(), $this->mockCache, [$this->getFsFactory()], 'sha1', [[
             'type' => 'fs',
             'path' => $this->getFsDir(),
         ], [
@@ -135,7 +141,7 @@ class StorageManagerTest extends WebTestCase
     {
         $fsDirSource = $this->getFsDir();
 
-        $storageManagerA = new StorageManager($this->mockLogger, new FileLocator(), [$this->getFsFactory()], 'sha1', [[
+        $storageManagerA = new StorageManager($this->mockLogger, new FileLocator(), $this->mockCache, [$this->getFsFactory()], 'sha1', [[
             'type' => 'fs',
             'path' => $fsDirSource,
         ]]);
@@ -143,7 +149,7 @@ class StorageManagerTest extends WebTestCase
         $this->assertEquals($this->hash, $hash);
         $this->assertEquals(1, \count($storageManagerA->headIn($hash)));
 
-        $storageManagerB = new StorageManager($this->mockLogger, new FileLocator(), [$this->getFsFactory()], 'sha1', [[
+        $storageManagerB = new StorageManager($this->mockLogger, new FileLocator(), $this->mockCache, [$this->getFsFactory()], 'sha1', [[
             'type' => 'fs',
             'path' => $this->getFsDir(),
             'hot-synchronize-limit' => '5',

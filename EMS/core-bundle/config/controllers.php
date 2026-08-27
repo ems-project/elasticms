@@ -24,6 +24,7 @@ use EMS\CoreBundle\Controller\Api\Form\VerificationController;
 use EMS\CoreBundle\Controller\Api\JobApiController;
 use EMS\CoreBundle\Controller\Api\McpController;
 use EMS\CoreBundle\Controller\Api\WebhookSubscriptionController;
+use EMS\CoreBundle\Controller\BrowseController;
 use EMS\CoreBundle\Controller\ChannelController;
 use EMS\CoreBundle\Controller\Component\JsonMenuNestedController;
 use EMS\CoreBundle\Controller\Component\MediaLibraryController;
@@ -89,6 +90,17 @@ return static function (ContainerConfigurator $container) {
     $services->set(ActionController::class)
         ->public()
         ->args([service('emsco.core_action.action_revision_service')])
+        ->tag('controller.service_arguments');
+
+    $services->set(BrowseController::class)
+        ->args([
+            service('emsco.data_table.factory'),
+            service('form.factory'),
+            service('twig'),
+            service('ems.dashboard.manager'),
+            '%ems_core.template_namespace%',
+        ])
+        ->public()
         ->tag('controller.service_arguments');
 
     $services->set(AnalyzerController::class)
@@ -297,7 +309,10 @@ return static function (ContainerConfigurator $container) {
         ->tag('controller.service_arguments');
 
     $services->set(\EMS\CoreBundle\Controller\Api\UserController::class)
-        ->args([service('emsco.manager.user')])
+        ->args([
+            service('emsco.manager.user'),
+            service('ems.group.manager'),
+        ])
         ->tag('controller.service_arguments');
 
     $services->set(JsonMenuNestedController::class)
@@ -314,11 +329,9 @@ return static function (ContainerConfigurator $container) {
         ->public()
         ->args([
             service('emsco.core.media_library'),
-            service('ems_core.core_ui.ajax_service'),
             service('ems_core.core_ui.flash_message_logger'),
             service('translator'),
             service('form.factory'),
-            '%ems_core.template_namespace%',
             '%ems_core.async.enabled%',
         ])
         ->tag('controller.service_arguments');
@@ -921,7 +934,6 @@ return static function (ContainerConfigurator $container) {
             service(SpreadsheetGeneratorServiceInterface::class),
             service('emsco.data_table.factory'),
             service('ems.repository.auth_token'),
-            service('ems.repository.wysiwyg_profile'),
             service('ems_core.core_ui.flash_message_logger'),
             '%ems_core.template_namespace%',
             service('emsco.core.content_type.field_type.service'),

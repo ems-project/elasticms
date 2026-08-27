@@ -1,7 +1,33 @@
 import '../css/core/_core_bundle.scss'
 
 import WYSIWYG from './core/plugins/wysiwyg.ts'
-import { getWysiwygProfile } from './core/components/wysiwyg/wysiwyg.ts'
+import { getWysiwygProfile } from './core/components/Wysiwyg/Wysiwyg.ts'
+import MediaLibraryPlugin from './core/plugins/mediaLibrary.ts'
+import { initIcons } from './core/components/UI/Icons.ts'
+
+const mediaLibrary = new MediaLibraryPlugin()
+
+window.addEventListener('emsReady', function () {
+    initIcons(document.body)
+
+    mediaLibrary.load(document)
+
+    let mediaLibraryTimeout: number | null = null
+    const mediaLibraryObserver = new MutationObserver((mutations) => {
+        const hasNewElements = mutations.some((m) =>
+            Array.from(m.addedNodes).some((n) => n.nodeType === Node.ELEMENT_NODE)
+        )
+
+        if (hasNewElements) {
+            if (mediaLibraryTimeout) window.clearTimeout(mediaLibraryTimeout)
+            mediaLibraryTimeout = window.setTimeout(() => {
+                mediaLibrary.load(document)
+            }, 100)
+        }
+    })
+
+    mediaLibraryObserver.observe(document.body, { childList: true, subtree: true })
+})
 
 window.addEventListener('emsReady', async function () {
     if ('tiptap' !== getWysiwygProfile().editor) return
@@ -25,4 +51,8 @@ window.addEventListener('emsReady', async function () {
     })
 
     observer.observe(document.body, { childList: true, subtree: true })
+})
+
+document.addEventListener('emsAddedDomEvent', function (e) {
+    new window.EmsListeners(e.detail.target)
 })

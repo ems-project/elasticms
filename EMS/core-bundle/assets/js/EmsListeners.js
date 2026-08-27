@@ -720,14 +720,23 @@ export default class EmsListeners {
             return text
         }
 
-        jquery(this.target).find(".select2").select2({
+        const dialog = jquery(this.target).closest('.ems-dialog')
+
+        const elements = jquery(this.target).find('.select2').select2({
             allowClear: true,
-            placeholder: "",
+            placeholder: '',
             width: '100%',
-            escapeMarkup: function (markup) { return markup; },
+            escapeMarkup: function (markup) { return markup },
             templateSelection: formatFn,
             templateResult: formatFn,
-        });
+            dropdownParent: dialog.length ? dialog : undefined
+        })
+
+        if (dialog.length) {
+            elements
+                .on('select2:opening', () => dialog.css('overflow', 'visible'))
+                .on('select2:closing', () => dialog.css('overflow', ''))
+        }
     }
 
     addRemoveButtonListeners() {

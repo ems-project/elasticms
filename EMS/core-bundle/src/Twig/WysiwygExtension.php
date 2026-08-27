@@ -8,6 +8,8 @@ use EMS\CoreBundle\Core\Dashboard\DashboardManager;
 use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Entity\WysiwygProfile;
+use EMS\CoreBundle\Routes;
+use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\WysiwygStylesSetService;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -20,17 +22,31 @@ readonly class WysiwygExtension
         private UserManager $userManager,
         private UrlGeneratorInterface $urlGenerator,
         private DashboardManager $dashboardManager,
+        private ContentTypeService $contentTypeService,
     ) {
     }
 
+    /**
+     * @return array{
+     *     config: array<mixed>,
+     *     styles: array<mixed>,
+     *     editor: string,
+     *     linkTypes: array<int, string[]>
+     * }
+     */
     #[AsTwigFunction(name: 'emsco_wysiwyg_info')]
-    public function getInfo(): string
+    public function getInfo(): array
     {
-        return Json::encode([
-            'config' => \array_merge_recursive($this->getDefaultConfig(), $this->getConfig()),
+        $config = \array_merge_recursive($this->getDefaultConfig(), $this->getConfig());
+
+        return [
+            'config' => $config,
             'styles' => $this->getStyles(),
             'editor' => $this->getEditor(),
-        ]);
+            'linkTypes' => $this->contentTypeService->getLinkTypes(
+                allContentTypes: $config['ems']['urlAllContentTypes'] ?? false
+            ),
+        ];
     }
 
     /**
@@ -45,6 +61,7 @@ readonly class WysiwygExtension
         }
 
         $config = Json::decode($profileConfig);
+        $config['ems']['mediaContentType'] ??= 'media_file';
 
         if (isset($config['ems']['paste'])) {
             $config['emsAjaxPaste'] = $this->urlGenerator->generate('emsco_wysiwyg_ajax_paste', [
@@ -74,6 +91,10 @@ readonly class WysiwygExtension
             'imageUploadUrl' => $this->urlGenerator->generate('ems_image_upload_url'),
             'imageBrowser_listUrl' => $this->urlGenerator->generate('ems_images_index'),
             'ems_filesUrl' => $this->urlGenerator->generate('ems_core_uploaded_file_wysiwyg_index'),
+            'searchUrl' => $this->urlGenerator->generate('elasticsearch.api.search'),
+            'url' => [
+                'browseUploadedFiles' => $this->urlGenerator->generate(Routes::BROWSE_UPLOADED_FILES),
+            ],
         ];
 
         foreach (Dashboard::DASHBOARD_BROWSERS as $definition) {
@@ -81,6 +102,9 @@ readonly class WysiwygExtension
                 $config['emsBrowsers'][$definition] = [
                     'label' => $dashboard->getLabel(),
                     'url' => $this->urlGenerator->generate('emsco_dashboard_browse', [
+                        'dashboardName' => $dashboard->getName(),
+                    ]),
+                    'urlModal' => $this->urlGenerator->generate(Routes::BROWSE_DASHBOARD, [
                         'dashboardName' => $dashboard->getName(),
                     ]),
                 ];

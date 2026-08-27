@@ -65,6 +65,32 @@ class ContentTypeService implements EntityServiceInterface
     ) {
     }
 
+    /**
+     * @return array<int, string[]>
+     */
+    public function getLinkTypes(bool $allContentTypes): array
+    {
+        $types = [];
+        $names = [];
+
+        foreach ($this->getAll() as $contentType) {
+            if (!$contentType->getWebContent()) {
+                continue;
+            }
+            $names[] = $contentType->getName();
+            $types[] = [$contentType->getSingularName(), $contentType->getName()];
+        }
+
+        if (!$allContentTypes) {
+            return $types;
+        }
+
+        return [
+            [$this->translator->trans('key.all_content_types', [], 'emsco-core'), \implode(',', $names)],
+            ...$types,
+        ];
+    }
+
     public function getChildByPath(FieldType $fieldType, string $path, bool $skipVirtualFields = false): FieldType|false
     {
         $elem = \explode('.', $path);
@@ -378,21 +404,49 @@ class ContentTypeService implements EntityServiceInterface
             throw new \Exception(\sprintf('ContentType expected for import, got %s', $meta->getClass()));
         }
 
-        if (null !== $environment) {
-            $contentType->setEnvironment($environment);
+        $data = Json::decode($json);
 
-            return $contentType;
+        if (null === $environment) {
+            $environmentName = $data['properties']['environment'] ?? null;
+            $environment = \is_string($environmentName) ? $this->environmentService->giveByName($environmentName) : $this->getFirstEnvironment();
         }
 
-        $environmentName = Json::decode($json)['properties']['environment'] ?? null;
-        if (\is_string($environmentName)) {
-            $environment = $this->environmentService->giveByName($environmentName);
-        } else {
-            $environment = $this->getFirstEnvironment();
-        }
         $contentType->setEnvironment($environment);
+        $this->syncActionsFromJson($contentType, $data['properties']['templates'] ?? []);
 
         return $contentType;
+    }
+
+    /**
+     * @param array<mixed> $actions
+     */
+    private function syncActionsFromJson(ContentType $contentType, array $actions): void
+    {
+        foreach ($actions as $jsonAction) {
+            if (null === $action = $contentType->getActionByName($jsonAction['properties']['name'])) {
+                continue;
+            }
+
+            if (!isset($jsonAction['properties']['environments']) || !\is_array($jsonAction['properties']['environments'])) {
+                continue;
+            }
+
+            $environments = $jsonAction['properties']['environments'];
+            $currentEnvs = $action->getEnvironments();
+            $currentEnvNames = \array_map(fn (Environment $e) => $e->getName(), $currentEnvs);
+
+            foreach ($environments as $actionEnv) {
+                if (!\in_array($actionEnv, $currentEnvNames, true)) {
+                    $action->addEnvironment($this->environmentService->giveByName($actionEnv));
+                }
+            }
+
+            foreach ($currentEnvs as $currentEnv) {
+                if (!\in_array($currentEnv->getName(), $environments, true)) {
+                    $action->removeEnvironment($currentEnv);
+                }
+            }
+        }
     }
 
     private function deleteFields(ContentType $contentType): void
@@ -611,7 +665,7 @@ class ContentTypeService implements EntityServiceInterface
             return;
         }
 
-        $inMyCircle = $menuEntry->addChild(t('sidebar-menu.content_type.search_in_my_circle', ['%name%' => \count($user->getCircles()) > 1 ? $circleContentType->getPluralName() : $circleContentType->getSingularName()], 'emsco-core'), $circleContentType->getIcon() ?? '', Routes::DATA_IN_MY_CIRCLE_VIEW, ['name' => $contentType->getName()]);
+        $menuEntry->addChild(t('sidebar-menu.content_type.search_in_my_circle', ['%name%' => \count($user->getCircles()) > 1 ? $circleContentType->getPluralName() : $circleContentType->getSingularName()], 'emsco-core'), $circleContentType->getIcon() ?? '', Routes::DATA_IN_MY_CIRCLE_VIEW, ['name' => $contentType->getName()]);
     }
 
     private function addMenuViewLinks(ContentType $contentType, MenuEntry $menuEntry): void

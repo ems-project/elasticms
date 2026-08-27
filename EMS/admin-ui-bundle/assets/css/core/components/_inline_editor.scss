@@ -1,8 +1,11 @@
 @import "bootstrap/scss/bootstrap";
-@import "./dialog";
+@import "./../ems";
 @import "./tiptap/toolbar";
 @import "./tiptap/context_menu";
 @import "./tiptap/dialog";
+@import "./tiptap/link_search";
+@import "./tiptap/image";
+@import "./tiptap/notice";
 
 html, body {
   margin: 0;

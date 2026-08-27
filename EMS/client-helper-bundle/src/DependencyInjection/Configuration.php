@@ -109,9 +109,6 @@ final class Configuration implements ConfigurationInterface
                             ->scalarNode('route_type')
                                 ->defaultValue(null)
                             ->end()
-                            ->scalarNode('asset_config_type')
-                                ->defaultValue(null)
-                            ->end()
                             ->variableNode('templates')
                                 ->example('{"template": {"name": "key","code": "body"}}')
                             ->end()
@@ -190,7 +187,12 @@ final class Configuration implements ConfigurationInterface
             ->scalarNode('firewall')->defaultValue(null)->end();
 
         $sso = $security->arrayNode('sso')->children();
-        $sso->scalarNode('core_user')->defaultValue(false)->end();
+        $sso
+            ->arrayNode('core_user')
+            ->children()
+                ->scalarNode('enabled')->defaultValue(false)->end()
+                ->variableNode('groups')->defaultValue([])->end()
+            ->end();
 
         $oAuth2 = $sso->arrayNode('oauth2')->canBeEnabled()->children();
         foreach (OAuth2Property::cases() as $oAuth2Property) {

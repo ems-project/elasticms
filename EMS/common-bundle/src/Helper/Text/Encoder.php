@@ -81,7 +81,7 @@ class Encoder
             $slug = $slug->append('.'.$extension);
         }
         if ($lower) {
-            $slug = $slug->lower();
+            return $slug->lower();
         }
 
         return $slug;

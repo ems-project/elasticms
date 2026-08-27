@@ -8,6 +8,7 @@ use Aws\CommandPool;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use EMS\CommonBundle\Common\Cache\Cache;
+use EMS\CommonBundle\Exception\StorageNotAvailableException;
 use EMS\CommonBundle\Storage\Archive;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\Processor\Config;
@@ -27,9 +28,22 @@ class S3Storage extends AbstractUrlStorage implements \Stringable
 
     /**
      * @param array{version?: string, credentials?: array{key: string, secret: string}, region?: string} $credentials
+     * @param mixed[]                                                                                    $httpOptions
      */
-    public function __construct(LoggerInterface $logger, private readonly Cache $cache, private readonly array $credentials, private readonly string $bucket, int $usage, int $hotSynchronizeLimit = 0, private readonly bool $multipartUpload = false)
-    {
+    public function __construct(
+        LoggerInterface $logger,
+        private readonly Cache $cache,
+        private readonly array $credentials,
+        private readonly string $bucket,
+        int $usage,
+        int $hotSynchronizeLimit = 0,
+        private readonly bool $multipartUpload = false,
+        private readonly array $httpOptions = [
+            'connect_timeout' => 0.1,
+            'timeout' => 0.5,
+            'retries' => 0,
+        ]
+    ) {
         parent::__construct($logger, $usage, $hotSynchronizeLimit);
     }
 
@@ -402,6 +416,26 @@ class S3Storage extends AbstractUrlStorage implements \Stringable
         $promise->wait();
 
         return true;
+    }
+
+    #[\Override]
+    public function head(string $hash): bool
+    {
+        try {
+            $this->getS3Client()->headObject([
+                'Bucket' => $this->bucket,
+                'Key' => \implode('/', [\substr($hash, 0, 3), $hash]),
+                '@http' => $this->httpOptions,
+            ]);
+
+            return true;
+        } catch (S3Exception $exception) {
+            if (null === $exception->getStatusCode() || $exception->getStatusCode() >= 500) {
+                throw new StorageNotAvailableException($this);
+            }
+
+            return false;
+        }
     }
 
     #[\Override]

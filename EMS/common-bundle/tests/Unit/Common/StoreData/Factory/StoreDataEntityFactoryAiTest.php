@@ -14,6 +14,9 @@ use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class StoreDataEntityFactoryAiTest extends TestCase
 {
+    /**
+     * @var Stub&StoreDataRepository
+     */
     private Stub $repository;
 
     #[\Override]

@@ -15,9 +15,21 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AssetExtensionTest extends TestCase
 {
+    /**
+     * @var Stub&StorageManager
+     */
     private Stub $storageManager;
+    /**
+     * @var Stub&UrlGeneratorInterface
+     */
     private Stub $urlGenerator;
+    /**
+     * @var Stub&Processor
+     */
     private Stub $processor;
+    /**
+     * @var Stub&FileReaderInterface
+     */
     private Stub $fileReader;
 
     #[\Override]

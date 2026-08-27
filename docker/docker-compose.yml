@@ -282,6 +282,8 @@ services:
     sandbox:
         profiles: [ "all","sandbox" ]
         image: docker.io/smalswebtech/base-php:8.5-cli-dev
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
         user: ${DOCKER_USER-1000}
         env_file:
             -   ./sandbox.env

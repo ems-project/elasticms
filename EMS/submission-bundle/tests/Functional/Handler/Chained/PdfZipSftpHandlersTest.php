@@ -10,7 +10,6 @@ use EMS\SubmissionBundle\Handler\SftpHandler;
 use EMS\SubmissionBundle\Handler\ZipHandler;
 use EMS\SubmissionBundle\Response\PdfHandleResponse;
 use EMS\SubmissionBundle\Response\SftpHandleResponse;
-use EMS\SubmissionBundle\Tests\Functional\App\FilesystemFactory;
 use Symfony\Component\Filesystem\Filesystem;
 
 final class PdfZipSftpHandlersTest extends AbstractChainedTestCase
@@ -30,11 +29,7 @@ final class PdfZipSftpHandlersTest extends AbstractChainedTestCase
         $this->pdfHandler = $this->container->get('functional_test.emss.handler.pdf');
         $this->sftpHandler = $this->container->get('functional_test.emss.handler.sftp');
         $this->zipHandler = $this->container->get('functional_test.emss.handler.zip');
-
-        new Filesystem();
         $this->tempFile = TempFile::create();
-
-        // $this->filesystemFactory->setFlagNullAdapter(false); uncomment for enabling sftp
     }
 
     public function testPdfZipSftpChain(): void

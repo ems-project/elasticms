@@ -109,7 +109,7 @@ final class MultipartHandler extends AbstractHandler
             $data[$key] = $this->searchAndReplaceFiles($subData, $formData);
         }
         if ($arrayValues) {
-            $data = \array_values($data);
+            return \array_values($data);
         }
 
         return $data;

@@ -1,5 +1,43 @@
 # Changelog 6.x
 
+## 6.9.31 (2026-08-26)
+### Features
+* feat(admin/json-menu-nested): add block preview template for items by @theus77 in https://github.com/ems-project/elasticms/pull/1804
+* feat(admin/user): create user default wysiwyg profile by @Davidmattei in https://github.com/ems-project/elasticms/pull/1803
+* feat(web/security): SSO on-the-fly user creation via group mapping by @Davidmattei in https://github.com/ems-project/elasticms/pull/1802
+### Bug Fixes
+* fix(common/cache): fix invalid cache key by hashing storage toString by @theus77 in https://github.com/ems-project/elasticms/pull/1806
+* fix(common/storage): fix performance issues when s3 is slow by @theus77 in https://github.com/ems-project/elasticms/pull/1801
+* fix(user/role): add ROLE_USER to roleless users by @theus77 in https://github.com/ems-project/elasticms/pull/1800
+
+## 6.9.29 (2026-08-17)
+### Bug Fixes
+* fix(admin/contentType): export actions include environments by @Davidmattei in https://github.com/ems-project/elasticms/pull/1788
+* fix(web/assets): ems manifest in cache and other perf issues when S3 is down by @theus77 in https://github.com/ems-project/elasticms/pull/1795
+### Chores
+* chore: update composer dependencies 6.9.x by @Davidmattei in https://github.com/ems-project/elasticms/pull/1789
+
+## 6.9.28 (2026-08-11)
+### Bug Fixes
+* fix(web/request): replaceJson replace legacy locale by @Davidmattei in https://github.com/ems-project/elasticms/pull/1786
+
+## 6.9.27 (2026-08-10)
+### Bug Fixes
+* fix(core/api): sort keys user roles api by @Davidmattei in https://github.com/ems-project/elasticms/pull/1785
+
+## 6.9.26 (2026-08-10)
+### Bug Fixes
+* fix(web/routing): escape param in request json by @Davidmattei in https://github.com/ems-project/elasticms/pull/1784
+
+## 6.9.25 (2026-07-31)
+### Bug Fixes
+* fix(admin/user): update email canonical by @Davidmattei in https://github.com/ems-project/elasticms/pull/1780
+* fix(form): support multiple forms by @Davidmattei in https://github.com/ems-project/elasticms/pull/1782
+
+## 6.9.24 (2026-07-14)
+### Bug Fixes
+* fix(common/api): create job with tag by @Davidmattei in https://github.com/ems-project/elasticms/pull/1773
+
 ## 6.9.23 (2026-06-17)
 ### Bug Fixes
 * fix(admin/xliff): update new option current-revision-force by @Davidmattei in https://github.com/ems-project/elasticms/pull/1758

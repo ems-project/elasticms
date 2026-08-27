@@ -90,7 +90,7 @@ final class ElasticmsMcpToolCustomService
             'tool' => $mcpTool,
         ]);
 
-        return Json::decode($rendered);
+        return ElasticmsMcpJsonSchema::normalize(Json::decode($rendered));
     }
 
     /**
@@ -107,7 +107,7 @@ final class ElasticmsMcpToolCustomService
             'contentTypeSchemas' => $this->getContentTypeSchemas(),
         ]);
 
-        return Json::decode($rendered);
+        return ElasticmsMcpJsonSchema::normalize(Json::decode($rendered));
     }
 
     /**

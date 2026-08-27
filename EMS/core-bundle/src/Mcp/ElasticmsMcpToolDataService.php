@@ -235,7 +235,7 @@ final readonly class ElasticmsMcpToolDataService
         $rawDataSchema = $this->buildRawDataSchema($contentType->getFieldType(), filterEditableFields: true, includeRequired: true);
         $rawDataSchema['additionalProperties'] = true;
 
-        return [
+        return ElasticmsMcpJsonSchema::normalize([
             'type' => 'object',
             'properties' => [
                 'rawData' => $rawDataSchema,
@@ -251,7 +251,7 @@ final readonly class ElasticmsMcpToolDataService
             ],
             'required' => ['rawData'],
             'additionalProperties' => false,
-        ];
+        ]);
     }
 
     /**
@@ -286,7 +286,7 @@ final readonly class ElasticmsMcpToolDataService
             $schema['required'] = \array_values(\array_unique($required));
         }
 
-        return $schema;
+        return ElasticmsMcpJsonSchema::normalize($schema);
     }
 
     /**
@@ -339,7 +339,7 @@ final readonly class ElasticmsMcpToolDataService
             $schema['description'] = $description;
         }
 
-        return $schema;
+        return ElasticmsMcpJsonSchema::normalize($schema);
     }
 
     private function getDataFieldType(FieldType $fieldType): DataFieldType

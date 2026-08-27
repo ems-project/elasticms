@@ -55,6 +55,10 @@ class MultiplexedTabContainerFieldType extends DataFieldType
             $schema['properties'][$value] = [...$childSchema, 'title' => $label];
         }
 
+        if ([] === $schema['properties']) {
+            $schema['properties'] = new \stdClass();
+        }
+
         return $schema;
     }
 

@@ -278,7 +278,7 @@ final readonly class ElasticmsMcpToolDataService
 
         $schema = [
             'type' => 'object',
-            'properties' => $properties,
+            'properties' => [] === $properties ? new \stdClass() : $properties,
             'additionalProperties' => false,
         ];
 

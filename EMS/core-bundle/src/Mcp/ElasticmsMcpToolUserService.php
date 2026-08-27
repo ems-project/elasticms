@@ -7,14 +7,15 @@ namespace EMS\CoreBundle\Mcp;
 use EMS\CoreBundle\Service\UserService;
 use Psr\Log\LoggerInterface;
 
-final readonly class ElasticmsMcpToolUserService extends AbstractElasticmsMcpToolService
+final readonly class ElasticmsMcpToolUserService
 {
+    use ElasticmsMcpToolCallTrait;
+
     public function __construct(
-        UserService $userService,
-        LoggerInterface $logger,
-        LoggerInterface $auditLogger,
+        private UserService $userService,
+        private LoggerInterface $logger,
+        private LoggerInterface $auditLogger,
     ) {
-        parent::__construct($userService, $logger, $auditLogger);
     }
 
     /**

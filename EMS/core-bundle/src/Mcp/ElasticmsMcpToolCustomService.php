@@ -14,21 +14,22 @@ use Mcp\Server\Builder;
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
 
-final class ElasticmsMcpToolCustomService extends AbstractElasticmsMcpToolService
+final class ElasticmsMcpToolCustomService
 {
+    use ElasticmsMcpToolCallTrait;
+
     /** @var array<string, mixed[]> */
     private ?array $contentTypeSchemas = null;
 
     public function __construct(
-        UserService $userService,
+        private UserService $userService,
         private McpToolService $mcpToolService,
         private ContentTypeService $contentTypeService,
         private ElasticmsMcpToolDataService $toolDataService,
         private Environment $twig,
-        LoggerInterface $logger,
-        LoggerInterface $auditLogger,
+        private LoggerInterface $logger,
+        private LoggerInterface $auditLogger,
     ) {
-        parent::__construct($userService, $logger, $auditLogger);
     }
 
     public function addCustomTools(Builder $builder): void

@@ -20,19 +20,20 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToolService
+final readonly class ElasticmsMcpToolDataService
 {
+    use ElasticmsMcpToolCallTrait;
+
     public function __construct(
-        UserService $userService,
+        private UserService $userService,
         private ContentTypeService $contentTypeService,
         private RevisionService $revisionService,
         private DataService $dataService,
         private FormRegistryInterface $formRegistry,
         private AuthorizationCheckerInterface $authorizationChecker,
-        LoggerInterface $logger,
-        LoggerInterface $auditLogger,
+        private LoggerInterface $logger,
+        private LoggerInterface $auditLogger,
     ) {
-        parent::__construct($userService, $logger, $auditLogger);
     }
 
     /**

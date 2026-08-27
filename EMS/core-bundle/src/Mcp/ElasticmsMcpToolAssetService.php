@@ -13,15 +13,16 @@ use Mcp\Server\Builder;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 
-final readonly class ElasticmsMcpToolAssetService extends AbstractElasticmsMcpToolService
+final readonly class ElasticmsMcpToolAssetService
 {
+    use ElasticmsMcpToolCallTrait;
+
     public function __construct(
-        UserService $userService,
+        private UserService $userService,
         private FileService $fileService,
-        LoggerInterface $logger,
-        LoggerInterface $auditLogger,
+        private LoggerInterface $logger,
+        private LoggerInterface $auditLogger,
     ) {
-        parent::__construct($userService, $logger, $auditLogger);
     }
 
     /**

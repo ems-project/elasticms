@@ -10,7 +10,9 @@ use EMS\CoreBundle\Service\Mcp\McpToolService;
 use EMS\CoreBundle\Service\UserService;
 use EMS\Helpers\Standard\Json;
 use Mcp\Exception\ToolCallException;
+use Mcp\Schema\Request\CallToolRequest;
 use Mcp\Server\Builder;
+use Mcp\Server\RequestContext;
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
 
@@ -40,7 +42,7 @@ final class ElasticmsMcpToolCustomService
             }
 
             $builder->addTool(
-                handler: fn (mixed ...$arguments): mixed => $this->callCustomTool($mcpTool, $arguments),
+                handler: fn (RequestContext $context): mixed => $this->callCustomTool($mcpTool, $this->getToolArguments($context)),
                 name: $mcpTool->getName(),
                 description: $mcpTool->getDescription() ?? $mcpTool->getLabel(),
                 inputSchema: $this->buildInputSchema($mcpTool),
@@ -66,6 +68,19 @@ final class ElasticmsMcpToolCustomService
 
             return Json::decode($rendered);
         });
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function getToolArguments(RequestContext $context): array
+    {
+        $request = $context->getRequest();
+        if (!$request instanceof CallToolRequest) {
+            throw new ToolCallException('Unexpected MCP request type for custom tool call.');
+        }
+
+        return $request->arguments;
     }
 
     private function isGranted(McpTool $mcpTool): bool

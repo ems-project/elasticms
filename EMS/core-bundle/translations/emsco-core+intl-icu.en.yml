@@ -20,7 +20,6 @@ action:
     export: Export
     rebuild: Rebuild
     relaunch: Relaunch
-    remove: Remove
     reorder: Reorder
     save: Save
     save_close: 'Save and Close'
@@ -162,11 +161,9 @@ field:
     config: Config
     content_css: 'Content css'
     content_js: 'Content js'
-    content_type: 'Content type'
     context: Context
     count: Count
     cron: Cron
-    custom_output: 'Custom output'
     date_build: 'Date build'
     date_created: 'Date creation'
     date_execution: 'Execution date'
@@ -186,7 +183,6 @@ field:
     environments: Environments
     error: 'Error message'
     events: Events
-    example: Example
     extra: Extra
     file:
         disposition: Disposition
@@ -205,7 +201,7 @@ field:
     icon: Icon
     index: Index
     indexes: Indexes
-    inputs: Inputs
+    input_schema: 'Input schema template'
     is_active: Active
     is_dirty: Dirty
     is_edit_wysiwyg: 'Edit with WYSIWYG'
@@ -219,13 +215,14 @@ field:
     locale: Locale
     message: Message
     name: Name
-    output_type: 'Output type'
+    output_schema: 'Output schema template'
     plural: Plural
     public_access: 'Public Access'
     query: Query
     release_environment_source: 'Source Environment for publication'
     release_environment_target: 'Environment for (un)publication'
     render_option: 'Render option'
+    response: 'Response template'
     revision_version_tag: 'Yes as {version_tag}'
     revision_version_tag_empty: 'No (Silent publish)'
     role: Role
@@ -239,7 +236,6 @@ field:
     status: Status
     table_default_css: 'Default Table class attribute'
     tag: Tag
-    template: Template
     template_body: 'Template body'
     template_footer: 'Template footer'
     template_header: 'Template header'

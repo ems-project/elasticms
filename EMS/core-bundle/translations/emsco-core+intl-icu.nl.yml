@@ -20,7 +20,6 @@ action:
     export: Exporteren
     rebuild: Heropbouwen
     relaunch: Herstarten
-    remove: Verwijderen
     reorder: Hersorteren
     save: Opslaan
     save_close: 'Opslaan en sluiten'
@@ -162,11 +161,9 @@ field:
     config: Configuratie
     content_css: Content-CSS
     content_js: Content-JS
-    content_type: 'Type de contenu'
     context: Context
     count: Aantal
     cron: Cron
-    custom_output: 'Aangepaste uitvoer'
     date_build: Builddatum
     date_created: Aanmaakdatum
     date_execution: Uitvoeringsdatum
@@ -186,7 +183,6 @@ field:
     environments: Omgevingen
     error: Foutmelding
     events: Events
-    example: Voorbeeld
     extra: Extra
     file:
         disposition: Dispositie
@@ -205,7 +201,7 @@ field:
     icon: Icoon
     index: Index
     indexes: Indexen
-    inputs: Invoer
+    input_schema: Invoerschema-template
     is_active: Actief
     is_dirty: Gewijzigd
     is_edit_wysiwyg: 'Bewerken met WYSIWYG'
@@ -219,13 +215,14 @@ field:
     locale: Locale
     message: Bericht
     name: Naam
-    output_type: 'Uitvoertype'
+    output_schema: Antwoordstemplate
     plural: Meervoud
     public_access: 'Publieke toegang'
     query: Query
     release_environment_source: 'Bronomgeving voor publicatie'
     release_environment_target: 'Omgeving voor (de)publicatie'
     render_option: Renderoptie
+    response: Uitvoerschema-template
     revision_version_tag: 'Ja als {version_tag}'
     revision_version_tag_empty: 'Nee (stille publicatie)'
     role: Rol
@@ -239,7 +236,6 @@ field:
     status: Status
     table_default_css: 'Standaard class-attribuut van tabel'
     tag: Tag
-    template: Sjabloon
     template_body: 'Template body'
     template_footer: 'Template footer'
     template_header: 'Template header'

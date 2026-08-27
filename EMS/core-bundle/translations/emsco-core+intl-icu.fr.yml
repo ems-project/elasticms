@@ -20,7 +20,6 @@ action:
     export: Exporter
     rebuild: Reconstruire
     relaunch: Relancer
-    remove: Retirer
     reorder: Réordonner
     save: Enregistrer
     save_close: 'Enregistrer et fermer'
@@ -162,11 +161,9 @@ field:
     config: Configuration
     content_css: 'CSS du contenu'
     content_js: 'JS du contenu'
-    content_type: 'Type de contenu'
     context: Contexte
     count: Nombre
     cron: Cron
-    custom_output: 'Sortie personnalisée'
     date_build: 'Date de build'
     date_created: 'Date de création'
     date_execution: 'Date d’exécution'
@@ -186,7 +183,6 @@ field:
     environments: Environnements
     error: 'Message d’erreur'
     events: Événements
-    example: Exemple
     extra: Extra
     file:
         disposition: Disposition
@@ -205,7 +201,7 @@ field:
     icon: Icône
     index: Index
     indexes: Indexes
-    inputs: Entrées
+    input_schema: "Template du schéma d'entrée"
     is_active: Actif
     is_dirty: Modifié
     is_edit_wysiwyg: 'Modifier avec WYSIWYG'
@@ -219,13 +215,14 @@ field:
     locale: Locale
     message: Message
     name: Nom
-    output_type: 'Type de sortie'
+    output_schema: 'Modèle du schéma de sortie'
     plural: Pluriel
     public_access: 'Accès public'
     query: Requête
     release_environment_source: 'Environnement source pour la publication'
     release_environment_target: 'Environnement pour la (dé)publication'
     render_option: 'Option de rendu'
+    response: 'Template de réponse'
     revision_version_tag: 'Oui comme {version_tag}'
     revision_version_tag_empty: 'Non (publication silencieuse)'
     role: Rôle
@@ -239,7 +236,6 @@ field:
     status: Statut
     table_default_css: 'Attribut class par défaut du tableau'
     tag: Tag
-    template: Modèle
     template_body: 'Corps du template'
     template_footer: 'Pied du template'
     template_header: 'En-tête du template'

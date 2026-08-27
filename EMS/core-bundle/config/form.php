@@ -57,7 +57,6 @@ use EMS\CoreBundle\Form\Field\EnvironmentPickerType;
 use EMS\CoreBundle\Form\Field\FieldTypePickerType;
 use EMS\CoreBundle\Form\Field\FormPickerType;
 use EMS\CoreBundle\Form\Field\IconPickerType;
-use EMS\CoreBundle\Form\Field\McpToolInputType;
 use EMS\CoreBundle\Form\Field\ObjectPickerType;
 use EMS\CoreBundle\Form\Field\QuerySearchPickerType;
 use EMS\CoreBundle\Form\Field\RolePickerType;
@@ -659,10 +658,7 @@ return static function (ContainerConfigurator $container) {
     $services->set(McpToolType::class)
         ->args([
             service('ems.service.user'),
-            service('translator'),
         ])
-        ->tag('form.type');
-    $services->set(McpToolInputType::class)
         ->tag('form.type');
 
     $services->set('emsco.form_extension.locale_form_extension', LocaleFormExtension::class)

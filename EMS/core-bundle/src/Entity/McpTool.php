@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Entity;
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
+use EMS\CoreBundle\Roles;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -21,16 +22,12 @@ class McpTool extends JsonDeserializer implements \JsonSerializable, EntityInter
     private UuidInterface $id;
     protected string $name = '';
     protected string $label = '';
-    /** @var string[] */
-    protected array $roles = [];
+    protected string $role = Roles::ROLE_ADMIN;
     protected ?string $description = null;
-    protected ?string $template = null;
-    protected string $outputType = self::OUTPUT_TYPE_CONTENT_TYPE_ARRAY;
-    protected ?string $contentType = null;
-    protected ?string $customOutput = null;
+    protected ?string $inputSchema = null;
+    protected ?string $outputSchema = null;
+    protected ?string $response = null;
     protected bool $enabled = true;
-    /** @var array<int, array{name?: string, type?: string, description?: string, example?: string}> */
-    protected array $inputs = [];
 
     public function __construct()
     {
@@ -77,20 +74,14 @@ class McpTool extends JsonDeserializer implements \JsonSerializable, EntityInter
         $this->label = $label;
     }
 
-    /**
-     * @return string[]
-     */
-    public function getRoles(): array
+    public function getRole(): string
     {
-        return $this->roles;
+        return $this->role;
     }
 
-    /**
-     * @param string[] $roles
-     */
-    public function setRoles(array $roles): void
+    public function setRole(string $role): void
     {
-        $this->roles = $roles;
+        $this->role = $role;
     }
 
     public function getDescription(): ?string
@@ -103,48 +94,14 @@ class McpTool extends JsonDeserializer implements \JsonSerializable, EntityInter
         $this->description = $description;
     }
 
-    public function getTemplate(): ?string
+    public function getResponse(): ?string
     {
-        return $this->template;
+        return $this->response;
     }
 
-    public function setTemplate(?string $template): void
+    public function setResponse(?string $response): void
     {
-        $this->template = $template;
-    }
-
-    public function getOutputType(): string
-    {
-        return $this->outputType;
-    }
-
-    public function setOutputType(string $outputType): void
-    {
-        if (!\in_array($outputType, self::getOutputTypes(), true)) {
-            throw new \InvalidArgumentException(\sprintf('Unexpected MCP tool output type "%s".', $outputType));
-        }
-
-        $this->outputType = $outputType;
-    }
-
-    public function getContentType(): ?string
-    {
-        return $this->contentType;
-    }
-
-    public function setContentType(?string $contentType): void
-    {
-        $this->contentType = $contentType;
-    }
-
-    public function getCustomOutput(): ?string
-    {
-        return $this->customOutput;
-    }
-
-    public function setCustomOutput(?string $customOutput): void
-    {
-        $this->customOutput = $customOutput;
+        $this->response = $response;
     }
 
     public function isEnabled(): bool
@@ -157,32 +114,24 @@ class McpTool extends JsonDeserializer implements \JsonSerializable, EntityInter
         $this->enabled = $enabled;
     }
 
-    /**
-     * @return array<int, array{name?: string, type?: string, description?: string, example?: string}>
-     */
-    public function getInputs(): array
+    public function getInputSchema(): ?string
     {
-        return $this->inputs;
+        return $this->inputSchema;
     }
 
-    /**
-     * @param array<int, array{name?: string, type?: string, description?: string, example?: string}> $inputs
-     */
-    public function setInputs(array $inputs): void
+    public function setInputSchema(?string $inputSchema): void
     {
-        $this->inputs = $inputs;
+        $this->inputSchema = $inputSchema;
     }
 
-    /**
-     * @return string[]
-     */
-    public static function getOutputTypes(): array
+    public function getOutputSchema(): ?string
     {
-        return [
-            self::OUTPUT_TYPE_CONTENT_TYPE_ARRAY,
-            self::OUTPUT_TYPE_JOB,
-            self::OUTPUT_TYPE_CUSTOM,
-        ];
+        return $this->outputSchema;
+    }
+
+    public function setOutputSchema(?string $outputSchema): void
+    {
+        $this->outputSchema = $outputSchema;
     }
 
     #[\Override]

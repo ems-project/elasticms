@@ -11,18 +11,16 @@
 
     <field name="name" length="255" unique="true"/>
     <field name="label" length="255"/>
-    <field name="roles" type="json"/>
-    <field name="description" type="text" nullable="true"/>
-    <field name="template" type="text" nullable="true"/>
-    <field name="outputType" column="output_type" length="255"/>
-    <field name="contentType" column="content_type" length="255" nullable="true"/>
-    <field name="customOutput" type="text" nullable="true"/>
-    <field name="inputs" type="json"/>
     <field name="enabled" type="boolean">
       <options>
         <option name="default">1</option>
       </options>
     </field>
+    <field name="role"  column="role" length="255"/>
+    <field name="description" type="text" nullable="true"/>
+    <field name="inputSchema" column="input_schema" type="text" nullable="true"/>
+    <field name="outputSchema" column="output_schema" type="text" nullable="true"/>
+    <field name="response" type="text" nullable="true"/>
 
     <field name="created" type="datetime"/>
     <field name="modified" type="datetime"/>

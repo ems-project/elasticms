@@ -6,18 +6,14 @@ namespace EMS\CoreBundle\Form\Form;
 
 use EMS\CoreBundle\Entity\McpTool;
 use EMS\CoreBundle\Form\Field\CodeEditorType;
-use EMS\CoreBundle\Form\Field\ContentTypePickerType;
-use EMS\CoreBundle\Form\Field\McpToolInputType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
 use EMS\CoreBundle\Service\UserService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function Symfony\Component\Translation\t;
 
@@ -26,7 +22,7 @@ use function Symfony\Component\Translation\t;
  */
 final class McpToolType extends AbstractType
 {
-    public function __construct(private readonly UserService $userService, private readonly TranslatorInterface $translator)
+    public function __construct(private readonly UserService $userService)
     {
     }
 
@@ -59,11 +55,11 @@ final class McpToolType extends AbstractType
                     'class' => 'col-md-12',
                 ],
             ])
-            ->add('roles', ChoiceType::class, [
-                'label' => t('field.roles', [], 'emsco-core'),
+            ->add('role', ChoiceType::class, [
+                'label' => t('field.role', [], 'emsco-core'),
                 'choices' => $this->userService->getExistingRoles(),
-                'expanded' => true,
-                'multiple' => true,
+                'expanded' => false,
+                'multiple' => false,
                 'mapped' => true,
                 'row_attr' => [
                     'class' => 'col-md-12',
@@ -76,56 +72,24 @@ final class McpToolType extends AbstractType
                     'class' => 'col-md-12',
                 ],
             ])
-            ->add('inputs', CollectionType::class, [
-                'label' => t('field.inputs', [], 'emsco-core'),
-                'entry_type' => McpToolInputType::class,
-                'entry_options' => [
-                    'label' => false,
-                    'row_attr' => ['class' => 'col-md-12'],
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'attr' => [
-                    'class' => 'a2lix_lib_sf_collection',
-                    'data-lang-add' => $this->translator->trans('action.add', [], 'emsco-core'),
-                    'data-lang-remove' => $this->translator->trans('action.remove', [], 'emsco-core'),
-                    'data-entry-remove-class' => 'btn btn-sm btn-danger',
-                ],
-                'block_prefix' => 'inputs',
-                'required' => false,
-                'row_attr' => [
-                    'class' => 'col-md-12',
-                ],
-            ])
-            ->add('template', CodeEditorType::class, [
-                'label' => t('field.template', [], 'emsco-core'),
+            ->add('input_schema', CodeEditorType::class, [
+                'label' => t('field.input_schema', [], 'emsco-core'),
                 'required' => false,
                 'language' => 'ace/mode/twig',
                 'row_attr' => [
                     'class' => 'col-md-12',
                 ],
             ])
-            ->add('outputType', ChoiceType::class, [
-                'label' => t('field.output_type', [], 'emsco-core'),
-                'required' => true,
-                'choices' => [
-                    'Content type array' => McpTool::OUTPUT_TYPE_CONTENT_TYPE_ARRAY,
-                    'Job' => McpTool::OUTPUT_TYPE_JOB,
-                    'Custom' => McpTool::OUTPUT_TYPE_CUSTOM,
-                ],
-                'row_attr' => [
-                    'class' => 'col-md-3',
-                ],
-            ])
-            ->add('contentType', ContentTypePickerType::class, [
-                'label' => t('field.content_type', [], 'emsco-core'),
+            ->add('output_schema', CodeEditorType::class, [
+                'label' => t('field.output_schema', [], 'emsco-core'),
                 'required' => false,
+                'language' => 'ace/mode/twig',
                 'row_attr' => [
-                    'class' => 'col-md-3',
+                    'class' => 'col-md-12',
                 ],
             ])
-            ->add('custom_output', CodeEditorType::class, [
-                'label' => t('field.custom_output', [], 'emsco-core'),
+            ->add('response', CodeEditorType::class, [
+                'label' => t('field.response', [], 'emsco-core'),
                 'required' => false,
                 'language' => 'ace/mode/twig',
                 'row_attr' => [

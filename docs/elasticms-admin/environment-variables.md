@@ -343,6 +343,11 @@ EMSCO_FORGOT_PASSWORD_URL=mailto:project@site.be?subject=Password%20Reset&body=H
 
 Define the public url to the elasticms, default empty.
 This value is also used for mercure, for creating the topics.
+
+### EMSCO_JOB_CLEAN_TIME
+
+Define when it's time to clean jobs, default value is -7 days.
+Only successful jobs are cleaned. To clean all jobs, see `emsco:job:clean` command.
   
 ### EMS_BACKEND_URL
 Define the url use by the user to access elasticms (in order to generate links in emails).

@@ -42,7 +42,7 @@ readonly class SecurityListener implements EventSubscriberInterface
             ],
             KernelEvents::CONTROLLER => [
                 ['refreshToken'],
-                ['forceAuthenticated'],
+                ['denyAccessUnlessFullyAuthenticated'],
             ],
         ];
     }
@@ -70,7 +70,7 @@ readonly class SecurityListener implements EventSubscriberInterface
         }
     }
 
-    public function forceAuthenticated(ControllerEvent $event): void
+    public function denyAccessUnlessFullyAuthenticated(ControllerEvent $event): void
     {
         if (!$event->isMainRequest()) {
             return;

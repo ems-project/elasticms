@@ -38,7 +38,6 @@ class JobCommand extends AbstractCommand
         private readonly ReleaseService $releaseService,
         private readonly RunnerManager $runnerManager,
         private readonly string $dateFormat,
-        private readonly string $cleanJobTime,
     ) {
         parent::__construct();
     }
@@ -72,7 +71,10 @@ class JobCommand extends AbstractCommand
         }
 
         $this->io->comment('Nothing to run. Cleaning jobs.');
-        $this->jobService->cleanJob(self::USER_JOB_COMMAND, $this->cleanJobTime);
+        $this->jobService->clean(
+            skipFailed: true,
+            includeJobTime: true
+        );
 
         return self::EXECUTE_SUCCESS;
     }

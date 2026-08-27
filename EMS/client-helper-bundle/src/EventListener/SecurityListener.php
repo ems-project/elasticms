@@ -70,6 +70,23 @@ readonly class SecurityListener implements EventSubscriberInterface
         }
     }
 
+    public function forceAuthenticated(ControllerEvent $event): void
+    {
+        if (!$event->isMainRequest()) {
+            return;
+        }
+
+        $request = $event->getRequest();
+
+        if (!$this->firewallMatch($request) && !$request->attributes->get('_authenticated', false)) {
+            return;
+        }
+
+        if (!$this->authorizationChecker->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY)) {
+            throw new AccessDeniedException();
+        }
+    }
+
     private function isAuthenticatable(Request $request): bool
     {
         return $this->firewallMatch($request)
@@ -87,22 +104,5 @@ readonly class SecurityListener implements EventSubscriberInterface
         }
 
         return (bool) \preg_match('#'.$this->firewallRegex.'#', $request->getPathInfo());
-    }
-
-    public function forceAuthenticated(ControllerEvent $event): void
-    {
-        if (!$event->isMainRequest()) {
-            return;
-        }
-
-        $request = $event->getRequest();
-
-        if (!$this->firewallMatch($request) && !$request->attributes->get('_authenticated', false)) {
-            return;
-        }
-
-        if (!$this->authorizationChecker->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY)) {
-            throw new AccessDeniedException();
-        }
     }
 }

@@ -200,10 +200,13 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
     /**
      * @return array<string, mixed>
      */
-    private function buildGetDocumentOutputSchema(ContentType $contentType): array
+    public function buildGetDocumentOutputSchema(ContentType $contentType, bool $searchResult = false): array
     {
         $rawDataSchema = $this->buildRawDataSchema($contentType->getFieldType(), filterEditableFields: false, includeRequired: false);
         $rawDataSchema['additionalProperties'] = true;
+        if ($searchResult) {
+            return $rawDataSchema;
+        }
 
         return [
             'type' => 'object',

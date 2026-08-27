@@ -162,9 +162,11 @@ field:
     config: Config
     content_css: 'Content css'
     content_js: 'Content js'
+    content_type: 'Content type'
     context: Context
     count: Count
     cron: Cron
+    custom_output: 'Custom output'
     date_build: 'Date build'
     date_created: 'Date creation'
     date_execution: 'Execution date'
@@ -217,6 +219,7 @@ field:
     locale: Locale
     message: Message
     name: Name
+    output_type: 'Output type'
     plural: Plural
     public_access: 'Public Access'
     query: Query
@@ -236,6 +239,7 @@ field:
     status: Status
     table_default_css: 'Default Table class attribute'
     tag: Tag
+    template: Template
     template_body: 'Template body'
     template_footer: 'Template footer'
     template_header: 'Template header'

@@ -14,12 +14,20 @@ class McpTool extends JsonDeserializer implements \JsonSerializable, EntityInter
 {
     use CreatedModifiedTrait;
 
+    final public const string OUTPUT_TYPE_CONTENT_TYPE_ARRAY = 'content_type_array';
+    final public const string OUTPUT_TYPE_JOB = 'job';
+    final public const string OUTPUT_TYPE_CUSTOM = 'custom';
+
     private UuidInterface $id;
     protected string $name = '';
     protected string $label = '';
     /** @var string[] */
     protected array $roles = [];
     protected ?string $description = null;
+    protected ?string $template = null;
+    protected string $outputType = self::OUTPUT_TYPE_CONTENT_TYPE_ARRAY;
+    protected ?string $contentType = null;
+    protected ?string $customOutput = null;
     protected bool $enabled = true;
     /** @var array<int, array{name?: string, type?: string, description?: string, example?: string}> */
     protected array $inputs = [];
@@ -95,6 +103,50 @@ class McpTool extends JsonDeserializer implements \JsonSerializable, EntityInter
         $this->description = $description;
     }
 
+    public function getTemplate(): ?string
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(?string $template): void
+    {
+        $this->template = $template;
+    }
+
+    public function getOutputType(): string
+    {
+        return $this->outputType;
+    }
+
+    public function setOutputType(string $outputType): void
+    {
+        if (!\in_array($outputType, self::getOutputTypes(), true)) {
+            throw new \InvalidArgumentException(\sprintf('Unexpected MCP tool output type "%s".', $outputType));
+        }
+
+        $this->outputType = $outputType;
+    }
+
+    public function getContentType(): ?string
+    {
+        return $this->contentType;
+    }
+
+    public function setContentType(?string $contentType): void
+    {
+        $this->contentType = $contentType;
+    }
+
+    public function getCustomOutput(): ?string
+    {
+        return $this->customOutput;
+    }
+
+    public function setCustomOutput(?string $customOutput): void
+    {
+        $this->customOutput = $customOutput;
+    }
+
     public function isEnabled(): bool
     {
         return $this->enabled;
@@ -119,6 +171,18 @@ class McpTool extends JsonDeserializer implements \JsonSerializable, EntityInter
     public function setInputs(array $inputs): void
     {
         $this->inputs = $inputs;
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getOutputTypes(): array
+    {
+        return [
+            self::OUTPUT_TYPE_CONTENT_TYPE_ARRAY,
+            self::OUTPUT_TYPE_JOB,
+            self::OUTPUT_TYPE_CUSTOM,
+        ];
     }
 
     #[\Override]

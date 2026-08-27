@@ -162,9 +162,11 @@ field:
     config: Configuratie
     content_css: Content-CSS
     content_js: Content-JS
+    content_type: 'Type de contenu'
     context: Context
     count: Aantal
     cron: Cron
+    custom_output: 'Aangepaste uitvoer'
     date_build: Builddatum
     date_created: Aanmaakdatum
     date_execution: Uitvoeringsdatum
@@ -217,6 +219,7 @@ field:
     locale: Locale
     message: Bericht
     name: Naam
+    output_type: 'Uitvoertype'
     plural: Meervoud
     public_access: 'Publieke toegang'
     query: Query
@@ -236,6 +239,7 @@ field:
     status: Status
     table_default_css: 'Standaard class-attribuut van tabel'
     tag: Tag
+    template: Sjabloon
     template_body: 'Template body'
     template_footer: 'Template footer'
     template_header: 'Template header'

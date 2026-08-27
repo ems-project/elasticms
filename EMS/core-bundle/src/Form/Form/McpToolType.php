@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Form;
 
 use EMS\CoreBundle\Entity\McpTool;
+use EMS\CoreBundle\Form\Field\CodeEditorType;
+use EMS\CoreBundle\Form\Field\ContentTypePickerType;
 use EMS\CoreBundle\Form\Field\McpToolInputType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
 use EMS\CoreBundle\Service\UserService;
@@ -91,6 +93,41 @@ final class McpToolType extends AbstractType
                 ],
                 'block_prefix' => 'inputs',
                 'required' => false,
+                'row_attr' => [
+                    'class' => 'col-md-12',
+                ],
+            ])
+            ->add('template', CodeEditorType::class, [
+                'label' => t('field.template', [], 'emsco-core'),
+                'required' => false,
+                'language' => 'ace/mode/twig',
+                'row_attr' => [
+                    'class' => 'col-md-12',
+                ],
+            ])
+            ->add('outputType', ChoiceType::class, [
+                'label' => t('field.output_type', [], 'emsco-core'),
+                'required' => true,
+                'choices' => [
+                    'Content type array' => McpTool::OUTPUT_TYPE_CONTENT_TYPE_ARRAY,
+                    'Job' => McpTool::OUTPUT_TYPE_JOB,
+                    'Custom' => McpTool::OUTPUT_TYPE_CUSTOM,
+                ],
+                'row_attr' => [
+                    'class' => 'col-md-3',
+                ],
+            ])
+            ->add('contentType', ContentTypePickerType::class, [
+                'label' => t('field.content_type', [], 'emsco-core'),
+                'required' => false,
+                'row_attr' => [
+                    'class' => 'col-md-3',
+                ],
+            ])
+            ->add('custom_output', CodeEditorType::class, [
+                'label' => t('field.custom_output', [], 'emsco-core'),
+                'required' => false,
+                'language' => 'ace/mode/twig',
                 'row_attr' => [
                     'class' => 'col-md-12',
                 ],

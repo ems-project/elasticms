@@ -13,6 +13,10 @@
     <field name="label" length="255"/>
     <field name="roles" type="json"/>
     <field name="description" type="text" nullable="true"/>
+    <field name="template" type="text" nullable="true"/>
+    <field name="outputType" column="output_type" length="255"/>
+    <field name="contentType" column="content_type" length="255" nullable="true"/>
+    <field name="customOutput" type="text" nullable="true"/>
     <field name="inputs" type="json"/>
     <field name="enabled" type="boolean">
       <options>

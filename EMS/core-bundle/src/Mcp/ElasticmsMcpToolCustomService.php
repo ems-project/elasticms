@@ -63,7 +63,6 @@ final class ElasticmsMcpToolCustomService
                 'tool' => $mcpTool,
                 ...$arguments,
             ]);
-            dump($rendered);
 
             return Json::decode($rendered);
         });

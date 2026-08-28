@@ -604,6 +604,8 @@ navigation:
     toggle: 'Basculer la navigation'
 notice_card:
     title: Notice
+notification-menu:
+    dashboards: 'Tableaux de bord'
 notification:
     acknowledge: Acquitter
     actions: Actions
@@ -648,8 +650,6 @@ notification:
         revision_not_published: 'Cette révision n’est plus publiée dans {environment}'
         revision_not_published_and_duplicate: 'Cette révision n’est plus publiée dans {environment} et une autre notification existe'
     warnings: Avertissements
-notification-menu:
-    dashboards: 'Tableaux de bord'
 out-of-sync:
     modal:
         please-reload: 'Veuillez recharger la page.'
@@ -770,10 +770,10 @@ sidebar-menu:
         index-link: Releases
     search: Recherche
     uploaded-files: 'Fichiers uploadés'
+    user-management: 'Gestion des utilisateurs'
     user:
         name: '{name}'
         searches: Recherches
-    user-management: 'Gestion des utilisateurs'
 status:
     bus:
         failed: 'Messages en erreur'
@@ -1118,10 +1118,10 @@ view:
         hierarchical:
             reorganise: 'Réorganiser :'
     data:
-        json-menu-nested:
-            out_of_sync: 'Désynchronisé, veuillez rafraîchir et réessayer !'
         json-menu-nested-json-preview:
             field-type-not-found: 'La définition de type associée à cet élément est manquante (probablement supprimée).'
+        json-menu-nested:
+            out_of_sync: 'Désynchronisé, veuillez rafraîchir et réessayer !'
     form:
         fields:
             asset:

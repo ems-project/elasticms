@@ -604,6 +604,8 @@ navigation:
     toggle: 'Navigatie omschakelen'
 notice_card:
     title: Melding
+notification-menu:
+    dashboards: Dashboards
 notification:
     acknowledge: Bevestigen
     actions: Acties
@@ -648,8 +650,6 @@ notification:
         revision_not_published: 'Deze revisie is niet meer gepubliceerd in {environment}'
         revision_not_published_and_duplicate: 'Deze revisie is niet meer gepubliceerd in {environment} en er bestaat een andere notificatie'
     warnings: Waarschuwingen
-notification-menu:
-    dashboards: Dashboards
 out-of-sync:
     modal:
         please-reload: 'Herlaad de pagina.'
@@ -770,10 +770,10 @@ sidebar-menu:
         index-link: Releases
     search: Zoeken
     uploaded-files: 'Geüploade bestanden'
+    user-management: Gebruikersbeheer
     user:
         name: '{name}'
         searches: Zoekopdrachten
-    user-management: Gebruikersbeheer
 status:
     bus:
         failed: 'Berichten met fout'
@@ -1118,10 +1118,10 @@ view:
         hierarchical:
             reorganise: 'Reorganiseren:'
     data:
-        json-menu-nested:
-            out_of_sync: 'Niet gesynchroniseerd, vernieuw en probeer opnieuw!'
         json-menu-nested-json-preview:
             field-type-not-found: 'De typedefinitie gekoppeld aan dit item ontbreekt (waarschijnlijk verwijderd).'
+        json-menu-nested:
+            out_of_sync: 'Niet gesynchroniseerd, vernieuw en probeer opnieuw!'
     form:
         fields:
             asset:

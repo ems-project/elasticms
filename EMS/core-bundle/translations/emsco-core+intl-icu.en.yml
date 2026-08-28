@@ -604,6 +604,8 @@ navigation:
     toggle: 'Toggle navigation'
 notice_card:
     title: Notice
+notification-menu:
+    dashboards: Dashboards
 notification:
     acknowledge: Acknowledge
     actions: Actions
@@ -648,8 +650,6 @@ notification:
         revision_not_published: 'This revision is not published in {environment} anymore'
         revision_not_published_and_duplicate: 'This revision is not published in {environment} anymore and another notification exists'
     warnings: Warnings
-notification-menu:
-    dashboards: Dashboards
 out-of-sync:
     modal:
         please-reload: 'Please reload the page.'
@@ -770,10 +770,10 @@ sidebar-menu:
         index-link: Releases
     search: Search
     uploaded-files: 'Uploaded files'
+    user-management: 'User management'
     user:
         name: '{name}'
         searches: Searches
-    user-management: 'User management'
 status:
     bus:
         failed: 'Messages in error'
@@ -1118,10 +1118,10 @@ view:
         hierarchical:
             reorganise: 'Reorganise:'
     data:
-        json-menu-nested:
-            out_of_sync: 'Out of sync, please refresh and retry!'
         json-menu-nested-json-preview:
             field-type-not-found: 'The type definition associated to this item is missing (probably deleted).'
+        json-menu-nested:
+            out_of_sync: 'Out of sync, please refresh and retry!'
     form:
         fields:
             asset:

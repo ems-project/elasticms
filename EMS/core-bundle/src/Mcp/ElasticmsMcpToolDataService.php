@@ -80,7 +80,7 @@ final readonly class ElasticmsMcpToolDataService
      */
     public function createDocument(string $contentType, array $rawData = [], ?string $ouuid = null, bool $finalize = false): array
     {
-        $toolName = \sprintf('create_document_%s', $contentType);
+        $toolName = \sprintf('save_%s', $contentType);
 
         return $this->wrapToolCall($toolName, [
             'content_type' => $contentType,

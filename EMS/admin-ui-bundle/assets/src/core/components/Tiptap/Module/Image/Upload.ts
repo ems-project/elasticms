@@ -18,10 +18,10 @@ function isImageFile(file: File): boolean {
 }
 
 function isSvgFile(file: File): boolean {
-    return file.type
-      .split(';', 1)[0]
-      .trim()
-      .toLowerCase() === 'image/svg+xml' || file.name.toLowerCase().endsWith('.svg')
+    return (
+        file.type.split(';', 1)[0].trim().toLowerCase() === 'image/svg+xml' ||
+        file.name.toLowerCase().endsWith('.svg')
+    )
 }
 
 function loadImageDimensions(src: string): Promise<{ width: number; height: number } | null> {

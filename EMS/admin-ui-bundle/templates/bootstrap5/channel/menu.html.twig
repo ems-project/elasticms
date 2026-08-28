@@ -1,10 +1,8 @@
-{% trans_default_domain 'ems-adminui-channel' %}
-
 {% if channels|default([])|length > 0 %}
     <li class="nav-item dropdown">
         <a class="nav-link" data-bs-toggle="dropdown" href="#">
             <i class="fa fa-eye"></i>
-            <span class="visually-hidden">{{ 'menu.channel.label'|trans }}</span>
+            <span class="visually-hidden">{{ 'key.channels'|trans({}, 'emsco-core') }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
             {% set homepage = path('homepage') %}

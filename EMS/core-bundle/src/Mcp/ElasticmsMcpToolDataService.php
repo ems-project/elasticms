@@ -41,7 +41,7 @@ final readonly class ElasticmsMcpToolDataService
      */
     public function getDocument(string $contentType, string $ouuid): array
     {
-        $toolName = \sprintf('get_document_%s', $contentType);
+        $toolName = \sprintf('get_%s', $contentType);
 
         return $this->wrapToolCall($toolName, [
             'content_type' => $contentType,
@@ -136,7 +136,7 @@ final readonly class ElasticmsMcpToolDataService
 
             $builder->addTool(
                 handler: fn (string $ouuid): array => $this->getDocument($contentTypeName, $ouuid),
-                name: \sprintf('get_document_%s', $contentTypeName),
+                name: \sprintf('get_%s', $contentTypeName),
                 description: \sprintf('Read the current elasticMS revision for a %s document from the %s environment. You must already know the document OUUID; use the search tool first when you need to discover documents. Recoverable errors include missing OUUIDs, archived or deleted revisions and permission failures.', $contentTypeName, $contentType->giveEnvironment()->getName()),
                 inputSchema: [
                     'type' => 'object',

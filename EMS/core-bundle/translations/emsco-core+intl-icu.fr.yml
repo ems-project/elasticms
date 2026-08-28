@@ -25,6 +25,7 @@ action:
     save_close: 'Enregistrer et fermer'
     select_all: 'Tout sélectionner'
     status: Statut
+    toggle_sidebar: 'Basculer la barre latérale'
     toggle_visibility: 'Basculer la visibilité'
     toggle_visibility_selected: 'Basculer la visibilité de la sélection'
     update_content_type_from_json: 'Mettre à jour {name} depuis un fichier JSON'
@@ -266,16 +267,19 @@ key:
     admin: Admin
     all_content_types: 'Tous les types de contenu'
     analyzers: Analyseurs
+    anonymous_user: 'Utilisateur anonyme'
     attachment: 'Pièce jointe'
     channels: Canaux
     ckeditor4: 'CK Editor 4'
     content_types: 'Types de contenu'
+    control_sidebar: 'Barre latérale de contrôle'
     dashboards: Dashboards
     details: Détails
     documentation: Documentation
     environments: Environnements
     environments_external: 'Environnements externes'
     environments_local: 'Environnements locaux'
+    error: Erreur
     export_documents: 'Exporter les documents'
     filters: Filtres
     form_submissions: 'Soumissions de formulaire'
@@ -287,6 +291,7 @@ key:
     job_logs: 'Logs des jobs'
     jobs: Jobs
     landscape: Paysage
+    last_commands: 'Dernières commandes'
     logs: Logs
     loop_count: '#'
     managed_aliases: 'Alias gérés'
@@ -299,12 +304,15 @@ key:
     public_channel: 'Rendre le canal disponible aux utilisateurs non authentifiés ?'
     public_view: 'Disponible publiquement (sans authentification)'
     publishers: Publieurs
+    push_menu: 'Menu principal'
     query_search: 'Recherche par requête'
     query_searches: QuerySearch
+    recent_activities: 'Activités récentes'
     schedule: Planification
     schedule_cron: '<Minute> <Heure> <Jour_du_mois> <Mois_de_l’année> <Jour_de_la_semaine>. Ex. toutes les 15 minutes : */15 * * * *'
     schedule_tag: 'Utilisé pour identifier les workers (ex. CLI) qui exécuteraient le job à distance'
     search: Recherche
+    show_search_form: 'Afficher le formulaire de recherche'
     structure: Structure
     tiptap: Tiptap
     trash: Corbeille
@@ -313,6 +321,7 @@ key:
     uploaded_files_logs: 'Logs des fichiers uploadés'
     users: Utilisateurs
     views: Vues
+    warning: Avertissement
     webhook_subscriptions: Abonnements
     webhooks: Webhooks
     wysiwyg: WYSIWYG

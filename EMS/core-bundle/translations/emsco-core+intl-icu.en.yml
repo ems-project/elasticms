@@ -25,6 +25,7 @@ action:
     save_close: 'Save and Close'
     select_all: 'Select all'
     status: Status
+    toggle_sidebar: 'Toggle sidebar'
     toggle_visibility: 'Toggle visibility'
     toggle_visibility_selected: 'Toggle visibility selected'
     update_content_type_from_json: 'Update {name} from a JSON file'
@@ -266,16 +267,19 @@ key:
     admin: Admin
     all_content_types: 'All Content Types'
     analyzers: Analyzers
+    anonymous_user: 'Anonymous user'
     attachment: Attachment
     channels: Channels
     ckeditor4: 'CK Editor 4'
     content_types: 'Content Types'
+    control_sidebar: 'Control sidebar'
     dashboards: Dashboards
     details: Details
     documentation: Documentation
     environments: Environments
     environments_external: 'External environments'
     environments_local: 'Local environments'
+    error: Error
     export_documents: 'Export documents'
     filters: Filters
     form_submissions: 'Form Submissions'
@@ -287,6 +291,7 @@ key:
     job_logs: 'Jobs logs'
     jobs: Jobs
     landscape: Landscape
+    last_commands: 'Last commands'
     logs: Logs
     loop_count: '#'
     managed_aliases: 'Managed aliases'
@@ -299,12 +304,15 @@ key:
     public_channel: 'Make channel available for non-authenticated users ?'
     public_view: 'Publicly available (without authentication)'
     publishers: Publishers
+    push_menu: 'Push menu'
     query_search: 'Query search'
     query_searches: QuerySearch
+    recent_activities: 'Recent Activities'
     schedule: Schedule
     schedule_cron: '<Minute> <Hour> <Day_of_the_Month> <Month_of_the_Year> <Day_of_the_Week>. E.g. every 15 minutes: */15 * * * *'
     schedule_tag: 'Used to indentify workers (e.g. CLI) which would remotely execute the job'
     search: Search
+    show_search_form: 'Show search form'
     structure: Structure
     tiptap: Tiptap
     trash: Trash
@@ -313,6 +321,7 @@ key:
     uploaded_files_logs: 'Uploaded Files Logs'
     users: Users
     views: Views
+    warning: Warning
     webhook_subscriptions: Subscriptions
     webhooks: Webhooks
     wysiwyg: WYSIWYG

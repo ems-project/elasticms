@@ -1,13 +1,13 @@
-{%- trans_default_domain 'ems-adminui-elements' -%}
+{%- trans_default_domain 'emsco-core' -%}
 
 <nav class="navbar navbar-expand bg-{{ theme_color }}" {{ theme_color_contrast == 'dark' ? 'data-bs-theme="dark"' }}>
-    <a href="#" class="sidebar-toggle js-sidebar-toggle" data-widget="pushmenu" role="button" aria-label="{{ 'topbar.pushmenu.label'|trans }}">
+    <a href="#" class="sidebar-toggle js-sidebar-toggle" data-widget="pushmenu" role="button" aria-label="{{ 'key.push_menu'|trans }}">
         <i class="hamburger align-self-center"></i>
     </a>
     <form class="d-none d-sm-inline-block" action="{{ path('ems_quick_search') }}" method="get">
         <div class="input-group input-group-navbar">
-            <input class="form-control" type="search" name="q" placeholder="{{ 'topbar.search.placeholder'|trans }}" aria-label="{{ 'topbar.search.label'|trans }}">
-            <button class="btn" type="submit" aria-label="{{ 'topbar.search_form.show'|trans }}">
+            <input class="form-control" type="search" name="q" placeholder="{{ 'key.search'|trans }}" aria-label="{{ 'key.search'|trans }}">
+            <button class="btn" type="submit" aria-label="{{ 'key.show_search_form'|trans }}">
                 <i class="fas fa-search align-middle"></i>
             </button>
         </div>
@@ -22,7 +22,7 @@
             <li class="nav-item"  id="system-messages">
                 <a class="nav-link" data-bs-toggle="offcanvas" href="#control-sidebar" role="button" aria-controls="control-sidebar">
                     <i id="ajax-activity" class="fa fa-refresh"></i>
-                    <span class="visually-hidden">{{ 'topbar.control_sidebar.toggle'|trans }}</span>
+                    <span class="visually-hidden">{{ 'action.toggle_sidebar'|trans }}</span>
                     <span id="activity-counter" class="badge bg-{{ theme_color }} navbar-badge"></span>
                 </a>
             </li>

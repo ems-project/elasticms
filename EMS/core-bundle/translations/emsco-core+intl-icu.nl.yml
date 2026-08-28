@@ -25,6 +25,7 @@ action:
     save_close: 'Opslaan en sluiten'
     select_all: 'Alles selecteren'
     status: Status
+    toggle_sidebar: 'Zijbalk omschakelen'
     toggle_visibility: 'Zichtbaarheid omschakelen'
     toggle_visibility_selected: 'Zichtbaarheid van selectie omschakelen'
     update_content_type_from_json: '{name} bijwerken vanuit een JSON-bestand'
@@ -266,16 +267,19 @@ key:
     admin: Admin
     all_content_types: 'Alle contenttypes'
     analyzers: Analysatoren
+    anonymous_user: 'Anonieme gebruiker'
     attachment: Bijlage
     channels: Kanalen
     ckeditor4: 'CK Editor 4'
     content_types: Contenttypes
+    control_sidebar: Controlezijbalk
     dashboards: Dashboards
     details: Details
     documentation: Documentatie
     environments: Omgevingen
     environments_external: 'Externe omgevingen'
     environments_local: 'Lokale omgevingen'
+    error: Fout
     export_documents: 'Documenten exporteren'
     filters: Filters
     form_submissions: Formulierinzendingen
@@ -287,6 +291,7 @@ key:
     job_logs: Joblogs
     jobs: Jobs
     landscape: Landschap
+    last_commands: 'Laatste commando’s'
     logs: Logs
     loop_count: '#'
     managed_aliases: 'Beheerde aliassen'
@@ -299,12 +304,15 @@ key:
     public_channel: 'Kanaal beschikbaar maken voor niet-geauthenticeerde gebruikers?'
     public_view: 'Publiek beschikbaar (zonder authenticatie)'
     publishers: Publishers
+    push_menu: Hoofdmenu
     query_search: 'Query search'
     query_searches: QuerySearch
+    recent_activities: 'Recente activiteiten'
     schedule: Planning
     schedule_cron: '<Minuut> <Uur> <Dag_van_de_maand> <Maand_van_het_jaar> <Dag_van_de_week>. Bv. elke 15 minuten: */15 * * * *'
     schedule_tag: 'Gebruikt om workers (bv. CLI) te identificeren die de job op afstand zouden uitvoeren'
     search: Zoeken
+    show_search_form: 'Zoekformulier tonen'
     structure: Structuur
     tiptap: Tiptap
     trash: Prullenbak
@@ -313,6 +321,7 @@ key:
     uploaded_files_logs: 'Logs van geüploade bestanden'
     users: Gebruikers
     views: Weergaven
+    warning: Waarschuwing
     webhook_subscriptions: Abonnementen
     webhooks: Webhooks
     wysiwyg: WYSIWYG

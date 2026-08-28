@@ -8,9 +8,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Core\Revision\Release\ReleaseRevisionType;
-use EMS\CoreBundle\EMSCoreBundle;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
 use function Symfony\Component\Translation\t;
 
 class Release implements EntityInterface

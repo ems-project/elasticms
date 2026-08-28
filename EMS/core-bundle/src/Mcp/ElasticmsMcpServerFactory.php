@@ -35,52 +35,7 @@ final readonly class ElasticmsMcpServerFactory
             ->setLogger($this->logger)
             ->setSession(new FileSessionStore($this->cacheDir.'/mcp-sessions'));
         $this->toolCustomService->addCustomTools($builder);
-        $builder->addTool(
-                handler: $this->toolUserService->getCurrentUser(...),
-                name: 'get_current_user',
-                description: 'Return the authenticated elasticMS user profile, including roles, circles, locale preferences and user options. Use this tool to check which identity and permissions the MCP calls run with.',
-                inputSchema: [
-                    'type' => 'object',
-                    'properties' => new \stdClass(),
-                    'required' => [],
-                    'additionalProperties' => false,
-                ],
-                outputSchema: [
-                    'type' => 'object',
-                    'properties' => [
-                        'user' => [
-                            'type' => 'object',
-                            'properties' => [
-                                'id' => ['type' => ['integer', 'null']],
-                                'username' => ['type' => 'string'],
-                                'displayName' => ['type' => 'string'],
-                                'roles' => [
-                                    'type' => 'array',
-                                    'items' => ['type' => 'string'],
-                                ],
-                                'email' => ['type' => 'string'],
-                                'circles' => [
-                                    'type' => 'array',
-                                    'items' => ['type' => 'string'],
-                                ],
-                                'lastLogin' => ['type' => ['string', 'null']],
-                                'expirationDate' => ['type' => ['string', 'null']],
-                                'language' => ['type' => 'string'],
-                                'locale' => ['type' => 'string'],
-                                'localePreferred' => ['type' => ['string', 'null']],
-                                'userOptions' => [
-                                    'type' => 'object',
-                                    'additionalProperties' => true,
-                                ],
-                            ],
-                            'required' => ['id', 'username', 'displayName', 'roles', 'email', 'circles', 'lastLogin', 'expirationDate', 'language', 'locale', 'localePreferred', 'userOptions'],
-                            'additionalProperties' => false,
-                        ],
-                    ],
-                    'required' => ['user'],
-                    'additionalProperties' => false,
-                ],
-            );
+        $this->toolUserService->addUserTools($builder);
         $this->toolAssetService->addAssetTools($builder);
         $this->toolDataService->addGetDocumentTools($builder);
         $this->toolDataService->addCreateDocumentTools($builder);

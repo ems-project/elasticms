@@ -166,9 +166,6 @@ core:
                 =1      {Il y a un index}
                 other   {Il y a # index}
             }
-    modal:
-        close: Fermer
-        loading: Chargement...
     version: 'Version {core} avec Symfony {symfony}'
 data:
     add:
@@ -188,20 +185,6 @@ data:
 documentation:
     api:
         title: Documentation
-edit_image:
-    flip:
-        group: Retournement
-        horizontal: 'Retourner horizontalement'
-        vertical: 'Retourner verticalement'
-    rotate:
-        group: Rotation
-        left: 'Tourner à gauche'
-        right: 'Tourner à droite'
-    zoom:
-        group: Zoom
-        minus: Zoomer
-        plus: Dézoomer
-        reset: 'Réinitialiser la vue'
 entity:
     edit:
         title: 'Modifier {entity_name}'

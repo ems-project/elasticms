@@ -68,7 +68,7 @@ final readonly class ElasticmsMcpToolDataService
                 'draft' => $revision->isDraft(),
                 'archived' => $revision->isArchived(),
                 'label' => $revision->getLabel(),
-                'rawData' => $revision->getRawData(),
+                'rawData' => $this->rawDataToMcpOutput($revision),
             ];
         });
     }
@@ -78,7 +78,7 @@ final readonly class ElasticmsMcpToolDataService
      *
      * @return array{contentType: string, ouuid: ?string, revisionId: int, draft: bool, archived: bool, rawData: array<mixed>}
      */
-    public function createDocument(string $contentType, array $rawData = [], ?string $ouuid = null, bool $finalize = false): array
+    public function saveDocument(string $contentType, array $rawData = [], ?string $ouuid = null, bool $finalize = false): array
     {
         $toolName = \sprintf('save_%s', $contentType);
 
@@ -98,13 +98,24 @@ final readonly class ElasticmsMcpToolDataService
                 throw new ToolCallException($runtimeException->getMessage(), 0, $runtimeException);
             }
 
-            if (!$this->authorizationChecker->isGranted($resolvedContentType->role(ContentTypeRoles::CREATE))) {
-                throw new ToolCallException(\sprintf('Create access is not granted for content type "%s".', $contentType));
+            $revision = null;
+            if (null !== $ouuid && $revision = $this->revisionService->getCurrentRevisionByOuuidAndContentType($ouuid, $contentType)) {
+                $this->dataService->lockRevision($revision);
             }
 
             try {
-                $this->dataService->hasCreateRights($resolvedContentType);
-                $revision = $this->dataService->newDocument($resolvedContentType, $ouuid, $rawData);
+                if (null === $revision) {
+                    if (!$this->authorizationChecker->isGranted($resolvedContentType->role(ContentTypeRoles::CREATE))) {
+                        throw new ToolCallException(\sprintf('Create access is not granted for content type "%s".', $contentType));
+                    }
+                    $this->dataService->hasCreateRights($resolvedContentType);
+                    $revision = $this->dataService->newDocument($resolvedContentType, $ouuid, $rawData);
+                } else {
+                    if (!$this->authorizationChecker->isGranted($resolvedContentType->role(ContentTypeRoles::EDIT))) {
+                        throw new ToolCallException(\sprintf('Edit access is not granted for content type "%s".', $contentType));
+                    }
+                    $revision = $this->dataService->replaceData($revision, $rawData);
+                }
 
                 if ($finalize) {
                     $revision->autoSaveToRawData();
@@ -120,7 +131,7 @@ final readonly class ElasticmsMcpToolDataService
                 'revisionId' => $revision->getId(),
                 'draft' => $revision->isDraft(),
                 'archived' => $revision->isArchived(),
-                'rawData' => $revision->getRawData(),
+                'rawData' => $this->rawDataToMcpOutput($revision),
             ];
         });
     }
@@ -154,18 +165,18 @@ final readonly class ElasticmsMcpToolDataService
         }
     }
 
-    public function addCreateDocumentTools(Builder $builder): void
+    public function addSaveDocumentTools(Builder $builder): void
     {
         foreach ($this->contentTypeService->getAll() as $contentType) {
-            if (!$this->isCreatableContentType($contentType)) {
+            if (!$this->isSavableContentType($contentType)) {
                 continue;
             }
 
             $contentTypeName = $contentType->getName();
-            $contentTypeSchema = $this->buildCreateDocumentInputSchema($contentType);
+            $contentTypeSchema = $this->buildSaveDocumentInputSchema($contentType);
 
             $builder->addTool(
-                handler: fn (array $rawData = [], ?string $ouuid = null, bool $finalize = false): array => $this->createDocument($contentTypeName, $rawData, $ouuid, $finalize),
+                handler: fn (array $rawData = [], ?string $ouuid = null, bool $finalize = false): array => $this->saveDocument($contentTypeName, $rawData, $ouuid, $finalize),
                 name: \sprintf('save_%s', $contentTypeName),
                 description: \sprintf('Create or update a `%s` in the `%s` environment. Provide rawData according to the generated schema for this content type. Omit ouuid to let elasticMS generate one; if an explicit ouuid already exists, creation may fail. By default the new revision remains a draft in progress. Set finalize=true only when the rawData is complete and should be finalized directly in the content type default environment, which triggers the normal elasticMS validation/finalization flow. Recoverable errors include invalid rawData, duplicate OUUIDs, validation failures and permission failures.', $contentTypeName, $contentType->giveEnvironment()->getName()),
                 inputSchema: $contentTypeSchema,
@@ -192,11 +203,12 @@ final readonly class ElasticmsMcpToolDataService
             && $this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::VIEW));
     }
 
-    private function isCreatableContentType(ContentType $contentType): bool
+    private function isSavableContentType(ContentType $contentType): bool
     {
         return $contentType->giveEnvironment()->getManaged()
             && $contentType->isActive()
-            && $this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::CREATE));
+            && ($this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::CREATE))
+            || $this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::EDIT)));
     }
 
     /**
@@ -234,7 +246,7 @@ final readonly class ElasticmsMcpToolDataService
     /**
      * @return array<string, mixed>
      */
-    private function buildCreateDocumentInputSchema(ContentType $contentType): array
+    private function buildSaveDocumentInputSchema(ContentType $contentType): array
     {
         $rawDataSchema = $this->buildRawDataSchema($contentType->getFieldType(), filterEditableFields: true, includeRequired: true);
         $rawDataSchema['additionalProperties'] = true;
@@ -355,5 +367,16 @@ final readonly class ElasticmsMcpToolDataService
         }
 
         return $innerType;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function rawDataToMcpOutput(Revision $revision): array
+    {
+        $rawData = \array_filter($revision->getRawData(), fn ($key) => !\str_starts_with($key, '_'), ARRAY_FILTER_USE_KEY);
+        dump($rawData);
+
+        return $rawData;
     }
 }

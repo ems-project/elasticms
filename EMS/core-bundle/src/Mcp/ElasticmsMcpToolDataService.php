@@ -162,12 +162,13 @@ final readonly class ElasticmsMcpToolDataService
             }
 
             $contentTypeName = $contentType->getName();
+            $contentTypeSchema = $this->buildCreateDocumentInputSchema($contentType);
 
             $builder->addTool(
                 handler: fn (array $rawData = [], ?string $ouuid = null, bool $finalize = false): array => $this->createDocument($contentTypeName, $rawData, $ouuid, $finalize),
-                name: \sprintf('create_document_%s', $contentTypeName),
-                description: \sprintf('Create a new elasticMS %s document targeting the %s environment. Provide rawData according to the generated schema for this content type. Omit ouuid to let elasticMS generate one; if an explicit ouuid already exists, creation may fail. By default the new revision remains a draft in progress. Set finalize=true only when the rawData is complete and should be finalized directly in the content type default environment, which triggers the normal elasticMS validation/finalization flow. Recoverable errors include invalid rawData, duplicate OUUIDs, validation failures and permission failures.', $contentTypeName, $contentType->giveEnvironment()->getName()),
-                inputSchema: $this->buildCreateDocumentInputSchema($contentType),
+                name: \sprintf('save_%s', $contentTypeName),
+                description: \sprintf('Create or update a `%s` in the `%s` environment. Provide rawData according to the generated schema for this content type. Omit ouuid to let elasticMS generate one; if an explicit ouuid already exists, creation may fail. By default the new revision remains a draft in progress. Set finalize=true only when the rawData is complete and should be finalized directly in the content type default environment, which triggers the normal elasticMS validation/finalization flow. Recoverable errors include invalid rawData, duplicate OUUIDs, validation failures and permission failures.', $contentTypeName, $contentType->giveEnvironment()->getName()),
+                inputSchema: $contentTypeSchema,
                 outputSchema: [
                     'type' => 'object',
                     'properties' => [
@@ -175,7 +176,7 @@ final readonly class ElasticmsMcpToolDataService
                         'ouuid' => ['type' => 'string'],
                         'revisionId' => ['type' => 'integer'],
                         'draft' => ['type' => 'boolean'],
-                        'rawData' => ['type' => 'object', 'additionalProperties' => true],
+                        'rawData' => $contentTypeSchema,
                     ],
                     'required' => ['contentType', 'ouuid', 'revisionId', 'draft', 'rawData'],
                     'additionalProperties' => false,

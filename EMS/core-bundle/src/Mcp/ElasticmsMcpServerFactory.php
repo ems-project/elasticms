@@ -33,8 +33,9 @@ final readonly class ElasticmsMcpServerFactory
             ->setInstructions('Authenticate with an elasticMS API bearer token. The server exposes content, search, user and asset tools while preserving the authenticated user permissions.')
             ->setContainer($this->container)
             ->setLogger($this->logger)
-            ->setSession(new FileSessionStore($this->cacheDir.'/mcp-sessions'))
-            ->addTool(
+            ->setSession(new FileSessionStore($this->cacheDir.'/mcp-sessions'));
+        $this->toolCustomService->addCustomTools($builder);
+        $builder->addTool(
                 handler: $this->toolUserService->getCurrentUser(...),
                 name: 'get_current_user',
                 description: 'Return the authenticated elasticMS user profile, including roles, circles, locale preferences and user options. Use this tool to check which identity and permissions the MCP calls run with.',

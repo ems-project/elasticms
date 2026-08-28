@@ -1,5 +1,3 @@
-{%- trans_default_domain 'ems-adminui-elements' -%}
-
 <div class="user-panel my-3 d-flex">
     <div class="image">
         {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
@@ -15,24 +13,24 @@
                     {{ app.user.displayName }}
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li class="dropdown-header">{{ 'user.logged_in.title'|trans({'%username%': app.user.username}, 'ems-adminui-user') }}</li>
+                    <li class="dropdown-header">{{ 'user.logged_in.title'|trans({'%username%': app.user.username}, 'emsco-core') }}</li>
                     <li class="dropdown-divider"></li>
                     <li>
-                        <a href="{{ path(routes.USER_PROFILE) }}" class="dropdown-item">{{ 'user.profile.title'|trans({}, 'ems-adminui-user') }}</a>
+                        <a href="{{ path(routes.USER_PROFILE) }}" class="dropdown-item">{{ 'user.profile.title'|trans({}, 'emsco-core') }}</a>
                     </li>
                     {% if is_granted('IS_IMPERSONATOR') %}
                         <li>
-                            <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="dropdown-item">{{ 'user.logout.exit'|trans({}, 'ems-adminui-user') }}</a>
+                            <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="dropdown-item">{{ 'user.logout.exit'|trans({}, 'emsco-core') }}</a>
                         </li>
                     {% else %}
                         <li>
-                            <a href="{{ path(routes.USER_LOGOUT) }}" class="dropdown-item">{{ 'user.logout.submit'|trans({}, 'ems-adminui-user') }}</a>
+                            <a href="{{ path(routes.USER_LOGOUT) }}" class="dropdown-item">{{ 'user.logout.submit'|trans({}, 'emsco-core') }}</a>
                         </li>
                     {% endif %}
                 </ul>
             </div>
         {% else %}
-            <p class="text-white mb-0">{{ 'side_menu.anonymous-user'|trans }}</p>
+            <p class="text-white mb-0">{{ 'key.anonymous_user'|trans({}, 'emsco-core') }}</p>
         {% endif %}
         {% if status is defined %}
             {% set statusTitle = 'cluster.status'|trans({color: status}, 'emsco-core') %}
@@ -50,7 +48,7 @@
 
 <ul class="sidebar-nav">
     {% for item in menu|default([])|filter(p => p.hasChildren) %}
-        <li class="sidebar-header">{{ item.title|trans(item.transParameters, 'ems-adminui-twigs') }}</li>
+        <li class="sidebar-header">{{ item.title|trans(item.transParameters, 'emsco-core') }}</li>
         {% for menu in item.children %}
             {{ block('sidebarMenu', '@EMSAdminUI/bootstrap5/elements/menu.html.twig') }}
         {% endfor %}

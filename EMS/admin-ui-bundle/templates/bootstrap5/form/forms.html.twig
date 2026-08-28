@@ -1,5 +1,5 @@
 {% use '@EMSAdminUI/bootstrap5/form/fields.html.twig' %}
-{% trans_default_domain 'ems-adminui-form' %}
+{% trans_default_domain 'emsco-core' %}
 
 {% block emsco_form_table_column_data_value_template %}
     {{- include(template_from_string(column.template), {
@@ -90,7 +90,7 @@
             {%- if not loop.first -%}
                 {%- if loop.last %} &amp; {% else %}, {% endif -%}
             {%- endif -%}
-            {{- string|trans([], 'ems-adminui-twigs') -}}
+            {{- string|trans([], 'emsco-core') -}}
         {%- endfor -%}
     {%- endif -%}
 {% endblock emsco_form_table_column_data_value_roles %}
@@ -239,7 +239,7 @@
 {% endblock emsco_form_table_column_action_checkbox %}
 
 {% block emsco_form_table_column_row_actions %}
-    {% trans_default_domain 'ems-adminui-twigs' %}
+    {% trans_default_domain 'emsco-core' %}
     <div class="btn-group {{ table.rowActionsClass|default('float-end') }}">
         {% for action in table.itemActions %}
             {% if action is iterable and action|length > 0 %}

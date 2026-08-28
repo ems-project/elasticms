@@ -1,7 +1,0 @@
-environment:
-    edit:
-        short_title: 'Modifier l’environnement'
-        title: 'Modifier l’environnement « {name} »'
-    index:
-        title: 'Liste des environnements'
-    plural: Environnements

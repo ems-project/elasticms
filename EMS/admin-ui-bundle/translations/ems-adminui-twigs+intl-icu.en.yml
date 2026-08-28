@@ -5,7 +5,6 @@ button:
     delete: Delete
     reload_page: 'Reload page'
 content_type:
-    all: 'All content types'
     field: Field
     mapping: Mapping
     permission: Permission

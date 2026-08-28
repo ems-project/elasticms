@@ -5,7 +5,6 @@ button:
     delete: Verwijderen
     reload_page: 'Pagina herladen'
 content_type:
-    all: 'Alle contenttypes'
     field: Veld
     mapping: Mapping
     permission: Toestemming

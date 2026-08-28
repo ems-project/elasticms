@@ -158,6 +158,20 @@ environment:
     edit:
         short_title: 'Modifier l’environnement'
         title: 'Modifier l’environnement « {name} »'
+edit_image:
+    flip:
+        group: Retournement
+        horizontal: 'Retourner horizontalement'
+        vertical: 'Retourner verticalement'
+    rotate:
+        group: Rotation
+        left: 'Tourner à gauche'
+        right: 'Tourner à droite'
+    zoom:
+        group: Zoom
+        minus: Zoomer
+        plus: Dézoomer
+        reset: 'Réinitialiser la vue'
 field:
     accumulate_file: 'Accumuler dans un seul fichier'
     alias: Alias
@@ -258,6 +272,59 @@ field:
     user_impersonator: Impersonnateur
     user_modified: 'Modifié par'
     user_uploaded: 'Uploadé par'
+field_type:
+    json_menu_editor:
+        add: Ajouter
+        add_item: 'Ajouter un élément'
+        add_node: 'Ajouter un nœud'
+        collapse_all_button: 'Tout replier'
+        collapse_button: Replier
+        delete_item: 'Supprimer l’élément'
+        item_label_placeholder: 'Libellé de l’élément'
+        move_item: 'Déplacer l’élément'
+    reorder: Réordonner
+    textarea:
+        counter: '%count% caractères'
+fields:
+    asset:
+        browse-server: 'Parcourir le serveur'
+        clear-button: Effacer
+        close-modal: Fermer
+        drag-n-drop-file: 'Glissez-déposez votre fichier ici'
+        drag-n-drop-files: 'Glissez-déposez vos fichiers ici'
+        file-hash: 'Hash du fichier'
+        file-info: 'Informations du fichier'
+        info-modal-button: Info
+        init-upload: 'Initialiser l’upload'
+        move-button: Déplacer
+        remove-button: Retirer
+        upload-file: 'Uploader le fichier'
+        upload-files: 'Uploader les fichiers'
+        view-button: Voir
+    field: Champ
+    file:
+        asset_options: 'Options de l’asset'
+        clear: Effacer
+        drag_and_drop: 'Glissez-déposez votre fichier ici'
+        extract_content: 'Extraire le contenu'
+        hash_signature: 'Signature du hash'
+        info: Info
+        preview_alt: 'Aperçu du champ {field}'
+        upload: 'Uploader le fichier'
+        view: Voir
+    modal:
+        add_field_to: 'Ajouter un champ à <strong>{name}</strong>'
+        add_subfield_to: 'Ajouter un sous-champ à <strong>{name}</strong>'
+        duplicate: 'Dupliquer <strong>{name}</strong>'
+    options:
+        display: Affichage
+        extra: Extra
+        mapping: Mapping
+        migration: Migration
+        restriction: Restriction
+    subfield: Sous-champ
+    template:
+        more_info: 'plus d’informations'
 form:
     data:
         add:
@@ -266,6 +333,11 @@ form:
                 label: OUUID
                 placeholder: 'Généré automatiquement si laissé vide'
             save: 'Créer un brouillon {content_type}'
+        bool_table_column:
+            false_value: Décocher
+            true_value: Cocher
+    field-type-type:
+        root: Structure
     reorder:
         title: 'Réordonner les champs du formulaire : {label}'
 form_submissions:
@@ -622,6 +694,10 @@ user:
         edit:
             breadcrumb_title: Modifier
 view:
+    form:
+        fields:
+            asset:
+                preview: Aperçu
     title: '{name} de {plural}'
 webhook:
     enable:

@@ -23,7 +23,16 @@ final class UnsupportedJsonSchemaTest extends TestCase
 
         $schema = $fieldType->generateJsonSchema(new FieldType(), static fn (array $fieldTypes): array => []);
 
-        self::assertSame(['object', 'array', 'string', 'number', 'boolean', 'null'], $schema['type']);
+        self::assertSame([
+            'anyOf' => [
+                ['type' => 'object'],
+                ['type' => 'array'],
+                ['type' => 'string'],
+                ['type' => 'number'],
+                ['type' => 'boolean'],
+                ['type' => 'null'],
+            ],
+        ], $schema['type']);
         self::assertSame(\sprintf('ElasticMS field type "%s".', JsonMenuEditorFieldType::class), $schema['description']);
     }
 }

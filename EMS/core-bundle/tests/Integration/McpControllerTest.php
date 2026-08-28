@@ -89,10 +89,10 @@ final class McpControllerTest extends WebTestCase
         self::assertContains('upload_asset_chunk', $toolNames);
         self::assertContains('download_asset_chunk', $toolNames);
         self::assertContains('get_asset_info', $toolNames);
-        self::assertContains('get_document_news', $toolNames);
-        self::assertContains('create_document_news', $toolNames);
-        self::assertContains('get_document_secret', $toolNames);
-        self::assertNotContains('create_document_secret', $toolNames);
+        self::assertContains('get_news', $toolNames);
+        self::assertContains('save_news', $toolNames);
+        self::assertContains('get_secret', $toolNames);
+        self::assertNotContains('save_secret', $toolNames);
 
         $currentUserTool = \array_first(\array_filter($tools, static fn (array $tool): bool => 'get_current_user' === ($tool['name'] ?? null))) ?? null;
         self::assertIsArray($currentUserTool);
@@ -111,10 +111,10 @@ final class McpControllerTest extends WebTestCase
         self::assertSame(0, $downloadAssetTool['inputSchema']['properties']['offset']['default'] ?? null);
         self::assertSame(5_242_880, $downloadAssetTool['inputSchema']['properties']['length']['default'] ?? null);
 
-        $createNewsTool = \array_first(\array_filter($tools, static fn (array $tool): bool => 'create_document_news' === ($tool['name'] ?? null))) ?? null;
+        $createNewsTool = \array_first(\array_filter($tools, static fn (array $tool): bool => 'save_news' === ($tool['name'] ?? null))) ?? null;
 
         self::assertIsArray($createNewsTool);
-        self::assertStringContainsString('elasticMS news document', (string) ($createNewsTool['description'] ?? ''));
+        self::assertStringContainsString('`news` in the `preview` environment', (string) ($createNewsTool['description'] ?? ''));
         self::assertSame(['title'], $createNewsTool['inputSchema']['properties']['rawData']['required'] ?? null);
         self::assertSame('string', $createNewsTool['inputSchema']['properties']['rawData']['properties']['title']['type'] ?? null);
         self::assertSame('object', $createNewsTool['inputSchema']['properties']['rawData']['properties']['body']['type'] ?? null);
@@ -164,7 +164,7 @@ final class McpControllerTest extends WebTestCase
             'id' => 4,
             'method' => 'tools/call',
             'params' => [
-                'name' => 'create_document_news',
+                'name' => 'save_news',
                 'arguments' => [
                     'rawData' => [
                         'title' => 'MCP News Draft',
@@ -201,7 +201,7 @@ final class McpControllerTest extends WebTestCase
             'id' => 41,
             'method' => 'tools/call',
             'params' => [
-                'name' => 'create_document_news',
+                'name' => 'save_news',
                 'arguments' => [
                     'rawData' => [
                         'title' => 'MCP Finalized News',
@@ -389,7 +389,7 @@ final class McpControllerTest extends WebTestCase
             'id' => 5,
             'method' => 'tools/call',
             'params' => [
-                'name' => 'get_document_news',
+                'name' => 'get_news',
                 'arguments' => [
                     'ouuid' => $fixtures['revision']->getOuuid(),
                 ],
@@ -578,6 +578,7 @@ final class McpControllerTest extends WebTestCase
             ->setEnvironment($environment);
         $restrictedContentType->setRoles(new ContentTypeRoles([
             ContentTypeRoles::VIEW => 'ROLE_AUTHOR',
+            ContentTypeRoles::EDIT => 'ROLE_ADMIN',
             ContentTypeRoles::CREATE => 'ROLE_ADMIN',
         ]));
 

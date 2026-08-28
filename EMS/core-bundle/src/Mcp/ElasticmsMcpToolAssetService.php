@@ -298,7 +298,13 @@ final readonly class ElasticmsMcpToolAssetService
                 'algo' => ['type' => 'string'],
                 'available' => ['type' => 'boolean'],
                 'uploaded' => ['type' => 'integer'],
-                'status' => ['type' => ['string', 'null']],
+                'status' => ['type' => [
+                    'anyOf' => [[
+                        'type' => 'string',
+                    ], [
+                        'type' => 'null',
+                    ]],
+                ]],
                 'user' => ['type' => 'string'],
                 'chunkSize' => ['type' => 'integer'],
             ],

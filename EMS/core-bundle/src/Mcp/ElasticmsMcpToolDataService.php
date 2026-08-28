@@ -201,13 +201,10 @@ final readonly class ElasticmsMcpToolDataService
     /**
      * @return array<string, mixed>
      */
-    public function buildGetDocumentOutputSchema(ContentType $contentType, bool $searchResult = false): array
+    private function buildGetDocumentOutputSchema(ContentType $contentType): array
     {
         $rawDataSchema = $this->buildRawDataSchema($contentType->getFieldType(), filterEditableFields: false, includeRequired: false);
         $rawDataSchema['additionalProperties'] = true;
-        if ($searchResult) {
-            return $rawDataSchema;
-        }
 
         return [
             'type' => 'object',

@@ -744,8 +744,6 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('ems.service.user'),
             service('ems.service.mcp_tool'),
-            service(ContentTypeService::class),
-            service(ElasticmsMcpToolDataService::class),
             service('twig'),
             service('logger'),
             service('emsco.logger.audit'),

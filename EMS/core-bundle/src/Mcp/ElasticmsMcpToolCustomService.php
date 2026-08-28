@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Mcp;
 
 use EMS\CoreBundle\Entity\McpTool;
-use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\Mcp\McpToolService;
 use EMS\CoreBundle\Service\UserService;
 use EMS\Helpers\Standard\Json;
@@ -16,18 +15,13 @@ use Mcp\Server\RequestContext;
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
 
-final class ElasticmsMcpToolCustomService
+final readonly class ElasticmsMcpToolCustomService
 {
     use ElasticmsMcpToolCallTrait;
-
-    /** @var array<string, mixed[]> */
-    private ?array $contentTypeSchemas = null;
 
     public function __construct(
         private UserService $userService,
         private McpToolService $mcpToolService,
-        private ContentTypeService $contentTypeService,
-        private ElasticmsMcpToolDataService $toolDataService,
         private Environment $twig,
         private LoggerInterface $logger,
         private LoggerInterface $auditLogger,
@@ -119,25 +113,8 @@ final class ElasticmsMcpToolCustomService
         }
         $rendered = $this->twig->createTemplate($template)->render([
             'tool' => $mcpTool,
-            'contentTypeSchemas' => $this->getContentTypeSchemas(),
         ]);
 
         return ElasticmsMcpJsonSchema::normalize(Json::decode($rendered));
-    }
-
-    /**
-     * @return array<string, mixed[]>
-     */
-    private function getContentTypeSchemas(): array
-    {
-        if (null !== $this->contentTypeSchemas) {
-            return $this->contentTypeSchemas;
-        }
-        $this->contentTypeSchemas = [];
-        foreach ($this->contentTypeService->getAll() as $contentType) {
-            $this->contentTypeSchemas[$contentType->getName()] = $this->toolDataService->buildGetDocumentOutputSchema($contentType, true);
-        }
-
-        return $this->contentTypeSchemas;
     }
 }

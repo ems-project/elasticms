@@ -6,7 +6,6 @@ parameters:
 
   env(EMSCH_ROUTE_TYPE):              'route'
   env(EMSCH_TRANSLATION_TYPE):        'label'
-  env(EMSCH_ASSET_CONFIG_TYPE):       ~
   env(EMSCH_SEARCH_CONFIG):           '{}'
   env(EMSCH_TEMPLATES):               '{"template": {"name": "name","code": "body"}}'
   env(EMSCH_ASSET_SRC_IMAGE_CONFIG):    '{"_image_format":"webp","_config_type":"image","_width":0,"_height":0,"_quality":90}'
@@ -40,7 +39,6 @@ ems_client_helper:
       hosts: '%env(json:EMS_ELASTICSEARCH_HOSTS)%'
       route_type: '%env(string:EMSCH_ROUTE_TYPE)%'
       translation_type: '%env(string:EMSCH_TRANSLATION_TYPE)%'
-      asset_config_type: '%env(string:EMSCH_ASSET_CONFIG_TYPE)%'
       templates: '%env(json:EMSCH_TEMPLATES)%'
       search_config: '%env(json:EMSCH_SEARCH_CONFIG)%'
   templates:

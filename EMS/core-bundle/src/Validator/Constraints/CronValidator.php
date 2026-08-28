@@ -21,8 +21,7 @@ class CronValidator extends ConstraintValidator
     {
         if (!CronExpression::isValidExpression($value)) {
             $this->context
-                ->buildViolation(t('validation.invalid_format', [], 'emsco-core'))
-                ->setTranslationDomain('emsco-core')
+                ->buildViolation(t('validation.invalid_format', [], 'emsco-validation'))
                 ->atPath('cron')
                 ->addViolation();
         }

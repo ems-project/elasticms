@@ -174,9 +174,8 @@ docs-init: ## init docs
 
 ## —— Build ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 build-translations: ## build translations
-	@php build/translations --locale=en --bundle=EMSCoreBundle --bundle=EMSAdminUIBundle --write --format=yml -d emsco-core
-	@php build/translations --locale=fr --bundle=EMSCoreBundle --bundle=EMSAdminUIBundle --write --format=yml -d emsco-core
-	@php build/translations --locale=nl --bundle=EMSCoreBundle --bundle=EMSAdminUIBundle --write --format=yml -d emsco-core
+	@php build/translations --locale=en --locale=fr --locale=nl --bundle=EMSCoreBundle --bundle=EMSAdminUIBundle --write --format=yml -d emsco-core
+	@php build/translations --locale=en --locale=fr --locale=nl --bundle=EMSCoreBundle --bundle=EMSAdminUIBundle --write --format=yml -d emsco-validation
 	@$(RUN_CLI) translation:extract  fr --force --format=yaml --domain=messages
 	@$(RUN_CLI) translation:extract  nl --force --format=yaml --domain=messages
 	@$(RUN_CLI) translation:extract  de --force --format=yaml --domain=messages

@@ -140,8 +140,7 @@ class Release implements EntityInterface
     public function validate(ExecutionContextInterface $context): void
     {
         if ($this->getEnvironmentTarget() === $this->getEnvironmentSource()) {
-            $context->buildViolation(t('validation.target_env_diff_source', [], 'emsco-core'))
-                ->setTranslationDomain('emsco-core')
+            $context->buildViolation(t('validation.target_env_diff_source', [], 'emsco-validation'))
                 ->atPath('environmentTarget')
                 ->addViolation();
         }

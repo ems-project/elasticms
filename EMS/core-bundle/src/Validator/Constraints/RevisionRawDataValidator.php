@@ -57,8 +57,7 @@ class RevisionRawDataValidator extends ConstraintValidator
 
         if (null === $versionFromDate) {
             $this->context
-                ->buildViolation(t('validation.version_from_required', [], 'emsco-core'))
-                ->setTranslationDomain('emsco-core')
+                ->buildViolation(t('validation.version_from_required', [], 'emsco-validation'))
                 ->atPath($formFieldType->getPath())
                 ->addViolation()
             ;
@@ -72,9 +71,8 @@ class RevisionRawDataValidator extends ConstraintValidator
 
         if ($versionToDate <= $versionFromDate) {
             $this->context
-                ->buildViolation(t('validation.version_to_greater', [], 'emsco-core'))
+                ->buildViolation(t('validation.version_to_greater', [], 'emsco-validation'))
                 ->setParameters(['fromField' => $formFieldLabel])
-                ->setTranslationDomain('emsco-core')
                 ->atPath($toFieldType->getPath())
                 ->addViolation()
             ;
@@ -85,9 +83,8 @@ class RevisionRawDataValidator extends ConstraintValidator
 
         if ($versionToDate > $versionFromDate && $intervalOneDay && 0 === $diffDays) {
             $this->context
-                ->buildViolation(t('validation.version_to_greater_one_day', [], 'emsco-core'))
+                ->buildViolation(t('validation.version_to_greater_one_day', [], 'emsco-validation'))
                 ->setParameters(['fromField' => $formFieldLabel])
-                ->setTranslationDomain('emsco-core')
                 ->atPath($toFieldType->getPath())
                 ->addViolation()
             ;

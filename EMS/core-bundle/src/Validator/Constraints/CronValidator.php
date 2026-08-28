@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Validator\Constraints;
 
 use Cron\CronExpression;
-use EMS\CoreBundle\EMSCoreBundle;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use function Symfony\Component\Translation\t;
 
 class CronValidator extends ConstraintValidator
 {
@@ -20,8 +20,8 @@ class CronValidator extends ConstraintValidator
     {
         if (!CronExpression::isValidExpression($value)) {
             $this->context
-                ->buildViolation($constraint->invalid)
-                ->setTranslationDomain(EMSCoreBundle::TRANS_DOMAIN_VALIDATORS)
+                ->buildViolation(t('validation.invalid_format', [], 'emsco-core'))
+                ->setTranslationDomain('emsco-core')
                 ->atPath('cron')
                 ->addViolation();
         }

@@ -11,6 +11,7 @@ use EMS\CoreBundle\Core\Revision\Release\ReleaseRevisionType;
 use EMS\CoreBundle\EMSCoreBundle;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use function Symfony\Component\Translation\t;
 
 class Release implements EntityInterface
 {
@@ -139,8 +140,8 @@ class Release implements EntityInterface
     public function validate(ExecutionContextInterface $context): void
     {
         if ($this->getEnvironmentTarget() === $this->getEnvironmentSource()) {
-            $context->buildViolation('entity.release.violation.same_source_and_target')
-                ->setTranslationDomain(EMSCoreBundle::TRANS_DOMAIN_VALIDATORS)
+            $context->buildViolation(t('validation.target_env_diff_source', [], 'emsco-core'))
+                ->setTranslationDomain('emsco-core')
                 ->atPath('environmentTarget')
                 ->addViolation();
         }

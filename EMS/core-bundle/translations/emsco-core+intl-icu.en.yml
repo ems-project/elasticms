@@ -1093,6 +1093,9 @@ user:
 
             If you don't get an email check your spam folder or try again.
         title: 'Reset password'
+validation:
+    invalid_format: 'Invalid format'
+    target_env_diff_source: 'The target environment must be different from the source environment'
 view:
     contenttype:
         reorder_item:

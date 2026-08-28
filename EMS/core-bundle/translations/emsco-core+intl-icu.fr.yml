@@ -1093,6 +1093,9 @@ user:
 
             Si vous ne recevez pas d’e-mail, vérifiez votre dossier de spam ou réessayez.
         title: 'Réinitialiser le mot de passe'
+validation:
+    invalid_format: 'Invalid format'
+    target_env_diff_source: 'The target environment must be different from the source environment'
 view:
     contenttype:
         reorder_item:

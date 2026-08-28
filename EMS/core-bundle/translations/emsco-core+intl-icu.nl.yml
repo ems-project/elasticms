@@ -5,7 +5,10 @@ action:
     add_referenced: 'Gerefereerde toevoegen'
     add_referenced_content_type: 'Een gerefereerd contenttype toevoegen'
     attach: Koppelen
+    cancel: Annuleren
     close: Sluiten
+    collapse: Inklappen
+    collapse_all: 'Alles inklappen'
     confirmation: 'Bevestigt u dit?'
     create: Aanmaken
     deactivate: Deactiveren
@@ -19,7 +22,9 @@ action:
     edit: Bewerken
     export: Exporteren
     rebuild: Heropbouwen
+    refresh: Vernieuwen
     relaunch: Herstarten
+    remove: Verwijderen
     reorder: Hersorteren
     save: Opslaan
     save_close: 'Opslaan en sluiten'
@@ -346,6 +351,9 @@ log:
         index_not_found: 'Index "{index}" niet gevonden'
 notification-menu:
     dashboards: Dashboards
+pagination:
+    next: Volgende
+    previous: Vorige
 profile:
     title: 'Uw profiel'
     title_sub: 'Alles over u'

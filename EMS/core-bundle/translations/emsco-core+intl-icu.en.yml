@@ -5,7 +5,10 @@ action:
     add_referenced: 'Add referenced'
     add_referenced_content_type: 'Add a reference content type'
     attach: Attach
+    cancel: Cancel
     close: Close
+    collapse: Collapse
+    collapse_all: 'Collapse all'
     confirmation: 'Do you confirm?'
     create: Create
     deactivate: Deactivate
@@ -19,7 +22,9 @@ action:
     edit: Edit
     export: Export
     rebuild: Rebuild
+    refresh: Refresh
     relaunch: Relaunch
+    remove: Remove
     reorder: Reorder
     save: Save
     save_close: 'Save and Close'
@@ -346,6 +351,9 @@ log:
         index_not_found: 'Index "{index}" not found'
 notification-menu:
     dashboards: Dashboards
+pagination:
+    next: Next
+    previous: Previous
 profile:
     title: 'Your profile'
     title_sub: 'All about you'

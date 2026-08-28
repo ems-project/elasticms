@@ -5,7 +5,10 @@ action:
     add_referenced: 'Ajouter une référence'
     add_referenced_content_type: 'Ajouter un type de contenu référencé'
     attach: Attacher
+    cancel: Annuler
     close: Fermer
+    collapse: Réduire
+    collapse_all: 'Tout réduire'
     confirmation: 'Confirmez-vous ?'
     create: Créer
     deactivate: Désactiver
@@ -19,7 +22,9 @@ action:
     edit: Modifier
     export: Exporter
     rebuild: Reconstruire
+    refresh: Actualiser
     relaunch: Relancer
+    remove: Supprimer
     reorder: Réordonner
     save: Enregistrer
     save_close: 'Enregistrer et fermer'
@@ -346,6 +351,9 @@ log:
         index_not_found: 'Index « {index} » introuvable'
 notification-menu:
     dashboards: 'Tableaux de bord'
+pagination:
+    next: Suivant
+    previous: Précédent
 profile:
     title: 'Votre profil'
     title_sub: 'Tout à propos de vous'

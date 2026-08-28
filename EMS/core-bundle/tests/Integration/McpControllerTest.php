@@ -146,7 +146,7 @@ final class McpControllerTest extends WebTestCase
         ];
 
         $this->client->request(
-            'POST',
+            Request::METHOD_POST,
             '/api/mcp',
             server: $this->mcpHeaders($sessionId),
             content: $this->jsonEncode($currentUserPayload)

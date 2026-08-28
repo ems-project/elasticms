@@ -7,7 +7,7 @@ namespace EMS\CoreBundle\Mcp;
 final class ElasticmsMcpJsonSchema
 {
     /** @var array<string, true> */
-    private const OBJECT_MAP_KEYS = [
+    private const array OBJECT_MAP_KEYS = [
         '$defs' => true,
         'definitions' => true,
         'dependentSchemas' => true,

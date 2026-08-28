@@ -154,6 +154,10 @@ core:
                 other   {Il y a # index}
             }
     version: 'Version {core} avec Symfony {symfony}'
+environment:
+    edit:
+        short_title: 'Modifier l’environnement'
+        title: 'Modifier l’environnement « {name} »'
 field:
     accumulate_file: 'Accumuler dans un seul fichier'
     alias: Alias

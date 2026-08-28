@@ -154,6 +154,10 @@ core:
                 other   {Er zijn # indexen}
             }
     version: 'Versie {core} met Symfony {symfony}'
+environment:
+    edit:
+        short_title: 'Omgeving bewerken'
+        title: 'Omgeving "{name}" bewerken'
 field:
     accumulate_file: 'In één bestand verzamelen'
     alias: Alias

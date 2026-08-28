@@ -216,11 +216,13 @@ final readonly class ElasticmsMcpToolDataService
                 'draft' => ['type' => 'boolean'],
                 'archived' => ['type' => 'boolean'],
                 'label' => [
-                    'type' => ['anyOf' => [
-                        'type' => 'string',
-                    ], [
-                        'type' => 'null',
-                    ]],
+                    'type' => [
+                        'anyOf' => [[
+                            'type' => 'string',
+                        ], [
+                            'type' => 'null',
+                        ]],
+                    ],
                 ],
                 'rawData' => $rawDataSchema,
             ],

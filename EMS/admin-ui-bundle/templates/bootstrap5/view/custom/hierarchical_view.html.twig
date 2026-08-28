@@ -1,4 +1,4 @@
-{% extends '@EMSAdminUI/bootstrap5/view/custom/abstract.html.twig' %}{% trans_default_domain 'ems-adminui-twigs' %}
+{% extends '@EMSAdminUI/bootstrap5/view/custom/abstract.html.twig' %}{% trans_default_domain 'emsco-core' %}
 
 {% block body %}
     <div class="row" id="hierarchical-row" data-content-type="{{ contentType|e('html_attr') }}" data-hierarchical-item-url="{{ path('views.hierarchical.item', {key: '__key__', view: view.id})|e('html_attr') }}">

@@ -9,7 +9,6 @@ use App\Admin\Kernel;
 use EMS\Helpers\Standard\Number;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\TableSeparator;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,6 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Translation\Catalogue\TargetOperation;
 use Symfony\Component\Translation\Dumper\XliffFileDumper;
@@ -34,50 +34,53 @@ use Symfony\Component\Yaml\Yaml;
 
 use function Symfony\Component\String\u;
 
-$command = static function (InputInterface $input, OutputInterface $output): int {
-    $stopWatch = new Stopwatch();
-    $stopWatch->start('build');
+/**
+ * Processes a single locale: reads the current translations of the given bundles,
+ * extracts translation keys actually used in those bundles' src/templates, diffs
+ * them, optionally writes the result back (each domain to the bundle it originates
+ * from), and returns the report rows for the summary table.
+ *
+ * @param list<BundleInterface> $bundles
+ * @param list<string>          $domains
+ *
+ * @return list<array{0: string, 1: string, 2: string, 3: string|null}>
+ */
+function buildLocale(
+    SymfonyStyle $io,
+    Container $container,
+    string $locale,
+    array $bundles,
+    array $domains,
+    bool $write,
+    string $format,
+): array {
+    $io->section(\sprintf('Locale: %s', $locale));
 
-    $io = new SymfonyStyle($input, $output);
-    $io->title('Build: extract translations');
-
-    $locale = $input->getArgument('locale');
-    $bundle = $input->getArgument('bundle');
-    $domains = $input->getOption('domain');
-    $format = $input->getOption('format');
-
-    if (!\in_array($format, ['yml', 'xlf'], true)) {
-        throw new \RuntimeException('Invalid format');
-    }
-
-    $io->writeln('Booting admin kernel');
-    new Dotenv()->load(__DIR__.'/../elasticms-admin/.env');
-    $adminKernel = new Kernel('test', true);
-    $adminKernel->boot();
-    $bundleDir = $adminKernel->getBundle($bundle)->getPath();
-    /** @var Container $container */
-    $container = $adminKernel->getContainer()->get('test.service_container');
-
-    $io->listing([
-        \sprintf('Locale: %s', $locale),
-        \sprintf('Bundle: %s', $bundleDir),
-    ]);
+    /** @var TranslationReaderInterface $reader */
+    $reader = $container->get('translation.reader');
 
     $io->writeln('Building current translations');
     $currentCatalogue = new MessageCatalogue($locale);
-    /** @var TranslationReaderInterface $reader */
-    $reader = $container->get('translation.reader');
-    $reader->read($bundleDir.'/translations', $currentCatalogue);
+    $domainToBundleDir = [];
+    foreach ($bundles as $bundle) {
+        $bundleDir = $bundle->getPath();
+        $bundleCatalogue = new MessageCatalogue($locale);
+        $reader->read($bundleDir.'/translations', $bundleCatalogue);
+        foreach ($bundleCatalogue->getDomains() as $bundleDomain) {
+            $domainToBundleDir[$bundleDomain] ??= $bundleDir;
+            $currentCatalogue->add($bundleCatalogue->all($bundleDomain), $bundleDomain);
+        }
+    }
 
     $catalogueDomains = $currentCatalogue->getDomains();
-    \array_walk($domains, static function (string $d) use ($catalogueDomains) {
-        if (!\in_array($d, $catalogueDomains, true)) {
-            throw new \RuntimeException(\sprintf('Invalid domain: %s', $d));
+    foreach ($domains as $domain) {
+        if (!\in_array($domain, $catalogueDomains, true)) {
+            throw new \RuntimeException(\sprintf('Invalid domain: %s', $domain));
         }
-    });
+    }
 
     if (0 === \count($domains)) {
-        $domains = $currentCatalogue->getDomains();
+        $domains = $catalogueDomains;
     }
 
     $io->writeln('Extracting translation keys from code');
@@ -86,7 +89,10 @@ $command = static function (InputInterface $input, OutputInterface $output): int
         ->ignoreUnreadableDirs()
         ->ignoreVCSIgnored(true)
         ->notPath('/src/(Command|DependencyInjection|Entity|Repository)')
-        ->in([$bundleDir.'/src', $bundleDir.'/templates']);
+        ->in(\array_merge(...\array_map(
+            static fn (BundleInterface $bundle) => [$bundle->getPath().'/src', $bundle->getPath().'/templates'],
+            $bundles
+        )));
 
     $extractors = [
         ['Parsing php files', '*.php', new PhpAstExtractor([
@@ -141,7 +147,7 @@ $command = static function (InputInterface $input, OutputInterface $output): int
         $sortedMessages->add($domainMessages, $domain.MessageCatalogueInterface::INTL_DOMAIN_SUFFIX);
     }
 
-    if (true === $input->getOption('write')) {
+    if ($write) {
         $io->writeln('Writing translations');
 
         $translationWriter = new TranslationWriter();
@@ -157,18 +163,35 @@ $command = static function (InputInterface $input, OutputInterface $output): int
             }
         });
 
-        $translationWriter->write($sortedMessages, $format, match ($format) {
-            'yml' => [
-                'path' => $bundleDir.'/translations',
-                'as_tree' => true,
-                'inline' => 5,
-            ],
-            'xlf' => [
-                'path' => $bundleDir.'/translations',
-                'version' => '1.2',
-                'default_locale' => 'en',
-            ],
-        });
+        // group domains per originating bundle directory, so each domain is
+        // written back next to where it was read from, even though several
+        // bundles were scanned together to detect usage.
+        $messagesByBundleDir = [];
+        foreach ($domains as $domain) {
+            $bundleDir = $domainToBundleDir[$domain] ?? $bundles[0]->getPath();
+            $domainIntl = $domain.MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
+            $messagesByBundleDir[$bundleDir][$domainIntl] = $sortedMessages->all($domainIntl);
+        }
+
+        foreach ($messagesByBundleDir as $bundleDir => $domainMessages) {
+            $bundleCatalogue = new MessageCatalogue($locale);
+            foreach ($domainMessages as $domain => $messages) {
+                $bundleCatalogue->add($messages, $domain);
+            }
+
+            $translationWriter->write($bundleCatalogue, $format, match ($format) {
+                'yml' => [
+                    'path' => $bundleDir.'/translations',
+                    'as_tree' => true,
+                    'inline' => 5,
+                ],
+                'xlf' => [
+                    'path' => $bundleDir.'/translations',
+                    'version' => '1.2',
+                    'default_locale' => 'en',
+                ],
+            });
+        }
     }
 
     $rows = [];
@@ -196,14 +219,62 @@ $command = static function (InputInterface $input, OutputInterface $output): int
         }
     }
 
-    if (\count($rows) > 0) {
-        $rows = \array_reduce($rows, static fn ($carry, $item) => \array_merge($carry, $item, [new TableSeparator()]), []);
+    return \array_reduce($rows, static fn ($carry, $item) => \array_merge($carry, $item, [new TableSeparator()]), []);
+}
+
+$command = static function (InputInterface $input, OutputInterface $output): int {
+    $stopWatch = new Stopwatch();
+    $stopWatch->start('build');
+
+    $io = new SymfonyStyle($input, $output);
+    $io->title('Build: extract translations');
+
+    $locales = $input->getOption('locale');
+    $bundleNames = $input->getOption('bundle');
+    $domains = $input->getOption('domain');
+    $write = $input->getOption('write');
+    $format = $input->getOption('format');
+
+    if (0 === \count($locales)) {
+        throw new \RuntimeException('At least one --locale is required');
+    }
+    if (0 === \count($bundleNames)) {
+        throw new \RuntimeException('At least one --bundle is required');
+    }
+    if (!\in_array($format, ['yml', 'xlf'], true)) {
+        throw new \RuntimeException('Invalid format');
+    }
+
+    $io->writeln('Booting admin kernel');
+    new Dotenv()->load(__DIR__.'/../elasticms-admin/.env');
+    $adminKernel = new Kernel('test', true);
+    $adminKernel->boot();
+    /** @var Container $container */
+    $container = $adminKernel->getContainer()->get('test.service_container');
+
+    $bundles = \array_map(static fn (string $name) => $adminKernel->getBundle($name), $bundleNames);
+
+    $io->listing([
+        \sprintf('Locales: %s', \implode(', ', $locales)),
+        \sprintf('Bundles: %s', \implode(', ', \array_map(static fn (BundleInterface $bundle) => $bundle->getPath(), $bundles))),
+    ]);
+
+    $allRows = [];
+    foreach ($locales as $locale) {
+        $allRows[$locale] = buildLocale($io, $container, $locale, $bundles, $domains, $write, $format);
+    }
+
+    foreach ($allRows as $locale => $rows) {
+        if (0 === \count($rows)) {
+            continue;
+        }
+
         $rows = \array_slice($rows, 0, -1); // remove last separator
 
         $io->newLine();
         $io
             ->createTable()
-            ->setHeaderTitle('Info')
+            ->setHeaderTitle(\sprintf('Info (%s)', $locale))
             ->setHeaders(['State', 'Domain', 'Id', \sprintf('Message (%s)', $locale)])
             ->setRows($rows)
             ->render();
@@ -221,8 +292,8 @@ $command = static function (InputInterface $input, OutputInterface $output): int
 
 new SingleCommandApplication()
     ->setName('Build: extract translations')
-    ->addArgument('locale', InputArgument::REQUIRED, 'locale')
-    ->addArgument('bundle', InputArgument::REQUIRED, 'bundle')
+    ->addOption('locale', 'l', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'locale(s)')
+    ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'bundle(s) to scan for usage; each domain is written back to the bundle it was read from')
     ->addOption('write', null, InputOption::VALUE_NONE, 'write translations')
     ->addOption('domain', 'd', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'domains')
     ->addOption('format', null, InputOption::VALUE_REQUIRED, 'format (yml or xlf)', 'yml')

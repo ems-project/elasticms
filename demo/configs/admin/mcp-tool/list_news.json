@@ -4,11 +4,11 @@
     "properties": {
         "name": "list_news",
         "label": "list_news",
-        "role": "ROLE_ADMIN",
+        "role": "ROLE_AUTHOR",
         "description": "List news, with 10 items per page.",
-        "inputSchema": "{\r\n  \"type\": \"object\",\r\n  \"properties\": {\r\n    \"page\": {\r\n      \"type\": \"integer\",\r\n      \"description\": \"Zero-based page number.\"\r\n    },\r\n    \"environment\": {\r\n      \"type\": \"string\",\r\n      \"enum\": [\r\n        \"live\",\r\n        \"preview\"\r\n      ],\r\n      \"default\": \"live\",\r\n      \"description\": \"Search environment name.\"\r\n    }\r\n  },\r\n  \"required\": [\r\n    \"page\"\r\n  ],\r\n  \"additionalProperties\": false\r\n}",
-        "outputSchema": "{\r\n  \"type\": \"array\",\r\n  \"items\": {\r\n    \"type\": \"object\",\r\n    \"properties\": {\r\n      \"ouuid\": {\r\n        \"type\": \"string\",\r\n        \"description\": \"The news's unique ID\"\r\n      },\r\n      \"title_fr\": {\r\n        \"type\": \"string\",\r\n        \"description\": \"The news's title in french\"\r\n        \r\n      },\r\n      \"title_nl\": {\r\n        \"type\": \"string\",\r\n        \"description\": \"The news's title in dutch\"\r\n      },\r\n      \"publication_date\": {\r\n        \"type\": \"date\"\r\n      }\r\n    },\r\n    \"required\": [\r\n      \"_id\", \"publication_date\", \"title_fr\", \"title_nl\"\r\n    ],\r\n    \"additionalProperties\": false\r\n  }\r\n}",
-        "response": "{%- set searchResult = emsco_search(environment|default('live')|emsco_get_environment.alias, contentTypes: ['news'], size: 10, from: (page * 10), sort: {'publication_date': 'DESC'}) -%}\r\n{{- searchResult.getDocuments()|map(p => { \r\n    ouuid: p.id, \r\n    publication_date: p.getData()['publication_date'],\r\n    title_fr: p.getData()['fr']['title'],\r\n    title_nl: p.getData()['nl']['title'],\r\n})|json_encode|raw -}}",
+        "inputSchema": "{{ include('@EMSCH/template_ems/mcp/tools/list_news/input_schema.json.twig') }}",
+        "outputSchema": "{{ include('@EMSCH/template_ems/mcp/tools/list_news/output_schema.json.twig') }}",
+        "response": "{{ include('@EMSCH/template_ems/mcp/tools/list_news/response.json.twig') }}",
         "enabled": true
     },
     "replaced": []

@@ -1,0 +1,10 @@
+{%- set searchResult = emsco_search(environment|default('live')|emsco_get_environment.alias, contentTypes: ['news'], size: 10, from: (page * 10), sort: {'publication_date': 'DESC'}) -%}
+{{- {
+    news: searchResult.getDocuments()|map(p => {
+        ouuid: p.id,
+        publication_date: [p.getData()['publication_date'], 'T12:00:00+02:00']|join|date('Y-m-d', 'UTC'),
+        title_fr: p.getData()['fr']['title'],
+        title_nl: p.getData()['nl']['title'],
+    }),
+    total: searchResult.getTotalHits(),
+}|json_encode|raw -}}

@@ -154,10 +154,6 @@ core:
                 other   {There are # indexes}
             }
     version: 'Version {core} with Symfony {symfony}'
-environment:
-    edit:
-        short_title: 'Edit environment'
-        title: 'Edit the environment "{name}"'
 edit_image:
     flip:
         group: Flip
@@ -172,6 +168,10 @@ edit_image:
         minus: 'Zoom in'
         plus: 'Zoom out'
         reset: 'Reset view'
+environment:
+    edit:
+        short_title: 'Edit environment'
+        title: 'Edit the environment "{name}"'
 field:
     accumulate_file: 'Accumulate in one file'
     alias: Alias
@@ -425,6 +425,8 @@ log:
         draft_not_found: 'Draft not found with id "{revisionId}"'
         duplicate_environment: 'Environment "{name}" already exists!'
         index_not_found: 'Index "{index}" not found'
+notification-menu:
+    dashboards: Dashboards
 notification:
     dashboard:
         title: Notifications
@@ -436,8 +438,6 @@ notification:
         title: Folders
     menu:
         link_title: Notifications
-notification-menu:
-    dashboards: Dashboards
 pagination:
     next: Next
     previous: Previous

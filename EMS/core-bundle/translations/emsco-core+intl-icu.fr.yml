@@ -154,10 +154,6 @@ core:
                 other   {Il y a # index}
             }
     version: 'Version {core} avec Symfony {symfony}'
-environment:
-    edit:
-        short_title: 'Modifier l’environnement'
-        title: 'Modifier l’environnement « {name} »'
 edit_image:
     flip:
         group: Retournement
@@ -172,6 +168,10 @@ edit_image:
         minus: Zoomer
         plus: Dézoomer
         reset: 'Réinitialiser la vue'
+environment:
+    edit:
+        short_title: 'Modifier l’environnement'
+        title: 'Modifier l’environnement « {name} »'
 field:
     accumulate_file: 'Accumuler dans un seul fichier'
     alias: Alias
@@ -425,6 +425,8 @@ log:
         draft_not_found: 'Brouillon introuvable avec l’id « {revisionId} »'
         duplicate_environment: 'L’environnement « {name} » existe déjà !'
         index_not_found: 'Index « {index} » introuvable'
+notification-menu:
+    dashboards: 'Tableaux de bord'
 notification:
     dashboard:
         title: Notifications
@@ -436,8 +438,6 @@ notification:
         title: Dossiers
     menu:
         link_title: Notifications
-notification-menu:
-    dashboards: 'Tableaux de bord'
 pagination:
     next: Suivant
     previous: Précédent

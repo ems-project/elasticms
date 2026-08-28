@@ -154,10 +154,6 @@ core:
                 other   {Er zijn # indexen}
             }
     version: 'Versie {core} met Symfony {symfony}'
-environment:
-    edit:
-        short_title: 'Omgeving bewerken'
-        title: 'Omgeving "{name}" bewerken'
 edit_image:
     flip:
         group: Spiegelen
@@ -172,6 +168,10 @@ edit_image:
         minus: Inzoomen
         plus: Uitzoomen
         reset: 'Weergave resetten'
+environment:
+    edit:
+        short_title: 'Omgeving bewerken'
+        title: 'Omgeving "{name}" bewerken'
 field:
     accumulate_file: 'In één bestand verzamelen'
     alias: Alias
@@ -425,6 +425,8 @@ log:
         draft_not_found: 'Concept niet gevonden met id "{revisionId}"'
         duplicate_environment: 'Omgeving "{name}" bestaat al!'
         index_not_found: 'Index "{index}" niet gevonden'
+notification-menu:
+    dashboards: Dashboards
 notification:
     dashboard:
         title: Notificaties
@@ -436,8 +438,6 @@ notification:
         title: Mappen
     menu:
         link_title: Notificaties
-notification-menu:
-    dashboards: Dashboards
 pagination:
     next: Volgende
     previous: Vorige

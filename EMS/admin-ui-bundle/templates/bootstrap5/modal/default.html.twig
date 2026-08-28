@@ -1,4 +1,4 @@
-{% trans_default_domain 'ems-adminui-twigs' %}
+{% trans_default_domain 'emsco-core' %}
 {{ form_start(form) }}
     {{ form_errors(form) }}
     {% for field in form.children|filter(f => f.vars.name != 'submit') %}

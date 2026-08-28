@@ -4,8 +4,8 @@
 {% block pagetitle %}{{ block('title') }}{% endblock %}
 {% block breadcrumb %}
     <ol class="breadcrumb float-sm-end">
-        <li class="breadcrumb-item"><i class="fa fa-database"></i> {{ 'environment.plural'|trans({}, 'ems-adminui-twigs') }}</li>
-        <li class="breadcrumb-item"><a href={{ path('emsco_admin_environment_index') }}>{{ 'environment.index.title'|trans({}, 'ems-adminui-twigs') }}</a></li>
+        <li class="breadcrumb-item"><i class="fa fa-database"></i> {{ 'environment.plural'|trans({}, 'emsco-core') }}</li>
+        <li class="breadcrumb-item"><a href={{ path('emsco_admin_environment_index') }}>{{ 'environment.index.title'|trans({}, 'emsco-core') }}</a></li>
            <li class="breadcrumb-item active">{{ 'environment.edit.short_title'|trans({}, 'emsco-core') }}</li>
        </ol>
 {% endblock %}

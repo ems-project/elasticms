@@ -117,7 +117,6 @@ class AssetFieldType extends DataFieldType
                     'description' => 'Hash algorithm used to identify the file.',
                 ],
             ],
-            'additionalProperties' => true,
         ];
 
         if ((bool) $fieldType->getDisplayOption('multiple', false)) {

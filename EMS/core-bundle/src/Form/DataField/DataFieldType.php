@@ -241,6 +241,21 @@ abstract class DataFieldType extends AbstractType
     protected function generateUnsupportedJsonSchema(): array
     {
         return [
+            'type' => [
+                'anyOf' => [[
+                    'type' => 'object',
+                ], [
+                    'type' => 'array',
+                ], [
+                    'type' => 'string',
+                ], [
+                    'type' => 'number',
+                ], [
+                    'type' => 'boolean',
+                ], [
+                    'type' => 'null',
+                ]],
+            ],
             'description' => \sprintf('ElasticMS field type "%s".', static::class),
         ];
     }

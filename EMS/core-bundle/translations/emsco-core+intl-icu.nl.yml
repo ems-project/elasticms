@@ -353,6 +353,17 @@ log:
         draft_not_found: 'Concept niet gevonden met id "{revisionId}"'
         duplicate_environment: 'Omgeving "{name}" bestaat al!'
         index_not_found: 'Index "{index}" niet gevonden'
+notification:
+    dashboard:
+        title: Notificaties
+    filter:
+        title: Filters
+    folder:
+        inbox: Inbox
+        outbox: Outbox
+        title: Mappen
+    menu:
+        link_title: Notificaties
 notification-menu:
     dashboards: Dashboards
 pagination:

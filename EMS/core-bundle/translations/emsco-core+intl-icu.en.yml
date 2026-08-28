@@ -353,6 +353,17 @@ log:
         draft_not_found: 'Draft not found with id "{revisionId}"'
         duplicate_environment: 'Environment "{name}" already exists!'
         index_not_found: 'Index "{index}" not found'
+notification:
+    dashboard:
+        title: Notifications
+    filter:
+        title: Filters
+    folder:
+        inbox: Inbox
+        outbox: Outbox
+        title: Folders
+    menu:
+        link_title: Notifications
 notification-menu:
     dashboards: Dashboards
 pagination:

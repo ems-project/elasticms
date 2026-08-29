@@ -16,7 +16,7 @@ class SubfieldType extends DataFieldType
     #[\Override]
     public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema): array
     {
-        return $this->generateUnsupportedJsonSchema();
+        return [];
     }
 
     #[\Override]

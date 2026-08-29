@@ -356,7 +356,12 @@ final readonly class ElasticmsMcpToolDataService
             return;
         }
 
-        $properties[$fieldType->getName()] = $this->buildFieldSchema($fieldType, $filterEditableFields, $includeRequired);
+        $schema = $this->buildFieldSchema($fieldType, $filterEditableFields, $includeRequired);
+        if ([] === $schema) {
+            return;
+        }
+
+        $properties[$fieldType->getName()] = $schema;
 
         if ($includeRequired && (bool) $fieldType->getRestrictionOption('mandatory', false)) {
             $required[] = $fieldType->getName();
@@ -369,6 +374,9 @@ final readonly class ElasticmsMcpToolDataService
     private function buildFieldSchema(FieldType $fieldType, bool $filterEditableFields = true, bool $includeRequired = true): array
     {
         $schema = $this->getDataFieldType($fieldType)->generateMcpSchema($fieldType, fn (array $fieldTypes): array => $this->buildObjectSchemaFromChildren($fieldTypes, $filterEditableFields, $includeRequired));
+        if ([] === $schema) {
+            return [];
+        }
 
         $schema['title'] ??= (string) $fieldType->getDisplayOption('label', $fieldType->getName());
         $description = $fieldType->getExtraOption('description', $fieldType->getDescription());

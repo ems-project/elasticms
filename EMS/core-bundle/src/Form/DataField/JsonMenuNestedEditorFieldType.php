@@ -21,7 +21,13 @@ class JsonMenuNestedEditorFieldType extends DataFieldType
     #[\Override]
     public function generateJsonSchema(FieldType $fieldType, callable $buildObjectSchema): array
     {
-        return $buildObjectSchema($fieldType->getValidChildren());
+        return [
+            'type' => 'array',
+            'items' => ['$ref' => '#/$defs/jsonMenuNestedNode'],
+            '$defs' => [
+                'jsonMenuNestedNode' => $this->buildJsonMenuNestedNodeSchema($fieldType, $buildObjectSchema),
+            ],
+        ];
     }
 
     #[\Override]
@@ -144,5 +150,65 @@ class JsonMenuNestedEditorFieldType extends DataFieldType
 
         $view->vars['disabled'] = !$this->authorizationChecker->isGranted($fieldType->getMinimumRole());
         $view->vars['revision'] = $revision;
+    }
+
+    /**
+     * @param callable(array<FieldType>): array<string, mixed> $buildObjectSchema
+     *
+     * @return array<string, mixed>
+     */
+    private function buildJsonMenuNestedNodeSchema(FieldType $fieldType, callable $buildObjectSchema): array
+    {
+        $variants = [];
+        foreach ($fieldType->getValidChildren() as $childFieldType) {
+            $variants[] = $this->buildJsonMenuNestedVariantSchema($childFieldType, $buildObjectSchema);
+        }
+
+        if ([] === $variants) {
+            return $this->buildJsonMenuNestedBaseSchema();
+        }
+
+        return ['anyOf' => $variants];
+    }
+
+    /**
+     * @param callable(array<FieldType>): array<string, mixed> $buildObjectSchema
+     *
+     * @return array<string, mixed>
+     */
+    private function buildJsonMenuNestedVariantSchema(FieldType $childFieldType, callable $buildObjectSchema): array
+    {
+        $baseSchema = $this->buildJsonMenuNestedBaseSchema();
+
+        return [
+            'type' => 'object',
+            'properties' => [
+                ...$baseSchema['properties'],
+                'type' => ['const' => $childFieldType->getName()],
+                'object' => $buildObjectSchema($childFieldType->getValidChildren()),
+            ],
+            'required' => ['id', 'label', 'type', 'object'],
+            'additionalProperties' => false,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function buildJsonMenuNestedBaseSchema(): array
+    {
+        return [
+            'type' => 'object',
+            'properties' => [
+                'id' => ['type' => 'string'],
+                'label' => ['type' => 'string'],
+                'children' => [
+                    'type' => 'array',
+                    'items' => ['$ref' => '#/$defs/jsonMenuNestedNode'],
+                ],
+            ],
+            'required' => ['id', 'label'],
+            'additionalProperties' => false,
+        ];
     }
 }

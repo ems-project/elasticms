@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Tests\Unit\Mcp;
 
 use EMS\CoreBundle\Entity\FieldType;
-use EMS\CoreBundle\Form\DataField\JsonMenuEditorFieldType;
+use EMS\CoreBundle\Form\DataField\IconFieldType;
 use EMS\CoreBundle\Service\ElasticsearchService;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormRegistryInterface;
@@ -15,7 +15,7 @@ final class UnsupportedJsonSchemaTest extends TestCase
 {
     public function testUnsupportedFieldSchemaUsesExplicitJsonTypes(): void
     {
-        $fieldType = new JsonMenuEditorFieldType(
+        $fieldType = new IconFieldType(
             $this->createStub(AuthorizationCheckerInterface::class),
             $this->createStub(FormRegistryInterface::class),
             $this->createStub(ElasticsearchService::class),
@@ -33,6 +33,6 @@ final class UnsupportedJsonSchemaTest extends TestCase
                 ['type' => 'null'],
             ],
         ], $schema['type']);
-        self::assertSame(\sprintf('ElasticMS field type "%s".', JsonMenuEditorFieldType::class), $schema['description']);
+        self::assertSame(\sprintf('ElasticMS field type "%s".', IconFieldType::class), $schema['description']);
     }
 }

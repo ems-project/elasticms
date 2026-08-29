@@ -45,7 +45,14 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
     #[\Override]
     public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema): array
     {
-        return $this->generateUnsupportedJsonSchema();
+        if ((bool) $fieldType->getDisplayOption('multiple', false)) {
+            return [
+                'type' => 'array',
+                'items' => ['type' => 'string'],
+            ];
+        }
+
+        return ['type' => 'string'];
     }
 
     #[\Override]

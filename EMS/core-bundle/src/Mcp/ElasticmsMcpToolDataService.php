@@ -439,8 +439,8 @@ final readonly class ElasticmsMcpToolDataService
     }
 
     /**
-     * @param array<string, mixed> $rawData
-     * @param array<string, mixed> $output
+     * @param mixed[] $rawData
+     * @param mixed[] $output
      */
     private function appendMcpFieldValue(FieldType $fieldType, array $rawData, array &$output): void
     {

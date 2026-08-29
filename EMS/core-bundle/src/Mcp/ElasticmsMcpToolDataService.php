@@ -267,6 +267,16 @@ final readonly class ElasticmsMcpToolDataService
         $rawDataSchema = $this->buildRawDataSchema($contentType->getFieldType(), filterEditableFields: false, includeRequired: false);
         $rawDataSchema['additionalProperties'] = true;
 
+        return self::finalizeSaveDocumentOutputSchema($rawDataSchema);
+    }
+
+    /**
+     * @param array<string, mixed> $rawDataSchema
+     *
+     * @return array<string, mixed>
+     */
+    private static function finalizeSaveDocumentOutputSchema(array $rawDataSchema): array
+    {
         return [
             'type' => 'object',
             'properties' => [

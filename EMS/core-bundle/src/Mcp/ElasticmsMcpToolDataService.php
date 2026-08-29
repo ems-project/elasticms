@@ -358,7 +358,7 @@ final readonly class ElasticmsMcpToolDataService
      */
     private function buildFieldSchema(FieldType $fieldType, bool $filterEditableFields = true, bool $includeRequired = true): array
     {
-        $schema = $this->getDataFieldType($fieldType)->generateJsonSchema($fieldType, fn (array $fieldTypes): array => $this->buildObjectSchemaFromChildren($fieldTypes, $filterEditableFields, $includeRequired));
+        $schema = $this->getDataFieldType($fieldType)->generateMcpSchema($fieldType, fn (array $fieldTypes): array => $this->buildObjectSchemaFromChildren($fieldTypes, $filterEditableFields, $includeRequired));
 
         $schema['title'] ??= (string) $fieldType->getDisplayOption('label', $fieldType->getName());
         $description = $fieldType->getExtraOption('description', $fieldType->getDescription());

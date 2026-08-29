@@ -91,7 +91,7 @@ class AssetFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function generateJsonSchema(FieldType $fieldType, callable $buildObjectSchema): array
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema): array
     {
         $assetSchema = [
             'type' => 'object',

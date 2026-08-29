@@ -21,7 +21,7 @@ final class UnsupportedJsonSchemaTest extends TestCase
             $this->createStub(ElasticsearchService::class),
         );
 
-        $schema = $fieldType->generateJsonSchema(new FieldType(), static fn (array $fieldTypes): array => []);
+        $schema = $fieldType->generateMcpSchema(new FieldType(), static fn (array $fieldTypes): array => []);
 
         self::assertSame([
             'anyOf' => [

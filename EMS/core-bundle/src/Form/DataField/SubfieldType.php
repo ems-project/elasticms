@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class SubfieldType extends DataFieldType
 {
     #[\Override]
-    public function generateJsonSchema(FieldType $fieldType, callable $buildObjectSchema): array
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema): array
     {
         return $this->generateUnsupportedJsonSchema();
     }

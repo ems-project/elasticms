@@ -42,7 +42,7 @@ class MultiplexedTabContainerFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function generateJsonSchema(FieldType $fieldType, callable $buildObjectSchema): array
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema): array
     {
         $schema = [
             'type' => 'object',

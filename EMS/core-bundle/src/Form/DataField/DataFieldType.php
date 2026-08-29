@@ -188,7 +188,7 @@ abstract class DataFieldType extends AbstractType
      *
      * @return array<string, mixed>
      */
-    abstract public function generateJsonSchema(FieldType $fieldType, callable $buildObjectSchema): array;
+    abstract public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema): array;
 
     /**
      * @param array<string, mixed> $options

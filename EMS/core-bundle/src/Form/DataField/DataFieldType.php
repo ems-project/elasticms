@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\DataField;
 
+use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\ContentType\DataFieldFormOptions;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
@@ -549,5 +550,47 @@ abstract class DataFieldType extends AbstractType
     public function setFormOptions(?DataFieldFormOptions $formOptions): void
     {
         $this->formOptions = $formOptions;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function generateAssetMcpSchema(FieldType $fieldType): array
+    {
+        $assetSchema = [
+            'type' => 'object',
+            'properties' => [
+                EmsFields::CONTENT_FILE_HASH_FIELD => [
+                    'type' => 'string',
+                    'description' => 'File hash.',
+                ],
+                EmsFields::CONTENT_FILE_NAME_FIELD => [
+                    'type' => 'string',
+                    'description' => 'Original file name.',
+                ],
+                EmsFields::CONTENT_FILE_SIZE_FIELD => [
+                    'type' => 'integer',
+                    'description' => 'File size in bytes.',
+                ],
+                EmsFields::CONTENT_MIME_TYPE_FIELD => [
+                    'type' => 'string',
+                    'description' => 'File MIME type.',
+                ],
+                EmsFields::CONTENT_FILE_ALGO_FIELD_ => [
+                    'type' => 'string',
+                    'description' => 'Hash algorithm used to identify the file.',
+                ],
+            ],
+            'additionalProperties' => true,
+        ];
+
+        if ((bool) $fieldType->getDisplayOption('multiple', false)) {
+            return [
+                'type' => 'array',
+                'items' => $assetSchema,
+            ];
+        }
+
+        return $assetSchema;
     }
 }

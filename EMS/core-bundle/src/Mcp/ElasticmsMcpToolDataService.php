@@ -10,7 +10,6 @@ use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Form\DataField\DataFieldType;
-use EMS\CoreBundle\Form\DataField\MultiplexedTabContainerFieldType;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
@@ -340,10 +339,18 @@ final readonly class ElasticmsMcpToolDataService
         $fieldTypeClass = $fieldType->getType();
 
         if ($fieldTypeClass::isVirtual($fieldType->getOptions())) {
-            if (MultiplexedTabContainerFieldType::class === $fieldTypeClass) {
-                $schema = $this->buildFieldSchema($fieldType, $filterEditableFields, $includeRequired);
-                foreach ($schema['properties'] ?? [] as $propertyName => $propertySchema) {
+            $schema = $this->buildFieldSchema($fieldType, $filterEditableFields, $includeRequired);
+            if ([] !== $schema && \is_array($schema['properties'] ?? null)) {
+                foreach ($schema['properties'] as $propertyName => $propertySchema) {
                     $properties[$propertyName] = $propertySchema;
+                }
+
+                if ($includeRequired && \is_array($schema['required'] ?? null)) {
+                    foreach ($schema['required'] as $propertyName) {
+                        if (\is_string($propertyName)) {
+                            $required[] = $propertyName;
+                        }
+                    }
                 }
 
                 return;
@@ -469,12 +476,10 @@ final readonly class ElasticmsMcpToolDataService
         $fieldTypeClass = $fieldType->getType();
 
         if ($fieldTypeClass::isVirtual($fieldType->getOptions())) {
-            if (MultiplexedTabContainerFieldType::class === $fieldTypeClass) {
-                $value = $this->buildMcpValueForFieldType($fieldType, $rawData);
-                if (\is_array($value)) {
-                    foreach ($value as $propertyName => $propertyValue) {
-                        $output[$propertyName] = $propertyValue;
-                    }
+            $value = $this->buildMcpValueForFieldType($fieldType, $rawData);
+            if (\is_array($value)) {
+                foreach ($value as $propertyName => $propertyValue) {
+                    $output[$propertyName] = $propertyValue;
                 }
 
                 return;

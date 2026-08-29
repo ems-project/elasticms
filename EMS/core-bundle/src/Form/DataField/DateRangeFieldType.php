@@ -21,7 +21,17 @@ class DateRangeFieldType extends DataFieldType
     #[\Override]
     public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema): array
     {
-        return $this->generateUnsupportedJsonSchema();
+        $fromDateMachineName = (string) $fieldType->getMappingOption('fromDateMachineName', $fieldType->getName().'_from_date');
+        $toDateMachineName = (string) $fieldType->getMappingOption('toDateMachineName', $fieldType->getName().'_to_date');
+
+        return [
+            'type' => 'object',
+            'properties' => [
+                $fromDateMachineName => ['type' => 'string', 'format' => 'date-time'],
+                $toDateMachineName => ['type' => 'string', 'format' => 'date-time'],
+            ],
+            'additionalProperties' => false,
+        ];
     }
 
     #[\Override]
@@ -60,6 +70,31 @@ class DateRangeFieldType extends DataFieldType
     public function getBlockPrefix(): string
     {
         return 'bypassdatafield';
+    }
+
+    /**
+     * @param callable(FieldType, mixed): mixed $buildChildValue
+     */
+    #[\Override]
+    public function buildMcpRawDataValue(FieldType $fieldType, mixed $rawData, callable $buildChildValue): mixed
+    {
+        if (!\is_array($rawData)) {
+            return $rawData;
+        }
+
+        $fromDateMachineName = (string) $fieldType->getMappingOption('fromDateMachineName', $fieldType->getName().'_from_date');
+        $toDateMachineName = (string) $fieldType->getMappingOption('toDateMachineName', $fieldType->getName().'_to_date');
+        $output = [];
+
+        foreach ([$fromDateMachineName, $toDateMachineName] as $machineName) {
+            if (!\array_key_exists($machineName, $rawData)) {
+                continue;
+            }
+
+            $output[$machineName] = $this->normalizeMcpDateTime($rawData[$machineName]);
+        }
+
+        return $output;
     }
 
     /**
@@ -219,6 +254,23 @@ class DateRangeFieldType extends DataFieldType
         ];
 
         return $out;
+    }
+
+    private function normalizeMcpDateTime(mixed $value): mixed
+    {
+        if ($value instanceof \DateTimeInterface) {
+            return $value->format(\DateTimeInterface::ATOM);
+        }
+
+        if (!\is_string($value) || '' === \trim($value)) {
+            return $value;
+        }
+
+        try {
+            return new \DateTimeImmutable($value)->format(\DateTimeInterface::ATOM);
+        } catch (\Throwable) {
+            return $value;
+        }
     }
 
     public static function convertJavascriptDateRangeFormat(string $format): string

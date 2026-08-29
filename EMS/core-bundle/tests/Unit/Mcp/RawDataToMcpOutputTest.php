@@ -205,6 +205,5 @@ nl']]);
         self::assertSame(['label' => 'Accueil', 'slug' => 'accueil'], $output['fr']['components'][0]['object']);
         self::assertSame('Welkom', $output['nl']['components'][0]['label']);
         self::assertSame(['label' => 'Welkom', 'slug' => 'welkom'], $output['nl']['components'][0]['object']);
-        self::assertArrayNotHasKey('_checksum', $output);
     }
 }

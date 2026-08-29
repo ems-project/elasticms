@@ -407,7 +407,7 @@ final readonly class ElasticmsMcpToolDataService
      */
     private function buildMcpRawDataFromDataFields(iterable $dataFields, array $rawData): array
     {
-        $output = [];
+        $output = $rawData;
 
         foreach ($dataFields as $dataField) {
             $fieldType = $dataField->getFieldType();
@@ -429,7 +429,7 @@ final readonly class ElasticmsMcpToolDataService
      */
     private function buildMcpRawDataFromFieldTypes(iterable $fieldTypes, array $rawData): array
     {
-        $output = [];
+        $output = $rawData;
 
         foreach ($fieldTypes as $fieldType) {
             $this->appendMcpFieldValue($fieldType, $rawData, $output);

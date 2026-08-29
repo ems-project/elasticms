@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Mcp;
 
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Entity\ContentType;
+use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Form\DataField\DataFieldType;
@@ -385,8 +386,153 @@ final readonly class ElasticmsMcpToolDataService
      */
     private function rawDataToMcpOutput(Revision $revision): array
     {
-        $rawData = \array_filter($revision->getRawData(), fn ($key) => !\str_starts_with($key, '_'), ARRAY_FILTER_USE_KEY);
+        $rawData = $revision->getRawData();
+        if (!$revision->getDataField() instanceof DataField) {
+            $this->dataService->loadDataStructure($revision, true);
+        }
 
-        return $rawData;
+        $dataField = $revision->getDataField();
+        if (!$dataField instanceof DataField) {
+            return $rawData;
+        }
+
+        return $this->buildMcpRawDataFromDataFields($dataField->getChildren(), $rawData);
+    }
+
+    /**
+     * @param iterable<int, DataField> $dataFields
+     * @param array<string, mixed>     $rawData
+     *
+     * @return array<string, mixed>
+     */
+    private function buildMcpRawDataFromDataFields(iterable $dataFields, array $rawData): array
+    {
+        $output = [];
+
+        foreach ($dataFields as $dataField) {
+            $fieldType = $dataField->getFieldType();
+            if (!$fieldType instanceof FieldType) {
+                continue;
+            }
+
+            $this->appendMcpFieldValue($fieldType, $rawData, $output);
+        }
+
+        return $output;
+    }
+
+    /**
+     * @param iterable<int, FieldType> $fieldTypes
+     * @param array<string, mixed>     $rawData
+     *
+     * @return array<string, mixed>
+     */
+    private function buildMcpRawDataFromFieldTypes(iterable $fieldTypes, array $rawData): array
+    {
+        $output = [];
+
+        foreach ($fieldTypes as $fieldType) {
+            $this->appendMcpFieldValue($fieldType, $rawData, $output);
+        }
+
+        return $output;
+    }
+
+    /**
+     * @param array<string, mixed> $rawData
+     * @param array<string, mixed> $output
+     */
+    private function appendMcpFieldValue(FieldType $fieldType, array $rawData, array &$output): void
+    {
+        if ($fieldType->isDeleted()) {
+            return;
+        }
+
+        $fieldTypeClass = $fieldType->getType();
+
+        if ($fieldTypeClass::isVirtual($fieldType->getOptions())) {
+            if (MultiplexedTabContainerFieldType::class === $fieldTypeClass) {
+                $value = $this->buildMcpValueForFieldType($fieldType, $rawData);
+                if (\is_array($value)) {
+                    foreach ($value as $propertyName => $propertyValue) {
+                        $output[$propertyName] = $propertyValue;
+                    }
+                }
+
+                return;
+            }
+
+            foreach ($fieldType->getValidChildren() as $childFieldType) {
+                $this->appendMcpFieldValue($childFieldType, $rawData, $output);
+            }
+
+            return;
+        }
+
+        if (!\array_key_exists($fieldType->getName(), $rawData)) {
+            return;
+        }
+
+        $output[$fieldType->getName()] = $this->buildMcpValueForFieldType($fieldType, $rawData[$fieldType->getName()]);
+    }
+
+    private function buildMcpValueForFieldType(FieldType $fieldType, mixed $rawData): mixed
+    {
+        $fieldTypeClass = $fieldType->getType();
+
+        if ($fieldTypeClass::isVirtual($fieldType->getOptions())) {
+            if (!$fieldTypeClass::isContainer()) {
+                return $this->getDataFieldType($fieldType)->buildMcpRawDataValue(
+                    $fieldType,
+                    $rawData,
+                    fn (FieldType $childFieldType, mixed $childRawData): mixed => $this->buildMcpValueForFieldType($childFieldType, $childRawData),
+                );
+            }
+
+            if (!\is_array($rawData)) {
+                return [];
+            }
+
+            $jsonNames = $fieldTypeClass::getJsonNames($fieldType);
+            if ([] === $jsonNames) {
+                return $this->buildMcpRawDataFromFieldTypes($fieldType->getValidChildren(), $rawData);
+            }
+
+            $output = [];
+            foreach ($jsonNames as $name) {
+                if (!isset($rawData[$name]) || !\is_array($rawData[$name])) {
+                    continue;
+                }
+
+                $output[$name] = $this->buildMcpRawDataFromFieldTypes($fieldType->getValidChildren(), $rawData[$name]);
+            }
+
+            return $output;
+        }
+
+        if ($fieldTypeClass::isCollection()) {
+            if (!\is_array($rawData)) {
+                return $rawData;
+            }
+
+            $items = [];
+            foreach ($rawData as $item) {
+                $items[] = \is_array($item)
+                    ? $this->buildMcpRawDataFromFieldTypes($fieldType->getValidChildren(), $item)
+                    : $item;
+            }
+
+            return $items;
+        }
+
+        if ($fieldTypeClass::isContainer() && \is_array($rawData)) {
+            return $this->buildMcpRawDataFromFieldTypes($fieldType->getValidChildren(), $rawData);
+        }
+
+        return $this->getDataFieldType($fieldType)->buildMcpRawDataValue(
+            $fieldType,
+            $rawData,
+            fn (FieldType $childFieldType, mixed $childRawData): mixed => $this->buildMcpValueForFieldType($childFieldType, $childRawData),
+        );
     }
 }

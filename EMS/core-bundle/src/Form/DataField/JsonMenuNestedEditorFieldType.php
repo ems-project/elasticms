@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\DataField;
 
+use EMS\CommonBundle\Json\JsonMenuNested;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Form\Field\AnalyzerPickerType;
@@ -70,6 +71,43 @@ class JsonMenuNestedEditorFieldType extends DataFieldType
     public function generateMapping(FieldType $current): array
     {
         return [$current->getName() => ['type' => 'text']];
+    }
+
+    /**
+     * @param callable(FieldType, mixed): mixed $buildChildValue
+     */
+    #[\Override]
+    public function buildMcpRawDataValue(FieldType $fieldType, mixed $rawData, callable $buildChildValue): mixed
+    {
+        if (!\is_string($rawData) && !\is_array($rawData)) {
+            return $rawData;
+        }
+
+        $jsonMenuNested = JsonMenuNested::fromStructure($rawData);
+        $nestedTypes = [];
+        foreach ($fieldType->getChildren() as $nestedContainer) {
+            $nestedTypes[$nestedContainer->getName()] = $nestedContainer;
+        }
+
+        foreach ($jsonMenuNested as $item) {
+            $nestedType = $nestedTypes[$item->getType()] ?? null;
+            if (!$nestedType instanceof FieldType) {
+                continue;
+            }
+
+            $itemObject = $item->getObject();
+            $itemObject = $buildChildValue($nestedType, $itemObject);
+            if (!\is_array($itemObject)) {
+                continue;
+            }
+
+            $item->setObject($itemObject);
+            if (\is_string($itemObject['label'] ?? null)) {
+                $item->setLabel($itemObject['label']);
+            }
+        }
+
+        return $jsonMenuNested->toArrayStructure();
     }
 
     #[\Override]

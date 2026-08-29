@@ -345,6 +345,16 @@ abstract class DataFieldType extends AbstractType
     }
 
     /**
+     * Build a field-specific value for MCP rawData output.
+     *
+     * @param callable(FieldType, mixed): mixed $buildChildValue
+     */
+    public function buildMcpRawDataValue(FieldType $fieldType, mixed $rawData, callable $buildChildValue): mixed
+    {
+        return $rawData;
+    }
+
+    /**
      * Test if the field may contain sub field.
      *
      * I.e. container, nested, array, ...

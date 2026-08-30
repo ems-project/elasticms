@@ -162,8 +162,32 @@ curl \
 
 ## Configure the MCP inspector
 
-An MCP inspector is available in the monorepo. You can start it with the command: `make start/mcp`.
-The MCP inspector will be available at
+Before starting the MCP inspector, create a `.mcp.json` file at the root of the monorepo.
+The inspector setup expects this file to define an `mcpServers` object with an `elasticms`
+server using the Streamable HTTP transport, the ElasticMS Admin MCP endpoint, and the
+authentication headers.
+
+Example:
+
+```json
+{
+  "mcpServers": {
+    "elasticms": {
+      "type": "streamable-http",
+      "url": "http://host.docker.internal:8881/api/mcp",
+      "headers": {
+        "Authorization": "Bearer <your_api_token>"
+      }
+    }
+  }
+}
+```
+
+You can adapt the `url` or add query parameters if needed for local debugging, but the file
+must exist before running `make start/mcp`.
+
+An MCP inspector is available in the monorepo. Start it with `make start/mcp`.
+The MCP inspector will then be available at
 [http://mcp-inspect.localhost/](http://mcp-inspect.localhost/).
 
 Choose these options:

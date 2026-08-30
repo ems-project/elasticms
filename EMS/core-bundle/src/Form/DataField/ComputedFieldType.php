@@ -46,9 +46,7 @@ class ComputedFieldType extends DataFieldType
         try {
             $renderedSchema = $this->twig->createTemplate($mcpOutputSchema, \sprintf('%s:%s', $fieldType->getPath(), ':mcp-output-schema'))->render([
                 'fieldType' => $fieldType,
-                'field_type' => $fieldType,
                 'contentType' => $fieldType->getContentType(),
-                'content_type' => $fieldType->getContentType(),
             ]);
 
             return Json::decode($renderedSchema);

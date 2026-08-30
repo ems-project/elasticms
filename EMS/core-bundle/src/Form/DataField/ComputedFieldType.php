@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use function Symfony\Component\Translation\t;
+
 class ComputedFieldType extends DataFieldType
 {
     #[\Override]
@@ -92,6 +94,13 @@ class ComputedFieldType extends DataFieldType
 
         $optionsForm->remove('restrictionOptions');
         $optionsForm->remove('migrationOptions');
+        if ($optionsForm->has('extraOptions')) {
+            $optionsForm->get('extraOptions')->add('mcpOutputSchema', CodeEditorType::class, [
+                'label' => t('field.mcp_output_schema', [], 'emsco-core'),
+                'required' => false,
+                'language' => 'ace/mode/twig',
+            ]);
+        }
     }
 
     /**

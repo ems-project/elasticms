@@ -209,7 +209,7 @@ final readonly class ElasticmsMcpToolDataService
         $rawDataSchema = $this->buildRawDataSchema($contentType->getFieldType(), filterEditableFields: false, includeRequired: false, isOutputSchema: true);
         $rawDataSchema['additionalProperties'] = true;
 
-        return [
+        return ElasticmsMcpJsonSchema::normalize([
             'type' => 'object',
             'properties' => [
                 'contentType' => ['type' => 'string'],
@@ -230,7 +230,7 @@ final readonly class ElasticmsMcpToolDataService
             ],
             'required' => ['contentType', 'ouuid', 'revisionId', 'draft', 'archived', 'rawData'],
             'additionalProperties' => false,
-        ];
+        ]);
     }
 
     /**
@@ -268,7 +268,7 @@ final readonly class ElasticmsMcpToolDataService
         $rawDataSchema = $this->buildRawDataSchema($contentType->getFieldType(), filterEditableFields: false, includeRequired: false, isOutputSchema: true);
         $rawDataSchema['additionalProperties'] = true;
 
-        return self::finalizeSaveDocumentOutputSchema($rawDataSchema);
+        return ElasticmsMcpJsonSchema::normalize(self::finalizeSaveDocumentOutputSchema($rawDataSchema));
     }
 
     /**
@@ -325,7 +325,7 @@ final readonly class ElasticmsMcpToolDataService
             $schema['required'] = \array_values(\array_unique($required));
         }
 
-        return ElasticmsMcpJsonSchema::normalize($schema);
+        return $schema;
     }
 
     /**
@@ -394,7 +394,7 @@ final readonly class ElasticmsMcpToolDataService
             $schema['description'] = $description;
         }
 
-        return ElasticmsMcpJsonSchema::normalize($schema);
+        return $schema;
     }
 
     private function getDataFieldType(FieldType $fieldType): DataFieldType

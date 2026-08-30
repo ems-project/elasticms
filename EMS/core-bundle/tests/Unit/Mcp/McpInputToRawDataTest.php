@@ -153,6 +153,24 @@ final class McpInputToRawDataTest extends TestCase
         self::assertSame('accueil', $result['rawData']['fr']['components'][0]['object']['slug']);
     }
 
+    public function testSaveDocumentInputSchemaHoistsJsonMenuDefinitionsAtRoot(): void
+    {
+        $authorizationChecker = $this->createStub(AuthorizationCheckerInterface::class);
+        $authorizationChecker->method('isGranted')->willReturn(true);
+
+        $service = $this->createService(authorizationChecker: $authorizationChecker);
+        $method = new \ReflectionMethod(ElasticmsMcpToolDataService::class, 'buildSaveDocumentInputSchema');
+        $schema = $method->invoke($service, $this->createPageContentType());
+
+        $frRef = '#/$defs/properties__rawData__properties__fr__properties__components__jsonMenuNestedNode';
+        $nlRef = '#/$defs/properties__rawData__properties__nl__properties__components__jsonMenuNestedNode';
+
+        self::assertSame($frRef, $schema['properties']['rawData']['properties']['fr']['properties']['components']['items']['$ref']);
+        self::assertSame($nlRef, $schema['properties']['rawData']['properties']['nl']['properties']['components']['items']['$ref']);
+        self::assertArrayHasKey('properties__rawData__properties__fr__properties__components__jsonMenuNestedNode', $schema['$defs']);
+        self::assertArrayHasKey('properties__rawData__properties__nl__properties__components__jsonMenuNestedNode', $schema['$defs']);
+    }
+
     private function createService(
         ?ContentTypeService $contentTypeService = null,
         ?DataService $dataService = null,

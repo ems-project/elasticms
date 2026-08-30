@@ -235,7 +235,7 @@ final readonly class ElasticmsMcpToolDataService
                 ],
                 'rawData' => $rawDataSchema,
             ],
-            'required' => ['contentType', 'ouuid', 'revisionId', 'draft', 'archived', 'rawData'],
+            'required' => ['contentType', 'ouuid', 'revisionId', 'draft', 'archived', 'rawData', 'url'],
             'additionalProperties' => false,
         ]);
     }
@@ -302,7 +302,7 @@ final readonly class ElasticmsMcpToolDataService
                 'archived' => ['type' => 'boolean'],
                 'rawData' => $rawDataSchema,
             ],
-            'required' => ['contentType', 'ouuid', 'revisionId', 'draft', 'archived', 'rawData'],
+            'required' => ['contentType', 'ouuid', 'revisionId', 'draft', 'archived', 'rawData', 'url'],
             'additionalProperties' => false,
         ];
     }

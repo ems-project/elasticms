@@ -37,7 +37,7 @@ final class DateTimeFieldTypeMcpTest extends TestCase
         $method = new \ReflectionMethod(ElasticmsMcpToolDataService::class, 'rawDataToMcpOutput');
         $output = $method->invoke($service, $revision);
 
-        self::assertSame('2026-02-03T04:05:06+0000', $output['published_at']);
+        self::assertSame('2026-02-03T04:05:06+00:00', $output['published_at']);
     }
 
     private function createService(FieldType $fieldType): ElasticmsMcpToolDataService

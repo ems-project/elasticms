@@ -77,7 +77,7 @@ curl \
 Expected tools:
 
 - `get_current_user`
-- one `get_document_<contentType>` tool for each content type that the authenticated user is
+- one `get_<contentType>` tool for each content type that the authenticated user is
   allowed to view
 - one `create_document_<contentType>` tool for each content type that the authenticated user is
   allowed to create
@@ -102,12 +102,12 @@ curl \
     }'
 ```
 
-## Call `get_document_news`
+## Call `get_news`
 
-Use `get_document_news` to read one document in the `news` content type by `ouuid`, with the
+Use `get_news` to read one document in the `news` content type by `ouuid`, with the
 permissions of the authenticated user.
 
-Each readable content type exposes its own `get_document_<contentType>` tool.
+Each readable content type exposes its own `get_<contentType>` tool.
 
 ```shell
 curl \
@@ -121,7 +121,7 @@ curl \
       "id":4,
       "method":"tools/call",
       "params":{
-        "name":"get_document_news",
+        "name":"get_news",
         "arguments":{
           "ouuid":"97591e4d-c71a-48ae-8504-67d09df595c2"
         }
@@ -129,9 +129,9 @@ curl \
     }' -w '\n'
 ```
 
-## Call `create_document_news`
+## Call `save_news`
 
-Use `create_document_news` to create a draft in the `news` content type. The request is allowed
+Use `save_news` to create a draft in the `news` content type. The request is allowed
 only if the authenticated user has the same creation rights as in the Admin API.
 
 The `rawData` schema is generated recursively from the target ElasticMS content type, so different
@@ -150,7 +150,7 @@ curl \
       "id":5,
       "method":"tools/call",
       "params":{
-        "name":"create_document_news",
+        "name":"save_news",
         "arguments":{
           "rawData":{
             "title":"MCP News Draft"

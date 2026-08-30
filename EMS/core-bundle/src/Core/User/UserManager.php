@@ -174,7 +174,7 @@ class UserManager
         $mailTemplate = $this->mailerService->makeMailTemplate('@'.$this->templateNamespace.self::MAIL_TEMPLATE);
         $mailTemplate
             ->addTo($user->getEmail())
-            ->setSubject('user.resetting.email.subject', ['username' => $user->getUsername()], EMSCoreBundle::TRANS_USER_DOMAIN)
+            ->setSubject('user.resetting.email.subject', ['username' => $user->getUsername()], EMSCoreBundle::TRANS_CORE)
             ->setBodyBlock('resetPassword', ['user' => $user])
         ;
 

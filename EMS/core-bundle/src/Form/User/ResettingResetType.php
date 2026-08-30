@@ -43,7 +43,7 @@ class ResettingResetType extends AbstractType
         $resolver->setDefaults([
             'csrf_token_id' => 'reset_password',
             'data_class' => User::class,
-            'translation_domain' => EMSCoreBundle::TRANS_USER_DOMAIN,
+            'translation_domain' => EMSCoreBundle::TRANS_CORE,
             'validation_groups' => ['ResetPassword', 'Default'],
         ]);
     }

@@ -36,7 +36,7 @@ class ResettingRequestType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'translation_domain' => EMSCoreBundle::TRANS_USER_DOMAIN,
+            'translation_domain' => EMSCoreBundle::TRANS_CORE,
         ]);
     }
 }

@@ -1043,6 +1043,10 @@ user:
         subtitle: Gebruikersbeheer
         title: 'Gebruiker toevoegen'
     administration: Gebruikersbeheer
+    change_password:
+        cancel: Annuleren
+        submit: 'Wachtwoord wijzigen'
+        title: 'Uw wachtwoord wijzigen'
     edit:
         card_title: '{username} bewerken'
         title: '{display_name} bewerken'
@@ -1057,6 +1061,7 @@ user:
         continue: 'Meld u aan bij uw account om verder te gaan'
         forgot: 'Ik ben mijn wachtwoord vergeten'
         message: 'Meld u aan om uw sessie te starten'
+        password: Wachtwoord
         password1_aria_label: Wachtwoord
         password_placeholder: Wachtwoord
         remember_me: 'Onthoud mij'
@@ -1064,12 +1069,15 @@ user:
         title: Welkom
         user_aria_label: 'E-mail of gebruikersnaam'
         user_placeholder: 'E-mail of gebruikersnaam'
+        username: Gebruikersnaam
         welcome_back: 'Welkom terug!'
     logout:
         exit: Afsluiten
         submit: Afmelden
     management:
         title: Gebruikersbeheer
+    new_password: 'Nieuw wachtwoord'
+    new_password_confirmation: 'Herhaal nieuw wachtwoord'
     option:
         allowed_configure_wysiwyg: 'Gebruiker toestaan om van WYSIWYG-profiel te wisselen'
         simplified_ui: 'Vereenvoudigde UI'
@@ -1102,7 +1110,11 @@ user:
             Opmerking: u kunt slechts één keer per {tokenLifetime} uur een nieuw wachtwoord aanvragen.
 
             Als u geen e-mail ontvangt, controleer dan uw spammap of probeer opnieuw.
+        email:
+            message: "Hallo {username}!\n\nOm uw wachtwoord opnieuw in te stellen, bezoek {confirmationUrl}\n\nMet vriendelijke groeten,\nHet team."
+            subject: 'Wachtwoord resetten'
         title: 'Wachtwoord resetten'
+        username_email: 'Gebruikersnaam of e-mailadres'
 view:
     contenttype:
         reorder_item:

@@ -44,7 +44,7 @@ class ChangePasswordType extends AbstractType
                 ], ],
             'first_options' => ['label' => t('key.new_password', [], 'emsco-core')],
             'second_options' => ['label' => t('key.new_password_confirmation', [], 'emsco-core')],
-            'invalid_message' => t('user.password.mismatch', [], 'emsco-validation'),
+            'invalid_message' => t('user.password.mismatch', [], 'validators'),
         ]);
     }
 

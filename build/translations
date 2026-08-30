@@ -384,7 +384,7 @@ new SingleCommandApplication()
         ->addOption('locale', 'l', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'locale(s)', ['nl', 'fr', 'en'])
         ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'bundle(s) to scan for usage; each domain is written back to the bundle it was read from', ['EMSCoreBundle', 'EMSAdminUIBundle'])
         ->addOption('write', null, InputOption::VALUE_NONE, 'write translations')
-        ->addOption('domain', 'd', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'domains', ['emsco-core', 'emsco-validation'])
+        ->addOption('domain', 'd', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'domains', ['emsco-core', 'validators'])
         ->addOption('format', null, InputOption::VALUE_REQUIRED, 'format (yml or xlf)', 'yml')
         ->setCode($command)
         ->run();

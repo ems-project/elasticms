@@ -8,6 +8,7 @@ use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Revision;
+use EMS\CoreBundle\Form\DataField\ContainerFieldType;
 use EMS\CoreBundle\Form\DataField\JsonMenuNestedEditorFieldType;
 use EMS\CoreBundle\Form\DataField\MultiplexedTabContainerFieldType;
 use EMS\CoreBundle\Form\DataField\NestedFieldType;
@@ -112,6 +113,105 @@ final class RawDataToMcpOutputTest extends TestCase
         self::assertSame(['label' => 'Accueil', 'slug' => 'accueil'], $output['fr']['components'][0]['object']);
     }
 
+    public function testItPreservesAlreadyDecodedFieldsWhenFollowingVirtualContainerReusesSameRawDataScope(): void
+    {
+        $registry = $this->createStub(FormRegistryInterface::class);
+        $registry->method('getType')->willReturnCallback(function (string $name): ResolvedFormTypeInterface {
+            $innerType = match ($name) {
+                TextStringFieldType::class => new TextStringFieldType(
+                    $this->createStub(AuthorizationCheckerInterface::class),
+                    $this->createStub(FormRegistryInterface::class),
+                    $this->createStub(ElasticsearchService::class),
+                ),
+                JsonMenuNestedEditorFieldType::class => new JsonMenuNestedEditorFieldType(
+                    $this->createStub(AuthorizationCheckerInterface::class),
+                    $this->createStub(FormRegistryInterface::class),
+                    $this->createStub(ElasticsearchService::class),
+                ),
+                ContainerFieldType::class => new ContainerFieldType(
+                    $this->createStub(AuthorizationCheckerInterface::class),
+                    $this->createStub(FormRegistryInterface::class),
+                    $this->createStub(ElasticsearchService::class),
+                ),
+                default => throw new \RuntimeException(\sprintf('Unexpected type "%s"', $name)),
+            };
+
+            $resolvedType = $this->createStub(ResolvedFormTypeInterface::class);
+            $resolvedType->method('getInnerType')->willReturn($innerType);
+
+            return $resolvedType;
+        });
+
+        $service = new ElasticmsMcpToolDataService(
+            $this->createStub(UserService::class),
+            $this->createStub(ContentTypeService::class),
+            $this->createStub(RevisionService::class),
+            $this->createStub(DataService::class),
+            $registry,
+            $this->createStub(AuthorizationCheckerInterface::class),
+            $this->createStub(LoggerInterface::class),
+            $this->createStub(LoggerInterface::class),
+        );
+
+        $labelField = new FieldType()->setName('label')->setType(TextStringFieldType::class);
+        $layoutField = new FieldType()->setName('layout')->setType(TextStringFieldType::class);
+        $metaTitleField = new FieldType()->setName('meta_title')->setType(TextStringFieldType::class);
+        $descriptionField = new FieldType()->setName('description')->setType(TextStringFieldType::class);
+
+        $gridField = new FieldType()->setName('grid')->setType(NestedFieldType::class);
+        $gridField->addChild($labelField)->addChild($layoutField);
+
+        $componentsField = new FieldType()->setName('components')->setType(JsonMenuNestedEditorFieldType::class);
+        $componentsField->addChild($gridField);
+
+        $seoField = new FieldType()->setName('seo')->setType(ContainerFieldType::class);
+        $seoField->addChild($metaTitleField)->addChild($descriptionField);
+
+        $localesField = new FieldType()
+            ->setName('locales')
+            ->setType(MultiplexedTabContainerFieldType::class)
+            ->setOptions(['displayOptions' => ['values' => 'fr']]);
+        $localesField->addChild($componentsField)->addChild($seoField);
+
+        $contentTypeRoot = new FieldType()->setName('source')->setType(NestedFieldType::class);
+        $contentTypeRoot->addChild($localesField);
+        $contentType = new ContentType()->setName('page')->setFieldType($contentTypeRoot);
+
+        $rootDataField = new DataField();
+        $rootDataField->addChild(new DataField()->setFieldType($localesField));
+
+        $revision = new Revision()
+            ->setContentType($contentType)
+            ->setRawData([
+                'fr' => [
+                    'components' => Json::encode([
+                        [
+                            'id' => 'node-fr',
+                            'type' => 'grid',
+                            'label' => 'Contact',
+                            'object' => [
+                                'label' => 'Contact',
+                                'layout' => 'grid-narrow',
+                            ],
+                            'children' => [],
+                        ],
+                    ]),
+                    'meta_title' => 'Meta title',
+                    'description' => 'Meta description',
+                ],
+            ])
+            ->setDataField($rootDataField);
+
+        $method = new \ReflectionMethod(ElasticmsMcpToolDataService::class, 'rawDataToMcpOutput');
+        $output = $method->invoke($service, $revision);
+
+        self::assertIsArray($output['fr']['components']);
+        self::assertSame('grid', $output['fr']['components'][0]['type']);
+        self::assertSame('grid-narrow', $output['fr']['components'][0]['object']['layout']);
+        self::assertSame('Meta title', $output['fr']['meta_title']);
+        self::assertSame('Meta description', $output['fr']['description']);
+    }
+
     public function testItBuildsMcpRawDataRecursivelyIncludingJsonMenuNestedObjectsInLocales(): void
     {
         $registry = $this->createStub(FormRegistryInterface::class);
@@ -164,7 +264,12 @@ nl']]);
         $rootDataField = new DataField();
         $rootDataField->addChild(new DataField()->setFieldType($localesField));
 
+        $contentTypeRoot = new FieldType()->setName('source')->setType(NestedFieldType::class);
+        $contentTypeRoot->addChild($localesField);
+        $contentType = new ContentType()->setName('page')->setFieldType($contentTypeRoot);
+
         $revision = new Revision()
+            ->setContentType($contentType)
             ->setRawData([
                 'fr' => [
                     'components' => Json::encode([

@@ -479,6 +479,11 @@ final readonly class ElasticmsMcpToolDataService
             $value = $this->buildMcpValueForFieldType($fieldType, $rawData);
             if (\is_array($value)) {
                 foreach ($value as $propertyName => $propertyValue) {
+                    if (\array_key_exists($propertyName, $output)
+                        && (!\array_key_exists($propertyName, $rawData) || $output[$propertyName] !== $rawData[$propertyName])) {
+                        continue;
+                    }
+
                     $output[$propertyName] = $propertyValue;
                 }
 

@@ -21,7 +21,20 @@ class ComputedFieldType extends DataFieldType
     #[\Override]
     public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return $this->generateUnsupportedJsonSchema();
+        if (!$isOutputSchema) {
+            return [];
+        }
+
+        $mcpOutputSchema = $fieldType->getExtraOption('mcpOutputSchema');
+        if (!\is_string($mcpOutputSchema) || '' === \trim($mcpOutputSchema)) {
+            return [];
+        }
+
+        try {
+            return Json::decode($mcpOutputSchema);
+        } catch (\Throwable) {
+            return [];
+        }
     }
 
     #[\Override]

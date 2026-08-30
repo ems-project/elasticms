@@ -236,31 +236,6 @@ abstract class DataFieldType extends AbstractType
         return [];
     }
 
-    /**
-     * @return array<string, mixed>
-     */
-    protected function generateUnsupportedJsonSchema(): array
-    {
-        return [
-            'type' => [
-                'anyOf' => [[
-                    'type' => 'object',
-                ], [
-                    'type' => 'array',
-                ], [
-                    'type' => 'string',
-                ], [
-                    'type' => 'number',
-                ], [
-                    'type' => 'boolean',
-                ], [
-                    'type' => 'null',
-                ]],
-            ],
-            'description' => \sprintf('ElasticMS field type "%s".', static::class),
-        ];
-    }
-
     public static function getIcon(): string
     {
         return 'fa fa-square';

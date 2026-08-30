@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\User;
 
-use EMS\CoreBundle\EMSCoreBundle;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+
 use function Symfony\Component\Translation\t;
 
 /**

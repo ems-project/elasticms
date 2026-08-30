@@ -7,7 +7,6 @@ namespace EMS\CoreBundle\Core\User;
 use EMS\CoreBundle\Core\Mail\MailerService;
 use EMS\CoreBundle\Core\Security\Canonicalizer;
 use EMS\CoreBundle\Core\Security\Token;
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Repository\AuthTokenRepository;
@@ -22,6 +21,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AccountExpiredException;
 use Symfony\Component\Security\Core\Exception\DisabledException;
 use Symfony\Component\String\ByteString;
+
 use function Symfony\Component\Translation\t;
 
 class UserManager

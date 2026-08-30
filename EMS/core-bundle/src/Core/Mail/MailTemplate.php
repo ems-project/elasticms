@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Mail;
 
-use EMS\CoreBundle\EMSCoreBundle;
 use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\TemplateWrapper;
@@ -96,9 +95,6 @@ final class MailTemplate
         return $this->body;
     }
 
-    /**
-     * @param array<mixed> $parameters
-     */
     public function setSubject(string|TranslatableMessage $key): self
     {
         if ($key instanceof TranslatableMessage) {

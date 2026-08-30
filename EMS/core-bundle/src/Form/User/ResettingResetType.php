@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\User;
 
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -12,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 use function Symfony\Component\Translation\t;
 
 /**
@@ -43,7 +43,7 @@ class ResettingResetType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_token_id' => 'reset_password',
-            'data_class' => User::class
+            'data_class' => User::class,
         ]);
     }
 }

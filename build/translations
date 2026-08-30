@@ -34,53 +34,10 @@ use function Symfony\Component\String\u;
 
 /**
  * @param list<BundleInterface> $bundles
- * @param list<string>          $domains
- *
- * @return array{
- *     rows: list<array{0: string, 1: string, 2: string, 3: string|null}>,
- *     summary: array<string, array{used: int, unused: int, new: int}>,
- * }
  */
-function buildLocale(
-        SymfonyStyle $io,
-        Container $container,
-        string $locale,
-        array $bundles,
-        array $domains,
-        bool $write,
-        string $format,
-): array {
-    $io->section(\sprintf('Locale: %s', $locale));
-
-    /** @var TranslationReaderInterface $reader */
-    $reader = $container->get('translation.reader');
-
-    $io->writeln('Building current translations');
-    $currentCatalogue = new MessageCatalogue($locale);
-    $domainToBundleDir = [];
-    foreach ($bundles as $bundle) {
-        $bundleDir = $bundle->getPath();
-        $bundleCatalogue = new MessageCatalogue($locale);
-        $reader->read($bundleDir.'/translations', $bundleCatalogue);
-        foreach ($bundleCatalogue->getDomains() as $bundleDomain) {
-            $domainToBundleDir[$bundleDomain] ??= $bundleDir;
-            $currentCatalogue->add($bundleCatalogue->all($bundleDomain), $bundleDomain);
-        }
-    }
-
-    $catalogueDomains = $currentCatalogue->getDomains();
-    foreach ($domains as $domain) {
-        if (!\in_array($domain, $catalogueDomains, true)) {
-            throw new \RuntimeException(\sprintf('Invalid domain: %s', $domain));
-        }
-    }
-
-    if (0 === \count($domains)) {
-        $domains = $catalogueDomains;
-    }
-
-    $io->writeln('Extracting translation keys from code');
-    $extractedCatalogue = new MessageCatalogue($locale);
+function extractCatalogue(SymfonyStyle $io, Container $container, array $bundles): MessageCatalogue
+{
+    $extractedCatalogue = new MessageCatalogue('und');
     $finder = new Finder()
             ->ignoreUnreadableDirs()
             ->ignoreVCSIgnored(true)
@@ -109,6 +66,7 @@ function buildLocale(
         $progressBar->finish();
         $io->newLine();
     }
+    $io->newLine();
 
     $validationDomain = $container->hasParameter('validator.translation_domain')
             ? $container->getParameter('validator.translation_domain')
@@ -116,6 +74,56 @@ function buildLocale(
 
     if (\is_string($validationDomain) && 'validators' !== $validationDomain) {
         $extractedCatalogue->add($extractedCatalogue->all('validators'), $validationDomain);
+    }
+
+    return $extractedCatalogue;
+}
+
+/**
+ * @param list<BundleInterface> $bundles
+ * @param list<string>          $domains
+ *
+ * @return array{
+ *     rows: list<array{0: string, 1: string, 2: string, 3: string|null}>,
+ *     summary: array<string, array{used: int, unused: int, new: int}>,
+ * }
+ */
+function buildLocale(
+        SymfonyStyle $io,
+        Container $container,
+        string $locale,
+        array $bundles,
+        array $domains,
+        MessageCatalogue $extractedCatalogue,
+        bool $write,
+        string $format,
+): array {
+    $io->writeln(\sprintf('Build catalogue: %s', $locale));
+
+    /** @var TranslationReaderInterface $reader */
+    $reader = $container->get('translation.reader');
+
+    $currentCatalogue = new MessageCatalogue($locale);
+    $domainToBundleDir = [];
+    foreach ($bundles as $bundle) {
+        $bundleDir = $bundle->getPath();
+        $bundleCatalogue = new MessageCatalogue($locale);
+        $reader->read($bundleDir.'/translations', $bundleCatalogue);
+        foreach ($bundleCatalogue->getDomains() as $bundleDomain) {
+            $domainToBundleDir[$bundleDomain] ??= $bundleDir;
+            $currentCatalogue->add($bundleCatalogue->all($bundleDomain), $bundleDomain);
+        }
+    }
+
+    $catalogueDomains = $currentCatalogue->getDomains();
+    foreach ($domains as $domain) {
+        if (!\in_array($domain, $catalogueDomains, true)) {
+            throw new \RuntimeException(\sprintf('Invalid domain: %s', $domain));
+        }
+    }
+
+    if (0 === \count($domains)) {
+        $domains = $catalogueDomains;
     }
 
     $filterCurrentCatalogue = new MessageCatalogue($locale);
@@ -246,7 +254,7 @@ $command = static function (InputInterface $input, OutputInterface $output): int
         throw new \RuntimeException('Invalid format');
     }
 
-    $io->writeln('Booting admin kernel');
+    $io->section('Booting admin kernel');
     new Dotenv()->load(__DIR__.'/../elasticms-admin/.env');
     $adminKernel = new Kernel('test', true);
     $adminKernel->boot();
@@ -261,9 +269,13 @@ $command = static function (InputInterface $input, OutputInterface $output): int
             \sprintf('Bundles: %s', \implode(', ', \array_map(static fn (BundleInterface $bundle) => $bundle->getPath(), $bundles))),
     ]);
 
+    $io->section('Extracting translation keys from code');
+    $extractedCatalogue = extractCatalogue($io, $container, $bundles);
+
+    $io->section('Build');
     $allResults = [];
     foreach ($locales as $locale) {
-        $allResults[$locale] = buildLocale($io, $container, $locale, $bundles, $domains, $write, $format);
+        $allResults[$locale] = buildLocale($io, $container, $locale, $bundles, $domains, $extractedCatalogue, $write, $format);
     }
 
     foreach ($allResults as $locale => $result) {

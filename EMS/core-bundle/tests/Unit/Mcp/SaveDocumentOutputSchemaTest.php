@@ -38,7 +38,7 @@ final class SaveDocumentOutputSchemaTest extends TestCase
 
         self::assertSame('boolean', $schema['properties']['archived']['type']);
         self::assertSame($rawDataSchema, $schema['properties']['rawData']);
-        self::assertSame(['contentType', 'ouuid', 'revisionId', 'draft', 'archived', 'rawData'], $schema['required']);
+        self::assertSame(['contentType', 'ouuid', 'revisionId', 'draft', 'archived', 'rawData', 'url'], $schema['required']);
     }
 
     public function testRawDataSchemaIgnoresMappingOnlyFields(): void

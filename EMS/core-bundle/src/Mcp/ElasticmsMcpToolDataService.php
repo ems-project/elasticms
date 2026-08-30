@@ -709,4 +709,70 @@ final readonly class ElasticmsMcpToolDataService
             'type' => $revision->giveContentType()->getName(),
         ], UrlGeneratorInterface::ABSOLUTE_URL);
     }
+
+    public function addDataTools(Builder $builder): void
+    {
+        $builder->addTool(
+            handler: $this->finalizeRevision(...),
+            name: 'finalize',
+            description: 'Finalize a draft revision.',
+            inputSchema: [
+                'type' => 'object',
+                'properties' => [
+                    'id' => [
+                        'type' => 'integer',
+                        'description' => 'The revision ID.',
+                    ],
+                ],
+                'required' => ['id'],
+                'additionalProperties' => false,
+            ],
+            outputSchema: ElasticmsMcpJsonSchema::normalize([
+                'type' => 'object',
+                'properties' => [
+                    'contentType' => ['type' => 'string'],
+                    'ouuid' => ['type' => 'string'],
+                    'url' => ['type' => 'string'],
+                    'revisionId' => ['type' => 'integer'],
+                    'draft' => ['type' => 'boolean'],
+                    'archived' => ['type' => 'boolean'],
+                    'label' => [
+                        'type' => [
+                            'anyOf' => [[
+                                'type' => 'string',
+                            ], [
+                                'type' => 'null',
+                            ]],
+                        ],
+                    ],
+                ],
+                'required' => ['contentType', 'ouuid', 'revisionId', 'draft', 'archived', 'rawData', 'url'],
+                'additionalProperties' => true,
+            ]),
+        );
+    }
+
+    /**
+     * @return array{contentType: string, ouuid: string, url: string, revisionId: int, draft: bool, archived: bool, label: ?string}
+     */
+    private function finalizeRevision(int $id): array
+    {
+        return $this->wrapToolCall('finalize', [
+            'id' => $id,
+        ], function () use ($id): array {
+            $revision = $this->revisionService->getByRevisionId($id);
+            $revision->autoSaveToRawData();
+            $revision = $this->dataService->finalizeDraft($revision);
+
+            return [
+                'contentType' => $revision->giveContentType()->getName(),
+                'ouuid' => $revision->giveOuuid(),
+                'revisionId' => $revision->getId(),
+                'draft' => $revision->isDraft(),
+                'archived' => $revision->isArchived(),
+                'label' => $revision->getLabel(),
+                'url' => $this->getRevisionUrl($revision),
+            ];
+        });
+    }
 }

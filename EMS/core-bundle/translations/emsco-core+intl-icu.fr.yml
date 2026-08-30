@@ -207,6 +207,8 @@ environment:
         subtitle: 'il est temps d’aligner les environnements ?'
         title: 'Aligner les environnements'
     edit:
+        notice_rename: "Si vous avez l’intention de renommer l’alias, \nveuillez créer un nouvel environnement et l’aligner sur celui dont vous souhaitez renommer l’alias.\nSupprimez ensuite l’ancien.\n"
+        save: Mettre à jour
         short_title: 'Modifier l’environnement'
         title: 'Modifier l’environnement « {name} »'
     index:
@@ -220,12 +222,23 @@ environment:
         indexes: Indexes
         total: Total
     plural: Environnements
+    property:
+        base_url: 'URL de base'
+        color: Couleur
+        label: Libellé
+        name: Nom
+        option:
+            default_search: 'Dans la recherche par défaut'
+            update_referrers: 'Mettre à jour les référents'
+        rolePublish: 'Rôle de publication'
+        template_publication: 'Modèle de publication'
     rebuild:
         notice: 'Soyez prudent, selon l’option sélectionnée, certains contenus de l’index de recherche peuvent être perdus.'
         options:
             title: 'Sélectionnez vos options'
         short_title: 'Reconstruire l’index'
         title: 'Reconstruire l’environnement {name}'
+    single: Environnement
     view:
         elasticsearch_index_missing: 'L’index Elasticsearch est manquant !'
         elasticsearch_information: 'Informations Elasticsearch'

@@ -63,7 +63,7 @@ class EditEnvironmentType extends AbstractType
             ])
             ->add('rolePublish', RolePickerType::class, [
                 'label' => 'environment.property.rolePublish',
-                'translation_domain' => EMSCoreBundle::TRANS_ENVIRONMENT_DOMAIN,
+                'translation_domain' => EMSCoreBundle::TRANS_CORE,
                 'required' => false,
             ])
             ->add('save', SubmitEmsType::class, [
@@ -86,7 +86,7 @@ class EditEnvironmentType extends AbstractType
     {
         $resolver->setDefaults([
             'type' => null,
-            'translation_domain' => EMSCoreBundle::TRANS_ENVIRONMENT_DOMAIN,
+            'translation_domain' => EMSCoreBundle::TRANS_CORE,
         ]);
     }
 }

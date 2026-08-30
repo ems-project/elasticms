@@ -207,6 +207,8 @@ environment:
         subtitle: 'tijd om omgevingen uit te lijnen?'
         title: 'Omgevingen uitlijnen'
     edit:
+        notice_rename: "Als u de alias wilt hernoemen, \nmaak dan een nieuwe omgeving aan en lijn deze uit met de omgeving waarvan u de alias wilt hernoemen.\nVerwijder vervolgens de vorige.\n"
+        save: Bijwerken
         short_title: 'Omgeving bewerken'
         title: 'Omgeving "{name}" bewerken'
     index:
@@ -220,12 +222,23 @@ environment:
         indexes: Indexen
         total: Totaal
     plural: Omgevingen
+    property:
+        base_url: 'Basis-URL'
+        color: Kleur
+        label: Label
+        name: Naam
+        option:
+            default_search: 'In standaardzoekopdracht'
+            update_referrers: 'Verwijzers bijwerken'
+        rolePublish: Publicatierol
+        template_publication: Publicatiesjabloon
     rebuild:
         notice: 'Wees voorzichtig: afhankelijk van de geselecteerde optie kan bepaalde inhoud in de zoekindex verloren gaan.'
         options:
             title: 'Selecteer uw opties'
         short_title: 'Index heropbouwen'
         title: 'Omgeving {name} heropbouwen'
+    single: Omgeving
     view:
         elasticsearch_index_missing: 'Elasticsearch-index ontbreekt!'
         elasticsearch_information: Elasticsearch-informatie

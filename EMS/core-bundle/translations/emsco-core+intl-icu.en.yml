@@ -207,6 +207,8 @@ environment:
         subtitle: 'time to align environments?'
         title: 'Align Environments'
     edit:
+        notice_rename: "If you intend to rename the alias, \nplease create a new environment and align it to the one you would like to rename the alias.\nThen delete the previous one.\n"
+        save: Update
         short_title: 'Edit environment'
         title: 'Edit the environment "{name}"'
     index:
@@ -220,12 +222,23 @@ environment:
         indexes: Indexes
         total: Total
     plural: Environments
+    property:
+        base_url: 'Base URL'
+        color: Color
+        label: Label
+        name: Name
+        option:
+            default_search: 'In default search'
+            update_referrers: 'Update referrers'
+        rolePublish: 'Publish role'
+        template_publication: 'Publication template'
     rebuild:
         notice: 'Be cautious, depending of the option selected some content in the search index may be lost.'
         options:
             title: 'Select your options'
         short_title: 'Rebuild index'
         title: 'Rebuild the environment {name}'
+    single: Environment
     view:
         elasticsearch_index_missing: 'Elasticsearch index is missing !'
         elasticsearch_information: 'Elasticsearch information'

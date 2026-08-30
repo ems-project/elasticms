@@ -330,6 +330,11 @@ abstract class DataFieldType extends AbstractType
         return $rawData;
     }
 
+    public function mcpInputToRawValue(FieldType $fieldType, mixed $rawData): mixed
+    {
+        return $rawData;
+    }
+
     protected function normalizeMcpDateTimeValue(mixed $value, string $outputFormat = \DateTimeInterface::ATOM): mixed
     {
         if ($value instanceof \DateTimeInterface) {

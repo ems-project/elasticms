@@ -10,6 +10,7 @@ use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Form\Field\AnalyzerPickerType;
 use EMS\CoreBundle\Form\Field\IconPickerType;
 use EMS\CoreBundle\Form\Field\IconTextType;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -117,6 +118,11 @@ class JsonMenuNestedEditorFieldType extends DataFieldType
     }
 
     #[\Override]
+    public function mcpInputToRawValue(FieldType $fieldType, mixed $rawData): mixed
+    {
+        return \is_array($rawData) ? Json::encode($rawData) : $rawData;
+    }
+
     public function buildOptionsForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildOptionsForm($builder, $options);

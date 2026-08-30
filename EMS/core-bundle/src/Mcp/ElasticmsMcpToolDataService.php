@@ -104,6 +104,8 @@ final readonly class ElasticmsMcpToolDataService
             }
 
             try {
+                $rawData = $this->mcpInputToRawData($resolvedContentType, $rawData);
+
                 if (null === $revision) {
                     if (!$this->authorizationChecker->isGranted($resolvedContentType->role(ContentTypeRoles::CREATE))) {
                         throw new ToolCallException(\sprintf('Create access is not granted for content type "%s".', $contentType));
@@ -422,6 +424,130 @@ final readonly class ElasticmsMcpToolDataService
         }
 
         return $this->buildMcpRawDataFromDataFields($dataField->getChildren(), $rawData);
+    }
+
+    /**
+     * @param  mixed[] $rawData
+     * @return mixed[]
+     */
+    private function mcpInputToRawData(ContentType $contentType, array $rawData): array
+    {
+        return $this->buildRawDataFromMcpFieldTypes($contentType->getFieldType()->getValidChildren(), $rawData);
+    }
+
+    /**
+     * @param iterable<int, FieldType> $fieldTypes
+     * @param array<string, mixed>     $rawData
+     *
+     * @return array<string, mixed>
+     */
+    private function buildRawDataFromMcpFieldTypes(iterable $fieldTypes, array $rawData): array
+    {
+        $output = $rawData;
+
+        foreach ($fieldTypes as $fieldType) {
+            $this->appendRawDataFieldValue($fieldType, $rawData, $output);
+        }
+
+        return $output;
+    }
+
+    /**
+     * @param mixed[] $rawData
+     * @param mixed[] $output
+     */
+    private function appendRawDataFieldValue(FieldType $fieldType, array $rawData, array &$output): void
+    {
+        if ($fieldType->isDeleted()) {
+            return;
+        }
+
+        $fieldTypeClass = $fieldType->getType();
+
+        if ($fieldTypeClass::isVirtual($fieldType->getOptions())) {
+            $value = $this->mcpInputToRawValueForFieldType($fieldType, $rawData);
+            if (\is_array($value)) {
+                foreach ($value as $propertyName => $propertyValue) {
+                    if (\array_key_exists($propertyName, $output)
+                        && (!\array_key_exists($propertyName, $rawData) || $output[$propertyName] !== $rawData[$propertyName])) {
+                        continue;
+                    }
+
+                    $output[$propertyName] = $propertyValue;
+                }
+
+                return;
+            }
+
+            foreach ($fieldType->getValidChildren() as $childFieldType) {
+                $this->appendRawDataFieldValue($childFieldType, $rawData, $output);
+            }
+
+            return;
+        }
+
+        if (!\array_key_exists($fieldType->getName(), $rawData)) {
+            return;
+        }
+
+        $output[$fieldType->getName()] = $this->mcpInputToRawValueForFieldType($fieldType, $rawData[$fieldType->getName()]);
+    }
+
+    private function mcpInputToRawValueForFieldType(FieldType $fieldType, mixed $rawData): mixed
+    {
+        $fieldTypeClass = $fieldType->getType();
+        $rawData = $this->getDataFieldType($fieldType)->mcpInputToRawValue($fieldType, $rawData);
+
+        if (!\is_array($rawData)) {
+            return $rawData;
+        }
+
+        if ($fieldTypeClass::isVirtual($fieldType->getOptions())) {
+            if (!$fieldTypeClass::isContainer()) {
+                return $rawData;
+            }
+
+            if (!\is_array($rawData)) {
+                return [];
+            }
+
+            $jsonNames = $fieldTypeClass::getJsonNames($fieldType);
+            if ([] === $jsonNames) {
+                return $this->buildRawDataFromMcpFieldTypes($fieldType->getValidChildren(), $rawData);
+            }
+
+            $output = [];
+            foreach ($jsonNames as $name) {
+                if (!isset($rawData[$name]) || !\is_array($rawData[$name])) {
+                    continue;
+                }
+
+                $output[$name] = $this->buildRawDataFromMcpFieldTypes($fieldType->getValidChildren(), $rawData[$name]);
+            }
+
+            return $output;
+        }
+
+        if ($fieldTypeClass::isCollection()) {
+            if (!\is_array($rawData)) {
+                return $rawData;
+            }
+
+            $items = [];
+            foreach ($rawData as $item) {
+                $items[] = \is_array($item)
+                    ? $this->buildRawDataFromMcpFieldTypes($fieldType->getValidChildren(), $item)
+                    : $item;
+            }
+
+            return $items;
+        }
+
+        if ($fieldTypeClass::isContainer() && \is_array($rawData)) {
+            return $this->buildRawDataFromMcpFieldTypes($fieldType->getValidChildren(), $rawData);
+        }
+
+        return $rawData;
     }
 
     /**

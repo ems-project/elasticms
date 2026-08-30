@@ -488,6 +488,7 @@ key:
     context: Context
     control_sidebar: 'Control sidebar'
     created: Created
+    current_password: 'Current password'
     dashboards: Dashboards
     delayed_unassigned_shards: 'Delayed unassigned shards'
     details: Details
@@ -518,6 +519,8 @@ key:
     managed_aliases: 'Managed aliases'
     message: Message
     name: Name
+    new_password: 'New password'
+    new_password_confirmation: 'Repeat new password'
     none: None
     not-applicable: N/A
     notice: Notice
@@ -563,9 +566,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
-    current_password: 'Current password'
-    new_password: 'New password'
-    new_password_confirmation: 'Repeat new password'
 log:
     error:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'

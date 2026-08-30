@@ -7,16 +7,16 @@ revision:
     version_to_greater_one_day: 'Moet minstens 1 dag groter zijn dan "{fromField}"'
 user:
     current_password_invalid: 'Het ingevoerde wachtwoord is ongeldig.'
-    username:
-        short: 'De gebruikersnaam is te kort.'
-        long: 'De gebruikersnaam is te lang.'
-        already_used: 'De gebruikersnaam is al in gebruik.'
     email:
         already_used: 'Het e-mailadres is al in gebruik.'
-        short: 'Het e-mailadres is te kort.'
-        long: 'Het e-mailadres is te lang.'
         invalid: 'Dit is geen geldig e-mailadres.'
+        long: 'Het e-mailadres is te lang.'
+        short: 'Het e-mailadres is te kort.'
     password:
+        long: 'Het wachtwoord is te lang.'
         mismatch: 'De ingevoerde wachtwoorden komen niet overeen.'
         short: 'Het wachtwoord is te kort.'
-        long: 'Het wachtwoord is te lang.'
+    username:
+        already_used: 'De gebruikersnaam is al in gebruik.'
+        long: 'De gebruikersnaam is te lang.'
+        short: 'De gebruikersnaam is te kort.'

@@ -7,16 +7,16 @@ revision:
     version_to_greater_one_day: 'Should be at least 1 day greater then "{fromField}"'
 user:
     current_password_invalid: 'The entered password is invalid.'
-    username:
-        short: 'The username is too short.'
-        long: 'The username is too long.'
-        already_used: 'The username is already used.'
     email:
         already_used: 'The email is already used.'
-        short: 'The email is too short.'
-        long: 'The email is too long.'
         invalid: 'This value is not a valid email address.'
+        long: 'The email is too long.'
+        short: 'The email is too short.'
     password:
-        mismatch: 'The entered passwords don''t match.'
-        short: 'The password is too short.'
         long: 'The password is long short.'
+        mismatch: "The entered passwords don't match."
+        short: 'The password is too short.'
+    username:
+        already_used: 'The username is already used.'
+        long: 'The username is too long.'
+        short: 'The username is too short.'

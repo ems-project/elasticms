@@ -488,6 +488,7 @@ key:
     context: Context
     control_sidebar: Controlezijbalk
     created: Aangemaakt
+    current_password: key.current_password
     dashboards: Dashboards
     delayed_unassigned_shards: 'Vertraagde niet-toegewezen shards'
     details: Details
@@ -518,6 +519,8 @@ key:
     managed_aliases: 'Beheerde aliassen'
     message: Bericht
     name: Naam
+    new_password: key.new_password
+    new_password_confirmation: key.new_password_confirmation
     none: Geen
     not-applicable: N.v.t.
     notice: Melding

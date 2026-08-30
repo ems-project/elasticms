@@ -282,7 +282,13 @@ final readonly class ElasticmsMcpToolDataService
             'type' => 'object',
             'properties' => [
                 'contentType' => ['type' => 'string'],
-                'ouuid' => ['type' => 'string'],
+                'ouuid' => ['type' => [
+                    'anyOf' => [[
+                        'type' => 'string',
+                    ], [
+                        'type' => 'null',
+                    ]],
+                ]],
                 'revisionId' => ['type' => 'integer'],
                 'draft' => ['type' => 'boolean'],
                 'archived' => ['type' => 'boolean'],

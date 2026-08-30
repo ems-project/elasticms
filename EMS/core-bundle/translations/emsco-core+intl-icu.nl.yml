@@ -277,6 +277,7 @@ field:
     date_run_previous: 'Vorige uitvoeringsdatum'
     date_upload: Uploaddatum
     definition: Definitie
+    description: Beschrijving
     editor: Editor
     email_content_type: 'Contenttype (bv. text/html)'
     enabled: Ingeschakeld
@@ -316,6 +317,9 @@ field:
     label: Label
     last_seen: 'Laatst gezien'
     locale: Locale
+    mcp_input_schema: 'MCP invoerschema-template (JSON)'
+    mcp_output_schema: 'MCP antwoordstemplate (JSON)'
+    mcp_response: 'MCP uitvoerschema-template (JSON)'
     message: Bericht
     name: Naam
     plural: Meervoud
@@ -516,6 +520,8 @@ key:
     loop_count: '#'
     lucene_version: Lucene-versie
     managed_aliases: 'Beheerde aliassen'
+    mcp: MCP
+    mcp_tools: MCP-tools
     message: Bericht
     name: Naam
     none: Geen
@@ -545,6 +551,7 @@ key:
     sort_by: 'Sorteren op'
     status: Status
     structure: Structuur
+    system_logs: Systeemlogboeken
     tagline: Tagline
     task_max_waiting_in_queue_millis: 'Maximale wachttijd van taak in wachtrij'
     tiptap: Tiptap

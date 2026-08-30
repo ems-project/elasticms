@@ -73,7 +73,7 @@ final class McpToolType extends AbstractType
                 ],
             ])
             ->add('input_schema', CodeEditorType::class, [
-                'label' => t('field.input_schema', [], 'emsco-core'),
+                'label' => t('field.mcp_input_schema', [], 'emsco-core'),
                 'required' => false,
                 'language' => 'ace/mode/twig',
                 'row_attr' => [
@@ -81,7 +81,7 @@ final class McpToolType extends AbstractType
                 ],
             ])
             ->add('output_schema', CodeEditorType::class, [
-                'label' => t('field.output_schema', [], 'emsco-core'),
+                'label' => t('field.mcp_output_schema', [], 'emsco-core'),
                 'required' => false,
                 'language' => 'ace/mode/twig',
                 'row_attr' => [
@@ -89,7 +89,7 @@ final class McpToolType extends AbstractType
                 ],
             ])
             ->add('response', CodeEditorType::class, [
-                'label' => t('field.response', [], 'emsco-core'),
+                'label' => t('field.mcp_response', [], 'emsco-core'),
                 'required' => false,
                 'language' => 'ace/mode/twig',
                 'row_attr' => [

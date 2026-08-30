@@ -37,7 +37,7 @@ The demo project contains an exported custom MCP tool definition in [`demo/confi
 
 ```json
 {
-    "class": "EMS\CoreBundle\Entity\McpTool",
+    "class": "EMS\\CoreBundle\\Entity\\McpTool",
     "arguments": [],
     "properties": {
         "name": "list_news",

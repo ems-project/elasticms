@@ -513,10 +513,6 @@ final readonly class ElasticmsMcpToolDataService
                 return $rawData;
             }
 
-            if (!\is_array($rawData)) {
-                return [];
-            }
-
             $jsonNames = $fieldTypeClass::getJsonNames($fieldType);
             if ([] === $jsonNames) {
                 return $this->buildRawDataFromMcpFieldTypes($fieldType->getValidChildren(), $rawData);
@@ -535,10 +531,6 @@ final readonly class ElasticmsMcpToolDataService
         }
 
         if ($fieldTypeClass::isCollection()) {
-            if (!\is_array($rawData)) {
-                return $rawData;
-            }
-
             $items = [];
             foreach ($rawData as $item) {
                 $items[] = \is_array($item)
@@ -549,7 +541,7 @@ final readonly class ElasticmsMcpToolDataService
             return $items;
         }
 
-        if ($fieldTypeClass::isContainer() && \is_array($rawData)) {
+        if ($fieldTypeClass::isContainer()) {
             return $this->buildRawDataFromMcpFieldTypes($fieldType->getValidChildren(), $rawData);
         }
 

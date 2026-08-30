@@ -91,7 +91,7 @@ class DateRangeFieldType extends DataFieldType
                 continue;
             }
 
-            $output[$machineName] = $this->normalizeMcpDateTime($rawData[$machineName]);
+            $output[$machineName] = $this->normalizeMcpDateTimeValue($rawData[$machineName]);
         }
 
         return $output;
@@ -254,23 +254,6 @@ class DateRangeFieldType extends DataFieldType
         ];
 
         return $out;
-    }
-
-    private function normalizeMcpDateTime(mixed $value): mixed
-    {
-        if ($value instanceof \DateTimeInterface) {
-            return $value->format(\DateTimeInterface::ATOM);
-        }
-
-        if (!\is_string($value) || '' === \trim($value)) {
-            return $value;
-        }
-
-        try {
-            return new \DateTimeImmutable($value)->format(\DateTimeInterface::ATOM);
-        } catch (\Throwable) {
-            return $value;
-        }
     }
 
     public static function convertJavascriptDateRangeFormat(string $format): string

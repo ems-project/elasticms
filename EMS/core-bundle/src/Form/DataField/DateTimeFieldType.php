@@ -39,6 +39,15 @@ class DateTimeFieldType extends DataFieldType
         return 'date_time_field_type';
     }
 
+    /**
+     * @param callable(FieldType, mixed): mixed $buildChildValue
+     */
+    #[\Override]
+    public function buildMcpRawDataValue(FieldType $fieldType, mixed $rawData, callable $buildChildValue): mixed
+    {
+        return $this->normalizeMcpDateTimeValue($rawData);
+    }
+
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {

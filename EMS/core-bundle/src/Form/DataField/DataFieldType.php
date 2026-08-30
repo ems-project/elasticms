@@ -355,11 +355,23 @@ abstract class DataFieldType extends AbstractType
         return $rawData;
     }
 
-    /**
-     * Test if the field may contain sub field.
-     *
-     * I.e. container, nested, array, ...
-     */
+    protected function normalizeMcpDateTimeValue(mixed $value, string $outputFormat = \DateTimeInterface::ATOM): mixed
+    {
+        if ($value instanceof \DateTimeInterface) {
+            return $value->format($outputFormat);
+        }
+
+        if (!\is_string($value) || '' === \trim($value)) {
+            return $value;
+        }
+
+        try {
+            return new \DateTimeImmutable($value)->format($outputFormat);
+        } catch (\Throwable) {
+            return $value;
+        }
+    }
+
     public static function isContainer(): bool
     {
         return false;

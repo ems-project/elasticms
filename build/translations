@@ -95,11 +95,7 @@ function buildLocale(
         )));
 
     $extractors = [
-        ['Parsing php files', '*.php', new PhpAstExtractor([
-            new Visitor\ConstraintVisitor(),
-            new Visitor\TransMethodVisitor(),
-            new Visitor\TranslatableMessageVisitor(),
-        ])],
+        ['Parsing php files', '*.php', $container->get('translation.extractor.php_ast')],
         ['Parsing twig files', '*.twig', $container->get('twig.translation.extractor')],
     ];
 
@@ -116,6 +112,14 @@ function buildLocale(
 
         $progressBar->finish();
         $io->newLine();
+    }
+
+    $validationDomain = $container->hasParameter('validator.translation_domain')
+            ? $container->getParameter('validator.translation_domain')
+            : 'validators';
+
+    if (\is_string($validationDomain) && 'validators' !== $validationDomain) {
+        $extractedCatalogue->add($extractedCatalogue->all('validators'), $validationDomain);
     }
 
     $filterCurrentCatalogue = new MessageCatalogue($locale);

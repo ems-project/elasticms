@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class DateRangeFieldType extends DataFieldType
 {
     #[\Override]
-    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema): array
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
         $fromDateMachineName = (string) $fieldType->getMappingOption('fromDateMachineName', $fieldType->getName().'_from_date');
         $toDateMachineName = (string) $fieldType->getMappingOption('toDateMachineName', $fieldType->getName().'_to_date');

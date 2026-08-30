@@ -82,7 +82,7 @@ class ActionFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema): array
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
         return [];
     }

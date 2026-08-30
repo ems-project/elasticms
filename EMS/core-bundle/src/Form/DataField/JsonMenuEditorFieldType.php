@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class JsonMenuEditorFieldType extends DataFieldType
 {
     #[\Override]
-    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema): array
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
         return $this->buildLegacyJsonMenuSchema($fieldType, $buildObjectSchema);
     }

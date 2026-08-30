@@ -16,7 +16,7 @@ class DateTimeFieldType extends DataFieldType
     public const string DEFAULT_DISPLAY_FORMAT = 'D/MM/YYYY HH:mm:ss';
 
     #[\Override]
-    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema): array
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
         return ['type' => 'string', 'format' => 'date-time'];
     }

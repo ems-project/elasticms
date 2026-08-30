@@ -1076,8 +1076,6 @@ user:
         submit: 'Sign out'
     management:
         title: 'User management'
-    new_password: 'New password'
-    new_password_confirmation: 'Repeat new password'
     option:
         allowed_configure_wysiwyg: "Allow user to switch WYSIWYG's profile"
         simplified_ui: 'Simplified UI'
@@ -1111,7 +1109,13 @@ user:
 
             If you don't get an email check your spam folder or try again.
         email:
-            message: "Hello {username}!\n\nTo reset your password - please visit {confirmationUrl}\n\nRegards,\nthe Team."
+            message: |-
+                Hello {username}!
+
+                To reset your password - please visit {confirmationUrl}
+
+                Regards,
+                the Team.
             subject: 'Reset Password'
         title: 'Reset password'
         username_email: 'Username or email address'

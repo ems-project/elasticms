@@ -1076,8 +1076,6 @@ user:
         submit: Afmelden
     management:
         title: Gebruikersbeheer
-    new_password: 'Nieuw wachtwoord'
-    new_password_confirmation: 'Herhaal nieuw wachtwoord'
     option:
         allowed_configure_wysiwyg: 'Gebruiker toestaan om van WYSIWYG-profiel te wisselen'
         simplified_ui: 'Vereenvoudigde UI'
@@ -1111,7 +1109,13 @@ user:
 
             Als u geen e-mail ontvangt, controleer dan uw spammap of probeer opnieuw.
         email:
-            message: "Hallo {username}!\n\nOm uw wachtwoord opnieuw in te stellen, bezoek {confirmationUrl}\n\nMet vriendelijke groeten,\nHet team."
+            message: |-
+                Hallo {username}!
+
+                Om uw wachtwoord opnieuw in te stellen, bezoek {confirmationUrl}
+
+                Met vriendelijke groeten,
+                Het team.
             subject: 'Wachtwoord resetten'
         title: 'Wachtwoord resetten'
         username_email: 'Gebruikersnaam of e-mailadres'

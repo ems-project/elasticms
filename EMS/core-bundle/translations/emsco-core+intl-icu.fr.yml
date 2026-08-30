@@ -1076,8 +1076,6 @@ user:
         submit: 'Se déconnecter'
     management:
         title: 'Gestion des utilisateurs'
-    new_password: 'Nouveau mot de passe'
-    new_password_confirmation: 'Répéter le nouveau mot de passe'
     option:
         allowed_configure_wysiwyg: "Autorise l'utilisateur à changer de profile WYSIWYG"
         simplified_ui: 'Interfaces simplifiées'
@@ -1111,7 +1109,13 @@ user:
 
             Si vous ne recevez pas d’e-mail, vérifiez votre dossier de spam ou réessayez.
         email:
-            message: "Bonjour {username} !\n\nPour réinitialiser votre mot de passe, veuillez visiter {confirmationUrl}\n\nCordialement,\nL'équipe."
+            message: |-
+                Bonjour {username} !
+
+                Pour réinitialiser votre mot de passe, veuillez visiter {confirmationUrl}
+
+                Cordialement,
+                L'équipe.
             subject: 'Réinitialiser le mot de passe'
         title: 'Réinitialiser le mot de passe'
         username_email: 'Nom d’utilisateur ou adresse e-mail'

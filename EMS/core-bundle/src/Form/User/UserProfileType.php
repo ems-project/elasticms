@@ -109,7 +109,6 @@ class UserProfileType extends AbstractType
             'csrf_token_id' => 'profile',
             'data_class' => User::class,
             'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
-            'validation_groups' => ['Profile', 'Default'],
         ]);
     }
 }

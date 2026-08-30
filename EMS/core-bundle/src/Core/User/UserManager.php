@@ -22,6 +22,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AccountExpiredException;
 use Symfony\Component\Security\Core\Exception\DisabledException;
 use Symfony\Component\String\ByteString;
+use function Symfony\Component\Translation\t;
 
 class UserManager
 {
@@ -174,7 +175,7 @@ class UserManager
         $mailTemplate = $this->mailerService->makeMailTemplate('@'.$this->templateNamespace.self::MAIL_TEMPLATE);
         $mailTemplate
             ->addTo($user->getEmail())
-            ->setSubject('user.resetting.email.subject', ['username' => $user->getUsername()], EMSCoreBundle::TRANS_CORE)
+            ->setSubject(t('user.resetting.email.subject', ['username' => $user->getUsername()], 'emsco-core'))
             ->setBodyBlock('resetPassword', ['user' => $user])
         ;
 

@@ -23,8 +23,6 @@ use Symfony\Component\Translation\Catalogue\TargetOperation;
 use Symfony\Component\Translation\Dumper\XliffFileDumper;
 use Symfony\Component\Translation\Dumper\YamlFileDumper;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
-use Symfony\Component\Translation\Extractor\PhpAstExtractor;
-use Symfony\Component\Translation\Extractor\Visitor;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\Reader\TranslationReaderInterface;
@@ -35,24 +33,22 @@ use Symfony\Component\Yaml\Yaml;
 use function Symfony\Component\String\u;
 
 /**
- * Processes a single locale: reads the current translations of the given bundles,
- * extracts translation keys actually used in those bundles' src/templates, diffs
- * them, optionally writes the result back (each domain to the bundle it originates
- * from), and returns the report rows for the summary table.
- *
  * @param list<BundleInterface> $bundles
  * @param list<string>          $domains
  *
- * @return list<array{0: string, 1: string, 2: string, 3: string|null}>
+ * @return array{
+ *     rows: list<array{0: string, 1: string, 2: string, 3: string|null}>,
+ *     summary: array<string, array{used: int, unused: int, new: int}>,
+ * }
  */
 function buildLocale(
-    SymfonyStyle $io,
-    Container $container,
-    string $locale,
-    array $bundles,
-    array $domains,
-    bool $write,
-    string $format,
+        SymfonyStyle $io,
+        Container $container,
+        string $locale,
+        array $bundles,
+        array $domains,
+        bool $write,
+        string $format,
 ): array {
     $io->section(\sprintf('Locale: %s', $locale));
 
@@ -86,17 +82,17 @@ function buildLocale(
     $io->writeln('Extracting translation keys from code');
     $extractedCatalogue = new MessageCatalogue($locale);
     $finder = new Finder()
-        ->ignoreUnreadableDirs()
-        ->ignoreVCSIgnored(true)
-        ->notPath('/src/(Command|DependencyInjection|Entity|Repository)')
-        ->in(\array_merge(...\array_map(
-            static fn (BundleInterface $bundle) => [$bundle->getPath().'/src', $bundle->getPath().'/templates'],
-            $bundles
-        )));
+            ->ignoreUnreadableDirs()
+            ->ignoreVCSIgnored(true)
+            ->notPath('/src/(Command|DependencyInjection|Entity|Repository)')
+            ->in(\array_merge(...\array_map(
+                    static fn (BundleInterface $bundle) => [$bundle->getPath().'/src', $bundle->getPath().'/templates'],
+                    $bundles
+            )));
 
     $extractors = [
-        ['Parsing php files', '*.php', $container->get('translation.extractor.php_ast')],
-        ['Parsing twig files', '*.twig', $container->get('twig.translation.extractor')],
+            ['Parsing php files', '*.php', $container->get('translation.extractor.php_ast')],
+            ['Parsing twig files', '*.twig', $container->get('twig.translation.extractor')],
     ];
 
     foreach ($extractors as [$title, $name, $extractor]) {
@@ -128,10 +124,10 @@ function buildLocale(
         $domainIntl = $domain.MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
 
         if ($intlMessages = $currentCatalogue->all($domainIntl)) {
-            $filterCurrentCatalogue->add($intlMessages, $domainIntl); // add intl domain message
+            $filterCurrentCatalogue->add($intlMessages, $domainIntl);
         }
         if ($messages = \array_diff($currentCatalogue->all($domain), $intlMessages)) {
-            $filterCurrentCatalogue->add($messages, $domainIntl); // add the message from domain
+            $filterCurrentCatalogue->add($messages, $domainIntl);
         }
 
         $filterExtractedCatalogue->add($extractedCatalogue->all($domain), $domainIntl);
@@ -160,16 +156,13 @@ function buildLocale(
             public function formatCatalogue(MessageCatalogue $messages, string $domain, array $options = []): string
             {
                 return Yaml::dump(
-                    input: ArrayConverter::expandToTree($messages->all($domain)),
-                    inline: 5,
-                    flags: Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK
+                        input: ArrayConverter::expandToTree($messages->all($domain)),
+                        inline: 5,
+                        flags: Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK
                 );
             }
         });
 
-        // group domains per originating bundle directory, so each domain is
-        // written back next to where it was read from, even though several
-        // bundles were scanned together to detect usage.
         $messagesByBundleDir = [];
         foreach ($domains as $domain) {
             $bundleDir = $domainToBundleDir[$domain] ?? $bundles[0]->getPath();
@@ -185,20 +178,21 @@ function buildLocale(
 
             $translationWriter->write($bundleCatalogue, $format, match ($format) {
                 'yml' => [
-                    'path' => $bundleDir.'/translations',
-                    'as_tree' => true,
-                    'inline' => 5,
+                        'path' => $bundleDir.'/translations',
+                        'as_tree' => true,
+                        'inline' => 5,
                 ],
                 'xlf' => [
-                    'path' => $bundleDir.'/translations',
-                    'version' => '1.2',
-                    'default_locale' => 'en',
+                        'path' => $bundleDir.'/translations',
+                        'version' => '1.2',
+                        'default_locale' => 'en',
                 ],
             });
         }
     }
 
     $rows = [];
+    $summary = [];
     foreach ($domains as $domain) {
         $domainObsoleteKeys = \array_keys($operation->getObsoleteMessages($domain));
         \sort($domainObsoleteKeys);
@@ -216,14 +210,23 @@ function buildLocale(
         \sort($allKeys);
         foreach ($allKeys as $key) {
             $message = u($operation->getResult()->get($key, $domain))
-                ->collapseWhitespace()
-                ->truncate(50, ' ...');
+                    ->collapseWhitespace()
+                    ->truncate(50, ' ...');
 
             $rows[$domain][] = ['<fg=green>used</>', $domain, $key, $message->toString()];
         }
+
+        $summary[$domain] = [
+                'used' => \count($allKeys),
+                'unused' => \count($domainObsoleteKeys),
+                'new' => \count($domainNewKeys),
+        ];
     }
 
-    return \array_reduce($rows, static fn ($carry, $item) => \array_merge($carry, $item, [new TableSeparator()]), []);
+    return [
+            'rows' => \array_reduce($rows, static fn ($carry, $item) => \array_merge($carry, $item, [new TableSeparator()]), []),
+            'summary' => $summary,
+    ];
 }
 
 $command = static function (InputInterface $input, OutputInterface $output): int {
@@ -239,12 +242,6 @@ $command = static function (InputInterface $input, OutputInterface $output): int
     $write = $input->getOption('write');
     $format = $input->getOption('format');
 
-    if (0 === \count($locales)) {
-        throw new \RuntimeException('At least one --locale is required');
-    }
-    if (0 === \count($bundleNames)) {
-        throw new \RuntimeException('At least one --bundle is required');
-    }
     if (!\in_array($format, ['yml', 'xlf'], true)) {
         throw new \RuntimeException('Invalid format');
     }
@@ -259,47 +256,64 @@ $command = static function (InputInterface $input, OutputInterface $output): int
     $bundles = \array_map(static fn (string $name) => $adminKernel->getBundle($name), $bundleNames);
 
     $io->listing([
-        \sprintf('Locales: %s', \implode(', ', $locales)),
-        \sprintf('Bundles: %s', \implode(', ', \array_map(static fn (BundleInterface $bundle) => $bundle->getPath(), $bundles))),
+            \sprintf('Locales: %s', \implode(', ', $locales)),
+            \sprintf('Domains: %s', \implode(', ', $domains)),
+            \sprintf('Bundles: %s', \implode(', ', \array_map(static fn (BundleInterface $bundle) => $bundle->getPath(), $bundles))),
     ]);
 
-    $allRows = [];
+    $allResults = [];
     foreach ($locales as $locale) {
-        $allRows[$locale] = buildLocale($io, $container, $locale, $bundles, $domains, $write, $format);
+        $allResults[$locale] = buildLocale($io, $container, $locale, $bundles, $domains, $write, $format);
     }
 
-    foreach ($allRows as $locale => $rows) {
-        if (0 === \count($rows)) {
+    foreach ($allResults as $locale => $result) {
+        $io->newLine();
+
+        if ($io->isVerbose()) {
+            $rows = $result['rows'];
+            if (0 === \count($rows)) {
+                continue;
+            }
+            $rows = \array_slice($rows, 0, -1);
+
+            $io
+                    ->createTable()
+                    ->setHeaderTitle(\sprintf('Info (%s)', $locale))
+                    ->setHeaders(['State', 'Domain', 'Id', \sprintf('Message (%s)', $locale)])
+                    ->setRows($rows)
+                    ->render();
+
             continue;
         }
 
-        $rows = \array_slice($rows, 0, -1); // remove last separator
-
-        $io->newLine();
-        $io
-            ->createTable()
-            ->setHeaderTitle(\sprintf('Info (%s)', $locale))
-            ->setHeaders(['State', 'Domain', 'Id', \sprintf('Message (%s)', $locale)])
-            ->setRows($rows)
-            ->render();
+        $io->writeln(\sprintf('<info>%s</info>', $locale));
+        foreach ($result['summary'] as $domain => $counts) {
+            $io->writeln(\sprintf(
+                    '  %s: used %d, unused %d, new %d',
+                    $domain,
+                    $counts['used'],
+                    $counts['unused'],
+                    $counts['new']
+            ));
+        }
     }
 
     $buildStopWatch = $stopWatch->stop('build');
     $io->newLine();
     $io->listing([
-        \sprintf('Duration: %d s', $buildStopWatch->getDuration() / 1000),
-        \sprintf('Memory: %s', Number::formatBytes($buildStopWatch->getMemory())),
+            \sprintf('Duration: %d s', $buildStopWatch->getDuration() / 1000),
+            \sprintf('Memory: %s', Number::formatBytes($buildStopWatch->getMemory())),
     ]);
 
     return Command::SUCCESS;
 };
 
 new SingleCommandApplication()
-    ->setName('Build: extract translations')
-    ->addOption('locale', 'l', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'locale(s)')
-    ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'bundle(s) to scan for usage; each domain is written back to the bundle it was read from')
-    ->addOption('write', null, InputOption::VALUE_NONE, 'write translations')
-    ->addOption('domain', 'd', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'domains')
-    ->addOption('format', null, InputOption::VALUE_REQUIRED, 'format (yml or xlf)', 'yml')
-    ->setCode($command)
-    ->run();
+        ->setName('Build: extract translations')
+        ->addOption('locale', 'l', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'locale(s)', ['nl', 'fr', 'en'])
+        ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'bundle(s) to scan for usage; each domain is written back to the bundle it was read from', ['EMSCoreBundle', 'EMSAdminUIBundle'])
+        ->addOption('write', null, InputOption::VALUE_NONE, 'write translations')
+        ->addOption('domain', 'd', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'domains', ['emsco-core', 'emsco-validation'])
+        ->addOption('format', null, InputOption::VALUE_REQUIRED, 'format (yml or xlf)', 'yml')
+        ->setCode($command)
+        ->run();

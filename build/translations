@@ -85,8 +85,9 @@ function extractCatalogue(SymfonyStyle $io, Container $container, array $bundles
  *
  * @return array{
  *     rows: list<array{0: string, 1: string, 2: string, 3: string|null}>,
- *     summary: array<string, array{used: int, unused: int, new: int}>,
+ *     summary: array<string, array{used: int, unused: int, new: int, untranslated: int}>,
  *     unused: array<string, list<array{key: string, message: string|null}>>,
+ *     untranslated: array<string, list<array{key: string, message: string}>>,
  * }
  */
 function buildLocale(
@@ -203,6 +204,7 @@ function buildLocale(
     $rows = [];
     $summary = [];
     $unused = [];
+    $untranslated = [];
     foreach ($domains as $domain) {
         $domainObsoleteKeys = \array_keys($operation->getObsoleteMessages($domain));
         \sort($domainObsoleteKeys);
@@ -220,7 +222,16 @@ function buildLocale(
         $allKeys = \array_diff(\array_keys($operation->getMessages($domain)), $domainNewKeys);
         \sort($allKeys);
         foreach ($allKeys as $key) {
-            $message = u($operation->getResult()->get($key, $domain))
+            $rawMessage = $operation->getResult()->get($key, $domain);
+
+            if ($key === $rawMessage) {
+                $rows[$domain][] = ['<fg=yellow>untranslated</>', $domain, $key, $rawMessage];
+                $untranslated[$domain][] = ['key' => $key, 'message' => $rawMessage];
+
+                continue;
+            }
+
+            $message = u($rawMessage)
                 ->collapseWhitespace()
                 ->truncate(50, ' ...');
 
@@ -228,9 +239,10 @@ function buildLocale(
         }
 
         $summary[$domain] = [
-            'used' => \count($allKeys),
+            'used' => \count($allKeys) - \count($untranslated[$domain] ?? []),
             'unused' => \count($domainObsoleteKeys),
             'new' => \count($domainNewKeys),
+            'untranslated' => \count($untranslated[$domain] ?? []),
         ];
     }
 
@@ -238,6 +250,7 @@ function buildLocale(
         'rows' => \array_reduce($rows, static fn ($carry, $item) => \array_merge($carry, $item, [new TableSeparator()]), []),
         'summary' => $summary,
         'unused' => $unused,
+        'untranslated' => $untranslated,
     ];
 }
 
@@ -305,15 +318,20 @@ $command = static function (InputInterface $input, OutputInterface $output): int
         $io->writeln(\sprintf('<info>%s</info>', $locale));
         foreach ($result['summary'] as $domain => $counts) {
             $io->writeln(\sprintf(
-                '  %s: used %d, unused %d, new %d',
+                '  %s: used %d, unused %d, new %d, untranslated %d',
                 $domain,
                 $counts['used'],
                 $counts['unused'],
-                $counts['new']
+                $counts['new'],
+                $counts['untranslated']
             ));
 
             foreach ($result['unused'][$domain] ?? [] as $unused) {
                 $io->writeln(\sprintf('    <fg=red>unused</> %s: %s', $unused['key'], $unused['message']));
+            }
+
+            foreach ($result['untranslated'][$domain] ?? [] as $item) {
+                $io->writeln(\sprintf('    <fg=yellow>untranslated</> %s', $item['key']));
             }
         }
     }

@@ -166,9 +166,6 @@ core:
                 =1      {There is one index}
                 other   {There are # indexes}
             }
-    modal:
-        close: Close
-        loading: Loading...
     version: 'Version {core} with Symfony {symfony}'
 data:
     add:
@@ -188,20 +185,6 @@ data:
 documentation:
     api:
         title: Documentation
-edit_image:
-    flip:
-        group: Flip
-        horizontal: 'Flip horizontal'
-        vertical: 'Flip vertical'
-    rotate:
-        group: Rotate
-        left: 'Rotate left'
-        right: 'Rotate right'
-    zoom:
-        group: Zoom
-        minus: 'Zoom in'
-        plus: 'Zoom out'
-        reset: 'Reset view'
 entity:
     edit:
         title: 'Edit {entity_name}'

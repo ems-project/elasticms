@@ -174,7 +174,7 @@ docs-init: ## init docs
 
 ## —— Build ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 build-translations: ## build translations
-	@php build/translations
+	@php build/translations --write
 	@$(RUN_CLI) translation:extract  fr --force --format=yaml --domain=messages
 	@$(RUN_CLI) translation:extract  nl --force --format=yaml --domain=messages
 	@$(RUN_CLI) translation:extract  de --force --format=yaml --domain=messages

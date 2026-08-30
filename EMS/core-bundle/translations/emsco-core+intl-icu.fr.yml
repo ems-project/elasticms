@@ -488,7 +488,7 @@ key:
     context: Contexte
     control_sidebar: 'Barre latérale de contrôle'
     created: Créé
-    current_password: key.current_password
+    current_password: 'Mot de passe actuel'
     dashboards: Dashboards
     delayed_unassigned_shards: 'Shards non assignés retardés'
     details: Détails
@@ -519,8 +519,8 @@ key:
     managed_aliases: 'Alias gérés'
     message: Message
     name: Nom
-    new_password: key.new_password
-    new_password_confirmation: key.new_password_confirmation
+    new_password: 'Nouveau mot de passe'
+    new_password_confirmation: 'Répéter le nouveau mot de passe'
     none: Aucun
     not-applicable: N/A
     notice: Notice

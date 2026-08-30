@@ -86,6 +86,7 @@ function extractCatalogue(SymfonyStyle $io, Container $container, array $bundles
  * @return array{
  *     rows: list<array{0: string, 1: string, 2: string, 3: string|null}>,
  *     summary: array<string, array{used: int, unused: int, new: int}>,
+ *     unused: array<string, list<array{key: string, message: string|null}>>,
  * }
  */
 function buildLocale(
@@ -201,11 +202,13 @@ function buildLocale(
 
     $rows = [];
     $summary = [];
+    $unused = [];
     foreach ($domains as $domain) {
         $domainObsoleteKeys = \array_keys($operation->getObsoleteMessages($domain));
         \sort($domainObsoleteKeys);
         foreach ($domainObsoleteKeys as $key) {
             $rows[$domain][] = ['<fg=red>unused</>', $domain, $key, $filterCurrentCatalogue->get($key, $domain)];
+            $unused[$domain][] = ['key' => $key, 'message' => $filterCurrentCatalogue->get($key, $domain)];
         }
 
         $domainNewKeys = \array_keys($operation->getNewMessages($domain));
@@ -218,8 +221,8 @@ function buildLocale(
         \sort($allKeys);
         foreach ($allKeys as $key) {
             $message = u($operation->getResult()->get($key, $domain))
-                    ->collapseWhitespace()
-                    ->truncate(50, ' ...');
+                ->collapseWhitespace()
+                ->truncate(50, ' ...');
 
             $rows[$domain][] = ['<fg=green>used</>', $domain, $key, $message->toString()];
         }
@@ -234,6 +237,7 @@ function buildLocale(
     return [
         'rows' => \array_reduce($rows, static fn ($carry, $item) => \array_merge($carry, $item, [new TableSeparator()]), []),
         'summary' => $summary,
+        'unused' => $unused,
     ];
 }
 
@@ -307,6 +311,10 @@ $command = static function (InputInterface $input, OutputInterface $output): int
                 $counts['unused'],
                 $counts['new']
             ));
+
+            foreach ($result['unused'][$domain] ?? [] as $unused) {
+                $io->writeln(\sprintf('    <fg=red>unused</> %s: %s', $unused['key'], $unused['message']));
+            }
         }
     }
 

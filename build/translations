@@ -37,6 +37,7 @@ use function Symfony\Component\String\u;
  */
 function extractCatalogue(SymfonyStyle $io, Container $container, array $bundles): MessageCatalogue
 {
+    $io->writeln('Extracting translation keys from code');
     $extractedCatalogue = new MessageCatalogue('und');
     $finder = new Finder()
             ->ignoreUnreadableDirs()
@@ -66,7 +67,6 @@ function extractCatalogue(SymfonyStyle $io, Container $container, array $bundles
         $progressBar->finish();
         $io->newLine();
     }
-    $io->newLine();
 
     $validationDomain = $container->hasParameter('validator.translation_domain')
             ? $container->getParameter('validator.translation_domain')
@@ -81,13 +81,33 @@ function extractCatalogue(SymfonyStyle $io, Container $container, array $bundles
 
 /**
  * @param list<BundleInterface> $bundles
+ */
+function readCatalogue(Container $container, string $locale, array $bundles): MessageCatalogue
+{
+    /** @var TranslationReaderInterface $reader */
+    $reader = $container->get('translation.reader');
+
+    $catalogue = new MessageCatalogue($locale);
+    foreach ($bundles as $bundle) {
+        $bundleCatalogue = new MessageCatalogue($locale);
+        $reader->read($bundle->getPath().'/translations', $bundleCatalogue);
+        foreach ($bundleCatalogue->getDomains() as $bundleDomain) {
+            $catalogue->add($bundleCatalogue->all($bundleDomain), $bundleDomain);
+        }
+    }
+
+    return $catalogue;
+}
+
+/**
+ * @param list<BundleInterface> $bundles
  * @param list<string>          $domains
  *
  * @return array{
  *     rows: list<array{0: string, 1: string, 2: string, 3: string|null}>,
  *     summary: array<string, array{used: int, unused: int, new: int, untranslated: int}>,
  *     unused: array<string, list<array{key: string, message: string|null}>>,
- *     untranslated: array<string, list<array{key: string, message: string}>>,
+ *     untranslated: array<string, list<array{key: string, english: string|null}>>,
  * }
  */
 function buildLocale(
@@ -97,14 +117,16 @@ function buildLocale(
     array $bundles,
     array $domains,
     MessageCatalogue $extractedCatalogue,
+    MessageCatalogue $englishCatalogue,
     bool $write,
     string $format,
 ): array {
-    $io->writeln(\sprintf('Build catalogue: %s', $locale));
+    $io->section(\sprintf('Locale: %s', $locale));
 
     /** @var TranslationReaderInterface $reader */
     $reader = $container->get('translation.reader');
 
+    $io->writeln('Building current translations');
     $currentCatalogue = new MessageCatalogue($locale);
     $domainToBundleDir = [];
     foreach ($bundles as $bundle) {
@@ -225,15 +247,23 @@ function buildLocale(
             $rawMessage = $operation->getResult()->get($key, $domain);
 
             if ($key === $rawMessage) {
-                $rows[$domain][] = ['<fg=yellow>untranslated</>', $domain, $key, $rawMessage];
-                $untranslated[$domain][] = ['key' => $key, 'message' => $rawMessage];
+                $englishMessage = null;
+                if ('en' !== $locale && $englishCatalogue->has($key, $domain)) {
+                    $candidate = $englishCatalogue->get($key, $domain);
+                    if ($candidate !== $key) {
+                        $englishMessage = $candidate;
+                    }
+                }
+
+                $rows[$domain][] = ['<fg=yellow>untranslated</>', $domain, $key, $englishMessage ?? $rawMessage];
+                $untranslated[$domain][] = ['key' => $key, 'english' => $englishMessage];
 
                 continue;
             }
 
             $message = u($rawMessage)
-                ->collapseWhitespace()
-                ->truncate(50, ' ...');
+                    ->collapseWhitespace()
+                    ->truncate(50, ' ...');
 
             $rows[$domain][] = ['<fg=green>used</>', $domain, $key, $message->toString()];
         }
@@ -271,7 +301,7 @@ $command = static function (InputInterface $input, OutputInterface $output): int
         throw new \RuntimeException('Invalid format');
     }
 
-    $io->section('Booting admin kernel');
+    $io->writeln('Booting admin kernel');
     new Dotenv()->load(__DIR__.'/../elasticms-admin/.env');
     $adminKernel = new Kernel('test', true);
     $adminKernel->boot();
@@ -286,13 +316,12 @@ $command = static function (InputInterface $input, OutputInterface $output): int
         \sprintf('Bundles: %s', \implode(', ', \array_map(static fn (BundleInterface $bundle) => $bundle->getPath(), $bundles))),
     ]);
 
-    $io->section('Extracting translation keys from code');
     $extractedCatalogue = extractCatalogue($io, $container, $bundles);
+    $englishCatalogue = readCatalogue($container, 'en', $bundles);
 
-    $io->section('Build');
     $allResults = [];
     foreach ($locales as $locale) {
-        $allResults[$locale] = buildLocale($io, $container, $locale, $bundles, $domains, $extractedCatalogue, $write, $format);
+        $allResults[$locale] = buildLocale($io, $container, $locale, $bundles, $domains, $extractedCatalogue, $englishCatalogue, $write, $format);
     }
 
     foreach ($allResults as $locale => $result) {
@@ -331,7 +360,11 @@ $command = static function (InputInterface $input, OutputInterface $output): int
             }
 
             foreach ($result['untranslated'][$domain] ?? [] as $item) {
-                $io->writeln(\sprintf('    <fg=yellow>untranslated</> %s', $item['key']));
+                if (null !== $item['english']) {
+                    $io->writeln(\sprintf('    <fg=yellow>untranslated</> %s (en: %s)', $item['key'], $item['english']));
+                } else {
+                    $io->writeln(\sprintf('    <fg=yellow>untranslated</> %s', $item['key']));
+                }
             }
         }
     }

@@ -1,14 +1,23 @@
 # Custom MCP tools
 
-ElasticMS can expose custom MCP tools directly from the admin interface. These tools are managed in the **MCP Tools** admin screen and are stored as [`EMS\CoreBundle\Entity\McpTool`](../../../../EMS/core-bundle/src/Entity/McpTool.php) entities edited with the [`EMS\CoreBundle\Form\Form\McpToolType`](../../../../EMS/core-bundle/src/Form/Form/McpToolType.php) form.
+ElasticMS can expose custom MCP tools directly from the admin interface. These tools are managed in
+the **MCP Tools** admin screen and are stored as
+[`EMS\CoreBundle\Entity\McpTool`](../../../../EMS/core-bundle/src/Entity/McpTool.php) entities
+edited with the
+[`EMS\CoreBundle\Form\Form\McpToolType`](../../../../EMS/core-bundle/src/Form/Form/McpToolType.php)
+form.
 
-This makes it possible to add business-specific MCP tools without changing PHP code, as long as the tool can be described with Twig-rendered JSON schemas and a Twig-rendered JSON response.
+This makes it possible to add business-specific MCP tools without changing PHP code, as long as the
+tool can be described with Twig-rendered JSON schemas and a Twig-rendered JSON response.
 
 ## Where to configure custom tools
 
 In the ElasticMS admin, open the **MCP Tools** menu.
 
-Each entry is handled by [`McpToolController`](../../../../EMS/core-bundle/src/Controller/Admin/McpToolController.php) and persisted through [`McpToolService`](../../../../EMS/core-bundle/src/Service/Mcp/McpToolService.php).
+Each entry is handled by
+[`McpToolController`](../../../../EMS/core-bundle/src/Controller/Admin/McpToolController.php) and
+persisted through
+[`McpToolService`](../../../../EMS/core-bundle/src/Service/Mcp/McpToolService.php).
 
 A custom tool is available to the MCP server when:
 
@@ -20,7 +29,8 @@ A custom tool is available to the MCP server when:
 
 The `McpTool` entity contains the fields that define the MCP tool:
 
-- `name`: technical tool name exposed by the MCP server. `McpToolService` slugifies it with `_` separators before persistence.
+- `name`: technical tool name exposed by the MCP server. `McpToolService` slugifies it with `_`
+  separators before persistence.
 - `label`: admin label.
 - `role`: minimum ElasticMS role required to see and call the tool.
 - `description`: MCP tool description shown to clients.
@@ -29,11 +39,13 @@ The `McpTool` entity contains the fields that define the MCP tool:
 - `response`: Twig template returning the actual JSON payload of the tool response.
 - `enabled`: enables or disables the tool.
 
-In the admin UI, `McpToolType` exposes these fields through a standard form and uses `CodeEditorType` with Twig syntax highlighting for `input_schema`, `output_schema`, and `response`.
+In the admin UI, `McpToolType` exposes these fields through a standard form and uses
+`CodeEditorType` with Twig syntax highlighting for `input_schema`, `output_schema`, and `response`.
 
 ## Demo example: `list_news`
 
-The demo project contains an exported custom MCP tool definition in [`demo/configs/admin/mcp-tool/list_news.json`](../../../../demo/configs/admin/mcp-tool/list_news.json).
+The demo project contains an exported custom MCP tool definition in
+[`demo/configs/admin/mcp-tool/list_news.json`](../../../../demo/configs/admin/mcp-tool/list_news.json).
 
 ```json
 {
@@ -126,7 +138,8 @@ The demo response template is:
 - Keep schemas strict with `additionalProperties: false` when possible.
 - Keep the response shape aligned with `outputSchema`.
 - Restrict access with the smallest useful `role`.
-- Use exported JSON files, like `demo/configs/admin/mcp-tool/list_news.json`, to version custom tools in Git.
+- Use exported JSON files, like `demo/configs/admin/mcp-tool/list_news.json`, to version custom
+  tools in Git.
 
 ## Import and versioning
 

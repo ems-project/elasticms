@@ -68,7 +68,6 @@ use EMS\CoreBundle\Controller\Views\CriteriaController;
 use EMS\CoreBundle\Controller\Views\HierarchicalController;
 use EMS\CoreBundle\Controller\Webhook\WebhookController;
 use EMS\CoreBundle\Controller\Wysiwyg\AjaxPasteController;
-use EMS\CoreBundle\Controller\Wysiwyg\ModalController;
 use EMS\CoreBundle\Controller\Wysiwyg\StylesetController;
 use EMS\CoreBundle\Core\Revision\Json\JsonMenuRenderer;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
@@ -768,17 +767,6 @@ return static function (ContainerConfigurator $container) {
             service('emsco.logger'),
         ])
         ->tag('controller.service_arguments');
-
-    $services->set(ModalController::class)
-        ->public()
-        ->args([
-            service('ems.service.revision'),
-            service('twig'),
-            service('ems_core.core_ui.flash_message_logger'),
-            '%ems_core.template_namespace%',
-        ])
-        ->call('setContainer')
-        ->tag('container.service_subscriber');
 
     $services->set(StylesetController::class)
         ->public()

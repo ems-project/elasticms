@@ -1,12 +1,12 @@
-{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'ems-adminui-environment' %}
+{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
 
-{% block title %}{{ 'environment.edit.title'|trans({'%name%': environment.name}) }}{% endblock %}
+{% block title %}{{ 'environment.edit.title'|trans({'%name%': environment.name}, 'emsco-core') }}{% endblock %}
 {% block pagetitle %}{{ block('title') }}{% endblock %}
 {% block breadcrumb %}
     <ol class="breadcrumb float-sm-end">
-        <li class="breadcrumb-item"><i class="fa fa-database"></i> {{ 'environment.plural'|trans }}</li>
-        <li class="breadcrumb-item"><a href={{ path('emsco_admin_environment_index') }}>{{ 'environment.index.title'|trans }}</a></li>
-           <li class="breadcrumb-item active">{{ 'environment.edit.short_title'|trans }}</li>
+        <li class="breadcrumb-item"><i class="fa fa-database"></i> {{ 'environment.plural'|trans({}, 'emsco-core') }}</li>
+        <li class="breadcrumb-item"><a href={{ path('emsco_admin_environment_index') }}>{{ 'environment.index.title'|trans({}, 'emsco-core') }}</a></li>
+           <li class="breadcrumb-item active">{{ 'environment.edit.short_title'|trans({}, 'emsco-core') }}</li>
        </ol>
 {% endblock %}
 

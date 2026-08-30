@@ -36,9 +36,9 @@ final class ElasticmsMcpJsonSchema
     }
 
     /**
-     * @param array<string, mixed>      $schema
-     * @param array<int, string|int>    $path
-     * @param array<string, mixed>      $rootDefs
+     * @param array<string, mixed>   $schema
+     * @param array<int, string|int> $path
+     * @param array<string, mixed>   $rootDefs
      *
      * @return array<string, mixed>
      */

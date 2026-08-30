@@ -65,6 +65,13 @@ const sidebar: DefaultTheme.SidebarMulti = {
                         { text: 'Model Context Protocol', link: '/elasticms-admin/api/mcp' },
                     ]
                 },
+                {
+                    text: 'MCP',
+                    collapsed: false,
+                    items: [
+                        { text: 'Custom MCP tools', link: '/elasticms-admin/mcp/tools' },
+                    ]
+                },
             ]
         },
         {

@@ -738,6 +738,7 @@ return static function (ContainerConfigurator $container) {
             service('security.authorization_checker'),
             service('logger'),
             service('emsco.logger.audit'),
+            service('router'),
         ]);
 
     $services->set(ElasticmsMcpToolCustomService::class)

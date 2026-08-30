@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\ResolvedFormTypeInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -127,6 +128,7 @@ final class ComputedFieldTypeMcpSchemaTest extends TestCase
             $authorizationChecker,
             $this->createStub(LoggerInterface::class),
             $this->createStub(LoggerInterface::class),
+            $this->createStub(RouterInterface::class),
         );
     }
 }

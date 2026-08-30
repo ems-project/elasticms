@@ -18,6 +18,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\ResolvedFormTypeInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 final class SaveDocumentOutputSchemaTest extends TestCase
@@ -87,6 +88,7 @@ final class SaveDocumentOutputSchemaTest extends TestCase
             $authorizationChecker,
             $this->createStub(LoggerInterface::class),
             $this->createStub(LoggerInterface::class),
+            $this->createStub(RouterInterface::class),
         );
 
         $method = new \ReflectionMethod(ElasticmsMcpToolDataService::class, 'buildRawDataSchema');

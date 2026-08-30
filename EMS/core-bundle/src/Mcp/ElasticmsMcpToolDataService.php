@@ -10,6 +10,7 @@ use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Form\DataField\DataFieldType;
+use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
@@ -18,6 +19,8 @@ use Mcp\Exception\ToolCallException;
 use Mcp\Server\Builder;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormRegistryInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 final readonly class ElasticmsMcpToolDataService
@@ -33,11 +36,12 @@ final readonly class ElasticmsMcpToolDataService
         private AuthorizationCheckerInterface $authorizationChecker,
         private LoggerInterface $logger,
         private LoggerInterface $auditLogger,
+        protected RouterInterface $router,
     ) {
     }
 
     /**
-     * @return array{contentType: string, ouuid: string, revisionId: int, draft: bool, archived: bool, label: ?string, rawData: array<mixed>}
+     * @return array{contentType: string, ouuid: string, url: string, revisionId: int, draft: bool, archived: bool, label: ?string, rawData: array<mixed>}
      */
     public function getDocument(string $contentType, string $ouuid): array
     {
@@ -69,6 +73,7 @@ final readonly class ElasticmsMcpToolDataService
                 'archived' => $revision->isArchived(),
                 'label' => $revision->getLabel(),
                 'rawData' => $this->rawDataToMcpOutput($revision),
+                'url' => $this->getRevisionUrl($revision),
             ];
         });
     }
@@ -134,6 +139,7 @@ final readonly class ElasticmsMcpToolDataService
                 'draft' => $revision->isDraft(),
                 'archived' => $revision->isArchived(),
                 'rawData' => $this->rawDataToMcpOutput($revision),
+                'url' => $this->getRevisionUrl($revision),
             ];
         });
     }
@@ -214,6 +220,7 @@ final readonly class ElasticmsMcpToolDataService
             'properties' => [
                 'contentType' => ['type' => 'string'],
                 'ouuid' => ['type' => 'string'],
+                'url' => ['type' => 'string'],
                 'revisionId' => ['type' => 'integer'],
                 'draft' => ['type' => 'boolean'],
                 'archived' => ['type' => 'boolean'],
@@ -289,6 +296,7 @@ final readonly class ElasticmsMcpToolDataService
                         'type' => 'null',
                     ]],
                 ]],
+                'url' => ['type' => 'string'],
                 'revisionId' => ['type' => 'integer'],
                 'draft' => ['type' => 'boolean'],
                 'archived' => ['type' => 'boolean'],
@@ -686,5 +694,19 @@ final readonly class ElasticmsMcpToolDataService
             $rawData,
             fn (FieldType $childFieldType, mixed $childRawData): mixed => $this->buildMcpValueForFieldType($childFieldType, $childRawData),
         );
+    }
+
+    private function getRevisionUrl(Revision $revision): string
+    {
+        if ($revision->isDraft()) {
+            return $this->router->generate(Routes::EDIT_REVISION, [
+                'revisionId' => $revision->getId(),
+            ], UrlGeneratorInterface::ABSOLUTE_URL);
+        }
+
+        return $this->router->generate(Routes::VIEW_REVISIONS, [
+            'ouuid' => $revision->giveOuuid(),
+            'type' => $revision->giveContentType()->getName(),
+        ], UrlGeneratorInterface::ABSOLUTE_URL);
     }
 }

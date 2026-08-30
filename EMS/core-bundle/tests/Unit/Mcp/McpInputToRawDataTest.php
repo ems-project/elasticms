@@ -27,6 +27,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\ResolvedFormTypeInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 final class McpInputToRawDataTest extends TestCase
@@ -192,6 +193,7 @@ final class McpInputToRawDataTest extends TestCase
             $authorizationChecker ?? $this->createStub(AuthorizationCheckerInterface::class),
             $this->createStub(LoggerInterface::class),
             $this->createStub(LoggerInterface::class),
+            $this->createStub(RouterInterface::class),
         );
     }
 

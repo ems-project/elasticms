@@ -24,6 +24,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\ResolvedFormTypeInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 final class RawDataToMcpOutputTest extends TestCase
@@ -104,6 +105,7 @@ final class RawDataToMcpOutputTest extends TestCase
             $this->createStub(AuthorizationCheckerInterface::class),
             $this->createStub(LoggerInterface::class),
             $this->createStub(LoggerInterface::class),
+            $this->createStub(RouterInterface::class),
         );
 
         $method = new \ReflectionMethod(ElasticmsMcpToolDataService::class, 'rawDataToMcpOutput');
@@ -151,6 +153,7 @@ final class RawDataToMcpOutputTest extends TestCase
             $this->createStub(AuthorizationCheckerInterface::class),
             $this->createStub(LoggerInterface::class),
             $this->createStub(LoggerInterface::class),
+            $this->createStub(RouterInterface::class),
         );
 
         $labelField = new FieldType()->setName('label')->setType(TextStringFieldType::class);
@@ -245,6 +248,7 @@ final class RawDataToMcpOutputTest extends TestCase
             $this->createStub(AuthorizationCheckerInterface::class),
             $this->createStub(LoggerInterface::class),
             $this->createStub(LoggerInterface::class),
+            $this->createStub(RouterInterface::class),
         );
 
         $labelField = new FieldType()->setName('label')->setType(TextStringFieldType::class);

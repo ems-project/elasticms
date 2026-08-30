@@ -18,6 +18,8 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\ResolvedFormTypeInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Twig\Environment;
+use Twig\Loader\ArrayLoader;
 
 final class ComputedFieldTypeMcpSchemaTest extends TestCase
 {
@@ -27,6 +29,7 @@ final class ComputedFieldTypeMcpSchemaTest extends TestCase
             $this->createStub(AuthorizationCheckerInterface::class),
             $this->createStub(FormRegistryInterface::class),
             $this->createStub(ElasticsearchService::class),
+            new Environment(new ArrayLoader()),
         );
 
         $schema = $fieldType->generateMcpSchema(new FieldType(), static fn (array $fieldTypes): array => [], false);
@@ -40,12 +43,13 @@ final class ComputedFieldTypeMcpSchemaTest extends TestCase
             $this->createStub(AuthorizationCheckerInterface::class),
             $this->createStub(FormRegistryInterface::class),
             $this->createStub(ElasticsearchService::class),
+            new Environment(new ArrayLoader()),
         );
 
         $schema = $fieldType->generateMcpSchema(
-            new FieldType()->setOptions([
+            new FieldType()->setName('slug')->setOptions([
                 'extraOptions' => [
-                    'mcpOutputSchema' => '{"type":"object","properties":{"slug":{"type":"string"}},"additionalProperties":false}',
+                    'mcpOutputSchema' => '{{ {"type":"object","properties":{"slug":{"type":"string","const": fieldType.name}},"additionalProperties":false}|json_encode|raw }}',
                 ],
             ]),
             static fn (array $fieldTypes): array => [],
@@ -54,6 +58,7 @@ final class ComputedFieldTypeMcpSchemaTest extends TestCase
 
         self::assertSame('object', $schema['type']);
         self::assertSame('string', $schema['properties']['slug']['type']);
+        self::assertSame('slug', $schema['properties']['slug']['const']);
         self::assertFalse($schema['additionalProperties']);
     }
 
@@ -65,7 +70,7 @@ final class ComputedFieldTypeMcpSchemaTest extends TestCase
             ->setType(ComputedFieldType::class)
             ->setOptions([
                 'extraOptions' => [
-                    'mcpOutputSchema' => '{"type":"object","properties":{"path":{"type":"string"}},"additionalProperties":false}',
+                    'mcpOutputSchema' => '{{ {"type":"object","properties":{"path":{"type":"string","const": fieldType.name}},"additionalProperties":false}|json_encode|raw }}',
                 ],
             ]);
         $rootField = new FieldType()->setName('source');
@@ -82,6 +87,7 @@ final class ComputedFieldTypeMcpSchemaTest extends TestCase
         self::assertArrayHasKey('slug', $outputSchema['properties']);
         self::assertSame('object', $outputSchema['properties']['slug']['type']);
         self::assertSame('string', $outputSchema['properties']['slug']['properties']['path']['type']);
+        self::assertSame('slug', $outputSchema['properties']['slug']['properties']['path']['const']);
     }
 
     private function createService(): ElasticmsMcpToolDataService
@@ -101,6 +107,7 @@ final class ComputedFieldTypeMcpSchemaTest extends TestCase
                     $authorizationChecker,
                     $this->createStub(FormRegistryInterface::class),
                     $this->createStub(ElasticsearchService::class),
+                    new Environment(new ArrayLoader()),
                 ),
                 default => throw new \RuntimeException(\sprintf('Unexpected type "%s"', $name)),
             };

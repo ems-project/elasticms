@@ -169,6 +169,7 @@ return static function (ContainerConfigurator $container) {
             service('security.authorization_checker'),
             service('form.registry'),
             service('ems.service.elasticsearch'),
+            service('twig'),
         ])
         ->tag('ems.form.datafieldtype', ['alias' => 'computed'])
         ->tag('form.type');

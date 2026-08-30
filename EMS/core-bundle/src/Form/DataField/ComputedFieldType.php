@@ -7,17 +7,30 @@ namespace EMS\CoreBundle\Form\DataField;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Form\Field\CodeEditorType;
+use EMS\CoreBundle\Service\ElasticsearchService;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Twig\Environment;
 
 use function Symfony\Component\Translation\t;
 
 class ComputedFieldType extends DataFieldType
 {
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        FormRegistryInterface $formRegistry,
+        ElasticsearchService $elasticsearchService,
+        private readonly Environment $twig,
+    ) {
+        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
+    }
+
     #[\Override]
     public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
@@ -31,7 +44,14 @@ class ComputedFieldType extends DataFieldType
         }
 
         try {
-            return Json::decode($mcpOutputSchema);
+            $renderedSchema = $this->twig->createTemplate($mcpOutputSchema, \sprintf('%s:%s', $fieldType->getPath(), ':mcp-output-schema'))->render([
+                'fieldType' => $fieldType,
+                'field_type' => $fieldType,
+                'contentType' => $fieldType->getContentType(),
+                'content_type' => $fieldType->getContentType(),
+            ]);
+
+            return Json::decode($renderedSchema);
         } catch (\Throwable) {
             return [];
         }
@@ -52,7 +72,7 @@ class ComputedFieldType extends DataFieldType
 
                 return [$current->getName() => $this->elasticsearchService->updateMapping($mapping)];
             } catch (\Exception) {
-                // TODO send message to user, mustr move to service first
+                // TODO send message to user, must move to service first
             }
         }
 
@@ -69,10 +89,6 @@ class ComputedFieldType extends DataFieldType
     public function buildObjectArray(DataField $data, array &$out): void
     {
         if (!$data->giveFieldType()->getDeleted()) {
-            /*
-             * by default it serialize the text value.
-             * It can be overrided.
-             */
             $out[$data->giveFieldType()->getName()] = $data->getRawData();
         }
     }
@@ -157,7 +173,6 @@ class ComputedFieldType extends DataFieldType
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
-        /* set the default option value for this kind of compound field */
         parent::configureOptions($resolver);
         $resolver->setDefault('displayTemplate', null);
         $resolver->setDefault('json', false);

@@ -82,6 +82,7 @@ color:
     teal: Teal
     yellow: Yellow
 content-type:
+    edit: '{type}'
     field:
         hide_revision_sidebar:
             label: 'Hide revision sidebar'
@@ -93,6 +94,9 @@ content-type:
             label: Helptexts
         tasks_titles:
             label: Titles
+    icon:
+        class: 'fa fa-cubes'
+    menu: 'Content Types'
 content_type:
     field: Field
     mapping: Mapping
@@ -187,9 +191,23 @@ data:
             as_indexed_in: 'As indexed in {environment}'
             card_title: 'Recursive view'
             title: 'View {content_type}:{id}'
+dashboard:
+    exception:
+        title: 'The dashboard {name} raised an exception'
 documentation:
     api:
         title: Documentation
+ems_core:
+    dashboard:
+        export:
+            icon: 'glyphicon glyphicon-export fa-solid fa-file-export'
+            label: Export
+        revision_task:
+            icon: 'fa fa-sticky-note'
+            label: 'Revision tasks'
+        template:
+            icon: 'fa fa-brands fa-html5'
+            label: Template
 entity:
     edit:
         title: 'Edit {entity_name}'
@@ -320,6 +338,7 @@ field:
         size: Size
         type: Type
     format_tags: 'Format tags'
+    group: Group
     hash: 'Hash signature'
     header: Header
     header_allow_origin: 'The Access-Control-Allow-Origin header'
@@ -436,6 +455,8 @@ fields:
     template:
         more_info: 'more info'
 form:
+    add:
+        title: 'Add a form'
     data:
         add:
             ouuid:
@@ -446,10 +467,16 @@ form:
         bool_table_column:
             false_value: Uncheck
             true_value: Check
+    edit:
+        title: 'Edit a form'
     field-type-type:
         root: Structure
+    index:
+        title: Forms
+    menu: Forms
     reorder:
         title: 'Reorder fields of form: {label}'
+    tagline: 'Reusable components'
 form_submissions:
     overview: Overview
     title: 'Form Submissions'
@@ -466,8 +493,11 @@ inline_editor:
 job:
     command: Command
     completed: Completed
+    icon:
+        class: 'fa fa-terminal'
     info: 'About this job'
     list: "Job's list"
+    menu: Jobs
     modified: 'Last updated'
     output: "Job's output"
     progress: Progress
@@ -599,6 +629,11 @@ log:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
         delete_failed: 'Delete failed'
         invalid_table_action: 'Unknown table action'
+    icon:
+        class: 'fa fa-file-text'
+    index:
+        title: Logs
+    menu: Logs
     notice:
         alias_attached: 'The alias "{alias}" has been attached'
         content_type_deleted: 'Content type "{contentType}" has been deleted'
@@ -607,7 +642,19 @@ log:
         deleted_orphan_index: 'The index "{index}" has been deleted'
         deleted_orphan_indexes: 'Orphan indexes have been deleted'
         draft_deleted: 'Draft "{revision}" has been deleted'
+    tagline: 'Who did what'
     title: 'Log of the {created}'
+    view:
+        chanel: Channel
+        channel: '__log.view.channel'
+        context: Context
+        created: Created
+        extra: Extra
+        impersonator: Impersonator
+        level: Severity
+        message: Message
+        title: 'Logs of {created}'
+        user: User
     warning:
         draft_not_found: 'Draft not found with id "{revisionId}"'
         duplicate_environment: 'Environment "{name}" already exists!'
@@ -616,6 +663,7 @@ modal:
     loading_information: 'Loading information...'
 navigation:
     toggle: 'Toggle navigation'
+not-applicable: N/A
 notice_card:
     title: Notice
 notification-menu:
@@ -700,6 +748,15 @@ release:
         revision: '{date} finalized by {user}'
         revision-not-applicable: 'Not applicable'
         still_in_target: 'Still released in {target}'
+    release-revisison:
+        missing-revision: 'The document "{label}" is no more available in {environment}'
+        no_more_in_target: 'This revision has been unpublished from {target}'
+        not-applicable: 'not applicable'
+        publish: Publish
+        revision: '{date} finalized by {user}'
+        revision-not-applicable: 'Not applicable'
+        still_in_target: 'Still released in {target}'
+        unpublish: Unpublish
     revision:
         index:
             publish: 'List of documents available for publication'
@@ -788,6 +845,13 @@ sidebar-menu:
     user:
         name: '{name}'
         searches: Searches
+sidebar_menu:
+    content_type:
+        create: 'New {name}'
+        draft_in_progress: 'Draft in progress'
+        search: 'Search in {plural}'
+        search_in_my_circle: 'In my {name}'
+        trash: Trash
 status:
     bus:
         failed: 'Messages in error'
@@ -802,6 +866,10 @@ status:
 subtitle:
     user-in-group: 'Users in group'
     user-not-in-group: 'User not in group'
+table:
+    index:
+        button:
+            add: Add
 task:
     action:
         cancel: Cancel
@@ -1152,18 +1220,46 @@ view:
             field-type-not-found: 'The type definition associated to this item is missing (probably deleted).'
         json-menu-nested:
             out_of_sync: 'Out of sync, please refresh and retry!'
+    elements:
+        side-menu:
+            release-admin:
+                index-link: Releases
+            user:
+                name: '{name}'
+                searches: Searches
     form:
         fields:
             asset:
                 preview: Preview
     icon:
         class:
+            form: 'fa fa-keyboard-o'
             release: 'fa fa-cube'
     macros:
         data-field-type:
             collection_added_items: '{0} Nothing has been added.|{1} One item has been added.|]1,Inf[ {count} items have been added.'
             collection_removed_items: '{0} Nothing has been removed.|{1} One item has been removed.|]1,Inf[ {count} item have been removed.'
             menu-option-button: View
+    menu:
+        breadcrumb:
+            content-types: 'Content types'
+    profile:
+        show:
+            action:
+                cancel: Cancel
+                edit: Edit
+                profile:
+                    title: 'Your profile'
+            alt:
+                user_profile_picture: "User profile's picture"
+            display_name: 'Display name'
+            email: e-mail
+            email_notification: 'e-mail notification'
+            locale: 'Locale UI'
+            locale_preferred: 'Locale preferred'
+            login: Login
+            wysiwyg: 'WYSIWYG profile'
+    tagline: ''
     title: '{name} of {plural}'
     user:
         index:
@@ -1175,12 +1271,14 @@ views:
             discard-draft-label: 'Delete this draft'
             discard-draft-message: 'Modifications made in this draft will be lost'
             new-draft-title: '{contentType}: new draft'
+            publish-label: 'Save and publish in {environment}'
             subtitle: 'Working area'
             title: 'Edit the {contentType}: {revision} '
         revisions-data-html:
             all-linked-documents: 'All linked documents'
             audit: Audit
             by: By
+            creation-date: 'Creation date'
             current-revision: 'Current revision'
             current-version: 'Current version'
             draft-in-progress: 'Draft in progress'
@@ -1212,6 +1310,37 @@ views:
             title: 'Revisions of {contentType}: {title}'
             until: Until
             version: Version
+    elasticsearch:
+        cluster:
+            bits: Bits
+            build-date: 'Build date'
+            cluster-uuid: 'Cluster UUID'
+            lucene-version: 'Lucene version'
+            node-name: 'Node name'
+            public-key: 'Public key'
+            tagline: Tagline
+            version: 'Version'
+        export-search:
+            title: 'Export documents'
+        search:
+            error_title: 'Error with the search result'
+            pagetitle: Search
+            sort-options: 'Sort options'
+            subtitle: '{total}'
+            title: 'Search engine: {total} results'
+        status:
+            bits: Bits
+            build-date: 'Build date'
+            certificate-information: "Certificate's information"
+            certificate-is-missing: 'Certificate is missing'
+            cluster-uuid: "Cluster's UUID"
+            lucene-version: "Lucene's version"
+            node-name: "Node's name"
+            public-key: 'Public key'
+            tagline: Tagline
+            tika-server: 'Tika server'
+            tika-server-not-configured: 'Tika server is not configured'
+            version: "Elasticsearch's version"
     elements:
         object-toolbar-html:
             edit-draft: 'Edit draft'
@@ -1249,6 +1378,25 @@ views:
             revert-revision-label: 'Revert to this revision'
             unpublish-from-label: 'Unpublish from'
             view-label: 'View this revision'
+        side-menu-html:
+            admin: Admin
+            anonymous-user: 'Anonymous user'
+            compare-environments: 'Compare environments'
+            create-job: 'New job'
+            documentation: Documentation
+            other: Other
+            publishers: Publishers
+            quick-search-label: 'Quick search'
+            quick-search-placeholder: 'Search...'
+            search: Search
+            status: Status
+            trash: Trash
+            uploaded-files: 'Uploaded files'
+            user-management: 'User management'
+            users: Users
+        sidebar-menu-html:
+            content-types: 'Content Types'
+            dashboards: Dashboards
 webhook:
     enable:
         action: Enable

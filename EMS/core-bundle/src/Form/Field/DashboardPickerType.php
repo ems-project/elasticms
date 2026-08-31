@@ -25,10 +25,10 @@ class DashboardPickerType extends Select2Type
                 'data-live-search' => true,
             ],
             'choice_attr' => fn ($value) => [
-                'data-icon' => $this->translator->trans(\implode('.', [$value, 'icon']), [], EMSCoreBundle::TRANS_TWIG_DOMAIN),
+                'data-icon' => $this->translator->trans(\implode('.', [$value, 'icon']), [], EMSCoreBundle::TRANS_CORE),
             ],
             'choice_value' => fn ($value) => $value,
-            'choice_label' => fn ($value) => $this->translator->trans(\implode('.', [$value, 'label']), [], EMSCoreBundle::TRANS_TWIG_DOMAIN),
+            'choice_label' => fn ($value) => $this->translator->trans(\implode('.', [$value, 'label']), [], EMSCoreBundle::TRANS_CORE),
         ]);
     }
 }

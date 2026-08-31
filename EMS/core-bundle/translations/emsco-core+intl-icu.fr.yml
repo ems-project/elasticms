@@ -82,6 +82,7 @@ color:
     teal: Sarcelle
     yellow: Jaune
 content-type:
+    edit: '{type}'
     field:
         hide_revision_sidebar:
             label: 'Masquer la barre latérale de révision'
@@ -93,6 +94,9 @@ content-type:
             label: 'Textes d’aide'
         tasks_titles:
             label: Titres
+    icon:
+        class: 'fa fa-cubes'
+    menu: 'Types de contenu'
 content_type:
     field: Champ
     mapping: Mapping
@@ -187,9 +191,23 @@ data:
             as_indexed_in: 'Tel qu’indexé dans {environment}'
             card_title: 'Vue récursive'
             title: 'Voir {content_type}:{id}'
+dashboard:
+    exception:
+        title: 'Le tableau de bord {name} a généré une exception'
 documentation:
     api:
         title: Documentation
+ems_core:
+    dashboard:
+        export:
+            icon: 'glyphicon glyphicon-export fa-solid fa-file-export'
+            label: Exporter
+        revision_task:
+            icon: 'fa fa-sticky-note'
+            label: 'Tâches de révision'
+        template:
+            icon: 'fa fa-brands fa-html5'
+            label: Modèle
 entity:
     edit:
         title: 'Modifier {entity_name}'
@@ -320,6 +338,7 @@ field:
         size: Taille
         type: Type
     format_tags: 'Tags de format'
+    group: Groupe
     hash: 'Signature du hash'
     header: En-tête
     header_allow_origin: 'L’en-tête Access-Control-Allow-Origin'
@@ -436,6 +455,8 @@ fields:
     template:
         more_info: 'plus d’informations'
 form:
+    add:
+        title: 'Ajouter un formulaire'
     data:
         add:
             ouuid:
@@ -446,10 +467,16 @@ form:
         bool_table_column:
             false_value: Décocher
             true_value: Cocher
+    edit:
+        title: 'Modifier un formulaire'
     field-type-type:
         root: Structure
+    index:
+        title: Formulaires
+    menu: Formulaires
     reorder:
         title: 'Réordonner les champs du formulaire : {label}'
+    tagline: 'Composants réutilisables'
 form_submissions:
     overview: Aperçu
     title: 'Soumissions de formulaires'
@@ -466,8 +493,11 @@ inline_editor:
 job:
     command: Commande
     completed: Terminé
+    icon:
+        class: 'fa fa-terminal'
     info: 'À propos de ce job'
     list: 'Liste des jobs'
+    menu: Jobs
     modified: 'Dernière mise à jour'
     output: 'Sortie du job'
     progress: Progression
@@ -599,6 +629,11 @@ log:
         content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'
         delete_failed: 'Échec de la suppression'
         invalid_table_action: 'Action de tableau inconnue'
+    icon:
+        class: 'fa fa-file-text'
+    index:
+        title: Logs
+    menu: Logs
     notice:
         alias_attached: 'L’alias « {alias} » a été attaché'
         content_type_deleted: 'Le type de contenu « {contentType} » a été supprimé'
@@ -607,7 +642,19 @@ log:
         deleted_orphan_index: 'L’index « {index} » a été supprimé'
         deleted_orphan_indexes: 'Les indexes orphelins ont été supprimés'
         draft_deleted: 'Le brouillon « {revision} » a été supprimé'
+    tagline: 'Qui a fait quoi'
     title: 'Log du {created}'
+    view:
+        chanel: Canal
+        channel: '__log.view.channel'
+        context: Contexte
+        created: Créé
+        extra: Extra
+        impersonator: 'Emprunteur d’identité'
+        level: Sévérité
+        message: Message
+        title: 'Logs de {created}'
+        user: Utilisateur
     warning:
         draft_not_found: 'Brouillon introuvable avec l’id « {revisionId} »'
         duplicate_environment: 'L’environnement « {name} » existe déjà !'
@@ -616,6 +663,7 @@ modal:
     loading_information: 'Chargement des informations...'
 navigation:
     toggle: 'Basculer la navigation'
+not-applicable: N/A
 notice_card:
     title: Notice
 notification-menu:
@@ -700,6 +748,15 @@ release:
         revision: '{date} finalisée par {user}'
         revision-not-applicable: 'Non applicable'
         still_in_target: 'Toujours publiée dans {target}'
+    release-revisison:
+        missing-revision: 'Le document « {label} » n’est plus disponible dans {environment}'
+        no_more_in_target: 'Cette révision a été dépubliée de {target}'
+        not-applicable: 'non applicable'
+        publish: Publier
+        revision: '{date} finalisé par {user}'
+        revision-not-applicable: 'Non applicable'
+        still_in_target: 'Toujours publié dans {target}'
+        unpublish: Dépublier
     revision:
         index:
             publish: 'Liste des documents disponibles pour publication'
@@ -788,6 +845,13 @@ sidebar-menu:
     user:
         name: '{name}'
         searches: Recherches
+sidebar_menu:
+    content_type:
+        create: 'Nouveau {name}'
+        draft_in_progress: 'Brouillon en cours'
+        search: 'Rechercher dans {plural}'
+        search_in_my_circle: 'Dans mon {name}'
+        trash: Corbeille
 status:
     bus:
         failed: 'Messages en erreur'
@@ -802,6 +866,10 @@ status:
 subtitle:
     user-in-group: 'Utilisateurs dans le groupe'
     user-not-in-group: 'Utilisateur hors du groupe'
+table:
+    index:
+        button:
+            add: Ajouter
 task:
     action:
         cancel: Annuler
@@ -1152,18 +1220,46 @@ view:
             field-type-not-found: 'La définition de type associée à cet élément est manquante (probablement supprimée).'
         json-menu-nested:
             out_of_sync: 'Désynchronisé, veuillez rafraîchir et réessayer !'
+    elements:
+        side-menu:
+            release-admin:
+                index-link: Releases
+            user:
+                name: '{name}'
+                searches: Recherches
     form:
         fields:
             asset:
                 preview: Aperçu
     icon:
         class:
+            form: 'fa fa-keyboard-o'
             release: 'fa fa-cube'
     macros:
         data-field-type:
             collection_added_items: '{0} Aucun élément n’a été ajouté.|{1} Un élément a été ajouté.|]1,Inf[ {count} éléments ont été ajoutés.'
             collection_removed_items: '{0} Aucun élément n’a été supprimé.|{1} Un élément a été supprimé.|]1,Inf[ {count} éléments ont été supprimés.'
             menu-option-button: Voir
+    menu:
+        breadcrumb:
+            content-types: 'Types de contenu'
+    profile:
+        show:
+            action:
+                cancel: Annuler
+                edit: Modifier
+                profile:
+                    title: 'Votre profil'
+            alt:
+                user_profile_picture: 'Photo de profil de l’utilisateur'
+            display_name: 'Nom affiché'
+            email: e-mail
+            email_notification: 'notification par e-mail'
+            locale: 'Langue de l’interface'
+            locale_preferred: 'Langue préférée'
+            login: Identifiant
+            wysiwyg: 'Profil WYSIWYG'
+    tagline: ''
     title: '{name} de {plural}'
     user:
         index:
@@ -1175,12 +1271,14 @@ views:
             discard-draft-label: 'Supprimer ce brouillon'
             discard-draft-message: 'Les modifications apportées à ce brouillon seront perdues'
             new-draft-title: '{contentType} : nouveau brouillon'
+            publish-label: 'Enregistrer et publier dans {environment}'
             subtitle: 'Espace de travail'
             title: 'Modifier {contentType} : {revision} '
         revisions-data-html:
             all-linked-documents: 'Tous les documents liés'
             audit: Audit
             by: Par
+            creation-date: 'Date de création'
             current-revision: 'Révision actuelle'
             current-version: 'Version actuelle'
             draft-in-progress: 'Brouillon en cours'
@@ -1212,6 +1310,37 @@ views:
             title: 'Révisions de {contentType} : {title}'
             until: Jusqu’à
             version: Version
+    elasticsearch:
+        cluster:
+            bits: Bits
+            build-date: 'Date de compilation'
+            cluster-uuid: 'UUID du cluster'
+            lucene-version: 'Version de Lucene'
+            node-name: 'Nom du nœud'
+            public-key: 'Clé publique'
+            tagline: Slogan
+            version: 'Version'
+        export-search:
+            title: 'Exporter les documents'
+        search:
+            error_title: 'Erreur avec le résultat de la recherche'
+            pagetitle: Recherche
+            sort-options: 'Options de tri'
+            subtitle: '{total}'
+            title: 'Moteur de recherche : {total} résultats'
+        status:
+            bits: Bits
+            build-date: 'Date de compilation'
+            certificate-information: 'Informations du certificat'
+            certificate-is-missing: 'Le certificat est manquant'
+            cluster-uuid: 'UUID du cluster'
+            lucene-version: 'Version de Lucene'
+            node-name: 'Nom du nœud'
+            public-key: 'Clé publique'
+            tagline: Slogan
+            tika-server: 'Serveur Tika'
+            tika-server-not-configured: 'Le serveur Tika n’est pas configuré'
+            version: 'Version d’Elasticsearch'
     elements:
         object-toolbar-html:
             edit-draft: 'Modifier le brouillon'
@@ -1249,6 +1378,25 @@ views:
             revert-revision-label: 'Revenir à cette révision'
             unpublish-from-label: 'Dépublier de'
             view-label: 'Voir cette révision'
+        side-menu-html:
+            admin: Admin
+            anonymous-user: 'Utilisateur anonyme'
+            compare-environments: 'Comparer les environnements'
+            create-job: 'Nouveau job'
+            documentation: Documentation
+            other: Autre
+            publishers: Éditeurs
+            quick-search-label: 'Recherche rapide'
+            quick-search-placeholder: 'Rechercher...'
+            search: Recherche
+            status: Statut
+            trash: Corbeille
+            uploaded-files: 'Fichiers téléversés'
+            user-management: 'Gestion des utilisateurs'
+            users: Utilisateurs
+        sidebar-menu-html:
+            content-types: 'Types de contenu'
+            dashboards: 'Tableaux de bord'
 webhook:
     enable:
         action: Activer

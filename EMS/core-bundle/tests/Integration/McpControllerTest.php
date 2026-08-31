@@ -13,6 +13,7 @@ use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\User;
+use EMS\CoreBundle\Entity\WysiwygStylesSet;
 use EMS\CoreBundle\Form\DataField\ChoiceFieldType;
 use EMS\CoreBundle\Form\DataField\CollectionFieldType;
 use EMS\CoreBundle\Form\DataField\MultiplexedTabContainerFieldType;
@@ -379,6 +380,119 @@ final class McpControllerTest extends WebTestCase
         self::assertSame($content, \base64_decode((string) ($downloadStructuredContent['chunkBase64'] ?? ''), true));
     }
 
+    public function testResourcesExposeWysiwygStyleSetCssClasses(): void
+    {
+        $this->createAuthenticatedUserWithNewsContent();
+        $sessionId = $this->initializeSession($this->client);
+
+        $resourcesPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 10,
+            'method' => 'resources/list',
+            'params' => new \stdClass(),
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($resourcesPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $resourcesResponse = $this->decodeResponse($this->client);
+        $resources = $resourcesResponse['result']['resources'] ?? [];
+        $wysiwygResource = \array_first(\array_filter($resources, static fn (array $resource): bool => 'wysiwyg_style_sets_css_classes' === ($resource['name'] ?? null))) ?? null;
+        self::assertIsArray($wysiwygResource);
+        self::assertSame('elasticms://wysiwyg-style-sets/css-classes', $wysiwygResource['uri'] ?? null);
+        self::assertSame('application/json', $wysiwygResource['mimeType'] ?? null);
+
+        $templatesPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 11,
+            'method' => 'resources/templates/list',
+            'params' => new \stdClass(),
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($templatesPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $templatesResponse = $this->decodeResponse($this->client);
+        $templates = $templatesResponse['result']['resourceTemplates'] ?? [];
+        $wysiwygTemplate = \array_first(\array_filter($templates, static fn (array $template): bool => 'wysiwyg_style_set_css_classes' === ($template['name'] ?? null))) ?? null;
+        self::assertIsArray($wysiwygTemplate);
+        self::assertSame('elasticms://wysiwyg-style-sets/{name}/css-classes', $wysiwygTemplate['uriTemplate'] ?? null);
+
+        $readPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 12,
+            'method' => 'resources/read',
+            'params' => [
+                'uri' => 'elasticms://wysiwyg-style-sets/css-classes',
+            ],
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($readPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $readResponse = $this->decodeResponse($this->client);
+        $resourceText = $readResponse['result']['contents'][0]['text'] ?? null;
+        self::assertIsString($resourceText);
+        $resourceData = \json_decode($resourceText, true, flags: \JSON_THROW_ON_ERROR);
+        self::assertSame('bootstrap', $resourceData['styleSets'][0]['name'] ?? null);
+        self::assertContains([
+            'class' => 'btn-primary',
+            'element' => 'a',
+            'styleName' => 'Call-To-Action',
+            'source' => 'config',
+        ], $resourceData['styleSets'][0]['classes'] ?? []);
+        self::assertContains([
+            'class' => 'table-bordered',
+            'element' => 'table',
+            'styleName' => 'Table default',
+            'source' => 'tableDefaultCss',
+        ], $resourceData['styleSets'][0]['classes'] ?? []);
+
+        $readStyleSetPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 13,
+            'method' => 'resources/read',
+            'params' => [
+                'uri' => 'elasticms://wysiwyg-style-sets/bootstrap/css-classes',
+            ],
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($readStyleSetPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $readStyleSetResponse = $this->decodeResponse($this->client);
+        $styleSetText = $readStyleSetResponse['result']['contents'][0]['text'] ?? null;
+        self::assertIsString($styleSetText);
+        $styleSetData = \json_decode($styleSetText, true, flags: \JSON_THROW_ON_ERROR);
+        self::assertSame('bootstrap', $styleSetData['name'] ?? null);
+        self::assertContains([
+            'class' => 'attention',
+            'element' => 'div',
+            'styleName' => 'Attention',
+            'source' => 'config',
+        ], $styleSetData['classes'] ?? []);
+    }
+
     public function testGetDocumentUsesAuthenticatedUserPermissions(): void
     {
         $fixtures = $this->createAuthenticatedUserWithNewsContent();
@@ -593,12 +707,34 @@ final class McpControllerTest extends WebTestCase
             ->setLockBy('mcp-user')
             ->setLockUntil(new \DateTime('+1 hour'));
 
+        $stylesSet = new WysiwygStylesSet()
+            ->setName('bootstrap')
+            ->setConfig($this->jsonEncode([
+                [
+                    'name' => 'Call-To-Action',
+                    'element' => 'a',
+                    'attributes' => [
+                        'class' => 'btn btn-primary',
+                    ],
+                ],
+                [
+                    'name' => 'Attention',
+                    'element' => 'div',
+                    'attributes' => [
+                        'class' => 'attention',
+                    ],
+                ],
+            ]))
+            ->setOrderKey(1)
+            ->setTableDefaultCss('table table-bordered');
+
         $this->entityManager->persist($user);
         $this->entityManager->persist($environment);
         $this->entityManager->persist($contentType);
         $this->entityManager->persist($restrictedContentType);
         $this->entityManager->persist($revision);
         $this->entityManager->persist($authToken);
+        $this->entityManager->persist($stylesSet);
         $this->entityManager->flush();
 
         $this->entityManager->clear();

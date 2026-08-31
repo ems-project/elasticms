@@ -19,6 +19,7 @@ final readonly class ElasticmsMcpServerFactory
         private ElasticmsMcpToolDataService $toolDataService,
         private ElasticmsMcpToolAssetService $toolAssetService,
         private ElasticmsMcpToolCustomService $toolCustomService,
+        private ElasticmsMcpResourceWysiwygStyleService $wysiwygStyleResourceService,
     ) {
     }
 
@@ -40,6 +41,7 @@ final readonly class ElasticmsMcpServerFactory
         $this->toolDataService->addDataTools($builder);
         $this->toolDataService->addGetDocumentTools($builder);
         $this->toolDataService->addSaveDocumentTools($builder);
+        $this->wysiwygStyleResourceService->addWysiwygStyleResources($builder);
 
         $this->toolCustomService->addCustomTools($builder);
 

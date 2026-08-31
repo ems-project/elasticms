@@ -74,6 +74,7 @@ use EMS\CoreBundle\EventListener\UserLocaleListener;
 use EMS\CoreBundle\Form\Factory\ObjectChoiceListFactory;
 use EMS\CoreBundle\Form\Revision\Task\RevisionTaskFiltersType;
 use EMS\CoreBundle\Form\Revision\Task\RevisionTaskHandleType;
+use EMS\CoreBundle\Mcp\ElasticmsMcpResourceWysiwygStyleService;
 use EMS\CoreBundle\Mcp\ElasticmsMcpServerFactory;
 use EMS\CoreBundle\Mcp\ElasticmsMcpToolAssetService;
 use EMS\CoreBundle\Mcp\ElasticmsMcpToolCustomService;
@@ -750,6 +751,11 @@ return static function (ContainerConfigurator $container) {
             service('emsco.logger.audit'),
         ]);
 
+    $services->set(ElasticmsMcpResourceWysiwygStyleService::class)
+        ->args([
+            service('ems.service.wysiwyg_styles_set'),
+        ]);
+
     $services->set(ElasticmsMcpServerFactory::class)
         ->args([
             service('service_container'),
@@ -759,6 +765,7 @@ return static function (ContainerConfigurator $container) {
             service(ElasticmsMcpToolDataService::class),
             service(ElasticmsMcpToolAssetService::class),
             service(ElasticmsMcpToolCustomService::class),
+            service(ElasticmsMcpResourceWysiwygStyleService::class),
         ]);
 
     $services->set('emsco.mcp.server', Server::class)

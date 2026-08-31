@@ -101,6 +101,11 @@ content_type:
     settings: Paramètres
     tasks: Tâches
     versioning: Versioning
+contenttype:
+    action:
+        modal_import:
+            cancel: Annuler
+            submit: Importer
 core:
     action:
         render-option:

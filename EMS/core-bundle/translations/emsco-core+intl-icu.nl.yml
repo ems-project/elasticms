@@ -101,6 +101,11 @@ content_type:
     settings: Instellingen
     tasks: Taken
     versioning: Versionering
+contenttype:
+    action:
+        modal_import:
+            cancel: Annuleren
+            submit: Importeren
 core:
     action:
         render-option:

@@ -4,6 +4,7 @@
     "properties": {
         "name": "live",
         "label": "Live",
+        "description": "Publication environment for all content types but media_file",
         "color": "green",
         "baseUrl": null,
         "managed": true,

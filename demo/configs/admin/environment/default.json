@@ -4,6 +4,7 @@
     "properties": {
         "name": "default",
         "label": null,
+        "description": "Default, and unique, environment for the media_file documents",
         "color": "blue",
         "baseUrl": null,
         "managed": true,

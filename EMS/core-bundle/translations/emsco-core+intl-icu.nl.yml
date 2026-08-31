@@ -207,7 +207,10 @@ environment:
         subtitle: 'tijd om omgevingen uit te lijnen?'
         title: 'Omgevingen uitlijnen'
     edit:
-        notice_rename: "Als u de alias wilt hernoemen, \nmaak dan een nieuwe omgeving aan en lijn deze uit met de omgeving waarvan u de alias wilt hernoemen.\nVerwijder vervolgens de vorige.\n"
+        notice_rename: |
+            Als u de alias wilt hernoemen, 
+            maak dan een nieuwe omgeving aan en lijn deze uit met de omgeving waarvan u de alias wilt hernoemen.
+            Verwijder vervolgens de vorige.
         save: Bijwerken
         short_title: 'Omgeving bewerken'
         title: 'Omgeving "{name}" bewerken'
@@ -223,7 +226,7 @@ environment:
         total: Totaal
     plural: Omgevingen
     property:
-        base_url: 'Basis-URL'
+        base_url: Basis-URL
         color: Kleur
         label: Label
         name: Naam
@@ -238,7 +241,6 @@ environment:
             title: 'Selecteer uw opties'
         short_title: 'Index heropbouwen'
         title: 'Omgeving {name} heropbouwen'
-    single: Omgeving
     view:
         elasticsearch_index_missing: 'Elasticsearch-index ontbreekt!'
         elasticsearch_information: Elasticsearch-informatie
@@ -269,6 +271,7 @@ field:
     attributes: 'Extra request-attributen'
     available: Beschikbaar
     channel: Kanaal
+    circles: Kringen
     circles_to: 'Kringen naar'
     color: Kleur
     command: Commando

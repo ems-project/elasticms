@@ -207,8 +207,11 @@ environment:
         subtitle: 'il est temps d’aligner les environnements ?'
         title: 'Aligner les environnements'
     edit:
-        notice_rename: "Si vous avez l’intention de renommer l’alias, \nveuillez créer un nouvel environnement et l’aligner sur celui dont vous souhaitez renommer l’alias.\nSupprimez ensuite l’ancien.\n"
-        save: Mettre à jour
+        notice_rename: |
+            Si vous avez l’intention de renommer l’alias, 
+            veuillez créer un nouvel environnement et l’aligner sur celui dont vous souhaitez renommer l’alias.
+            Supprimez ensuite l’ancien.
+        save: 'Mettre à jour'
         short_title: 'Modifier l’environnement'
         title: 'Modifier l’environnement « {name} »'
     index:
@@ -238,7 +241,6 @@ environment:
             title: 'Sélectionnez vos options'
         short_title: 'Reconstruire l’index'
         title: 'Reconstruire l’environnement {name}'
-    single: Environnement
     view:
         elasticsearch_index_missing: 'L’index Elasticsearch est manquant !'
         elasticsearch_information: 'Informations Elasticsearch'
@@ -269,6 +271,7 @@ field:
     attributes: 'Attributs supplémentaires de la requête'
     available: Disponible
     channel: Canal
+    circles: Cercles
     circles_to: 'Cercles destinataires'
     color: Couleur
     command: Commande

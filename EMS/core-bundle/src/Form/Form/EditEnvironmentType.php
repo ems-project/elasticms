@@ -17,6 +17,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use function Symfony\Component\Translation\t;
+
 /**
  * @extends AbstractType<mixed>
  */
@@ -32,44 +34,44 @@ class EditEnvironmentType extends AbstractType
         $builder
             ->add('name', IconTextType::class, [
                 'icon' => 'fa fa-tag',
-                'label' => 'environment.property.name',
-                'help' => 'environment.edit.notice_rename',
+                'label' => t('environment.property.name', [], 'emsco-core'),
+                'help' => t('environment.edit.notice_rename', [], 'emsco-core'),
             ])
             ->add('label', IconTextType::class, [
                 'required' => false,
                 'icon' => 'fa fa-header',
-                'label' => 'environment.property.label',
+                'label' => t('environment.property.label', [], 'emsco-core'),
             ])
             ->add('color', ColorPickerType::class, [
                 'required' => false,
-                'label' => 'environment.property.color',
+                'label' => t('environment.property.color', [], 'emsco-core'),
             ])
             ->add('baseUrl', TextType::class, [
                 'required' => false,
-                'label' => 'environment.property.base_url',
+                'label' => t('environment.property.base_url', [], 'emsco-core'),
             ])
             ->add('inDefaultSearch', CheckboxType::class, [
                 'required' => false,
-                'label' => 'environment.property.option.default_search',
+                'label' => t('environment.property.option.default_search', [], 'emsco-core'),
             ])
             ->add('updateReferrers', CheckboxType::class, [
                 'required' => false,
-                'label' => 'environment.property.option.update_referrers',
+                'label' => t('environment.property.option.update_referrers', [], 'emsco-core'),
             ])
             ->add('templatePublication', CodeEditorType::class, [
                 'required' => false,
                 'min-lines' => 10,
-                'label' => 'environment.property.template_publication',
+                'label' => t('environment.property.template_publication', [], 'emsco-core'),
             ])
             ->add('rolePublish', RolePickerType::class, [
-                'label' => 'environment.property.rolePublish',
+                'label' => t('environment.property.rolePublish', [], 'emsco-core'),
                 'translation_domain' => EMSCoreBundle::TRANS_CORE,
                 'required' => false,
             ])
             ->add('save', SubmitEmsType::class, [
                 'attr' => ['class' => 'btn btn-primary btn-sm ', 'data-testid' => 'btn-action-save'],
                 'icon' => 'fa fa-save',
-                'label' => 'environment.edit.save',
+                'label' => t('environment.edit.save', [], 'emsco-core'),
             ]);
 
         if (\array_key_exists('type', $options) && $options['type']) {
@@ -77,6 +79,7 @@ class EditEnvironmentType extends AbstractType
                 'required' => false,
                 'type' => $options['type'],
                 'multiple' => true,
+                'label' => t('field.circles', [], 'emsco-core'),
             ]);
         }
     }
@@ -86,7 +89,6 @@ class EditEnvironmentType extends AbstractType
     {
         $resolver->setDefaults([
             'type' => null,
-            'translation_domain' => EMSCoreBundle::TRANS_CORE,
         ]);
     }
 }

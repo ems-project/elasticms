@@ -207,7 +207,10 @@ environment:
         subtitle: 'time to align environments?'
         title: 'Align Environments'
     edit:
-        notice_rename: "If you intend to rename the alias, \nplease create a new environment and align it to the one you would like to rename the alias.\nThen delete the previous one.\n"
+        notice_rename: |
+            If you intend to rename the alias, 
+            please create a new environment and align it to the one you would like to rename the alias.
+            Then delete the previous one.
         save: Update
         short_title: 'Edit environment'
         title: 'Edit the environment "{name}"'
@@ -238,7 +241,6 @@ environment:
             title: 'Select your options'
         short_title: 'Rebuild index'
         title: 'Rebuild the environment {name}'
-    single: Environment
     view:
         elasticsearch_index_missing: 'Elasticsearch index is missing !'
         elasticsearch_information: 'Elasticsearch information'
@@ -269,6 +271,7 @@ field:
     attributes: 'Request extra attributes'
     available: Available
     channel: Channel
+    circles: Circles
     circles_to: 'Circles to'
     color: Color
     command: Command

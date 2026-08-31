@@ -52,7 +52,7 @@ final readonly class ElasticmsMcpResourceWysiwygStyleService
     {
         return [
             'styleSets' => \array_values(\array_map(
-                fn (WysiwygStylesSet $styleSet): array => $this->buildStyleSetCssClasses($styleSet),
+                $this->buildStyleSetCssClasses(...),
                 $this->wysiwygStylesSetService->getStylesSets(),
             )),
         ];

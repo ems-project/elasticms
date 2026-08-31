@@ -42,6 +42,7 @@ final readonly class ElasticmsMcpServerFactory
         $this->toolDataService->addDataTools($builder);
         $this->toolDataService->addGetDocumentTools($builder);
         $this->toolDataService->addSaveDocumentTools($builder);
+
         $this->contentTypeResourceService->addContentTypeResources($builder);
         $this->wysiwygStyleResourceService->addWysiwygStyleResources($builder);
 

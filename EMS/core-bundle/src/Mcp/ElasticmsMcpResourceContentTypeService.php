@@ -105,6 +105,7 @@ final readonly class ElasticmsMcpResourceContentTypeService
     {
         $description = \preg_replace('/<[^>]*>/', ' ', $description) ?? '';
         $description = \html_entity_decode($description, \ENT_QUOTES | \ENT_HTML5, 'UTF-8');
+
         $normalizedDescription = \preg_replace('/\s+/', ' ', \trim($description));
 
         return $normalizedDescription ?? '';

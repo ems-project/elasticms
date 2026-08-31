@@ -40,8 +40,8 @@ class S3Storage extends AbstractUrlStorage
         int $hotSynchronizeLimit = 0,
         private readonly bool $multipartUpload = false,
         private readonly array $httpOptions = [
-            'connect_timeout' => 0.1,
-            'timeout' => 0.5,
+            'connect_timeout' => 1.0,
+            'timeout' => 5.0,
             'retries' => 0,
         ]
     ) {

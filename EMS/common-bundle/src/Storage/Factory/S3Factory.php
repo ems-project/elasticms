@@ -64,8 +64,8 @@ class S3Factory extends AbstractFactory implements StorageFactoryInterface
                 self::STORAGE_CONFIG_UPLOAD_FOLDER => null,
                 self::STORAGE_CONFIG_MULTIPART_UPLOAD => true,
                 self::STORAGE_CONFIG_HTTP_OPTIONS => [
-                    'connect_timeout' => 0.1,
-                    'timeout' => 0.5,
+                    'connect_timeout' => 1.0,
+                    'timeout' => 5.0,
                     'retries' => 0,
                 ],
             ])

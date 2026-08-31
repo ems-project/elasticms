@@ -1,4 +1,4 @@
-{%- trans_default_domain 'ems-adminui-twigs' -%}
+{%- trans_default_domain 'emsco-core' -%}
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
 <head>
@@ -87,8 +87,8 @@
                 }) }}
 
                 <p>
-                  {{ 'user.logged_in.title'|trans({'%username%': app.user.username}, 'ems-adminui-user') }}
-                  <small>{{ 'user.logged_in.member_since'|trans({'%date%': app.user.created|date(date_time_format)}, 'ems-adminui-user') }}</small>
+                  {{ 'user.logged_in.title'|trans({'%username%': app.user.username}, 'emsco-core') }}
+                  <small>{{ 'user.logged_in.member_since'|trans({'%date%': app.user.created|date(date_time_format)}, 'emsco-core') }}</small>
                   <small>
                       {% for role in app.user.roles %}
                           {{ role|trans }}{% if not loop.last %},{% endif %}
@@ -98,13 +98,13 @@
               </li>
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="{{ path(routes.USER_PROFILE) }}" class="btn btn-light btn-flat">{{ 'user.profile.title'|trans({}, 'ems-adminui-user') }}</a>
+                  <a href="{{ path(routes.USER_PROFILE) }}" class="btn btn-light btn-flat">{{ 'user.profile.title'|trans({}, 'emsco-core') }}</a>
                 </div>
                 <div class="float-end">
                        {% if is_granted('IS_IMPERSONATOR') %}
-                           <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="btn btn-light btn-flat">{{ 'user.logout.exit'|trans({}, 'ems-adminui-user') }}</a>
+                           <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="btn btn-light btn-flat">{{ 'user.logout.exit'|trans({}, 'emsco-core') }}</a>
                        {% else %}
-                           <a href="{{ path(routes.USER_LOGOUT) }}" class="btn btn-light btn-flat">{{ 'user.logout.submit'|trans({}, 'ems-adminui-user') }}</a>
+                           <a href="{{ path(routes.USER_LOGOUT) }}" class="btn btn-light btn-flat">{{ 'user.logout.submit'|trans({}, 'emsco-core') }}</a>
                        {% endif %}
                 </div>
               </li>
@@ -112,7 +112,7 @@
           </li>
           {% else %}
           <li>
-            <a href="{{ path(routes.USER_LOGIN) }}" ><span class="glyphicon glyphicon-lock"></span> {{ 'user.login.submit'|trans({}, 'ems-adminui-user') }}</a>
+            <a href="{{ path(routes.USER_LOGIN) }}" ><span class="glyphicon glyphicon-lock"></span> {{ 'user.login.submit'|trans({}, 'emsco-core') }}</a>
           </li>
           {% endif %}
         </ul>

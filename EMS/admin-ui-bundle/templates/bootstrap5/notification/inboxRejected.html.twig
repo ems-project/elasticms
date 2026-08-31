@@ -1,4 +1,4 @@
-{% trans_default_domain 'ems-adminui-twigs' %}{% if rejectedNotifications|length <= 0 %}
+{% trans_default_domain 'emsco-core' %}{% if rejectedNotifications|length <= 0 %}
     <p>{{ 'notification.no_result_for_filters'|trans }}: <a href="{{ path('notifications.inbox') }}">{{ 'notification.reset_filters'|trans }}</a></p>
 {% else %}
     <div class="table-responsive">

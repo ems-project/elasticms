@@ -124,6 +124,11 @@ server-start/%: ## server-start/(admin|web|cli)
 		OTEL_PHP_AUTOLOAD_PATH=$(MAKEFILE_DIR)/vendor/autoload.php \
 		symfony server:start --dir=elasticms-$* -d --port=$(PORT_$(*)) --no-tls --allow-all-ip; \
 	else \
+		env \
+		OTEL_SDK_DISABLED=true \
+		OTEL_PHP_AUTOLOAD_ENABLED=false \
+		OTEL_PHP_FIBERS_ENABLED=false \
+		OTEL_PHP_DISABLED_INSTRUMENTATIONS=all \
 		symfony server:start --dir=elasticms-$* -d --port=$(PORT_$(*)) --no-tls --allow-all-ip; \
 	fi
 server-stop/%: ## server-stop/(admin|web|cli)
@@ -174,12 +179,7 @@ docs-init: ## init docs
 
 ## —— Build ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 build-translations: ## build translations
-	@php build/translations en EMSCoreBundle --write --format=yml -d emsco-core
-	@php build/translations fr EMSCoreBundle --write --format=yml -d emsco-core
-	@php build/translations nl EMSCoreBundle --write --format=yml -d emsco-core
-	@php build/translations en EMSAdminUIBundle --write --format=yml
-	@php build/translations fr EMSAdminUIBundle --write --format=yml
-	@php build/translations nl EMSAdminUIBundle --write --format=yml
+	@php build/translations --write
 	@$(RUN_CLI) translation:extract  fr --force --format=yaml --domain=messages
 	@$(RUN_CLI) translation:extract  nl --force --format=yaml --domain=messages
 	@$(RUN_CLI) translation:extract  de --force --format=yaml --domain=messages

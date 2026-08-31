@@ -1,7 +1,6 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
-{%- trans_default_domain 'ems-adminui-notification' -%}
 
-{% block title %}{{ 'notification.dashboard.title'|trans }}{% endblock title %}
+{% block title %}{{ 'notification.dashboard.title'|trans({}, 'emsco-core') }}{% endblock title %}
 
 {% block body %}
 
@@ -11,7 +10,7 @@
             <div class="col-sm-6 col-md-12">
                 <div class="box box-solid">
                     <div class="box-header with-border">
-                        <h3 class="box-title">{{ 'notification.folder.title'|trans }}</h3>
+                        <h3 class="box-title">{{ 'notification.folder.title'|trans({}, 'emsco-core') }}</h3>
 
                         <div class="box-tools">
                             <button type="button" class="btn btn-box-tool"
@@ -25,7 +24,7 @@
                             <li class="{% if folder == 'inbox' %}active{% endif %}">
                                 <a href="{{ path('notifications.inbox') }}">
                                     <i class="fa fa-inbox"></i>
-                                    {{ 'notification.folder.inbox'|trans }}
+                                    {{ 'notification.folder.inbox'|trans({}, 'emsco-core') }}
                                     {% if counter > 0 %}
                                         <span class="label label-primary float-end">{{ counter }}</span>
                                     {% endif %}
@@ -34,7 +33,7 @@
                             <li class="{% if folder == 'sent' %}active{% endif %}">
                                 <a href="{{ path('notifications.sent') }}">
                                     <i class="fa fa-envelope-o"></i>
-                                    {{ 'notification.folder.outbox'|trans }}
+                                    {{ 'notification.folder.outbox'|trans({}, 'emsco-core') }}
                                     {% if countSent > 0 %}
                                         <span class="label label-default float-end">{{ countSent }}</span>
                                     {% endif %}
@@ -50,7 +49,7 @@
                 <div class="box box-solid collapsed-box">
                     {{ form_start(form) }}
                     <div class="box-header with-border">
-                        <h3 class="box-title">{{ 'notification.filter.title'|trans }}</h3>
+                        <h3 class="box-title">{{ 'notification.filter.title'|trans({}, 'emsco-core') }}</h3>
 
                         <div class="box-tools">
                             <button type="button" class="btn btn-box-tool"

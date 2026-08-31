@@ -154,4 +154,8 @@ class Routes
     final public const string WYSIWYG_STYLE_SET_DELETE = 'emsco_wysiwyg_style_set_delete';
     final public const string WYSIWYG_MODAL_LOAD_LINK = 'emsco_wysiwyg_modal_load_link';
     final public const string WYSIWYG_MODAL_EDIT_IMAGE = 'emsco_wysiwyg_modal_edit_image';
+    final public const string MCP_TOOL_INDEX = 'emsco_mcp_tool_index';
+    final public const string MCP_TOOL_ADD = 'emsco_mcp_tool_add';
+    final public const string MCP_TOOL_EDIT = 'emsco_mcp_tool_edit';
+    final public const string MCP_TOOL_DELETE = 'emsco_mcp_tool_delete';
 }

@@ -357,7 +357,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         default?: bool|Param,
  *         translation_type?: scalar|Param|null, // example: 'test_i18n' // Default: null
  *         route_type?: scalar|Param|null, // Default: null
- *         asset_config_type?: scalar|Param|null, // Default: null
  *         templates?: mixed,
  *         api?: mixed, // api for content exposing
  *         search_config?: mixed,
@@ -480,7 +479,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     tika_download_url?: scalar|Param|null, // Default: null
  *     default_bulk_size?: scalar|Param|null, // Default: 500
  *     url_user?: scalar|Param|null, // Default: null
- *     clean_jobs_time_string?: scalar|Param|null, // Default: "-7 days"
+ *     job_clean_time?: scalar|Param|null, // Default: "-7 days"
  *     custom_user_options_form?: scalar|Param|null, // Default: null
  *     template_namespace?: scalar|Param|null, // Default: "EMSCore"
  *     dynamic_mapping?: scalar|Param|null, // Default: "false"

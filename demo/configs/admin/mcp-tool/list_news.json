@@ -1,0 +1,15 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\McpTool",
+    "arguments": [],
+    "properties": {
+        "name": "list_news",
+        "label": "list_news",
+        "role": "ROLE_AUTHOR",
+        "description": "List news, with 10 items per page.",
+        "inputSchema": "{{ include('@EMSCH/template_ems/mcp/tools/list_news/input_schema.json.twig') }}",
+        "outputSchema": "{{ include('@EMSCH/template_ems/mcp/tools/list_news/output_schema.json.twig') }}",
+        "response": "{{ include('@EMSCH/template_ems/mcp/tools/list_news/response.json.twig') }}",
+        "enabled": true
+    },
+    "replaced": []
+}

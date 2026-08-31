@@ -65,13 +65,12 @@ use EMS\CoreBundle\Form\Field\WysiwygStylesSetPickerType;
 use EMS\CoreBundle\Form\FieldType\FieldTypeType;
 use EMS\CoreBundle\Form\Form\ActionType;
 use EMS\CoreBundle\Form\Form\Dashboard\DashboardType;
-use EMS\CoreBundle\Form\Form\EditImageModalType;
 use EMS\CoreBundle\Form\Form\EmsCollectionType;
 use EMS\CoreBundle\Form\Form\FieldHolderType;
 use EMS\CoreBundle\Form\Form\FormType;
 use EMS\CoreBundle\Form\Form\GroupType;
-use EMS\CoreBundle\Form\Form\LoadLinkModalType;
 use EMS\CoreBundle\Form\Form\ManagedAliasType;
+use EMS\CoreBundle\Form\Form\McpToolType;
 use EMS\CoreBundle\Form\Form\NotificationFormType;
 use EMS\CoreBundle\Form\Form\QuerySearchType;
 use EMS\CoreBundle\Form\Form\RevisionJsonMenuNestedType;
@@ -170,6 +169,7 @@ return static function (ContainerConfigurator $container) {
             service('security.authorization_checker'),
             service('form.registry'),
             service('ems.service.elasticsearch'),
+            service('twig'),
         ])
         ->tag('ems.form.datafieldtype', ['alias' => 'computed'])
         ->tag('form.type');
@@ -632,14 +632,6 @@ return static function (ContainerConfigurator $container) {
         ])
         ->tag('form.type');
 
-    $services->set('ems_core.form.modal.link', LoadLinkModalType::class)
-        ->args([service('router')])
-        ->tag('form.type');
-
-    $services->set('ems_core.form.modal.edit-image', EditImageModalType::class)
-        ->args([service('router')])
-        ->tag('form.type');
-
     $services->set('ems_core.form.field.image', EditImageType::class)
         ->args([service('ems_core.form.transformer.asset')])
         ->tag('form.type');
@@ -653,6 +645,11 @@ return static function (ContainerConfigurator $container) {
         ->tag('form.type');
     $services->set(ReorganizeType::class)
         ->args([service(ContentTypeService::class)])
+        ->tag('form.type');
+    $services->set(McpToolType::class)
+        ->args([
+            service('ems.service.user'),
+        ])
         ->tag('form.type');
 
     $services->set('emsco.form_extension.locale_form_extension', LocaleFormExtension::class)

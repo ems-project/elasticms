@@ -1,13 +1,13 @@
-{%- trans_default_domain 'ems-adminui-elements' -%}
+{%- trans_default_domain 'emsco-core' -%}
 
 <nav class="navbar navbar-expand bg-{{ theme_color }}" {{ theme_color_contrast == 'dark' ? 'data-bs-theme="dark"' }}>
-    <a href="#" class="sidebar-toggle js-sidebar-toggle" data-widget="pushmenu" role="button" aria-label="{{ 'topbar.pushmenu.label'|trans }}">
+    <a href="#" class="sidebar-toggle js-sidebar-toggle" data-widget="pushmenu" role="button" aria-label="{{ 'key.push_menu'|trans }}">
         <i class="hamburger align-self-center"></i>
     </a>
     <form class="d-none d-sm-inline-block" action="{{ path('ems_quick_search') }}" method="get">
         <div class="input-group input-group-navbar">
-            <input class="form-control" type="search" name="q" placeholder="{{ 'topbar.search.placeholder'|trans }}" aria-label="{{ 'topbar.search.label'|trans }}">
-            <button class="btn" type="submit" aria-label="{{ 'topbar.search_form.show'|trans }}">
+            <input class="form-control" type="search" name="q" placeholder="{{ 'key.search'|trans }}" aria-label="{{ 'key.search'|trans }}">
+            <button class="btn" type="submit" aria-label="{{ 'key.show_search_form'|trans }}">
                 <i class="fas fa-search align-middle"></i>
             </button>
         </div>
@@ -22,7 +22,7 @@
             <li class="nav-item"  id="system-messages">
                 <a class="nav-link" data-bs-toggle="offcanvas" href="#control-sidebar" role="button" aria-controls="control-sidebar">
                     <i id="ajax-activity" class="fa fa-refresh"></i>
-                    <span class="visually-hidden">{{ 'topbar.control_sidebar.toggle'|trans }}</span>
+                    <span class="visually-hidden">{{ 'action.toggle_sidebar'|trans }}</span>
                     <span id="activity-counter" class="badge bg-{{ theme_color }} navbar-badge"></span>
                 </a>
             </li>
@@ -46,8 +46,8 @@
                             </div>
 
                             <p class="text-white text-center mt-2 mb-0">
-                                {{ 'user.logged_in.title'|trans({'%username%': app.user.username}, 'ems-adminui-user') }}
-                                <small>{{ 'user.logged_in.member_since'|trans({'%date%': app.user.created|date(date_time_format)}, 'ems-adminui-user') }}</small>
+                                {{ 'user.logged_in.title'|trans({'%username%': app.user.username}, 'emsco-core') }}
+                                <small>{{ 'user.logged_in.member_since'|trans({'%date%': app.user.created|date(date_time_format)}, 'emsco-core') }}</small>
 
                                 <small class="d-block">
                                     {% for role in app.user.roles %}
@@ -57,15 +57,15 @@
                             </p>
                         </li>
                         <li class="pt-2">
-                            <a href="{{ path(routes.USER_PROFILE) }}" class="dropdown-item"><i class="fa fa-user"></i> {{ 'user.profile.title'|trans({}, 'ems-adminui-user') }}</a>
+                            <a href="{{ path(routes.USER_PROFILE) }}" class="dropdown-item"><i class="fa fa-user"></i> {{ 'user.profile.title'|trans({}, 'emsco-core') }}</a>
                         </li>
                         {% if is_granted('IS_IMPERSONATOR') %}
                             <li>
-                                <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="dropdown-item" data-testid="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> {{ 'user.logout.exit'|trans({}, 'ems-adminui-user') }}</a>
+                                <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="dropdown-item" data-testid="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> {{ 'user.logout.exit'|trans({}, 'emsco-core') }}</a>
                             </li>
                         {% else %}
                             <li>
-                                <a href="{{ path(routes.USER_LOGOUT) }}" class="dropdown-item" data-testid="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> {{ 'user.logout.submit'|trans({}, 'ems-adminui-user') }}</a>
+                                <a href="{{ path(routes.USER_LOGOUT) }}" class="dropdown-item" data-testid="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> {{ 'user.logout.submit'|trans({}, 'emsco-core') }}</a>
                             </li>
                         {% endif %}
                     </ul>

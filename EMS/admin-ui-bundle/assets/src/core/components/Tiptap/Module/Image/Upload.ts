@@ -11,8 +11,82 @@ interface PlaceholderMeta {
 
 const uploadPluginKey = new PluginKey<DecorationSet>('imageUpload')
 
+const DEFAULT_SVG_SIZE = 150
+
 function isImageFile(file: File): boolean {
     return file.type.startsWith('image/')
+}
+
+function isSvgFile(file: File): boolean {
+    return (
+        file.type.split(';', 1)[0].trim().toLowerCase() === 'image/svg+xml' ||
+        file.name.toLowerCase().endsWith('.svg')
+    )
+}
+
+function loadImageDimensions(src: string): Promise<{ width: number; height: number } | null> {
+    return new Promise((resolve) => {
+        const img = new Image()
+        img.onload = () => {
+            if (img.naturalWidth && img.naturalHeight) {
+                resolve({ width: img.naturalWidth, height: img.naturalHeight })
+            } else {
+                resolve(null)
+            }
+        }
+        img.onerror = () => resolve(null)
+        img.src = src
+    })
+}
+
+function parseSvgLength(value: string | null): number | null {
+    if (!value) return null
+    const parsed = parseFloat(value)
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : null
+}
+
+function getSvgDimensions(file: File): Promise<{ width: number; height: number } | null> {
+    return new Promise((resolve) => {
+        const reader = new FileReader()
+        reader.onload = () => {
+            try {
+                const text = String(reader.result ?? '')
+                const svg = new DOMParser().parseFromString(text, 'image/svg+xml').documentElement
+                if (!svg || svg.nodeName.toLowerCase() !== 'svg') {
+                    resolve(null)
+                    return
+                }
+
+                const width = parseSvgLength(svg.getAttribute('width'))
+                const height = parseSvgLength(svg.getAttribute('height'))
+                if (width && height) {
+                    resolve({ width, height })
+                    return
+                }
+
+                const viewBox = svg.getAttribute('viewBox')
+                const parts =
+                    viewBox
+                        ?.trim()
+                        .split(/[\s,]+/)
+                        .map(Number) ?? []
+                if (parts.length === 4 && parts[2] > 0 && parts[3] > 0) {
+                    const ratio = parts[3] / parts[2]
+                    resolve({
+                        width: width ?? DEFAULT_SVG_SIZE,
+                        height: height ?? Math.round((width ?? DEFAULT_SVG_SIZE) * ratio)
+                    })
+                    return
+                }
+
+                resolve(null)
+            } catch {
+                resolve(null)
+            }
+        }
+        reader.onerror = () => resolve(null)
+        reader.readAsText(file)
+    })
 }
 
 function getImageFiles(dataTransfer: DataTransfer | null): File[] {
@@ -129,21 +203,42 @@ function uploadImageFile(editor: TiptapEditor, view: EditorView, file: File, pos
         algo: hashAlgo,
         initUrl,
         onUploaded: (assetUrl: string) => {
-            const placeholderPos = removePlaceholder()
-            if (placeholderPos === null) return
+            const insert = (width: number | null, height: number | null) => {
+                const placeholderPos = removePlaceholder()
+                if (placeholderPos === null) return
 
-            editor.tiptap
-                .chain()
-                .insertContentAt(placeholderPos, {
-                    type: 'image',
-                    attrs: { src: assetUrl, alt: file.name.replace(/\.[^.]+$/, '') }
-                })
-                .run()
+                editor.tiptap
+                    .chain()
+                    .insertContentAt(placeholderPos, {
+                        type: 'image',
+                        attrs: {
+                            src: assetUrl,
+                            alt: file.name.replace(/\.[^.]+$/, ''),
+                            width: width !== null ? String(width) : null,
+                            height: height !== null ? String(height) : null
+                        }
+                    })
+                    .run()
 
-            editor.showNotice(
-                editor.trans('file_upload_success').replace('{file}', file.name),
-                'success'
-            )
+                editor.showNotice(
+                    editor.trans('file_upload_success').replace('{file}', file.name),
+                    'success'
+                )
+            }
+
+            const dimensionsPromise = isSvgFile(file)
+                ? getSvgDimensions(file)
+                : loadImageDimensions(assetUrl)
+
+            dimensionsPromise.then((dimensions) => {
+                if (dimensions) {
+                    insert(dimensions.width, dimensions.height)
+                } else if (isSvgFile(file)) {
+                    insert(DEFAULT_SVG_SIZE, DEFAULT_SVG_SIZE)
+                } else {
+                    insert(null, null)
+                }
+            })
         },
         onError: () => fail()
     })

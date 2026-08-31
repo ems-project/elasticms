@@ -41,6 +41,7 @@ Current local untracked files observed during setup were `.DS_Store` files and `
 - Keep generated assets, manifests, lock files, and changelogs untouched unless they are part of the requested change.
 - Do not revert user changes or local untracked files.
 - Use `rg` for searches and inspect nearby tests before changing behavior.
+- If a `.mcp.json` file exists at the project root, agents may use it to test ElasticMS MCP development.
 
 ## PHP Conventions
 
@@ -49,6 +50,7 @@ Current local untracked files observed during setup were `.DS_Store` files and `
 - Static analysis is configured at PHPStan level 8 in `config/phpstan.neon.dist`.
 - Prefer typed properties, explicit return types, and narrow exceptions.
 - Avoid broad `mixed` usage unless it mirrors an existing boundary such as decoded JSON, external payloads, or Symfony container configuration.
+- Use `EMS\Helpers\Standard\Json::decode` instead of calling `\json_decode` directly.
 - Keep `t()` calls around PHP translation keys when they are needed by `make build-translations` extraction, even when the target API ultimately requires a plain string.
 - When adding tests, place them in the matching package test namespace:
   - `EMS\\CoreBundle\\Tests\\` for `EMS/core-bundle/tests/`;

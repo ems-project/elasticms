@@ -134,13 +134,13 @@ emsch_archive:
         path: '/_archive/{hash}/{path}'
         controller: 'EMS\CommonBundle\Controller\FileController::assetInArchive'
         requirements: { path: .* }
-        defaults: { _format: html, indexResource: 'index.html', _authenticated: true }
+        defaults: { _format: html, indexResource: 'index.html' }
 emsch_error:
     config:
         path: '/_error/{statusCode}.{_format}'
         controller: 'emsch.controller.router::errorPreview'
         requirements: { statusCode: '[0-9]{3}', _format: html|json }
-        defaults: { _format: html, _authenticated: true }
+        defaults: { _format: html }
         method: [POST, GET]
 emsch_login:
     config:
@@ -151,7 +151,6 @@ emsch_login:
 ems:
     config:
         path: /ems
-        defaults: { _authenticated: true }
     template_static: template/security/ems.html.twig
 ems_check_asset:
     config:

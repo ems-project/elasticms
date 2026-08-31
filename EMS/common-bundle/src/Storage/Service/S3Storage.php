@@ -429,8 +429,8 @@ class S3Storage extends AbstractUrlStorage implements \Stringable
             ]);
 
             return true;
-        } catch (S3Exception $exception) {
-            if (null === $exception->getStatusCode() || $exception->getStatusCode() >= 500) {
+        } catch (S3Exception $s3Exception) {
+            if (null === $s3Exception->getStatusCode() || $s3Exception->getStatusCode() >= 500) {
                 throw new StorageNotAvailableException($this);
             }
 

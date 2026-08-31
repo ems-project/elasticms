@@ -1269,7 +1269,7 @@ views:
             node-name: 'Naam van het knooppunt'
             public-key: 'Publieke sleutel'
             tagline: Tagline
-            tika-server-not-configured: views.elasticsearch.cluster.tika-server-not-configured
+            tika-server-not-configured: 'Tika server is niet geconfigureerd'
             version: Versie
         export-search:
             title: 'Documenten exporteren'

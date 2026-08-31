@@ -1269,7 +1269,7 @@ views:
             node-name: 'Nom du nœud'
             public-key: 'Clé publique'
             tagline: Slogan
-            tika-server-not-configured: views.elasticsearch.cluster.tika-server-not-configured
+            tika-server-not-configured: 'Le serveur Tika n''est pas configuré'
             version: Version
         export-search:
             title: 'Exporter les documents'

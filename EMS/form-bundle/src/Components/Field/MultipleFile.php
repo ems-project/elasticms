@@ -6,7 +6,7 @@ namespace EMS\FormBundle\Components\Field;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\All;
-use Symfony\Component\Validator\Constraints\Count;
+use Symfony\Component\Validator\Constraints\File as FileConstraints;
 
 class MultipleFile extends File
 {
@@ -23,14 +23,14 @@ class MultipleFile extends File
     protected function getValidationConstraints(): array
     {
         $constraints = parent::getValidationConstraints();
-        $countConstraints = \array_filter($constraints, fn (Constraint $constraint) => $constraint instanceof Count);
+        $fileConstraints = \array_filter($constraints, fn (Constraint $c) => $c instanceof FileConstraints);
 
-        if ($countConstraints == $constraints) {
+        if ([] === $fileConstraints) {
             return $constraints;
         }
 
-        $otherConstraints = \array_filter($constraints, fn (Constraint $constraint) => !$constraint instanceof Count);
+        $topLevel = \array_filter($constraints, fn (Constraint $c) => !\in_array($c, $fileConstraints, true));
 
-        return \array_merge($countConstraints, [new All(['constraints' => $otherConstraints])]);
+        return \array_merge(\array_values($topLevel), [new All(['constraints' => \array_values($fileConstraints)])]);
     }
 }

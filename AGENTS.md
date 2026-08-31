@@ -51,6 +51,7 @@ Current local untracked files observed during setup were `.DS_Store` files and `
 - Prefer typed properties, explicit return types, and narrow exceptions.
 - Avoid broad `mixed` usage unless it mirrors an existing boundary such as decoded JSON, external payloads, or Symfony container configuration.
 - Use `EMS\Helpers\Standard\Json::decode` instead of calling `\json_decode` directly.
+- Use `EMS\Helpers\Html\MimeTypes` for MIME type values instead of hardcoding them.
 - Keep `t()` calls around PHP translation keys when they are needed by `make build-translations` extraction, even when the target API ultimately requires a plain string.
 - When adding tests, place them in the matching package test namespace:
   - `EMS\\CoreBundle\\Tests\\` for `EMS/core-bundle/tests/`;

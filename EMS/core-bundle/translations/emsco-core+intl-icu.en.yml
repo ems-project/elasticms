@@ -200,13 +200,10 @@ documentation:
 ems_core:
     dashboard:
         export:
-            icon: 'glyphicon glyphicon-export fa-solid fa-file-export'
             label: Export
         revision_task:
-            icon: 'fa fa-sticky-note'
             label: 'Revision tasks'
         template:
-            icon: 'fa fa-brands fa-html5'
             label: Template
 entity:
     edit:

@@ -4,31 +4,35 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Field;
 
-use EMS\CoreBundle\Core\Dashboard\DashboardService;
-use EMS\CoreBundle\EMSCoreBundle;
+use EMS\CoreBundle\Core\Dashboard\DashboardType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class DashboardPickerType extends Select2Type
+/**
+ * @extends AbstractType<mixed>
+ */
+class DashboardPickerType extends AbstractType
 {
-    public function __construct(private readonly DashboardService $dashboardService, private readonly TranslatorInterface $translator)
+    public function __construct(
+        private readonly TranslatorInterface $translator
+    ) {
+    }
+
+    #[\Override]
+    public function getParent(): string
     {
-        parent::__construct();
+        return ChoiceType::class;
     }
 
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'choices' => $this->dashboardService->getIds(),
-            'attr' => [
-                'data-live-search' => true,
-            ],
-            'choice_attr' => fn ($value) => [
-                'data-icon' => $this->translator->trans(\implode('.', [$value, 'icon']), [], EMSCoreBundle::TRANS_CORE),
-            ],
-            'choice_value' => fn ($value) => $value,
-            'choice_label' => fn ($value) => $this->translator->trans(\implode('.', [$value, 'label']), [], EMSCoreBundle::TRANS_CORE),
+            'choices' => DashboardType::cases(),
+            'choice_value' => fn (?DashboardType $type) => $type?->value,
+            'choice_label' => fn (DashboardType $type) => $type->getLabel()->trans($this->translator),
         ]);
     }
 }

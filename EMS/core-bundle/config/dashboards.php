@@ -21,7 +21,6 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems_core.dashboard.pickertype', DashboardPickerType::class)
         ->args([
-            service('ems_core.dashboard.dashboards'),
             service('translator'),
         ])
         ->tag('form.type');

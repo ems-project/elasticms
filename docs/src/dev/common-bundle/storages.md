@@ -146,12 +146,12 @@ This will instantiate an S3 client service to read and save assets in an S3 (or 
 - `bucket` (mandatory): Name of the bucket to use
 - `usage`: Default value: `"cache"`
 - `multipart-upload`: Default value: `true`
-    - `false`: The S3 multipart upload API is not used. Uploads are resumable but slower.
-    - `true`: Enables the S3 multipart upload API. Uploads are faster but not resumable.
+  - `false`: The S3 multipart upload API is not used. Uploads are resumable but slower.
+  - `true`: Enables the S3 multipart upload API. Uploads are faster but not resumable.
 - `upload-folder`: Deprecated option.
 - `http-options`: Allows
   overriding [S3 HTTP options](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_configuration.html#config-http),
-  especially for `HEAD` requests. Default value: `{"connect_timeout":0.1,"timeout":0.5,"retries":0}`.
+  especially for `HEAD` requests. Default value: `{"connect_timeout":1.0,"timeout":5.0,"retries":0}`.
 
 Example:
 

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Field;
 
 use EMS\CoreBundle\EMSCoreBundle;
-use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Service\UserService;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use function Symfony\Component\Translation\t;
 
-class RolePickerType extends Select2Type
+class RoleMultiPickerType extends ChoiceType
 {
     public function __construct(private readonly UserService $userService)
     {
@@ -21,16 +21,13 @@ class RolePickerType extends Select2Type
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $choices = [...['role.not-defined' => Roles::NOT_DEFINED], ...$this->userService->listUserRoles()];
+        parent::configureOptions($resolver);
 
         $resolver->setDefaults([
-            'label' => t('field.role', [], 'emsco-core'),
-            'choices' => $choices,
-            'attr' => ['data-live-search' => true],
-            'choice_attr' => fn () => [
-                'data-icon' => 'fa fa-user-circle',
-            ],
-            'choice_value' => fn ($value) => $value,
+            'label' => t('field.roles', [], 'emsco-core'),
+            'choices' => $this->userService->listUserRoles(),
+            'multiple' => true,
+            'expanded' => true,
             'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
             'choice_translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
         ]);

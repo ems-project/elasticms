@@ -11,8 +11,8 @@ use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Entity\WysiwygProfile;
 use EMS\CoreBundle\Form\Field\ObjectPickerType;
+use EMS\CoreBundle\Form\Field\RoleMultiPickerType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
-use EMS\CoreBundle\Service\UserService;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -36,7 +36,6 @@ final class UserType extends AbstractType
     public const string MODE_UPDATE = 'update';
 
     public function __construct(
-        private readonly UserService $userService,
         private readonly GroupManager $groupManager,
         private readonly ?string $circleObject,
         private readonly bool $groupFeature,
@@ -114,14 +113,7 @@ final class UserType extends AbstractType
                     'class' => 'wysiwyg-profile-picker',
                 ],
             ])
-            ->add('userRoles', ChoiceType::class, [
-                'choices' => $this->userService->getExistingRoles(),
-                'label' => 'Roles',
-                'expanded' => true,
-                'multiple' => true,
-                'mapped' => true,
-                'choice_translation_domain' => EMSCoreBundle::TRANS_ROLES_DOMAIN,
-            ])
+            ->add('userRoles', RoleMultiPickerType::class)
             ->add('locale', ChoiceType::class, [
                 'label' => 'user.locale',
                 'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,

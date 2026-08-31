@@ -31,6 +31,6 @@ class MultipleFile extends File
 
         $topLevel = \array_filter($constraints, fn (Constraint $c) => !\in_array($c, $fileConstraints, true));
 
-        return \array_merge(\array_values($topLevel), [new All([\array_values($fileConstraints)])]);
+        return \array_merge($topLevel, [new All([$fileConstraints])]);
     }
 }

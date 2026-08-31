@@ -28,13 +28,16 @@ class StorageManagerTest extends WebTestCase
      * @var Stub&LoggerInterface
      */
     private Stub $mockLogger;
-    private Cache $mockCache;
+    /**
+     * @var Stub&Cache
+     */
+    private Stub $mockCache;
 
     #[\Override]
     protected function setUp(): void
     {
         $this->mockLogger = $this->createStub(LoggerInterface::class);
-        $this->mockCache = $this->createMock(Cache::class);
+        $this->mockCache = $this->createStub(Cache::class);
         $this->storageManager = new StorageManager($this->mockLogger, new FileLocator(), $this->mockCache, [$this->getFsFactory()], 'sha1', [[
             'type' => 'fs',
             'path' => $this->getFsDir(),

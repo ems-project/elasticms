@@ -95,7 +95,7 @@ readonly class SecurityListener implements EventSubscriberInterface
 
     private function firewallMatch(Request $request): bool
     {
-        if (0 === \strlen($this->firewallRegex ?? '')) {
+        if (($this->firewallRegex ?? '') === '') {
             return false;
         }
 

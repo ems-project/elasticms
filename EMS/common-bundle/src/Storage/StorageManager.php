@@ -813,6 +813,7 @@ class StorageManager implements FileManagerInterface
         $cacheItem = $this->getNotAvailableStorageCacheItem($this->adapters[$index]);
         $cacheItem->set(true);
         $cacheItem->expiresAfter(5);
+
         $this->cacheManager->save($cacheItem);
         unset($this->adapters[$index]);
         $this->logger->error($storageNotAvailableException->getMessage());

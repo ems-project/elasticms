@@ -23,6 +23,9 @@ And these tools:
 - `get_document_<contentType>`
 - `create_document_<contentType>`
 
+> Note: ElasticMS can also expose project-specific custom MCP tools. See
+> [Custom MCP tools](../mcp/tools.md).
+
 Non-`initialize` requests require a valid MCP session id in the `Mcp-Session-Id` header.
 
 ## Initialize a new session
@@ -77,8 +80,7 @@ curl \
 Expected tools:
 
 - `get_current_user`
-- one `get_document_<contentType>` tool for each content type that the authenticated user is
-  allowed to view
+- one `get_<contentType>` tool for each content type that the authenticated user is allowed to view
 - one `create_document_<contentType>` tool for each content type that the authenticated user is
   allowed to create
 
@@ -102,12 +104,12 @@ curl \
     }'
 ```
 
-## Call `get_document_news`
+## Call `get_news`
 
-Use `get_document_news` to read one document in the `news` content type by `ouuid`, with the
-permissions of the authenticated user.
+Use `get_news` to read one document in the `news` content type by `ouuid`, with the permissions of
+the authenticated user.
 
-Each readable content type exposes its own `get_document_<contentType>` tool.
+Each readable content type exposes its own `get_<contentType>` tool.
 
 ```shell
 curl \
@@ -121,7 +123,7 @@ curl \
       "id":4,
       "method":"tools/call",
       "params":{
-        "name":"get_document_news",
+        "name":"get_news",
         "arguments":{
           "ouuid":"97591e4d-c71a-48ae-8504-67d09df595c2"
         }
@@ -129,10 +131,10 @@ curl \
     }' -w '\n'
 ```
 
-## Call `create_document_news`
+## Call `save_news`
 
-Use `create_document_news` to create a draft in the `news` content type. The request is allowed
-only if the authenticated user has the same creation rights as in the Admin API.
+Use `save_news` to create a draft in the `news` content type. The request is allowed only if the
+authenticated user has the same creation rights as in the Admin API.
 
 The `rawData` schema is generated recursively from the target ElasticMS content type, so different
 content types can expose different payload structures for nested objects, collections, and scalar
@@ -150,7 +152,7 @@ curl \
       "id":5,
       "method":"tools/call",
       "params":{
-        "name":"create_document_news",
+        "name":"save_news",
         "arguments":{
           "rawData":{
             "title":"MCP News Draft"
@@ -162,9 +164,31 @@ curl \
 
 ## Configure the MCP inspector
 
-An MCP inspector is available in the monorepo. You can start it with the command: `make start/mcp`.
-The MCP inspector will be available at
-[http://mcp-inspect.localhost/](http://mcp-inspect.localhost/).
+Before starting the MCP inspector, create a `.mcp.json` file at the root of the monorepo. The
+inspector setup expects this file to define an `mcpServers` object with an `elasticms` server using
+the Streamable HTTP transport, the ElasticMS Admin MCP endpoint, and the authentication headers.
+
+Example:
+
+```json
+{
+    "mcpServers": {
+        "elasticms": {
+            "type": "streamable-http",
+            "url": "http://host.docker.internal:8881/api/mcp",
+            "headers": {
+                "Authorization": "Bearer <your_api_token>"
+            }
+        }
+    }
+}
+```
+
+You can adapt the `url` or add query parameters if needed for local debugging, but the file must
+exist before running `make start/mcp`.
+
+An MCP inspector is available in the monorepo. Start it with `make start/mcp`. The MCP inspector
+will then be available at [http://mcp-inspect.localhost/](http://mcp-inspect.localhost/).
 
 Choose these options:
 

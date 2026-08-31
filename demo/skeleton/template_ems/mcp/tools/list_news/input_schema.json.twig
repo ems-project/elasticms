@@ -1,0 +1,23 @@
+{
+    "type": "object",
+    "properties": {
+        "page": {
+            "type": "integer",
+            "default": 0,
+            "description": "Zero-based page number."
+        },
+        "environment": {
+            "type": "string",
+            "enum": [
+                "live",
+                "preview"
+            ],
+            "default": "live",
+            "description": "Search environment name."
+        }
+    },
+    "required": [
+        "page"
+    ],
+    "additionalProperties": false
+}

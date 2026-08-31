@@ -124,6 +124,11 @@ server-start/%: ## server-start/(admin|web|cli)
 		OTEL_PHP_AUTOLOAD_PATH=$(MAKEFILE_DIR)/vendor/autoload.php \
 		symfony server:start --dir=elasticms-$* -d --port=$(PORT_$(*)) --no-tls --allow-all-ip; \
 	else \
+		env \
+		OTEL_SDK_DISABLED=true \
+		OTEL_PHP_AUTOLOAD_ENABLED=false \
+		OTEL_PHP_FIBERS_ENABLED=false \
+		OTEL_PHP_DISABLED_INSTRUMENTATIONS=all \
 		symfony server:start --dir=elasticms-$* -d --port=$(PORT_$(*)) --no-tls --allow-all-ip; \
 	fi
 server-stop/%: ## server-stop/(admin|web|cli)

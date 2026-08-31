@@ -27,8 +27,7 @@
                         "class": null,
                         "lastOfRow": false,
                         "helptext": null,
-                        "icon": null,
-                        "language": null
+                        "icon": null
                     },
                     "restrictionOptions": {
                         "minimum_role": null
@@ -133,8 +132,7 @@
                                     "label": "Tabs",
                                     "class": "col-md-12",
                                     "lastOfRow": false,
-                                    "helptext": null,
-                                    "localePreferredFirst": false
+                                    "helptext": null
                                 },
                                 "mappingOptions": [],
                                 "restrictionOptions": {
@@ -254,7 +252,9 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null,
+                                                            "mcpOutputSchema": "{{ {\r\n    type: 'string' \r\n}|json_encode|raw }}"
                                                         },
                                                         "raw_data": []
                                                     },
@@ -373,8 +373,7 @@
                                                             "class": "col-md-12",
                                                             "lastOfRow": false,
                                                             "helptext": null,
-                                                            "icon": "fa fa-sitemap",
-                                                            "blocks_template": "@EMSCH/template_ems/content_type/blocks.html.twig"
+                                                            "icon": "fa fa-sitemap"
                                                         },
                                                         "mappingOptions": {
                                                             "index": null,
@@ -414,8 +413,7 @@
                                                                         "class": "col-md-12",
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
-                                                                        "icon": "fa fa-file-text",
-                                                                        "language": null
+                                                                        "icon": "fa fa-file-text"
                                                                     },
                                                                     "mappingOptions": [],
                                                                     "restrictionOptions": {
@@ -488,28 +486,7 @@
                                                                             "options": {
                                                                                 "displayOptions": {
                                                                                     "label": "Label",
-                                                                                    "class": "col-md-12",
-                                                                                    "lastOfRow": false,
-                                                                                    "helptext": null,
-                                                                                    "prefixIcon": null,
-                                                                                    "prefixText": null,
-                                                                                    "suffixIcon": null,
-                                                                                    "suffixText": null,
-                                                                                    "placeholder": null,
-                                                                                    "icon": null
-                                                                                },
-                                                                                "restrictionOptions": {
-                                                                                    "mandatory": false,
-                                                                                    "mandatory_if": null,
-                                                                                    "minimum_role": null
-                                                                                },
-                                                                                "migrationOptions": {
-                                                                                    "protected": false
-                                                                                },
-                                                                                "extraOptions": {
-                                                                                    "extra": null,
-                                                                                    "clear_on_copy": false,
-                                                                                    "postProcessing": null
+                                                                                    "class": "col-md-12"
                                                                                 }
                                                                             },
                                                                             "orderKey": 1,
@@ -576,8 +553,7 @@
                                                                         "class": "col-md-12",
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
-                                                                        "icon": "fa fa-table",
-                                                                        "language": null
+                                                                        "icon": "fa fa-table"
                                                                     },
                                                                     "mappingOptions": [],
                                                                     "restrictionOptions": {
@@ -652,28 +628,7 @@
                                                                             "options": {
                                                                                 "displayOptions": {
                                                                                     "label": "Label",
-                                                                                    "class": "col-md-12",
-                                                                                    "lastOfRow": false,
-                                                                                    "helptext": null,
-                                                                                    "prefixIcon": null,
-                                                                                    "prefixText": null,
-                                                                                    "suffixIcon": null,
-                                                                                    "suffixText": null,
-                                                                                    "placeholder": null,
-                                                                                    "icon": null
-                                                                                },
-                                                                                "restrictionOptions": {
-                                                                                    "mandatory": false,
-                                                                                    "mandatory_if": null,
-                                                                                    "minimum_role": null
-                                                                                },
-                                                                                "migrationOptions": {
-                                                                                    "protected": false
-                                                                                },
-                                                                                "extraOptions": {
-                                                                                    "extra": null,
-                                                                                    "clear_on_copy": false,
-                                                                                    "postProcessing": null
+                                                                                    "class": "col-md-12"
                                                                                 }
                                                                             },
                                                                             "orderKey": 1,
@@ -743,8 +698,7 @@
                                                                                     "class": "col-md-12",
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
-                                                                                    "icon": "fa fa-link",
-                                                                                    "language": null
+                                                                                    "icon": "fa fa-link"
                                                                                 },
                                                                                 "mappingOptions": [],
                                                                                 "restrictionOptions": {
@@ -871,8 +825,7 @@
                                                                         "class": "col-md-12",
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
-                                                                        "icon": "fa fa-photo",
-                                                                        "language": null
+                                                                        "icon": "fa fa-photo"
                                                                     },
                                                                     "mappingOptions": [],
                                                                     "restrictionOptions": {
@@ -947,28 +900,7 @@
                                                                             "options": {
                                                                                 "displayOptions": {
                                                                                     "label": "Label",
-                                                                                    "class": "col-md-12",
-                                                                                    "lastOfRow": false,
-                                                                                    "helptext": null,
-                                                                                    "prefixIcon": null,
-                                                                                    "prefixText": null,
-                                                                                    "suffixIcon": null,
-                                                                                    "suffixText": null,
-                                                                                    "placeholder": null,
-                                                                                    "icon": null
-                                                                                },
-                                                                                "restrictionOptions": {
-                                                                                    "mandatory": false,
-                                                                                    "mandatory_if": null,
-                                                                                    "minimum_role": null
-                                                                                },
-                                                                                "migrationOptions": {
-                                                                                    "protected": false
-                                                                                },
-                                                                                "extraOptions": {
-                                                                                    "extra": null,
-                                                                                    "clear_on_copy": false,
-                                                                                    "postProcessing": null
+                                                                                    "class": "col-md-12"
                                                                                 }
                                                                             },
                                                                             "orderKey": 1,
@@ -995,8 +927,7 @@
                                                                         "class": "col-md-12",
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
-                                                                        "icon": "fa fa-clone",
-                                                                        "language": null
+                                                                        "icon": "fa fa-clone"
                                                                     },
                                                                     "mappingOptions": [],
                                                                     "restrictionOptions": {
@@ -1072,28 +1003,7 @@
                                                                             "options": {
                                                                                 "displayOptions": {
                                                                                     "label": "Label",
-                                                                                    "class": "col-md-12",
-                                                                                    "lastOfRow": false,
-                                                                                    "helptext": null,
-                                                                                    "prefixIcon": null,
-                                                                                    "prefixText": null,
-                                                                                    "suffixIcon": null,
-                                                                                    "suffixText": null,
-                                                                                    "placeholder": null,
-                                                                                    "icon": null
-                                                                                },
-                                                                                "restrictionOptions": {
-                                                                                    "mandatory": false,
-                                                                                    "mandatory_if": null,
-                                                                                    "minimum_role": null
-                                                                                },
-                                                                                "migrationOptions": {
-                                                                                    "protected": false
-                                                                                },
-                                                                                "extraOptions": {
-                                                                                    "extra": null,
-                                                                                    "clear_on_copy": false,
-                                                                                    "postProcessing": null
+                                                                                    "class": "col-md-12"
                                                                                 }
                                                                             },
                                                                             "orderKey": 1,
@@ -1120,8 +1030,7 @@
                                                                         "class": "col-md-12",
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
-                                                                        "icon": "fa fa-mouse-pointer",
-                                                                        "language": null
+                                                                        "icon": "fa fa-mouse-pointer"
                                                                     },
                                                                     "mappingOptions": [],
                                                                     "restrictionOptions": {
@@ -1196,28 +1105,7 @@
                                                                             "options": {
                                                                                 "displayOptions": {
                                                                                     "label": "Label",
-                                                                                    "class": "col-md-12",
-                                                                                    "lastOfRow": false,
-                                                                                    "helptext": null,
-                                                                                    "prefixIcon": null,
-                                                                                    "prefixText": null,
-                                                                                    "suffixIcon": null,
-                                                                                    "suffixText": null,
-                                                                                    "placeholder": null,
-                                                                                    "icon": null
-                                                                                },
-                                                                                "restrictionOptions": {
-                                                                                    "mandatory": false,
-                                                                                    "mandatory_if": null,
-                                                                                    "minimum_role": null
-                                                                                },
-                                                                                "migrationOptions": {
-                                                                                    "protected": false
-                                                                                },
-                                                                                "extraOptions": {
-                                                                                    "extra": null,
-                                                                                    "clear_on_copy": false,
-                                                                                    "postProcessing": null
+                                                                                    "class": "col-md-12"
                                                                                 }
                                                                             },
                                                                             "orderKey": 1,
@@ -1296,8 +1184,7 @@
                                                             "class": "col-md-12",
                                                             "lastOfRow": false,
                                                             "helptext": null,
-                                                            "icon": "fa fa-search",
-                                                            "language": null
+                                                            "icon": "fa fa-search"
                                                         },
                                                         "mappingOptions": [],
                                                         "restrictionOptions": {
@@ -1468,8 +1355,7 @@
                                                 "class": "col-md-12",
                                                 "lastOfRow": false,
                                                 "helptext": null,
-                                                "icon": "fa fa-gears",
-                                                "language": null
+                                                "icon": "fa fa-gears"
                                             },
                                             "mappingOptions": [],
                                             "restrictionOptions": {
@@ -1683,6 +1569,7 @@
                     "extension": null,
                     "active": false,
                     "role": "not-defined",
+                    "environments": [],
                     "roleTo": "not-defined",
                     "roleCc": "not-defined",
                     "circlesTo": null,
@@ -1697,7 +1584,9 @@
                     "tag": null,
                     "allowedRemoteHosts": []
                 },
-                "replaced": []
+                "replaced": [
+                    "environments"
+                ]
             },
             {
                 "class": "EMS\\CoreBundle\\Entity\\Template",
@@ -1718,6 +1607,7 @@
                     "extension": null,
                     "active": false,
                     "role": "not-defined",
+                    "environments": [],
                     "roleTo": "not-defined",
                     "roleCc": "not-defined",
                     "circlesTo": null,
@@ -1732,7 +1622,9 @@
                     "tag": null,
                     "allowedRemoteHosts": []
                 },
-                "replaced": []
+                "replaced": [
+                    "environments"
+                ]
             }
         ],
         "views": [

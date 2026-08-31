@@ -183,6 +183,9 @@ services:
             SERVER_PORT: 6277
             MCP_AUTO_OPEN_ENABLED: false
             ALLOWED_ORIGINS: "http://mcp-inspect.localhost,http://mcp-inspect-proxy.localhost"
+        command: ["--web", "--catalog", "/config/.mcp.json"]
+        volumes:
+            - ../.mcp.json:/config/.mcp.json
         extra_hosts:
             - "host.docker.internal:host-gateway"
         labels:

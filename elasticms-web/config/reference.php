@@ -357,7 +357,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         default?: bool|Param,
  *         translation_type?: scalar|Param|null, // example: 'test_i18n' // Default: null
  *         route_type?: scalar|Param|null, // Default: null
- *         asset_config_type?: scalar|Param|null, // Default: null
  *         templates?: mixed,
  *         api?: mixed, // api for content exposing
  *         search_config?: mixed,

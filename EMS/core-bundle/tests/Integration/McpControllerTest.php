@@ -493,6 +493,105 @@ final class McpControllerTest extends WebTestCase
         ], $styleSetData['classes'] ?? []);
     }
 
+    public function testResourcesExposeContentTypeDescriptionsWithoutHtml(): void
+    {
+        $this->createAuthenticatedUserWithNewsContent();
+        $sessionId = $this->initializeSession($this->client);
+
+        $resourcesPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 14,
+            'method' => 'resources/list',
+            'params' => new \stdClass(),
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($resourcesPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $resourcesResponse = $this->decodeResponse($this->client);
+        $resources = $resourcesResponse['result']['resources'] ?? [];
+        $contentTypeResource = \array_first(\array_filter($resources, static fn (array $resource): bool => 'content_types_descriptions' === ($resource['name'] ?? null))) ?? null;
+        self::assertIsArray($contentTypeResource);
+        self::assertSame('elasticms://content-types/descriptions', $contentTypeResource['uri'] ?? null);
+        self::assertSame('application/json', $contentTypeResource['mimeType'] ?? null);
+
+        $templatesPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 15,
+            'method' => 'resources/templates/list',
+            'params' => new \stdClass(),
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($templatesPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $templatesResponse = $this->decodeResponse($this->client);
+        $templates = $templatesResponse['result']['resourceTemplates'] ?? [];
+        $contentTypeTemplate = \array_first(\array_filter($templates, static fn (array $template): bool => 'content_type_description' === ($template['name'] ?? null))) ?? null;
+        self::assertIsArray($contentTypeTemplate);
+        self::assertSame('elasticms://content-types/{name}/description', $contentTypeTemplate['uriTemplate'] ?? null);
+
+        $readPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 16,
+            'method' => 'resources/read',
+            'params' => [
+                'uri' => 'elasticms://content-types/descriptions',
+            ],
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($readPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $readResponse = $this->decodeResponse($this->client);
+        $resourceText = $readResponse['result']['contents'][0]['text'] ?? null;
+        self::assertIsString($resourceText);
+        $resourceData = \json_decode($resourceText, true, flags: \JSON_THROW_ON_ERROR);
+        $newsContentType = \array_first(\array_filter($resourceData['contentTypes'] ?? [], static fn (array $contentType): bool => 'news' === ($contentType['name'] ?? null))) ?? null;
+        self::assertIsArray($newsContentType);
+        self::assertSame('News description & details', $newsContentType['description'] ?? null);
+        self::assertSame('preview', $newsContentType['environment'] ?? null);
+
+        $readContentTypePayload = [
+            'jsonrpc' => '2.0',
+            'id' => 17,
+            'method' => 'resources/read',
+            'params' => [
+                'uri' => 'elasticms://content-types/news/description',
+            ],
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($readContentTypePayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $readContentTypeResponse = $this->decodeResponse($this->client);
+        $contentTypeText = $readContentTypeResponse['result']['contents'][0]['text'] ?? null;
+        self::assertIsString($contentTypeText);
+        $contentTypeData = \json_decode($contentTypeText, true, flags: \JSON_THROW_ON_ERROR);
+        self::assertSame('news', $contentTypeData['name'] ?? null);
+        self::assertSame('News description & details', $contentTypeData['description'] ?? null);
+    }
+
     public function testGetDocumentUsesAuthenticatedUserPermissions(): void
     {
         $fixtures = $this->createAuthenticatedUserWithNewsContent();
@@ -558,6 +657,7 @@ final class McpControllerTest extends WebTestCase
             ->setName('news')
             ->setSingularName('News')
             ->setPluralName('News')
+            ->setDescription('<p>News</p><p><strong>description</strong> &amp; details</p>')
             ->setActive(true)
             ->setOrderKey(1)
             ->setEnvironment($environment);

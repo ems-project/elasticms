@@ -565,7 +565,7 @@ final class McpControllerTest extends WebTestCase
         $newsContentType = \array_first(\array_filter($resourceData['contentTypes'] ?? [], static fn (array $contentType): bool => 'news' === ($contentType['name'] ?? null))) ?? null;
         self::assertIsArray($newsContentType);
         self::assertSame('News description & details', $newsContentType['description'] ?? null);
-        self::assertSame('preview', $newsContentType['environment'] ?? null);
+        self::assertSame('defaultPreview', $newsContentType['environment'] ?? null);
 
         $readContentTypePayload = [
             'jsonrpc' => '2.0',

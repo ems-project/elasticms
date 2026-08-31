@@ -82,7 +82,6 @@ color:
     teal: Teal
     yellow: Yellow
 content-type:
-    edit: '{type}'
     field:
         hide_revision_sidebar:
             label: 'Hide revision sidebar'
@@ -94,9 +93,6 @@ content-type:
             label: Helptexts
         tasks_titles:
             label: Titles
-    icon:
-        class: 'fa fa-cubes'
-    menu: 'Content Types'
 content_type:
     field: Field
     mapping: Mapping
@@ -176,6 +172,9 @@ core:
                 other   {There are # indexes}
             }
     version: 'Version {core} with Symfony {symfony}'
+dashboard:
+    exception:
+        title: 'The dashboard {name} raised an exception'
 data:
     add:
         new_title: 'New {content_type}'
@@ -191,9 +190,6 @@ data:
             as_indexed_in: 'As indexed in {environment}'
             card_title: 'Recursive view'
             title: 'View {content_type}:{id}'
-dashboard:
-    exception:
-        title: 'The dashboard {name} raised an exception'
 documentation:
     api:
         title: Documentation
@@ -468,8 +464,6 @@ form:
         title: 'Edit a form'
     field-type-type:
         root: Structure
-    index:
-        title: Forms
     menu: Forms
     reorder:
         title: 'Reorder fields of form: {label}'
@@ -490,11 +484,8 @@ inline_editor:
 job:
     command: Command
     completed: Completed
-    icon:
-        class: 'fa fa-terminal'
     info: 'About this job'
     list: "Job's list"
-    menu: Jobs
     modified: 'Last updated'
     output: "Job's output"
     progress: Progress
@@ -628,8 +619,6 @@ log:
         invalid_table_action: 'Unknown table action'
     icon:
         class: 'fa fa-file-text'
-    index:
-        title: Logs
     menu: Logs
     notice:
         alias_attached: 'The alias "{alias}" has been attached'
@@ -642,16 +631,7 @@ log:
     tagline: 'Who did what'
     title: 'Log of the {created}'
     view:
-        chanel: Channel
-        channel: '__log.view.channel'
-        context: Context
-        created: Created
-        extra: Extra
-        impersonator: Impersonator
-        level: Severity
-        message: Message
         title: 'Logs of {created}'
-        user: User
     warning:
         draft_not_found: 'Draft not found with id "{revisionId}"'
         duplicate_environment: 'Environment "{name}" already exists!'
@@ -749,11 +729,9 @@ release:
         missing-revision: 'The document "{label}" is no more available in {environment}'
         no_more_in_target: 'This revision has been unpublished from {target}'
         not-applicable: 'not applicable'
-        publish: Publish
         revision: '{date} finalized by {user}'
         revision-not-applicable: 'Not applicable'
         still_in_target: 'Still released in {target}'
-        unpublish: Unpublish
     revision:
         index:
             publish: 'List of documents available for publication'
@@ -842,13 +820,6 @@ sidebar-menu:
     user:
         name: '{name}'
         searches: Searches
-sidebar_menu:
-    content_type:
-        create: 'New {name}'
-        draft_in_progress: 'Draft in progress'
-        search: 'Search in {plural}'
-        search_in_my_circle: 'In my {name}'
-        trash: Trash
 status:
     bus:
         failed: 'Messages in error'
@@ -863,10 +834,6 @@ status:
 subtitle:
     user-in-group: 'Users in group'
     user-not-in-group: 'User not in group'
-table:
-    index:
-        button:
-            add: Add
 task:
     action:
         cancel: Cancel
@@ -1217,13 +1184,6 @@ view:
             field-type-not-found: 'The type definition associated to this item is missing (probably deleted).'
         json-menu-nested:
             out_of_sync: 'Out of sync, please refresh and retry!'
-    elements:
-        side-menu:
-            release-admin:
-                index-link: Releases
-            user:
-                name: '{name}'
-                searches: Searches
     form:
         fields:
             asset:
@@ -1237,16 +1197,12 @@ view:
             collection_added_items: '{0} Nothing has been added.|{1} One item has been added.|]1,Inf[ {count} items have been added.'
             collection_removed_items: '{0} Nothing has been removed.|{1} One item has been removed.|]1,Inf[ {count} item have been removed.'
             menu-option-button: View
-    menu:
-        breadcrumb:
-            content-types: 'Content types'
     profile:
         show:
             action:
                 cancel: Cancel
                 edit: Edit
-                profile:
-                    title: 'Your profile'
+                profile: { title: 'Your profile' }
             alt:
                 user_profile_picture: "User profile's picture"
             display_name: 'Display name'
@@ -1256,7 +1212,6 @@ view:
             locale_preferred: 'Locale preferred'
             login: Login
             wysiwyg: 'WYSIWYG profile'
-    tagline: ''
     title: '{name} of {plural}'
     user:
         index:
@@ -1268,14 +1223,12 @@ views:
             discard-draft-label: 'Delete this draft'
             discard-draft-message: 'Modifications made in this draft will be lost'
             new-draft-title: '{contentType}: new draft'
-            publish-label: 'Save and publish in {environment}'
             subtitle: 'Working area'
             title: 'Edit the {contentType}: {revision} '
         revisions-data-html:
             all-linked-documents: 'All linked documents'
             audit: Audit
             by: By
-            creation-date: 'Creation date'
             current-revision: 'Current revision'
             current-version: 'Current version'
             draft-in-progress: 'Draft in progress'
@@ -1316,7 +1269,8 @@ views:
             node-name: 'Node name'
             public-key: 'Public key'
             tagline: Tagline
-            version: 'Version'
+            tika-server-not-configured: views.elasticsearch.cluster.tika-server-not-configured
+            version: Version
         export-search:
             title: 'Export documents'
         search:
@@ -1325,19 +1279,6 @@ views:
             sort-options: 'Sort options'
             subtitle: '{total}'
             title: 'Search engine: {total} results'
-        status:
-            bits: Bits
-            build-date: 'Build date'
-            certificate-information: "Certificate's information"
-            certificate-is-missing: 'Certificate is missing'
-            cluster-uuid: "Cluster's UUID"
-            lucene-version: "Lucene's version"
-            node-name: "Node's name"
-            public-key: 'Public key'
-            tagline: Tagline
-            tika-server: 'Tika server'
-            tika-server-not-configured: 'Tika server is not configured'
-            version: "Elasticsearch's version"
     elements:
         object-toolbar-html:
             edit-draft: 'Edit draft'
@@ -1376,24 +1317,9 @@ views:
             unpublish-from-label: 'Unpublish from'
             view-label: 'View this revision'
         side-menu-html:
-            admin: Admin
             anonymous-user: 'Anonymous user'
-            compare-environments: 'Compare environments'
-            create-job: 'New job'
-            documentation: Documentation
-            other: Other
-            publishers: Publishers
             quick-search-label: 'Quick search'
-            quick-search-placeholder: 'Search...'
-            search: Search
-            status: Status
-            trash: Trash
-            uploaded-files: 'Uploaded files'
-            user-management: 'User management'
-            users: Users
-        sidebar-menu-html:
-            content-types: 'Content Types'
-            dashboards: Dashboards
+            quick-search-placeholder: Search...
 webhook:
     enable:
         action: Enable

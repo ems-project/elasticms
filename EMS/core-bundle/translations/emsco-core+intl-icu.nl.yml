@@ -82,7 +82,6 @@ color:
     teal: Blauwgroen
     yellow: Geel
 content-type:
-    edit: '{type}'
     field:
         hide_revision_sidebar:
             label: 'Revisiezijbalk verbergen'
@@ -94,9 +93,6 @@ content-type:
             label: Helpteksten
         tasks_titles:
             label: Titels
-    icon:
-        class: 'fa fa-cubes'
-    menu: 'Content Types'
 content_type:
     field: Veld
     mapping: Mapping
@@ -176,6 +172,9 @@ core:
                 other   {Er zijn # indexen}
             }
     version: 'Versie {core} met Symfony {symfony}'
+dashboard:
+    exception:
+        title: 'Het dashboard {name} heeft een uitzondering veroorzaakt'
 data:
     add:
         new_title: 'Nieuwe {content_type}'
@@ -191,22 +190,16 @@ data:
             as_indexed_in: 'Zoals geïndexeerd in {environment}'
             card_title: 'Recursieve weergave'
             title: '{content_type}:{id} bekijken'
-dashboard:
-    exception:
-        title: 'Het dashboard {name} heeft een uitzondering veroorzaakt'
 documentation:
     api:
         title: Documentatie
 ems_core:
     dashboard:
         export:
-            icon: 'glyphicon glyphicon-export fa-solid fa-file-export'
             label: Exporteren
         revision_task:
-            icon: 'fa fa-sticky-note'
             label: Revisietaken
         template:
-            icon: 'fa fa-brands fa-html5'
             label: Sjabloon
 entity:
     edit:
@@ -471,8 +464,6 @@ form:
         title: 'Een formulier bewerken'
     field-type-type:
         root: Structuur
-    index:
-        title: Formulieren
     menu: Formulieren
     reorder:
         title: 'Velden van formulier hersorteren: {label}'
@@ -493,11 +484,8 @@ inline_editor:
 job:
     command: Commando
     completed: Voltooid
-    icon:
-        class: 'fa fa-terminal'
     info: 'Over deze job'
     list: Joblijst
-    menu: Taken
     modified: 'Laatst bijgewerkt'
     output: Jobuitvoer
     progress: Voortgang
@@ -631,8 +619,6 @@ log:
         invalid_table_action: 'Onbekende tabelactie'
     icon:
         class: 'fa fa-file-text'
-    index:
-        title: Logs
     menu: Logs
     notice:
         alias_attached: 'De alias "{alias}" is gekoppeld'
@@ -645,16 +631,7 @@ log:
     tagline: 'Wie deed wat'
     title: 'Log van {created}'
     view:
-        chanel: Kanaal
-        channel: '__log.view.channel'
-        context: Context
-        created: Aangemaakt
-        extra: Extra
-        impersonator: Imitator
-        level: Ernst
-        message: Bericht
         title: 'Logs van {created}'
-        user: Gebruiker
     warning:
         draft_not_found: 'Concept niet gevonden met id "{revisionId}"'
         duplicate_environment: 'Omgeving "{name}" bestaat al!'
@@ -752,11 +729,9 @@ release:
         missing-revision: 'Het document "{label}" is niet meer beschikbaar in {environment}'
         no_more_in_target: 'Deze revisie is gedepubliceerd uit {target}'
         not-applicable: 'niet van toepassing'
-        publish: Publiceren
         revision: '{date} afgerond door {user}'
         revision-not-applicable: 'Niet van toepassing'
         still_in_target: 'Nog steeds gepubliceerd in {target}'
-        unpublish: Depubliceren
     revision:
         index:
             publish: 'Lijst van documenten beschikbaar voor publicatie'
@@ -845,13 +820,6 @@ sidebar-menu:
     user:
         name: '{name}'
         searches: Zoekopdrachten
-sidebar_menu:
-    content_type:
-        create: 'Nieuwe {name}'
-        draft_in_progress: 'Concept in uitvoering'
-        search: 'Zoeken in {plural}'
-        search_in_my_circle: 'In mijn {name}'
-        trash: Prullenbak
 status:
     bus:
         failed: 'Berichten met fout'
@@ -866,10 +834,6 @@ status:
 subtitle:
     user-in-group: 'Gebruikers in groep'
     user-not-in-group: 'Gebruiker niet in groep'
-table:
-    index:
-        button:
-            add: Toevoegen
 task:
     action:
         cancel: Annuleren
@@ -1220,13 +1184,6 @@ view:
             field-type-not-found: 'De typedefinitie gekoppeld aan dit item ontbreekt (waarschijnlijk verwijderd).'
         json-menu-nested:
             out_of_sync: 'Niet gesynchroniseerd, vernieuw en probeer opnieuw!'
-    elements:
-        side-menu:
-            release-admin:
-                index-link: Releases
-            user:
-                name: '{name}'
-                searches: Zoekopdrachten
     form:
         fields:
             asset:
@@ -1240,16 +1197,12 @@ view:
             collection_added_items: '{0} Er is niets toegevoegd.|{1} Er is één item toegevoegd.|]1,Inf[ Er zijn {count} items toegevoegd.'
             collection_removed_items: '{0} Er is niets verwijderd.|{1} Er is één item verwijderd.|]1,Inf[ Er zijn {count} items verwijderd.'
             menu-option-button: Bekijken
-    menu:
-        breadcrumb:
-            content-types: 'Content types'
     profile:
         show:
             action:
                 cancel: Annuleren
                 edit: Bewerken
-                profile:
-                    title: 'Uw profiel'
+                profile: { title: 'Uw profiel' }
             alt:
                 user_profile_picture: 'Profielfoto van de gebruiker'
             display_name: Weergavenaam
@@ -1259,7 +1212,6 @@ view:
             locale_preferred: Voorkeurstaal
             login: Login
             wysiwyg: WYSIWYG-profiel
-    tagline: ''
     title: '{name} van {plural}'
     user:
         index:
@@ -1271,14 +1223,12 @@ views:
             discard-draft-label: 'Dit concept verwijderen'
             discard-draft-message: 'Wijzigingen in dit concept gaan verloren'
             new-draft-title: '{contentType}: nieuw concept'
-            publish-label: 'Opslaan en publiceren in {environment}'
             subtitle: Werkruimte
             title: '{contentType} bewerken: {revision} '
         revisions-data-html:
             all-linked-documents: 'Alle gekoppelde documenten'
             audit: Audit
             by: Door
-            creation-date: Aanmaakdatum
             current-revision: 'Huidige revisie'
             current-version: 'Huidige versie'
             draft-in-progress: 'Concept in uitvoering'
@@ -1317,30 +1267,18 @@ views:
             cluster-uuid: Cluster-UUID
             lucene-version: Lucene-versie
             node-name: 'Naam van het knooppunt'
-            public-key: Publieke sleutel
+            public-key: 'Publieke sleutel'
             tagline: Tagline
+            tika-server-not-configured: views.elasticsearch.cluster.tika-server-not-configured
             version: Versie
         export-search:
-            title: Documenten exporteren
+            title: 'Documenten exporteren'
         search:
             error_title: 'Fout bij het zoekresultaat'
             pagetitle: Zoeken
             sort-options: Sorteeropties
             subtitle: '{total}'
             title: 'Zoekmachine: {total} resultaten'
-        status:
-            bits: Bits
-            build-date: Buildatum
-            certificate-information: Certificaatinformatie
-            certificate-is-missing: 'Certificaat ontbreekt'
-            cluster-uuid: Cluster-UUID
-            lucene-version: Lucene-versie
-            node-name: 'Naam van het knooppunt'
-            public-key: Publieke sleutel
-            tagline: Tagline
-            tika-server: Tika-server
-            tika-server-not-configured: 'Tika-server is niet geconfigureerd'
-            version: Elasticsearch-versie
     elements:
         object-toolbar-html:
             edit-draft: 'Concept bewerken'
@@ -1379,24 +1317,9 @@ views:
             unpublish-from-label: 'Depubliceren van'
             view-label: 'Deze revisie bekijken'
         side-menu-html:
-            admin: Beheer
             anonymous-user: 'Anonieme gebruiker'
-            compare-environments: 'Omgevingen vergelijken'
-            create-job: 'Nieuwe taak'
-            documentation: Documentatie
-            other: Overig
-            publishers: Uitgevers
             quick-search-label: 'Snel zoeken'
             quick-search-placeholder: Zoeken...
-            search: Zoeken
-            status: Status
-            trash: Prullenbak
-            uploaded-files: 'Geüploade bestanden'
-            user-management: Gebruikersbeheer
-            users: Gebruikers
-        sidebar-menu-html:
-            content-types: 'Content Types'
-            dashboards: Dashboards
 webhook:
     enable:
         action: Inschakelen

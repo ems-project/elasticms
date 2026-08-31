@@ -8,11 +8,14 @@ outline: [2, 2]
 > `emsco:environment:rebuild --all`
 
 ## 7.3
+
 - BC: media library template no longer relies on Bootstrap classes or Font Awesome icons by default
-- BC: CKEditor is deprecated and will be removed in 8.*, you should use [tiptap](./elasticms-admin/wysiwyg/tiptap.md).
+- BC: CKEditor is deprecated and will be removed in 8.\*, you should use
+  [tiptap](./elasticms-admin/wysiwyg/tiptap.md).
 - BC: dashboard type `media_lib_browse_object` is deprecated, not needed anymore with tiptap.
 - BC: removed `EMSCH_ASSET_CONFIG_TYPE` was not used anymore
-- Feature: `_authenticated` attribute on routes can be replaced by a `EMSCH_SECURITY_FIREWALL` (see demo)
+- Feature: `_authenticated` attribute on routes can be replaced by a `EMSCH_SECURITY_FIREWALL` (see
+  demo)
 
 ## 7.2
 

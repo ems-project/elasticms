@@ -75,6 +75,7 @@ use EMS\CoreBundle\Form\Factory\ObjectChoiceListFactory;
 use EMS\CoreBundle\Form\Revision\Task\RevisionTaskFiltersType;
 use EMS\CoreBundle\Form\Revision\Task\RevisionTaskHandleType;
 use EMS\CoreBundle\Mcp\ElasticmsMcpResourceContentTypeService;
+use EMS\CoreBundle\Mcp\ElasticmsMcpResourceEnvironmentService;
 use EMS\CoreBundle\Mcp\ElasticmsMcpResourceWysiwygStyleService;
 use EMS\CoreBundle\Mcp\ElasticmsMcpServerFactory;
 use EMS\CoreBundle\Mcp\ElasticmsMcpToolAssetService;
@@ -757,6 +758,11 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.wysiwyg_styles_set'),
         ]);
 
+    $services->set(ElasticmsMcpResourceEnvironmentService::class)
+        ->args([
+            service('ems.service.environment'),
+        ]);
+
     $services->set(ElasticmsMcpResourceContentTypeService::class)
         ->args([
             service(ContentTypeService::class),
@@ -772,6 +778,7 @@ return static function (ContainerConfigurator $container) {
             service(ElasticmsMcpToolDataService::class),
             service(ElasticmsMcpToolAssetService::class),
             service(ElasticmsMcpToolCustomService::class),
+            service(ElasticmsMcpResourceEnvironmentService::class),
             service(ElasticmsMcpResourceContentTypeService::class),
             service(ElasticmsMcpResourceWysiwygStyleService::class),
         ]);

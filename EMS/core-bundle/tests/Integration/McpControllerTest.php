@@ -592,6 +592,104 @@ final class McpControllerTest extends WebTestCase
         self::assertSame('News description & details', $contentTypeData['description'] ?? null);
     }
 
+    public function testResourcesExposeEnvironmentDescriptionsWithoutHtml(): void
+    {
+        $this->createAuthenticatedUserWithNewsContent();
+        $sessionId = $this->initializeSession($this->client);
+
+        $resourcesPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 18,
+            'method' => 'resources/list',
+            'params' => new \stdClass(),
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($resourcesPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $resourcesResponse = $this->decodeResponse($this->client);
+        $resources = $resourcesResponse['result']['resources'] ?? [];
+        $environmentResource = \array_first(\array_filter($resources, static fn (array $resource): bool => 'environments_descriptions' === ($resource['name'] ?? null))) ?? null;
+        self::assertIsArray($environmentResource);
+        self::assertSame('elasticms://environments/descriptions', $environmentResource['uri'] ?? null);
+        self::assertSame('application/json', $environmentResource['mimeType'] ?? null);
+
+        $templatesPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 19,
+            'method' => 'resources/templates/list',
+            'params' => new \stdClass(),
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($templatesPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $templatesResponse = $this->decodeResponse($this->client);
+        $templates = $templatesResponse['result']['resourceTemplates'] ?? [];
+        $environmentTemplate = \array_first(\array_filter($templates, static fn (array $template): bool => 'environment_description' === ($template['name'] ?? null))) ?? null;
+        self::assertIsArray($environmentTemplate);
+        self::assertSame('elasticms://environments/{name}/description', $environmentTemplate['uriTemplate'] ?? null);
+
+        $readPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 20,
+            'method' => 'resources/read',
+            'params' => [
+                'uri' => 'elasticms://environments/descriptions',
+            ],
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($readPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $readResponse = $this->decodeResponse($this->client);
+        $resourceText = $readResponse['result']['contents'][0]['text'] ?? null;
+        self::assertIsString($resourceText);
+        $resourceData = \json_decode($resourceText, true, flags: \JSON_THROW_ON_ERROR);
+        self::assertSame('preview', $resourceData['environments'][0]['name'] ?? null);
+        self::assertSame('Preview', $resourceData['environments'][0]['label'] ?? null);
+        self::assertSame('Preview description & details', $resourceData['environments'][0]['description'] ?? null);
+
+        $readEnvironmentPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 21,
+            'method' => 'resources/read',
+            'params' => [
+                'uri' => 'elasticms://environments/preview/description',
+            ],
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($readEnvironmentPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $readEnvironmentResponse = $this->decodeResponse($this->client);
+        $environmentText = $readEnvironmentResponse['result']['contents'][0]['text'] ?? null;
+        self::assertIsString($environmentText);
+        $environmentData = \json_decode($environmentText, true, flags: \JSON_THROW_ON_ERROR);
+        self::assertSame('preview', $environmentData['name'] ?? null);
+        self::assertSame('Preview description & details', $environmentData['description'] ?? null);
+    }
+
     public function testGetDocumentUsesAuthenticatedUserPermissions(): void
     {
         $fixtures = $this->createAuthenticatedUserWithNewsContent();
@@ -649,6 +747,8 @@ final class McpControllerTest extends WebTestCase
 
         $environment = new Environment();
         $environment->setName('preview');
+        $environment->setLabel('Preview');
+        $environment->setDescription('<p>Preview</p><p><strong>description</strong> &amp; details</p>');
         $environment->setAlias('preview_alias');
         $environment->setManaged(true);
         $environment->setOrderKey(1);

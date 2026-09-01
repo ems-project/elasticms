@@ -151,3 +151,6 @@ Because `McpTool` is a regular admin entity with JSON import/export support, you
 - keep Twig templates in the skeleton next to the rest of the project logic
 
 This is the recommended way to maintain custom MCP tools across environments.
+
+See also [Custom MCP resources](./resources.md) for read-only project context such as Markdown
+guidelines, skills, and documentation.

@@ -4,6 +4,7 @@
 | ---------------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------------- |
 | [ContentType](/elasticms-admin/contentType/contentType.md) | [Dashboard](/elasticms-admin/dashboard/dashboard.md) | [Environment](/elasticms-admin/environment/environment.md) |
 | [User](/elasticms-admin/user/user.md)                      | [WYSIWYG](/elasticms-admin/wysiwyg/wysiwyg.md)       | [I18N](/elasticms-admin/i18n/i18n.md)                      |
+| [MCP](/elasticms-admin/mcp/index.md)                       |                                                      |                                                            |
 
 ## About
 
@@ -23,6 +24,12 @@ API documentation:
 - [Monitoring API](/elasticms-admin/api/monitoring.md)
 - [Webhook API](/elasticms-admin/api/webhook.md)
 - [Model Context Protocol](/elasticms-admin/api/mcp.md)
+
+## MCP
+
+- [MCP overview](/elasticms-admin/mcp/index.md)
+- [Custom MCP tools](/elasticms-admin/mcp/tools.md)
+- [Custom MCP resources](/elasticms-admin/mcp/resources.md)
 
 ## Setup
 

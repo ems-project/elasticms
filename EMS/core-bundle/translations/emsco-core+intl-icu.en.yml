@@ -320,6 +320,7 @@ field:
     mcp_input_schema: 'MCP input schema template (JSON)'
     mcp_output_schema: 'MCP output schema template (JSON)'
     mcp_response: 'MCP response template (JSON)'
+    mime_type: 'MIME type'
     message: Message
     name: Name
     plural: Plural
@@ -352,6 +353,7 @@ field:
     total_ems: 'Total in EMS'
     translations: Translations
     type: Type
+    uri: URI
     user: User
     user_deleted: 'Deleted by'
     user_impersonator: Impersonator
@@ -522,6 +524,7 @@ key:
     lucene_version: 'Lucene version'
     managed_aliases: 'Managed aliases'
     mcp: MCP
+    mcp_resources: 'MCP resources'
     mcp_tools: 'MCP tools'
     message: Message
     name: Name

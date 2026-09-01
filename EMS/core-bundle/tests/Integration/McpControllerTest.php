@@ -6,11 +6,13 @@ namespace EMS\CoreBundle\Tests\Integration;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
+use Doctrine\Persistence\ManagerRegistry;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Entity\AuthToken;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\FieldType;
+use EMS\CoreBundle\Entity\McpResource;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Entity\WysiwygStylesSet;
@@ -37,7 +39,11 @@ final class McpControllerTest extends WebTestCase
         $this->client = self::createClient();
 
         $container = self::getContainer();
-        $this->entityManager = $container->get('doctrine')->getManager();
+        $doctrine = $container->get('doctrine');
+        self::assertInstanceOf(ManagerRegistry::class, $doctrine);
+        $entityManager = $doctrine->getManager();
+        self::assertInstanceOf(EntityManagerInterface::class, $entityManager);
+        $this->entityManager = $entityManager;
 
         $metadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
         $schemaTool = new SchemaTool($this->entityManager);
@@ -690,6 +696,59 @@ final class McpControllerTest extends WebTestCase
         self::assertSame('Preview description & details', $environmentData['description'] ?? null);
     }
 
+    public function testResourcesExposeCustomMcpResources(): void
+    {
+        $this->createAuthenticatedUserWithNewsContent();
+        $sessionId = $this->initializeSession($this->client);
+
+        $resourcesPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 22,
+            'method' => 'resources/list',
+            'params' => new \stdClass(),
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($resourcesPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $resourcesResponse = $this->decodeResponse($this->client);
+        $resources = $resourcesResponse['result']['resources'] ?? [];
+        $customResource = \array_first(\array_filter($resources, static fn (array $resource): bool => 'custom_site_info' === ($resource['name'] ?? null))) ?? null;
+        self::assertIsArray($customResource);
+        self::assertSame('elasticms://custom/site-info', $customResource['uri'] ?? null);
+        self::assertSame('application/json', $customResource['mimeType'] ?? null);
+        self::assertSame('Custom site info', $customResource['title'] ?? null);
+
+        $readPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 23,
+            'method' => 'resources/read',
+            'params' => [
+                'uri' => 'elasticms://custom/site-info',
+            ],
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($readPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $readResponse = $this->decodeResponse($this->client);
+        $resourceText = $readResponse['result']['contents'][0]['text'] ?? null;
+        self::assertIsString($resourceText);
+        $resourceData = \json_decode($resourceText, true, flags: \JSON_THROW_ON_ERROR);
+        self::assertSame('custom_site_info', $resourceData['resourceName'] ?? null);
+        self::assertSame('Custom site info', $resourceData['label'] ?? null);
+    }
+
     public function testGetDocumentUsesAuthenticatedUserPermissions(): void
     {
         $fixtures = $this->createAuthenticatedUserWithNewsContent();
@@ -928,6 +987,14 @@ final class McpControllerTest extends WebTestCase
             ->setOrderKey(1)
             ->setTableDefaultCss('table table-bordered');
 
+        $mcpResource = new McpResource();
+        $mcpResource->setName('custom_site_info');
+        $mcpResource->setLabel('Custom site info');
+        $mcpResource->setUri('elasticms://custom/site-info');
+        $mcpResource->setRole('ROLE_AUTHOR');
+        $mcpResource->setDescription('Custom site information');
+        $mcpResource->setResponse('{"resourceName":"{{ resource.name }}","label":"{{ resource.label }}"}');
+
         $this->entityManager->persist($user);
         $this->entityManager->persist($environment);
         $this->entityManager->persist($contentType);
@@ -935,6 +1002,7 @@ final class McpControllerTest extends WebTestCase
         $this->entityManager->persist($revision);
         $this->entityManager->persist($authToken);
         $this->entityManager->persist($stylesSet);
+        $this->entityManager->persist($mcpResource);
         $this->entityManager->flush();
 
         $this->entityManager->clear();

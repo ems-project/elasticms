@@ -79,7 +79,7 @@ final readonly class ElasticmsMcpResourceEnvironmentService
         return [
             'name' => $environment->getName(),
             'label' => $environment->getLabel(),
-            'description' => $environment->getDescription(),
+            'description' => HtmlHelper::toText($environment->getDescription()),
         ];
     }
 }

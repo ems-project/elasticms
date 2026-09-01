@@ -149,3 +149,6 @@ The response contains the rendered Markdown in `result.contents[0].text`.
 - Use `application/json` only when the resource content is structured data.
 - Restrict access with the smallest useful `role`.
 - Version exported resource definitions in Git next to their Twig templates.
+
+See also [Custom MCP prompts](./prompts.md) for reusable workflows that can reference resources by
+URI.

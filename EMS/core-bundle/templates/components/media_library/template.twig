@@ -1,4 +1,4 @@
-{%- trans_default_domain 'emsco-component' -%}
+{%- trans_default_domain 'emsco-core' -%}
 {# @var template \EMS\CoreBundle\Core\Component\MediaLibrary\Template\MediaLibraryTemplate #}
 {# @var config \EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig #}
 {# @var mediaFile \EMS\CoreBundle\Core\Component\MediaLibrary\File\MediaLibraryFile #}
@@ -180,13 +180,13 @@
 
 {%- block media_lib_button_files_delete -%}
     <button class="ems-btn btn-files-delete" data-icon="file-delete" data-modal-size="md" data-testid="media-lib-button-files-delete">
-        {{- buttonLabel|default('media_library.files.delete.title'|trans({ '%count%': selectionFiles })) -}}
+        {{- buttonLabel|default('media_library.files.delete.title'|trans({ count: selectionFiles })) -}}
     </button>
 {%- endblock media_lib_button_files_delete -%}
 
 {%- block media_lib_button_files_move -%}
     <button class="ems-btn btn-files-move" data-icon="file-move" data-modal-size="md" data-testid="media-lib-button-files-move">
-        {{- buttonLabel|default('media_library.files.move.title'|trans({ '%count%': selectionFiles })) -}}
+        {{- buttonLabel|default('media_library.files.move.title'|trans({ count: selectionFiles })) -}}
     </button>
 {%- endblock media_lib_button_files_move -%}
 

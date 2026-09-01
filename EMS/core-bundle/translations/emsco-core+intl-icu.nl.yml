@@ -508,6 +508,13 @@ json_menu_nested:
     column:
         structure: Structuur
         title: Titel
+    error:
+        item_edit_outdated: 'Niet meer gesynchroniseerd, sluit en probeer opnieuw!'
+        item_not_found: 'Item niet gevonden'
+        item_parent_not_found: 'Bovenliggend item niet gevonden'
+        move_child_exists: 'Verplaatsen mislukt, nieuw bovenliggend item heeft dit item al'
+        move_child_missing: 'Verplaatsen mislukt, huidig bovenliggend item heeft dit item niet'
+        node_not_found: 'Itemtype niet gevonden'
 key:
     actions: Acties
     active_primary_shards: 'Actieve primaire shards'
@@ -636,6 +643,79 @@ log:
         draft_not_found: 'Concept niet gevonden met id "{revisionId}"'
         duplicate_environment: 'Omgeving "{name}" bestaat al!'
         index_not_found: 'Index "{index}" niet gevonden'
+media_library:
+    close: Sluiten
+    error:
+        file_exists: 'Bestandsnaam bestaat al.'
+        folder_exists: 'Mapnaam bestaat al.'
+    file:
+        add:
+            title: Uploaden
+        delete:
+            title: 'Bestand verwijderen'
+        load_more: 'Meer bestanden laden...'
+        rename:
+            title: 'Bestand hernoemen'
+        revision:
+            title: Revisie
+        view:
+            download: 'Bestand downloaden'
+            fallback: 'Geen plug-in beschikbaar om de bestandsinhoud weer te geven.'
+            next: Volgende
+            previous: Vorige
+            title: 'Bestand bekijken'
+            title_modal: 'Bestand bekijken: {name}'
+    files:
+        delete:
+            info: '{count} bestanden verwijderen. Even geduld...'
+            submit: Bevestigen
+            title: '{count} bestanden verwijderen'
+            warning: 'Weet u zeker dat u de {count} geselecteerde bestanden wilt verwijderen?'
+        move:
+            info: 'Huidige locatie: "{path}"'
+            select_folder: 'Selecteer nieuwe locatie:'
+            submit: Verplaatsen
+            success: |-
+                {count, plural,
+                    one {Het geselecteerde bestand verplaatsen van "{from}" naar "{to}". Even geduld...}
+                    other {# bestanden verplaatsen van "{from}" naar "{to}". Even geduld...}
+                }
+            title: |-
+                {count, plural,
+                    one {Bestand verplaatsen}
+                    other {# bestanden verplaatsen}
+                }
+    folder:
+        add:
+            cancel: Annuleren
+            submit: Aanmaken
+            title: 'Map toevoegen'
+        delete:
+            job_info: 'Map wordt verwijderd. Even geduld...'
+            job_info_async: 'De map wordt zo snel mogelijk verwijderd.'
+            submit: Bevestigen
+            title: 'Map verwijderen'
+            warning: |
+                Weet u zeker dat u deze map wilt verwijderen?
+                Deze actie verwijdert ook alle submappen en bestanden die erin zitten.
+        move:
+            info: 'Huidige locatie: "{path}"'
+            job_info: |
+                De geselecteerde map wordt verplaatst van "{from}" naar "{to}"
+                Even geduld...
+            job_info_async: 'De map wordt zo snel mogelijk verplaatst.'
+            select_folder: 'Selecteer nieuwe locatie:'
+            submit: Verplaatsen
+            title: 'Map verplaatsen'
+        rename:
+            job_info: |
+                Map wordt hernoemd.
+                Even geduld...
+            job_info_async: 'De map wordt zo snel mogelijk hernoemd.'
+            submit: Hernoemen
+            title: 'Map hernoemen'
+    home: Start
+    submit: Opslaan
 modal:
     loading_information: 'Informatie laden...'
 navigation:

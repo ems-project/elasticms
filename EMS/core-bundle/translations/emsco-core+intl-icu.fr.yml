@@ -508,6 +508,13 @@ json_menu_nested:
     column:
         structure: Structure
         title: Titre
+    error:
+        item_edit_outdated: 'Désynchronisé, fermez et réessayez !'
+        item_not_found: 'Élément non trouvé'
+        item_parent_not_found: 'Parent non trouvé'
+        move_child_exists: 'Échec du déplacement, le nouveau parent possède déjà cet élément'
+        move_child_missing: 'Échec du déplacement, le parent actuel ne possède pas cet élément'
+        node_not_found: 'Type d''élément non trouvé'
 key:
     actions: Actions
     active_primary_shards: 'Shards primaires actifs'
@@ -636,6 +643,79 @@ log:
         draft_not_found: 'Brouillon introuvable avec l’id « {revisionId} »'
         duplicate_environment: 'L’environnement « {name} » existe déjà !'
         index_not_found: 'Index « {index} » introuvable'
+media_library:
+    close: Fermer
+    error:
+        file_exists: 'Le nom de fichier existe déjà.'
+        folder_exists: 'Le nom du dossier existe déjà.'
+    file:
+        add:
+            title: Téléverser
+        delete:
+            title: 'Supprimer le fichier'
+        load_more: 'Chargement de fichiers supplémentaires...'
+        rename:
+            title: 'Renommer le fichier'
+        revision:
+            title: Révision
+        view:
+            download: 'Télécharger le fichier'
+            fallback: 'Aucun plugin disponible pour afficher le contenu du fichier.'
+            next: Suivant
+            previous: Précédent
+            title: 'Voir le fichier'
+            title_modal: 'Voir le fichier : {name}'
+    files:
+        delete:
+            info: 'Suppression de {count} fichiers. Veuillez patienter...'
+            submit: Confirmer
+            title: 'Supprimer {count} fichiers'
+            warning: 'Êtes-vous sûr de vouloir supprimer les {count} fichiers sélectionnés ?'
+        move:
+            info: 'Emplacement actuel : "{path}"'
+            select_folder: 'Sélectionner un nouvel emplacement :'
+            submit: Déplacer
+            success: |-
+                {count, plural,
+                    one {Déplacement du fichier sélectionné de "{from}" vers "{to}". Veuillez patienter...}
+                    other {Déplacement de # fichiers de "{from}" vers "{to}". Veuillez patienter...}
+                }
+            title: |-
+                {count, plural,
+                    one {Déplacer le fichier}
+                    other {Déplacer # fichiers}
+                }
+    folder:
+        add:
+            cancel: Annuler
+            submit: Créer
+            title: 'Ajouter un dossier'
+        delete:
+            job_info: 'Suppression du dossier en cours. Veuillez patienter...'
+            job_info_async: 'Le dossier sera supprimé dès que possible.'
+            submit: Confirmer
+            title: 'Supprimer le dossier'
+            warning: |
+                Êtes-vous sûr de vouloir supprimer ce dossier ?
+                Cette action supprimera également tous les sous-dossiers et fichiers qu'il contient.
+        move:
+            info: 'Emplacement actuel : "{path}"'
+            job_info: |
+                Déplacement du dossier sélectionné de "{from}" vers "{to}"
+                Veuillez patienter...
+            job_info_async: 'Le dossier sera déplacé dès que possible.'
+            select_folder: 'Sélectionner un nouvel emplacement :'
+            submit: Déplacer
+            title: 'Déplacer le dossier'
+        rename:
+            job_info: |
+                Renommage du dossier en cours.
+                Veuillez patienter...
+            job_info_async: 'Le dossier sera renommé dès que possible.'
+            submit: Renommer
+            title: 'Renommer le dossier'
+    home: Accueil
+    submit: Enregistrer
 modal:
     loading_information: 'Chargement des informations...'
 navigation:

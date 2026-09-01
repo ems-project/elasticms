@@ -48,7 +48,7 @@ class DocumentValidator extends ConstraintValidator
 
         $this->context
             ->buildViolation($message)
-            ->setTranslationDomain(EMSCoreBundle::TRANS_COMPONENT)
+            ->setTranslationDomain(EMSCoreBundle::TRANS_CORE)
             ->atPath('name')
             ->addViolation();
     }

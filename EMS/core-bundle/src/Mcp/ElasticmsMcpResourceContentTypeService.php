@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Mcp;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Service\ContentTypeService;
+use EMS\Helpers\Html\HtmlHelper;
 use EMS\Helpers\Html\MimeTypes;
 use Mcp\Exception\ResourceNotFoundException;
 use Mcp\Server\Builder;
@@ -89,7 +90,7 @@ final readonly class ElasticmsMcpResourceContentTypeService
             'name' => $contentType->getName(),
             'singularName' => (string) $contentType->getSingularName(),
             'pluralName' => (string) $contentType->getPluralName(),
-            'description' => $this->normalizeDescription((string) $contentType->getDescription()),
+            'description' => HtmlHelper::toText((string) $contentType->getDescription()),
             'defaultEnvironment' => $contentType->giveEnvironment()->getName(),
         ];
     }
@@ -99,15 +100,5 @@ final readonly class ElasticmsMcpResourceContentTypeService
         return $contentType->giveEnvironment()->getManaged()
             && $contentType->isActive()
             && $this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::VIEW));
-    }
-
-    private function normalizeDescription(string $description): string
-    {
-        $description = \preg_replace('/<[^>]*>/', ' ', $description) ?? '';
-        $description = \html_entity_decode($description, \ENT_QUOTES | \ENT_HTML5, 'UTF-8');
-
-        $normalizedDescription = \preg_replace('/\s+/', ' ', \trim($description));
-
-        return $normalizedDescription ?? '';
     }
 }

@@ -63,7 +63,8 @@ The field value is an object with file metadata:
     "sha1": "9a323a5b625999e1a13ed88e0b14c86cf0e76edb",
     "mimetype": "application/pdf",
     "filesize": 123456,
-    "filename": "document.pdf"
+    "filename": "document.pdf",
+    "_algo": "sha1"
 }
 ```
 
@@ -72,10 +73,24 @@ asset tools:
 
 1. Call `init_asset_upload`.
 2. Send the file bytes with one or more `upload_asset_chunk` calls.
-3. Use the returned `sha1`, `mimetype`, `filesize`, and `filename` values in
+3. Use the returned `sha1`, `mimetype`, `filesize`, `_algo`, and `filename` values in
    the field.
 
-Do not invent the `sha1` or `filesize`. They must describe the uploaded file content.
+Do not invent the `sha1`, `filesize` or `_algo`. They must describe the uploaded file content.
+
+Fields based on `IndexedAssetFieldType` can also contain these optional
+attributes:
+
+- `_author`: file author;
+- `_title`: file title;
+- `_date`: file date;
+- `_language`: file language;
+- `_content`: file summary used to feed the search engine.
+
+Provide these optional attributes when they are available. The `_content` name
+is misleading: it is expected to contain a summary, not the full file content.
+Before generating this summary, ask the user whether they want the agent to
+summarize the file.
 
 ## WYSIWYG fields
 

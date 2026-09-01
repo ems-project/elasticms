@@ -12,6 +12,7 @@ use EMS\CoreBundle\Entity\AuthToken;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\FieldType;
+use EMS\CoreBundle\Entity\McpPrompt;
 use EMS\CoreBundle\Entity\McpResource;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\User;
@@ -749,6 +750,63 @@ final class McpControllerTest extends WebTestCase
         self::assertSame('Custom site info', $resourceData['label'] ?? null);
     }
 
+    public function testPromptsExposeCustomMcpPrompts(): void
+    {
+        $this->createAuthenticatedUserWithNewsContent();
+        $sessionId = $this->initializeSession($this->client);
+
+        $promptsPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 24,
+            'method' => 'prompts/list',
+            'params' => new \stdClass(),
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($promptsPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $promptsResponse = $this->decodeResponse($this->client);
+        $prompts = $promptsResponse['result']['prompts'] ?? [];
+        $customPrompt = \array_first(\array_filter($prompts, static fn (array $prompt): bool => 'custom_summary' === ($prompt['name'] ?? null))) ?? null;
+        self::assertIsArray($customPrompt);
+        self::assertSame('Custom summary', $customPrompt['title'] ?? null);
+        self::assertSame('Build a custom summary', $customPrompt['description'] ?? null);
+        self::assertSame('subject', $customPrompt['arguments'][0]['name'] ?? null);
+        self::assertTrue($customPrompt['arguments'][0]['required'] ?? false);
+
+        $getPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 25,
+            'method' => 'prompts/get',
+            'params' => [
+                'name' => 'custom_summary',
+                'arguments' => [
+                    'subject' => 'ElasticMS',
+                ],
+            ],
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($getPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $getResponse = $this->decodeResponse($this->client);
+        $message = $getResponse['result']['messages'][0] ?? null;
+        self::assertIsArray($message);
+        self::assertSame('user', $message['role'] ?? null);
+        self::assertSame('text', $message['content']['type'] ?? null);
+        self::assertSame('Summarize ElasticMS with custom_summary.', $message['content']['text'] ?? null);
+    }
+
     public function testGetDocumentUsesAuthenticatedUserPermissions(): void
     {
         $fixtures = $this->createAuthenticatedUserWithNewsContent();
@@ -995,6 +1053,14 @@ final class McpControllerTest extends WebTestCase
         $mcpResource->setDescription('Custom site information');
         $mcpResource->setResponse('{"resourceName":"{{ resource.name }}","label":"{{ resource.label }}"}');
 
+        $mcpPrompt = new McpPrompt();
+        $mcpPrompt->setName('custom_summary');
+        $mcpPrompt->setLabel('Custom summary');
+        $mcpPrompt->setRole('ROLE_AUTHOR');
+        $mcpPrompt->setDescription('Build a custom summary');
+        $mcpPrompt->setArguments('[{"name":"subject","description":"Subject to summarize","required":true}]');
+        $mcpPrompt->setResponse('[{"role":"user","content":"Summarize {{ subject }} with {{ prompt.name }}."}]');
+
         $this->entityManager->persist($user);
         $this->entityManager->persist($environment);
         $this->entityManager->persist($contentType);
@@ -1003,6 +1069,7 @@ final class McpControllerTest extends WebTestCase
         $this->entityManager->persist($authToken);
         $this->entityManager->persist($stylesSet);
         $this->entityManager->persist($mcpResource);
+        $this->entityManager->persist($mcpPrompt);
         $this->entityManager->flush();
 
         $this->entityManager->clear();

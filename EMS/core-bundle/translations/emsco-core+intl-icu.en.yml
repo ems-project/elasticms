@@ -317,8 +317,10 @@ field:
     label: Label
     last_seen: 'Last seen'
     locale: Locale
+    mcp_arguments: 'MCP arguments template (JSON)'
     mcp_input_schema: 'MCP input schema template (JSON)'
     mcp_output_schema: 'MCP output schema template (JSON)'
+    mcp_prompt_response: 'MCP prompt response template (JSON)'
     mcp_response: 'MCP response template (JSON)'
     mime_type: 'MIME type'
     message: Message
@@ -524,6 +526,7 @@ key:
     lucene_version: 'Lucene version'
     managed_aliases: 'Managed aliases'
     mcp: MCP
+    mcp_prompts: 'MCP prompts'
     mcp_resources: 'MCP resources'
     mcp_tools: 'MCP tools'
     message: Message

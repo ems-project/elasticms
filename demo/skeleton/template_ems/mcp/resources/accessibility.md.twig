@@ -1,0 +1,114 @@
+---
+name: accessible-content
+description: Explain how to generate accessible content for elasticMS documents. Use this resource when creating or updating CMS content through MCP tools.
+---
+
+# Accessible generated content
+
+## Purpose
+
+Generated content must be accessible by default. Write and structure content so
+that it can be understood, navigated, and reused by people using different
+devices, assistive technologies, or reading abilities.
+
+Accessibility is not optional polish. It is part of the content quality expected
+before saving or publishing a document.
+
+## Writing principles
+
+Use clear, direct language:
+
+- write short sentences;
+- use common words when possible;
+- explain technical terms the first time they appear;
+- avoid idioms, vague wording, and unnecessary jargon;
+- keep one idea per paragraph.
+
+Structure content with meaningful headings. Do not skip heading levels only for
+visual effect. A clear hierarchy helps screen reader users and improves document
+navigation.
+
+## Links
+
+Link text must describe the destination or action.
+
+Good examples:
+
+- `Read the accessibility guide`
+- `Download the annual report`
+- `Contact the support team`
+
+Avoid unclear link text:
+
+- `Click here`
+- `Read more`
+- `This page`
+- raw URLs when a descriptive label is possible
+
+When generating internal elasticMS links, keep the visible link text meaningful
+and use the correct internal link format for the field.
+
+## Images and media
+
+Provide meaningful alternative text for informative images.
+
+Good alternative text describes the useful information carried by the image, not
+only its appearance.
+
+Decorative images should have empty alternative text when the target field or
+template supports it.
+
+For audio or video content, provide a transcript or equivalent text summary when
+possible.
+
+## Tables and lists
+
+Use lists for groups of related items.
+
+Use tables only for tabular data, not for layout. When generating a table, keep
+headers short and descriptive, and make sure each row and column relationship is
+clear.
+
+## Documents and files
+
+When linking to a file, make the file type and purpose clear in the link text.
+
+Example:
+
+```markdown
+[Download the annual report PDF](ems://asset:{sha1}?type=application/pdf&name=annual-report.pdf)
+```
+
+If the file is used in an indexed asset field and a summary is available, ask
+the user before generating the `_content` summary used for search indexing.
+
+## WYSIWYG HTML
+
+When generating WYSIWYG content:
+
+- use semantic HTML elements;
+- keep headings in logical order;
+- do not use empty headings or empty links;
+- avoid using bold text as a replacement for headings;
+- avoid instructions based only on color, shape, or position;
+- provide descriptive text for embedded assets and media.
+
+## Language
+
+Use the document language consistently. If a field or content type expects a
+specific language, generate content in that language.
+
+If a link or title points to content in another language, make that clear when it
+helps the reader.
+
+## Before saving content
+
+Check that:
+
+- headings describe the sections they introduce;
+- link text is understandable outside of its surrounding sentence;
+- images and media have useful text alternatives when needed;
+- file links mention the file purpose or type;
+- generated text is clear and concise;
+- content does not rely only on color, layout, or visual cues;
+- no placeholder text remains.

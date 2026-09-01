@@ -70,6 +70,7 @@ use EMS\CoreBundle\Form\Form\FieldHolderType;
 use EMS\CoreBundle\Form\Form\FormType;
 use EMS\CoreBundle\Form\Form\GroupType;
 use EMS\CoreBundle\Form\Form\ManagedAliasType;
+use EMS\CoreBundle\Form\Form\McpPromptType;
 use EMS\CoreBundle\Form\Form\McpResourceType;
 use EMS\CoreBundle\Form\Form\McpToolType;
 use EMS\CoreBundle\Form\Form\NotificationFormType;
@@ -654,6 +655,12 @@ return static function (ContainerConfigurator $container) {
         ->tag('form.type');
 
     $services->set(McpResourceType::class)
+        ->args([
+            service('ems.service.user'),
+        ])
+        ->tag('form.type');
+
+    $services->set(McpPromptType::class)
         ->args([
             service('ems.service.user'),
         ])

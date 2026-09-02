@@ -11,6 +11,7 @@ use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
+
 use function Symfony\Component\Translation\t;
 
 class DocumentValidator extends ConstraintValidator

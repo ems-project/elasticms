@@ -13,7 +13,6 @@ use EMS\CoreBundle\Core\Component\JsonMenuNested\JsonMenuNestedService;
 use EMS\CoreBundle\Core\Revision\RawDataTransformer;
 use EMS\CoreBundle\Core\UI\Modal\Modal;
 use EMS\CoreBundle\Core\UI\Modal\ModalMessageType;
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Form\Form\RevisionJsonMenuNestedType;

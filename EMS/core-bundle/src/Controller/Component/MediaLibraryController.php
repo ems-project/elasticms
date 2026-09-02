@@ -8,7 +8,6 @@ use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolder;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
 use EMS\CoreBundle\Core\UI\FlashMessageLogger;
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Form\Form\MediaLibrary\MediaLibraryDocumentFormType;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -354,7 +353,7 @@ class MediaLibraryController
                 'path' => $folder->getPath()->getValue(),
                 'modalBody' => '',
                 'modalMessages' => [
-                    ['info' => $modalMessage->trans($this->translator) ],
+                    ['info' => $modalMessage->trans($this->translator)],
                 ],
             ]);
         }
@@ -417,7 +416,7 @@ class MediaLibraryController
                 'path' => $folder->getPath()->getValue(),
                 'modalBody' => '',
                 'modalMessages' => [
-                    [ 'info' => $modalMessage->trans($this->translator) ],
+                    ['info' => $modalMessage->trans($this->translator)],
                 ],
             ]);
         }

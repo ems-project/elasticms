@@ -510,11 +510,6 @@ json_menu_nested:
         title: Titre
     error:
         item_edit_outdated: 'Désynchronisé, fermez et réessayez !'
-        item_not_found: 'Élément non trouvé'
-        item_parent_not_found: 'Parent non trouvé'
-        move_child_exists: 'Échec du déplacement, le nouveau parent possède déjà cet élément'
-        move_child_missing: 'Échec du déplacement, le parent actuel ne possède pas cet élément'
-        node_not_found: 'Type d''élément non trouvé'
 key:
     actions: Actions
     active_primary_shards: 'Shards primaires actifs'
@@ -645,9 +640,6 @@ log:
         index_not_found: 'Index « {index} » introuvable'
 media_library:
     close: Fermer
-    error:
-        file_exists: 'Le nom de fichier existe déjà.'
-        folder_exists: 'Le nom du dossier existe déjà.'
     file:
         add:
             title: Téléverser
@@ -687,8 +679,6 @@ media_library:
                 }
     folder:
         add:
-            cancel: Annuler
-            submit: Créer
             title: 'Ajouter un dossier'
         delete:
             job_info: 'Suppression du dossier en cours. Veuillez patienter...'
@@ -1349,7 +1339,7 @@ views:
             node-name: 'Nom du nœud'
             public-key: 'Clé publique'
             tagline: Slogan
-            tika-server-not-configured: 'Le serveur Tika n''est pas configuré'
+            tika-server-not-configured: "Le serveur Tika n'est pas configuré"
             version: Version
         export-search:
             title: 'Exporter les documents'

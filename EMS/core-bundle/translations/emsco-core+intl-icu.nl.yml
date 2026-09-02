@@ -510,11 +510,6 @@ json_menu_nested:
         title: Titel
     error:
         item_edit_outdated: 'Niet meer gesynchroniseerd, sluit en probeer opnieuw!'
-        item_not_found: 'Item niet gevonden'
-        item_parent_not_found: 'Bovenliggend item niet gevonden'
-        move_child_exists: 'Verplaatsen mislukt, nieuw bovenliggend item heeft dit item al'
-        move_child_missing: 'Verplaatsen mislukt, huidig bovenliggend item heeft dit item niet'
-        node_not_found: 'Itemtype niet gevonden'
 key:
     actions: Acties
     active_primary_shards: 'Actieve primaire shards'
@@ -645,9 +640,6 @@ log:
         index_not_found: 'Index "{index}" niet gevonden'
 media_library:
     close: Sluiten
-    error:
-        file_exists: 'Bestandsnaam bestaat al.'
-        folder_exists: 'Mapnaam bestaat al.'
     file:
         add:
             title: Uploaden
@@ -687,8 +679,6 @@ media_library:
                 }
     folder:
         add:
-            cancel: Annuleren
-            submit: Aanmaken
             title: 'Map toevoegen'
         delete:
             job_info: 'Map wordt verwijderd. Even geduld...'

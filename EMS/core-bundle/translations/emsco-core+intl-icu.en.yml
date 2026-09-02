@@ -510,11 +510,6 @@ json_menu_nested:
         title: Title
     error:
         item_edit_outdated: 'Out of sync, close and retry!'
-        item_not_found: 'Item not found'
-        item_parent_not_found: 'Parent not found'
-        move_child_exists: 'Move failed, new parent already has item'
-        move_child_missing: 'Move failed, current parent does not have item'
-        node_not_found: 'Item type not found'
 key:
     actions: Actions
     active_primary_shards: 'Active primary shards'
@@ -645,9 +640,6 @@ log:
         index_not_found: 'Index "{index}" not found'
 media_library:
     close: Close
-    error:
-        file_exists: 'File name already exists.'
-        folder_exists: 'Folder name already exists.'
     file:
         add:
             title: Upload
@@ -687,8 +679,6 @@ media_library:
                 }
     folder:
         add:
-            cancel: Cancel
-            submit: Create
             title: 'Add folder'
         delete:
             job_info: 'Folder removing in progress. Please wait...'

@@ -113,7 +113,7 @@ class JsonMenuNestedController
 
             if ($form->isSubmitted()) {
                 if ($form->get('_item_hash')->getData() !== $item->getObjectHash()) {
-                    return $this->responseWarningModal($this->translator->trans('json_menu_nested.error.item_edit_outdated', [], EMSCoreBundle::TRANS_CORE));
+                    return $this->responseWarningModal($this->translator->trans('json_menu_nested.error.item_edit_outdated', [], 'emsco-core'));
                 }
                 if (null !== $object = $this->handleFormItem($form, $config, $node)) {
                     $this->jsonMenuNestedService->itemUpdate($config, $item, $object);
@@ -282,7 +282,7 @@ class JsonMenuNestedController
     private function responseWarning(string $warning): JsonResponse
     {
         return new JsonResponse([
-            'warning' => $this->translator->trans($warning, [], EMSCoreBundle::TRANS_CORE),
+            'warning' => $this->translator->trans($warning, [], 'emsco-core'),
         ]);
     }
 
@@ -290,7 +290,7 @@ class JsonMenuNestedController
     {
         return new JsonResponse(Modal::forMessage(
             ModalMessageType::Warning,
-            $this->translator->trans($warning, [], EMSCoreBundle::TRANS_CORE),
+            $this->translator->trans($warning, [], 'emsco-core'),
             'Warning'
         ));
     }

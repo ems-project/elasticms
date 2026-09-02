@@ -355,6 +355,8 @@ field:
     mcp_response: 'MCP response template (JSON)'
     message: Message
     name: Name
+    orientation: Orientation
+    pdf_size: 'PDF Size'
     plural: Plural
     public_access: 'Public Access'
     query: Query
@@ -759,6 +761,9 @@ notification:
         revision_not_published: 'This revision is not published in {environment} anymore'
         revision_not_published_and_duplicate: 'This revision is not published in {environment} anymore and another notification exists'
     warnings: Warnings
+orientation:
+    landscape: Landscape
+    portrait: Portrait
 out-of-sync:
     modal:
         please-reload: 'Please reload the page.'

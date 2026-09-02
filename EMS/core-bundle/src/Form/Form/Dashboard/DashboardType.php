@@ -46,7 +46,6 @@ final class DashboardType extends AbstractType
                 ],
             ])
             ->add('icon', IconPickerType::class, [
-                'label' => t('field.icon', [], 'emsco-core'),
                 'required' => true,
                 'row_attr' => [
                     'class' => 'col-md-4',

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Field;
 
-use EMS\CoreBundle\EMSCoreBundle;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * @extends AbstractType<mixed>
@@ -3330,6 +3331,7 @@ class IconPickerType extends AbstractType
         }
 
         $resolver->setDefaults([
+            'label' => t('field.icon', [], 'emsco-core'),
             'choices' => $choices,
             'attr' => [
                 'data-live-search' => true,
@@ -3338,7 +3340,7 @@ class IconPickerType extends AbstractType
                 'data-icon' => $category,
             ],
             'choice_value' => fn ($value) => $value,
-            'translation_domain' => false,
+            'choice_translation_domain' => false,
         ]);
     }
 }

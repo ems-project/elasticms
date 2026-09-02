@@ -355,6 +355,8 @@ field:
     mcp_response: 'Template de réponse MCP (JSON)'
     message: Message
     name: Nom
+    orientation: Orientation
+    pdf_size: 'Format PDF'
     plural: Pluriel
     public_access: 'Accès public'
     query: Requête
@@ -759,6 +761,9 @@ notification:
         revision_not_published: 'Cette révision n’est plus publiée dans {environment}'
         revision_not_published_and_duplicate: 'Cette révision n’est plus publiée dans {environment} et une autre notification existe'
     warnings: Avertissements
+orientation:
+    landscape: Paysage
+    portrait: Portrait
 out-of-sync:
     modal:
         please-reload: 'Veuillez recharger la page.'

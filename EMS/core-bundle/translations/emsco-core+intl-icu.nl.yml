@@ -355,6 +355,8 @@ field:
     mcp_response: 'MCP uitvoerschema-template (JSON)'
     message: Bericht
     name: Naam
+    orientation: Oriëntatie
+    pdf_size: PDF-formaat
     plural: Meervoud
     public_access: 'Publieke toegang'
     query: Query
@@ -759,6 +761,9 @@ notification:
         revision_not_published: 'Deze revisie is niet meer gepubliceerd in {environment}'
         revision_not_published_and_duplicate: 'Deze revisie is niet meer gepubliceerd in {environment} en er bestaat een andere notificatie'
     warnings: Waarschuwingen
+orientation:
+    landscape: Liggend
+    portrait: Staand
 out-of-sync:
     modal:
         please-reload: 'Herlaad de pagina.'

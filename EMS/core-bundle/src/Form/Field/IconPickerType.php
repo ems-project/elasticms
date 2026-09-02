@@ -5,15 +5,25 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Field;
 
 use EMS\CoreBundle\EMSCoreBundle;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class IconPickerType extends Select2Type
+/**
+ * @extends AbstractType<mixed>
+ */
+class IconPickerType extends AbstractType
 {
     private ?string $templateNamespace = null;
 
     public function setTemplateNamespace(string $namespace): void
     {
         $this->templateNamespace = $namespace;
+    }
+
+    #[\Override]
+    public function getParent(): string
+    {
+        return Select2Type::class;
     }
 
     /**

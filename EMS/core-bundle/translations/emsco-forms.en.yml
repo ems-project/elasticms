@@ -48,9 +48,6 @@ form:
     label: Label
     create: Create
     save: Save
-view:
-    pdf_orientation: 'PDF Orientation'
-    pdf_size: 'PDF Size'
 role:
     not-defined: 'Not defined'
 ROLE_ADMIN: Administrator
@@ -81,11 +78,6 @@ file_disposition:
     not-defined: 'Not defined'
     attachment: 'Attachment (force download)'
     inline: 'Inline (try to open in browser)'
-orientation:
-    pdf_orientation: 'PDF Orientation'
-    orientation: Orientation
-    portrait: Portrait
-    landscape: Landscape
 user:
     locale: 'Language UI'
     locale_preferred: 'Language preferred'

@@ -272,6 +272,7 @@ field:
     accumulate_file: 'Accumuler dans un seul fichier'
     alias: Alias
     allowed_remote_hosts: 'Hôtes distants autorisés'
+    analyzer: Analyzer
     asset:
         author: 'Auteur :'
         content: 'Contenu :'

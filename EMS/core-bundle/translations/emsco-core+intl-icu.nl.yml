@@ -272,6 +272,7 @@ field:
     accumulate_file: 'In één bestand verzamelen'
     alias: Alias
     allowed_remote_hosts: 'Toegestane externe hosts'
+    analyzer: Analyzer
     asset:
         author: 'Auteur:'
         content: 'Inhoud:'

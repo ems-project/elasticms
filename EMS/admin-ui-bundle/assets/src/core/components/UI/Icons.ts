@@ -30,24 +30,24 @@ async function loadIcon(name: string) {
 
 export function initIcons(root: ParentNode & Node = document.body) {
     const render = (el: HTMLElement) => {
-        const name = el.dataset.icon
+        const name = el.dataset.emsIcon
         if (!name) return
         const position = el.dataset.iconPosition === 'end' ? 'beforeend' : 'afterbegin'
-        delete el.dataset.icon
+        delete el.dataset.emsIcon
         delete el.dataset.iconPosition
         loadIcon(name).then((svg) => {
             if (svg) el.insertAdjacentHTML(position, svg)
         })
     }
 
-    root.querySelectorAll<HTMLElement>('[data-icon]').forEach(render)
+    root.querySelectorAll<HTMLElement>('[data-ems-icon]').forEach(render)
 
     new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             mutation.addedNodes.forEach((node) => {
                 if (!(node instanceof HTMLElement)) return
-                if (node.matches('[data-icon]')) render(node)
-                node.querySelectorAll<HTMLElement>('[data-icon]').forEach(render)
+                if (node.matches('[data-ems-icon]')) render(node)
+                node.querySelectorAll<HTMLElement>('[data-ems-icon]').forEach(render)
             })
         })
     }).observe(root, { childList: true, subtree: true })

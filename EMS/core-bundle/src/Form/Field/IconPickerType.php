@@ -3336,7 +3336,7 @@ class IconPickerType extends AbstractType
             'attr' => [
                 'data-live-search' => true,
             ],
-            'choice_attr' => fn ($category, $key, $index) => [
+            'choice_attr' => fn ($category) => [
                 'data-icon' => $category,
             ],
             'choice_value' => fn ($value) => $value,

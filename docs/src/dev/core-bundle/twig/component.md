@@ -242,7 +242,7 @@ Example add an extra 'go to revision' column.
 
 {%- block media_lib_file -%}
     <div><a href="{{- mediaFile.urlView -}}" download="{{- mediaFile.name -}}" data-ems-id="{{- mediaFile.emsId -}}">{{- mediaFile.name -}}</a></div>
-    <div>{{- mediaFile.file.mimetype|trans({}, 'emsco-mimetypes') -}}</div>
+    <div>{{- mediaFile.file.mimetype|trans({}, 'ems-mimetypes') -}}</div>
     <div><a href="{{ path('emsco_view_revisions', { 'type': mediaFile.document.contentType, 'ouuid': mediaFile.id  }) }}">show revision</a></div>
     <div class="text-right">{{- mediaFile.file.filesize|default(0)|format_bytes -}}</div>
 {%- endblock media_lib_file -%}

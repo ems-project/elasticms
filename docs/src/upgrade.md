@@ -14,8 +14,10 @@ outline: [2, 2]
   [tiptap](./elasticms-admin/wysiwyg/tiptap.md).
 - BC: dashboard type `media_lib_browse_object` is deprecated, not needed anymore with tiptap.
 - BC: removed `EMSCH_ASSET_CONFIG_TYPE` was not used anymore
-- Feature: `_authenticated` attribute on routes can be replaced by a `EMSCH_SECURITY_FIREWALL` (see
-  demo)
+- Feature: `_authenticated` attribute on routes can be replaced by a `EMSCH_SECURITY_FIREWALL` (see demo)
+- BC: Merged the following translation domains into `emsco-core`: `emsco-component`, `emsco-contenttype`,
+  `emsco-environment`, `emsco-forms`, `emsco-twigs`, `emsco-user`.
+- BC: Renamed the `emsco-mimetypes` domain to `ems-mimetypes`, making mimetypes translatable on the front-end as well.
 
 ## 7.2
 

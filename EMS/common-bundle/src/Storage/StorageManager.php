@@ -112,9 +112,7 @@ class StorageManager implements FileManagerInterface
                 $this->adaptorNotAvailable($index, $storageNotAvailableException);
             }
         }
-        if ([] === $this->adapters && [] !== $this->storageConfigs) {
-            throw new StorageServicesUnavailableException();
-        }
+        $this->ensureAtLeastOneStorageServiceIsAvailable();
 
         return false;
     }
@@ -848,11 +846,16 @@ class StorageManager implements FileManagerInterface
         return $this->cacheManager->getItem(\sprintf('storage_service_na_%s', \hash($this->hashAlgo, $storage->__toString())));
     }
 
-    private function notFound(string $message): never
+    private function notFound(string $message, int $level = StorageInterface::STORAGE_USAGE_ASSET): never
     {
-        if ([] === $this->adapters && [] !== $this->storageConfigs) {
+        $this->ensureAtLeastOneStorageServiceIsAvailable($level);
+        throw new NotFoundException($message);
+    }
+
+    private function ensureAtLeastOneStorageServiceIsAvailable(int $level = StorageInterface::STORAGE_USAGE_ASSET): void
+    {
+        if ([] === \array_filter($this->adapters, fn (StorageInterface $adapter) => $adapter->getUsage() >= $level)) {
             throw new StorageServicesUnavailableException();
         }
-        throw new NotFoundException($message);
     }
 }

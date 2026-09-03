@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Storage;
 use EMS\CommonBundle\Common\Cache\Cache;
 use EMS\CommonBundle\Contracts\File\FileManagerInterface;
 use EMS\CommonBundle\Exception\StorageNotAvailableException;
+use EMS\CommonBundle\Exception\StorageServicesUnavailableException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\Factory\StorageFactoryInterface;
@@ -111,6 +112,9 @@ class StorageManager implements FileManagerInterface
                 $this->adaptorNotAvailable($index, $storageNotAvailableException);
             }
         }
+        if ([] === $this->adapters && [] !== $this->storageConfigs) {
+            throw new StorageServicesUnavailableException();
+        }
 
         return false;
     }
@@ -167,7 +171,7 @@ class StorageManager implements FileManagerInterface
                 $this->adaptorNotAvailable($index, $storageNotAvailableException);
             }
         }
-        throw new NotFoundException($hash);
+        $this->notFound($hash);
     }
 
     #[\Override]
@@ -345,7 +349,7 @@ class StorageManager implements FileManagerInterface
                 continue;
             }
         }
-        throw new NotFoundException($hash);
+        $this->notFound($hash);
     }
 
     public function getBase64(string $hash): ?string
@@ -832,5 +836,13 @@ class StorageManager implements FileManagerInterface
     private function getNotAvailableStorageCacheItem(StorageInterface $storage): CacheItemInterface
     {
         return $this->cacheManager->getItem(\sprintf('storage_service_na_%s', \hash($this->hashAlgo, $storage->__toString())));
+    }
+
+    private function notFound(string $message): never
+    {
+        if ([] === $this->adapters && [] !== $this->storageConfigs) {
+            throw new StorageServicesUnavailableException();
+        }
+        throw new NotFoundException($message);
     }
 }

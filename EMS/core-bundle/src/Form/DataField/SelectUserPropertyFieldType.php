@@ -19,6 +19,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
 use function Symfony\Component\Translation\t;
 
 class SelectUserPropertyFieldType extends DataFieldType
@@ -113,7 +114,7 @@ class SelectUserPropertyFieldType extends DataFieldType
         $optionsForm->get('displayOptions')
             ->add('multiple', CheckboxType::class, [
                 'label' => t('option.multiple', [], 'emsco-core'),
-                'required' => false
+                'required' => false,
             ])
             ->add('allow_add', CheckboxType::class, [
                 'label' => t('option.allow_add', [], 'emsco-core'),

@@ -28,7 +28,7 @@ class RoleMultiPickerType extends ChoiceType
             'choices' => $this->userService->listUserRoles(),
             'multiple' => true,
             'expanded' => true,
-            'choice_label' => fn (string $role) => Roles::translate($role)
+            'choice_label' => fn (string $role) => Roles::translate($role),
         ]);
     }
 }

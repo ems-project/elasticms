@@ -1,25 +1,3 @@
-role:
-    not-defined: 'Non défini'
-    api: API
-    user: Utilisateur
-    author: Auteur
-    form_crm: 'Formulaire CRM'
-    task_manager: 'Gestion des tâches'
-    allow_align: "Aligner l'environnement"
-    copy_paste: Copier/Coller
-    default_search: 'Recherche par défaut'
-    reviewer: Réviseur
-    traductor: Traducteur
-    copywriter: Rédacteur
-    auditor: Auditeur
-    publisher: Éditeur
-    webmaster: Webmaster
-    user_management: 'Gestion des utilisateurs'
-    admin: Administrateur
-    super: 'Super utilisateur'
-    super_user: 'Super Utilisateur'
-    user_read: 'Utilisateur (lecture)'
-    super_admin: 'Super administrateur'
 action:
     activate: Activer
     add: Ajouter
@@ -413,6 +391,8 @@ field:
     user_deleted: 'Supprimé par'
     user_impersonator: Impersonnateur
     user_modified: 'Modifié par'
+    user_property: field.user_property
+    user_roles: field.user_roles
     user_uploaded: 'Uploadé par'
 field_type:
     json_menu_editor:
@@ -783,6 +763,9 @@ notification:
         revision_not_published: 'Cette révision n’est plus publiée dans {environment}'
         revision_not_published_and_duplicate: 'Cette révision n’est plus publiée dans {environment} et une autre notification existe'
     warnings: Avertissements
+option:
+    allow_add: option.allow_add
+    multiple: option.multiple
 orientation:
     landscape: Paysage
     portrait: Portrait
@@ -857,6 +840,28 @@ revision:
         put_back_confirm: 'Restaurer « {label} » ?'
         put_back_selected: 'Restaurer la sélection'
         title: '{pluralName} dans la corbeille'
+role:
+    admin: Administrateur
+    allow_align: "Aligner l'environnement"
+    api: API
+    auditor: Auditeur
+    author: Auteur
+    copy_paste: Copier/Coller
+    copywriter: Rédacteur
+    default_search: 'Recherche par défaut'
+    form_crm: 'Formulaire CRM'
+    not_defined: 'Non défini'
+    publisher: Éditeur
+    reviewer: Réviseur
+    super: 'Super utilisateur'
+    super_admin: 'Super administrateur'
+    super_user: 'Super Utilisateur'
+    task_manager: 'Gestion des tâches'
+    traductor: Traducteur
+    user: Utilisateur
+    user_management: 'Gestion des utilisateurs'
+    user_read: 'Utilisateur (lecture)'
+    webmaster: Webmaster
 search:
     filter:
         add: Ajouter

@@ -1,25 +1,3 @@
-role:
-    not_defined: 'Not defined'
-    api: API
-    user: User
-    author: Author
-    form_crm: 'Form CRM'
-    task_manager: 'Task admin'
-    allow_align: 'Align Environment'
-    copy_paste: Copy/Paste
-    default_search: 'Default search'
-    reviewer: Reviewer
-    traductor: Traductor
-    copywriter: Copywriter
-    auditor: Auditor
-    publisher: Publisher
-    webmaster: Webmaster
-    user_management: 'User Management'
-    admin: Administrator
-    super: 'Super user'
-    super_user: 'Super User'
-    user_read: 'User read'
-    super_admin: 'Super Admin'
 action:
     activate: Activate
     add: Add
@@ -413,6 +391,8 @@ field:
     user_deleted: 'Deleted by'
     user_impersonator: Impersonator
     user_modified: 'Modified by'
+    user_property: field.user_property
+    user_roles: field.user_roles
     user_uploaded: 'Uploaded by'
 field_type:
     json_menu_editor:
@@ -783,6 +763,9 @@ notification:
         revision_not_published: 'This revision is not published in {environment} anymore'
         revision_not_published_and_duplicate: 'This revision is not published in {environment} anymore and another notification exists'
     warnings: Warnings
+option:
+    allow_add: option.allow_add
+    multiple: option.multiple
 orientation:
     landscape: Landscape
     portrait: Portrait
@@ -857,6 +840,28 @@ revision:
         put_back_confirm: 'Put back "{label}" ?'
         put_back_selected: 'Put back selected'
         title: '{pluralName} in trash'
+role:
+    admin: Administrator
+    allow_align: 'Align Environment'
+    api: API
+    auditor: Auditor
+    author: Author
+    copy_paste: Copy/Paste
+    copywriter: Copywriter
+    default_search: 'Default search'
+    form_crm: 'Form CRM'
+    not_defined: 'Not defined'
+    publisher: Publisher
+    reviewer: Reviewer
+    super: 'Super user'
+    super_admin: 'Super Admin'
+    super_user: 'Super User'
+    task_manager: 'Task admin'
+    traductor: Traductor
+    user: User
+    user_management: 'User Management'
+    user_read: 'User read'
+    webmaster: Webmaster
 search:
     filter:
         add: Add

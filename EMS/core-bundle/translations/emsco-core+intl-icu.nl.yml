@@ -1,25 +1,3 @@
-role:
-    not-defined: 'Niet gedefinieerd'
-    api: API
-    user: Gebruiker
-    author: Auteur
-    form_crm: 'Formulier CRM'
-    task_manager: Taakbeheer
-    allow_align: 'Omgeving uitlijnen'
-    copy_paste: Kopiëren/Plakken
-    default_search: 'Standaard zoekopdracht'
-    reviewer: Reviewer
-    traductor: Vertaler
-    copywriter: Copywriter
-    auditor: Auditor
-    publisher: Uitgever
-    webmaster: Webmaster
-    user_management: Gebruikersbeheer
-    admin: Beheerder
-    super: 'Super gebruiker'
-    super_user: 'Super Gebruiker'
-    user_read: 'Gebruiker (lezen)'
-    super_admin: 'Super beheerder'
 action:
     activate: Activeren
     add: Toevoegen
@@ -413,6 +391,8 @@ field:
     user_deleted: 'Verwijderd door'
     user_impersonator: Impersonator
     user_modified: 'Gewijzigd door'
+    user_property: field.user_property
+    user_roles: field.user_roles
     user_uploaded: 'Geüpload door'
 field_type:
     json_menu_editor:
@@ -783,6 +763,9 @@ notification:
         revision_not_published: 'Deze revisie is niet meer gepubliceerd in {environment}'
         revision_not_published_and_duplicate: 'Deze revisie is niet meer gepubliceerd in {environment} en er bestaat een andere notificatie'
     warnings: Waarschuwingen
+option:
+    allow_add: option.allow_add
+    multiple: option.multiple
 orientation:
     landscape: Liggend
     portrait: Staand
@@ -857,6 +840,28 @@ revision:
         put_back_confirm: '"{label}" terugplaatsen?'
         put_back_selected: 'Selectie terugplaatsen'
         title: '{pluralName} in prullenbak'
+role:
+    admin: Beheerder
+    allow_align: 'Omgeving uitlijnen'
+    api: API
+    auditor: Auditor
+    author: Auteur
+    copy_paste: Kopiëren/Plakken
+    copywriter: Copywriter
+    default_search: 'Standaard zoekopdracht'
+    form_crm: 'Formulier CRM'
+    not_defined: 'Niet gedefinieerd'
+    publisher: Uitgever
+    reviewer: Reviewer
+    super: 'Super gebruiker'
+    super_admin: 'Super beheerder'
+    super_user: 'Super Gebruiker'
+    task_manager: Taakbeheer
+    traductor: Vertaler
+    user: Gebruiker
+    user_management: Gebruikersbeheer
+    user_read: 'Gebruiker (lezen)'
+    webmaster: Webmaster
 search:
     filter:
         add: Toevoegen

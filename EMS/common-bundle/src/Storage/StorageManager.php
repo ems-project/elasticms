@@ -192,6 +192,7 @@ class StorageManager implements FileManagerInterface
         }
         $config = Json::decode($this->getStream($hash)->getContents());
         $cacheItem->set($config);
+        $cacheItem->expiresAfter(86400);
         $this->cacheManager->save($cacheItem);
 
         return $config;

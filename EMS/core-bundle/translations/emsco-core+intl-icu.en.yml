@@ -301,6 +301,7 @@ field:
     date_build: 'Date build'
     date_created: 'Date creation'
     date_execution: 'Execution date'
+    date_expiration: 'Expiration date'
     date_modified: 'Date modified'
     date_range:
         duration: Duration
@@ -311,7 +312,9 @@ field:
     date_upload: 'Date upload'
     definition: Definition
     description: Description
+    display_name: 'Display name'
     editor: Editor
+    email: Email
     email_content_type: 'Content type (ie: text/html)'
     enabled: Enabled
     endpoint_url: Endpoint
@@ -351,6 +354,8 @@ field:
     is_public: Public
     key: Key
     label: Label
+    language_preferred: 'Language preferred'
+    language_ui: 'Language UI'
     last_seen: 'Last seen'
     locale: Locale
     mcp_input_schema: 'MCP input schema template (JSON)'
@@ -358,7 +363,10 @@ field:
     mcp_response: 'MCP response template (JSON)'
     message: Message
     name: Name
+    options: Options
     orientation: Orientation
+    password: Password
+    password_repeat: 'Repeat password'
     pdf_size: 'PDF Size'
     plural: Plural
     public_access: 'Public Access'
@@ -397,6 +405,8 @@ field:
     user_property: 'User property'
     user_roles: 'User roles'
     user_uploaded: 'Uploaded by'
+    username: Username
+    wysiwyg_profile: 'WYSIWYG profile'
 field_type:
     json_menu_editor:
         add: Add
@@ -769,6 +779,10 @@ notification:
     warnings: Warnings
 option:
     allow_add: 'Allow add'
+    email_notification: 'Email notifications'
+    layout_boxed: 'Layout boxed'
+    layout_sidebar_collapse: 'Sidebar collapse'
+    layout_sidebar_mini: 'Sidebar mini'
     multiple: Multiple
 orientation:
     landscape: Landscape
@@ -1238,7 +1252,6 @@ user:
     option:
         allowed_configure_wysiwyg: "Allow user to switch WYSIWYG's profile"
         simplified_ui: 'Simplified UI'
-        title: Options
     profile:
         change_password:
             breadcrumb_title: 'Change your password'

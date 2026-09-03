@@ -17,7 +17,6 @@ class EMSCoreBundle extends AbstractBundle
 {
     final public const string TRANS_DOMAIN = 'EMSCoreBundle';
     final public const string TRANS_CORE = 'emsco-core';
-    final public const string TRANS_FORM_DOMAIN = 'emsco-forms';
 
     final public const string FONTAWESOME_VERSION = '4';
 

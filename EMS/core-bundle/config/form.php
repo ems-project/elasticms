@@ -510,7 +510,6 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems_core.form.user_type', UserType::class)
         ->args([
-            service('ems.group.manager'),
             '%ems_core.circles_object%',
             '%ems_core.group_feature%',
         ])

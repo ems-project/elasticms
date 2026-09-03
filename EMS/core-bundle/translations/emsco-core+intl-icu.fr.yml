@@ -301,6 +301,7 @@ field:
     date_build: 'Date de build'
     date_created: 'Date de création'
     date_execution: 'Date d’exécution'
+    date_expiration: "Date d'expiration"
     date_modified: 'Date de modification'
     date_range:
         duration: Durée
@@ -311,7 +312,9 @@ field:
     date_upload: 'Date d’upload'
     definition: Définition
     description: Description
+    display_name: 'Nom d’affichage'
     editor: Éditeur
+    email: Email
     email_content_type: 'Type de contenu (ex. : text/html)'
     enabled: Activé
     endpoint_url: Endpoint
@@ -351,6 +354,8 @@ field:
     is_public: Public
     key: Clé
     label: Libellé
+    language_preferred: 'Langue préférée'
+    language_ui: "Langue de l'interface"
     last_seen: 'Vu pour la dernière fois'
     locale: Locale
     mcp_input_schema: "Template du schéma d'entrée MCP (JSON)"
@@ -358,7 +363,10 @@ field:
     mcp_response: 'Template de réponse MCP (JSON)'
     message: Message
     name: Nom
+    options: Options
     orientation: Orientation
+    password: 'Mot de passe'
+    password_repeat: 'Répéter le mot de passe'
     pdf_size: 'Format PDF'
     plural: Pluriel
     public_access: 'Accès public'
@@ -397,6 +405,8 @@ field:
     user_property: 'Propriété utilisateur'
     user_roles: 'Rôles utilisateur'
     user_uploaded: 'Uploadé par'
+    username: "Nom d'utilisateur"
+    wysiwyg_profile: 'Profil WYSIWYG'
 field_type:
     json_menu_editor:
         add: Ajouter
@@ -769,6 +779,10 @@ notification:
     warnings: Avertissements
 option:
     allow_add: 'Autoriser l’ajout'
+    email_notification: 'Notifications par email'
+    layout_boxed: 'Mise en page en boîte'
+    layout_sidebar_collapse: 'Réduction de la barre latérale'
+    layout_sidebar_mini: 'Barre latérale mini'
     multiple: Multiple
 orientation:
     landscape: Paysage
@@ -1238,7 +1252,6 @@ user:
     option:
         allowed_configure_wysiwyg: "Autorise l'utilisateur à changer de profile WYSIWYG"
         simplified_ui: 'Interfaces simplifiées'
-        title: Options
     profile:
         change_password:
             breadcrumb_title: 'Changer votre mot de passe'

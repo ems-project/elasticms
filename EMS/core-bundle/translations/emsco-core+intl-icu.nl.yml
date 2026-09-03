@@ -301,6 +301,7 @@ field:
     date_build: Builddatum
     date_created: Aanmaakdatum
     date_execution: Uitvoeringsdatum
+    date_expiration: Vervaldatum
     date_modified: Wijzigingsdatum
     date_range:
         duration: Duur
@@ -311,7 +312,9 @@ field:
     date_upload: Uploaddatum
     definition: Definitie
     description: Beschrijving
+    display_name: Weergavenaam
     editor: Editor
+    email: E-mail
     email_content_type: 'Contenttype (bv. text/html)'
     enabled: Ingeschakeld
     endpoint_url: Endpoint
@@ -351,6 +354,8 @@ field:
     is_public: Publiek
     key: Sleutel
     label: Label
+    language_preferred: Voorkeurstaal
+    language_ui: Interfacetaal
     last_seen: 'Laatst gezien'
     locale: Locale
     mcp_input_schema: 'MCP invoerschema-template (JSON)'
@@ -358,7 +363,10 @@ field:
     mcp_response: 'MCP uitvoerschema-template (JSON)'
     message: Bericht
     name: Naam
+    options: Opties
     orientation: Oriëntatie
+    password: Wachtwoord
+    password_repeat: 'Herhaal wachtwoord'
     pdf_size: PDF-formaat
     plural: Meervoud
     public_access: 'Publieke toegang'
@@ -397,6 +405,8 @@ field:
     user_property: Gebruikerseigenschap
     user_roles: Gebruikersrollen
     user_uploaded: 'Geüpload door'
+    username: Gebruikersnaam
+    wysiwyg_profile: WYSIWYG-profiel
 field_type:
     json_menu_editor:
         add: Toevoegen
@@ -769,6 +779,10 @@ notification:
     warnings: Waarschuwingen
 option:
     allow_add: 'Toevoegen toestaan'
+    email_notification: E-mailmeldingen
+    layout_boxed: 'Layout boxed'
+    layout_sidebar_collapse: 'Zijbalk inklapbaar'
+    layout_sidebar_mini: 'Zijbalk mini'
     multiple: Meerdere
 orientation:
     landscape: Liggend
@@ -1238,7 +1252,6 @@ user:
     option:
         allowed_configure_wysiwyg: 'Gebruiker toestaan om van WYSIWYG-profiel te wisselen'
         simplified_ui: 'Vereenvoudigde UI'
-        title: Opties
     profile:
         change_password:
             breadcrumb_title: 'Uw wachtwoord wijzigen'

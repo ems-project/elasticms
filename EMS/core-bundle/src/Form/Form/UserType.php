@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Form;
 
 use Doctrine\ORM\EntityRepository;
-use EMS\CoreBundle\Core\User\GroupManager;
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Entity\WysiwygProfile;
@@ -36,7 +34,6 @@ final class UserType extends AbstractType
     public const string MODE_UPDATE = 'update';
 
     public function __construct(
-        private readonly GroupManager $groupManager,
         private readonly ?string $circleObject,
         private readonly bool $groupFeature,
     ) {
@@ -53,10 +50,10 @@ final class UserType extends AbstractType
 
         $builder
             ->add('email', EmailType::class, [
-                'label' => 'form.email',
+                'label' => t('field.email', [], 'emsco-core'),
             ])
             ->add('username', null, [
-                'label' => 'form.username',
+                'label' => t('field.username', [], 'emsco-core'),
                 'disabled' => (self::MODE_CREATE !== $mode),
             ]);
 
@@ -65,21 +62,16 @@ final class UserType extends AbstractType
                 'type' => PasswordType::class,
                 'options' => [
                     'attr' => ['autocomplete' => 'new-password'],
-                    'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
                 ],
-                'first_options' => ['label' => 'user.password'],
-                'second_options' => ['label' => 'user.password_confirmation'],
-                'invalid_message' => 'user.password.mismatch',
+                'first_options' => ['label' => t('field.password', [], 'emsco-core')],
+                'second_options' => ['label' => t('field.password_repeat', [], 'emsco-core')],
+                'invalid_message' => t('user.password.mismatch', [], 'validators'),
             ]);
-        }
-
-        $choices = [];
-        foreach ($this->groupManager->getAll() as $group) {
-            $choices[$group->getLabel()] = $group->getId();
         }
 
         $builder
             ->add('expirationDate', DateTimeType::class, [
+                'label' => t('field.date_expiration', [], 'emsco-core'),
                 'required' => false,
                 'date_widget' => 'single_text',
                 'input' => 'datetime',
@@ -90,21 +82,19 @@ final class UserType extends AbstractType
             ])
             ->add('emailNotification', CheckboxType::class, [
                 'required' => false,
+                'label' => t('option.email_notification', [], 'emsco-core'),
             ])
             ->add('displayName', null, [
                 'required' => true,
-                'label' => 'Display name',
-            ])
-
-            ->add('enabled', CheckboxType::class, [
-                'required' => false,
+                'label' => t('field.display_name', [], 'emsco-core'),
             ])
             ->add('enabled', CheckboxType::class, [
+                'label' => t('field.enabled', [], 'emsco-core'),
                 'required' => false,
             ])
             ->add('wysiwygProfile', EntityType::class, [
                 'required' => false,
-                'label' => 'WYSIWYG profile',
+                'label' => t('field.wysiwyg_profile', [], 'emsco-core'),
                 'class' => WysiwygProfile::class,
                 'choice_label' => 'name',
                 'query_builder' => fn (EntityRepository $er) => $er->createQueryBuilder('p')->orderBy('p.orderKey', 'ASC'),
@@ -115,28 +105,30 @@ final class UserType extends AbstractType
             ])
             ->add('userRoles', RoleMultiPickerType::class)
             ->add('locale', ChoiceType::class, [
-                'label' => 'user.locale',
-                'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
+                'label' => t('field.language_ui', [], 'emsco-core'),
                 'required' => true,
-                'choices' => [Locales::getName('en') => 'en'],
+                'choices' => [
+                    Locales::getName('en') => 'en',
+                    Locales::getName('fr') => 'fr',
+                    Locales::getName('nl') => 'nl',
+                ],
                 'choice_translation_domain' => false,
             ])
             ->add('localePreferred', ChoiceType::class, [
-                'label' => 'user.locale_preferred',
-                'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
+                'label' => t('field.language_preferred', [], 'emsco-core'),
                 'required' => false,
                 'choices' => \array_flip(Locales::getNames()),
                 'choice_translation_domain' => false,
             ])
             ->add('userOptions', UserOptionsType::class, [
-                'label' => t('user.option.title', [], 'emsco-core'),
+                'label' => t('field.options', [], 'emsco-core'),
                 'context' => UserOptionsType::CONTEXT_USER_MANAGEMENT,
             ])
         ;
         if ($this->groupFeature) {
             $builder->add('group', EntityType::class, [
                 'required' => false,
-                'label' => 'Group',
+                'label' => t('field.group', [], 'emsco-core'),
                 'class' => Group::class,
                 'choice_label' => 'label',
                 'query_builder' => fn (EntityRepository $er) => $er->createQueryBuilder('g'),
@@ -149,6 +141,7 @@ final class UserType extends AbstractType
 
         if ($this->circleObject) {
             $builder->add('circles', ObjectPickerType::class, [
+                'label' => t('field.circles', [], 'emsco-core'),
                 'multiple' => true,
                 'type' => $this->circleObject,
                 'dynamicLoading' => true,
@@ -158,6 +151,7 @@ final class UserType extends AbstractType
         if (self::MODE_CREATE === $mode) {
             $builder->add('create', SubmitEmsType::class, [
                 'attr' => ['class' => 'btn btn-primary btn-sm', 'data-testid' => 'user-create'],
+                'label' => t('action.create', [], 'emsco-core'),
                 'icon' => 'fa fa-plus',
             ]);
         }
@@ -167,8 +161,8 @@ final class UserType extends AbstractType
                     'class' => 'btn btn-primary btn-sm ',
                     'data-testid' => 'user-update',
                 ],
+                'label' => t('action.save', [], 'emsco-core'),
                 'icon' => 'fa fa-save',
-                'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
             ]);
         }
     }
@@ -179,7 +173,6 @@ final class UserType extends AbstractType
         $resolver
             ->setDefaults([
                 'data_class' => User::class,
-                'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
             ])
             ->setRequired(['mode'])
             ->setAllowedValues('mode', [self::MODE_CREATE, self::MODE_UPDATE])

@@ -1,13 +1,3 @@
-form:
-    name: Name
-    label: Label
-    create: Create
-    save: Save
-file_disposition:
-    disposition: 'File disposition'
-    not-defined: 'Not defined'
-    attachment: 'Attachment (force download)'
-    inline: 'Inline (try to open in browser)'
 user:
     locale: 'Language UI'
     locale_preferred: 'Language preferred'

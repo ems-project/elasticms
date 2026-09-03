@@ -323,7 +323,9 @@ field:
     events: Events
     extra: Extra
     file:
-        disposition: Disposition
+        disposition: 'File disposition'
+        disposition_attachment: 'Attachment (force download)'
+        disposition_inline: 'Inline (try to open in browser)'
         extension: Extension
         mimetype: Mime-Type
         name: Filename
@@ -392,8 +394,8 @@ field:
     user_deleted: 'Deleted by'
     user_impersonator: Impersonator
     user_modified: 'Modified by'
-    user_property: field.user_property
-    user_roles: field.user_roles
+    user_property: 'User property'
+    user_roles: 'User roles'
     user_uploaded: 'Uploaded by'
 field_type:
     json_menu_editor:
@@ -575,6 +577,7 @@ key:
     new_password_confirmation: 'Repeat new password'
     none: None
     not-applicable: N/A
+    not_defined: 'Not defined'
     notice: Notice
     number_of_data_nodes: 'Number of data nodes'
     number_of_nodes: 'Number of nodes'
@@ -765,8 +768,8 @@ notification:
         revision_not_published_and_duplicate: 'This revision is not published in {environment} anymore and another notification exists'
     warnings: Warnings
 option:
-    allow_add: option.allow_add
-    multiple: option.multiple
+    allow_add: 'Allow add'
+    multiple: Multiple
 orientation:
     landscape: Landscape
     portrait: Portrait

@@ -323,7 +323,9 @@ field:
     events: Events
     extra: Extra
     file:
-        disposition: Dispositie
+        disposition: Bestandsdispositie
+        disposition_attachment: 'Bijlage (download forceren)'
+        disposition_inline: 'Inline (proberen te openen in browser)'
         extension: Extensie
         mimetype: MIME-type
         name: Bestandsnaam
@@ -392,8 +394,8 @@ field:
     user_deleted: 'Verwijderd door'
     user_impersonator: Impersonator
     user_modified: 'Gewijzigd door'
-    user_property: field.user_property
-    user_roles: field.user_roles
+    user_property: Gebruikerseigenschap
+    user_roles: Gebruikersrollen
     user_uploaded: 'Geüpload door'
 field_type:
     json_menu_editor:
@@ -575,6 +577,7 @@ key:
     new_password_confirmation: 'Herhaal nieuw wachtwoord'
     none: Geen
     not-applicable: N.v.t.
+    not_defined: 'Niet gedefinieerd'
     notice: Melding
     number_of_data_nodes: 'Aantal datanodes'
     number_of_nodes: 'Aantal nodes'
@@ -765,8 +768,8 @@ notification:
         revision_not_published_and_duplicate: 'Deze revisie is niet meer gepubliceerd in {environment} en er bestaat een andere notificatie'
     warnings: Waarschuwingen
 option:
-    allow_add: option.allow_add
-    multiple: option.multiple
+    allow_add: 'Toevoegen toestaan'
+    multiple: Meerdere
 orientation:
     landscape: Liggend
     portrait: Staand

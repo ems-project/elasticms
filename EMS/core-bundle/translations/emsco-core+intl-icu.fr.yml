@@ -323,7 +323,9 @@ field:
     events: Événements
     extra: Extra
     file:
-        disposition: Disposition
+        disposition: 'Disposition du fichier'
+        disposition_attachment: 'Pièce jointe (forcer le téléchargement)'
+        disposition_inline: 'En ligne (essayer d’ouvrir dans le navigateur)'
         extension: Extension
         mimetype: 'Type MIME'
         name: 'Nom du fichier'
@@ -392,8 +394,8 @@ field:
     user_deleted: 'Supprimé par'
     user_impersonator: Impersonnateur
     user_modified: 'Modifié par'
-    user_property: field.user_property
-    user_roles: field.user_roles
+    user_property: 'Propriété utilisateur'
+    user_roles: 'Rôles utilisateur'
     user_uploaded: 'Uploadé par'
 field_type:
     json_menu_editor:
@@ -575,6 +577,7 @@ key:
     new_password_confirmation: 'Répéter le nouveau mot de passe'
     none: Aucun
     not-applicable: N/A
+    not_defined: 'Non défini'
     notice: Notice
     number_of_data_nodes: 'Nombre de nœuds de données'
     number_of_nodes: 'Nombre de nœuds'
@@ -765,8 +768,8 @@ notification:
         revision_not_published_and_duplicate: 'Cette révision n’est plus publiée dans {environment} et une autre notification existe'
     warnings: Avertissements
 option:
-    allow_add: option.allow_add
-    multiple: option.multiple
+    allow_add: 'Autoriser l’ajout'
+    multiple: Multiple
 orientation:
     landscape: Paysage
     portrait: Portrait

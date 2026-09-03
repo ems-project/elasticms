@@ -83,6 +83,7 @@ class AnalyzerPickerType extends Select2Type
                 'data-live-search' => true,
             ],
             'choice_value' => fn ($value) => $value,
+            'translation_domain' => false,
         ]);
     }
 }

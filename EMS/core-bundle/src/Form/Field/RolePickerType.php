@@ -38,6 +38,7 @@ class RolePickerType extends AbstractType
                     'data-icon' => 'fa fa-user-circle',
                 ],
                 'choice_value' => fn ($value) => $value,
+                'choice_label' => fn (string $role) => Roles::translate($role),
             ])
             ->setAllowedTypes('include_not_defined', 'bool')
             ->setDefault('choices', function (Options $options) {

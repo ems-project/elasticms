@@ -17,9 +17,9 @@ class HttpStorage extends AbstractUrlStorage
 {
     final public const string INIT_URL = '/api/file/init-upload';
 
-    public function __construct(LoggerInterface $logger, private readonly string $baseUrl, private readonly string $getUrl, int $usage, private readonly ?string $authKey = null, int $hotSynchronizeLimit = 0)
+    public function __construct(LoggerInterface $logger, private readonly string $baseUrl, private readonly string $getUrl, int $usage, private readonly ?string $authKey = null, int $hotSynchronizeLimit = 0, int $retryDelay = 0)
     {
-        parent::__construct($logger, $usage, $hotSynchronizeLimit);
+        parent::__construct($logger, $usage, $hotSynchronizeLimit, $retryDelay);
     }
 
     public static function addChunkUrl(string $hash): string

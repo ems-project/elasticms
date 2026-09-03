@@ -17,9 +17,9 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class FileSystemStorage extends AbstractUrlStorage
 {
-    public function __construct(LoggerInterface $logger, private readonly string $storagePath, int $usage, int $hotSynchronizeLimit = 0)
+    public function __construct(LoggerInterface $logger, private readonly string $storagePath, int $usage, int $hotSynchronizeLimit = 0, int $retryDelay = 0)
     {
-        parent::__construct($logger, $usage, $hotSynchronizeLimit);
+        parent::__construct($logger, $usage, $hotSynchronizeLimit, $retryDelay);
     }
 
     #[\Override]

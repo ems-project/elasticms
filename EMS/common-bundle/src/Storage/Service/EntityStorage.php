@@ -276,6 +276,6 @@ class EntityStorage implements StorageInterface, \Stringable
     #[\Override]
     public function getRetryDelay(): int
     {
-        $this->retryDelay;
+        return $this->retryDelay;
     }
 }

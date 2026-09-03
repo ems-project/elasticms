@@ -1,0 +1,73 @@
+application/epub+zip: 'Electronic publication (EPUB)'
+application/java-archive: 'Java Archive (JAR)'
+application/js: 'JavaScript (ECMAScript)'
+application/json: 'JSON format'
+application/msword: 'Microsoft Word'
+application/octet-stream: 'Any kind of binary data'
+application/ogg: OGG
+application/pdf: 'Adobe Portable Document Format (PDF)'
+application/rtf: 'Rich Text Format (RTF)'
+application/vnd:
+    amazon:
+        ebook: 'Amazon Kindle eBook format'
+    apple:
+        installer+xml: 'Apple Installer Package'
+    mozilla:
+        xul+xml: XUL
+    ms-excel: 'Microsoft Excel'
+    ms-excel.sheet.macroenabled.12: 'Microsoft Excel'
+    ms-powerpoint: 'Microsoft PowerPoint'
+    oasis:
+        opendocument:
+            presentation: 'OpenDocuemnt presentation document'
+            spreadsheet: 'OpenDocuemnt spreadsheet document'
+            text: 'OpenDocument text document'
+    openxmlformats-officedocument:
+        presentationml:
+            presentation: 'Microsoft PowerPoint'
+        spreadsheetml:
+            sheet: 'Microsoft Excel'
+        wordprocessingml:
+            document: 'Microsoft Word'
+    visio: 'Microsft Visio'
+application/x-7z-compressed: '7-zip archive'
+application/x-abiword: 'AbiWord document'
+application/x-bzip: 'BZip archive'
+application/x-bzip2: 'BZip2 archive'
+application/x-csh: 'C-Shell script'
+application/x-font-ttf: 'TrueType Font'
+application/x-font-woff: 'Web Open Font Format (WOFF)'
+application/x-rar-compressed: 'RAR archive'
+application/x-sh: 'Bourne shell script'
+application/x-shockwave-flash: 'Small web format (SWF) or Adobe Flash document'
+application/x-tar: 'Tape Archive (TAR)'
+application/xhtml+xml: XHTML
+application/xml: XML
+application/zip: 'ZIP archive'
+audio/3gpp: '3GPP audio container'
+audio/aac: 'AAC audio file'
+audio/midi: 'Musical Instrument Digital Interface (MIDI)'
+audio/ogg: 'OGG audio'
+audio/webm: 'WEBM audio'
+audio/x-wav: 'Waveform Audio Format'
+audo/3gpp2: '3GPP2 audio container'
+image/gif: 'Graphics Interchange Format (GIF)'
+image/jpeg: 'JPEG image'
+image/png: 'PNG image'
+image/svg+xml: 'Scalable Vector Graphics (SVG)'
+image/tiff: 'Tagged Image File Format (TIFF)'
+image/webp: 'WEBP image'
+image/x-icon: 'Icon format'
+text/calendar: 'iCalendar format'
+text/css: 'Cascading Style Sheets (CSS)'
+text/csv: 'Comma-separated values (CSV)'
+text/html: 'HyperText Markup Language (HTML)'
+text/plain: 'Text file'
+text/xml: 'XML file'
+video/3gpp: '3GPP video container'
+video/3gpp2: '3GPP2 video container'
+video/mp4: 'MP4 Video'
+video/mpeg: 'MPEG Video'
+video/ogg: 'OGG video'
+video/webm: 'WEBM video'
+video/x-msvideo: 'AVI: Audio Video Interleave'

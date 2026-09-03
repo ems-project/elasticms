@@ -75,7 +75,7 @@
             {{ mediaFile.folder[folder.path|default('')|length + 1:] }}{{- mediaFile.name -}}
         </a>
     </div>
-    <div>{{- mediaFile.file.mimetype|trans({}, 'emsco-mimetypes') -}}</div>
+    <div>{{- mediaFile.file.mimetype|trans({}, 'ems-mimetypes') -}}</div>
     <div class="text-right">{{- mediaFile.file.filesize|ems_format_bytes -}}</div>
 {% endblock media_lib_file %}
 
@@ -301,7 +301,7 @@
 {% block media_lib_modal_preview_info %}
     <ul>
         <li>Size: {{ mediaFile.filesize|ems_format_bytes }}</li>
-        <li>Type: {{ mediaFile.fileMimetype|trans({}, 'emsco-mimetypes') }}</li>
+        <li>Type: {{ mediaFile.fileMimetype|trans({}, 'ems-mimetypes') }}</li>
     </ul>
 {% endblock media_lib_modal_preview_info %}
 

@@ -835,6 +835,8 @@ class StorageManager implements FileManagerInterface
     {
         $retryDelay = $this->adapters[$index]->getRetryDelay();
         if ($retryDelay <= 0) {
+            unset($this->adapters[$index]);
+
             return;
         }
         $cacheItem = $this->getNotAvailableStorageCacheItem($this->adapters[$index]);

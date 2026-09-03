@@ -16,7 +16,7 @@ outline: [2, 2]
 - BC: removed `EMSCH_ASSET_CONFIG_TYPE` was not used anymore
 - Feature: `_authenticated` attribute on routes can be replaced by a `EMSCH_SECURITY_FIREWALL` (see demo)
 - BC: Merged the following translation domains into `emsco-core`: `emsco-component`, `emsco-contenttype`,
-  `emsco-environment`, `emsco-forms`, `emsco-twigs`, `emsco-user`, `emsco_validators`.
+  `emsco-environment`, `emsco-forms`, `emsco-twigs`, `emsco-user`.
 - BC: Renamed the `emsco-mimetypes` domain to `ems-mimetypes`, making mimetypes translatable on the front-end as well.
 
 ## 7.2

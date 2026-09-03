@@ -833,9 +833,13 @@ class StorageManager implements FileManagerInterface
 
     private function adaptorNotAvailable(int|string $index, StorageNotAvailableException $storageNotAvailableException): void
     {
+        $retryDelay = $this->adapters[$index]->getRetryDelay();
+        if ($retryDelay <= 0) {
+            return;
+        }
         $cacheItem = $this->getNotAvailableStorageCacheItem($this->adapters[$index]);
         $cacheItem->set(true);
-        $cacheItem->expiresAfter(5);
+        $cacheItem->expiresAfter($retryDelay);
         $this->cacheManager->save($cacheItem);
         unset($this->adapters[$index]);
         $this->logger->error($storageNotAvailableException->getMessage());

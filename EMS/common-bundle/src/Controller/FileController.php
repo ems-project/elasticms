@@ -108,7 +108,7 @@ class FileController extends AbstractController
             if (null === $notFoundTemplate) {
                 throw $e;
             }
-        } catch (StorageServicesUnavailableException $exception) {
+        } catch (StorageServicesUnavailableException) {
             throw new ServiceUnavailableHttpException();
         }
 

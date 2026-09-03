@@ -57,7 +57,7 @@ class Processor
             $configJson = $this->storageManager->getConfig($configHash);
             $config = new Config($this->storageManager, $hash, $configHash, $configJson);
         } catch (NotFoundException) {
-            throw new NotFoundHttpException(\sprintf('Config %s not found', $hash));
+            throw new NotFoundHttpException(\sprintf('Config %s not found', $configHash));
         }
 
         try {

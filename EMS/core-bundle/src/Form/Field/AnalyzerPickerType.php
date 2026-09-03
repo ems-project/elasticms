@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Field;
 
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Repository\AnalyzerRepository;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 use function Symfony\Component\Translation\t;
 
 class AnalyzerPickerType extends Select2Type

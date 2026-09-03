@@ -54,7 +54,7 @@ class Processor
     public function getResponse(Request $request, string $hash, string $configHash, string $filename, bool $immutableRoute = false): Response
     {
         try {
-            $configJson = Json::decode($this->storageManager->getContents($configHash));
+            $configJson = $this->storageManager->getConfig($configHash);
             $config = new Config($this->storageManager, $hash, $configHash, $configJson);
         } catch (NotFoundException) {
             throw new NotFoundHttpException(\sprintf('Config %s not found', $hash));

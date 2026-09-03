@@ -185,7 +185,16 @@ class StorageManager implements FileManagerInterface
      */
     public function getConfig(string $hash): mixed
     {
-        return Json::decode($this->getStream($hash)->getContents());
+        $cacheKey = \sprintf('ems-config-%s', $hash);
+        $cacheItem = $this->cacheManager->getItem($cacheKey);
+        if ($cacheItem->isHit()) {
+            return Type::array($cacheItem->get());
+        }
+        $config = Json::decode($this->getStream($hash)->getContents());
+        $cacheItem->set($config);
+        $this->cacheManager->save($cacheItem);
+
+        return $config;
     }
 
     public function getPublicImage(string $name): string

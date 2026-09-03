@@ -139,12 +139,13 @@ class UserService implements EntityServiceInterface
     }
 
     /**
-     * @return array<string, string>
+     * @return string[]
      */
     public function listUserRoles(): array
     {
         $roleHierarchy = $this->securityRoles;
-        $roles = [
+
+        return [
             Roles::ROLE_USER,
             ...\array_keys($roleHierarchy),
             ...[
@@ -156,8 +157,6 @@ class UserService implements EntityServiceInterface
                 Roles::ROLE_USER_READ,
             ],
         ];
-
-        return \array_combine($roles, $roles);
     }
 
     /**

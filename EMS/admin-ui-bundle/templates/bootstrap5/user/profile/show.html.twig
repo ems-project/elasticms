@@ -49,7 +49,7 @@
         <div class="d-flex flex-wrap gap-2 mt-2">
             {% for role in user.userRoles|default([]) %}
                 <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 fw-semibold">
-                  {{ role|trans({}, 'emsco-forms') }}
+                  {{ role|replace({'ROLE_': 'ROLE.'})|lower|trans([], 'emsco-core') }}
               </span>
             {% endfor %}
         </div>

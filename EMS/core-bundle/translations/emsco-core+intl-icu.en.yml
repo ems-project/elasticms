@@ -1,3 +1,25 @@
+role:
+    not_defined: 'Not defined'
+    api: API
+    user: User
+    author: Author
+    form_crm: 'Form CRM'
+    task_manager: 'Task admin'
+    allow_align: 'Align Environment'
+    copy_paste: Copy/Paste
+    default_search: 'Default search'
+    reviewer: Reviewer
+    traductor: Traductor
+    copywriter: Copywriter
+    auditor: Auditor
+    publisher: Publisher
+    webmaster: Webmaster
+    user_management: 'User Management'
+    admin: Administrator
+    super: 'Super user'
+    super_user: 'Super User'
+    user_read: 'User read'
+    super_admin: 'Super Admin'
 action:
     activate: Activate
     add: Add

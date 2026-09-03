@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Field;
 
-use EMS\CoreBundle\EMSCoreBundle;
+use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Service\UserService;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -28,8 +28,7 @@ class RoleMultiPickerType extends ChoiceType
             'choices' => $this->userService->listUserRoles(),
             'multiple' => true,
             'expanded' => true,
-            'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
-            'choice_translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
+            'choice_label' => fn (string $role) => Roles::translate($role)
         ]);
     }
 }

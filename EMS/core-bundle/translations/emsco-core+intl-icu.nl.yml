@@ -1,3 +1,25 @@
+role:
+    not-defined: 'Niet gedefinieerd'
+    api: API
+    user: Gebruiker
+    author: Auteur
+    form_crm: 'Formulier CRM'
+    task_manager: Taakbeheer
+    allow_align: 'Omgeving uitlijnen'
+    copy_paste: Kopiëren/Plakken
+    default_search: 'Standaard zoekopdracht'
+    reviewer: Reviewer
+    traductor: Vertaler
+    copywriter: Copywriter
+    auditor: Auditor
+    publisher: Uitgever
+    webmaster: Webmaster
+    user_management: Gebruikersbeheer
+    admin: Beheerder
+    super: 'Super gebruiker'
+    super_user: 'Super Gebruiker'
+    user_read: 'Gebruiker (lezen)'
+    super_admin: 'Super beheerder'
 action:
     activate: Activeren
     add: Toevoegen

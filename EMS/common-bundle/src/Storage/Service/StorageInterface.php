@@ -87,4 +87,6 @@ interface StorageInterface
     public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool;
 
     public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, ?callable $callback = null): bool;
+
+    public function getRetryDelay(): int;
 }

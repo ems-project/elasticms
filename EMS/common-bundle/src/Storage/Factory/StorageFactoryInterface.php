@@ -11,6 +11,7 @@ interface StorageFactoryInterface
     public const STORAGE_CONFIG_TYPE = 'type';
     public const STORAGE_CONFIG_USAGE = 'usage';
     public const STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT = 'hot-synchronize-limit';
+    public const STORAGE_CONFIG_RETRY_DELAY = 'retry-delay';
 
     /**
      * @param array<string, mixed> $parameters

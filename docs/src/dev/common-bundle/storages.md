@@ -65,6 +65,11 @@ force synchronize missing assets (smaller than the limit) on more prioritized st
 useful if you intend to use a volatile storage with high performances or if you interconnect
 environments or in development combine with a http storage service.
 
+### Retry delay
+
+`retry-delay`: The time to wait, in seconds, after a storage service becomes unavailable before attempting to connect to it again.
+
+
 ## Cleaning useless assets
 
 With the time the size of your storages can increase. For security reason, it's not possible to

@@ -44,7 +44,7 @@ class SftpFactory extends AbstractFactory implements StorageFactoryInterface
         $passwordPhrase = $config[self::STORAGE_CONFIG_PASSWORD_PHRASE];
         $port = (int) $config[self::STORAGE_CONFIG_PORT];
 
-        return new SftpStorage($this->logger, $host, $path, $username, $publicKeyFile, $privateKeyFile, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT], $passwordPhrase, $port);
+        return new SftpStorage($this->logger, $host, $path, $username, $publicKeyFile, $privateKeyFile, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT], $passwordPhrase, $port, $config[self::STORAGE_CONFIG_RETRY_DELAY]);
     }
 
     #[\Override]
@@ -56,7 +56,7 @@ class SftpFactory extends AbstractFactory implements StorageFactoryInterface
     /**
      * @param array<string, mixed> $parameters
      *
-     * @return array{type: string, host: string|null, path: string, username: string, public-key-file: string, public-key-file: string, private-key-file: string, password-phrase: string|null, port: int, usage: int, hot-synchronize-limit: int}
+     * @return array{type: string, host: string|null, path: string, username: string, public-key-file: string, public-key-file: string, private-key-file: string, password-phrase: string|null, port: int, usage: int, hot-synchronize-limit: int, retry-delay: int}
      */
     private function resolveParameters(array $parameters): array
     {
@@ -90,7 +90,7 @@ class SftpFactory extends AbstractFactory implements StorageFactoryInterface
             ->setAllowedValues(self::STORAGE_CONFIG_TYPE, [self::STORAGE_TYPE])
         ;
 
-        /** @var array{type: string, host: string|null, path: string, username: string, public-key-file: string, public-key-file: string, private-key-file: string, password-phrase: string|null, port: int, usage: int, hot-synchronize-limit: int} $resolvedParameter */
+        /** @var array{type: string, host: string|null, path: string, username: string, public-key-file: string, public-key-file: string, private-key-file: string, password-phrase: string|null, port: int, usage: int, hot-synchronize-limit: int, retry-delay: int} $resolvedParameter */
         $resolvedParameter = $resolver->resolve($parameters);
 
         return $resolvedParameter;

@@ -39,6 +39,7 @@ class StorageManagerTest extends WebTestCase
         ], [
             'type' => 'fs',
             'path' => $this->getFsDir(),
+            'usage' => StorageInterface::STORAGE_USAGE_ASSET_ATTRIBUTE,
         ]]);
 
         $this->tempFile = TempFile::create();

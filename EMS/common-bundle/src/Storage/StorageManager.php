@@ -850,6 +850,10 @@ class StorageManager implements FileManagerInterface
 
     private function ensureAtLeastOneStorageServiceIsAvailable(int $level = StorageInterface::STORAGE_USAGE_ASSET): void
     {
+        if ([] === $this->storageConfigs) {
+            return;
+        }
+
         if ([] === \array_filter($this->adapters, fn (StorageInterface $adapter) => $adapter->getUsage() >= $level)) {
             throw new StorageServicesUnavailableException();
         }

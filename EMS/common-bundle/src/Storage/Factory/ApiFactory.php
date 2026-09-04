@@ -22,7 +22,7 @@ class ApiFactory extends AbstractFactory implements StorageFactoryInterface
     {
         $config = $this->resolveParameters($parameters);
 
-        return new ApiStorage($this->logger, $this->tokenStore, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT]);
+        return new ApiStorage($this->logger, $this->tokenStore, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT], $config[self::STORAGE_CONFIG_RETRY_DELAY]);
     }
 
     #[\Override]
@@ -34,7 +34,7 @@ class ApiFactory extends AbstractFactory implements StorageFactoryInterface
     /**
      * @param array<string, mixed> $parameters
      *
-     * @return array{type: string, usage: int, hot-synchronize-limit: int}
+     * @return array{type: string, usage: int, hot-synchronize-limit: int, retry-delay: int}
      */
     private function resolveParameters(array $parameters): array
     {
@@ -45,7 +45,7 @@ class ApiFactory extends AbstractFactory implements StorageFactoryInterface
             ])
             ->setAllowedValues(self::STORAGE_CONFIG_TYPE, [self::STORAGE_TYPE])
         ;
-        /** @var array{type: string, usage: int, hot-synchronize-limit: int} $resolvedParameter */
+        /** @var array{type: string, usage: int, hot-synchronize-limit: int, retry-delay: int} $resolvedParameter */
         $resolvedParameter = $resolver->resolve($parameters);
 
         return $resolvedParameter;

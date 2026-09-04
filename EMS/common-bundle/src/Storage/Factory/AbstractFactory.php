@@ -18,10 +18,12 @@ abstract class AbstractFactory implements StorageFactoryInterface
                 self::STORAGE_CONFIG_TYPE => null,
                 self::STORAGE_CONFIG_USAGE => StorageInterface::STORAGE_USAGE_CACHE_ATTRIBUTE,
                 self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT => '0',
+                self::STORAGE_CONFIG_RETRY_DELAY => 0,
             ])
             ->setAllowedTypes(self::STORAGE_CONFIG_TYPE, 'string')
             ->setAllowedTypes(self::STORAGE_CONFIG_USAGE, 'string')
             ->setAllowedTypes(self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT, 'string')
+            ->setAllowedTypes(self::STORAGE_CONFIG_RETRY_DELAY, 'int')
             ->setRequired(self::STORAGE_CONFIG_TYPE)
             ->setAllowedValues(self::STORAGE_CONFIG_USAGE, \array_keys(StorageInterface::STORAGE_USAGES))
             ->setNormalizer(self::STORAGE_CONFIG_USAGE, self::usageResolver())

@@ -1,5 +1,9 @@
 # Changelog 6.x
 
+## 6.9.33 (2026-09-04)
+### Bug Fixes
+* fix(common/storage): default storage asset and empty check by @Davidmattei in https://github.com/ems-project/elasticms/pull/1829
+
 ## 6.9.32 (2026-09-04)
 ### Features
 * feat(admin/job): add EMSCO_JOB_CLEAN_TIME environment variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1814

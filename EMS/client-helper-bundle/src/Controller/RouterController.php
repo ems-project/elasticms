@@ -7,6 +7,7 @@ namespace EMS\ClientHelperBundle\Controller;
 use EMS\ClientHelperBundle\Helper\Cache\CacheHelper;
 use EMS\ClientHelperBundle\Helper\Request\ExceptionHelper;
 use EMS\ClientHelperBundle\Helper\Request\Handler;
+use EMS\CommonBundle\Exception\StorageServicesUnavailableException;
 use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
@@ -39,7 +41,15 @@ final readonly class RouterController
 
     public function redirect(Request $request): Response
     {
-        $data = $this->handler->handle($request)->json();
+        try {
+            $data = $this->handler->handle($request)->json();
+        } catch (\Throwable $throwable) {
+            $previousException = $throwable->getPrevious();
+            if ($previousException instanceof StorageServicesUnavailableException) {
+                throw new ServiceUnavailableHttpException();
+            }
+            throw $throwable;
+        }
 
         if (isset($data['controller'])) {
             $path = $data['path'] ?? [];

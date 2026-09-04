@@ -42,7 +42,7 @@ class EntityFactory extends AbstractFactory implements StorageFactoryInterface
         }
         $this->registered = true;
 
-        return new EntityStorage($this->doctrine, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT]);
+        return new EntityStorage($this->doctrine, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT], $config[self::STORAGE_CONFIG_RETRY_DELAY]);
     }
 
     #[\Override]
@@ -54,7 +54,7 @@ class EntityFactory extends AbstractFactory implements StorageFactoryInterface
     /**
      * @param array<string, mixed> $parameters
      *
-     * @return array{type: string, activate?: bool, usage: int, hot-synchronize-limit: int}
+     * @return array{type: string, activate?: bool, usage: int, hot-synchronize-limit: int, retry-delay: int}
      */
     private function resolveParameters(array $parameters): array
     {
@@ -64,13 +64,15 @@ class EntityFactory extends AbstractFactory implements StorageFactoryInterface
                 self::STORAGE_CONFIG_TYPE => self::STORAGE_TYPE,
                 self::STORAGE_CONFIG_ACTIVATE => true,
                 self::STORAGE_CONFIG_USAGE => StorageInterface::STORAGE_USAGE_CONFIG_ATTRIBUTE,
+                self::STORAGE_CONFIG_RETRY_DELAY => 0,
             ])
             ->setAllowedTypes(self::STORAGE_CONFIG_ACTIVATE, 'bool')
             ->setAllowedValues(self::STORAGE_CONFIG_TYPE, [self::STORAGE_TYPE])
             ->setAllowedValues(self::STORAGE_CONFIG_ACTIVATE, [true, false])
+            ->setAllowedTypes(self::STORAGE_CONFIG_RETRY_DELAY, 'int')
         ;
 
-        /** @var array{type: string, activate?: bool, usage: int, hot-synchronize-limit: int} $resolvedParameter */
+        /** @var array{type: string, activate?: bool, usage: int, hot-synchronize-limit: int, retry-delay: int} $resolvedParameter */
         $resolvedParameter = $resolver->resolve($parameters);
 
         return $resolvedParameter;

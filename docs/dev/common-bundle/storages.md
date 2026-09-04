@@ -45,6 +45,10 @@ For a regular website (1 elasticms and 1 skeleton) a best practice is to defined
 
 An `hot-synchronize-limit` attribute can be specified. It's a file size attribute (`10M`,`1G`) that force synchronize missing assets (smaller than the limit) on more prioritized storage services. It's useful if you intend to use a volatile storage with high performances or if you interconnect environments or in development combine with a http storage service. 
 
+### Retry delay
+
+`retry-delay`: The time to wait, in seconds, after a storage service becomes unavailable before attempting to connect to it again. 
+
 
 ## Cleaning useless assets
 With the time the size of your storages can increase. For security reason, it's not possible to cleaned them from the application. But, there is a procedure.

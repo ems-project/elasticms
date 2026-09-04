@@ -112,7 +112,7 @@ class StorageManager implements FileManagerInterface
                 $this->adaptorNotAvailable($index, $storageNotAvailableException);
             }
         }
-        $this->ensureAtLeastOneStorageServiceIsAvailable();
+        $this->ensureAllStorageServicesAreAvailable();
 
         return false;
     }
@@ -844,11 +844,11 @@ class StorageManager implements FileManagerInterface
 
     private function notFound(string $message): never
     {
-        $this->ensureAtLeastOneStorageServiceIsAvailable();
+        $this->ensureAllStorageServicesAreAvailable();
         throw new NotFoundException($message);
     }
 
-    private function ensureAtLeastOneStorageServiceIsAvailable(): void
+    private function ensureAllStorageServicesAreAvailable(): void
     {
         if (\count($this->storageConfigs) !== \count($this->adapters)) {
             throw new StorageServicesUnavailableException();

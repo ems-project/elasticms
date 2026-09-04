@@ -842,19 +842,15 @@ class StorageManager implements FileManagerInterface
         return $this->cacheManager->getItem(\sprintf('storage_service_na_%s', \hash($this->hashAlgo, $storage->__toString())));
     }
 
-    private function notFound(string $message, int $level = StorageInterface::STORAGE_USAGE_ASSET): never
+    private function notFound(string $message): never
     {
-        $this->ensureAtLeastOneStorageServiceIsAvailable($level);
+        $this->ensureAtLeastOneStorageServiceIsAvailable();
         throw new NotFoundException($message);
     }
 
-    private function ensureAtLeastOneStorageServiceIsAvailable(int $level = StorageInterface::STORAGE_USAGE_ASSET): void
+    private function ensureAtLeastOneStorageServiceIsAvailable(): void
     {
-        if ([] === $this->storageConfigs) {
-            return;
-        }
-
-        if ([] === \array_filter($this->adapters, fn (StorageInterface $adapter) => $adapter->getUsage() >= $level)) {
+        if (\count($this->storageConfigs) !== \count($this->adapters)) {
             throw new StorageServicesUnavailableException();
         }
     }

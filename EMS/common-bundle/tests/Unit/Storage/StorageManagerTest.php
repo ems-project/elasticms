@@ -33,11 +33,9 @@ class StorageManagerTest extends WebTestCase
         $this->storageManager = new StorageManager($this->mockLogger, new FileLocator(), $this->mockCache, [$this->getFsFactory()], 'sha1', [[
             'type' => 'fs',
             'path' => $this->getFsDir(),
-            'usage' => StorageInterface::STORAGE_USAGE_CACHE_ATTRIBUTE,
         ], [
             'type' => 'fs',
             'path' => $this->getFsDir(),
-            'usage' => StorageInterface::STORAGE_USAGE_CACHE_ATTRIBUTE,
         ], [
             'type' => 'fs',
             'path' => $this->getFsDir(),

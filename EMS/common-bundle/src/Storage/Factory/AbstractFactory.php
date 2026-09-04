@@ -16,7 +16,7 @@ abstract class AbstractFactory implements StorageFactoryInterface
         $resolver
             ->setDefaults([
                 self::STORAGE_CONFIG_TYPE => null,
-                self::STORAGE_CONFIG_USAGE => StorageInterface::STORAGE_USAGE_ASSET_ATTRIBUTE,
+                self::STORAGE_CONFIG_USAGE => StorageInterface::STORAGE_USAGE_CACHE_ATTRIBUTE,
                 self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT => '0',
                 self::STORAGE_CONFIG_RETRY_DELAY => 0,
             ])

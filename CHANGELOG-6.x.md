@@ -1,5 +1,18 @@
 # Changelog 6.x
 
+## 6.9.32 (2026-09-04)
+### Features
+* feat(admin/job): add EMSCO_JOB_CLEAN_TIME environment variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1814
+### Bug Fixes
+* fix(admin/group): role export are indexed by @Davidmattei in https://github.com/ems-project/elasticms/pull/1810
+* fix(admin/i18n): fallback to the default locale only if the locale is not specified by @theus77 in https://github.com/ems-project/elasticms/pull/1824
+* fix(common/storage): longer default timeouts on S3 requests by @theus77 in https://github.com/ems-project/elasticms/pull/1817
+* fix(common/storage): storage services not available should return 503 not 404 by @theus77 in https://github.com/ems-project/elasticms/pull/1826
+* fix(form/file): require if constraint on multiple files by @Davidmattei in https://github.com/ems-project/elasticms/pull/1822
+### Chores
+* chore(demo): add better blocks template example by @theus77 in https://github.com/ems-project/elasticms/pull/1812
+* chore(doc): add upgrade note 6.x by @Davidmattei in https://github.com/ems-project/elasticms/pull/1807
+
 ## 6.9.31 (2026-08-26)
 ### Features
 * feat(admin/json-menu-nested): add block preview template for items by @theus77 in https://github.com/ems-project/elasticms/pull/1804

@@ -9,8 +9,8 @@ use Psr\Log\LoggerInterface;
 
 class ApiStorage extends HttpStorage
 {
-    public function __construct(LoggerInterface $logger, TokenStore $tokenStore, int $usage, int $hotSynchronizeLimit = 0)
+    public function __construct(LoggerInterface $logger, TokenStore $tokenStore, int $usage, int $hotSynchronizeLimit = 0, int $retryDelay = 0)
     {
-        parent::__construct($logger, $tokenStore->giveBaseUrl(), '/public/file/', $usage, $tokenStore->giveToken(), $hotSynchronizeLimit);
+        parent::__construct($logger, $tokenStore->giveBaseUrl(), '/public/file/', $usage, $tokenStore->giveToken(), $hotSynchronizeLimit, $retryDelay);
     }
 }

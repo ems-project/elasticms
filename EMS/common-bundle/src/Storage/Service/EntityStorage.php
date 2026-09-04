@@ -23,7 +23,7 @@ class EntityStorage implements StorageInterface, \Stringable
     private readonly ObjectManager $manager;
     private readonly AssetStorageRepository $repository;
 
-    public function __construct(Registry $doctrine, private readonly int $usage, private readonly int $hotSynchronizeLimit = 0)
+    public function __construct(Registry $doctrine, private readonly int $usage, private readonly int $hotSynchronizeLimit = 0, private readonly int $retryDelay = 0)
     {
         $this->manager = $doctrine->getManager();
 
@@ -272,5 +272,11 @@ class EntityStorage implements StorageInterface, \Stringable
     public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, ?callable $callback = null): bool
     {
         return false;
+    }
+
+    #[\Override]
+    public function getRetryDelay(): int
+    {
+        return $this->retryDelay;
     }
 }

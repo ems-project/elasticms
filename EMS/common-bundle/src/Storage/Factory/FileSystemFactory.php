@@ -50,7 +50,7 @@ class FileSystemFactory extends AbstractFactory implements StorageFactoryInterfa
 
         $this->usedFolder[] = $realPath;
 
-        return new FileSystemStorage($this->logger, $realPath, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT]);
+        return new FileSystemStorage($this->logger, $realPath, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT], $config[self::STORAGE_CONFIG_RETRY_DELAY]);
     }
 
     #[\Override]
@@ -62,7 +62,7 @@ class FileSystemFactory extends AbstractFactory implements StorageFactoryInterfa
     /**
      * @param array<string, mixed> $parameters
      *
-     * @return array{type: string, path?: string, usage: int, hot-synchronize-limit: int}
+     * @return array{type: string, path?: string, usage: int, hot-synchronize-limit: int, retry-delay: int}
      */
     private function resolveParameters(array $parameters): array
     {
@@ -77,7 +77,7 @@ class FileSystemFactory extends AbstractFactory implements StorageFactoryInterfa
             ->setAllowedTypes(self::STORAGE_CONFIG_PATH, 'string')
         ;
 
-        /** @var array{type: string, path?: string, usage: int, hot-synchronize-limit: int} $resolvedParameter */
+        /** @var array{type: string, path?: string, usage: int, hot-synchronize-limit: int, retry-delay: int} $resolvedParameter */
         $resolvedParameter = $resolver->resolve($parameters);
 
         return $resolvedParameter;

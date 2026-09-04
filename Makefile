@@ -150,7 +150,7 @@ docker-images: ## List images
 docker-logs/%: ## logs by profile
 	@$(DOCKER_COMPOSE) --profile=${*} logs -f
 docker-logs: ## logs
-	@$(DOCKER_COMPOSE) logs -f
+	@$(DOCKER_COMPOSE) --profile=all logs -f
 
 ## —— assets ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 assets-npm/%: ## npm run in AdminUIBundle

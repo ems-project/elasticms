@@ -1,13 +1,10 @@
 # Changelog 6.x
 
 ## 6.9.33 (2026-09-04)
-### Bug Fixes
-* fix(common/storage): default storage asset and empty check by @Davidmattei in https://github.com/ems-project/elasticms/pull/1829
-
-## 6.9.32 (2026-09-04)
 ### Features
 * feat(admin/job): add EMSCO_JOB_CLEAN_TIME environment variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1814
 ### Bug Fixes
+* fix(common/storage): default storage asset and empty check by @Davidmattei in https://github.com/ems-project/elasticms/pull/1829
 * fix(admin/group): role export are indexed by @Davidmattei in https://github.com/ems-project/elasticms/pull/1810
 * fix(admin/i18n): fallback to the default locale only if the locale is not specified by @theus77 in https://github.com/ems-project/elasticms/pull/1824
 * fix(common/storage): longer default timeouts on S3 requests by @theus77 in https://github.com/ems-project/elasticms/pull/1817

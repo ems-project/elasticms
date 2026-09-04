@@ -38,7 +38,7 @@ class HttpFactory extends AbstractFactory implements StorageFactoryInterface
         }
         $usage = null === $authKey ? StorageInterface::STORAGE_USAGE_EXTERNAL : $config[self::STORAGE_CONFIG_USAGE];
 
-        return new HttpStorage($this->logger, $baseUrl, $getUrl, $usage, $authKey, $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT]);
+        return new HttpStorage($this->logger, $baseUrl, $getUrl, $usage, $authKey, $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT], $config[self::STORAGE_CONFIG_RETRY_DELAY]);
     }
 
     #[\Override]
@@ -50,7 +50,7 @@ class HttpFactory extends AbstractFactory implements StorageFactoryInterface
     /**
      * @param array<string, mixed> $parameters
      *
-     * @return array{type: string, base-url: string|null, get-url: string, auth-key: string|null, usage: int, hot-synchronize-limit: int}
+     * @return array{type: string, base-url: string|null, get-url: string, auth-key: string|null, usage: int, hot-synchronize-limit: int, retry-delay: int}
      */
     private function resolveParameters(array $parameters): array
     {
@@ -70,7 +70,7 @@ class HttpFactory extends AbstractFactory implements StorageFactoryInterface
             ->setAllowedValues(self::STORAGE_CONFIG_TYPE, [self::STORAGE_TYPE])
         ;
 
-        /** @var array{type: string, base-url: string|null, get-url: string, auth-key: string|null, usage: int, hot-synchronize-limit: int} $resolvedParameter */
+        /** @var array{type: string, base-url: string|null, get-url: string, auth-key: string|null, usage: int, hot-synchronize-limit: int, retry-delay: int} $resolvedParameter */
         $resolvedParameter = $resolver->resolve($parameters);
 
         return $resolvedParameter;

@@ -4,6 +4,7 @@
     "properties": {
         "name": "preview",
         "label": "Preview",
+        "description": "Default environment for all content types but media_file",
         "color": "aqua",
         "baseUrl": null,
         "managed": true,

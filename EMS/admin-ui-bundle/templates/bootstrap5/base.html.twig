@@ -91,7 +91,7 @@
                   <small>{{ 'user.logged_in.member_since'|trans({'%date%': app.user.created|date(date_time_format)}, 'emsco-core') }}</small>
                   <small>
                       {% for role in app.user.roles %}
-                          {{ role|trans }}{% if not loop.last %},{% endif %}
+                          {{ role|replace({'ROLE_': 'ROLE.'})|lower|trans([], 'emsco-core') }}{% if not loop.last %},{% endif %}
                       {% endfor %}
                   </small>
                 </p>

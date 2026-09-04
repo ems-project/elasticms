@@ -68,8 +68,11 @@ const sidebar: DefaultTheme.SidebarMulti = {
                 {
                     text: 'MCP',
                     collapsed: false,
+                    link: '/elasticms-admin/mcp/index',
                     items: [
+                        { text: 'Overview', link: '/elasticms-admin/mcp/index' },
                         { text: 'Custom MCP tools', link: '/elasticms-admin/mcp/tools' },
+                        { text: 'Custom MCP resources', link: '/elasticms-admin/mcp/resources' },
                     ]
                 },
             ]
@@ -240,6 +243,5 @@ const sidebar: DefaultTheme.SidebarMulti = {
 }
 
 export default sidebar
-
 
 

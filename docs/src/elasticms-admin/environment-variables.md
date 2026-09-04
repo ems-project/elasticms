@@ -415,8 +415,8 @@ creating the topics.
 
 ### EMSCO_JOB_CLEAN_TIME
 
-Define when it's time to clean jobs, default value is -7 days.
-Only successful jobs are cleaned. To clean all jobs, see `emsco:job:clean` command.
+Define when it's time to clean jobs, default value is -7 days. Only successful jobs are cleaned. To
+clean all jobs, see `emsco:job:clean` command.
 
 ### EMS_BACKEND_URL
 

@@ -16,6 +16,9 @@ The current MVP exposes these MCP operations:
 
 - `tools/list`
 - `tools/call`
+- `resources/list`
+- `resources/templates/list`
+- `resources/read`
 
 And these tools:
 
@@ -24,7 +27,7 @@ And these tools:
 - `create_document_<contentType>`
 
 > Note: ElasticMS can also expose project-specific custom MCP tools. See
-> [Custom MCP tools](../mcp/tools.md).
+> [Custom MCP tools](../mcp/tools.md) and [Custom MCP resources](../mcp/resources.md).
 
 Non-`initialize` requests require a valid MCP session id in the `Mcp-Session-Id` header.
 

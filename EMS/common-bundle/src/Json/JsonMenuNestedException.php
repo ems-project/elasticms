@@ -8,21 +8,21 @@ class JsonMenuNestedException extends \RuntimeException
 {
     public static function itemNotFound(): self
     {
-        return new self('json_menu_nested.error.item_not_found');
+        return new self('Item not found');
     }
 
     public static function itemParentNotFound(): self
     {
-        return new self('json_menu_nested.error.item_parent_not_found');
+        return new self('Parent not found');
     }
 
     public static function moveChildMissing(): self
     {
-        return new self('json_menu_nested.error.move_child_missing');
+        return new self('Move failed, current parent does not have item');
     }
 
     public static function moveChildExists(): self
     {
-        return new self('json_menu_nested.error.move_child_exists');
+        return new self('Move failed, new parent already has item');
     }
 }

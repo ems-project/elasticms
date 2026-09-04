@@ -32,6 +32,11 @@ use Symfony\Component\Yaml\Yaml;
 
 use function Symfony\Component\String\u;
 
+const LOCALES = ['nl', 'fr', 'en'];
+const BUNDLES = ['EMSCoreBundle', 'EMSAdminUIBundle', 'EMSCommonBundle'];
+const DOMAINS = ['emsco-core', 'validators', 'ems-mimetypes'];
+const NON_EXTRACTABLE_DOMAINS = ['ems-mimetypes'];
+
 /**
  * @param list<BundleInterface> $bundles
  */
@@ -319,6 +324,10 @@ $command = static function (InputInterface $input, OutputInterface $output): int
     $extractedCatalogue = extractCatalogue($io, $container, $bundles);
     $englishCatalogue = readCatalogue($container, 'en', $bundles);
 
+    foreach (NON_EXTRACTABLE_DOMAINS as $domain) {
+        $extractedCatalogue->add($englishCatalogue->all($domain), $domain);
+    }
+
     $allResults = [];
     foreach ($locales as $locale) {
         $allResults[$locale] = buildLocale($io, $container, $locale, $bundles, $domains, $extractedCatalogue, $englishCatalogue, $write, $format);
@@ -381,10 +390,10 @@ $command = static function (InputInterface $input, OutputInterface $output): int
 
 new SingleCommandApplication()
         ->setName('Build: extract translations')
-        ->addOption('locale', 'l', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'locale(s)', ['nl', 'fr', 'en'])
-        ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'bundle(s) to scan for usage; each domain is written back to the bundle it was read from', ['EMSCoreBundle', 'EMSAdminUIBundle'])
+        ->addOption('locale', 'l', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'locale(s)', LOCALES)
+        ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'bundle(s) to scan for usage; each domain is written back to the bundle it was read from', BUNDLES)
         ->addOption('write', null, InputOption::VALUE_NONE, 'write translations')
-        ->addOption('domain', 'd', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'domains', ['emsco-core', 'validators'])
+        ->addOption('domain', 'd', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'domains', DOMAINS)
         ->addOption('format', null, InputOption::VALUE_REQUIRED, 'format (yml or xlf)', 'yml')
         ->setCode($command)
         ->run();

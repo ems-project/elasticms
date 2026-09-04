@@ -1,0 +1,14 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\McpPrompt",
+    "arguments": [],
+    "properties": {
+        "name": "news_editor",
+        "label": "News editor",
+        "role": "ROLE_AUTHOR",
+        "description": "Help authors draft an accessible demo news article using existing news and writing guidelines.",
+        "arguments": "{{ include('@EMSCH/template_ems/mcp/prompts/news_editor/arguments.json.twig') }}",
+        "response": "{{ include('@EMSCH/template_ems/mcp/prompts/news_editor/response.json.twig') }}",
+        "enabled": true
+    },
+    "replaced": []
+}

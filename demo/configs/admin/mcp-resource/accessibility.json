@@ -1,0 +1,15 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\McpResource",
+    "arguments": [],
+    "properties": {
+        "name": "accessibility",
+        "label": "Accessibility",
+        "uri": "elasticms://guidelines/writing/accessibility",
+        "role": "ROLE_AUTHOR",
+        "description": "Explain how to generate accessible content for elasticMS documents. Use this resource when creating or updating CMS content through MCP tools.",
+        "mimeType": "text/markdown",
+        "response": "{{ include('@EMSCH/template_ems/mcp/resources/skills/accessibility.md.twig') }}",
+        "enabled": true
+    },
+    "replaced": []
+}

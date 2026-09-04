@@ -47,6 +47,16 @@ class HtmlHelper
         return $source !== \strip_tags($source);
     }
 
+    public static function toText(?string $sourceHtml): string
+    {
+        $sourceHtml = \preg_replace('/<[^>]*>/', ' ', $sourceHtml ?? '') ?? '';
+        $sourceHtml = \html_entity_decode($sourceHtml, \ENT_QUOTES | \ENT_HTML5, 'UTF-8');
+
+        $text = \preg_replace('/\s+/', ' ', \trim($sourceHtml));
+
+        return $text ?? '';
+    }
+
     public static function stripZeroWidthCharacters(?string $sourceHtml): ?string
     {
         if (null === $sourceHtml) {

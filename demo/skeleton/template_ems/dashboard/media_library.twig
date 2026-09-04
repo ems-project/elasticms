@@ -66,7 +66,7 @@
             {{ mediaFile.folder[folder.path|default('')|length + 1:] }}{{- mediaFile.name -}}
         </a>
     </div>
-    <div style="flex: 4">{{- mediaFile.file.mimetype|trans({}, 'emsco-mimetypes') -}}</div>
+    <div style="flex: 4">{{- mediaFile.file.mimetype|trans({}, 'ems-mimetypes') -}}</div>
     <div style="flex: 4">{{- mediaFile.document.getValue('_finalized_by')|emsco_display_name -}}</div>
     <div style="flex: 2">{{ mediaFile.document.getValue('date_creation')|date(date_time_format) }}</div>
     <div class="text-right">{{- mediaFile.file.filesize|default(0)|ems_format_bytes -}}</div>

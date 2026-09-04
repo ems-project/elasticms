@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 abstract class AbstractUrlStorage implements StorageInterface, \Stringable
 {
-    public function __construct(private readonly LoggerInterface $logger, private readonly int $usage, private readonly int $hotSynchronizeLimit)
+    public function __construct(private readonly LoggerInterface $logger, private readonly int $usage, private readonly int $hotSynchronizeLimit, private readonly int $retryDelay)
     {
     }
 
@@ -275,5 +275,11 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
     public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, ?callable $callback = null): bool
     {
         return false;
+    }
+
+    #[\Override]
+    public function getRetryDelay(): int
+    {
+        return $this->retryDelay;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Controller;
 
+use EMS\CommonBundle\Exception\StorageServicesUnavailableException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Twig\RequestRuntime;
@@ -18,6 +19,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class FileController extends AbstractController
 {
@@ -29,7 +31,11 @@ class FileController extends AbstractController
     {
         $this->closeSession($request);
 
-        return $this->processor->getResponse($request, $hash, $hash_config, $filename, true);
+        try {
+            return $this->processor->getResponse($request, $hash, $hash_config, $filename, true);
+        } catch (StorageServicesUnavailableException) {
+            throw new ServiceUnavailableHttpException();
+        }
     }
 
     /**
@@ -102,6 +108,8 @@ class FileController extends AbstractController
             if (null === $notFoundTemplate) {
                 throw $e;
             }
+        } catch (StorageServicesUnavailableException) {
+            throw new ServiceUnavailableHttpException();
         }
 
         try {

@@ -43,9 +43,10 @@ class S3Storage extends AbstractUrlStorage implements \Stringable
             'connect_timeout' => 1.0,
             'timeout' => 5.0,
             'retries' => 0,
-        ]
+        ],
+        int $retryDelay = 0
     ) {
-        parent::__construct($logger, $usage, $hotSynchronizeLimit);
+        parent::__construct($logger, $usage, $hotSynchronizeLimit, $retryDelay);
     }
 
     #[\Override]

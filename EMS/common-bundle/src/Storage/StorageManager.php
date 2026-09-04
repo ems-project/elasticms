@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Storage;
 use EMS\CommonBundle\Common\Cache\Cache;
 use EMS\CommonBundle\Contracts\File\FileManagerInterface;
 use EMS\CommonBundle\Exception\StorageNotAvailableException;
+use EMS\CommonBundle\Exception\StorageServicesUnavailableException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\Factory\StorageFactoryInterface;
@@ -111,6 +112,7 @@ class StorageManager implements FileManagerInterface
                 $this->adaptorNotAvailable($index, $storageNotAvailableException);
             }
         }
+        $this->ensureAtLeastOneStorageServiceIsAvailable();
 
         return false;
     }
@@ -167,7 +169,7 @@ class StorageManager implements FileManagerInterface
                 $this->adaptorNotAvailable($index, $storageNotAvailableException);
             }
         }
-        throw new NotFoundException($hash);
+        $this->notFound($hash);
     }
 
     #[\Override]
@@ -345,7 +347,7 @@ class StorageManager implements FileManagerInterface
                 continue;
             }
         }
-        throw new NotFoundException($hash);
+        $this->notFound($hash);
     }
 
     public function getBase64(string $hash): ?string
@@ -821,9 +823,15 @@ class StorageManager implements FileManagerInterface
 
     private function adaptorNotAvailable(int|string $index, StorageNotAvailableException $storageNotAvailableException): void
     {
+        $retryDelay = $this->adapters[$index]->getRetryDelay();
+        if ($retryDelay <= 0) {
+            unset($this->adapters[$index]);
+
+            return;
+        }
         $cacheItem = $this->getNotAvailableStorageCacheItem($this->adapters[$index]);
         $cacheItem->set(true);
-        $cacheItem->expiresAfter(5);
+        $cacheItem->expiresAfter($retryDelay);
         $this->cacheManager->save($cacheItem);
         unset($this->adapters[$index]);
         $this->logger->error($storageNotAvailableException->getMessage());
@@ -832,5 +840,18 @@ class StorageManager implements FileManagerInterface
     private function getNotAvailableStorageCacheItem(StorageInterface $storage): CacheItemInterface
     {
         return $this->cacheManager->getItem(\sprintf('storage_service_na_%s', \hash($this->hashAlgo, $storage->__toString())));
+    }
+
+    private function notFound(string $message, int $level = StorageInterface::STORAGE_USAGE_ASSET): never
+    {
+        $this->ensureAtLeastOneStorageServiceIsAvailable($level);
+        throw new NotFoundException($message);
+    }
+
+    private function ensureAtLeastOneStorageServiceIsAvailable(int $level = StorageInterface::STORAGE_USAGE_ASSET): void
+    {
+        if ([] === \array_filter($this->adapters, fn (StorageInterface $adapter) => $adapter->getUsage() >= $level)) {
+            throw new StorageServicesUnavailableException();
+        }
     }
 }

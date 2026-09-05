@@ -179,11 +179,7 @@ final class WebpXmpWriter
             throw new \RuntimeException('Invalid VP8X chunk: payload < 10 octets.');
         }
 
-        $firstByte = \ord($vp8xData[0]);
-        $firstByte |= self::VP8X_FLAG_XMP;
-        if ($firstByte < 0 || $firstByte > 255) {
-            throw new \RuntimeException(\sprintf('First byte out of range: %d.', $firstByte));
-        }
+        $firstByte = \ord($vp8xData[0]) | self::VP8X_FLAG_XMP;
 
         return \chr($firstByte).\substr($vp8xData, 1);
     }
@@ -270,10 +266,6 @@ final class WebpXmpWriter
 
         $width = $widthMinus1 + 1;
         $height = $heightMinus1 + 1;
-
-        if ($width < 1 || $height < 1) {
-            throw new \RuntimeException('Invalid VP8L dimensions.');
-        }
 
         return [$width, $height];
     }

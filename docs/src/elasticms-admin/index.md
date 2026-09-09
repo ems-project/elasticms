@@ -19,6 +19,7 @@ API documentation:
 - [User API](/elasticms-admin/api/user.md)
 - [Data API](/elasticms-admin/api/data.md)
 - [File API](/elasticms-admin/api/file.md)
+- [Submission API](/elasticms-admin/api/submission.md)
 - [Search API](/elasticms-admin/api/search.md)
 - [Job API](/elasticms-admin/api/job.md)
 - [Monitoring API](/elasticms-admin/api/monitoring.md)

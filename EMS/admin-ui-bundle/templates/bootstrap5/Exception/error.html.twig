@@ -14,11 +14,11 @@
             <div class="box-header with-border bg-danger">
                 <h4 class="box-title">
                         <i class="icon fa fa-danger fa-2x"></i>
-                        {{ 'exception.error.server_returned'|trans({'%status_code%': status_code}) }}
+                        {{ 'exception.error.server_returned'|trans({'status_code': status_code}) }}
                 </h4>
             </div>
             <div class="box-body ">
-                <p>{{ 'exception.error.message'|trans({'%status_text%': status_text}) }}</p>
+                <p>{{ 'exception.error.message'|trans({'status_text': status_text}) }}</p>
             </div>
         </div>
 

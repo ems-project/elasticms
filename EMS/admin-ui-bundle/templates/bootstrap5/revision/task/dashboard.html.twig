@@ -12,13 +12,13 @@
 {%- set showFilters = attribute(requestQuery, 'filters')|default([])|length > 0 -%}
 <div id="task-dashboard">
     <ul class="nav nav-tabs" role="tablist">
-        {% for tabName in tabs %}
+        {% for tabName, tab in tabs %}
             <li class="nav-item">
                 {% if currentTab == tabName %}
-                    <a href="#{{ currentTab }}" data-bs-target="#{{ currentTab }}" data-bs-toggle="pill" class="nav-link active" role="tab" aria-selected="true">{{ "task.dashboard.tab.#{tabName}"|trans }}</a>
+                    <a href="#{{ currentTab }}" data-bs-target="#{{ currentTab }}" data-bs-toggle="pill" class="nav-link active" role="tab" aria-selected="true">{{ tab.label|trans }}</a>
                 {% else %}
                     <a href="{{ path(route, routeParams|merge({tab: tabName})) }}" class="nav-link"role="tab" aria-selected="false">
-                        {{ "task.dashboard.tab.#{tabName}"|trans }}
+                        {{ tab.label|trans }}
                     </a>
                 {% endif %}
             </li>
@@ -35,7 +35,7 @@
         <div class="tab-pane fade active show" id="{{ currentTab }}" role="tabpanel">
             {{ block('filters') }}
             {% if table.count > loadMaxRows %}
-                <div class="alert alert-warning" role="alert">{{ 'task.dashboard.search_warning'|trans({'%count%': loadMaxRows}) }}</div>
+                <div class="alert alert-warning" role="alert">{{ 'task.dashboard.search_warning'|trans({'count': loadMaxRows}) }}</div>
             {% endif %}
 
             {% form_theme formTable '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
@@ -62,18 +62,18 @@
         <div class="collapse {{ showFilters ? 'in' }}" id="filters">
             <div class="row">
                 {{ form_start(filterForm) }}
-                {{ form_row(filterForm.status, {row_attr: {class: 'col-12 mb-3'}, label: 'task.filter.status'|trans}) }}
+                {{ form_row(filterForm.status, {row_attr: {class: 'col-12 mb-3'}}) }}
                 {% if filterForm.assignee is defined %}
-                    {{ form_row(filterForm.assignee, {row_attr: {class: 'col-12 mb-3'}, label: 'task.filter.assignee'|trans}) }}
+                    {{ form_row(filterForm.assignee, {row_attr: {class: 'col-12 mb-3'}}) }}
                 {% endif %}
                 {% if filterForm.requester is defined %}
-                    {{ form_row(filterForm.requester, {row_attr: {class: 'col-12 mb-3'}, label: 'task.filter.requester'|trans}) }}
+                    {{ form_row(filterForm.requester, {row_attr: {class: 'col-12 mb-3'}}) }}
                 {% endif %}
                 {% if filterForm.versionNextTag is defined %}
-                    {{ form_row(filterForm.versionNextTag, {row_attr: {class: 'col-12 mb-3'}, label: 'task.filter.version_next_tag'|trans}) }}
+                    {{ form_row(filterForm.versionNextTag, {row_attr: {class: 'col-12 mb-3'}}) }}
                 {% endif %}
                 {% if filterForm.isOverdue is defined %}
-                    {{ form_row(filterForm.isOverdue, {row_attr: {class: 'col-12 mb-3'}, label: 'task.filter.is_overdue'|trans}) }}
+                    {{ form_row(filterForm.isOverdue, {row_attr: {class: 'col-12 mb-3'}}) }}
                 {% endif %}
                 <div class="col-12 d-flex justify-content-end">
                     <input type="hidden" name="tab" value="{{ currentTab }}" />

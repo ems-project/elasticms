@@ -56,7 +56,7 @@
                         {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                             url: path('emsco_data_finalize', {revision: revisionId}),
                             message: 'views.elements.revision-toolbar-html.finalize-draft-message'|trans,
-                            label: 'views.elements.revision-toolbar-html.finalize-draft-label'|trans({'%environment%': instance.contentType.environment.label|default('')}),
+                            label: 'views.elements.revision-toolbar-html.finalize-draft-label'|trans({'environment': instance.contentType.environment.label|default('')}),
                             btnType: 'default',
                             icon: 'check',
                         }) }}

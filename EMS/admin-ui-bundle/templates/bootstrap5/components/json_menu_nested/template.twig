@@ -122,7 +122,7 @@
 {%- block jmn_button_item_add -%}
     <button class="jmn-btn-add dropdown-item" data-add="{{ addNode.id }}" data-modal-size="{{- buttonModalSize|default('md') -}}">
         {% if addNode.icon %}<i class="{{ addNode.icon }} me-2"></i>{% endif %}
-        {{- buttonLabel|default('json_menu_nested.action.new'|trans({'%label%': addNode.label})) -}}
+        {{- buttonLabel|default('json_menu_nested.action.new'|trans({'label': addNode.label})) -}}
     </button>
 {%- endblock jmn_button_item_add -%}
 

@@ -1,14 +1,14 @@
 {%- trans_default_domain 'emsco-core' -%}
 
 {%- block actions -%}
-    <button type="button" class="btn btn-sm btn-outline-secondary" data-editor-action="discard">
-        {{ 'inline_editor.action.discard'|trans }}
+    <button type="button" class="btn btn-sm btn-outline-secondary" data-editor-action="{{ 'action.discard'|trans }}">
+        {{ 'action.discard'|trans }}
     </button>
-    <button type="button" class="btn btn-sm btn-outline-primary" data-editor-action="save">
-        {{ 'inline_editor.action.save'|trans }}
+    <button type="button" class="btn btn-sm btn-outline-primary" data-editor-action="{{ 'action.save'|trans }}">
+        {{ 'action.save'|trans }}
     </button>
-    <button type="button" class="btn btn-sm btn-primary" data-editor-action="publish">
-        {{ 'inline_editor.action.publish'|trans }}
+    <button type="button" class="btn btn-sm btn-primary" data-editor-action="{{ 'action.publish'|trans }}">
+        {{ 'action.publish'|trans }}
     </button>
 {%- endblock actions -%}
 

@@ -1,16 +1,27 @@
 {% trans_default_domain 'emsco-core' %}
 
 {% block task_event_mail_subject %}
-    {{ "task.mail.#{type}.subject"|trans({
-        '%title%': task.title,
-        '%document%': revision|emsco_display,
-    })|raw }}
+    {%- if type == 'approved' -%}
+        {{ 'task.mail.approved.subject'|trans({ 'title': task.title, 'document': revision|emsco_display })|raw }}
+    {%- elseif type == 'assignee_changed' -%}
+        {{ 'task.mail.assignee_changed.subject'|trans({ 'title': task.title, 'document': revision|emsco_display })|raw }}
+    {%- elseif type == 'completed' -%}
+        {{ 'task.mail.completed.subject'|trans({ 'title': task.title, 'document': revision|emsco_display })|raw }}
+    {%- elseif type == 'created' -%}
+        {{ 'task.mail.created.subject'|trans({ 'title': task.title, 'document': revision|emsco_display })|raw }}
+    {%- elseif type == 'deleted' -%}
+        {{ 'task.mail.deleted.subject'|trans({ 'title': task.title, 'document': revision|emsco_display })|raw }}
+    {%- elseif type == 'rejected' -%}
+        {{ 'task.mail.rejected.subject'|trans({ 'title': task.title, 'document': revision|emsco_display })|raw }}
+    {%- elseif type == 'updated' -%}
+        {{ 'task.mail.updated.subject'|trans({ 'title': task.title, 'document': revision|emsco_display })|raw }}
+    {%- endif -%}
 {% endblock task_event_mail_subject %}
 
 {% block task_event_mail_body %}
-    <p>{{ 'task.mail.from'|trans({'%sender%': senderUsername|emsco_display_name}) }}</p>
-    <p>{{ 'task.mail.greetings'|trans({'%receiver%': receiver.displayname}) }}</p>
-    <p>{{ 'task.mail.task_has_been'|trans({'%action%': action, '%role%': senderRole ? 'task.mail.by_role'|trans({'%role%': senderRole}) : ''}) }}</p>
+    <p>{{ 'task.mail.from'|trans({'sender': senderUsername|emsco_display_name}) }}</p>
+    <p>{{ 'task.mail.greetings'|trans({'receiver': receiver.displayname}) }}</p>
+    <p>{{ 'task.mail.task_has_been'|trans({'action': action, 'role': senderRole ? 'task.mail.by_role'|trans({'role': senderRole}) : ''}) }}</p>
     <p>
         {% if task.hasDeadline %}<strong>{{ 'task.mail.deadline'|trans }}:</strong>{{ task.deadline.format(date_format) }}<br/>{% endif %}
         <strong>{{ 'task.mail.title'|trans }}:</strong> {{ task.title }}<br/>
@@ -28,7 +39,7 @@
 {% endblock task_notification_mail_subject %}
 
 {% block task_notification_mail_body %}
-    <p>{{ 'task.mail.greetings'|trans({'%receiver%': receiver.displayname}) }}</p>
+    <p>{{ 'task.mail.greetings'|trans({'receiver': receiver.displayname}) }}</p>
 
     <p>{{ 'task.mail.overdue_or_active_list'|trans }}</p>
 
@@ -37,7 +48,7 @@
             {% set task = revision.taskCurrent %}
             <li>
                 <p>
-                    {{ "task.status.#{task.status}"|trans }}: {{ task.title }} ({{ 'task.mail.deadline'|trans }}: {{ task.deadline.format(date_format) }})<br/>
+                    {{ task.status|trans }}: {{ task.title }} ({{ 'task.mail.deadline'|trans }}: {{ task.deadline.format(date_format) }})<br/>
                     {{ 'task.mail.link_to_document'|trans }}: <a href="{{ attribute(documentUrls, revision.ouuid) }}" target="_blank"><strong>{{ revision|emsco_display }}</strong></a>
                 </p>
             </li>

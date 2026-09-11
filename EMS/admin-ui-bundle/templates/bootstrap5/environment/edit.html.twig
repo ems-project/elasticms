@@ -1,6 +1,6 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
 
-{% block title %}{{ 'environment.edit.title'|trans({'%name%': environment.name}, 'emsco-core') }}{% endblock %}
+{% block title %}{{ 'environment.edit.title'|trans({'name': environment.name}, 'emsco-core') }}{% endblock %}
 {% block pagetitle %}{{ block('title') }}{% endblock %}
 {% block breadcrumb %}
     <ol class="breadcrumb float-sm-end">

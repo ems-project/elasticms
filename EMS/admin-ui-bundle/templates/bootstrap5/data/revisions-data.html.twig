@@ -150,7 +150,7 @@
         <strong><i class="fa fa-tags margin-r-5"></i> {{ 'views.data.revisions-data-html.version'|trans }}</strong>
         <p class="text-muted">
             {% if newVersionTag is not null and newVersionTag != 'silent' %}
-                <span class="label label-success">{{ 'views.data.revisions-data-html.new-version'|trans({'%version%': newVersionTag}) }}</span>
+                <span class="label label-success">{{ 'views.data.revisions-data-html.new-version'|trans({'version': newVersionTag}) }}</span>
             {% endif %}
             {{ revision.versionTag|default('') }}
         </p>
@@ -167,7 +167,7 @@
             {{ 'views.data.revisions-data-html.current-revision'|trans }}
         {% else %}
             <i class="fa fa-clock-o"></i>
-            {{ 'views.data.revisions-data-html.previous-revision'|trans({'%timestamp%': revision.created|date(date_time_format)}) }}
+            {{ 'views.data.revisions-data-html.previous-revision'|trans({'timestamp': revision.created|date(date_time_format)}) }}
         {% endif %}
     </p>
 
@@ -231,7 +231,7 @@
     <div class="card mb-4">
         <div class="card-body">
             {% if revision.giveContentType.versioning.tags|length > 0 and newVersionTag is not null and newVersionTag != 'silent' %}
-                <h3 class="card-title">{{ 'views.data.revisions-data-html.new-version'|trans({'%version%': newVersionTag}) }}</h3>
+                <h3 class="card-title">{{ 'views.data.revisions-data-html.new-version'|trans({'version': newVersionTag}) }}</h3>
             {% endif %}
             <h3 class="card-title">
                 {% if revision.draft %}
@@ -244,7 +244,7 @@
                     {{ 'views.data.revisions-data-html.current-revision'|trans }}
                 {% else %}
                     <i class="fa fa-clock-o"></i>
-                    {{ 'views.data.revisions-data-html.previous-revision'|trans({'%timestamp%': revision.created|date(date_time_format)}) }}
+                    {{ 'views.data.revisions-data-html.previous-revision'|trans({'timestamp': revision.created|date(date_time_format)}) }}
                 {% endif %}
             </h3>
             {% if revision.giveContentType.versioning.enabled and revision.versionDate('to') != null and latestVersion %}
@@ -263,7 +263,7 @@
 
 {% block revisionFooterTabs %}
     <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item active"><a href="#tab_referrers" data-bs-target="#tab_referrers" data-bs-toggle="pill" class="nav-link active" role="tab" aria-controls="true">{{ 'views.data.revisions-data-html.linked-documents-in'|trans({'%environment%': revision.contentType.environment.label, '%length%': referrerResponse.documents|length, '%total%': referrerResponse.formattedTotal}) }}</a></li>
+        <li class="nav-item active"><a href="#tab_referrers" data-bs-target="#tab_referrers" data-bs-toggle="pill" class="nav-link active" role="tab" aria-controls="true">{{ 'views.data.revisions-data-html.linked-documents-in'|trans({'environment': revision.contentType.environment.label, 'length': referrerResponse.documents|length, 'total': referrerResponse.formattedTotal}) }}</a></li>
         <li class="nav-item"><a href="#tab_revisions" data-bs-target="#tab_revisions" data-bs-toggle="pill" class="nav-link" role="tab" aria-controls="false">{{ 'views.data.revisions-data-html.revisions'|trans }} <small>{{ revisionsSummary|length }}/{{ counter }}</small></a></li>
         {% if auditTable|default(false) %}
             <li class="nav-item"><a href="#tab_audit" data-bs-target="#tab_audit" data-bs-toggle="pill" class="nav-link" role="tab" aria-controls="false">{{ 'views.data.revisions-data-html.audit'|trans }} <small>({{ auditCount }})</small></a></li>
@@ -333,23 +333,23 @@
                             <td>{{ rev.created|date|date(date_time_format) }}</td>
                             <td>
                                 {% if rev.finalizedBy %}
-                                    {{ 'views.data.revisions-data-html.by'|trans({'%user%': rev.finalizedBy|emsco_display_name}) }} <br>
+                                    {{ 'views.data.revisions-data-html.by'|trans({'user': rev.finalizedBy|emsco_display_name}) }} <br>
                                     {% if rev.finalizedDate %}
-                                        {{ 'views.data.revisions-data-html.on'|trans({'%date%': rev.finalizedDate|date(date_time_format)}) }}
+                                        {{ 'views.data.revisions-data-html.on'|trans({'date': rev.finalizedDate|date(date_time_format)}) }}
                                     {% endif %}
                                 {% endif %}
                             </td>
                             {% if emsco_is_super() %}
                                 <td>
                                     {% if rev.lockUntil and rev.lockUntil > date('now') %}
-                                        {{ 'views.data.revisions-data-html.by'|trans({'%user%': rev.lockBy}) }} <br>
-                                        {{ 'views.data.revisions-data-html.until'|trans({'%date%': rev.lockUntil|date(date_time_format)}) }}
+                                        {{ 'views.data.revisions-data-html.by'|trans({'user': rev.lockBy}) }} <br>
+                                        {{ 'views.data.revisions-data-html.until'|trans({'date': rev.lockUntil|date(date_time_format)}) }}
                                     {% endif %}
                                 </td>
                                 <td>
                                     {% if rev.autoSave %}
-                                        {{ 'views.data.revisions-data-html.by'|trans({'%user%': rev.autoSaveBy|emsco_display_name}) }} <br>
-                                        {{ 'views.data.revisions-data-html.on'|trans({'%date%': rev.autoSaveAt|date(date_time_format)}) }}
+                                        {{ 'views.data.revisions-data-html.by'|trans({'user': rev.autoSaveBy|emsco_display_name}) }} <br>
+                                        {{ 'views.data.revisions-data-html.on'|trans({'date': rev.autoSaveAt|date(date_time_format)}) }}
                                     {% endif %}
                                 </td>
                             {% endif %}

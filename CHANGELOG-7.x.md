@@ -1,6 +1,6 @@
 # Changelog 7.x
 
-## 7.3.6 (2026-09-11)
+## 7.3.7 (2026-09-11)
 ### Features
 * feat(admin/job): add EMSCO_JOB_CLEAN_TIME environment variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1814
 * feat(admin/json-menu-nested): add block preview template for items by @theus77 in https://github.com/ems-project/elasticms/pull/1804

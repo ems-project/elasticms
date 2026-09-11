@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fdbf68a6a9a204ea2671ab9efa7e3ee9",
+    "content-hash": "6f7c2d30138e2c82e0107fd95d1d2292",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.394.11",
+            "version": "3.394.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "0a16c43453b30b5ec4025293f33028e299cf448e"
+                "reference": "23b24609e38ba51f872c01385f85a8bd12e917d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0a16c43453b30b5ec4025293f33028e299cf448e",
-                "reference": "0a16c43453b30b5ec4025293f33028e299cf448e",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/23b24609e38ba51f872c01385f85a8bd12e917d7",
+                "reference": "23b24609e38ba51f872c01385f85a8bd12e917d7",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.394.11"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.394.12"
             },
-            "time": "2026-09-09T18:06:19+00:00"
+            "time": "2026-09-10T18:07:33+00:00"
         },
         {
             "name": "brick/math",
@@ -2035,12 +2035,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSAdminUIBundle.git",
-                "reference": "17bc1ab3a4b4a757375b84464f55087bed9337cb"
+                "reference": "d114d72c9c7a408b301c85609ce7d43aa3afdb3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSAdminUIBundle/zipball/17bc1ab3a4b4a757375b84464f55087bed9337cb",
-                "reference": "17bc1ab3a4b4a757375b84464f55087bed9337cb",
+                "url": "https://api.github.com/repos/ems-project/EMSAdminUIBundle/zipball/d114d72c9c7a408b301c85609ce7d43aa3afdb3a",
+                "reference": "d114d72c9c7a408b301c85609ce7d43aa3afdb3a",
                 "shasum": ""
             },
             "require": {
@@ -2073,7 +2073,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSAdminUIBundle/tree/7.x"
             },
-            "time": "2026-09-10T13:30:48+00:00"
+            "time": "2026-09-11T13:52:07+00:00"
         },
         {
             "name": "elasticms/client-helper-bundle",
@@ -2081,12 +2081,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
-                "reference": "3b04a2ca83eb4e78d800f57fcfa501341db6d08d"
+                "reference": "277675a8edd94b45e81a8395cac07e13a43f882d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/3b04a2ca83eb4e78d800f57fcfa501341db6d08d",
-                "reference": "3b04a2ca83eb4e78d800f57fcfa501341db6d08d",
+                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/277675a8edd94b45e81a8395cac07e13a43f882d",
+                "reference": "277675a8edd94b45e81a8395cac07e13a43f882d",
                 "shasum": ""
             },
             "require": {
@@ -2131,7 +2131,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/7.x"
             },
-            "time": "2026-09-10T13:30:48+00:00"
+            "time": "2026-09-11T13:52:07+00:00"
         },
         {
             "name": "elasticms/common-bundle",
@@ -2228,12 +2228,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCoreBundle.git",
-                "reference": "8b18d1a61f49d8854667db28416aef39c32469fd"
+                "reference": "3d0bca84e89dbb371d41d7708d859f746659cb48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/8b18d1a61f49d8854667db28416aef39c32469fd",
-                "reference": "8b18d1a61f49d8854667db28416aef39c32469fd",
+                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/3d0bca84e89dbb371d41d7708d859f746659cb48",
+                "reference": "3d0bca84e89dbb371d41d7708d859f746659cb48",
                 "shasum": ""
             },
             "require": {
@@ -2297,7 +2297,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSCoreBundle/tree/7.x"
             },
-            "time": "2026-09-10T13:30:48+00:00"
+            "time": "2026-09-11T13:52:07+00:00"
         },
         {
             "name": "elasticms/form-bundle",
@@ -2687,16 +2687,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "9.0.38",
+            "version": "9.0.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "ba273135702a0d0c1f5954dc7291bfc4082da4f0"
+                "reference": "268d42f8f6401d94fd3c5c9dddb09290f81ed613"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/ba273135702a0d0c1f5954dc7291bfc4082da4f0",
-                "reference": "ba273135702a0d0c1f5954dc7291bfc4082da4f0",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/268d42f8f6401d94fd3c5c9dddb09290f81ed613",
+                "reference": "268d42f8f6401d94fd3c5c9dddb09290f81ed613",
                 "shasum": ""
             },
             "require": {
@@ -2759,7 +2759,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2026-09-01T10:42:16+00:00"
+            "time": "2026-09-10T13:00:24+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -10684,86 +10684,6 @@
                 }
             ],
             "time": "2026-03-24T13:12:05+00:00"
-        },
-        {
-            "name": "symfony/polyfill-php85",
-            "version": "v1.41.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-php85.git",
-                "reference": "255fab485aaa1006ed411040c42aecd7b5302d7a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php85/zipball/255fab485aaa1006ed411040c42aecd7b5302d7a",
-                "reference": "255fab485aaa1006ed411040c42aecd7b5302d7a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2"
-            },
-            "type": "library",
-            "extra": {
-                "thanks": {
-                    "url": "https://github.com/symfony/polyfill",
-                    "name": "symfony/polyfill"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ],
-                "psr-4": {
-                    "Symfony\\Polyfill\\Php85\\": ""
-                },
-                "classmap": [
-                    "Resources/stubs"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony polyfill backporting some PHP 8.5+ features to lower PHP versions",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "polyfill",
-                "portable",
-                "shim"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/polyfill-php85/tree/v1.41.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/nicolas-grekas",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2026-07-01T12:47:55+00:00"
         },
         {
             "name": "symfony/polyfill-php86",

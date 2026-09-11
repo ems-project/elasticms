@@ -14,6 +14,7 @@ readonly class InlineEditConfig
         public string $element = 'div',
         /** @var array<string, scalar|null> */
         public array $attributes = [],
+        public ?string $content = null
     ) {
     }
 }

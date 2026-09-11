@@ -42,7 +42,7 @@ class InlineEditExtension extends AbstractExtension
             $attrString .= \sprintf(' %s="%s"', $key, \htmlspecialchars((string) $value, ENT_QUOTES));
         }
 
-        $content = $config->document->getValue($config->path);
+        $content = $config->content ?? $config->document->getValue($config->path);
 
         return \sprintf('<%1$s%2$s>%3$s</%1$s>', $config->element, $attrString, $content);
     }

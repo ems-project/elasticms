@@ -46,8 +46,8 @@
                             </div>
 
                             <p class="text-white text-center mt-2 mb-0">
-                                {{ 'user.logged_in.title'|trans({'%username%': app.user.username}, 'emsco-core') }}
-                                <small>{{ 'user.logged_in.member_since'|trans({'%date%': app.user.created|date(date_time_format)}, 'emsco-core') }}</small>
+                                {{ 'user.logged_in.title'|trans({'username': app.user.username}, 'emsco-core') }}
+                                <small>{{ 'user.logged_in.member_since'|trans({'date': app.user.created|date(date_time_format)}, 'emsco-core') }}</small>
 
                                 <small class="d-block">
                                     {% for role in app.user.roles %}

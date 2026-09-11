@@ -67,8 +67,8 @@ environments or in development combine with a http storage service.
 
 ### Retry delay
 
-`retry-delay`: The time to wait, in seconds, after a storage service becomes unavailable before attempting to connect to it again.
-
+`retry-delay`: The time to wait, in seconds, after a storage service becomes unavailable before
+attempting to connect to it again.
 
 ## Cleaning useless assets
 

@@ -41,9 +41,9 @@
                         {% endif %}
                     {% endfor %}
                     {% if not found and notification.counter > 1 %}
-                        <i class="fa fa-warning  text-{{ notification.revision.contentType.color }}" title="{{ 'notification.warning.revision_not_published_and_duplicate'|trans({'%environment%': notification.name}) }}"></i> {{ 'notification.warning.revision_not_published_and_duplicate'|trans({'%environment%': notification.environment.name}) }}
+                        <i class="fa fa-warning  text-{{ notification.revision.contentType.color }}" title="{{ 'notification.warning.revision_not_published_and_duplicate'|trans({'environment': notification.name}) }}"></i> {{ 'notification.warning.revision_not_published_and_duplicate'|trans({'environment': notification.environment.name}) }}
                     {% elseif not found %}
-                        <i class="fa fa-warning  text-{{ notification.revision.contentType.color }}" title="{{ 'notification.warning.revision_not_published'|trans({'%environment%': notification.environment.name}) }}"></i> {{ 'notification.warning.revision_not_published'|trans({'%environment%': notification.environment.name}) }}
+                        <i class="fa fa-warning  text-{{ notification.revision.contentType.color }}" title="{{ 'notification.warning.revision_not_published'|trans({'environment': notification.environment.name}) }}"></i> {{ 'notification.warning.revision_not_published'|trans({'environment': notification.environment.name}) }}
                     {% elseif notification.counter > 1 %}
                         <i class="fa fa-warning  text-{{ notification.revision.contentType.color }}" title="{{ 'notification.warning.duplicate'|trans }}"></i> {{ 'notification.warning.duplicate'|trans }}
                     {% else %}

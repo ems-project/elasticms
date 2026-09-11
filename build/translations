@@ -194,7 +194,7 @@ function buildLocale(
             {
                 return Yaml::dump(
                     input: ArrayConverter::expandToTree($messages->all($domain)),
-                    inline: 5,
+                    inline: 10,
                     flags: Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK
                 );
             }

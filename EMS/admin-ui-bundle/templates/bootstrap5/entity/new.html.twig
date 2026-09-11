@@ -1,8 +1,8 @@
 {% trans_default_domain 'emsco-core' %}{% extends '@EMSAdminUI/bootstrap5/entity/form.html.twig' %}
 
-{% block title %} {{ 'entity.new.title'|trans({'%entity_name%': entity_name}) }} {% endblock %}
-{% block pagetitle %} {{ 'entity.new.title'|trans({'%entity_name%': entity_name}) }} {% endblock %}
-{% block box_title %} {{ 'entity.new.title'|trans({'%entity_name%': entity_name}) }} {% endblock %}
+{% block title %} {{ 'entity.new.title'|trans({'entity_name': entity_name}) }} {% endblock %}
+{% block pagetitle %} {{ 'entity.new.title'|trans({'entity_name': entity_name}) }} {% endblock %}
+{% block box_title %} {{ 'entity.new.title'|trans({'entity_name': entity_name}) }} {% endblock %}
 {% block save_buton %}
     {{ form_widget(form.save, {label: 'Create'}) }}
 {% endblock %}

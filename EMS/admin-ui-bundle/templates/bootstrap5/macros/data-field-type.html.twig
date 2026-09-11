@@ -159,7 +159,6 @@
                         {{ 'field.asset.info'|trans }}
                     </button>
                     <a href="{{ ems_asset_path(dataField.rawData, {_disposition: 'attachment'}) }}" class="btn btn-small btn-light"><i class="fa fa-download"></i>&nbsp;{{ 'field.asset.download'|trans }}</a>
-                    {# <a href="{{ path('ems.file.view', {'sha1':dataField.rawData.sha1, 'type':dataField.rawData.mimetype, 'name':dataField.rawData.filename }) }}" class="btn btn-small btn-light"><i class="fa fa-eye"></i>&nbsp;{{'View'|trans}}</a> #}
                 </div>
                 <div class="modal" tabindex="-1" role="dialog" id="indexed-details-revision_{{ tempId }}">
                     <div class="modal-dialog" role="document">
@@ -255,9 +254,9 @@
             </h3>
             {% if compare %}
                 {% if diffCount < 0 %}
-                    <del class="text-red">{{ 'view.macros.data-field-type.collection_removed_items'|trans({'%count%': -diffCount}) }}</del>
+                    <del class="text-red">{{ 'view.macros.data-field-type.collection_removed_items'|trans({'count': -diffCount}) }}</del>
                 {% elseif diffCount > 0 %}
-                    <ins class="text-green">{{ 'view.macros.data-field-type.collection_added_items'|trans({'%count%': diffCount}) }}</ins>
+                    <ins class="text-green">{{ 'view.macros.data-field-type.collection_added_items'|trans({'count': diffCount}) }}</ins>
                 {% endif %}
             {% endif %}
         </div>
@@ -1265,7 +1264,7 @@
 {% block EMS_CoreBundle_Form_DataField_FormFieldType %}
     {% if dataField.fieldType.displayOptions.form is defined %}
         {% set form = emsco_get_form(dataField.fieldType.displayOptions.form, dataField.rawData) %}
-        {% set errorMessage = 'view.macros.data-field-type.form.not-found' %}
+        {% set errorMessage = 'view.macros.data-field-type.form.not-found'|trans %}
     {% endif %}
     {% if form is defined and form %}
         {{ _self.renderDataFieldBlock(emsco_get_data_field(form), source, compare, compareRawData, '', path, locale) }}
@@ -1275,7 +1274,7 @@
                 {{ dataField.fieldType.displayOptions.label|default(dataField.fieldType.name) }}{% if emsco_is_super() %} ({{ dataField.fieldType.name }}){% endif %}
             </div>
             <div class="card-body">
-                {{ errorMessage|default('view.macros.data-field-type.form.not-defined')|trans }}
+                {{ errorMessage|default('view.macros.data-field-type.form.not-defined'|trans)|trans }}
             </div>
         </div>
     {% endif %}

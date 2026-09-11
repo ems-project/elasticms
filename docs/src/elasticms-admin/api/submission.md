@@ -14,13 +14,13 @@ export AUTH_TOKEN='EDcTszIHnaaDCpvpi+dJeakj6uOsDqtvSY6rqJyDR3baPpnFA+6u4UAaPcMuJ
 
 ## Endpoints
 
-| Action                     | Endpoint                                                    |
-| -------------------------- | ----------------------------------------------------------- |
-| Create a submission        | `POST /api/forms/submissions`                               |
-| Get a submission           | `GET /api/forms/submissions/{submissionId}`                 |
-| Get a submitted file       | `GET /api/forms/submissions/{submissionId}/files/{fileId}`  |
-| Create a verification code | `POST /api/forms/verifications`                             |
-| Get a verification code    | `GET /api/forms/verifications?value={value}`                |
+| Action                     | Endpoint                                                   |
+| -------------------------- | ---------------------------------------------------------- |
+| Create a submission        | `POST /api/forms/submissions`                              |
+| Get a submission           | `GET /api/forms/submissions/{submissionId}`                |
+| Get a submitted file       | `GET /api/forms/submissions/{submissionId}/files/{fileId}` |
+| Create a verification code | `POST /api/forms/verifications`                            |
+| Get a verification code    | `GET /api/forms/verifications?value={value}`               |
 
 ## Create a submission
 
@@ -203,8 +203,8 @@ The response is streamed inline with the submitted file `Content-Type`, `Content
 
 ## Create a verification code
 
-Use `POST /api/forms/verifications` to create a verification code for a value. If a non-expired
-code already exists for the value, the existing code is returned and its expiration is extended.
+Use `POST /api/forms/verifications` to create a verification code for a value. If a non-expired code
+already exists for the value, the existing code is returned and its expiration is extended.
 
 Request body:
 
@@ -239,8 +239,8 @@ The `value` field is required. Verification codes expire after three hours.
 
 ## Get a verification code
 
-Use `GET /api/forms/verifications?value={value}` to retrieve the verification code associated with
-a value. Reading an existing code extends its expiration.
+Use `GET /api/forms/verifications?value={value}` to retrieve the verification code associated with a
+value. Reading an existing code extends its expiration.
 
 ```shell
 curl -X GET \
@@ -259,11 +259,11 @@ Successful response:
 
 ## Error handling
 
-| Symptom                        | Check                                                               |
-| ------------------------------ | ------------------------------------------------------------------- |
-| `401 Unauthorized`             | The `X-Auth-Token` header is missing or invalid.                    |
+| Symptom                        | Check                                                                           |
+| ------------------------------ | ------------------------------------------------------------------------------- |
+| `401 Unauthorized`             | The `X-Auth-Token` header is missing or invalid.                                |
 | `400 Bad Request` on submit    | The JSON body is invalid or misses `form_name`, `instance`, `locale` or `data`. |
-| `400 Bad Request` verification | The JSON body is invalid or the `value` field/query parameter is missing. |
-| `404 Not Found` submission     | The submission identifier does not exist.                           |
-| `404 Not Found` file           | The submission or file identifier does not exist.                    |
-| `404 Not Found` verification   | No verification code exists for the requested `value`.               |
+| `400 Bad Request` verification | The JSON body is invalid or the `value` field/query parameter is missing.       |
+| `404 Not Found` submission     | The submission identifier does not exist.                                       |
+| `404 Not Found` file           | The submission or file identifier does not exist.                               |
+| `404 Not Found` verification   | No verification code exists for the requested `value`.                          |

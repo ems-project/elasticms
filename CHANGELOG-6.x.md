@@ -1,5 +1,10 @@
 # Changelog 6.x
 
+## 6.9.36 (2026-09-11)
+### Bug Fixes
+* fix(admin/field): correct support date range type by @Davidmattei in https://github.com/ems-project/elasticms/pull/1846
+* fix(admin/revision): unlock all command all envs by @Davidmattei in https://github.com/ems-project/elasticms/pull/1845
+
 ## 6.9.35 (2026-09-10)
 ### Bug Fixes
 * fix(demo): avoid app.user and is_granted calls by @theus77 in https://github.com/ems-project/elasticms/pull/1836

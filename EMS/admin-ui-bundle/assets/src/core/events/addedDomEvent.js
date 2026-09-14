@@ -10,8 +10,6 @@ export class AddedDomEvent {
     }
 
     dispatch(doc = document) {
-        console.debug(doc);
-
         doc.dispatchEvent(this._event)
     }
 }

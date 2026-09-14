@@ -1,5 +1,12 @@
 # Changelog 7.x
 
+## 7.3.8 (2026-09-14)
+### Bug Fixes
+* fix(admin/inline-editor): buttons not working and media library by @Davidmattei in https://github.com/ems-project/elasticms/pull/1850
+* fix(admin/textarea): count textarea length by @Davidmattei in https://github.com/ems-project/elasticms/pull/1851
+* fix(admin/translations): labels per type of role permission by @theus77 in https://github.com/ems-project/elasticms/pull/1849
+* fix(admin/translations): transParameters can't be passed as trans parameter by @theus77 in https://github.com/ems-project/elasticms/pull/1848
+
 ## 7.3.7 (2026-09-11)
 ### Features
 * feat(admin/job): add EMSCO_JOB_CLEAN_TIME environment variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1814

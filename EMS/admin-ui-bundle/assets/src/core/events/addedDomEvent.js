@@ -9,8 +9,10 @@ export class AddedDomEvent {
         this._target = target
     }
 
-    dispatch() {
-        document.dispatchEvent(this._event)
+    dispatch(doc = document) {
+        console.debug(doc);
+
+        doc.dispatchEvent(this._event)
     }
 }
 

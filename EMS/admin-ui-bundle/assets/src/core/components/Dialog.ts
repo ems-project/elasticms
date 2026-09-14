@@ -303,7 +303,7 @@ export class Dialog {
             this.close()
         } else {
             this.bindForm()
-            new AddedDomEvent(this.element).dispatch()
+            new AddedDomEvent(this.element).dispatch(this.options.doc)
         }
     }
 

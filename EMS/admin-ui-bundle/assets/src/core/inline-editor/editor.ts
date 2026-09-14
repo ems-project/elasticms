@@ -2,6 +2,7 @@ import 'bootstrap'
 import '@css/core/components/_inline_editor.scss'
 
 import { InlineEditor } from './editor/editor'
+import './../core'
 
 const iframe = document.getElementById('preview-iframe') as HTMLIFrameElement
 const baseUrl = document.body.dataset.baseUrl as string

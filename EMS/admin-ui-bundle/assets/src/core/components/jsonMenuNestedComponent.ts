@@ -310,16 +310,16 @@ export default class JsonMenuNestedComponent {
 
         const handlerClose = () => {
             this.load({ activeItemId: activeItemId })
-            ajaxModal.modal.removeEventListener('ajax-modal-close', handlerClose)
+            ajaxModal?.modal.removeEventListener('ajax-modal-close', handlerClose)
         }
 
-        ajaxModal.modal.addEventListener('ajax-modal-close', handlerClose)
-        ajaxModal.load({ url: `${this.#pathPrefix}${path}`, size: modalSize }, (json: any) => {
+        ajaxModal?.modal.addEventListener('ajax-modal-close', handlerClose)
+        ajaxModal?.load({ url: `${this.#pathPrefix}${path}`, size: modalSize }, (json: any) => {
             const eventCanceled = this._dispatchEvent(eventType, {
                 data: json,
                 ajaxModal: ajaxModal
             })
-            if (eventCanceled) ajaxModal.modal.removeEventListener('ajax-modal-close', handlerClose)
+            if (eventCanceled) ajaxModal?.modal.removeEventListener('ajax-modal-close', handlerClose)
 
             if (eventType === 'jmn-add' || eventType === 'jmn-edit') {
                 if (!Object.hasOwn(json, 'success') || !json.success) return
@@ -327,7 +327,7 @@ export default class JsonMenuNestedComponent {
                 if (Object.hasOwn(json, 'item') && Object.hasOwn(json.item, 'id'))
                     activeItemId = json.item.id
 
-                ajaxModal.close()
+                ajaxModal?.close()
             }
         })
     }

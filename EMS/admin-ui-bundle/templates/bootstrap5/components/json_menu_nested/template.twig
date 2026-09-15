@@ -69,8 +69,8 @@
     </div>
 {%- endblock jmn_item_row -%}
 
-{%- block jmn_column_title -%}<span>{{ 'json_menu_nested.column.title'|trans }}</span>{%- endblock jmn_column_title -%}
-{%- block jmn_column_structure -%}<span>{{ 'json_menu_nested.column.structure'|trans }}</span>{%- endblock jmn_column_structure -%}
+{%- block jmn_column_title -%}<span>{{ 'key.title'|trans }}</span>{%- endblock jmn_column_title -%}
+{%- block jmn_column_structure -%}<span>{{ 'key.structure'|trans }}</span>{%- endblock jmn_column_structure -%}
 
 {%- block jmn_cell_title -%}
     {% if item.hasChildren %}
@@ -101,7 +101,7 @@
 {%- endblock jmn_button_item_delete -%}
 
 {%- block jmn_button_item_move -%}
-    <button class="btn btn-sm btn-default jmn-btn-move">{{- buttonLabel|default('json_menu_nested.action.move'|trans) -}}</button>
+    <button class="btn btn-sm btn-default jmn-btn-move">{{- buttonLabel|default('action.move'|trans) -}}</button>
 {%- endblock jmn_button_item_move -%}
 
 {%- block jmn_button_item_view -%}
@@ -122,7 +122,7 @@
 {%- block jmn_button_item_add -%}
     <button class="jmn-btn-add dropdown-item" data-add="{{ addNode.id }}" data-modal-size="{{- buttonModalSize|default('md') -}}">
         {% if addNode.icon %}<i class="{{ addNode.icon }} me-2"></i>{% endif %}
-        {{- buttonLabel|default('json_menu_nested.action.new'|trans({'label': addNode.label})) -}}
+        {{- buttonLabel|default('title.new_label'|trans({'label': addNode.label})) -}}
     </button>
 {%- endblock jmn_button_item_add -%}
 
@@ -176,7 +176,7 @@
 {%- endblock jmn_button_more_menu -%}
 
 {%- block jmn_button_copy -%}
-    <button class="jmn-btn-copy dropdown-item">{{- buttonLabel|default(node == config.nodes.root ? 'json_menu_nested.action.copy_all'|trans : 'action.copy'|trans) -}}</button>
+    <button class="jmn-btn-copy dropdown-item">{{- buttonLabel|default(node == config.nodes.root ? 'action.copy_all'|trans : 'action.copy'|trans) -}}</button>
 {%- endblock jmn_button_copy -%}
 
 {%- block jmn_button_paste -%}

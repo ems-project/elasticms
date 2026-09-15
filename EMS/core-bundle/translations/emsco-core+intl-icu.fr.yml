@@ -384,24 +384,6 @@ help:
     add_first_search_field_option: 'Cliquez sur « Ajouter une option de champ de recherche » pour créer une première option de champ de recherche'
     add_first_sort_option: 'Cliquez sur « Ajouter une option de tri » pour créer une première option de tri'
     override_styles_set_config: 'remplacer la configuration des jeux de styles'
-job:
-    completed: Terminé
-    info: 'À propos de ce job'
-    list: 'Liste des jobs'
-    modified: 'Dernière mise à jour'
-    output: 'Sortie du job'
-    progress: Progression
-    started: 'Heure de début'
-json_menu_nested:
-    action:
-        copy_all: 'Tout copier'
-        move: Déplacer
-        new: 'Nouveau {label}'
-    column:
-        structure: Structure
-        title: Titre
-    error:
-        item_edit_outdated: 'Désynchronisé, fermez et réessayez !'
 key:
     action: Action
     actions: Actions
@@ -532,6 +514,10 @@ key:
     subfield: Sous-champ
     more_info: 'plus d’informations'
     elements: Éléments
+    completed: Terminé
+    job_output: 'Sortie du job'
+    progress: Progression
+    title: Titre
 log:
     error:
         content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'
@@ -865,6 +851,8 @@ message:
     ouuid_constraint: "L’OUUID contient un caractère non autorisé : A-Z, a-z, 0-9, tiret : '-', underscore : '_' ou point : '.'."
     ouuid_placeholder: 'Généré automatiquement si laissé vide'
     revision_in_draft_by: 'En brouillon par "{user}"'
+    job_info: 'À propos de ce job'
+    item_outdated: 'Désynchronisé, fermez et réessayez !'
 notification:
     acknowledge: Acquitter
     actions: Actions
@@ -1282,6 +1270,8 @@ title:
     add_form: 'Ajouter un formulaire'
     edit_form: 'Modifier un formulaire'
     reorder_form_fields: 'Réordonner les champs du formulaire : {label}'
+    job_list: 'Liste des jobs'
+    new_label: 'Nouveau {label}'
 type:
     confirm: |-
         {type, select,

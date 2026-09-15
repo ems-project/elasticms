@@ -384,24 +384,6 @@ help:
     add_first_search_field_option: "'Add an search field option' to create a first Search Field Option: Click on 'Add an search field option' to create a first Search Field Option"
     add_first_sort_option: "Click on 'Add a Sort Option' to create a first Sort Option: Click on 'Add a Sort Option' to create a first Sort Option"
     override_styles_set_config: 'override styles sets config'
-job:
-    completed: Completed
-    info: 'About this job'
-    list: "Job's list"
-    modified: 'Last updated'
-    output: "Job's output"
-    progress: Progress
-    started: 'Started time'
-json_menu_nested:
-    action:
-        copy_all: 'Copy all'
-        move: Move
-        new: 'New {label}'
-    column:
-        structure: Structure
-        title: Title
-    error:
-        item_edit_outdated: 'Out of sync, close and retry!'
 key:
     action: Action
     actions: Actions
@@ -532,6 +514,10 @@ key:
     subfield: Subfield
     more_info: 'more info'
     elements: Elements
+    completed: Completed
+    job_output: "Job's output"
+    progress: Progress
+    title: Title
 log:
     error:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
@@ -865,6 +851,8 @@ message:
     ouuid_constraint: "OUUID has an unauthorized character: A-Z, a-z, 0-9, caret: '-', underscore: '_' or dot: '.'."
     ouuid_placeholder: 'Auto-generated if left empty'
     revision_in_draft_by: 'In draft by "{user}"'
+    job_info: 'About this job'
+    item_outdated: 'Out of sync, close and retry!'
 notification:
     acknowledge: Acknowledge
     actions: Actions
@@ -1282,6 +1270,8 @@ title:
     add_form: 'Add a form'
     edit_form: 'Edit a form'
     reorder_form_fields: 'Reorder fields of form: {label}'
+    job_list: "Job's list"
+    new_label: 'New {label}'
 type:
     confirm: |-
         {type, select,

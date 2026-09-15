@@ -384,24 +384,6 @@ help:
     add_first_search_field_option: "Klik op 'Zoekveldoptie toevoegen' om een eerste zoekveldoptie te maken"
     add_first_sort_option: "Klik op 'Sorteeroptie toevoegen' om een eerste sorteeroptie te maken"
     override_styles_set_config: 'configuratie van stijlensets overschrijven'
-job:
-    completed: Voltooid
-    info: 'Over deze job'
-    list: Joblijst
-    modified: 'Laatst bijgewerkt'
-    output: Jobuitvoer
-    progress: Voortgang
-    started: Starttijd
-json_menu_nested:
-    action:
-        copy_all: 'Alles kopiëren'
-        move: Verplaatsen
-        new: 'Nieuwe {label}'
-    column:
-        structure: Structuur
-        title: Titel
-    error:
-        item_edit_outdated: 'Niet meer gesynchroniseerd, sluit en probeer opnieuw!'
 key:
     action: Actie
     actions: Acties
@@ -532,6 +514,10 @@ key:
     subfield: Subveld
     more_info: 'meer info'
     elements: Elementen
+    completed: Voltooid
+    job_output: Jobuitvoer
+    progress: Voortgang
+    title: Titel
 log:
     error:
         content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
@@ -865,6 +851,8 @@ message:
     ouuid_constraint: "OUUID bevat een niet-toegestaan teken: A-Z, a-z, 0-9, koppelteken: '-', underscore: '_' of punt: '.'."
     ouuid_placeholder: 'Automatisch gegenereerd indien leeg gelaten'
     revision_in_draft_by: 'In concept door "{user}"'
+    job_info: 'Over deze job'
+    item_outdated: 'Niet meer gesynchroniseerd, sluit en probeer opnieuw!'
 notification:
     acknowledge: Bevestigen
     actions: Acties
@@ -1282,6 +1270,8 @@ title:
     add_form: 'Een formulier toevoegen'
     edit_form: 'Een formulier bewerken'
     reorder_form_fields: 'Velden van formulier hersorteren: {label}'
+    job_list: Joblijst
+    new_label: 'Nieuwe {label}'
 type:
     confirm: |-
         {type, select,

@@ -4,7 +4,9 @@ action:
     add_aggregate_option: 'Aggregate Options'
     add_alias: 'Add alias'
     add_entity: 'New {entity_name}'
+    add_item: 'Add item'
     add_managed_alias: 'Add managed alias'
+    add_node: 'Add node'
     add_referenced: 'Add referenced'
     add_referenced_content_type: 'Add a reference content type'
     add_release_publish: 'Add to release for publication'
@@ -12,6 +14,7 @@ action:
     add_search_field_option: 'Add an Search Field Option'
     add_sort_option: 'Add a Sort Option'
     attach: Attach
+    browse_server: 'Browse server'
     cancel: Cancel
     clear: Clear
     close: Close
@@ -20,11 +23,14 @@ action:
     compare: Compare
     confirmation: 'Do you confirm?'
     copy: Copy
+    copy_all: 'Copy all'
     create: Create
+    create_draft: 'Create {content_type} draft'
     deactivate: Deactivate
     define: Define
     delete: Delete
     delete_all: 'Delete all'
+    delete_item: 'Delete item'
     delete_selected: 'Delete selected'
     details: Details
     discard: Discard
@@ -35,6 +41,7 @@ action:
     edit_entity: 'Edit {entity_name}'
     edit_managed_alias: 'Edit managed alias'
     enable: Enable
+    exit: Exit
     export: Export
     export_selected: 'Export selected'
     extract_content: 'Extract content'
@@ -42,6 +49,9 @@ action:
     hide_revision_sidebar: 'Hide revision sidebar'
     import: Import
     info: Info
+    init_upload: 'Initialize upload'
+    move: Move
+    move_item: 'Move item'
     paste: Paste
     publish: Publish
     rebuild: Rebuild
@@ -70,19 +80,9 @@ action:
     update_content_type_from_json: 'Update {name} from a JSON file'
     update_from_json: 'Update from JSON'
     update_mapping: 'Update mapping'
-    view: View
-    add_item: 'Add item'
-    add_node: 'Add node'
-    copy_all: 'Copy all'
-    delete_item: 'Delete item'
-    move_item: 'Move item'
-    browse_server: 'Browse server'
-    init_upload: 'Initialize upload'
-    move: Move
     upload_file: 'Upload file'
     upload_files: 'Upload files'
-    create_draft: 'Create {content_type} draft'
-    exit: Exit
+    view: View
 asset_extractor:
     status: |-
         {color, select,
@@ -265,6 +265,8 @@ field:
         paper_size: 'Paper size'
         size: Size
         type: Type
+    file_hash: 'File hash'
+    file_info: 'File information'
     filter: Filter
     flags: Flags
     form: Form
@@ -312,6 +314,7 @@ field:
     name: Name
     options: Options
     orientation: Orientation
+    ouuid: OUUID
     password: Password
     password_repeat: 'Repeat password'
     pattern: Pattern
@@ -376,9 +379,6 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     wysiwyg_profile: 'WYSIWYG profile'
-    file_hash: 'File hash'
-    file_info: 'File information'
-    ouuid: OUUID
 help:
     add_first_aggregate_option: "Click on 'Add an aggregate option' to create a first Aggregate Option: Click on 'Add an aggregate option' to create a first Aggregate Option"
     add_first_search_field_option: "'Add an search field option' to create a first Search Field Option: Click on 'Add an search field option' to create a first Search Field Option"
@@ -406,6 +406,7 @@ key:
     ckeditor4: 'CK Editor 4'
     client: Client
     cluster_uuid: 'Cluster UUID'
+    completed: Completed
     content: Content
     content_type: 'Content type'
     content_types: 'Content Types'
@@ -417,6 +418,7 @@ key:
     delayed_unassigned_shards: 'Delayed unassigned shards'
     documentation: Documentation
     elasticsearch_information: 'Elasticsearch information'
+    elements: Elements
     environments_external: 'External environments'
     environments_local: 'Local environments'
     error: Error
@@ -433,7 +435,9 @@ key:
     initializing_shards: 'Initializing shards'
     inline: Inline
     inline_editor: 'Inline editor'
+    item_label: 'Item label'
     job_logs: 'Jobs logs'
+    job_output: "Job's output"
     jobs: Jobs
     landscape: Landscape
     last_commands: 'Last commands'
@@ -445,6 +449,7 @@ key:
     mcp_prompts: 'MCP prompts'
     mcp_resources: 'MCP resources'
     mcp_tools: 'MCP tools'
+    more_info: 'more info'
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
     none: None
@@ -461,6 +466,7 @@ key:
     overview: Overview
     portrait: Portrait
     prefix_instance_id: 'Prefix alias with instance ID'
+    progress: Progress
     public_channel: 'Make channel available for non-authenticated users ?'
     public_key: 'Public key'
     public_view: 'Publicly available (without authentication)'
@@ -486,11 +492,14 @@ key:
     sort_option: 'Sort Option'
     sort_options: 'Sort Options'
     structure: Structure
+    subfield: Subfield
     system_logs: 'System logs'
     tagline: Tagline
     task_max_waiting_in_queue_millis: 'Task max waiting in queue'
     template: Template
+    textarea_counter: '{count} characters'
     tiptap: Tiptap
+    title: Title
     to_be_treated: 'To be treated'
     trash: Trash
     unassigned_shards: 'Unassigned shards'
@@ -509,15 +518,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
-    item_label: 'Item label'
-    textarea_counter: '{count} characters'
-    subfield: Subfield
-    more_info: 'more info'
-    elements: Elements
-    completed: Completed
-    job_output: "Job's output"
-    progress: Progress
-    title: Title
 media_library:
     file:
         add:
@@ -587,7 +587,10 @@ message:
     action_deleted: 'The action "{label}" has been deleted'
     action_error: 'This page/action has encountered an error: {error_message}'
     action_updated: 'The action "{label}" has been updated'
+    add_field_to: 'Add a field to <strong>{name}</strong>'
+    add_subfield_to: 'Add a subfield to <strong>{name}</strong>'
     alias_added: 'A new alias "{alias_name}" has been added to the index "{index_name}"'
+    alias_attached: 'The alias "{alias}" has been attached'
     alias_too_many_indexes: 'There are too many indexes'
     analyzer_created: 'The analyzer "{label}" has been created'
     analyzer_deleted: 'The analyzer "{label}" has been deleted'
@@ -610,8 +613,10 @@ message:
         About the <strong>object unique identifier</strong>: you are free to specify one (provided it has not been taken yet, of course).
         If you leave it <strong>empty</strong>, an object unique identifier <strong>will be generated</strong> during the save. It is impossible to update the object unique identifier later.
     content_type_mapping_not_found: 'Mapping not found for the content type "{label}"'
+    content_type_referenced: 'Referenced content type "{contentType}" from "{environment}" environment'
     content_type_reordered: 'Content type "{content_type}" has been reordered'
     content_type_update_mapping_error: "Error on updating {environments}''s mapping: {elasticsearch_error}"
+    content_type_view_deleted: 'View "{view}" has been deleted'
     contenttype_mappings_error: 'Mappings update for {content_type} in {environments} failed: {elasticsearch_dump}'
     contenttype_mappings_updated: 'Mappings successfully updated for content type {content_type} in {environments}'
     dashboard_deleted: 'The dashboard "{label}" has been deleted'
@@ -635,11 +640,20 @@ message:
     data_unknown_update_type: 'The document "{label}" has not been replaced as the update type "{update_type}" is unknown'
     data_unlock_revisions_error: 'Unexpected unlock exception'
     data_update_referrers_error: "It was impossible to update the document's referrers"
+    delete_failed: 'Delete failed'
+    deleted_orphan_index: 'The index "{index}" has been deleted'
+    deleted_orphan_indexes: 'Orphan indexes have been deleted'
     difference_count: '{0} No difference|{1} One difference|]1,Inf[ {count} differences'
     document_cant_duplicate_ouuid_required: 'It is impossible to duplicate the document "{label}" as the content type "{content_type}" requires an OUUID first'
     document_compared: 'Compared the revision {revision_id} of the document {content_type}:{ouuid} with the revision {compare_revision_id} of the document {compare_content_type}:{compare_ouuid}'
     document_copied: 'The content of the document "{label}" has been copied to the clipboard'
     document_duplicated: 'The document "{label}" has been used to initiate a new document'
+    draft_deleted: 'Draft "{revision}" has been deleted'
+    draft_not_found: 'Draft not found with id "{revisionId}"'
+    drag_and_drop_file: 'Drag and drop your file here'
+    drag_and_drop_files: 'Drag and drop your files here'
+    duplicate_environment: 'Environment "{name}" already exists!'
+    duplicate_field: 'Duplicate <strong>{name{</strong>'
     elasticsearch_index_missing: 'Elasticsearch index is missing !'
     email_crm_export: 'Please find attached the export of requested CRM submissions.'
     email_greeting: Regards.
@@ -667,6 +681,7 @@ message:
     environment_wrong_ouuid: 'Malformed OUUID {ouuid}'
     error_status: 'With the message "{status}"'
     error_status_code: 'The server returned a {status_code}'
+    error_status_with_message: 'With the message "{status_text}".'
     field_added: 'The field "{name}" has been added'
     field_collection_import_array: 'Some data were not imported for the collection field {field_name} as is was not an array'
     field_deleted: 'The field "{name}" has been deleted'
@@ -687,10 +702,15 @@ message:
     import_failed: 'Import failed'
     import_file_missing_columns: 'Missing columns in import file, required columns "{columns}"'
     import_file_missing_data: 'Missing data in import file'
+    index_not_found: 'Index "{index}" not found'
+    invalid_table_action: 'Unknown table action'
+    item_outdated: 'Out of sync, close and retry!'
     job_done: 'The job "{job_id}" is done'
     job_failed: 'The job "{label}" has failed in the environment {environment}'
+    job_info: 'About this job'
     job_initialized: 'The job "{label}" has been initialized in the environment {environment}'
     loading_information: 'Loading information...'
+    log_content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
     managed_alias_created: 'Managed alias "{managed_alias_label}" has been created'
     managed_alias_deleted: 'Managed alias "{managed_alias_label}" has been deleted'
     managed_alias_updated: 'Managed alias "{managed_alias_label}" has been updated'
@@ -707,6 +727,9 @@ message:
     object_choice_content_type_not_found: 'Content type {content_type} not found'
     object_choice_key_not_found: 'Object key {object_key} not found'
     object_choice_limited_result_set: 'The data link picker is limited to the first {limit} of {count} documents'
+    ouuid_constraint: "OUUID has an unauthorized character: A-Z, a-z, 0-9, caret: '-', underscore: '_' or dot: '.'."
+    ouuid_placeholder: 'Auto-generated if left empty'
+    preview_alt: 'Preview of the field {field}'
     privilege_exception: 'You do not have enough privileges to edit this document'
     publish_not_authorized: 'You can not (un)publish the content type {content_type}'
     publish_not_in_circles: 'You can not (un)publish the content type {content_type} as you do not share any circle'
@@ -747,6 +770,7 @@ message:
     revision_draft_updated: 'Updated draft for the document "{label}"'
     revision_edit_draft_warning: 'You are editing an already published revision, it is safer to <a href="{path}" class="btn btn-primary"><span class="fa fa-pencil"></span> edit a draft</a>'
     revision_finalize_error: 'The revision {revision_id} for the content type "{content_type}" cannot be finalized, reason: {error_message}'
+    revision_in_draft_by: 'In draft by "{user}"'
     revision_incomplete_request: 'It is impossible to save the document "{label}". Please check your PHP/Web configuration (i.e.: max_input_vars in php.ini)'
     revision_json_edit_draft_only: 'Only a draft can be edited as JSON'
     revision_loaded_from_auto_save: 'Data were loaded from an auto-saved version'
@@ -820,30 +844,6 @@ message:
     wysiwyg_styles_set_updated: 'Style set "{name}" has been updated'
     xliff_not_current_revision: 'The revision {revision_id} of {ouuid} is no longer the last revision. The translations were not imported.'
     xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
-    error_status_with_message: 'With the message "{status_text}".'
-    drag_and_drop_file: 'Drag and drop your file here'
-    drag_and_drop_files: 'Drag and drop your files here'
-    preview_alt: 'Preview of the field {field}'
-    add_field_to: 'Add a field to <strong>{name}</strong>'
-    add_subfield_to: 'Add a subfield to <strong>{name}</strong>'
-    duplicate_field: 'Duplicate <strong>{name{</strong>'
-    ouuid_constraint: "OUUID has an unauthorized character: A-Z, a-z, 0-9, caret: '-', underscore: '_' or dot: '.'."
-    ouuid_placeholder: 'Auto-generated if left empty'
-    revision_in_draft_by: 'In draft by "{user}"'
-    job_info: 'About this job'
-    item_outdated: 'Out of sync, close and retry!'
-    log_content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
-    delete_failed: 'Delete failed'
-    invalid_table_action: 'Unknown table action'
-    alias_attached: 'The alias "{alias}" has been attached'
-    content_type_referenced: 'Referenced content type "{contentType}" from "{environment}" environment'
-    content_type_view_deleted: 'View "{view}" has been deleted'
-    deleted_orphan_index: 'The index "{index}" has been deleted'
-    deleted_orphan_indexes: 'Orphan indexes have been deleted'
-    draft_deleted: 'Draft "{revision}" has been deleted'
-    draft_not_found: 'Draft not found with id "{revisionId}"'
-    duplicate_environment: 'Environment "{name}" already exists!'
-    index_not_found: 'Index "{index}" not found'
 notification:
     acknowledge: Acknowledge
     actions: Actions
@@ -886,18 +886,18 @@ option:
     delete_existing_templates: 'Delete existing templates'
     delete_existing_views: 'Delete existing views'
     disabled: Disabled
+    display: Display
     email_notification: 'Email notifications'
     enabled: Enabled
+    extra: Extra
     layout_boxed: 'Layout boxed'
     layout_sidebar_collapse: 'Sidebar collapse'
     layout_sidebar_mini: 'Sidebar mini'
+    migration: Migration
     multiple: Multiple
     recompute_on_publish: 'Recompute documents on publication'
-    update_referrers: 'Update referrers'
-    display: Display
-    extra: Extra
-    migration: Migration
     restriction: Restriction
+    update_referrers: 'Update referrers'
 out-of-sync:
     modal:
         please-reload: 'Please reload the page.'
@@ -1234,6 +1234,7 @@ task:
 title:
     add_content_type: 'Add a new {content_type}'
     add_environment: 'Add a new Environment'
+    add_form: 'Add a form'
     align_environments: 'Align Environments'
     align_environments_subtitle: 'time to align environments?'
     as_indexed_in_environment: 'As indexed in {environment}'
@@ -1244,11 +1245,20 @@ title:
     content_type_json_update: 'Update the content type "{content_type}"'
     edit_environment: 'Edit the environment "{name}"'
     edit_environment_short: 'Edit environment'
+    edit_form: 'Edit a form'
+    error: 'An Error Occurred'
+    error_page: 'Oops! An Error Occurred'
+    job_list: "Job's list"
     list_environments: 'List Environments'
+    log_of: 'Log of the {created}'
+    log_tagline: 'Who did what'
+    logs_of: 'Logs of {created}'
     new_content_type: 'New {content_type}'
     new_environment_short: 'New Environment'
+    new_label: 'New {label}'
     rebuild_environment: 'Rebuild the environment {name}'
     rebuild_index_short: 'Rebuild index'
+    reorder_form_fields: 'Reorder fields of form: {label}'
     select_environments_to_compare: 'Select Environments to compare'
     select_your_options: 'Select your options'
     view_custom: 'View {name} of the {contentType} "{label}" as indexed in {environment}'
@@ -1256,16 +1266,6 @@ title:
     view_environment: 'View the environment {name}'
     view_environment_short: 'View environment'
     view_recursive: 'Recursive view'
-    error_page: 'Oops! An Error Occurred'
-    error: 'An Error Occurred'
-    add_form: 'Add a form'
-    edit_form: 'Edit a form'
-    reorder_form_fields: 'Reorder fields of form: {label}'
-    job_list: "Job's list"
-    new_label: 'New {label}'
-    log_tagline: 'Who did what'
-    log_of: 'Log of the {created}'
-    logs_of: 'Logs of {created}'
 type:
     confirm: |-
         {type, select,

@@ -4,7 +4,9 @@ action:
     add_aggregate_option: 'Options d’agrégation'
     add_alias: 'Ajouter un alias'
     add_entity: 'Nouveau {entity_name}'
+    add_item: 'Ajouter un élément'
     add_managed_alias: 'Ajouter un alias géré'
+    add_node: 'Ajouter un nœud'
     add_referenced: 'Ajouter une référence'
     add_referenced_content_type: 'Ajouter un type de contenu référencé'
     add_release_publish: 'Ajouter à la release pour publication'
@@ -12,6 +14,7 @@ action:
     add_search_field_option: 'Ajouter une option de champ de recherche'
     add_sort_option: 'Ajouter une option de tri'
     attach: Attacher
+    browse_server: 'Parcourir le serveur'
     cancel: Annuler
     clear: Effacer
     close: Fermer
@@ -20,11 +23,14 @@ action:
     compare: Comparer
     confirmation: 'Confirmez-vous ?'
     copy: Copier
+    copy_all: 'Tout copier'
     create: Créer
+    create_draft: 'Créer un brouillon {content_type}'
     deactivate: Désactiver
     define: Définir
     delete: Supprimer
     delete_all: 'Tout supprimer'
+    delete_item: 'Supprimer l’élément'
     delete_selected: 'Supprimer la sélection'
     details: Détails
     discard: Abandonner
@@ -35,6 +41,7 @@ action:
     edit_entity: 'Modifier {entity_name}'
     edit_managed_alias: 'Modifier l’alias géré'
     enable: Activer
+    exit: Quitter
     export: Exporter
     export_selected: 'Exporter la sélection'
     extract_content: 'Extraire le contenu'
@@ -42,6 +49,9 @@ action:
     hide_revision_sidebar: 'Masquer la barre latérale de révision'
     import: Importer
     info: Info
+    init_upload: 'Initialiser l’upload'
+    move: Déplacer
+    move_item: 'Déplacer l’élément'
     paste: Coller
     publish: Publier
     rebuild: Reconstruire
@@ -70,19 +80,9 @@ action:
     update_content_type_from_json: 'Mettre à jour {name} depuis un fichier JSON'
     update_from_json: 'Mettre à jour depuis JSON'
     update_mapping: 'Mettre à jour le mapping'
-    view: Voir
-    add_item: 'Ajouter un élément'
-    add_node: 'Ajouter un nœud'
-    copy_all: 'Tout copier'
-    delete_item: 'Supprimer l’élément'
-    move_item: 'Déplacer l’élément'
-    browse_server: 'Parcourir le serveur'
-    init_upload: 'Initialiser l’upload'
-    move: Déplacer
     upload_file: 'Uploader le fichier'
     upload_files: 'Uploader les fichiers'
-    create_draft: 'Créer un brouillon {content_type}'
-    exit: Quitter
+    view: Voir
 asset_extractor:
     status: |-
         {color, select,
@@ -265,6 +265,8 @@ field:
         paper_size: 'Format du papier'
         size: Taille
         type: Type
+    file_hash: 'Hash du fichier'
+    file_info: 'Informations du fichier'
     filter: Filtre
     flags: Indicateurs
     form: Formulaire
@@ -312,6 +314,7 @@ field:
     name: Nom
     options: Options
     orientation: Orientation
+    ouuid: OUUID
     password: 'Mot de passe'
     password_repeat: 'Répéter le mot de passe'
     pattern: Motif
@@ -376,9 +379,6 @@ field:
     user_uploaded: 'Uploadé par'
     username: "Nom d'utilisateur"
     wysiwyg_profile: 'Profil WYSIWYG'
-    file_hash: 'Hash du fichier'
-    file_info: 'Informations du fichier'
-    ouuid: OUUID
 help:
     add_first_aggregate_option: 'Cliquez sur « Ajouter une option d’agrégation » pour créer une première option d’agrégation'
     add_first_search_field_option: 'Cliquez sur « Ajouter une option de champ de recherche » pour créer une première option de champ de recherche'
@@ -406,6 +406,7 @@ key:
     ckeditor4: 'CK Editor 4'
     client: Client
     cluster_uuid: 'UUID du cluster'
+    completed: Terminé
     content: Contenu
     content_type: 'Type de contenu'
     content_types: 'Types de contenu'
@@ -417,6 +418,7 @@ key:
     delayed_unassigned_shards: 'Shards non assignés retardés'
     documentation: Documentation
     elasticsearch_information: 'Informations Elasticsearch'
+    elements: Éléments
     environments_external: 'Environnements externes'
     environments_local: 'Environnements locaux'
     error: Erreur
@@ -433,7 +435,9 @@ key:
     initializing_shards: 'Shards en initialisation'
     inline: Inline
     inline_editor: 'Éditeur inline'
+    item_label: 'Libellé de l’élément'
     job_logs: 'Logs des jobs'
+    job_output: 'Sortie du job'
     jobs: Jobs
     landscape: Paysage
     last_commands: 'Dernières commandes'
@@ -445,6 +449,7 @@ key:
     mcp_prompts: 'Prompts MCP'
     mcp_resources: 'Ressources MCP'
     mcp_tools: 'Outils MCP'
+    more_info: 'plus d’informations'
     new_password: 'Nouveau mot de passe'
     new_password_confirmation: 'Répéter le nouveau mot de passe'
     none: Aucun
@@ -461,6 +466,7 @@ key:
     overview: "Vue d'ensemble"
     portrait: Portrait
     prefix_instance_id: 'Préfixer l’alias avec l’ID de l’instance'
+    progress: Progression
     public_channel: 'Rendre le canal disponible aux utilisateurs non authentifiés ?'
     public_key: 'Clé publique'
     public_view: 'Disponible publiquement (sans authentification)'
@@ -486,11 +492,14 @@ key:
     sort_option: 'Option de tri'
     sort_options: 'Options de tri'
     structure: Structure
+    subfield: Sous-champ
     system_logs: 'Journaux système'
     tagline: Slogan
     task_max_waiting_in_queue_millis: 'Attente maximale d’une tâche dans la file'
     template: Modèle
+    textarea_counter: '{count} caractères'
     tiptap: Tiptap
+    title: Titre
     to_be_treated: 'À traiter'
     trash: Corbeille
     unassigned_shards: 'Shards non assignés'
@@ -509,15 +518,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profils
     wysiwyg_style_sets: 'Jeux de styles'
-    item_label: 'Libellé de l’élément'
-    textarea_counter: '{count} caractères'
-    subfield: Sous-champ
-    more_info: 'plus d’informations'
-    elements: Éléments
-    completed: Terminé
-    job_output: 'Sortie du job'
-    progress: Progression
-    title: Titre
 media_library:
     file:
         add:
@@ -587,7 +587,10 @@ message:
     action_deleted: 'L''action "{label}" a été supprimée'
     action_error: 'Cette page/action a rencontré une erreur : {error_message}'
     action_updated: 'L''action "{label}" a été mise à jour'
+    add_field_to: 'Ajouter un champ à <strong>{name}</strong>'
+    add_subfield_to: 'Ajouter un sous-champ à <strong>{name}</strong>'
     alias_added: 'Un nouvel alias "{alias_name}" a été ajouté à l''index "{index_name}"'
+    alias_attached: 'L’alias « {alias} » a été attaché'
     alias_too_many_indexes: "Il y a trop d'index"
     analyzer_created: 'L''analyseur "{label}" a été créé'
     analyzer_deleted: 'L''analyseur "{label}" a été supprimé'
@@ -610,8 +613,10 @@ message:
         À propos de l'<strong>identifiant unique de l'objet</strong> : vous êtes libre d'en spécifier un (à condition qu'il ne soit pas déjà pris, bien sûr).
         Si vous le laissez <strong>vide</strong>, un identifiant unique d'objet <strong>sera généré</strong> lors de l'enregistrement. Il est impossible de modifier l'identifiant unique de l'objet par la suite.
     content_type_mapping_not_found: 'Mapping introuvable pour le type de contenu "{label}"'
+    content_type_referenced: 'Type de contenu référencé « {contentType} » depuis l’environnement « {environment} »'
     content_type_reordered: 'Le type de contenu « {content_type} » a été réordonné'
     content_type_update_mapping_error: "Erreur lors de la mise à jour du mapping de {environments}\_: {elasticsearch_error}"
+    content_type_view_deleted: 'La vue « {view} » a été supprimée'
     contenttype_mappings_error: 'La mise à jour des mappings pour {content_type} dans {environments} a échoué : {elasticsearch_dump}'
     contenttype_mappings_updated: 'Mappings mis à jour avec succès pour le type de contenu {content_type} dans {environments}'
     dashboard_deleted: 'Le tableau de bord "{label}" a été supprimé'
@@ -635,11 +640,20 @@ message:
     data_unknown_update_type: 'Le document "{label}" n''a pas été remplacé car le type de mise à jour "{update_type}" est inconnu'
     data_unlock_revisions_error: 'Exception inattendue lors du déverrouillage'
     data_update_referrers_error: 'Impossible de mettre à jour les référents du document'
+    delete_failed: 'Échec de la suppression'
+    deleted_orphan_index: 'L’index « {index} » a été supprimé'
+    deleted_orphan_indexes: 'Les indexes orphelins ont été supprimés'
     difference_count: '{0} Aucune différence|{1} Une différence|]1,Inf[ {count} différences'
     document_cant_duplicate_ouuid_required: 'Il est impossible de dupliquer le document "{label}" car le type de contenu "{content_type}" nécessite d''abord un OUUID'
     document_compared: 'Comparaison de la révision {revision_id} du document {content_type}:{ouuid} avec la révision {compare_revision_id} du document {compare_content_type}:{compare_ouuid}'
     document_copied: 'Le contenu du document "{label}" a été copié dans le presse-papiers'
     document_duplicated: 'Le document "{label}" a été utilisé pour créer un nouveau document'
+    draft_deleted: 'Le brouillon « {revision} » a été supprimé'
+    draft_not_found: 'Brouillon introuvable avec l’id « {revisionId} »'
+    drag_and_drop_file: 'Glissez-déposez votre fichier ici'
+    drag_and_drop_files: 'Glissez-déposez vos fichiers ici'
+    duplicate_environment: 'L’environnement « {name} » existe déjà !'
+    duplicate_field: 'Dupliquer <strong>{name}</strong>'
     elasticsearch_index_missing: 'L’index Elasticsearch est manquant !'
     email_crm_export: "Vous trouverez ci-joint l'export des soumissions CRM demandées."
     email_greeting: Cordialement.
@@ -667,6 +681,7 @@ message:
     environment_wrong_ouuid: 'OUUID mal formé {ouuid}'
     error_status: 'Avec le message « {status} »'
     error_status_code: 'Le serveur a retourné un {status_code}'
+    error_status_with_message: 'Avec le message « {status_text} ».'
     field_added: 'Le champ "{name}" a été ajouté'
     field_collection_import_array: "Certaines données n'ont pas été importées pour le champ de collection {field_name} car il ne s'agissait pas d'un tableau"
     field_deleted: 'Le champ "{name}" a été supprimé'
@@ -687,10 +702,15 @@ message:
     import_failed: "Échec de l'import"
     import_file_missing_columns: 'Colonnes manquantes dans le fichier d''import, colonnes requises "{columns}"'
     import_file_missing_data: "Données manquantes dans le fichier d'import"
+    index_not_found: 'Index « {index} » introuvable'
+    invalid_table_action: 'Action de tableau inconnue'
+    item_outdated: 'Désynchronisé, fermez et réessayez !'
     job_done: 'La tâche "{job_id}" est terminée'
     job_failed: 'La tâche "{label}" a échoué dans l''environnement {environment}'
+    job_info: 'À propos de ce job'
     job_initialized: 'La tâche "{label}" a été initialisée dans l''environnement {environment}'
     loading_information: 'Chargement des informations...'
+    log_content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'
     managed_alias_created: 'L''alias géré "{managed_alias_label}" a été créé'
     managed_alias_deleted: 'L''alias géré "{managed_alias_label}" a été supprimé'
     managed_alias_updated: 'L''alias géré "{managed_alias_label}" a été mis à jour'
@@ -707,6 +727,9 @@ message:
     object_choice_content_type_not_found: 'Type de contenu {content_type} introuvable'
     object_choice_key_not_found: 'Clé d’objet {object_key} introuvable'
     object_choice_limited_result_set: 'Le sélecteur de lien de données est limité aux {limit} premiers documents sur {count}'
+    ouuid_constraint: "L’OUUID contient un caractère non autorisé : A-Z, a-z, 0-9, tiret : '-', underscore : '_' ou point : '.'."
+    ouuid_placeholder: 'Généré automatiquement si laissé vide'
+    preview_alt: 'Aperçu du champ {field}'
     privilege_exception: "Vous n'avez pas suffisamment de droits pour modifier ce document"
     publish_not_authorized: 'Vous ne pouvez pas (dé)publier le type de contenu {content_type}'
     publish_not_in_circles: 'Vous ne pouvez pas (dé)publier le type de contenu {content_type} car vous ne partagez aucun cercle'
@@ -747,6 +770,7 @@ message:
     revision_draft_updated: 'Brouillon mis à jour pour le document "{label}"'
     revision_edit_draft_warning: 'Vous modifiez une révision déjà publiée, il est plus sûr de <a href="{path}" class="btn btn-primary"><span class="fa fa-pencil"></span> modifier un brouillon</a>'
     revision_finalize_error: 'La révision {revision_id} pour le type de contenu "{content_type}" ne peut pas être finalisée, raison : {error_message}'
+    revision_in_draft_by: 'En brouillon par "{user}"'
     revision_incomplete_request: 'Il est impossible d''enregistrer le document "{label}". Veuillez vérifier votre configuration PHP/Web (par ex. max_input_vars dans php.ini)'
     revision_json_edit_draft_only: 'Seul un brouillon peut être édité en JSON'
     revision_loaded_from_auto_save: "Les données ont été chargées à partir d'une version enregistrée automatiquement"
@@ -820,30 +844,6 @@ message:
     wysiwyg_styles_set_updated: 'Le jeu de styles « {name} » a été mis à jour'
     xliff_not_current_revision: "La révision {revision_id} de {ouuid} n'est plus la dernière révision. Les traductions n'ont pas été importées."
     xliff_too_many_translations: "{counter} documents de traduction alors qu'un seul est attendu pour l'identifiant de traduction {translation_id} et la locale cible {target_locale} dans l'environnement {environment}"
-    error_status_with_message: 'Avec le message « {status_text} ».'
-    drag_and_drop_file: 'Glissez-déposez votre fichier ici'
-    drag_and_drop_files: 'Glissez-déposez vos fichiers ici'
-    preview_alt: 'Aperçu du champ {field}'
-    add_field_to: 'Ajouter un champ à <strong>{name}</strong>'
-    add_subfield_to: 'Ajouter un sous-champ à <strong>{name}</strong>'
-    duplicate_field: 'Dupliquer <strong>{name}</strong>'
-    ouuid_constraint: "L’OUUID contient un caractère non autorisé : A-Z, a-z, 0-9, tiret : '-', underscore : '_' ou point : '.'."
-    ouuid_placeholder: 'Généré automatiquement si laissé vide'
-    revision_in_draft_by: 'En brouillon par "{user}"'
-    job_info: 'À propos de ce job'
-    item_outdated: 'Désynchronisé, fermez et réessayez !'
-    log_content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'
-    delete_failed: 'Échec de la suppression'
-    invalid_table_action: 'Action de tableau inconnue'
-    alias_attached: 'L’alias « {alias} » a été attaché'
-    content_type_referenced: 'Type de contenu référencé « {contentType} » depuis l’environnement « {environment} »'
-    content_type_view_deleted: 'La vue « {view} » a été supprimée'
-    deleted_orphan_index: 'L’index « {index} » a été supprimé'
-    deleted_orphan_indexes: 'Les indexes orphelins ont été supprimés'
-    draft_deleted: 'Le brouillon « {revision} » a été supprimé'
-    draft_not_found: 'Brouillon introuvable avec l’id « {revisionId} »'
-    duplicate_environment: 'L’environnement « {name} » existe déjà !'
-    index_not_found: 'Index « {index} » introuvable'
 notification:
     acknowledge: Acquitter
     actions: Actions
@@ -886,18 +886,18 @@ option:
     delete_existing_templates: 'Supprimer les templates existants'
     delete_existing_views: 'Supprimer les vues existantes'
     disabled: Désactivé
+    display: Affichage
     email_notification: 'Notifications par email'
     enabled: Activé
+    extra: Extra
     layout_boxed: 'Mise en page en boîte'
     layout_sidebar_collapse: 'Réduction de la barre latérale'
     layout_sidebar_mini: 'Barre latérale mini'
+    migration: Migration
     multiple: Multiple
     recompute_on_publish: 'Recalculer les documents lors de la publication'
-    update_referrers: 'Mettre à jour les référents'
-    display: Affichage
-    extra: Extra
-    migration: Migration
     restriction: Restriction
+    update_referrers: 'Mettre à jour les référents'
 out-of-sync:
     modal:
         please-reload: 'Veuillez recharger la page.'
@@ -1234,6 +1234,7 @@ task:
 title:
     add_content_type: 'Ajouter un nouveau {content_type}'
     add_environment: 'Ajouter un nouvel environnement'
+    add_form: 'Ajouter un formulaire'
     align_environments: 'Aligner les environnements'
     align_environments_subtitle: 'il est temps d’aligner les environnements ?'
     as_indexed_in_environment: 'Tel qu’indexé dans {environment}'
@@ -1244,11 +1245,20 @@ title:
     content_type_json_update: 'Mettre à jour le content type "{content_type}"'
     edit_environment: 'Modifier l’environnement « {name} »'
     edit_environment_short: 'Modifier l’environnement'
+    edit_form: 'Modifier un formulaire'
+    error: 'Une erreur est survenue'
+    error_page: 'Oups ! Une erreur est survenue'
+    job_list: 'Liste des jobs'
     list_environments: 'Liste des environnements'
+    log_of: 'Log du {created}'
+    log_tagline: 'Qui a fait quoi'
+    logs_of: 'Logs de {created}'
     new_content_type: 'Nouveau {content_type}'
     new_environment_short: 'Nouvel environnement'
+    new_label: 'Nouveau {label}'
     rebuild_environment: 'Reconstruire l’environnement {name}'
     rebuild_index_short: 'Reconstruire l’index'
+    reorder_form_fields: 'Réordonner les champs du formulaire : {label}'
     select_environments_to_compare: 'Sélectionner les environnements à comparer'
     select_your_options: 'Sélectionnez vos options'
     view_custom: 'Vue {name} de {contentType} « {label} » telle qu’indexée dans {environment}'
@@ -1256,16 +1266,6 @@ title:
     view_environment: 'Voir l’environnement {name}'
     view_environment_short: 'Voir l’environnement'
     view_recursive: 'Vue récursive'
-    error_page: 'Oups ! Une erreur est survenue'
-    error: 'Une erreur est survenue'
-    add_form: 'Ajouter un formulaire'
-    edit_form: 'Modifier un formulaire'
-    reorder_form_fields: 'Réordonner les champs du formulaire : {label}'
-    job_list: 'Liste des jobs'
-    new_label: 'Nouveau {label}'
-    log_tagline: 'Qui a fait quoi'
-    log_of: 'Log du {created}'
-    logs_of: 'Logs de {created}'
 type:
     confirm: |-
         {type, select,

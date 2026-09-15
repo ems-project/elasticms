@@ -4,7 +4,9 @@ action:
     add_aggregate_option: Aggregatieopties
     add_alias: 'Alias toevoegen'
     add_entity: 'Nieuwe {entity_name}'
+    add_item: 'Item toevoegen'
     add_managed_alias: 'Beheerde alias toevoegen'
+    add_node: 'Node toevoegen'
     add_referenced: 'Gerefereerde toevoegen'
     add_referenced_content_type: 'Een gerefereerd contenttype toevoegen'
     add_release_publish: 'Toevoegen aan release voor publicatie'
@@ -12,6 +14,7 @@ action:
     add_search_field_option: 'Zoekveldoptie toevoegen'
     add_sort_option: 'Sorteeroptie toevoegen'
     attach: Koppelen
+    browse_server: 'Server doorzoeken'
     cancel: Annuleren
     clear: Wissen
     close: Sluiten
@@ -20,11 +23,14 @@ action:
     compare: Vergelijken
     confirmation: 'Bevestigt u dit?'
     copy: Kopiëren
+    copy_all: 'Alles kopiëren'
     create: Aanmaken
+    create_draft: 'Concept voor {content_type} aanmaken'
     deactivate: Deactiveren
     define: Definiëren
     delete: Verwijderen
     delete_all: 'Alles verwijderen'
+    delete_item: 'Item verwijderen'
     delete_selected: 'Selectie verwijderen'
     details: Details
     discard: Verwerpen
@@ -35,6 +41,7 @@ action:
     edit_entity: '{entity_name} bewerken'
     edit_managed_alias: 'Beheerde alias bewerken'
     enable: Inschakelen
+    exit: Afsluiten
     export: Exporteren
     export_selected: 'Selectie exporteren'
     extract_content: 'Inhoud extraheren'
@@ -42,6 +49,9 @@ action:
     hide_revision_sidebar: 'Revisiezijbalk verbergen'
     import: Importeren
     info: Info
+    init_upload: 'Upload initialiseren'
+    move: Verplaatsen
+    move_item: 'Item verplaatsen'
     paste: Plakken
     publish: Publiceren
     rebuild: Heropbouwen
@@ -70,19 +80,9 @@ action:
     update_content_type_from_json: '{name} bijwerken vanuit een JSON-bestand'
     update_from_json: 'Bijwerken vanuit JSON'
     update_mapping: 'Mapping bijwerken'
-    view: Bekijken
-    add_item: 'Item toevoegen'
-    add_node: 'Node toevoegen'
-    copy_all: 'Alles kopiëren'
-    delete_item: 'Item verwijderen'
-    move_item: 'Item verplaatsen'
-    browse_server: 'Server doorzoeken'
-    init_upload: 'Upload initialiseren'
-    move: Verplaatsen
     upload_file: 'Bestand uploaden'
     upload_files: 'Bestanden uploaden'
-    create_draft: 'Concept voor {content_type} aanmaken'
-    exit: Afsluiten
+    view: Bekijken
 asset_extractor:
     status: |-
         {color, select,
@@ -265,6 +265,8 @@ field:
         paper_size: Papierformaat
         size: Grootte
         type: Type
+    file_hash: Bestandshash
+    file_info: Bestandsinformatie
     filter: Filter
     flags: Vlaggen
     form: Formulier
@@ -312,6 +314,7 @@ field:
     name: Naam
     options: Opties
     orientation: Oriëntatie
+    ouuid: OUUID
     password: Wachtwoord
     password_repeat: 'Herhaal wachtwoord'
     pattern: Patroon
@@ -376,9 +379,6 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     wysiwyg_profile: WYSIWYG-profiel
-    file_hash: Bestandshash
-    file_info: Bestandsinformatie
-    ouuid: OUUID
 help:
     add_first_aggregate_option: "Klik op 'Aggregatieoptie toevoegen' om een eerste aggregatieoptie te maken"
     add_first_search_field_option: "Klik op 'Zoekveldoptie toevoegen' om een eerste zoekveldoptie te maken"
@@ -406,6 +406,7 @@ key:
     ckeditor4: 'CK Editor 4'
     client: Client
     cluster_uuid: Cluster-UUID
+    completed: Voltooid
     content: Inhoud
     content_type: Contenttype
     content_types: Contenttypes
@@ -417,6 +418,7 @@ key:
     delayed_unassigned_shards: 'Vertraagde niet-toegewezen shards'
     documentation: Documentatie
     elasticsearch_information: Elasticsearch-informatie
+    elements: Elementen
     environments_external: 'Externe omgevingen'
     environments_local: 'Lokale omgevingen'
     error: Fout
@@ -433,7 +435,9 @@ key:
     initializing_shards: 'Initialiserende shards'
     inline: Inline
     inline_editor: 'Inline editor'
+    item_label: Itemlabel
     job_logs: Joblogs
+    job_output: Jobuitvoer
     jobs: Jobs
     landscape: Landschap
     last_commands: 'Laatste commando’s'
@@ -445,6 +449,7 @@ key:
     mcp_prompts: MCP-prompts
     mcp_resources: MCP-resources
     mcp_tools: MCP-tools
+    more_info: 'meer info'
     new_password: 'Nieuw wachtwoord'
     new_password_confirmation: 'Herhaal nieuw wachtwoord'
     none: Geen
@@ -461,6 +466,7 @@ key:
     overview: Overzicht
     portrait: Portret
     prefix_instance_id: 'Alias voorafgaan met instance-ID'
+    progress: Voortgang
     public_channel: 'Kanaal beschikbaar maken voor niet-geauthenticeerde gebruikers?'
     public_key: 'Publieke sleutel'
     public_view: 'Publiek beschikbaar (zonder authenticatie)'
@@ -486,11 +492,14 @@ key:
     sort_option: Sorteeroptie
     sort_options: Sorteeropties
     structure: Structuur
+    subfield: Subveld
     system_logs: Systeemlogboeken
     tagline: Tagline
     task_max_waiting_in_queue_millis: 'Maximale wachttijd van taak in wachtrij'
     template: Sjabloon
+    textarea_counter: '{count} tekens'
     tiptap: Tiptap
+    title: Titel
     to_be_treated: 'Te behandelen'
     trash: Prullenbak
     unassigned_shards: 'Niet-toegewezen shards'
@@ -509,15 +518,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profielen
     wysiwyg_style_sets: Stijlsets
-    item_label: Itemlabel
-    textarea_counter: '{count} tekens'
-    subfield: Subveld
-    more_info: 'meer info'
-    elements: Elementen
-    completed: Voltooid
-    job_output: Jobuitvoer
-    progress: Voortgang
-    title: Titel
 media_library:
     file:
         add:
@@ -587,7 +587,10 @@ message:
     action_deleted: 'De actie "{label}" is verwijderd'
     action_error: 'Deze pagina/actie heeft een fout ondervonden: {error_message}'
     action_updated: 'De actie "{label}" is bijgewerkt'
+    add_field_to: 'Een veld toevoegen aan <strong>{name}</strong>'
+    add_subfield_to: 'Een subveld toevoegen aan <strong>{name}</strong>'
     alias_added: 'Een nieuwe alias "{alias_name}" is toegevoegd aan de index "{index_name}"'
+    alias_attached: 'De alias "{alias}" is gekoppeld'
     alias_too_many_indexes: 'Er zijn te veel indexen'
     analyzer_created: 'De analyzer "{label}" is aangemaakt'
     analyzer_deleted: 'De analyzer "{label}" is verwijderd'
@@ -610,8 +613,10 @@ message:
         Over de <strong>unieke objectidentificatie</strong>: u kunt er vrij een opgeven (op voorwaarde dat deze nog niet in gebruik is, uiteraard).
         Als u dit veld <strong>leeg</strong> laat, wordt er tijdens het opslaan automatisch een unieke objectidentificatie <strong>gegenereerd</strong>. Het is niet mogelijk om de unieke objectidentificatie later te wijzigen.
     content_type_mapping_not_found: 'Mapping niet gevonden voor het content type "{label}"'
+    content_type_referenced: 'Gerefereerd contenttype "{contentType}" uit omgeving "{environment}"'
     content_type_reordered: 'Het content type "{content_type}" is hersorteerd'
     content_type_update_mapping_error: 'Fout bij het bijwerken van de mapping van {environments}: {elasticsearch_error}'
+    content_type_view_deleted: 'Weergave "{view}" is verwijderd'
     contenttype_mappings_error: 'Bijwerken van de mappings voor {content_type} in {environments} is mislukt: {elasticsearch_dump}'
     contenttype_mappings_updated: 'Mappings succesvol bijgewerkt voor het inhoudstype {content_type} in {environments}'
     dashboard_deleted: 'Het dashboard "{label}" is verwijderd'
@@ -635,11 +640,20 @@ message:
     data_unknown_update_type: 'Het document "{label}" is niet vervangen omdat het updatetype "{update_type}" onbekend is'
     data_unlock_revisions_error: 'Onverwachte fout bij het ontgrendelen'
     data_update_referrers_error: 'Het was onmogelijk om de verwijzingen naar het document bij te werken'
+    delete_failed: 'Verwijderen mislukt'
+    deleted_orphan_index: 'De index "{index}" is verwijderd'
+    deleted_orphan_indexes: 'Verweesde indexen zijn verwijderd'
     difference_count: '{0} Geen verschil|{1} Eén verschil|]1,Inf[ {count} verschillen'
     document_cant_duplicate_ouuid_required: 'Het is niet mogelijk om het document "{label}" te dupliceren omdat het content type "{content_type}" eerst een OUUID vereist'
     document_compared: 'Revisie {revision_id} van het document {content_type}:{ouuid} vergeleken met revisie {compare_revision_id} van het document {compare_content_type}:{compare_ouuid}'
     document_copied: 'De inhoud van het document "{label}" is naar het klembord gekopieerd'
     document_duplicated: 'Het document "{label}" is gebruikt om een nieuw document te starten'
+    draft_deleted: 'Concept "{revision}" is verwijderd'
+    draft_not_found: 'Concept niet gevonden met id "{revisionId}"'
+    drag_and_drop_file: 'Sleep uw bestand hierheen'
+    drag_and_drop_files: 'Sleep uw bestanden hierheen'
+    duplicate_environment: 'Omgeving "{name}" bestaat al!'
+    duplicate_field: 'Dupliceren <strong>{name}</strong>'
     elasticsearch_index_missing: 'Elasticsearch-index ontbreekt!'
     email_crm_export: 'In bijlage vindt u de export van de gevraagde CRM-inzendingen.'
     email_greeting: 'Met vriendelijke groeten.'
@@ -667,6 +681,7 @@ message:
     environment_wrong_ouuid: 'Onjuist gevormde OUUID {ouuid}'
     error_status: 'Met de melding "{status}"'
     error_status_code: 'De server retourneerde een {status_code}'
+    error_status_with_message: 'Met bericht "{status_text}".'
     field_added: 'Het veld "{name}" is toegevoegd'
     field_collection_import_array: 'Sommige gegevens werden niet geïmporteerd voor het collectieveld {field_name} omdat het geen array was'
     field_deleted: 'Het veld "{name}" is verwijderd'
@@ -687,10 +702,15 @@ message:
     import_failed: 'Import mislukt'
     import_file_missing_columns: 'Ontbrekende kolommen in het importbestand, vereiste kolommen "{columns}"'
     import_file_missing_data: 'Ontbrekende gegevens in het importbestand'
+    index_not_found: 'Index "{index}" niet gevonden'
+    invalid_table_action: 'Onbekende tabelactie'
+    item_outdated: 'Niet meer gesynchroniseerd, sluit en probeer opnieuw!'
     job_done: 'De taak "{job_id}" is voltooid'
     job_failed: 'De taak "{label}" is mislukt in de omgeving {environment}'
+    job_info: 'Over deze job'
     job_initialized: 'De taak "{label}" is geïnitialiseerd in de omgeving {environment}'
     loading_information: 'Informatie laden...'
+    log_content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
     managed_alias_created: 'Beheerde alias "{managed_alias_label}" is aangemaakt'
     managed_alias_deleted: 'Beheerde alias "{managed_alias_label}" is verwijderd'
     managed_alias_updated: 'Beheerde alias "{managed_alias_label}" is bijgewerkt'
@@ -707,6 +727,9 @@ message:
     object_choice_content_type_not_found: 'Content type {content_type} niet gevonden'
     object_choice_key_not_found: 'Objectsleutel {object_key} niet gevonden'
     object_choice_limited_result_set: 'De datalinkkiezer is beperkt tot de eerste {limit} van {count} documenten'
+    ouuid_constraint: "OUUID bevat een niet-toegestaan teken: A-Z, a-z, 0-9, koppelteken: '-', underscore: '_' of punt: '.'."
+    ouuid_placeholder: 'Automatisch gegenereerd indien leeg gelaten'
+    preview_alt: 'Voorbeeld van veld {field}'
     privilege_exception: 'U heeft onvoldoende rechten om dit document te bewerken'
     publish_not_authorized: 'U kunt het content type {content_type} niet (de)publiceren'
     publish_not_in_circles: 'U kunt het content type {content_type} niet (de)publiceren omdat u geen enkele kring deelt'
@@ -747,6 +770,7 @@ message:
     revision_draft_updated: 'Concept bijgewerkt voor het document "{label}"'
     revision_edit_draft_warning: 'U bewerkt een reeds gepubliceerde revisie, het is veiliger om <a href="{path}" class="btn btn-primary"><span class="fa fa-pencil"></span> een concept te bewerken</a>'
     revision_finalize_error: 'De revisie {revision_id} voor het content type "{content_type}" kan niet worden gefinaliseerd, reden: {error_message}'
+    revision_in_draft_by: 'In concept door "{user}"'
     revision_incomplete_request: 'Het is niet mogelijk om het document "{label}" op te slaan. Controleer uw PHP/webconfiguratie (bv. max_input_vars in php.ini)'
     revision_json_edit_draft_only: 'Enkel een draft kan als JSON bewerkt worden'
     revision_loaded_from_auto_save: 'Gegevens zijn geladen vanuit een automatisch opgeslagen versie'
@@ -820,30 +844,6 @@ message:
     wysiwyg_styles_set_updated: 'De stijlenset "{name}" is bijgewerkt'
     xliff_not_current_revision: 'Revisie {revision_id} van {ouuid} is niet langer de laatste revisie. De vertalingen werden niet geïmporteerd.'
     xliff_too_many_translations: '{counter} vertaaldocumenten terwijl er slechts één wordt verwacht voor vertaal-ID {translation_id} en doeltaal {target_locale} in omgeving {environment}'
-    error_status_with_message: 'Met bericht "{status_text}".'
-    drag_and_drop_file: 'Sleep uw bestand hierheen'
-    drag_and_drop_files: 'Sleep uw bestanden hierheen'
-    preview_alt: 'Voorbeeld van veld {field}'
-    add_field_to: 'Een veld toevoegen aan <strong>{name}</strong>'
-    add_subfield_to: 'Een subveld toevoegen aan <strong>{name}</strong>'
-    duplicate_field: 'Dupliceren <strong>{name}</strong>'
-    ouuid_constraint: "OUUID bevat een niet-toegestaan teken: A-Z, a-z, 0-9, koppelteken: '-', underscore: '_' of punt: '.'."
-    ouuid_placeholder: 'Automatisch gegenereerd indien leeg gelaten'
-    revision_in_draft_by: 'In concept door "{user}"'
-    job_info: 'Over deze job'
-    item_outdated: 'Niet meer gesynchroniseerd, sluit en probeer opnieuw!'
-    log_content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
-    delete_failed: 'Verwijderen mislukt'
-    invalid_table_action: 'Onbekende tabelactie'
-    alias_attached: 'De alias "{alias}" is gekoppeld'
-    content_type_referenced: 'Gerefereerd contenttype "{contentType}" uit omgeving "{environment}"'
-    content_type_view_deleted: 'Weergave "{view}" is verwijderd'
-    deleted_orphan_index: 'De index "{index}" is verwijderd'
-    deleted_orphan_indexes: 'Verweesde indexen zijn verwijderd'
-    draft_deleted: 'Concept "{revision}" is verwijderd'
-    draft_not_found: 'Concept niet gevonden met id "{revisionId}"'
-    duplicate_environment: 'Omgeving "{name}" bestaat al!'
-    index_not_found: 'Index "{index}" niet gevonden'
 notification:
     acknowledge: Bevestigen
     actions: Acties
@@ -886,18 +886,18 @@ option:
     delete_existing_templates: 'Bestaande templates verwijderen'
     delete_existing_views: 'Bestaande weergaven verwijderen'
     disabled: Uitgeschakeld
+    display: Weergave
     email_notification: E-mailmeldingen
     enabled: Ingeschakeld
+    extra: Extra
     layout_boxed: 'Layout boxed'
     layout_sidebar_collapse: 'Zijbalk inklapbaar'
     layout_sidebar_mini: 'Zijbalk mini'
+    migration: Migratie
     multiple: Meerdere
     recompute_on_publish: 'Documenten herberekenen bij publicatie'
-    update_referrers: 'Verwijzers bijwerken'
-    display: Weergave
-    extra: Extra
-    migration: Migratie
     restriction: Beperking
+    update_referrers: 'Verwijzers bijwerken'
 out-of-sync:
     modal:
         please-reload: 'Herlaad de pagina.'
@@ -1234,6 +1234,7 @@ task:
 title:
     add_content_type: 'Een nieuwe {content_type} toevoegen'
     add_environment: 'Een nieuwe omgeving toevoegen'
+    add_form: 'Een formulier toevoegen'
     align_environments: 'Omgevingen uitlijnen'
     align_environments_subtitle: 'tijd om omgevingen uit te lijnen?'
     as_indexed_in_environment: 'Zoals geïndexeerd in {environment}'
@@ -1244,11 +1245,20 @@ title:
     content_type_json_update: 'Content type "{content_type}" bijwerken'
     edit_environment: 'Omgeving "{name}" bewerken'
     edit_environment_short: 'Omgeving bewerken'
+    edit_form: 'Een formulier bewerken'
+    error: 'Er is een fout opgetreden'
+    error_page: 'Oeps! Er is een fout opgetreden'
+    job_list: Joblijst
     list_environments: 'Omgevingen weergeven'
+    log_of: 'Log van {created}'
+    log_tagline: 'Wie deed wat'
+    logs_of: 'Logs van {created}'
     new_content_type: 'Nieuwe {content_type}'
     new_environment_short: 'Nieuwe omgeving'
+    new_label: 'Nieuwe {label}'
     rebuild_environment: 'Omgeving {name} heropbouwen'
     rebuild_index_short: 'Index heropbouwen'
+    reorder_form_fields: 'Velden van formulier hersorteren: {label}'
     select_environments_to_compare: 'Selecteer omgevingen om te vergelijken'
     select_your_options: 'Selecteer uw opties'
     view_custom: 'Weergave {name} van {contentType} "{label}" zoals geïndexeerd in {environment}'
@@ -1256,16 +1266,6 @@ title:
     view_environment: 'Omgeving {name} bekijken'
     view_environment_short: 'Omgeving bekijken'
     view_recursive: 'Recursieve weergave'
-    error_page: 'Oeps! Er is een fout opgetreden'
-    error: 'Er is een fout opgetreden'
-    add_form: 'Een formulier toevoegen'
-    edit_form: 'Een formulier bewerken'
-    reorder_form_fields: 'Velden van formulier hersorteren: {label}'
-    job_list: Joblijst
-    new_label: 'Nieuwe {label}'
-    log_tagline: 'Wie deed wat'
-    log_of: 'Log van {created}'
-    logs_of: 'Logs van {created}'
 type:
     confirm: |-
         {type, select,

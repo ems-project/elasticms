@@ -67,6 +67,7 @@ action:
     update_from_json: 'Bijwerken vanuit JSON'
     update_mapping: 'Mapping bijwerken'
     view: Bekijken
+    compare: Vergelijken
 asset_extractor:
     status: |-
         {color, select,
@@ -174,20 +175,6 @@ core:
             }
     version: 'Versie {core} met Symfony {symfony}'
 environment:
-    add:
-        notice: 'Deze bewerking maakt een nieuwe Elasticsearch-index aan met een alias die ernaar verwijst.'
-        short_title: 'Nieuwe omgeving'
-        title: 'Een nieuwe omgeving toevoegen'
-    align:
-        align_with: 'Uitlijnen met'
-        circles: Kringen
-        compare: Vergelijken
-        compare_title: '{environment} vergelijken met {with_environment}'
-        difference_count: '{0} Geen verschil|{1} Eén verschil|]1,Inf[ {count} verschillen'
-        select_environments: 'Omgevingen selecteren om te vergelijken'
-        selected: Geselecteerd
-        subtitle: 'tijd om omgevingen uit te lijnen?'
-        title: 'Omgevingen uitlijnen'
     edit:
         notice_rename: |
             Als u de alias wilt hernoemen,
@@ -625,6 +612,8 @@ key:
     wysiwyg_style_sets: Stijlsets
     revision_tasks: Revisietaken
     template: Sjabloon
+    align_with: 'Uitlijnen met'
+    selected: Geselecteerd
 log:
     error:
         content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
@@ -936,6 +925,8 @@ message:
     email_greeting: 'Met vriendelijke groeten.'
     email_hello: 'Hallo,'
     email_crm_export: 'In bijlage vindt u de export van de gevraagde CRM-inzendingen.'
+    environment_add_notice: 'Deze bewerking maakt een nieuwe Elasticsearch-index aan met een alias die ernaar verwijst.'
+    difference_count: '{0} Geen verschil|{1} Eén verschil|]1,Inf[ {count} verschillen'
 modal:
     loading_information: 'Informatie laden...'
 navigation:
@@ -1338,6 +1329,11 @@ title:
     view_custom: 'Weergave {name} van {contentType} "{label}" zoals geïndexeerd in {environment}'
     view_ems_id: '{content_type}:{id} bekijken'
     view_recursive: 'Recursieve weergave'
+    new_environment_short: 'Nieuwe omgeving'
+    add_environment: 'Een nieuwe omgeving toevoegen'
+    compare_environments: '{environment} vergelijken met {with_environment}'
+    align_environments_subtitle: 'tijd om omgevingen uit te lijnen?'
+    align_environments: 'Omgevingen uitlijnen'
 type:
     confirm: |-
         {type, select,

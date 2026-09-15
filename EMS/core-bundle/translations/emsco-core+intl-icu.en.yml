@@ -67,6 +67,7 @@ action:
     update_from_json: 'Update from JSON'
     update_mapping: 'Update mapping'
     view: View
+    compare: Compare
 asset_extractor:
     status: |-
         {color, select,
@@ -174,20 +175,6 @@ core:
             }
     version: 'Version {core} with Symfony {symfony}'
 environment:
-    add:
-        notice: 'This operation will create a new elastic search index with an alias pointing to it.'
-        short_title: 'New Environment'
-        title: 'Add a new Environment'
-    align:
-        align_with: 'Align with'
-        circles: Circles
-        compare: Compare
-        compare_title: 'Compare {environment} with {with_environment}'
-        difference_count: '{0} No difference|{1} One difference|]1,Inf[ {count} differences'
-        select_environments: 'Select Environments to compare'
-        selected: Selected
-        subtitle: 'time to align environments?'
-        title: 'Align Environments'
     edit:
         notice_rename: |
             If you intend to rename the alias,
@@ -625,6 +612,8 @@ key:
     wysiwyg_style_sets: 'Style Sets'
     revision_tasks: 'Revision tasks'
     template: Template
+    align_with: 'Align with'
+    selected: Selected
 log:
     error:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
@@ -936,6 +925,8 @@ message:
     email_greeting: Regards.
     email_hello: 'Hello,'
     email_crm_export: 'Please find attached the export of requested CRM submissions.'
+    environment_add_notice: 'This operation will create a new elastic search index with an alias pointing to it.'
+    difference_count: '{0} No difference|{1} One difference|]1,Inf[ {count} differences'
 modal:
     loading_information: 'Loading information...'
 navigation:
@@ -1338,6 +1329,11 @@ title:
     view_custom: 'View {name} of the {contentType} "{label}" as indexed in {environment}'
     view_ems_id: 'View {content_type}:{id}'
     view_recursive: 'Recursive view'
+    new_environment_short: 'New Environment'
+    add_environment: 'Add a new Environment'
+    compare_environments: 'Compare {environment} with {with_environment}'
+    align_environments_subtitle: 'time to align environments?'
+    align_environments: 'Align Environments'
 type:
     confirm: |-
         {type, select,

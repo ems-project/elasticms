@@ -67,6 +67,7 @@ action:
     update_from_json: 'Mettre à jour depuis JSON'
     update_mapping: 'Mettre à jour le mapping'
     view: Voir
+    compare: Comparer
 asset_extractor:
     status: |-
         {color, select,
@@ -174,20 +175,6 @@ core:
             }
     version: 'Version {core} avec Symfony {symfony}'
 environment:
-    add:
-        notice: 'Cette opération créera un nouvel index Elasticsearch avec un alias pointant vers celui-ci.'
-        short_title: 'Nouvel environnement'
-        title: 'Ajouter un nouvel environnement'
-    align:
-        align_with: 'Aligner avec'
-        circles: Cercles
-        compare: Comparer
-        compare_title: 'Comparer {environment} avec {with_environment}'
-        difference_count: '{0} Aucune différence|{1} Une différence|]1,Inf[ {count} différences'
-        select_environments: 'Sélectionner les environnements à comparer'
-        selected: Sélectionné
-        subtitle: 'il est temps d’aligner les environnements ?'
-        title: 'Aligner les environnements'
     edit:
         notice_rename: |
             Si vous avez l’intention de renommer l’alias,
@@ -625,6 +612,8 @@ key:
     wysiwyg_style_sets: 'Jeux de styles'
     revision_tasks: 'Tâches de révision'
     template: Modèle
+    align_with: 'Aligner avec'
+    selected: Sélectionné
 log:
     error:
         content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'
@@ -936,6 +925,8 @@ message:
     email_greeting: Cordialement.
     email_hello: 'Bonjour,'
     email_crm_export: "Vous trouverez ci-joint l'export des soumissions CRM demandées."
+    environment_add_notice: 'Cette opération créera un nouvel index Elasticsearch avec un alias pointant vers celui-ci.'
+    difference_count: '{0} Aucune différence|{1} Une différence|]1,Inf[ {count} différences'
 modal:
     loading_information: 'Chargement des informations...'
 navigation:
@@ -1338,6 +1329,11 @@ title:
     view_custom: 'Vue {name} de {contentType} « {label} » telle qu’indexée dans {environment}'
     view_ems_id: 'Voir {content_type}:{id}'
     view_recursive: 'Vue récursive'
+    new_environment_short: 'Nouvel environnement'
+    add_environment: 'Ajouter un nouvel environnement'
+    compare_environments: 'Comparer {environment} avec {with_environment}'
+    align_environments_subtitle: 'il est temps d’aligner les environnements ?'
+    align_environments: 'Aligner les environnements'
 type:
     confirm: |-
         {type, select,

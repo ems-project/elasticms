@@ -86,6 +86,9 @@ action:
     upload: Upload
     confirm: Confirm
     rename: Rename
+    acknowledge: Acknowledge
+    treat: Treat
+    treat_selected: 'Treat selected'
 asset_extractor:
     status: |-
         {color, select,
@@ -382,6 +385,10 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     wysiwyg_profile: 'WYSIWYG profile'
+    created_by: 'Created by'
+    date: Date
+    rejected_by: 'Rejected by'
+    rejected_message: 'Rejected message'
 help:
     add_first_aggregate_option: "Click on 'Add an aggregate option' to create a first Aggregate Option: Click on 'Add an aggregate option' to create a first Aggregate Option"
     add_first_search_field_option: "'Add an search field option' to create a first Search Field Option: Click on 'Add an search field option' to create a first Search Field Option"
@@ -522,6 +529,10 @@ key:
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
     home: Home
+    empty: Empty
+    'on': 'On'
+    sent: Sent
+    treat_selection: 'Treat selection'
 message:
     action_created: 'A new action "{label}" has been created'
     action_deleted: 'The action "{label}" has been deleted'
@@ -809,42 +820,11 @@ message:
         Folder renaming in progress.
         Please wait...
     folder_rename_async: 'Folder will be renamed ASAP.'
-notification:
-    acknowledge: Acknowledge
-    actions: Actions
     all_treated: 'All notifications treated'
-    created_by: 'Created by'
-    dashboard:
-        title: Notifications
-    date: Date
-    empty:
-        title: Empty
-    filter:
-        title: Filters
-    folder:
-        inbox: Inbox
-        outbox: Outbox
-        title: Folders
-    label: Notification
-    menu:
-        link_title: Notifications
-    no_pending: 'No pending notifications'
-    'on': 'On'
-    rejected: Rejected
-    rejected_by: 'Rejected by'
-    rejected_message: 'Rejected message'
-    revision: Revision
-    sent:
-        title: Sent
-    treat: Treat
-    treat_selected: 'Treat selected'
-    treat_selection: 'Treat selection'
     up_to_date: 'Everything is up to date.'
-    warning:
-        duplicate: 'At least another notification exists for this object'
-        revision_not_published: 'This revision is not published in {environment} anymore'
-        revision_not_published_and_duplicate: 'This revision is not published in {environment} anymore and another notification exists'
-    warnings: Warnings
+    notification_duplicate: 'At least another notification exists for this object'
+    revision_not_published: 'This revision is not published in {environment} anymore'
+    revision_not_published_and_duplicate: 'This revision is not published in {environment} anymore and another notification exists'
 option:
     allow_add: 'Allow add'
     default_search: 'In default search'
@@ -1245,6 +1225,7 @@ title:
     delete_folder: 'Delete folder'
     move_folder: 'Move folder'
     rename_folder: 'Rename folder'
+    notifications_none_pending: 'No pending notifications'
 type:
     confirm: |-
         {type, select,

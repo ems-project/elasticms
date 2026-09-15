@@ -86,6 +86,9 @@ action:
     upload: Téléverser
     confirm: Confirmer
     rename: Renommer
+    acknowledge: Acquitter
+    treat: Traiter
+    treat_selected: 'Traiter la sélection'
 asset_extractor:
     status: |-
         {color, select,
@@ -382,6 +385,10 @@ field:
     user_uploaded: 'Uploadé par'
     username: "Nom d'utilisateur"
     wysiwyg_profile: 'Profil WYSIWYG'
+    created_by: 'Créée par'
+    date: Date
+    rejected_by: 'Rejetée par'
+    rejected_message: 'Message de rejet'
 help:
     add_first_aggregate_option: 'Cliquez sur « Ajouter une option d’agrégation » pour créer une première option d’agrégation'
     add_first_search_field_option: 'Cliquez sur « Ajouter une option de champ de recherche » pour créer une première option de champ de recherche'
@@ -522,6 +529,10 @@ key:
     wysiwyg_profiles: Profils
     wysiwyg_style_sets: 'Jeux de styles'
     home: Accueil
+    empty: Vide
+    'on': Le
+    sent: Envoyées
+    treat_selection: 'Traiter la sélection'
 message:
     action_created: 'Une nouvelle action "{label}" a été créée'
     action_deleted: 'L''action "{label}" a été supprimée'
@@ -809,42 +820,11 @@ message:
         Renommage du dossier en cours.
         Veuillez patienter...
     folder_rename_async: 'Le dossier sera renommé dès que possible.'
-notification:
-    acknowledge: Acquitter
-    actions: Actions
     all_treated: 'Toutes les notifications sont traitées'
-    created_by: 'Créée par'
-    dashboard:
-        title: Notifications
-    date: Date
-    empty:
-        title: Vide
-    filter:
-        title: Filtres
-    folder:
-        inbox: 'Boîte de réception'
-        outbox: 'Boîte d’envoi'
-        title: Dossiers
-    label: Notification
-    menu:
-        link_title: Notifications
-    no_pending: 'Aucune notification en attente'
-    'on': Le
-    rejected: Rejetée
-    rejected_by: 'Rejetée par'
-    rejected_message: 'Message de rejet'
-    revision: Révision
-    sent:
-        title: Envoyées
-    treat: Traiter
-    treat_selected: 'Traiter la sélection'
-    treat_selection: 'Traiter la sélection'
     up_to_date: 'Tout est à jour.'
-    warning:
-        duplicate: 'Au moins une autre notification existe pour cet objet'
-        revision_not_published: 'Cette révision n’est plus publiée dans {environment}'
-        revision_not_published_and_duplicate: 'Cette révision n’est plus publiée dans {environment} et une autre notification existe'
-    warnings: Avertissements
+    notification_duplicate: 'Au moins une autre notification existe pour cet objet'
+    revision_not_published: 'Cette révision n’est plus publiée dans {environment}'
+    revision_not_published_and_duplicate: 'Cette révision n’est plus publiée dans {environment} et une autre notification existe'
 option:
     allow_add: 'Autoriser l’ajout'
     default_search: 'Dans la recherche par défaut'
@@ -1245,6 +1225,7 @@ title:
     delete_folder: 'Supprimer le dossier'
     move_folder: 'Déplacer le dossier'
     rename_folder: 'Renommer le dossier'
+    notifications_none_pending: 'Aucune notification en attente'
 type:
     confirm: |-
         {type, select,

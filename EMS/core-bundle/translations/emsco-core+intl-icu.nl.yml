@@ -86,6 +86,9 @@ action:
     upload: Uploaden
     confirm: Bevestigen
     rename: Hernoemen
+    acknowledge: Bevestigen
+    treat: Behandelen
+    treat_selected: 'Selectie behandelen'
 asset_extractor:
     status: |-
         {color, select,
@@ -382,6 +385,10 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     wysiwyg_profile: WYSIWYG-profiel
+    created_by: 'Aangemaakt door'
+    date: Datum
+    rejected_by: 'Geweigerd door'
+    rejected_message: Weigeringsbericht
 help:
     add_first_aggregate_option: "Klik op 'Aggregatieoptie toevoegen' om een eerste aggregatieoptie te maken"
     add_first_search_field_option: "Klik op 'Zoekveldoptie toevoegen' om een eerste zoekveldoptie te maken"
@@ -522,6 +529,10 @@ key:
     wysiwyg_profiles: Profielen
     wysiwyg_style_sets: Stijlsets
     home: Start
+    empty: Leeg
+    'on': Op
+    sent: Verzonden
+    treat_selection: 'Selectie behandelen'
 message:
     action_created: 'Een nieuwe actie "{label}" is aangemaakt'
     action_deleted: 'De actie "{label}" is verwijderd'
@@ -809,42 +820,11 @@ message:
         Map wordt hernoemd.
         Even geduld...
     folder_rename_async: 'De map wordt zo snel mogelijk hernoemd.'
-notification:
-    acknowledge: Bevestigen
-    actions: Acties
     all_treated: 'Alle notificaties zijn behandeld'
-    created_by: 'Aangemaakt door'
-    dashboard:
-        title: Notificaties
-    date: Datum
-    empty:
-        title: Leeg
-    filter:
-        title: Filters
-    folder:
-        inbox: Inbox
-        outbox: Outbox
-        title: Mappen
-    label: Notificatie
-    menu:
-        link_title: Notificaties
-    no_pending: 'Geen wachtende notificaties'
-    'on': Op
-    rejected: Geweigerd
-    rejected_by: 'Geweigerd door'
-    rejected_message: Weigeringsbericht
-    revision: Revisie
-    sent:
-        title: Verzonden
-    treat: Behandelen
-    treat_selected: 'Selectie behandelen'
-    treat_selection: 'Selectie behandelen'
     up_to_date: 'Alles is up-to-date.'
-    warning:
-        duplicate: 'Er bestaat minstens één andere notificatie voor dit object'
-        revision_not_published: 'Deze revisie is niet meer gepubliceerd in {environment}'
-        revision_not_published_and_duplicate: 'Deze revisie is niet meer gepubliceerd in {environment} en er bestaat een andere notificatie'
-    warnings: Waarschuwingen
+    notification_duplicate: 'Er bestaat minstens één andere notificatie voor dit object'
+    revision_not_published: 'Deze revisie is niet meer gepubliceerd in {environment}'
+    revision_not_published_and_duplicate: 'Deze revisie is niet meer gepubliceerd in {environment} en er bestaat een andere notificatie'
 option:
     allow_add: 'Toevoegen toestaan'
     default_search: 'In standaardzoekopdracht'
@@ -1245,6 +1225,7 @@ title:
     delete_folder: 'Map verwijderen'
     move_folder: 'Map verplaatsen'
     rename_folder: 'Map hernoemen'
+    notifications_none_pending: 'Geen wachtende notificaties'
 type:
     confirm: |-
         {type, select,

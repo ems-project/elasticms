@@ -76,6 +76,11 @@ action:
     copy_all: 'Alles kopiëren'
     delete_item: 'Item verwijderen'
     move_item: 'Item verplaatsen'
+    browse_server: 'Server doorzoeken'
+    init_upload: 'Upload initialiseren'
+    move: Verplaatsen
+    upload_file: 'Bestand uploaden'
+    upload_files: 'Bestanden uploaden'
 asset_extractor:
     status: |-
         {color, select,
@@ -369,37 +374,8 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     wysiwyg_profile: WYSIWYG-profiel
-fields:
-    asset:
-        browse-server: 'Server doorzoeken'
-        drag-n-drop-file: 'Sleep uw bestand hierheen'
-        drag-n-drop-files: 'Sleep uw bestanden hierheen'
-        file-hash: Bestandshash
-        file-info: Bestandsinformatie
-        init-upload: 'Upload initialiseren'
-        move-button: Verplaatsen
-        upload-file: 'Bestand uploaden'
-        upload-files: 'Bestanden uploaden'
-    file:
-        asset_options: Assetopties
-        drag_and_drop: 'Sleep uw bestand hierheen'
-        extract_content: 'Inhoud extraheren'
-        hash_signature: Hash-handtekening
-        preview_alt: 'Voorbeeld van veld {field}'
-        upload: 'Bestand uploaden'
-        view: Bekijken
-    modal:
-        add_field_to: 'Een veld toevoegen aan <strong>{name}</strong>'
-        add_subfield_to: 'Een subveld toevoegen aan <strong>{name}</strong>'
-        duplicate: 'Dupliceren <strong>{name}</strong>'
-    options:
-        display: Weergave
-        extra: Extra
-        migration: Migratie
-        restriction: Beperking
-    subfield: Subveld
-    template:
-        more_info: 'meer info'
+    file_hash: Bestandshash
+    file_info: Bestandsinformatie
 form:
     add:
         title: 'Een formulier toevoegen'
@@ -576,6 +552,8 @@ key:
     wysiwyg_style_sets: Stijlsets
     item_label: Itemlabel
     textarea_counter: '{count} tekens'
+    subfield: Subveld
+    more_info: 'meer info'
 log:
     error:
         content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
@@ -900,6 +878,12 @@ message:
     xliff_not_current_revision: 'Revisie {revision_id} van {ouuid} is niet langer de laatste revisie. De vertalingen werden niet geïmporteerd.'
     xliff_too_many_translations: '{counter} vertaaldocumenten terwijl er slechts één wordt verwacht voor vertaal-ID {translation_id} en doeltaal {target_locale} in omgeving {environment}'
     error_status_with_message: 'Met bericht "{status_text}".'
+    drag_and_drop_file: 'Sleep uw bestand hierheen'
+    drag_and_drop_files: 'Sleep uw bestanden hierheen'
+    preview_alt: 'Voorbeeld van veld {field}'
+    add_field_to: 'Een veld toevoegen aan <strong>{name}</strong>'
+    add_subfield_to: 'Een subveld toevoegen aan <strong>{name}</strong>'
+    duplicate_field: 'Dupliceren <strong>{name}</strong>'
 notification:
     acknowledge: Bevestigen
     actions: Acties
@@ -950,6 +934,10 @@ option:
     multiple: Meerdere
     recompute_on_publish: 'Documenten herberekenen bij publicatie'
     update_referrers: 'Verwijzers bijwerken'
+    display: Weergave
+    extra: Extra
+    migration: Migratie
+    restriction: Beperking
 out-of-sync:
     modal:
         please-reload: 'Herlaad de pagina.'

@@ -76,6 +76,11 @@ action:
     copy_all: 'Copy all'
     delete_item: 'Delete item'
     move_item: 'Move item'
+    browse_server: 'Browse server'
+    init_upload: 'Initialize upload'
+    move: Move
+    upload_file: 'Upload file'
+    upload_files: 'Upload files'
 asset_extractor:
     status: |-
         {color, select,
@@ -369,37 +374,8 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     wysiwyg_profile: 'WYSIWYG profile'
-fields:
-    asset:
-        browse-server: 'Browse server'
-        drag-n-drop-file: 'Drag and drop your file here'
-        drag-n-drop-files: 'Drag and drop your files here'
-        file-hash: 'File hash'
-        file-info: 'File information'
-        init-upload: 'Initialize upload'
-        move-button: Move
-        upload-file: 'Upload file'
-        upload-files: 'Upload files'
-    file:
-        asset_options: 'Asset options'
-        drag_and_drop: 'Drag and drop your file here'
-        extract_content: 'Extract content'
-        hash_signature: 'Hash signature'
-        preview_alt: 'Preview of the field {field}'
-        upload: 'Upload file'
-        view: View
-    modal:
-        add_field_to: 'Add a field to <strong>{name}</strong>'
-        add_subfield_to: 'Add a subfield to <strong>{name}</strong>'
-        duplicate: 'Duplicate <strong>{name{</strong>'
-    options:
-        display: Display
-        extra: Extra
-        migration: Migration
-        restriction: Restriction
-    subfield: Subfield
-    template:
-        more_info: 'more info'
+    file_hash: 'File hash'
+    file_info: 'File information'
 form:
     add:
         title: 'Add a form'
@@ -576,6 +552,8 @@ key:
     wysiwyg_style_sets: 'Style Sets'
     item_label: 'Item label'
     textarea_counter: '{count} characters'
+    subfield: Subfield
+    more_info: 'more info'
 log:
     error:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
@@ -900,6 +878,12 @@ message:
     xliff_not_current_revision: 'The revision {revision_id} of {ouuid} is no longer the last revision. The translations were not imported.'
     xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
     error_status_with_message: 'With the message "{status_text}".'
+    drag_and_drop_file: 'Drag and drop your file here'
+    drag_and_drop_files: 'Drag and drop your files here'
+    preview_alt: 'Preview of the field {field}'
+    add_field_to: 'Add a field to <strong>{name}</strong>'
+    add_subfield_to: 'Add a subfield to <strong>{name}</strong>'
+    duplicate_field: 'Duplicate <strong>{name{</strong>'
 notification:
     acknowledge: Acknowledge
     actions: Actions
@@ -950,6 +934,10 @@ option:
     multiple: Multiple
     recompute_on_publish: 'Recompute documents on publication'
     update_referrers: 'Update referrers'
+    display: Display
+    extra: Extra
+    migration: Migration
+    restriction: Restriction
 out-of-sync:
     modal:
         please-reload: 'Please reload the page.'

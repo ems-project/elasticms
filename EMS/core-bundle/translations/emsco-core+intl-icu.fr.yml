@@ -76,6 +76,11 @@ action:
     copy_all: 'Tout copier'
     delete_item: 'Supprimer l’élément'
     move_item: 'Déplacer l’élément'
+    browse_server: 'Parcourir le serveur'
+    init_upload: 'Initialiser l’upload'
+    move: Déplacer
+    upload_file: 'Uploader le fichier'
+    upload_files: 'Uploader les fichiers'
 asset_extractor:
     status: |-
         {color, select,
@@ -369,37 +374,8 @@ field:
     user_uploaded: 'Uploadé par'
     username: "Nom d'utilisateur"
     wysiwyg_profile: 'Profil WYSIWYG'
-fields:
-    asset:
-        browse-server: 'Parcourir le serveur'
-        drag-n-drop-file: 'Glissez-déposez votre fichier ici'
-        drag-n-drop-files: 'Glissez-déposez vos fichiers ici'
-        file-hash: 'Hash du fichier'
-        file-info: 'Informations du fichier'
-        init-upload: 'Initialiser l’upload'
-        move-button: Déplacer
-        upload-file: 'Uploader le fichier'
-        upload-files: 'Uploader les fichiers'
-    file:
-        asset_options: 'Options de l’asset'
-        drag_and_drop: 'Glissez-déposez votre fichier ici'
-        extract_content: 'Extraire le contenu'
-        hash_signature: 'Signature du hash'
-        preview_alt: 'Aperçu du champ {field}'
-        upload: 'Uploader le fichier'
-        view: Voir
-    modal:
-        add_field_to: 'Ajouter un champ à <strong>{name}</strong>'
-        add_subfield_to: 'Ajouter un sous-champ à <strong>{name}</strong>'
-        duplicate: 'Dupliquer <strong>{name}</strong>'
-    options:
-        display: Affichage
-        extra: Extra
-        migration: Migration
-        restriction: Restriction
-    subfield: Sous-champ
-    template:
-        more_info: 'plus d’informations'
+    file_hash: 'Hash du fichier'
+    file_info: 'Informations du fichier'
 form:
     add:
         title: 'Ajouter un formulaire'
@@ -576,6 +552,8 @@ key:
     wysiwyg_style_sets: 'Jeux de styles'
     item_label: 'Libellé de l’élément'
     textarea_counter: '{count} caractères'
+    subfield: Sous-champ
+    more_info: 'plus d’informations'
 log:
     error:
         content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'
@@ -900,6 +878,12 @@ message:
     xliff_not_current_revision: "La révision {revision_id} de {ouuid} n'est plus la dernière révision. Les traductions n'ont pas été importées."
     xliff_too_many_translations: "{counter} documents de traduction alors qu'un seul est attendu pour l'identifiant de traduction {translation_id} et la locale cible {target_locale} dans l'environnement {environment}"
     error_status_with_message: 'Avec le message « {status_text} ».'
+    drag_and_drop_file: 'Glissez-déposez votre fichier ici'
+    drag_and_drop_files: 'Glissez-déposez vos fichiers ici'
+    preview_alt: 'Aperçu du champ {field}'
+    add_field_to: 'Ajouter un champ à <strong>{name}</strong>'
+    add_subfield_to: 'Ajouter un sous-champ à <strong>{name}</strong>'
+    duplicate_field: 'Dupliquer <strong>{name}</strong>'
 notification:
     acknowledge: Acquitter
     actions: Actions
@@ -950,6 +934,10 @@ option:
     multiple: Multiple
     recompute_on_publish: 'Recalculer les documents lors de la publication'
     update_referrers: 'Mettre à jour les référents'
+    display: Affichage
+    extra: Extra
+    migration: Migration
+    restriction: Restriction
 out-of-sync:
     modal:
         please-reload: 'Veuillez recharger la page.'

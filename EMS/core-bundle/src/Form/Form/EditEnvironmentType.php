@@ -35,7 +35,7 @@ class EditEnvironmentType extends AbstractType
             ->add('name', IconTextType::class, [
                 'icon' => 'fa fa-tag',
                 'label' => t('field.name', [], 'emsco-core'),
-                'help' => t('environment.edit.notice_rename', [], 'emsco-core'),
+                'help' => t('message.environment_edit_notice_rename', [], 'emsco-core'),
             ])
             ->add('label', IconTextType::class, [
                 'required' => false,
@@ -52,23 +52,23 @@ class EditEnvironmentType extends AbstractType
             ])
             ->add('baseUrl', TextType::class, [
                 'required' => false,
-                'label' => t('environment.property.base_url', [], 'emsco-core'),
+                'label' => t('field.base_url', [], 'emsco-core'),
             ])
             ->add('inDefaultSearch', CheckboxType::class, [
                 'required' => false,
-                'label' => t('environment.property.option.default_search', [], 'emsco-core'),
+                'label' => t('option.default_search', [], 'emsco-core'),
             ])
             ->add('updateReferrers', CheckboxType::class, [
                 'required' => false,
-                'label' => t('environment.property.option.update_referrers', [], 'emsco-core'),
+                'label' => t('option.update_referrers', [], 'emsco-core'),
             ])
             ->add('templatePublication', CodeEditorType::class, [
                 'required' => false,
                 'min-lines' => 10,
-                'label' => t('environment.property.template_publication', [], 'emsco-core'),
+                'label' => t('field.template_publication', [], 'emsco-core'),
             ])
             ->add('rolePublish', RolePickerType::class, [
-                'label' => t('environment.property.rolePublish', [], 'emsco-core'),
+                'label' => t('field.role_publish', [], 'emsco-core'),
                 'translation_domain' => 'emsco-core',
                 'required' => false,
             ])

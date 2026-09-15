@@ -174,41 +174,6 @@ core:
                 other   {Er zijn # indexen}
             }
     version: 'Versie {core} met Symfony {symfony}'
-environment:
-    edit:
-        notice_rename: |
-            Als u de alias wilt hernoemen,
-            maak dan een nieuwe omgeving aan en lijn deze uit met de omgeving waarvan u de alias wilt hernoemen.
-            Verwijder vervolgens de vorige.
-        short_title: 'Omgeving bewerken'
-        title: 'Omgeving "{name}" bewerken'
-    index:
-        title: 'Omgevingen weergeven'
-    managed_alias:
-        add:
-            title: 'Beheerde alias toevoegen'
-        edit:
-            title: 'Beheerde alias bewerken'
-        index: Index
-        indexes: Indexen
-    property:
-        base_url: Basis-URL
-        option:
-            default_search: 'In standaardzoekopdracht'
-            update_referrers: 'Verwijzers bijwerken'
-        rolePublish: Publicatierol
-        template_publication: Publicatiesjabloon
-    rebuild:
-        notice: 'Wees voorzichtig: afhankelijk van de geselecteerde optie kan bepaalde inhoud in de zoekindex verloren gaan.'
-        options:
-            title: 'Selecteer uw opties'
-        short_title: 'Index heropbouwen'
-        title: 'Omgeving {name} heropbouwen'
-    view:
-        elasticsearch_index_missing: 'Elasticsearch-index ontbreekt!'
-        elasticsearch_information: Elasticsearch-informatie
-        short_title: 'Omgeving bekijken'
-        title: 'Omgeving {name} bekijken'
 exception:
     error:
         message: 'Met bericht "{status_text}".'
@@ -400,6 +365,8 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     wysiwyg_profile: WYSIWYG-profiel
+    base_url: Basis-URL
+    template_publication: Publicatiesjabloon
 field_type:
     json_menu_editor:
         add_item: 'Item toevoegen'
@@ -614,6 +581,7 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profielen
     wysiwyg_style_sets: Stijlsets
+    elasticsearch_information: Elasticsearch-informatie
 log:
     error:
         content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
@@ -927,6 +895,12 @@ message:
     wysiwyg_styles_set_updated: 'De stijlenset "{name}" is bijgewerkt'
     xliff_not_current_revision: 'Revisie {revision_id} van {ouuid} is niet langer de laatste revisie. De vertalingen werden niet geïmporteerd.'
     xliff_too_many_translations: '{counter} vertaaldocumenten terwijl er slechts één wordt verwacht voor vertaal-ID {translation_id} en doeltaal {target_locale} in omgeving {environment}'
+    environment_edit_notice_rename: |
+        Als u de alias wilt hernoemen,
+        maak dan een nieuwe omgeving aan en lijn deze uit met de omgeving waarvan u de alias wilt hernoemen.
+        Verwijder vervolgens de vorige.
+    environment_rebuild_notice: 'Wees voorzichtig: afhankelijk van de geselecteerde optie kan bepaalde inhoud in de zoekindex verloren gaan.'
+    elasticsearch_index_missing: 'Elasticsearch-index ontbreekt!'
 modal:
     loading_information: 'Informatie laden...'
 navigation:
@@ -983,6 +957,8 @@ option:
     layout_sidebar_mini: 'Zijbalk mini'
     multiple: Meerdere
     recompute_on_publish: 'Documenten herberekenen bij publicatie'
+    default_search: 'In standaardzoekopdracht'
+    update_referrers: 'Verwijzers bijwerken'
 out-of-sync:
     modal:
         please-reload: 'Herlaad de pagina.'
@@ -1334,6 +1310,14 @@ title:
     view_custom: 'Weergave {name} van {contentType} "{label}" zoals geïndexeerd in {environment}'
     view_ems_id: '{content_type}:{id} bekijken'
     view_recursive: 'Recursieve weergave'
+    edit_environment_short: 'Omgeving bewerken'
+    edit_environment: 'Omgeving "{name}" bewerken'
+    list_environments: 'Omgevingen weergeven'
+    select_your_options: 'Selecteer uw opties'
+    rebuild_index_short: 'Index heropbouwen'
+    rebuild_environment: 'Omgeving {name} heropbouwen'
+    view_environment_short: 'Omgeving bekijken'
+    view_environment: 'Omgeving {name} bekijken'
 type:
     confirm: |-
         {type, select,

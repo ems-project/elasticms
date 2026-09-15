@@ -174,41 +174,6 @@ core:
                 other   {Il y a # index}
             }
     version: 'Version {core} avec Symfony {symfony}'
-environment:
-    edit:
-        notice_rename: |
-            Si vous avez l’intention de renommer l’alias,
-            veuillez créer un nouvel environnement et l’aligner sur celui dont vous souhaitez renommer l’alias.
-            Supprimez ensuite l’ancien.
-        short_title: 'Modifier l’environnement'
-        title: 'Modifier l’environnement « {name} »'
-    index:
-        title: 'Liste des environnements'
-    managed_alias:
-        add:
-            title: 'Ajouter un alias géré'
-        edit:
-            title: 'Modifier l’alias géré'
-        index: Index
-        indexes: Indexes
-    property:
-        base_url: 'URL de base'
-        option:
-            default_search: 'Dans la recherche par défaut'
-            update_referrers: 'Mettre à jour les référents'
-        rolePublish: 'Rôle de publication'
-        template_publication: 'Modèle de publication'
-    rebuild:
-        notice: 'Soyez prudent, selon l’option sélectionnée, certains contenus de l’index de recherche peuvent être perdus.'
-        options:
-            title: 'Sélectionnez vos options'
-        short_title: 'Reconstruire l’index'
-        title: 'Reconstruire l’environnement {name}'
-    view:
-        elasticsearch_index_missing: 'L’index Elasticsearch est manquant !'
-        elasticsearch_information: 'Informations Elasticsearch'
-        short_title: 'Voir l’environnement'
-        title: 'Voir l’environnement {name}'
 exception:
     error:
         message: 'Avec le message « {status_text} ».'
@@ -400,6 +365,8 @@ field:
     user_uploaded: 'Uploadé par'
     username: "Nom d'utilisateur"
     wysiwyg_profile: 'Profil WYSIWYG'
+    base_url: 'URL de base'
+    template_publication: 'Modèle de publication'
 field_type:
     json_menu_editor:
         add_item: 'Ajouter un élément'
@@ -614,6 +581,7 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profils
     wysiwyg_style_sets: 'Jeux de styles'
+    elasticsearch_information: 'Informations Elasticsearch'
 log:
     error:
         content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'
@@ -927,6 +895,12 @@ message:
     wysiwyg_styles_set_updated: 'Le jeu de styles « {name} » a été mis à jour'
     xliff_not_current_revision: "La révision {revision_id} de {ouuid} n'est plus la dernière révision. Les traductions n'ont pas été importées."
     xliff_too_many_translations: "{counter} documents de traduction alors qu'un seul est attendu pour l'identifiant de traduction {translation_id} et la locale cible {target_locale} dans l'environnement {environment}"
+    environment_edit_notice_rename: |
+        Si vous avez l’intention de renommer l’alias,
+        veuillez créer un nouvel environnement et l’aligner sur celui dont vous souhaitez renommer l’alias.
+        Supprimez ensuite l’ancien.
+    environment_rebuild_notice: 'Soyez prudent, selon l’option sélectionnée, certains contenus de l’index de recherche peuvent être perdus.'
+    elasticsearch_index_missing: 'L’index Elasticsearch est manquant !'
 modal:
     loading_information: 'Chargement des informations...'
 navigation:
@@ -983,6 +957,8 @@ option:
     layout_sidebar_mini: 'Barre latérale mini'
     multiple: Multiple
     recompute_on_publish: 'Recalculer les documents lors de la publication'
+    default_search: 'Dans la recherche par défaut'
+    update_referrers: 'Mettre à jour les référents'
 out-of-sync:
     modal:
         please-reload: 'Veuillez recharger la page.'
@@ -1334,6 +1310,14 @@ title:
     view_custom: 'Vue {name} de {contentType} « {label} » telle qu’indexée dans {environment}'
     view_ems_id: 'Voir {content_type}:{id}'
     view_recursive: 'Vue récursive'
+    edit_environment_short: 'Modifier l’environnement'
+    edit_environment: 'Modifier l’environnement « {name} »'
+    list_environments: 'Liste des environnements'
+    select_your_options: 'Sélectionnez vos options'
+    rebuild_index_short: 'Reconstruire l’index'
+    rebuild_environment: 'Reconstruire l’environnement {name}'
+    view_environment_short: 'Voir l’environnement'
+    view_environment: 'Voir l’environnement {name}'
 type:
     confirm: |-
         {type, select,

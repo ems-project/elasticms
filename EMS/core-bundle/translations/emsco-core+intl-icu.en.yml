@@ -174,41 +174,6 @@ core:
                 other   {There are # indexes}
             }
     version: 'Version {core} with Symfony {symfony}'
-environment:
-    edit:
-        notice_rename: |
-            If you intend to rename the alias,
-            please create a new environment and align it to the one you would like to rename the alias.
-            Then delete the previous one.
-        short_title: 'Edit environment'
-        title: 'Edit the environment "{name}"'
-    index:
-        title: 'List Environments'
-    managed_alias:
-        add:
-            title: 'Add managed alias'
-        edit:
-            title: 'Edit managed alias'
-        index: Index
-        indexes: Indexes
-    property:
-        base_url: 'Base URL'
-        option:
-            default_search: 'In default search'
-            update_referrers: 'Update referrers'
-        rolePublish: 'Publish role'
-        template_publication: 'Publication template'
-    rebuild:
-        notice: 'Be cautious, depending of the option selected some content in the search index may be lost.'
-        options:
-            title: 'Select your options'
-        short_title: 'Rebuild index'
-        title: 'Rebuild the environment {name}'
-    view:
-        elasticsearch_index_missing: 'Elasticsearch index is missing !'
-        elasticsearch_information: 'Elasticsearch information'
-        short_title: 'View environment'
-        title: 'View the environment {name}'
 exception:
     error:
         message: 'With the message "{status_text}".'
@@ -400,6 +365,8 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     wysiwyg_profile: 'WYSIWYG profile'
+    base_url: 'Base URL'
+    template_publication: 'Publication template'
 field_type:
     json_menu_editor:
         add_item: 'Add item'
@@ -614,6 +581,7 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
+    elasticsearch_information: 'Elasticsearch information'
 log:
     error:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
@@ -927,6 +895,12 @@ message:
     wysiwyg_styles_set_updated: 'Style set "{name}" has been updated'
     xliff_not_current_revision: 'The revision {revision_id} of {ouuid} is no longer the last revision. The translations were not imported.'
     xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
+    environment_edit_notice_rename: |
+        If you intend to rename the alias,
+        please create a new environment and align it to the one you would like to rename the alias.
+        Then delete the previous one.
+    environment_rebuild_notice: 'Be cautious, depending of the option selected some content in the search index may be lost.'
+    elasticsearch_index_missing: 'Elasticsearch index is missing !'
 modal:
     loading_information: 'Loading information...'
 navigation:
@@ -983,6 +957,8 @@ option:
     layout_sidebar_mini: 'Sidebar mini'
     multiple: Multiple
     recompute_on_publish: 'Recompute documents on publication'
+    default_search: 'In default search'
+    update_referrers: 'Update referrers'
 out-of-sync:
     modal:
         please-reload: 'Please reload the page.'
@@ -1334,6 +1310,14 @@ title:
     view_custom: 'View {name} of the {contentType} "{label}" as indexed in {environment}'
     view_ems_id: 'View {content_type}:{id}'
     view_recursive: 'Recursive view'
+    edit_environment_short: 'Edit environment'
+    edit_environment: 'Edit the environment "{name}"'
+    list_environments: 'List Environments'
+    select_your_options: 'Select your options'
+    rebuild_index_short: 'Rebuild index'
+    rebuild_environment: 'Rebuild the environment {name}'
+    view_environment_short: 'View environment'
+    view_environment: 'View the environment {name}'
 type:
     confirm: |-
         {type, select,

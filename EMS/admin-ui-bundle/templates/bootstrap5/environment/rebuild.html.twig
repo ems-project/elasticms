@@ -1,12 +1,12 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'emsco-core' %}
 
-{% block title %}{{ 'environment.rebuild.title'|trans({'name': environment.name}) }}{% endblock %}
-{% block pagetitle %}{{ 'environment.rebuild.title'|trans({'name': environment.name}) }}{% endblock %}
+{% block title %}{{ 'title.rebuild_environment'|trans({'name': environment.name}) }}{% endblock %}
+{% block pagetitle %}{{ 'title.rebuild_environment'|trans({'name': environment.name}) }}{% endblock %}
 {% block breadcrumb %}
     <ol class="breadcrumb float-sm-end">
         <li class="breadcrumb-item"><i class="fa fa-database"></i> {{ 'field.environments'|trans }}</li>
-        <li class="breadcrumb-item"><a href={{ path('emsco_admin_environment_index') }}>{{ 'environment.index.title'|trans }}</a></li>
-           <li class="breadcrumb-item active">{{ 'environment.rebuild.short_title'|trans }}</li>
+        <li class="breadcrumb-item"><a href={{ path('emsco_admin_environment_index') }}>{{ 'title.list_environments'|trans }}</a></li>
+           <li class="breadcrumb-item active">{{ 'title.rebuild_index_short'|trans }}</li>
        </ol>
 {% endblock %}
 
@@ -20,7 +20,7 @@
             <!-- /.box-header -->
             <div class="card-body">
                 <p>
-                    {{ 'environment.rebuild.notice'|trans }}
+                    {{ 'message.environment_rebuild_notice'|trans }}
                 </p>
             </div>
             <!-- /.box-body -->
@@ -29,7 +29,7 @@
     <div class="col-md-6">
         <div class="card card-{{ theme_color }} card-outline">
             <div class="card-header">
-                <h3 class="card-title">{{ 'environment.rebuild.options.title'|trans }}</h3>
+                <h3 class="card-title">{{ 'title.select_your_options'|trans }}</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->

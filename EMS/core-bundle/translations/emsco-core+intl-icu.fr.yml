@@ -62,6 +62,7 @@ action:
     show: Afficher
     status: Statut
     test: Tester
+    toggle_navigation: 'Basculer la navigation'
     toggle_sidebar: 'Basculer la barre latérale'
     toggle_visibility: 'Basculer la visibilité'
     toggle_visibility_selected: 'Basculer la visibilité de la sélection'
@@ -777,6 +778,7 @@ message:
     job_done: 'La tâche "{job_id}" est terminée'
     job_failed: 'La tâche "{label}" a échoué dans l''environnement {environment}'
     job_initialized: 'La tâche "{label}" a été initialisée dans l''environnement {environment}'
+    loading_information: 'Chargement des informations...'
     managed_alias_created: 'L''alias géré "{managed_alias_label}" a été créé'
     managed_alias_deleted: 'L''alias géré "{managed_alias_label}" a été supprimé'
     managed_alias_updated: 'L''alias géré "{managed_alias_label}" a été mis à jour'
@@ -906,14 +908,6 @@ message:
     wysiwyg_styles_set_updated: 'Le jeu de styles « {name} » a été mis à jour'
     xliff_not_current_revision: "La révision {revision_id} de {ouuid} n'est plus la dernière révision. Les traductions n'ont pas été importées."
     xliff_too_many_translations: "{counter} documents de traduction alors qu'un seul est attendu pour l'identifiant de traduction {translation_id} et la locale cible {target_locale} dans l'environnement {environment}"
-modal:
-    loading_information: 'Chargement des informations...'
-navigation:
-    toggle: 'Basculer la navigation'
-notice_card:
-    title: Notice
-notification-menu:
-    dashboards: 'Tableaux de bord'
 notification:
     acknowledge: Acquitter
     actions: Actions

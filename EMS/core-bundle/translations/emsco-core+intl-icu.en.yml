@@ -62,6 +62,7 @@ action:
     show: Show
     status: Status
     test: Test
+    toggle_navigation: 'Toggle navigation'
     toggle_sidebar: 'Toggle sidebar'
     toggle_visibility: 'Toggle visibility'
     toggle_visibility_selected: 'Toggle visibility selected'
@@ -777,6 +778,7 @@ message:
     job_done: 'The job "{job_id}" is done'
     job_failed: 'The job "{label}" has failed in the environment {environment}'
     job_initialized: 'The job "{label}" has been initialized in the environment {environment}'
+    loading_information: 'Loading information...'
     managed_alias_created: 'Managed alias "{managed_alias_label}" has been created'
     managed_alias_deleted: 'Managed alias "{managed_alias_label}" has been deleted'
     managed_alias_updated: 'Managed alias "{managed_alias_label}" has been updated'
@@ -906,14 +908,6 @@ message:
     wysiwyg_styles_set_updated: 'Style set "{name}" has been updated'
     xliff_not_current_revision: 'The revision {revision_id} of {ouuid} is no longer the last revision. The translations were not imported.'
     xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
-modal:
-    loading_information: 'Loading information...'
-navigation:
-    toggle: 'Toggle navigation'
-notice_card:
-    title: Notice
-notification-menu:
-    dashboards: Dashboards
 notification:
     acknowledge: Acknowledge
     actions: Actions

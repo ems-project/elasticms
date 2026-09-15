@@ -62,6 +62,7 @@ action:
     show: Tonen
     status: Status
     test: Testen
+    toggle_navigation: 'Navigatie omschakelen'
     toggle_sidebar: 'Zijbalk omschakelen'
     toggle_visibility: 'Zichtbaarheid omschakelen'
     toggle_visibility_selected: 'Zichtbaarheid van selectie omschakelen'
@@ -777,6 +778,7 @@ message:
     job_done: 'De taak "{job_id}" is voltooid'
     job_failed: 'De taak "{label}" is mislukt in de omgeving {environment}'
     job_initialized: 'De taak "{label}" is geïnitialiseerd in de omgeving {environment}'
+    loading_information: 'Informatie laden...'
     managed_alias_created: 'Beheerde alias "{managed_alias_label}" is aangemaakt'
     managed_alias_deleted: 'Beheerde alias "{managed_alias_label}" is verwijderd'
     managed_alias_updated: 'Beheerde alias "{managed_alias_label}" is bijgewerkt'
@@ -906,14 +908,6 @@ message:
     wysiwyg_styles_set_updated: 'De stijlenset "{name}" is bijgewerkt'
     xliff_not_current_revision: 'Revisie {revision_id} van {ouuid} is niet langer de laatste revisie. De vertalingen werden niet geïmporteerd.'
     xliff_too_many_translations: '{counter} vertaaldocumenten terwijl er slechts één wordt verwacht voor vertaal-ID {translation_id} en doeltaal {target_locale} in omgeving {environment}'
-modal:
-    loading_information: 'Informatie laden...'
-navigation:
-    toggle: 'Navigatie omschakelen'
-notice_card:
-    title: Melding
-notification-menu:
-    dashboards: Dashboards
 notification:
     acknowledge: Bevestigen
     actions: Acties

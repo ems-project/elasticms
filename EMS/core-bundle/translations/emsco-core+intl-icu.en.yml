@@ -96,6 +96,10 @@ action:
     upload_file: 'Upload file'
     upload_files: 'Upload files'
     view: View
+    edit_draft: 'Edit draft'
+    view_draft_in_progress: 'View draft in progress'
+    put_back: 'Put back'
+    put_back_selected: 'Put back selected'
 asset_extractor:
     status: |-
         {color, select,
@@ -402,6 +406,8 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     wysiwyg_profile: 'WYSIWYG profile'
+    locked_until: 'Locked until'
+    locked_by: 'Locked by'
 help:
     add_first_aggregate_option: "Click on 'Add an aggregate option' to create a first Aggregate Option: Click on 'Add an aggregate option' to create a first Aggregate Option"
     add_first_search_field_option: "'Add an search field option' to create a first Search Field Option: Click on 'Add an search field option' to create a first Search Field Option"
@@ -558,6 +564,7 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
+    draft_in_progress: 'Draft in progress'
 message:
     action_created: 'A new action "{label}" has been created'
     action_deleted: 'The action "{label}" has been deleted'
@@ -863,6 +870,11 @@ message:
     wysiwyg_styles_set_updated: 'Style set "{name}" has been updated'
     xliff_not_current_revision: 'The revision {revision_id} of {ouuid} is no longer the last revision. The translations were not imported.'
     xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
+    delete_this_draft: 'Delete this draft'
+    finalized_by: '{date} Finalized by {user}'
+    no_revision_in_env: 'no revision in {env}'
+    replaced_by_revision: 'replaced by revision {date}'
+    put_back_confirm: 'Put back "{label}" ?'
 option:
     allow_add: 'Allow add'
     default_search: 'In default search'
@@ -881,25 +893,6 @@ option:
     recompute_on_publish: 'Recompute documents on publication'
     restriction: Restriction
     update_referrers: 'Update referrers'
-revision:
-    draft:
-        delete: 'Delete this draft'
-        edit: 'Edit draft'
-        label: 'Draft in progress'
-        title: '{pluralName} drafts in progress'
-        view: 'View draft in progress'
-    field:
-        locked: 'Locked until'
-        locked_by: 'Locked by'
-    finalized_by: '{date} Finalized by {user}'
-    missing: 'no revision in {env}'
-    new: 'New {contentType}'
-    replace_by_revision: 'replaced by revision {date}'
-    trash:
-        put_back: 'Put back'
-        put_back_confirm: 'Put back "{label}" ?'
-        put_back_selected: 'Put back selected'
-        title: '{pluralName} in trash'
 role:
     admin:
         label: Administrator
@@ -1190,6 +1183,8 @@ title:
     view_file: 'View file'
     view_file_modal: 'View file: {name}'
     view_recursive: 'Recursive view'
+    drafts_in_progress: '{pluralName} drafts in progress'
+    items_in_trash: '{pluralName} in trash'
 type:
     confirm: |-
         {type, select,

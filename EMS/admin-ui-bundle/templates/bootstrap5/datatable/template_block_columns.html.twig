@@ -125,7 +125,7 @@
     {%- set info = data.getValue('info', false) -%}
     {%- if info -%}
         {%- set revision = info.revision(table.context.release.environmentSource.name) -%}
-        {{- 'revision.finalized_by'|trans({
+        {{- 'message.finalized_by'|trans({
             'date': (revision.finalizedDate ? revision.finalizedDate|date(date_time_format) : ''),
             'user': (revision.finalizedBy ? revision.finalizedBy|emsco_display_name : ''),
         }) -}}
@@ -136,7 +136,7 @@
     {%- set info = data.getValue('info', false) -%}
     {%- if info -%}
         {%- set revision = info.revision(table.context.release.environmentTarget.name) -%}
-        {{- 'revision.finalized_by'|trans({
+        {{- 'message.finalized_by'|trans({
             'date': (revision.finalizedDate ? revision.finalizedDate|date(date_time_format) : ''),
             'user': (revision.finalizedBy ? revision.finalizedBy|emsco_display_name : ''),
         }) -}}

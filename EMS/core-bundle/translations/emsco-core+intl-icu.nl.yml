@@ -96,6 +96,10 @@ action:
     upload_file: 'Bestand uploaden'
     upload_files: 'Bestanden uploaden'
     view: Bekijken
+    edit_draft: 'Concept bewerken'
+    view_draft_in_progress: 'Concept in uitvoering bekijken'
+    put_back: Terugplaatsen
+    put_back_selected: 'Selectie terugplaatsen'
 asset_extractor:
     status: |-
         {color, select,
@@ -402,6 +406,8 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     wysiwyg_profile: WYSIWYG-profiel
+    locked_until: 'Vergrendeld tot'
+    locked_by: 'Vergrendeld door'
 help:
     add_first_aggregate_option: "Klik op 'Aggregatieoptie toevoegen' om een eerste aggregatieoptie te maken"
     add_first_search_field_option: "Klik op 'Zoekveldoptie toevoegen' om een eerste zoekveldoptie te maken"
@@ -558,6 +564,7 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profielen
     wysiwyg_style_sets: Stijlsets
+    draft_in_progress: 'Concept in uitvoering'
 message:
     action_created: 'Een nieuwe actie "{label}" is aangemaakt'
     action_deleted: 'De actie "{label}" is verwijderd'
@@ -863,6 +870,11 @@ message:
     wysiwyg_styles_set_updated: 'De stijlenset "{name}" is bijgewerkt'
     xliff_not_current_revision: 'Revisie {revision_id} van {ouuid} is niet langer de laatste revisie. De vertalingen werden niet geïmporteerd.'
     xliff_too_many_translations: '{counter} vertaaldocumenten terwijl er slechts één wordt verwacht voor vertaal-ID {translation_id} en doeltaal {target_locale} in omgeving {environment}'
+    delete_this_draft: 'Dit concept verwijderen'
+    finalized_by: '{date} Gefinaliseerd door {user}'
+    no_revision_in_env: 'geen revisie in {env}'
+    replaced_by_revision: 'vervangen door revisie {date}'
+    put_back_confirm: '"{label}" terugplaatsen?'
 option:
     allow_add: 'Toevoegen toestaan'
     default_search: 'In standaardzoekopdracht'
@@ -881,25 +893,6 @@ option:
     recompute_on_publish: 'Documenten herberekenen bij publicatie'
     restriction: Beperking
     update_referrers: 'Verwijzers bijwerken'
-revision:
-    draft:
-        delete: 'Dit concept verwijderen'
-        edit: 'Concept bewerken'
-        label: 'Concept in uitvoering'
-        title: '{pluralName} concepten in uitvoering'
-        view: 'Concept in uitvoering bekijken'
-    field:
-        locked: 'Vergrendeld tot'
-        locked_by: 'Vergrendeld door'
-    finalized_by: '{date} Gefinaliseerd door {user}'
-    missing: 'geen revisie in {env}'
-    new: 'Nieuw {contentType}'
-    replace_by_revision: 'vervangen door revisie {date}'
-    trash:
-        put_back: Terugplaatsen
-        put_back_confirm: '"{label}" terugplaatsen?'
-        put_back_selected: 'Selectie terugplaatsen'
-        title: '{pluralName} in prullenbak'
 role:
     admin:
         label: Beheerder
@@ -1190,6 +1183,8 @@ title:
     view_file: 'Bestand bekijken'
     view_file_modal: 'Bestand bekijken: {name}'
     view_recursive: 'Recursieve weergave'
+    drafts_in_progress: '{pluralName} concepten in uitvoering'
+    items_in_trash: '{pluralName} in prullenbak'
 type:
     confirm: |-
         {type, select,

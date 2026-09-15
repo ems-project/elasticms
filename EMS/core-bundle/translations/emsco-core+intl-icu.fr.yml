@@ -96,6 +96,10 @@ action:
     upload_file: 'Uploader le fichier'
     upload_files: 'Uploader les fichiers'
     view: Voir
+    edit_draft: 'Modifier le brouillon'
+    view_draft_in_progress: 'Voir le brouillon en cours'
+    put_back: Restaurer
+    put_back_selected: 'Restaurer la sélection'
 asset_extractor:
     status: |-
         {color, select,
@@ -402,6 +406,8 @@ field:
     user_uploaded: 'Uploadé par'
     username: "Nom d'utilisateur"
     wysiwyg_profile: 'Profil WYSIWYG'
+    locked_until: 'Verrouillé jusqu’à'
+    locked_by: 'Verrouillé par'
 help:
     add_first_aggregate_option: 'Cliquez sur « Ajouter une option d’agrégation » pour créer une première option d’agrégation'
     add_first_search_field_option: 'Cliquez sur « Ajouter une option de champ de recherche » pour créer une première option de champ de recherche'
@@ -558,6 +564,7 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profils
     wysiwyg_style_sets: 'Jeux de styles'
+    draft_in_progress: 'Brouillon en cours'
 message:
     action_created: 'Une nouvelle action "{label}" a été créée'
     action_deleted: 'L''action "{label}" a été supprimée'
@@ -863,6 +870,11 @@ message:
     wysiwyg_styles_set_updated: 'Le jeu de styles « {name} » a été mis à jour'
     xliff_not_current_revision: "La révision {revision_id} de {ouuid} n'est plus la dernière révision. Les traductions n'ont pas été importées."
     xliff_too_many_translations: "{counter} documents de traduction alors qu'un seul est attendu pour l'identifiant de traduction {translation_id} et la locale cible {target_locale} dans l'environnement {environment}"
+    delete_this_draft: 'Supprimer ce brouillon'
+    finalized_by: '{date} Finalisé par {user}'
+    no_revision_in_env: 'aucune révision dans {env}'
+    replaced_by_revision: 'remplacée par la révision {date}'
+    put_back_confirm: 'Restaurer « {label} » ?'
 option:
     allow_add: 'Autoriser l’ajout'
     default_search: 'Dans la recherche par défaut'
@@ -881,25 +893,6 @@ option:
     recompute_on_publish: 'Recalculer les documents lors de la publication'
     restriction: Restriction
     update_referrers: 'Mettre à jour les référents'
-revision:
-    draft:
-        delete: 'Supprimer ce brouillon'
-        edit: 'Modifier le brouillon'
-        label: 'Brouillon en cours'
-        title: 'Brouillons en cours de {pluralName}'
-        view: 'Voir le brouillon en cours'
-    field:
-        locked: 'Verrouillé jusqu’à'
-        locked_by: 'Verrouillé par'
-    finalized_by: '{date} Finalisé par {user}'
-    missing: 'aucune révision dans {env}'
-    new: 'Nouveau {contentType}'
-    replace_by_revision: 'remplacée par la révision {date}'
-    trash:
-        put_back: Restaurer
-        put_back_confirm: 'Restaurer « {label} » ?'
-        put_back_selected: 'Restaurer la sélection'
-        title: '{pluralName} dans la corbeille'
 role:
     admin:
         label: Administrateur
@@ -1190,6 +1183,8 @@ title:
     view_file: 'Voir le fichier'
     view_file_modal: 'Voir le fichier : {name}'
     view_recursive: 'Vue récursive'
+    drafts_in_progress: 'Brouillons en cours de {pluralName}'
+    items_in_trash: '{pluralName} dans la corbeille'
 type:
     confirm: |-
         {type, select,

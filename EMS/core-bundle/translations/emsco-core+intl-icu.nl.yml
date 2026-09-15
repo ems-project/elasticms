@@ -333,6 +333,7 @@ field:
     date_upload: Uploaddatum
     deadline: Deadline
     definition: Definitie
+    delay: 'Vertraging (in dagen)'
     description: Beschrijving
     display_name: Weergavenaam
     editor: Editor
@@ -1292,13 +1293,6 @@ task:
         submit: 'Taak verwijderen'
         success: 'Taak "{title}" succesvol verwijderd.'
         title: 'Verwijderde taak: {title}'
-    field:
-        assignee: Toegewezene
-        deadline: Deadline
-        delay: 'Vertraging (in dagen)'
-        description: Beschrijving
-        requester: Aanvrager
-        title: Titel
     filter:
         assignee: Toegewezenen
         is_overdue: 'Alleen te laat'

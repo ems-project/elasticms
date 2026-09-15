@@ -333,6 +333,7 @@ field:
     date_upload: 'Date d’upload'
     deadline: Échéance
     definition: Définition
+    delay: 'Délai (en jours)'
     description: Description
     display_name: 'Nom d’affichage'
     editor: Éditeur
@@ -1292,13 +1293,6 @@ task:
         submit: 'Supprimer la tâche'
         success: 'Tâche « {title} » supprimée avec succès.'
         title: "Tâche supprimée\_: {title}"
-    field:
-        assignee: Assigné
-        deadline: Échéance
-        delay: 'Délai (en jours)'
-        description: Description
-        requester: Demandeur
-        title: Titre
     filter:
         assignee: Assignés
         is_overdue: 'En retard uniquement'

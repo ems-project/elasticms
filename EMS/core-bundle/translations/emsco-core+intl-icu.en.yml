@@ -333,6 +333,7 @@ field:
     date_upload: 'Date upload'
     deadline: Deadline
     definition: Definition
+    delay: 'Delay (in days)'
     description: Description
     display_name: 'Display name'
     editor: Editor
@@ -1292,13 +1293,6 @@ task:
         submit: 'Delete task'
         success: 'Task "{title}" successfully deleted.'
         title: 'Deleted task : {title}'
-    field:
-        assignee: Assignee
-        deadline: Deadline
-        delay: 'Delay (in days)'
-        description: Description
-        requester: Requester
-        title: Title
     filter:
         assignee: Assignees
         is_overdue: 'Overdue only'

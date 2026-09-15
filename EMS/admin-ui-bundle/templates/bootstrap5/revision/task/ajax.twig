@@ -227,19 +227,19 @@
                     {% else %}
                         <div class="row">
                             <div class="col-md-12 mb-3">
-                                <div class="mb-1"><strong>{{ 'task.field.title'|trans }}</strong></div>
+                                <div class="mb-1"><strong>{{ 'field.title'|trans }}</strong></div>
                                 <div>{{ task.title }}</div>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <div class="mb-1"><strong>{{ 'task.field.assignee'|trans }}</strong></div>
+                                <div class="mb-1"><strong>{{ 'field.assignee'|trans }}</strong></div>
                                 <div>{{ task.assignee|emsco_display_name }}</div>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <div class="mb-1"><strong>{{ 'task.field.requester'|trans }}</strong></div>
+                                <div class="mb-1"><strong>{{ 'field.requester'|trans }}</strong></div>
                                 <div>{{ task.createdBy|emsco_display_name }}</div>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <div class="mb-1"><strong>{{ 'task.field.deadline'|trans }}</strong></div>
+                                <div class="mb-1"><strong>{{ 'field.deadline'|trans }}</strong></div>
                                 {%- if task.hasDeadline -%}
                                     <div>
                                         {%- set deadline = task.deadline.format(date_format) -%}
@@ -254,7 +254,7 @@
                                 {%- endif -%}
                             </div>
                             <div class="col-md-12 mb-3">
-                                <div class="mb-1"><strong>{{ 'task.field.description'|trans }}</strong></div>
+                                <div class="mb-1"><strong>{{ 'field.description'|trans }}</strong></div>
                                 {%- if task.hasDescription -%}<div>{{ task.description|nl2br }}</div>{% else %}/{% endif %}
                             </div>
                         </div>
@@ -335,19 +335,19 @@
                         <div class="timeline-body bg-gray-light">
                             <dl class="dl-horizontal task-info">
                                 {% if null != log.taskTitle %}
-                                    <dt>{{ 'task.field.title'|trans }}</dt>
+                                    <dt>{{ 'field.title'|trans }}</dt>
                                     <dd>{{ log.taskTitle }}</dd>
                                 {% endif %}
                                 {% if null != log.taskAssignee %}
-                                    <dt>{{ 'task.field.assignee'|trans }}</dt>
+                                    <dt>{{ 'field.assignee'|trans }}</dt>
                                     <dd>{{ log.taskAssignee|emsco_display_name }}</dd>
                                 {% endif %}
                                 {% if null != log.taskDeadline %}
-                                    <dt>{{ 'task.field.deadline'|trans }}</dt>
+                                    <dt>{{ 'field.deadline'|trans }}</dt>
                                     <dd>{{ log.taskDeadline.format(date_format) }}</dd>
                                 {% endif %}
                                 {% if null != log.taskDescription %}
-                                    <dt>{{ 'task.field.description'|trans }}</dt>
+                                    <dt>{{ 'field.description'|trans }}</dt>
                                     <dd>{{ log.taskDescription|nl2br }}</dd>
                                 {% endif %}
                             </dl>

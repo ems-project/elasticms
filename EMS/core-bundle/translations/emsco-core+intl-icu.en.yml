@@ -116,8 +116,6 @@ content-type:
         tasks_titles:
             label: Titles
 content_type:
-    field: Field
-    mapping: Mapping
     permission: Permission
     role: Role
     settings: Settings
@@ -462,6 +460,8 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     wysiwyg_profile: 'WYSIWYG profile'
+    field: Field
+    mapping: Mapping
 field_type:
     json_menu_editor:
         add_item: 'Add item'
@@ -483,7 +483,6 @@ fields:
         move-button: Move
         upload-file: 'Upload file'
         upload-files: 'Upload files'
-    field: Field
     file:
         asset_options: 'Asset options'
         drag_and_drop: 'Drag and drop your file here'
@@ -499,7 +498,6 @@ fields:
     options:
         display: Display
         extra: Extra
-        mapping: Mapping
         migration: Migration
         restriction: Restriction
     subfield: Subfield

@@ -116,8 +116,6 @@ content-type:
         tasks_titles:
             label: Titels
 content_type:
-    field: Veld
-    mapping: Mapping
     permission: Toestemming
     role: Rol
     settings: Instellingen
@@ -462,6 +460,8 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     wysiwyg_profile: WYSIWYG-profiel
+    field: Veld
+    mapping: Mapping
 field_type:
     json_menu_editor:
         add_item: 'Item toevoegen'
@@ -483,7 +483,6 @@ fields:
         move-button: Verplaatsen
         upload-file: 'Bestand uploaden'
         upload-files: 'Bestanden uploaden'
-    field: Veld
     file:
         asset_options: Assetopties
         drag_and_drop: 'Sleep uw bestand hierheen'
@@ -499,7 +498,6 @@ fields:
     options:
         display: Weergave
         extra: Extra
-        mapping: Mapping
         migration: Migratie
         restriction: Beperking
     subfield: Subveld

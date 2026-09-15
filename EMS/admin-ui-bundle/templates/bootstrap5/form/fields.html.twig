@@ -1256,7 +1256,7 @@
                       </div>
                     </div>
                     <button type="button" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#{{ form.vars.id }}_modal_add">
-                        <i class="fa fa-plus"></i> {{ 'fields.field'|trans }}
+                        <i class="fa fa-plus"></i> {{ 'field.field'|trans }}
                     </button>
                 {% endif %}
 
@@ -1334,7 +1334,7 @@
                                                 {% set active = '' %}
                                             {% endif %}
                                             {% if form.options.mappingOptions is defined %}
-                                                <li class="nav-item{{ active }}"><a href="#tab_mapping_{{ form.vars.id }}" data-bs-target="#tab_mapping_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">{{ 'fields.options.mapping'|trans }}</a></li>
+                                                <li class="nav-item{{ active }}"><a href="#tab_mapping_{{ form.vars.id }}" data-bs-target="#tab_mapping_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">{{ 'field.mapping'|trans }}</a></li>
                                                 {% set active = '' %}
                                             {% endif %}
                                             {% if form.options.restrictionOptions is defined %}

@@ -173,11 +173,6 @@ core:
                 other   {Er zijn # indexen}
             }
     version: 'Versie {core} met Symfony {symfony}'
-email:
-    crm_export:
-        body_greeting: 'Met vriendelijke groeten.'
-        body_hello: 'Hallo,'
-        body_text: 'In bijlage vindt u de export van de gevraagde CRM-inzendingen.'
 ems_core:
     dashboard:
         export:
@@ -949,6 +944,9 @@ message:
     wysiwyg_styles_set_updated: 'De stijlenset "{name}" is bijgewerkt'
     xliff_not_current_revision: 'Revisie {revision_id} van {ouuid} is niet langer de laatste revisie. De vertalingen werden niet geïmporteerd.'
     xliff_too_many_translations: '{counter} vertaaldocumenten terwijl er slechts één wordt verwacht voor vertaal-ID {translation_id} en doeltaal {target_locale} in omgeving {environment}'
+    email_greeting: 'Met vriendelijke groeten.'
+    email_hello: 'Hallo,'
+    email_crm_export: 'In bijlage vindt u de export van de gevraagde CRM-inzendingen.'
 modal:
     loading_information: 'Informatie laden...'
 navigation:

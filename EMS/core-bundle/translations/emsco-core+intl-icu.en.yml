@@ -173,11 +173,6 @@ core:
                 other   {There are # indexes}
             }
     version: 'Version {core} with Symfony {symfony}'
-email:
-    crm_export:
-        body_greeting: Regards.
-        body_hello: 'Hello,'
-        body_text: 'Please find attached the export of requested CRM submissions.'
 ems_core:
     dashboard:
         export:
@@ -949,6 +944,9 @@ message:
     wysiwyg_styles_set_updated: 'Style set "{name}" has been updated'
     xliff_not_current_revision: 'The revision {revision_id} of {ouuid} is no longer the last revision. The translations were not imported.'
     xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
+    email_greeting: Regards.
+    email_hello: 'Hello,'
+    email_crm_export: 'Please find attached the export of requested CRM submissions.'
 modal:
     loading_information: 'Loading information...'
 navigation:

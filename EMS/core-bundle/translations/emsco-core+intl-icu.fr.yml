@@ -173,11 +173,6 @@ core:
                 other   {Il y a # index}
             }
     version: 'Version {core} avec Symfony {symfony}'
-email:
-    crm_export:
-        body_greeting: Cordialement.
-        body_hello: 'Bonjour,'
-        body_text: "Vous trouverez ci-joint l'export des soumissions CRM demandées."
 ems_core:
     dashboard:
         export:
@@ -949,6 +944,9 @@ message:
     wysiwyg_styles_set_updated: 'Le jeu de styles « {name} » a été mis à jour'
     xliff_not_current_revision: "La révision {revision_id} de {ouuid} n'est plus la dernière révision. Les traductions n'ont pas été importées."
     xliff_too_many_translations: "{counter} documents de traduction alors qu'un seul est attendu pour l'identifiant de traduction {translation_id} et la locale cible {target_locale} dans l'environnement {environment}"
+    email_greeting: Cordialement.
+    email_hello: 'Bonjour,'
+    email_crm_export: "Vous trouverez ci-joint l'export des soumissions CRM demandées."
 modal:
     loading_information: 'Chargement des informations...'
 navigation:

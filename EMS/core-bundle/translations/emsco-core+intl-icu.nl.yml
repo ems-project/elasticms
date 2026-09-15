@@ -351,6 +351,7 @@ field:
     is_default: Standaard
     is_dirty: Gewijzigd
     is_edit_wysiwyg: 'Bewerken met WYSIWYG'
+    is_mail_notification: e-mailnotificatie
     is_menu_notification: 'Zichtbaar in het notificatiemenu'
     is_menu_sidebar: 'Zichtbaar in het zijmenu'
     is_preview: Voorbeeld
@@ -459,7 +460,6 @@ field:
     username: Gebruikersnaam
     username_or_email: 'Gebruikersnaam of e-mailadres'
     wysiwyg_profile: WYSIWYG-profiel
-    is_mail_notification: e-mailnotificatie
 help:
     add_first_aggregate_option: "Klik op 'Aggregatieoptie toevoegen' om een eerste aggregatieoptie te maken"
     add_first_search_field_option: "Klik op 'Zoekveldoptie toevoegen' om een eerste zoekveldoptie te maken"

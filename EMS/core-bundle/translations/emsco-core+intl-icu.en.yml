@@ -351,6 +351,7 @@ field:
     is_default: Default
     is_dirty: Dirty
     is_edit_wysiwyg: 'Edit with WYSIWYG'
+    is_mail_notification: 'e-mail notification'
     is_menu_notification: 'Visible in the notification menu'
     is_menu_sidebar: 'Visible in the sidebar menu'
     is_preview: Preview
@@ -459,7 +460,6 @@ field:
     username: Username
     username_or_email: 'Username or email address'
     wysiwyg_profile: 'WYSIWYG profile'
-    is_mail_notification: 'e-mail notification'
 help:
     add_first_aggregate_option: "Click on 'Add an aggregate option' to create a first Aggregate Option: Click on 'Add an aggregate option' to create a first Aggregate Option"
     add_first_search_field_option: "'Add an search field option' to create a first Search Field Option: Click on 'Add an search field option' to create a first Search Field Option"

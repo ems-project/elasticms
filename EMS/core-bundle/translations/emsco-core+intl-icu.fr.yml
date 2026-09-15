@@ -351,6 +351,7 @@ field:
     is_default: 'Par défaut'
     is_dirty: Modifié
     is_edit_wysiwyg: 'Modifier avec WYSIWYG'
+    is_mail_notification: 'notification par e-mail'
     is_menu_notification: 'Visible dans le menu des notifications'
     is_menu_sidebar: 'Visible dans le menu latéral'
     is_preview: Prévisualisation
@@ -459,7 +460,6 @@ field:
     username: "Nom d'utilisateur"
     username_or_email: 'Nom d’utilisateur ou adresse e-mail'
     wysiwyg_profile: 'Profil WYSIWYG'
-    is_mail_notification: 'notification par e-mail'
 help:
     add_first_aggregate_option: 'Cliquez sur « Ajouter une option d’agrégation » pour créer une première option d’agrégation'
     add_first_search_field_option: 'Cliquez sur « Ajouter une option de champ de recherche » pour créer une première option de champ de recherche'

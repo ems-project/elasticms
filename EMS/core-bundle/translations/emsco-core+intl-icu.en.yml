@@ -34,6 +34,7 @@ action:
     edit: Edit
     edit_entity: 'Edit {entity_name}'
     edit_managed_alias: 'Edit managed alias'
+    enable: Enable
     export: Export
     export_selected: 'Export selected'
     extract_content: 'Extract content'
@@ -60,6 +61,7 @@ action:
     select_all: 'Select all'
     show: Show
     status: Status
+    test: Test
     toggle_sidebar: 'Toggle sidebar'
     toggle_visibility: 'Toggle visibility'
     toggle_visibility_selected: 'Toggle visibility selected'
@@ -200,6 +202,7 @@ field:
     assignee: Assignee
     attributes: 'Request extra attributes'
     available: Available
+    base_url: 'Base URL'
     channel: Channel
     char_filter: 'Char filter'
     circles: Circles
@@ -344,6 +347,7 @@ field:
     template_body: 'Template body'
     template_footer: 'Template footer'
     template_header: 'Template header'
+    template_publication: 'Publication template'
     template_response: 'Template response'
     text: Text
     title: Task
@@ -365,8 +369,6 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     wysiwyg_profile: 'WYSIWYG profile'
-    base_url: 'Base URL'
-    template_publication: 'Publication template'
 field_type:
     json_menu_editor:
         add_item: 'Add item'
@@ -489,6 +491,7 @@ key:
     dashboards: Dashboards
     delayed_unassigned_shards: 'Delayed unassigned shards'
     documentation: Documentation
+    elasticsearch_information: 'Elasticsearch information'
     environments_external: 'External environments'
     environments_local: 'Local environments'
     error: Error
@@ -581,7 +584,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
-    elasticsearch_information: 'Elasticsearch information'
 log:
     error:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
@@ -725,6 +727,7 @@ message:
     document_compared: 'Compared the revision {revision_id} of the document {content_type}:{ouuid} with the revision {compare_revision_id} of the document {compare_content_type}:{compare_ouuid}'
     document_copied: 'The content of the document "{label}" has been copied to the clipboard'
     document_duplicated: 'The document "{label}" has been used to initiate a new document'
+    elasticsearch_index_missing: 'Elasticsearch index is missing !'
     email_crm_export: 'Please find attached the export of requested CRM submissions.'
     email_greeting: Regards.
     email_hello: 'Hello,'
@@ -738,9 +741,14 @@ message:
     environment_cannot_align_default: 'The document "{label}" cannot be published in {environment} as it is the {content_type}''''s default environment'
     environment_created: 'The environment {environment} has been created'
     environment_deleted: 'The environment "{label}" has been deleted'
+    environment_edit_notice_rename: |
+        If you intend to rename the alias,
+        please create a new environment and align it to the one you would like to rename the alias.
+        Then delete the previous one.
     environment_is_default: 'The environment {environment} is used as default environment for at least one content type'
     environment_not_empty: 'The environment {environment} is not empty'
     environment_publish_permission_denied: 'You do not have enough privileges to publish "{content_type}" documents'
+    environment_rebuild_notice: 'Be cautious, depending of the option selected some content in the search index may be lost.'
     environment_rebuild_unknown_option: 'Impossible to rebuild the environment {environment} due to unknown option "{option}"'
     environment_updated: 'The environment {environment} has been updated'
     environment_wrong_ouuid: 'Malformed OUUID {ouuid}'
@@ -888,6 +896,9 @@ message:
     view_sorter_ordered: 'The {content_type} documents have been ordered with the view "{view_label}"'
     view_sorter_too_many_documents: 'This content type has too many documents ({total}) to be reordered all at once'
     view_updated: 'The view "{label}" has been updated'
+    webhook_disabled: 'The subscription {id} has been disabled'
+    webhook_re_enabled: 'The subscription {id} has been re-enabled'
+    webhook_test_dispatched: 'A webhook_test event has been sent to the subscription {id}'
     wysiwyg_invalid_config_format: 'Format not valid: {msg}'
     wysiwyg_profile_deleted: 'Profile "{name}" has been deleted'
     wysiwyg_profile_updated: 'Profile "{name}" has been updated'
@@ -895,12 +906,6 @@ message:
     wysiwyg_styles_set_updated: 'Style set "{name}" has been updated'
     xliff_not_current_revision: 'The revision {revision_id} of {ouuid} is no longer the last revision. The translations were not imported.'
     xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
-    environment_edit_notice_rename: |
-        If you intend to rename the alias,
-        please create a new environment and align it to the one you would like to rename the alias.
-        Then delete the previous one.
-    environment_rebuild_notice: 'Be cautious, depending of the option selected some content in the search index may be lost.'
-    elasticsearch_index_missing: 'Elasticsearch index is missing !'
 modal:
     loading_information: 'Loading information...'
 navigation:
@@ -947,6 +952,7 @@ notification:
     warnings: Warnings
 option:
     allow_add: 'Allow add'
+    default_search: 'In default search'
     delete_existing_templates: 'Delete existing templates'
     delete_existing_views: 'Delete existing views'
     disabled: Disabled
@@ -957,7 +963,6 @@ option:
     layout_sidebar_mini: 'Sidebar mini'
     multiple: Multiple
     recompute_on_publish: 'Recompute documents on publication'
-    default_search: 'In default search'
     update_referrers: 'Update referrers'
 out-of-sync:
     modal:
@@ -1304,20 +1309,20 @@ title:
     content_type_create_ouuid: 'This operation will not index the {content_type}, but initiate a draft only with a specific OUUID'
     content_type_from_json_file: "from a Content Type's JSON file"
     content_type_json_update: 'Update the content type "{content_type}"'
+    edit_environment: 'Edit the environment "{name}"'
+    edit_environment_short: 'Edit environment'
+    list_environments: 'List Environments'
     new_content_type: 'New {content_type}'
     new_environment_short: 'New Environment'
+    rebuild_environment: 'Rebuild the environment {name}'
+    rebuild_index_short: 'Rebuild index'
     select_environments_to_compare: 'Select Environments to compare'
+    select_your_options: 'Select your options'
     view_custom: 'View {name} of the {contentType} "{label}" as indexed in {environment}'
     view_ems_id: 'View {content_type}:{id}'
-    view_recursive: 'Recursive view'
-    edit_environment_short: 'Edit environment'
-    edit_environment: 'Edit the environment "{name}"'
-    list_environments: 'List Environments'
-    select_your_options: 'Select your options'
-    rebuild_index_short: 'Rebuild index'
-    rebuild_environment: 'Rebuild the environment {name}'
-    view_environment_short: 'View environment'
     view_environment: 'View the environment {name}'
+    view_environment_short: 'View environment'
+    view_recursive: 'Recursive view'
 type:
     confirm: |-
         {type, select,
@@ -1783,11 +1788,3 @@ views:
             anonymous-user: 'Anonymous user'
             quick-search-label: 'Quick search'
             quick-search-placeholder: Search...
-webhook:
-    enable:
-        action: Enable
-        disabled: 'The subscription {id} has been disabled'
-        re-enabled: 'The subscription {id} has been re-enabled'
-    test:
-        action: Test
-        dispatched: 'A webhook_test event has been sent to the subscription {id}'

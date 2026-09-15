@@ -34,6 +34,7 @@ action:
     edit: Bewerken
     edit_entity: '{entity_name} bewerken'
     edit_managed_alias: 'Beheerde alias bewerken'
+    enable: Inschakelen
     export: Exporteren
     export_selected: 'Selectie exporteren'
     extract_content: 'Inhoud extraheren'
@@ -60,6 +61,7 @@ action:
     select_all: 'Alles selecteren'
     show: Tonen
     status: Status
+    test: Testen
     toggle_sidebar: 'Zijbalk omschakelen'
     toggle_visibility: 'Zichtbaarheid omschakelen'
     toggle_visibility_selected: 'Zichtbaarheid van selectie omschakelen'
@@ -200,6 +202,7 @@ field:
     assignee: Toegewezene
     attributes: 'Extra request-attributen'
     available: Beschikbaar
+    base_url: Basis-URL
     channel: Kanaal
     char_filter: 'Char filter'
     circles: Kringen
@@ -344,6 +347,7 @@ field:
     template_body: 'Template body'
     template_footer: 'Template footer'
     template_header: 'Template header'
+    template_publication: Publicatiesjabloon
     template_response: 'Template response'
     text: Tekst
     title: Taak
@@ -365,8 +369,6 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     wysiwyg_profile: WYSIWYG-profiel
-    base_url: Basis-URL
-    template_publication: Publicatiesjabloon
 field_type:
     json_menu_editor:
         add_item: 'Item toevoegen'
@@ -489,6 +491,7 @@ key:
     dashboards: Dashboards
     delayed_unassigned_shards: 'Vertraagde niet-toegewezen shards'
     documentation: Documentatie
+    elasticsearch_information: Elasticsearch-informatie
     environments_external: 'Externe omgevingen'
     environments_local: 'Lokale omgevingen'
     error: Fout
@@ -581,7 +584,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profielen
     wysiwyg_style_sets: Stijlsets
-    elasticsearch_information: Elasticsearch-informatie
 log:
     error:
         content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
@@ -725,6 +727,7 @@ message:
     document_compared: 'Revisie {revision_id} van het document {content_type}:{ouuid} vergeleken met revisie {compare_revision_id} van het document {compare_content_type}:{compare_ouuid}'
     document_copied: 'De inhoud van het document "{label}" is naar het klembord gekopieerd'
     document_duplicated: 'Het document "{label}" is gebruikt om een nieuw document te starten'
+    elasticsearch_index_missing: 'Elasticsearch-index ontbreekt!'
     email_crm_export: 'In bijlage vindt u de export van de gevraagde CRM-inzendingen.'
     email_greeting: 'Met vriendelijke groeten.'
     email_hello: 'Hallo,'
@@ -738,9 +741,14 @@ message:
     environment_cannot_align_default: 'Het document "{label}" kan niet worden gepubliceerd in {environment} omdat dit de standaardomgeving van {content_type} is'
     environment_created: 'De omgeving {environment} is aangemaakt'
     environment_deleted: 'De omgeving "{label}" is verwijderd'
+    environment_edit_notice_rename: |
+        Als u de alias wilt hernoemen,
+        maak dan een nieuwe omgeving aan en lijn deze uit met de omgeving waarvan u de alias wilt hernoemen.
+        Verwijder vervolgens de vorige.
     environment_is_default: 'De omgeving {environment} wordt gebruikt als standaardomgeving voor minstens één content type'
     environment_not_empty: 'De omgeving {environment} is niet leeg'
     environment_publish_permission_denied: 'U heeft onvoldoende rechten om "{content_type}" documenten te publiceren'
+    environment_rebuild_notice: 'Wees voorzichtig: afhankelijk van de geselecteerde optie kan bepaalde inhoud in de zoekindex verloren gaan.'
     environment_rebuild_unknown_option: 'Onmogelijk om de omgeving {environment} te herbouwen door onbekende optie "{option}"'
     environment_updated: 'De omgeving {environment} is bijgewerkt'
     environment_wrong_ouuid: 'Onjuist gevormde OUUID {ouuid}'
@@ -888,6 +896,9 @@ message:
     view_sorter_ordered: 'De documenten van {content_type} zijn gesorteerd met de weergave "{view_label}"'
     view_sorter_too_many_documents: 'Dit content type heeft te veel documenten ({total}) om in één keer opnieuw te ordenen'
     view_updated: 'De weergave "{label}" is bijgewerkt'
+    webhook_disabled: 'Het abonnement {id} is uitgeschakeld'
+    webhook_re_enabled: 'Het abonnement {id} is opnieuw ingeschakeld'
+    webhook_test_dispatched: 'Een webhook_test-event is verzonden naar abonnement {id}'
     wysiwyg_invalid_config_format: 'Formaat ongeldig: {msg}'
     wysiwyg_profile_deleted: 'Het profiel "{name}" is verwijderd'
     wysiwyg_profile_updated: 'Het profiel "{name}" is bijgewerkt'
@@ -895,12 +906,6 @@ message:
     wysiwyg_styles_set_updated: 'De stijlenset "{name}" is bijgewerkt'
     xliff_not_current_revision: 'Revisie {revision_id} van {ouuid} is niet langer de laatste revisie. De vertalingen werden niet geïmporteerd.'
     xliff_too_many_translations: '{counter} vertaaldocumenten terwijl er slechts één wordt verwacht voor vertaal-ID {translation_id} en doeltaal {target_locale} in omgeving {environment}'
-    environment_edit_notice_rename: |
-        Als u de alias wilt hernoemen,
-        maak dan een nieuwe omgeving aan en lijn deze uit met de omgeving waarvan u de alias wilt hernoemen.
-        Verwijder vervolgens de vorige.
-    environment_rebuild_notice: 'Wees voorzichtig: afhankelijk van de geselecteerde optie kan bepaalde inhoud in de zoekindex verloren gaan.'
-    elasticsearch_index_missing: 'Elasticsearch-index ontbreekt!'
 modal:
     loading_information: 'Informatie laden...'
 navigation:
@@ -947,6 +952,7 @@ notification:
     warnings: Waarschuwingen
 option:
     allow_add: 'Toevoegen toestaan'
+    default_search: 'In standaardzoekopdracht'
     delete_existing_templates: 'Bestaande templates verwijderen'
     delete_existing_views: 'Bestaande weergaven verwijderen'
     disabled: Uitgeschakeld
@@ -957,7 +963,6 @@ option:
     layout_sidebar_mini: 'Zijbalk mini'
     multiple: Meerdere
     recompute_on_publish: 'Documenten herberekenen bij publicatie'
-    default_search: 'In standaardzoekopdracht'
     update_referrers: 'Verwijzers bijwerken'
 out-of-sync:
     modal:
@@ -1304,20 +1309,20 @@ title:
     content_type_create_ouuid: 'Deze bewerking indexeert het {content_type} niet, maar start alleen een concept met een specifieke OUUID'
     content_type_from_json_file: 'vanuit een JSON-bestand van een content type'
     content_type_json_update: 'Content type "{content_type}" bijwerken'
+    edit_environment: 'Omgeving "{name}" bewerken'
+    edit_environment_short: 'Omgeving bewerken'
+    list_environments: 'Omgevingen weergeven'
     new_content_type: 'Nieuwe {content_type}'
     new_environment_short: 'Nieuwe omgeving'
+    rebuild_environment: 'Omgeving {name} heropbouwen'
+    rebuild_index_short: 'Index heropbouwen'
     select_environments_to_compare: 'Selecteer omgevingen om te vergelijken'
+    select_your_options: 'Selecteer uw opties'
     view_custom: 'Weergave {name} van {contentType} "{label}" zoals geïndexeerd in {environment}'
     view_ems_id: '{content_type}:{id} bekijken'
-    view_recursive: 'Recursieve weergave'
-    edit_environment_short: 'Omgeving bewerken'
-    edit_environment: 'Omgeving "{name}" bewerken'
-    list_environments: 'Omgevingen weergeven'
-    select_your_options: 'Selecteer uw opties'
-    rebuild_index_short: 'Index heropbouwen'
-    rebuild_environment: 'Omgeving {name} heropbouwen'
-    view_environment_short: 'Omgeving bekijken'
     view_environment: 'Omgeving {name} bekijken'
+    view_environment_short: 'Omgeving bekijken'
+    view_recursive: 'Recursieve weergave'
 type:
     confirm: |-
         {type, select,
@@ -1783,11 +1788,3 @@ views:
             anonymous-user: 'Anonieme gebruiker'
             quick-search-label: 'Snel zoeken'
             quick-search-placeholder: Zoeken...
-webhook:
-    enable:
-        action: Inschakelen
-        disabled: 'Het abonnement {id} is uitgeschakeld'
-        re-enabled: 'Het abonnement {id} is opnieuw ingeschakeld'
-    test:
-        action: Testen
-        dispatched: 'Een webhook_test-event is verzonden naar abonnement {id}'

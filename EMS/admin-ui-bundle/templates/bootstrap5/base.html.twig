@@ -98,7 +98,7 @@
               </li>
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="{{ path(routes.USER_PROFILE) }}" class="btn btn-light btn-flat">{{ 'user.profile.title'|trans({}, 'emsco-core') }}</a>
+                  <a href="{{ path(routes.USER_PROFILE) }}" class="btn btn-light btn-flat">{{ 'profile.title'|trans({}, 'emsco-core') }}</a>
                 </div>
                 <div class="float-end">
                        {% if is_granted('IS_IMPERSONATOR') %}
@@ -147,7 +147,7 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title" id="myModalNotifications">
-                            <strong>{{ 'notification.plural'|trans }}</strong>
+                            <strong>{{ 'key.notifications'|trans }}</strong>
                 </h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
               </div>

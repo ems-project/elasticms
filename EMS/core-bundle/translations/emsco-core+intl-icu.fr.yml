@@ -112,8 +112,6 @@ content-type:
             label: 'Masquer la barre latérale de révision'
         recompute_on_publish:
             label: 'Recalculer les documents lors de la publication'
-        tasks_enabled:
-            label: Activé
         tasks_helptexts:
             label: 'Textes d’aide'
         tasks_titles:
@@ -356,7 +354,6 @@ field:
         extension: Extension
         mimetype: 'Type MIME'
         name: 'Nom du fichier'
-        orientation: Orientation
         paper_size: 'Format du papier'
         size: Taille
         type: Type
@@ -1020,7 +1017,6 @@ notification:
     no_result_for_filters: 'Aucun résultat pour cette combinaison de filtres'
     nothing_to_treat: 'Aucune notification en attente'
     'on': Le
-    plural: Notifications
     rejected: Rejetée
     rejected_by: 'Rejetée par'
     rejected_message: 'Message de rejet'
@@ -1047,9 +1043,6 @@ option:
     layout_sidebar_collapse: 'Réduction de la barre latérale'
     layout_sidebar_mini: 'Barre latérale mini'
     multiple: Multiple
-orientation:
-    landscape: Paysage
-    portrait: Portrait
 out-of-sync:
     modal:
         please-reload: 'Veuillez recharger la page.'
@@ -1631,7 +1624,6 @@ user:
             displayname: 'Nom d’affichage'
             email: E-mail
             email_notification: 'Notifications par e-mail'
-            enabled: Activé
             expirationDate: 'Date d’expiration'
             group: Groupe
             lastLogin: 'Dernière connexion'
@@ -1682,7 +1674,6 @@ user:
             locale_preferred: 'Langue préférée'
             username: 'Nom d’utilisateur'
             wysiwyg: 'Profil WYSIWYG'
-        title: 'Votre profil'
     resetting:
         check_email: |
             Un e-mail a été envoyé. Il contient un lien sur lequel vous devez cliquer pour réinitialiser votre mot de passe.
@@ -1736,9 +1727,6 @@ view:
             menu-option-button: Voir
     profile:
         show:
-            action:
-                profile:
-                    title: 'Votre profil'
             alt:
                 user_profile_picture: 'Photo de profil de l’utilisateur'
             display_name: 'Nom affiché'

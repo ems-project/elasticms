@@ -112,8 +112,6 @@ content-type:
             label: 'Revisiezijbalk verbergen'
         recompute_on_publish:
             label: 'Documenten herberekenen bij publicatie'
-        tasks_enabled:
-            label: Ingeschakeld
         tasks_helptexts:
             label: Helpteksten
         tasks_titles:
@@ -356,7 +354,6 @@ field:
         extension: Extensie
         mimetype: MIME-type
         name: Bestandsnaam
-        orientation: Oriëntatie
         paper_size: Papierformaat
         size: Grootte
         type: Type
@@ -1020,7 +1017,6 @@ notification:
     no_result_for_filters: 'Geen resultaat voor deze filtercombinatie'
     nothing_to_treat: 'Geen wachtende notificaties'
     'on': Op
-    plural: Notificaties
     rejected: Geweigerd
     rejected_by: 'Geweigerd door'
     rejected_message: Weigeringsbericht
@@ -1047,9 +1043,6 @@ option:
     layout_sidebar_collapse: 'Zijbalk inklapbaar'
     layout_sidebar_mini: 'Zijbalk mini'
     multiple: Meerdere
-orientation:
-    landscape: Liggend
-    portrait: Staand
 out-of-sync:
     modal:
         please-reload: 'Herlaad de pagina.'
@@ -1631,7 +1624,6 @@ user:
             displayname: Weergavenaam
             email: E-mail
             email_notification: E-mailnotificaties
-            enabled: Ingeschakeld
             expirationDate: Vervaldatum
             group: Groep
             lastLogin: 'Laatste login'
@@ -1682,7 +1674,6 @@ user:
             locale_preferred: Voorkeurslocale
             username: Gebruikersnaam
             wysiwyg: WYSIWYG-profiel
-        title: 'Uw profiel'
     resetting:
         check_email: |
             Er is een e-mail verzonden. Deze bevat een link waarop u moet klikken om uw wachtwoord opnieuw in te stellen.
@@ -1736,9 +1727,6 @@ view:
             menu-option-button: Bekijken
     profile:
         show:
-            action:
-                profile:
-                    title: 'Uw profiel'
             alt:
                 user_profile_picture: 'Profielfoto van de gebruiker'
             display_name: Weergavenaam

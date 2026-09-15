@@ -31,7 +31,7 @@ class ContentTypeSettingsType extends AbstractType
                 'required' => false,
             ])
             ->add(ContentTypeSettings::TASKS_ENABLED, CheckboxType::class, [
-                'label' => t('content-type.field.tasks_enabled.label', [], 'emsco-core'),
+                'label' => t('option.enabled', [], 'emsco-core'),
                 'required' => false,
             ])
             ->add(ContentTypeSettings::RECOMPUTE_ON_PUBLISH, CheckboxType::class, [

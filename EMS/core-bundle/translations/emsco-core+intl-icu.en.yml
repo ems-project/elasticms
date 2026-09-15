@@ -112,8 +112,6 @@ content-type:
             label: 'Hide revision sidebar'
         recompute_on_publish:
             label: 'Recompute documents on publication'
-        tasks_enabled:
-            label: Enabled
         tasks_helptexts:
             label: Helptexts
         tasks_titles:
@@ -356,7 +354,6 @@ field:
         extension: Extension
         mimetype: Mime-Type
         name: Filename
-        orientation: Orientation
         paper_size: 'Paper size'
         size: Size
         type: Type
@@ -1020,7 +1017,6 @@ notification:
     no_result_for_filters: 'No result for this filters combinaison'
     nothing_to_treat: 'No pending notifications'
     'on': 'On'
-    plural: Notifications
     rejected: Rejected
     rejected_by: 'Rejected by'
     rejected_message: 'Rejected message'
@@ -1047,9 +1043,6 @@ option:
     layout_sidebar_collapse: 'Sidebar collapse'
     layout_sidebar_mini: 'Sidebar mini'
     multiple: Multiple
-orientation:
-    landscape: Landscape
-    portrait: Portrait
 out-of-sync:
     modal:
         please-reload: 'Please reload the page.'
@@ -1631,7 +1624,6 @@ user:
             displayname: 'Display name'
             email: E-mail
             email_notification: 'E-mail notifications'
-            enabled: Enabled
             expirationDate: 'Expiration Date'
             group: Group
             lastLogin: 'Last Login'
@@ -1682,7 +1674,6 @@ user:
             locale_preferred: 'Locale preferred'
             username: Username
             wysiwyg: 'WYSIWYG profile'
-        title: 'Your profile'
     resetting:
         check_email: |
             An email has been sent. It contains a link you must click to reset your password.
@@ -1736,9 +1727,6 @@ view:
             menu-option-button: View
     profile:
         show:
-            action:
-                profile:
-                    title: 'Your profile'
             alt:
                 user_profile_picture: "User profile's picture"
             display_name: 'Display name'

@@ -68,7 +68,7 @@ class UserDataTableType extends AbstractEntityTableType
             if ($this->circleObject) {
                 $table->addColumnDefinition(new DataLinksTableColumn(t('user.index.column.circles', [], 'emsco-core'), 'circles'));
             }
-            $table->addColumnDefinition(new BoolTableColumn(t('user.index.column.enabled', [], 'emsco-core'), 'enabled'));
+            $table->addColumnDefinition(new BoolTableColumn(t('field.enabled', [], 'emsco-core'), 'enabled'));
             if ($this->groupFeature) {
                 $table->addColumnDefinition(new EntityTableColumn(t('user.index.column.group', [], 'emsco-core'), 'group'));
             }

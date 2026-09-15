@@ -577,6 +577,8 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profielen
     wysiwyg_style_sets: Stijlsets
+    failed_jobs: 'Mislukte jobs'
+    pending_jobs: 'Wachtende jobs'
 message:
     action_created: 'Een nieuwe actie "{label}" is aangemaakt'
     action_deleted: 'De actie "{label}" is verwijderd'
@@ -897,6 +899,8 @@ message:
     wysiwyg_styles_set_updated: 'De stijlenset "{name}" is bijgewerkt'
     xliff_not_current_revision: 'Revisie {revision_id} van {ouuid} is niet langer de laatste revisie. De vertalingen werden niet geïmporteerd.'
     xliff_too_many_translations: '{counter} vertaaldocumenten terwijl er slechts één wordt verwacht voor vertaal-ID {translation_id} en doeltaal {target_locale} in omgeving {environment}'
+    messages_in_error: 'Berichten met fout'
+    messages_in_queue: 'Berichten in de wachtrij'
 option:
     allow_add: 'Toevoegen toestaan'
     default_search: 'In standaardzoekopdracht'
@@ -967,20 +971,6 @@ role:
         label: 'Gebruiker lezen'
     webmaster:
         label: Webmaster
-status:
-    bus:
-        failed: 'Berichten met fout'
-        queue: 'Berichten in de wachtrij'
-        title: 'Berichten in de bus'
-    jobs:
-        failed: 'Mislukte jobs'
-        pending: 'Wachtende jobs'
-        title: Jobs
-    title: Systeemstatus
-    title_sub: 'Werkt alles zoals verwacht?'
-subtitle:
-    user-in-group: 'Gebruikers in groep'
-    user-not-in-group: 'Gebruiker niet in groep'
 task:
     assigned_to: 'Toegewezen aan '
     create:
@@ -1152,6 +1142,11 @@ title:
     view_file: 'Bestand bekijken'
     view_file_modal: 'Bestand bekijken: {name}'
     view_recursive: 'Recursieve weergave'
+    messages_in_bus: 'Berichten in de bus'
+    systems_status: Systeemstatus
+    systems_status_tagline: 'Werkt alles zoals verwacht?'
+    users_in_group: 'Gebruikers in groep'
+    user_not_in_group: 'Gebruiker niet in groep'
 type:
     confirm: |-
         {type, select,

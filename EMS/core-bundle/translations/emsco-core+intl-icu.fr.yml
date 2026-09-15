@@ -577,6 +577,8 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profils
     wysiwyg_style_sets: 'Jeux de styles'
+    failed_jobs: 'Jobs échoués'
+    pending_jobs: 'Jobs en attente'
 message:
     action_created: 'Une nouvelle action "{label}" a été créée'
     action_deleted: 'L''action "{label}" a été supprimée'
@@ -897,6 +899,8 @@ message:
     wysiwyg_styles_set_updated: 'Le jeu de styles « {name} » a été mis à jour'
     xliff_not_current_revision: "La révision {revision_id} de {ouuid} n'est plus la dernière révision. Les traductions n'ont pas été importées."
     xliff_too_many_translations: "{counter} documents de traduction alors qu'un seul est attendu pour l'identifiant de traduction {translation_id} et la locale cible {target_locale} dans l'environnement {environment}"
+    messages_in_error: 'Messages en erreur'
+    messages_in_queue: 'Messages dans la file'
 option:
     allow_add: 'Autoriser l’ajout'
     default_search: 'Dans la recherche par défaut'
@@ -967,20 +971,6 @@ role:
         label: 'Lecture utilisateur'
     webmaster:
         label: Webmaster
-status:
-    bus:
-        failed: 'Messages en erreur'
-        queue: 'Messages dans la file'
-        title: 'Messages dans le bus'
-    jobs:
-        failed: 'Jobs échoués'
-        pending: 'Jobs en attente'
-        title: Jobs
-    title: 'Statut des systèmes'
-    title_sub: 'Est-ce que tout fonctionne comme prévu ?'
-subtitle:
-    user-in-group: 'Utilisateurs dans le groupe'
-    user-not-in-group: 'Utilisateur hors du groupe'
 task:
     assigned_to: 'Assignée à '
     create:
@@ -1152,6 +1142,11 @@ title:
     view_file: 'Voir le fichier'
     view_file_modal: 'Voir le fichier : {name}'
     view_recursive: 'Vue récursive'
+    messages_in_bus: 'Messages dans le bus'
+    systems_status: 'Statut des systèmes'
+    systems_status_tagline: 'Est-ce que tout fonctionne comme prévu ?'
+    users_in_group: 'Utilisateurs dans le groupe'
+    user_not_in_group: 'Utilisateur hors du groupe'
 type:
     confirm: |-
         {type, select,

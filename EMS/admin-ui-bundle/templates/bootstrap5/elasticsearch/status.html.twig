@@ -166,14 +166,14 @@
         {% set jobsGroup %}
             {{ include('@EMSAdminUI/bootstrap5/core/list-group.html.twig', {
                 list: [
-                    {label: 'status.jobs.pending'|trans, value: jobs.pending|default(0)},
-                    {label: 'status.jobs.failed'|trans, value: jobs.failed|default(0)},
+                    {label: 'key.pending_jobs'|trans, value: jobs.pending|default(0)},
+                    {label: 'key.failed_jobs'|trans, value: jobs.failed|default(0)},
                 ],
             }) }}
         {% endset %}
         {% with {
             content: jobsGroup,
-            cardTitle: 'status.jobs.title'|trans,
+            cardTitle: 'key.jobs'|trans,
             cardTitleIcon: 'fa-solid fa-terminal fa-2x',
             theme_color: jobs.status,
         } %}
@@ -187,14 +187,14 @@
         {% set busGroup %}
             {{ include('@EMSAdminUI/bootstrap5/core/list-group.html.twig', {
                 list: [
-                    {label: 'status.bus.queue'|trans, value: bus.queue|default(0)},
-                    {label: 'status.bus.failed'|trans, value: bus.failed|default(0)},
+                    {label: 'message.messages_in_queue'|trans, value: bus.queue|default(0)},
+                    {label: 'message.messages_in_error'|trans, value: bus.failed|default(0)},
                 ],
             }) }}
         {% endset %}
         {% with {
             content: busGroup,
-            cardTitle: 'status.bus.title'|trans,
+            cardTitle: 'title.messages_in_bus'|trans,
             cardTitleIcon: 'fa-solid fa-bus fa-2x',
             theme_color: bus.status,
         } %}

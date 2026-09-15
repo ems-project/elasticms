@@ -577,6 +577,8 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
+    failed_jobs: 'Failed jobs'
+    pending_jobs: 'Pending jobs'
 message:
     action_created: 'A new action "{label}" has been created'
     action_deleted: 'The action "{label}" has been deleted'
@@ -897,6 +899,8 @@ message:
     wysiwyg_styles_set_updated: 'Style set "{name}" has been updated'
     xliff_not_current_revision: 'The revision {revision_id} of {ouuid} is no longer the last revision. The translations were not imported.'
     xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
+    messages_in_error: 'Messages in error'
+    messages_in_queue: 'Messages in the queue'
 option:
     allow_add: 'Allow add'
     default_search: 'In default search'
@@ -967,20 +971,6 @@ role:
         label: 'User read'
     webmaster:
         label: Webmaster
-status:
-    bus:
-        failed: 'Messages in error'
-        queue: 'Messages in the queue'
-        title: 'Messages in the bus'
-    jobs:
-        failed: 'Failed jobs'
-        pending: 'Pending jobs'
-        title: Jobs
-    title: "Systems' status"
-    title_sub: 'Is everything working as expected?'
-subtitle:
-    user-in-group: 'Users in group'
-    user-not-in-group: 'User not in group'
 task:
     assigned_to: 'Assigned to '
     create:
@@ -1152,6 +1142,11 @@ title:
     view_file: 'View file'
     view_file_modal: 'View file: {name}'
     view_recursive: 'Recursive view'
+    messages_in_bus: 'Messages in the bus'
+    systems_status: "Systems' status"
+    systems_status_tagline: 'Is everything working as expected?'
+    users_in_group: 'Users in group'
+    user_not_in_group: 'User not in group'
 type:
     confirm: |-
         {type, select,

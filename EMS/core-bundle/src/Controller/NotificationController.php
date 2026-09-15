@@ -196,7 +196,7 @@ class NotificationController extends AbstractController
         $treatNotification = new TreatNotifications();
 
         $treatForm = $this->createForm(TreatNotificationsType::class, $treatNotification, [
-            'action' => $this->generateUrl('action.treat', [], UrlGeneratorInterface::RELATIVE_PATH),
+            'action' => $this->generateUrl('notification.treat', [], UrlGeneratorInterface::RELATIVE_PATH),
             'notifications' => $notifications,
         ]);
 

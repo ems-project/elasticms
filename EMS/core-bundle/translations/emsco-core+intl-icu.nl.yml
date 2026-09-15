@@ -43,6 +43,7 @@ action:
     rebuild: Heropbouwen
     refresh: Vernieuwen
     relaunch: Herstarten
+    reload_page: 'Pagina herladen'
     remove: Verwijderen
     reorder: Hersorteren
     reorder_content_type: 'Het content type "{content_type}" hersorteren'
@@ -64,7 +65,6 @@ action:
     update_from_json: 'Bijwerken vanuit JSON'
     update_mapping: 'Mapping bijwerken'
     view: Bekijken
-    reload_page: 'Pagina herladen'
 asset_extractor:
     status: |-
         {color, select,

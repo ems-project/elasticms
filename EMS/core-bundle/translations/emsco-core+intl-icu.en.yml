@@ -43,6 +43,7 @@ action:
     rebuild: Rebuild
     refresh: Refresh
     relaunch: Relaunch
+    reload_page: 'Reload page'
     remove: Remove
     reorder: Reorder
     reorder_content_type: 'Reorder the content type "{content_type}"'
@@ -64,7 +65,6 @@ action:
     update_from_json: 'Update from JSON'
     update_mapping: 'Update mapping'
     view: View
-    reload_page: 'Reload page'
 asset_extractor:
     status: |-
         {color, select,

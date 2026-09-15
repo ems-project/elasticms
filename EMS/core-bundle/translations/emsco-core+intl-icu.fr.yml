@@ -51,6 +51,7 @@ action:
     edit: Modifier
     edit_draft: 'Modifier le brouillon'
     edit_entity: 'Modifier {entity_name}'
+    edit_main_container: 'Modifier le conteneur principal'
     edit_managed_alias: 'Modifier l’alias géré'
     edit_revision: 'Modifier la révision'
     enable: Activer
@@ -318,7 +319,9 @@ field:
         size: Taille
         type: Type
     file_hash: 'Hash du fichier'
+    file_hash_apostrophe: 'Hash du fichier'
     file_info: 'Informations du fichier'
+    file_info_apostrophe: 'Informations du fichier'
     filter: Filtre
     flags: Indicateurs
     form: Formulaire
@@ -354,6 +357,7 @@ field:
     last_modification: 'Dernière modification'
     last_seen: 'Vu pour la dernière fois'
     locale: Locale
+    locale_preferred: 'Langue préférée'
     locked_by: 'Verrouillé par'
     locked_until: 'Verrouillé jusqu’à'
     lowercase: Minuscules
@@ -504,6 +508,8 @@ key:
     edit_revision_json: 'Édition JSON brute'
     elasticsearch_information: 'Informations Elasticsearch'
     elements: Éléments
+    email_lowercase: e-mail
+    email_notification_lowercase: 'notification par e-mail'
     empty: Vide
     environments_external: 'Environnements externes'
     environments_local: 'Environnements locaux'
@@ -536,7 +542,9 @@ key:
     last_commands: 'Dernières commandes'
     last_update: 'Dernière mise à jour'
     link_to_document: 'Lien vers le document'
+    locale_ui: 'Langue de l’interface'
     locked: Verrouillé
+    login: Identifiant
     logs: Logs
     loop_count: '#'
     lucene_version: 'Version de Lucene'
@@ -579,6 +587,7 @@ key:
     pending: 'En attente'
     pending_jobs: 'Jobs en attente'
     pendings: 'En attente'
+    permission_overview_singular: 'Vue d’ensemble des permissions'
     portrait: Portrait
     prefix_instance_id: 'Préfixer l’alias avec l’ID de l’instance'
     previous_revision: 'Révision précédente'
@@ -594,10 +603,13 @@ key:
     ready: Prête
     recent_activities: 'Activités récentes'
     releases: Releases
+    reorganise_colon: 'Réorganiser :'
     requested_tasks: 'Tâches demandées'
     requesters: Demandeurs
     revision_tasks: 'Tâches de révision'
     revisions: Révisions
+    roles_hierarchy: 'Hiérarchie des rôles'
+    roles_specific_functionalities: 'Rôles pour des fonctionnalités spécifiques'
     rollback: 'Annuler (rollback)'
     schedule: Planification
     schedule_cron: '<Minute> <Heure> <Jour_du_mois> <Mois_de_l’année> <Jour_de_la_semaine>. Ex. toutes les 15 minutes : */15 * * * *'
@@ -618,6 +630,9 @@ key:
     sort_option: 'Option de tri'
     sort_options: 'Options de tri'
     sort_options_lowercase: 'Options de tri'
+    specif_roles_abbrev: 'Rôles spéc.'
+    specific_roles_lowercase: 'rôles spécifiques'
+    specific_roles_of_fields: 'Rôles spécifiques des champs'
     statuses: Statuts
     structure: Structure
     subfield: Sous-champ
@@ -644,6 +659,7 @@ key:
     uploaded_files: 'Fichiers uploadés'
     uploaded_files_logs: 'Logs des fichiers uploadés'
     user_name_placeholder: '{name}'
+    user_profile_picture_alt: 'Photo de profil de l’utilisateur'
     users: Utilisateurs
     version: Version
     versioning: Versioning
@@ -680,6 +696,8 @@ message:
     cancel_non_saved_modifications: 'Annuler les modifications non enregistrées'
     channel_alias_not_found: 'Le canal "{label}" ne peut pas être enregistré car son alias "{alias}" est manquant'
     channel_deleted: 'Le canal "{name}" a été supprimé'
+    collection_added_items: '{0} Aucun élément n’a été ajouté.|{1} Un élément a été ajouté.|]1,Inf[ {count} éléments ont été ajoutés.'
+    collection_removed_items: '{0} Aucun élément n’a été supprimé.|{1} Un élément a été supprimé.|]1,Inf[ {count} éléments ont été supprimés.'
     confirm_delete_files: 'Êtes-vous sûr de vouloir supprimer les {count} fichiers sélectionnés ?'
     confirm_delete_folder: |
         Êtes-vous sûr de vouloir supprimer ce dossier ?
@@ -743,6 +761,7 @@ message:
     drag_and_drop_files: 'Glissez-déposez vos fichiers ici'
     duplicate_environment: 'L’environnement « {name} » existe déjà !'
     duplicate_field: 'Dupliquer <strong>{name}</strong>'
+    edit_field_name: 'Modifier {name}'
     elasticsearch_index_missing: 'L’index Elasticsearch est manquant !'
     email_crm_export: "Vous trouverez ci-joint l'export des soumissions CRM demandées."
     email_greeting: Cordialement.
@@ -782,8 +801,10 @@ message:
     field_reordered: 'Les sous-champs du champ "{name}" ont été réorganisés'
     field_syntax_error: 'Erreur de syntaxe dans le champ {field_name} : {error_message}'
     field_template_parse_error: "Erreur lors de l'analyse du champ calculé {computed_field_name} : {error_message}"
+    field_type_not_found: 'La définition de type associée à cet élément est manquante (probablement supprimée).'
     field_with_errors: 'Le champ {path} est en erreur avec le message {error_message}'
     file_preview_fallback: 'Aucun plugin disponible pour afficher le contenu du fichier.'
+    file_preview_of_field: Aperçu
     file_upload_error: 'Erreur lors du téléchargement du fichier : {error_message}'
     filter_deleted: 'Le filtre {filter_name} a été supprimé'
     finalized_by: '{date} Finalisé par {user}'
@@ -799,6 +820,8 @@ message:
         Renommage du dossier en cours.
         Veuillez patienter...
     form_deleted: 'Le formulaire "{label}" a été supprimé'
+    form_not_defined: 'Formulaire non défini'
+    form_not_found: 'Formulaire introuvable'
     form_submission_deleted: 'La soumission de formulaire avec l''id "{id}" a été supprimée !'
     hide_finished_tasks: 'Masquer les tâches terminées ({number})'
     import_failed: "Échec de l'import"
@@ -811,6 +834,7 @@ message:
     job_failed: 'La tâche "{label}" a échoué dans l''environnement {environment}'
     job_info: 'À propos de ce job'
     job_initialized: 'La tâche "{label}" a été initialisée dans l''environnement {environment}'
+    json_menu_out_of_sync: 'Désynchronisé, veuillez rafraîchir et réessayer !'
     linked_documents_in: 'Documents liés dans {environment} ({length}/{total})'
     loading_information: 'Chargement des informations...'
     loading_more_files: 'Chargement de fichiers supplémentaires...'
@@ -856,6 +880,7 @@ message:
     object_choice_limited_result_set: 'Le sélecteur de lien de données est limité aux {limit} premiers documents sur {count}'
     ouuid_constraint: "L’OUUID contient un caractère non autorisé : A-Z, a-z, 0-9, tiret : '-', underscore : '_' ou point : '.'."
     ouuid_placeholder: 'Généré automatiquement si laissé vide'
+    pick_file_from_server: 'Choisir un fichier sur le serveur'
     please_reload_page: 'Veuillez recharger la page.'
     preview_alt: 'Aperçu du champ {field}'
     privilege_exception: "Vous n'avez pas suffisamment de droits pour modifier ce document"
@@ -938,6 +963,8 @@ message:
     revision_unpublished: 'Le document "{label}" a été dépublié de {environment}'
     revision_updated_in_release: 'Le document "{label}" a été mis à jour avec une nouvelle révision dans la release "{release}"'
     revison_not_found_in_env: 'aucune révision dans {environment}'
+    roles_functionalities_description: 'Ces rôles sont spécifiquement liés à des fonctionnalités et n’ont rien à voir avec la gestion de contenu. Ce sont des rôles fonctionnels qui donnent accès à des fonctionnalités spécifiques du CMS.'
+    roles_hierarchy_description: 'L’accès à un rôle implique l’accès à tous les rôles situés en dessous dans la hiérarchie. Les rôles hiérarchiques peuvent être attribués pour accorder et limiter l’accès au type de contenu.'
     schedule_created: 'La planification "{name}" a été créée'
     schedule_deleted: 'La planification "{name}" a été supprimée'
     schedule_updated: 'La planification "{name}" a été mise à jour'
@@ -977,6 +1004,7 @@ message:
     task_updated: 'Tâche « {title} » mise à jour avec succès.'
     tika_server_not_configured: "Le serveur Tika n'est pas configuré"
     up_to_date: 'Tout est à jour.'
+    upload_is_starting: 'Le téléversement démarre'
     user_api_key_generated: "Nouvelle clé API pour l'utilisateur {user_display_name} : {api_key}"
     user_custom_form_not_found: 'Formulaire utilisateur personnalisé "{name}" introuvable'
     user_deleted: "L'utilisateur {user_display_name} a été supprimé"
@@ -986,6 +1014,8 @@ message:
     user_profile_updated: 'Le profil a été mis à jour.'
     user_resetting_success: 'Le mot de passe a été réinitialisé avec succès.'
     user_updated: "L'utilisateur {user_display_name} a été mis à jour"
+    users_in_group_label: 'Utilisateurs dans le groupe {label}'
+    users_not_in_group_label: 'Utilisateurs hors du groupe {label}'
     view_bucket_not_found: 'Bucket {bucket_path} introuvable'
     view_created: 'Une nouvelle vue {view_label} a été créée'
     view_criteria_added: 'Un critère a été ajouté pour le champ {field_name} avec la valeur {field_data}'
@@ -1103,6 +1133,7 @@ title:
     content_type_create_ouuid: "Cette opération n'indexera pas le {content_type}, mais initiera uniquement un brouillon avec un OUUID spécifique"
     content_type_from_json_file: "à partir d'un fichier JSON d'un content type"
     content_type_json_update: 'Mettre à jour le content type "{content_type}"'
+    content_type_permissions: 'Permissions des types de contenu'
     delete_file: 'Supprimer le fichier'
     delete_files_count: 'Supprimer {count} fichiers'
     delete_folder: 'Supprimer le dossier'
@@ -1131,12 +1162,14 @@ title:
             other {Déplacer # fichiers}
         }
     move_folder: 'Déplacer le dossier'
+    name_of_plural: '{name} de {plural}'
     new_content_type: 'Nouveau {content_type}'
     new_draft: '{contentType} : nouveau brouillon'
     new_environment_short: 'Nouvel environnement'
     new_label: 'Nouveau {label}'
     notifications_none_pending: 'Aucune notification en attente'
     out_of_sync: Désynchronisé
+    permissions_overview: 'Vue d’ensemble des permissions'
     pick_a_release: 'Choisir une release pour « {label} »'
     planned_tasks: 'Tâches planifiées'
     profile: 'Votre profil'
@@ -1155,9 +1188,11 @@ title:
     search_result_error: 'Erreur avec le résultat de la recherche'
     select_environments_to_compare: 'Sélectionner les environnements à comparer'
     select_your_options: 'Sélectionnez vos options'
+    specific_permissions_for: 'Permission pour {content_type_singular_name}'
     systems_status: 'Statut des systèmes'
     systems_status_tagline: 'Est-ce que tout fonctionne comme prévu ?'
     task_modal: 'Tâche : {title}'
+    user_list: 'Liste des utilisateurs'
     user_not_in_group: 'Utilisateur hors du groupe'
     users_in_group: 'Utilisateurs dans le groupe'
     view_custom: 'Vue {name} de {contentType} « {label} » telle qu’indexée dans {environment}'
@@ -1449,86 +1484,3 @@ user:
             subject: 'Réinitialiser le mot de passe'
         title: 'Réinitialiser le mot de passe'
         username_email: 'Nom d’utilisateur ou adresse e-mail'
-view:
-    contenttype:
-        reorder_item:
-            edit_field_button: 'Modifier {name}'
-            edit_main_container_button: 'Modifier le conteneur principal'
-    custom:
-        hierarchical:
-            reorganise: 'Réorganiser :'
-    data:
-        json-menu-nested-json-preview:
-            field-type-not-found: 'La définition de type associée à cet élément est manquante (probablement supprimée).'
-        json-menu-nested:
-            out_of_sync: 'Désynchronisé, veuillez rafraîchir et réessayer !'
-    form:
-        fields:
-            asset:
-                browse-server: 'Choisir un fichier sur le serveur'
-                drag-n-drop-file: 'Glissez-déposez votre fichier ici'
-                drag-n-drop-files: 'Glissez-déposez vos fichiers ici'
-                file-hash: 'Hash du fichier'
-                file-info: 'Informations du fichier'
-                init-upload: 'Le téléversement démarre'
-                move-button: Déplacer
-                preview: Aperçu
-                upload-file: 'Téléverser un fichier'
-                upload-files: 'Téléverser des fichiers'
-    macros:
-        data-field-type:
-            collection_added_items: '{0} Aucun élément n’a été ajouté.|{1} Un élément a été ajouté.|]1,Inf[ {count} éléments ont été ajoutés.'
-            collection_removed_items: '{0} Aucun élément n’a été supprimé.|{1} Un élément a été supprimé.|]1,Inf[ {count} éléments ont été supprimés.'
-            form:
-                not-defined: 'Formulaire non défini'
-                not-found: 'Formulaire introuvable'
-            menu-option-button: Voir
-    profile:
-        show:
-            alt:
-                user_profile_picture: 'Photo de profil de l’utilisateur'
-            display_name: 'Nom affiché'
-            email: e-mail
-            email_notification: 'notification par e-mail'
-            locale: 'Langue de l’interface'
-            locale_preferred: 'Langue préférée'
-            login: Identifiant
-            wysiwyg: 'Profil WYSIWYG'
-    title: '{name} de {plural}'
-    user:
-        index:
-            title: 'Liste des utilisateurs'
-            user-in-group: 'Utilisateurs dans le groupe {label}'
-            user-not-in-group: 'Utilisateurs hors du groupe {label}'
-        permissions:
-            page_title: 'Vue d’ensemble des permissions'
-            table_headers:
-                archive: Archiver
-                content_type: 'Type de contenu'
-                create: Créer
-                delete: Supprimer
-                description: Description
-                edit: Modifier
-                icon: Icône
-                publish: Publier
-                role: Rôle
-                show_link_create: 'Afficher le lien de création'
-                show_link_search: 'Afficher le lien de recherche'
-                specific_roles: 'Rôles spéc.'
-                trash: Corbeille
-                view: Voir
-            titles:
-                content_type_permissions: 'Permissions des types de contenu'
-                descriptions:
-                    roles_functionalities_description: 'Ces rôles sont spécifiquement liés à des fonctionnalités et n’ont rien à voir avec la gestion de contenu. Ce sont des rôles fonctionnels qui donnent accès à des fonctionnalités spécifiques du CMS.'
-                    roles_hierarchy_description: 'L’accès à un rôle implique l’accès à tous les rôles situés en dessous dans la hiérarchie. Les rôles hiérarchiques peuvent être attribués pour accorder et limiter l’accès au type de contenu.'
-                roles_hierarchy: 'Hiérarchie des rôles'
-                roles_specific_functionalities: 'Rôles pour des fonctionnalités spécifiques'
-        specific_permissions:
-            breadcrumb:
-                permission_overview: 'Vue d’ensemble des permissions'
-                specific_role: 'rôles spécifiques'
-            titles:
-                permissions_overview: 'Vue d’ensemble des permissions'
-                specific_permissions: 'Permission pour {content_type_singular_name}'
-                specific_roles: 'Rôles spécifiques des champs'

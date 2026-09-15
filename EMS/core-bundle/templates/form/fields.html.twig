@@ -980,11 +980,11 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="{{ 'action.close'|trans }}"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title">{{ 'view.form.fields.asset.file-info'|trans }}</h4>
+							<h4 class="modal-title">{{ 'field.file_info_apostrophe'|trans }}</h4>
 						</div>
 						<div class="modal-body">
 							<div class="form-group">
-								<label>{{ 'view.form.fields.asset.file-hash'|trans }}</label>
+								<label>{{ 'field.file_hash_apostrophe'|trans }}</label>
 								<div class="form-control asset-hash-signature">{% if fileItem.sha1.vars.value is defined %}{{ fileItem.sha1.vars.value }}{% endif %}</div>
 								{{- form_row(fileItem.sha1) -}}
 								{{- form_row(fileItem._image_resized_hash) -}}
@@ -1000,7 +1000,7 @@
 			</div>
 			<div class="asset-upload-tab {% if not prototype %}hidden{% endif %}">
 				<div class="progress-group">
-					<span class="progress-text">{{ 'view.form.fields.asset.init-upload'|trans }}</span>
+					<span class="progress-text">{{ 'message.upload_is_starting'|trans }}</span>
 					<span class="progress-number">&nbsp;</span>
 					<div class="progress sm">
 						<div class="progress-bar" style="width: 0%"></div>
@@ -1015,9 +1015,9 @@
 							<i class="fa fa-info"></i>
 							<span class="sr-only">{{ 'action.info'|trans }}</span>
 						</button>
-						<a type="button" class="btn ui-sortable-handle move-handle" title="{{ 'view.form.fields.asset.move-button'|trans }}">
+						<a type="button" class="btn ui-sortable-handle move-handle" title="{{ 'action.move'|trans }}">
 							<i class="fa fa-arrows"></i>
-							<span class="sr-only">{{ 'view.form.fields.asset.move-button'|trans }}</span>
+							<span class="sr-only">{{ 'action.move'|trans }}</span>
 						</a>
 						<a href="{% if prototype %}#{% else %}{{ ems_asset_path(fileItem.vars.value) }}{% endif %}" type="button" class="btn btn-primary view-asset-button {% if prototype %}disabled{% endif %}" title="{{ 'action.view'|trans }}" target="_blank">
 							<i class="fa fa-eye"></i>
@@ -1059,11 +1059,11 @@
 				<div class="modal-content">
 				  <div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="{{ 'action.close'|trans }}"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">{{ 'view.form.fields.asset.file-info'|trans }}</h4>
+					<h4 class="modal-title" id="myModalLabel">{{ 'field.file_info_apostrophe'|trans }}</h4>
 				  </div>
 				  <div class="modal-body">
 					<div class="form-group">
-						<label>{{ 'view.form.fields.asset.file-hash'|trans }}</label>
+						<label>{{ 'field.file_hash_apostrophe'|trans }}</label>
 						<div class="form-control asset-hash-signature">{% if form.vars.value.sha1 is defined %}{{ form.vars.value.sha1 }}{% endif %}</div>
 					</div>
 					{{- form_widget(form) -}}
@@ -1081,9 +1081,9 @@
         	{% if not form.vars.disabled %}
         		<p class="text-center asset-preview">
 					{% if form.vars.multiple|default(false) %}
-						<strong>{{ 'view.form.fields.asset.drag-n-drop-files'|trans }}</strong>
+						<strong>{{ 'message.drag_and_drop_files'|trans }}</strong>
 					{% else %}
-						<strong>{{ 'view.form.fields.asset.drag-n-drop-file'|trans }}</strong>
+						<strong>{{ 'message.drag_and_drop_file'|trans }}</strong>
 					{% endif %}
                 </p>
         	{% endif %}
@@ -1102,7 +1102,7 @@
             		{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}
             			src="{{ emsco_asset_path(form.vars.value, form.vars.data.fieldType.getDisplayOption('imageAssetConfigIdentifier', 'preview')) }}"
             		{% endif %}
-            		class="img-responsive center-block" alt="{{ 'view.form.fields.asset.preview'|trans({'label': form_label(form)|striptags }) }}"
+            		class="img-responsive center-block" alt="{{ 'message.file_preview_of_field'|trans({'label': form_label(form)|striptags }) }}"
             	>
 	        </div>
         </div>
@@ -1124,14 +1124,14 @@
 		{% if form.vars.multiple|default(false) %}
 			<div class="btn-group">
 				<input type="file" id="file-upload-{{ form.vars.id }}" class="file-uploader-input" {% if form.vars.disabled %}disabled="disabled"{% endif %} multiple="multiple" data-testid="file-btn-upload-files-{{ form.vars.name }}">
-				<label class="btn btn-default" for="file-upload-{{ form.vars.id }}"><i class="fa fa-upload"></i> {{ 'view.form.fields.asset.upload-files'|trans|e('html_attr') }}</label>
+				<label class="btn btn-default" for="file-upload-{{ form.vars.id }}"><i class="fa fa-upload"></i> {{ 'action.upload_files'|trans|e('html_attr') }}</label>
 			</div>
 		{% else %}
 			<div class="btn-group">
 				<input type="file" id="file-upload-{{ form.vars.id }}" class="file-uploader-input" {% if form.vars.disabled %}disabled="disabled"{% endif %} data-testid="file-btn-upload-file-{{ form.vars.name }}">
-				<label class="btn btn-default" for="file-upload-{{ form.vars.id }}"><i class="fa fa-upload"></i> {{ 'view.form.fields.asset.upload-file'|trans|e('html_attr') }}</label>
+				<label class="btn btn-default" for="file-upload-{{ form.vars.id }}"><i class="fa fa-upload"></i> {{ 'action.upload_file'|trans|e('html_attr') }}</label>
 			</div>
-			<button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}"  class="btn btn-small btn-default file-browse-server" data-testid="file-btn-browser-serer-{{ form.vars.name }}"><i class="fa fa-folder-open-o"></i><span class="sr-only">{{ 'view.form.fields.asset.browse-server'|trans }}</span></button>
+			<button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}"  class="btn btn-small btn-default file-browse-server" data-testid="file-btn-browser-serer-{{ form.vars.name }}"><i class="fa fa-folder-open-o"></i><span class="sr-only">{{ 'message.pick_file_from_server'|trans }}</span></button>
 			<div class="btn-group">
 				<button type="button" class="btn btn-small btn-default asset-details" data-toggle="modal" data-target="#asst-details-{{ form.vars.id }}" data-testid="file-btn-info-{{ form.vars.name }}">
 				  	<i class="fa fa-info"></i>
@@ -1215,7 +1215,7 @@
 			<input type="file" id="upload-{{ form.vars.id }}" class="file-uploader-input" data-testid="file-btn-upload-file-{{ form.vars.name }}">
 			<label class="btn btn-default" for="upload-{{ form.vars.id }}"><i class="fa fa-upload"></i> Upload file</label>
 		</div>
-		<button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}" class="btn btn-small btn-default file-browse-server" data-testid="file-btn-browser-serer-{{ form.vars.name }}"><i class="fa fa-folder-open-o"></i><span class="sr-only">{{ 'view.form.fields.asset.browse-server'|trans }}</span></button>
+		<button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}" class="btn btn-small btn-default file-browse-server" data-testid="file-btn-browser-serer-{{ form.vars.name }}"><i class="fa fa-folder-open-o"></i><span class="sr-only">{{ 'message.pick_file_from_server'|trans }}</span></button>
 		<div class="btn-group">
 			<button type="button" class="btn btn-small btn-default asset-details" data-toggle="modal" data-target="#asst-details-{{ form.vars.id }}" data-testid="file-btn-info-{{ form.vars.name }}">
               <i class="fa fa-info"></i>

@@ -51,6 +51,7 @@ action:
     edit: Bewerken
     edit_draft: 'Concept bewerken'
     edit_entity: '{entity_name} bewerken'
+    edit_main_container: 'De hoofdcontainer bewerken'
     edit_managed_alias: 'Beheerde alias bewerken'
     edit_revision: 'Revisie bewerken'
     enable: Inschakelen
@@ -318,7 +319,9 @@ field:
         size: Grootte
         type: Type
     file_hash: Bestandshash
+    file_hash_apostrophe: 'Hash van het bestand'
     file_info: Bestandsinformatie
+    file_info_apostrophe: Bestandsinformatie
     filter: Filter
     flags: Vlaggen
     form: Formulier
@@ -354,6 +357,7 @@ field:
     last_modification: 'Laatste wijziging'
     last_seen: 'Laatst gezien'
     locale: Locale
+    locale_preferred: Voorkeurstaal
     locked_by: 'Vergrendeld door'
     locked_until: 'Vergrendeld tot'
     lowercase: 'Kleine letters'
@@ -504,6 +508,8 @@ key:
     edit_revision_json: 'Ruwe JSON-bewerking'
     elasticsearch_information: Elasticsearch-informatie
     elements: Elementen
+    email_lowercase: e-mail
+    email_notification_lowercase: e-mailmelding
     empty: Leeg
     environments_external: 'Externe omgevingen'
     environments_local: 'Lokale omgevingen'
@@ -536,7 +542,9 @@ key:
     last_commands: 'Laatste commando’s'
     last_update: 'Laatste update'
     link_to_document: 'Link naar document'
+    locale_ui: 'Taal van de interface'
     locked: Vergrendeld
+    login: Login
     logs: Logs
     loop_count: '#'
     lucene_version: Lucene-versie
@@ -579,6 +587,7 @@ key:
     pending: Wachtend
     pending_jobs: 'Wachtende jobs'
     pendings: Wachtenden
+    permission_overview_singular: 'Overzicht van rechten'
     portrait: Portret
     prefix_instance_id: 'Alias voorafgaan met instance-ID'
     previous_revision: 'Vorige revisie'
@@ -594,10 +603,13 @@ key:
     ready: Klaar
     recent_activities: 'Recente activiteiten'
     releases: Releases
+    reorganise_colon: 'Reorganiseren:'
     requested_tasks: 'Aangevraagde taken'
     requesters: Aanvragers
     revision_tasks: Revisietaken
     revisions: Revisies
+    roles_hierarchy: Rolhiërarchie
+    roles_specific_functionalities: 'Rollen voor specifieke functionaliteiten'
     rollback: Terugdraaien
     schedule: Planning
     schedule_cron: '<Minuut> <Uur> <Dag_van_de_maand> <Maand_van_het_jaar> <Dag_van_de_week>. Bv. elke 15 minuten: */15 * * * *'
@@ -618,6 +630,9 @@ key:
     sort_option: Sorteeroptie
     sort_options: Sorteeropties
     sort_options_lowercase: Sorteeropties
+    specif_roles_abbrev: 'Specif. rollen'
+    specific_roles_lowercase: 'specifieke rollen'
+    specific_roles_of_fields: 'Specifieke rollen van velden'
     statuses: Statussen
     structure: Structuur
     subfield: Subveld
@@ -644,6 +659,7 @@ key:
     uploaded_files: 'Geüploade bestanden'
     uploaded_files_logs: 'Logs van geüploade bestanden'
     user_name_placeholder: '{name}'
+    user_profile_picture_alt: 'Profielfoto van de gebruiker'
     users: Gebruikers
     version: Versie
     versioning: Versionering
@@ -680,6 +696,8 @@ message:
     cancel_non_saved_modifications: 'Niet-opgeslagen wijzigingen annuleren'
     channel_alias_not_found: 'Het kanaal "{label}" kan niet worden geregistreerd omdat de alias "{alias}" ontbreekt'
     channel_deleted: 'Het kanaal "{name}" is verwijderd'
+    collection_added_items: '{0} Er is niets toegevoegd.|{1} Er is één item toegevoegd.|]1,Inf[ Er zijn {count} items toegevoegd.'
+    collection_removed_items: '{0} Er is niets verwijderd.|{1} Er is één item verwijderd.|]1,Inf[ Er zijn {count} items verwijderd.'
     confirm_delete_files: 'Weet u zeker dat u de {count} geselecteerde bestanden wilt verwijderen?'
     confirm_delete_folder: |
         Weet u zeker dat u deze map wilt verwijderen?
@@ -743,6 +761,7 @@ message:
     drag_and_drop_files: 'Sleep uw bestanden hierheen'
     duplicate_environment: 'Omgeving "{name}" bestaat al!'
     duplicate_field: 'Dupliceren <strong>{name}</strong>'
+    edit_field_name: '{name} bewerken'
     elasticsearch_index_missing: 'Elasticsearch-index ontbreekt!'
     email_crm_export: 'In bijlage vindt u de export van de gevraagde CRM-inzendingen.'
     email_greeting: 'Met vriendelijke groeten.'
@@ -782,8 +801,10 @@ message:
     field_reordered: 'De subvelden van het veld "{name}" zijn opnieuw geordend'
     field_syntax_error: 'Syntaxfout bij het veld {field_name}: {error_message}'
     field_template_parse_error: 'Fout bij het parsen van het berekende veld {computed_field_name}: {error_message}'
+    field_type_not_found: 'De typedefinitie gekoppeld aan dit item ontbreekt (waarschijnlijk verwijderd).'
     field_with_errors: 'Het veld {path} bevat een fout met de melding {error_message}'
     file_preview_fallback: 'Geen plug-in beschikbaar om de bestandsinhoud weer te geven.'
+    file_preview_of_field: Voorbeeld
     file_upload_error: 'Fout tijdens het uploaden van het bestand: {error_message}'
     filter_deleted: 'De filter {filter_name} is verwijderd'
     finalized_by: '{date} Gefinaliseerd door {user}'
@@ -799,6 +820,8 @@ message:
         Map wordt hernoemd.
         Even geduld...
     form_deleted: 'Het formulier "{label}" is verwijderd'
+    form_not_defined: 'Formulier niet gedefinieerd'
+    form_not_found: 'Formulier niet gevonden'
     form_submission_deleted: 'Formulierinzending met id "{id}" is verwijderd!'
     hide_finished_tasks: 'Afgewerkte taken verbergen ({number})'
     import_failed: 'Import mislukt'
@@ -811,6 +834,7 @@ message:
     job_failed: 'De taak "{label}" is mislukt in de omgeving {environment}'
     job_info: 'Over deze job'
     job_initialized: 'De taak "{label}" is geïnitialiseerd in de omgeving {environment}'
+    json_menu_out_of_sync: 'Niet gesynchroniseerd, vernieuw en probeer opnieuw!'
     linked_documents_in: 'Gekoppelde documenten in {environment} ({length}/{total})'
     loading_information: 'Informatie laden...'
     loading_more_files: 'Meer bestanden laden...'
@@ -856,6 +880,7 @@ message:
     object_choice_limited_result_set: 'De datalinkkiezer is beperkt tot de eerste {limit} van {count} documenten'
     ouuid_constraint: "OUUID bevat een niet-toegestaan teken: A-Z, a-z, 0-9, koppelteken: '-', underscore: '_' of punt: '.'."
     ouuid_placeholder: 'Automatisch gegenereerd indien leeg gelaten'
+    pick_file_from_server: 'Kies een bestand van de server'
     please_reload_page: 'Herlaad de pagina.'
     preview_alt: 'Voorbeeld van veld {field}'
     privilege_exception: 'U heeft onvoldoende rechten om dit document te bewerken'
@@ -938,6 +963,8 @@ message:
     revision_unpublished: 'Het document "{label}" is gedepubliceerd uit {environment}'
     revision_updated_in_release: 'Document "{label}" is bijgewerkt met een nieuwe revisie in release "{release}"'
     revison_not_found_in_env: 'geen revisie in {environment}'
+    roles_functionalities_description: 'Deze rollen zijn specifiek bedoeld voor functionaliteit en hebben niets te maken met contentbeheer. Het zijn functionele rollen die toegang geven tot specifieke CMS-functies.'
+    roles_hierarchy_description: 'Toegang tot een rol impliceert toegang tot alle rollen eronder in de hiërarchie. Hiërarchische rollen kunnen worden toegewezen om toegang tot het contenttype te verlenen en te beperken.'
     schedule_created: 'Schema "{name}" is aangemaakt'
     schedule_deleted: 'Het schema "{name}" is verwijderd'
     schedule_updated: 'Schema "{name}" is bijgewerkt'
@@ -977,6 +1004,7 @@ message:
     task_updated: 'Taak "{title}" succesvol bijgewerkt.'
     tika_server_not_configured: 'Tika server is niet geconfigureerd'
     up_to_date: 'Alles is up-to-date.'
+    upload_is_starting: 'Upload wordt gestart'
     user_api_key_generated: 'Nieuwe API-sleutel voor de gebruiker {user_display_name}: {api_key}'
     user_custom_form_not_found: 'Aangepast gebruikersformulier "{name}" niet gevonden'
     user_deleted: 'De gebruiker {user_display_name} is verwijderd'
@@ -986,6 +1014,8 @@ message:
     user_profile_updated: 'Het profiel is bijgewerkt.'
     user_resetting_success: 'Het wachtwoord is opnieuw ingesteld.'
     user_updated: 'De gebruiker {user_display_name} is bijgewerkt'
+    users_in_group_label: 'Gebruikers in groep {label}'
+    users_not_in_group_label: 'Gebruikers niet in groep {label}'
     view_bucket_not_found: 'Bucket {bucket_path} niet gevonden'
     view_created: 'Een nieuwe weergave {view_label} is aangemaakt'
     view_criteria_added: 'Er is een criterium toegevoegd voor veld {field_name} met waarde {field_data}'
@@ -1103,6 +1133,7 @@ title:
     content_type_create_ouuid: 'Deze bewerking indexeert het {content_type} niet, maar start alleen een concept met een specifieke OUUID'
     content_type_from_json_file: 'vanuit een JSON-bestand van een content type'
     content_type_json_update: 'Content type "{content_type}" bijwerken'
+    content_type_permissions: 'Rechten van contenttypes'
     delete_file: 'Bestand verwijderen'
     delete_files_count: '{count} bestanden verwijderen'
     delete_folder: 'Map verwijderen'
@@ -1131,12 +1162,14 @@ title:
             other {# bestanden verplaatsen}
         }
     move_folder: 'Map verplaatsen'
+    name_of_plural: '{name} van {plural}'
     new_content_type: 'Nieuwe {content_type}'
     new_draft: '{contentType}: nieuw concept'
     new_environment_short: 'Nieuwe omgeving'
     new_label: 'Nieuwe {label}'
     notifications_none_pending: 'Geen wachtende notificaties'
     out_of_sync: 'Niet gesynchroniseerd'
+    permissions_overview: 'Overzicht van rechten'
     pick_a_release: 'Kies een release voor "{label}"'
     planned_tasks: 'Geplande taken'
     profile: 'Uw profiel'
@@ -1155,9 +1188,11 @@ title:
     search_result_error: 'Fout bij het zoekresultaat'
     select_environments_to_compare: 'Selecteer omgevingen om te vergelijken'
     select_your_options: 'Selecteer uw opties'
+    specific_permissions_for: 'Recht voor {content_type_singular_name}'
     systems_status: Systeemstatus
     systems_status_tagline: 'Werkt alles zoals verwacht?'
     task_modal: 'Taak: {title}'
+    user_list: Gebruikerslijst
     user_not_in_group: 'Gebruiker niet in groep'
     users_in_group: 'Gebruikers in groep'
     view_custom: 'Weergave {name} van {contentType} "{label}" zoals geïndexeerd in {environment}'
@@ -1449,86 +1484,3 @@ user:
             subject: 'Wachtwoord resetten'
         title: 'Wachtwoord resetten'
         username_email: 'Gebruikersnaam of e-mailadres'
-view:
-    contenttype:
-        reorder_item:
-            edit_field_button: '{name} bewerken'
-            edit_main_container_button: 'De hoofdcontainer bewerken'
-    custom:
-        hierarchical:
-            reorganise: 'Reorganiseren:'
-    data:
-        json-menu-nested-json-preview:
-            field-type-not-found: 'De typedefinitie gekoppeld aan dit item ontbreekt (waarschijnlijk verwijderd).'
-        json-menu-nested:
-            out_of_sync: 'Niet gesynchroniseerd, vernieuw en probeer opnieuw!'
-    form:
-        fields:
-            asset:
-                browse-server: 'Kies een bestand van de server'
-                drag-n-drop-file: 'Sleep uw bestand hierheen'
-                drag-n-drop-files: 'Sleep uw bestanden hierheen'
-                file-hash: 'Hash van het bestand'
-                file-info: Bestandsinformatie
-                init-upload: 'Upload wordt gestart'
-                move-button: Verplaatsen
-                preview: Voorbeeld
-                upload-file: 'Bestand uploaden'
-                upload-files: 'Bestanden uploaden'
-    macros:
-        data-field-type:
-            collection_added_items: '{0} Er is niets toegevoegd.|{1} Er is één item toegevoegd.|]1,Inf[ Er zijn {count} items toegevoegd.'
-            collection_removed_items: '{0} Er is niets verwijderd.|{1} Er is één item verwijderd.|]1,Inf[ Er zijn {count} items verwijderd.'
-            form:
-                not-defined: 'Formulier niet gedefinieerd'
-                not-found: 'Formulier niet gevonden'
-            menu-option-button: Bekijken
-    profile:
-        show:
-            alt:
-                user_profile_picture: 'Profielfoto van de gebruiker'
-            display_name: Weergavenaam
-            email: e-mail
-            email_notification: e-mailmelding
-            locale: 'Taal van de interface'
-            locale_preferred: Voorkeurstaal
-            login: Login
-            wysiwyg: WYSIWYG-profiel
-    title: '{name} van {plural}'
-    user:
-        index:
-            title: Gebruikerslijst
-            user-in-group: 'Gebruikers in groep {label}'
-            user-not-in-group: 'Gebruikers niet in groep {label}'
-        permissions:
-            page_title: 'Overzicht van rechten'
-            table_headers:
-                archive: Archiveren
-                content_type: Contenttype
-                create: Aanmaken
-                delete: Verwijderen
-                description: Beschrijving
-                edit: Bewerken
-                icon: Icoon
-                publish: Publiceren
-                role: Rol
-                show_link_create: 'Link aanmaken tonen'
-                show_link_search: 'Link zoeken tonen'
-                specific_roles: 'Specif. rollen'
-                trash: Prullenbak
-                view: Bekijken
-            titles:
-                content_type_permissions: 'Rechten van contenttypes'
-                descriptions:
-                    roles_functionalities_description: 'Deze rollen zijn specifiek bedoeld voor functionaliteit en hebben niets te maken met contentbeheer. Het zijn functionele rollen die toegang geven tot specifieke CMS-functies.'
-                    roles_hierarchy_description: 'Toegang tot een rol impliceert toegang tot alle rollen eronder in de hiërarchie. Hiërarchische rollen kunnen worden toegewezen om toegang tot het contenttype te verlenen en te beperken.'
-                roles_hierarchy: Rolhiërarchie
-                roles_specific_functionalities: 'Rollen voor specifieke functionaliteiten'
-        specific_permissions:
-            breadcrumb:
-                permission_overview: 'Overzicht van rechten'
-                specific_role: 'specifieke rollen'
-            titles:
-                permissions_overview: 'Overzicht van rechten'
-                specific_permissions: 'Recht voor {content_type_singular_name}'
-                specific_roles: 'Specifieke rollen van velden'

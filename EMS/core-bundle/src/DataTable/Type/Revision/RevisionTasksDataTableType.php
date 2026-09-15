@@ -192,13 +192,13 @@ class RevisionTasksDataTableType extends AbstractQueryTableType implements DataT
     {
         return match ($column) {
             'title' => t('field.title', [], 'emsco-core'),
-            'label' => t('task.dashboard.column.label', [], 'emsco-core'),
-            'version_next_tag' => t('task.dashboard.column.version_next_tag', [], 'emsco-core'),
+            'label' => t('key.document', [], 'emsco-core'),
+            'version_next_tag' => t('field.new_version', [], 'emsco-core'),
             'requester' => t('field.requester', [], 'emsco-core'),
             'assignee' => t('field.assignee', [], 'emsco-core'),
             'status' => t('field.status', [], 'emsco-core'),
             'deadline' => t('field.deadline', [], 'emsco-core'),
-            'modified' => t('task.dashboard.column.modified', [], 'emsco-core'),
+            'modified' => t('field.last_modification', [], 'emsco-core'),
             'actions' => t('key.actions', [], 'emsco-core'),
             default => throw new \RuntimeException('invalid column')
         };

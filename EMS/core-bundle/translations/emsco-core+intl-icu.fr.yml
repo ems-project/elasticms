@@ -104,6 +104,15 @@ action:
     upload_files: 'Uploader les fichiers'
     view: Voir
     view_draft_in_progress: 'Voir le brouillon en cours'
+    add_task: 'Ajouter une tâche'
+    create_task: 'Créer la tâche'
+    edit_revision: 'Modifier la révision'
+    delete_task: 'Supprimer la tâche'
+    change_order: 'Changer l’ordre'
+    save_task: 'Enregistrer la tâche'
+    approve: Approuver
+    reject: Rejeter
+    send: Envoyer
 asset_extractor:
     status: |-
         {color, select,
@@ -415,6 +424,13 @@ field:
     user_uploaded: 'Uploadé par'
     username: "Nom d'utilisateur"
     wysiwyg_profile: 'Profil WYSIWYG'
+    assigned_to: 'Assignée à '
+    last_modification: 'Dernière modification'
+    new_version: 'Nouvelle version'
+    by_role: 'par rôle {role}'
+    comment: Commentaire
+    creator: Créateur
+    from_sender: 'De {sender}'
 help:
     add_first_aggregate_option: 'Cliquez sur « Ajouter une option d’agrégation » pour créer une première option d’agrégation'
     add_first_search_field_option: 'Cliquez sur « Ajouter une option de champ de recherche » pour créer une première option de champ de recherche'
@@ -579,6 +595,30 @@ key:
     wysiwyg_style_sets: 'Jeux de styles'
     failed_jobs: 'Jobs échoués'
     pending_jobs: 'Jobs en attente'
+    all_tasks: 'Toutes les tâches'
+    requested_tasks: 'Tâches demandées'
+    assigned_to_me: 'Assignées à moi'
+    assignees: Assignés
+    overdue_only: 'En retard uniquement'
+    requesters: Demandeurs
+    statuses: Statuts
+    new_versions: 'Nouvelles versions'
+    mail_action_approved: approuvée
+    mail_action_assignee_changed: 'assigné modifié'
+    mail_action_completed: terminée
+    mail_action_created: créée
+    mail_action_deleted: supprimée
+    link_to_document: 'Lien vers le document'
+    mail_action_rejected: rejetée
+    mail_action_updated: 'mise à jour'
+    task_status_finished: Terminée
+    task_status_completed: Complétée
+    task_status_planned: Planifiée
+    task_status_active: Active
+    task_status_rejected: Rejetée
+    tasks: Tâches
+    history: Historique
+    information: Information
 message:
     action_created: 'Une nouvelle action "{label}" a été créée'
     action_deleted: 'L''action "{label}" a été supprimée'
@@ -901,6 +941,34 @@ message:
     xliff_too_many_translations: "{counter} documents de traduction alors qu'un seul est attendu pour l'identifiant de traduction {translation_id} et la locale cible {target_locale} dans l'environnement {environment}"
     messages_in_error: 'Messages en erreur'
     messages_in_queue: 'Messages dans la file'
+    task_created: 'Tâche « {title} » créée avec succès.'
+    task_search_warning: 'Plus de {count} tâches, la recherche sur le titre du document est impossible.'
+    delay_days: '{number} jours'
+    task_deleted: 'Tâche « {title} » supprimée avec succès.'
+    hide_finished_tasks: 'Masquer les tâches terminées ({number})'
+    show_finished_tasks: 'Afficher les tâches terminées ({number})'
+    no_tasks_for_document: 'Aucune tâche pour ce document'
+    task_revision_locked: 'Révision verrouillée par {user} jusqu’à {time}'
+    mail_approved_subject: 'Tâche « {title} » approuvée pour « {document} »'
+    mail_assignee_changed_subject: 'Assigné modifié pour la tâche « {title} » de « {document} »'
+    mail_completed_subject: 'Prête pour validation, tâche « {title} » pour « {document} »'
+    mail_created_subject: 'Nouvelle tâche « {title} » pour « {document} »'
+    mail_deleted_subject: 'Tâche « {title} » supprimée pour « {document} »'
+    mail_greetings: 'Bonjour {receiver},'
+    mail_kind_regards: 'Cordialement,'
+    mail_overdue_or_active_list: 'Voici la liste des tâches en retard ou actives.'
+    mail_process_urgently: 'Veuillez les traiter rapidement.'
+    mail_rejected_subject: 'Tâche « {title} » rejetée pour « {document} »'
+    mail_task_has_been: 'Une tâche a été {action} {role}.'
+    mail_updated_subject: 'Tâche « {title} » mise à jour pour « {document} »'
+    task_history_approved: '{user} a approuvé la tâche'
+    task_history_completed: '{user} a terminé la tâche'
+    task_history_created: '{user} a créé la tâche'
+    task_history_planned: '{user} a planifié la tâche'
+    task_history_progress: 'La tâche est devenue active pour {assignee}'
+    task_history_rejected: '{user} a rejeté la tâche'
+    task_history_updated: '{user} a mis à jour la tâche'
+    task_updated: 'Tâche « {title} » mise à jour avec succès.'
 option:
     allow_add: 'Autoriser l’ajout'
     default_search: 'Dans la recherche par défaut'
@@ -971,114 +1039,6 @@ role:
         label: 'Lecture utilisateur'
     webmaster:
         label: Webmaster
-task:
-    assigned_to: 'Assignée à '
-    create:
-        button: 'Ajouter une tâche'
-        submit: 'Créer la tâche'
-        success: 'Tâche « {title} » créée avec succès.'
-        title: 'Ajouter une nouvelle tâche'
-    dashboard:
-        action:
-            edit_revision: 'Modifier la révision'
-            go_revision: Révision
-        column:
-            label: Document
-            modified: 'Dernière modification'
-            version_next_tag: 'Nouvelle version'
-        search_warning: 'Plus de {count} tâches, la recherche sur le titre du document est impossible.'
-        tab:
-            manager: 'Toutes les tâches'
-            requester: 'Tâches demandées'
-            user: 'Assignées à moi'
-    delay_days: '{number} jours'
-    delete:
-        submit: 'Supprimer la tâche'
-        success: 'Tâche « {title} » supprimée avec succès.'
-        title: "Tâche supprimée\_: {title}"
-    filter:
-        assignee: Assignés
-        is_overdue: 'En retard uniquement'
-        requester: Demandeurs
-        reset: Effacer
-        status: Statuts
-        submit: Rechercher
-        version_next_tag: 'Nouvelles versions'
-    filters: 'Filtrage des tâches'
-    finished:
-        hide: 'Masquer les tâches terminées ({number})'
-        show: 'Afficher les tâches terminées ({number})'
-    info:
-        change_order: 'Changer l’ordre'
-        empty: 'Aucune tâche pour ce document'
-        locked: 'Révision verrouillée par {user} jusqu’à {time}'
-    mail:
-        approved:
-            action: approuvée
-            subject: 'Tâche « {title} » approuvée pour « {document} »'
-        assignee: Assigné
-        assignee_changed:
-            action: 'assigné modifié'
-            subject: 'Assigné modifié pour la tâche « {title} » de « {document} »'
-        by_role: 'par rôle {role}'
-        comment: Commentaire
-        completed:
-            action: terminée
-            subject: 'Prête pour validation, tâche « {title} » pour « {document} »'
-        created:
-            action: créée
-            subject: 'Nouvelle tâche « {title} » pour « {document} »'
-        creator: Créateur
-        deadline: Échéance
-        deleted:
-            action: supprimée
-            subject: 'Tâche « {title} » supprimée pour « {document} »'
-        description: Description
-        from: 'De {sender}'
-        greetings: 'Bonjour {receiver},'
-        kind_regards: 'Cordialement,'
-        link_to_document: 'Lien vers le document'
-        overdue_or_active_list: 'Voici la liste des tâches en retard ou actives.'
-        process_urgently: 'Veuillez les traiter rapidement.'
-        rejected:
-            action: rejetée
-            subject: 'Tâche « {title} » rejetée pour « {document} »'
-        task_has_been: 'Une tâche a été {action} {role}.'
-        title: Titre
-        updated:
-            action: 'mise à jour'
-            subject: 'Tâche « {title} » mise à jour pour « {document} »'
-    modal:
-        title: 'Tâche : {title}'
-    planned:
-        title: 'Tâches planifiées'
-    status:
-        approved: Terminée
-        completed: Complétée
-        history:
-            approved: '{user} a approuvé la tâche'
-            completed: '{user} a terminé la tâche'
-            created: '{user} a créé la tâche'
-            planned: '{user} a planifié la tâche'
-            progress: 'La tâche est devenue active pour {assignee}'
-            rejected: '{user} a rejeté la tâche'
-            updated: '{user} a mis à jour la tâche'
-        planned: Planifiée
-        progress: Active
-        rejected: Rejetée
-    tab_tasks: Tâches
-    title: Tâches
-    update:
-        submit: 'Enregistrer la tâche'
-        success: 'Tâche « {title} » mise à jour avec succès.'
-        tab:
-            history: Historique
-            info: Information
-        title: 'Modifier la tâche : {title}'
-    validation:
-        approve: Approuver
-        reject: Rejeter
-        send: Envoyer
 title:
     add_content_type: 'Ajouter un nouveau {content_type}'
     add_environment: 'Ajouter un nouvel environnement'
@@ -1147,6 +1107,12 @@ title:
     systems_status_tagline: 'Est-ce que tout fonctionne comme prévu ?'
     users_in_group: 'Utilisateurs dans le groupe'
     user_not_in_group: 'Utilisateur hors du groupe'
+    add_new_task: 'Ajouter une nouvelle tâche'
+    deleted_task: "Tâche supprimée\_: {title}"
+    filtering_tasks: 'Filtrage des tâches'
+    task_modal: 'Tâche : {title}'
+    planned_tasks: 'Tâches planifiées'
+    edit_task: 'Modifier la tâche : {title}'
 type:
     confirm: |-
         {type, select,

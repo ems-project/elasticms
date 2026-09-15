@@ -104,6 +104,15 @@ action:
     upload_files: 'Upload files'
     view: View
     view_draft_in_progress: 'View draft in progress'
+    add_task: 'Add a task'
+    create_task: 'Create task'
+    edit_revision: 'Edit revision'
+    delete_task: 'Delete task'
+    change_order: 'Change order'
+    save_task: 'Save task'
+    approve: Approve
+    reject: Reject
+    send: Send
 asset_extractor:
     status: |-
         {color, select,
@@ -415,6 +424,13 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     wysiwyg_profile: 'WYSIWYG profile'
+    assigned_to: 'Assigned to '
+    last_modification: 'Last modification'
+    new_version: 'New version'
+    by_role: 'by role {role}'
+    comment: Comment
+    creator: Creator
+    from_sender: 'From {sender}'
 help:
     add_first_aggregate_option: "Click on 'Add an aggregate option' to create a first Aggregate Option: Click on 'Add an aggregate option' to create a first Aggregate Option"
     add_first_search_field_option: "'Add an search field option' to create a first Search Field Option: Click on 'Add an search field option' to create a first Search Field Option"
@@ -579,6 +595,30 @@ key:
     wysiwyg_style_sets: 'Style Sets'
     failed_jobs: 'Failed jobs'
     pending_jobs: 'Pending jobs'
+    all_tasks: 'All tasks'
+    requested_tasks: 'Requested tasks'
+    assigned_to_me: 'Assigned to me'
+    assignees: Assignees
+    overdue_only: 'Overdue only'
+    requesters: Requesters
+    statuses: Statuses
+    new_versions: 'New versions'
+    mail_action_approved: approved
+    mail_action_assignee_changed: 'changed assignee'
+    mail_action_completed: completed
+    mail_action_created: created
+    mail_action_deleted: deleted
+    link_to_document: 'Link to document'
+    mail_action_rejected: rejected
+    mail_action_updated: updated
+    task_status_finished: Finished
+    task_status_completed: Completed
+    task_status_planned: Planned
+    task_status_active: Active
+    task_status_rejected: Rejected
+    tasks: Tasks
+    history: History
+    information: Information
 message:
     action_created: 'A new action "{label}" has been created'
     action_deleted: 'The action "{label}" has been deleted'
@@ -901,6 +941,34 @@ message:
     xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
     messages_in_error: 'Messages in error'
     messages_in_queue: 'Messages in the queue'
+    task_created: 'Task "{title}" successfully created.'
+    task_search_warning: 'More than {count} tasks, search on document title is impossible.'
+    delay_days: '{number} days'
+    task_deleted: 'Task "{title}" successfully deleted.'
+    hide_finished_tasks: 'Hide finished tasks ({number})'
+    show_finished_tasks: 'Show finished tasks ({number})'
+    no_tasks_for_document: 'No tasks for this document'
+    task_revision_locked: 'Revision locked by {user} until {time}'
+    mail_approved_subject: 'Approved task "{title}" for "{document}"'
+    mail_assignee_changed_subject: 'Assignee changed task "{title}" for "{document}"'
+    mail_completed_subject: 'Ready for validation, task "{title}" for "{document}"'
+    mail_created_subject: 'New task "{title}" for "{document}"'
+    mail_deleted_subject: 'Deleted task "{title}" for "{document}"'
+    mail_greetings: 'Hello {receiver},'
+    mail_kind_regards: 'Kind regards,'
+    mail_overdue_or_active_list: 'Here is the list of overdue or active tasks.'
+    mail_process_urgently: 'Please process them urgently.'
+    mail_rejected_subject: 'Rejected task "{title}" for "{document}"'
+    mail_task_has_been: 'A task has been {action} {role}.'
+    mail_updated_subject: 'Update task "{title}" for "{document}"'
+    task_history_approved: '{user} approved the task'
+    task_history_completed: '{user} completed the task'
+    task_history_created: '{user} created the task'
+    task_history_planned: '{user} planned the task'
+    task_history_progress: 'The task became active for {assignee}'
+    task_history_rejected: '{user} rejected the task'
+    task_history_updated: '{user} updated the task'
+    task_updated: 'Task "{title}" successfully updated.'
 option:
     allow_add: 'Allow add'
     default_search: 'In default search'
@@ -971,114 +1039,6 @@ role:
         label: 'User read'
     webmaster:
         label: Webmaster
-task:
-    assigned_to: 'Assigned to '
-    create:
-        button: 'Add a task'
-        submit: 'Create task'
-        success: 'Task "{title}" successfully created.'
-        title: 'Add a new task'
-    dashboard:
-        action:
-            edit_revision: 'Edit revision'
-            go_revision: Revision
-        column:
-            label: Document
-            modified: 'Last modification'
-            version_next_tag: 'New version'
-        search_warning: 'More than {count} tasks, search on document title is impossible.'
-        tab:
-            manager: 'All tasks'
-            requester: 'Requested tasks'
-            user: 'Assigned to me'
-    delay_days: '{number} days'
-    delete:
-        submit: 'Delete task'
-        success: 'Task "{title}" successfully deleted.'
-        title: 'Deleted task : {title}'
-    filter:
-        assignee: Assignees
-        is_overdue: 'Overdue only'
-        requester: Requesters
-        reset: Clear
-        status: Statuses
-        submit: Search
-        version_next_tag: 'New versions'
-    filters: 'Filtering the tasks'
-    finished:
-        hide: 'Hide finished tasks ({number})'
-        show: 'Show finished tasks ({number})'
-    info:
-        change_order: 'Change order'
-        empty: 'No tasks for this document'
-        locked: 'Revision locked by {user} until {time}'
-    mail:
-        approved:
-            action: approved
-            subject: 'Approved task "{title}" for "{document}"'
-        assignee: Assignee
-        assignee_changed:
-            action: 'changed assignee'
-            subject: 'Assignee changed task "{title}" for "{document}"'
-        by_role: 'by role {role}'
-        comment: Comment
-        completed:
-            action: completed
-            subject: 'Ready for validation, task "{title}" for "{document}"'
-        created:
-            action: created
-            subject: 'New task "{title}" for "{document}"'
-        creator: Creator
-        deadline: Deadline
-        deleted:
-            action: deleted
-            subject: 'Deleted task "{title}" for "{document}"'
-        description: Description
-        from: 'From {sender}'
-        greetings: 'Hello {receiver},'
-        kind_regards: 'Kind regards,'
-        link_to_document: 'Link to document'
-        overdue_or_active_list: 'Here is the list of overdue or active tasks.'
-        process_urgently: 'Please process them urgently.'
-        rejected:
-            action: rejected
-            subject: 'Rejected task "{title}" for "{document}"'
-        task_has_been: 'A task has been {action} {role}.'
-        title: Title
-        updated:
-            action: updated
-            subject: 'Update task "{title}" for "{document}"'
-    modal:
-        title: 'Task: {title}'
-    planned:
-        title: 'Planned tasks'
-    status:
-        approved: Finished
-        completed: Completed
-        history:
-            approved: '{user} approved the task'
-            completed: '{user} completed the task'
-            created: '{user} created the task'
-            planned: '{user} planned the task'
-            progress: 'The task became active for {assignee}'
-            rejected: '{user} rejected the task'
-            updated: '{user} updated the task'
-        planned: Planned
-        progress: Active
-        rejected: Rejected
-    tab_tasks: Tasks
-    title: Tasks
-    update:
-        submit: 'Save task'
-        success: 'Task "{title}" successfully updated.'
-        tab:
-            history: History
-            info: Information
-        title: 'Edit task : {title}'
-    validation:
-        approve: Approve
-        reject: Reject
-        send: Send
 title:
     add_content_type: 'Add a new {content_type}'
     add_environment: 'Add a new Environment'
@@ -1147,6 +1107,12 @@ title:
     systems_status_tagline: 'Is everything working as expected?'
     users_in_group: 'Users in group'
     user_not_in_group: 'User not in group'
+    add_new_task: 'Add a new task'
+    deleted_task: 'Deleted task : {title}'
+    filtering_tasks: 'Filtering the tasks'
+    task_modal: 'Task: {title}'
+    planned_tasks: 'Planned tasks'
+    edit_task: 'Edit task : {title}'
 type:
     confirm: |-
         {type, select,

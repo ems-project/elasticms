@@ -104,6 +104,15 @@ action:
     upload_files: 'Bestanden uploaden'
     view: Bekijken
     view_draft_in_progress: 'Concept in uitvoering bekijken'
+    add_task: 'Taak toevoegen'
+    create_task: 'Taak aanmaken'
+    edit_revision: 'Revisie bewerken'
+    delete_task: 'Taak verwijderen'
+    change_order: 'Volgorde wijzigen'
+    save_task: 'Taak opslaan'
+    approve: Goedkeuren
+    reject: Weigeren
+    send: Verzenden
 asset_extractor:
     status: |-
         {color, select,
@@ -415,6 +424,13 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     wysiwyg_profile: WYSIWYG-profiel
+    assigned_to: 'Toegewezen aan '
+    last_modification: 'Laatste wijziging'
+    new_version: 'Nieuwe versie'
+    by_role: 'per rol {role}'
+    comment: Commentaar
+    creator: Maker
+    from_sender: 'Van {sender}'
 help:
     add_first_aggregate_option: "Klik op 'Aggregatieoptie toevoegen' om een eerste aggregatieoptie te maken"
     add_first_search_field_option: "Klik op 'Zoekveldoptie toevoegen' om een eerste zoekveldoptie te maken"
@@ -579,6 +595,30 @@ key:
     wysiwyg_style_sets: Stijlsets
     failed_jobs: 'Mislukte jobs'
     pending_jobs: 'Wachtende jobs'
+    all_tasks: 'Alle taken'
+    requested_tasks: 'Aangevraagde taken'
+    assigned_to_me: 'Aan mij toegewezen'
+    assignees: Toegewezenen
+    overdue_only: 'Alleen te laat'
+    requesters: Aanvragers
+    statuses: Statussen
+    new_versions: 'Nieuwe versies'
+    mail_action_approved: goedgekeurd
+    mail_action_assignee_changed: 'toegewezene gewijzigd'
+    mail_action_completed: voltooid
+    mail_action_created: aangemaakt
+    mail_action_deleted: verwijderd
+    link_to_document: 'Link naar document'
+    mail_action_rejected: geweigerd
+    mail_action_updated: bijgewerkt
+    task_status_finished: Afgerond
+    task_status_completed: Voltooid
+    task_status_planned: Gepland
+    task_status_active: Actief
+    task_status_rejected: Geweigerd
+    tasks: Taken
+    history: Geschiedenis
+    information: Informatie
 message:
     action_created: 'Een nieuwe actie "{label}" is aangemaakt'
     action_deleted: 'De actie "{label}" is verwijderd'
@@ -901,6 +941,34 @@ message:
     xliff_too_many_translations: '{counter} vertaaldocumenten terwijl er slechts één wordt verwacht voor vertaal-ID {translation_id} en doeltaal {target_locale} in omgeving {environment}'
     messages_in_error: 'Berichten met fout'
     messages_in_queue: 'Berichten in de wachtrij'
+    task_created: 'Taak "{title}" succesvol aangemaakt.'
+    task_search_warning: 'Meer dan {count} taken, zoeken op documenttitel is onmogelijk.'
+    delay_days: '{number} dagen'
+    task_deleted: 'Taak "{title}" succesvol verwijderd.'
+    hide_finished_tasks: 'Afgewerkte taken verbergen ({number})'
+    show_finished_tasks: 'Afgewerkte taken tonen ({number})'
+    no_tasks_for_document: 'Geen taken voor dit document'
+    task_revision_locked: 'Revisie vergrendeld door {user} tot {time}'
+    mail_approved_subject: 'Taak "{title}" goedgekeurd voor "{document}"'
+    mail_assignee_changed_subject: 'Toegewezene gewijzigd voor taak "{title}" van "{document}"'
+    mail_completed_subject: 'Klaar voor validatie, taak "{title}" voor "{document}"'
+    mail_created_subject: 'Nieuwe taak "{title}" voor "{document}"'
+    mail_deleted_subject: 'Taak "{title}" verwijderd voor "{document}"'
+    mail_greetings: 'Hallo {receiver},'
+    mail_kind_regards: 'Met vriendelijke groeten,'
+    mail_overdue_or_active_list: 'Hier is de lijst met achterstallige of actieve taken.'
+    mail_process_urgently: 'Behandel ze dringend.'
+    mail_rejected_subject: 'Taak "{title}" geweigerd voor "{document}"'
+    mail_task_has_been: 'Een taak is {action} {role}.'
+    mail_updated_subject: 'Taak "{title}" bijgewerkt voor "{document}"'
+    task_history_approved: '{user} heeft de taak goedgekeurd'
+    task_history_completed: '{user} heeft de taak voltooid'
+    task_history_created: '{user} heeft de taak aangemaakt'
+    task_history_planned: '{user} heeft de taak gepland'
+    task_history_progress: 'De taak is actief geworden voor {assignee}'
+    task_history_rejected: '{user} heeft de taak geweigerd'
+    task_history_updated: '{user} heeft de taak bijgewerkt'
+    task_updated: 'Taak "{title}" succesvol bijgewerkt.'
 option:
     allow_add: 'Toevoegen toestaan'
     default_search: 'In standaardzoekopdracht'
@@ -971,114 +1039,6 @@ role:
         label: 'Gebruiker lezen'
     webmaster:
         label: Webmaster
-task:
-    assigned_to: 'Toegewezen aan '
-    create:
-        button: 'Taak toevoegen'
-        submit: 'Taak aanmaken'
-        success: 'Taak "{title}" succesvol aangemaakt.'
-        title: 'Nieuwe taak toevoegen'
-    dashboard:
-        action:
-            edit_revision: 'Revisie bewerken'
-            go_revision: Revisie
-        column:
-            label: Document
-            modified: 'Laatste wijziging'
-            version_next_tag: 'Nieuwe versie'
-        search_warning: 'Meer dan {count} taken, zoeken op documenttitel is onmogelijk.'
-        tab:
-            manager: 'Alle taken'
-            requester: 'Aangevraagde taken'
-            user: 'Aan mij toegewezen'
-    delay_days: '{number} dagen'
-    delete:
-        submit: 'Taak verwijderen'
-        success: 'Taak "{title}" succesvol verwijderd.'
-        title: 'Verwijderde taak: {title}'
-    filter:
-        assignee: Toegewezenen
-        is_overdue: 'Alleen te laat'
-        requester: Aanvragers
-        reset: Wissen
-        status: Statussen
-        submit: Zoeken
-        version_next_tag: 'Nieuwe versies'
-    filters: 'Taken filteren'
-    finished:
-        hide: 'Afgewerkte taken verbergen ({number})'
-        show: 'Afgewerkte taken tonen ({number})'
-    info:
-        change_order: 'Volgorde wijzigen'
-        empty: 'Geen taken voor dit document'
-        locked: 'Revisie vergrendeld door {user} tot {time}'
-    mail:
-        approved:
-            action: goedgekeurd
-            subject: 'Taak "{title}" goedgekeurd voor "{document}"'
-        assignee: Toegewezene
-        assignee_changed:
-            action: 'toegewezene gewijzigd'
-            subject: 'Toegewezene gewijzigd voor taak "{title}" van "{document}"'
-        by_role: 'per rol {role}'
-        comment: Commentaar
-        completed:
-            action: voltooid
-            subject: 'Klaar voor validatie, taak "{title}" voor "{document}"'
-        created:
-            action: aangemaakt
-            subject: 'Nieuwe taak "{title}" voor "{document}"'
-        creator: Maker
-        deadline: Deadline
-        deleted:
-            action: verwijderd
-            subject: 'Taak "{title}" verwijderd voor "{document}"'
-        description: Beschrijving
-        from: 'Van {sender}'
-        greetings: 'Hallo {receiver},'
-        kind_regards: 'Met vriendelijke groeten,'
-        link_to_document: 'Link naar document'
-        overdue_or_active_list: 'Hier is de lijst met achterstallige of actieve taken.'
-        process_urgently: 'Behandel ze dringend.'
-        rejected:
-            action: geweigerd
-            subject: 'Taak "{title}" geweigerd voor "{document}"'
-        task_has_been: 'Een taak is {action} {role}.'
-        title: Titel
-        updated:
-            action: bijgewerkt
-            subject: 'Taak "{title}" bijgewerkt voor "{document}"'
-    modal:
-        title: 'Taak: {title}'
-    planned:
-        title: 'Geplande taken'
-    status:
-        approved: Afgerond
-        completed: Voltooid
-        history:
-            approved: '{user} heeft de taak goedgekeurd'
-            completed: '{user} heeft de taak voltooid'
-            created: '{user} heeft de taak aangemaakt'
-            planned: '{user} heeft de taak gepland'
-            progress: 'De taak is actief geworden voor {assignee}'
-            rejected: '{user} heeft de taak geweigerd'
-            updated: '{user} heeft de taak bijgewerkt'
-        planned: Gepland
-        progress: Actief
-        rejected: Geweigerd
-    tab_tasks: Taken
-    title: Taken
-    update:
-        submit: 'Taak opslaan'
-        success: 'Taak "{title}" succesvol bijgewerkt.'
-        tab:
-            history: Geschiedenis
-            info: Informatie
-        title: 'Taak bewerken: {title}'
-    validation:
-        approve: Goedkeuren
-        reject: Weigeren
-        send: Verzenden
 title:
     add_content_type: 'Een nieuwe {content_type} toevoegen'
     add_environment: 'Een nieuwe omgeving toevoegen'
@@ -1147,6 +1107,12 @@ title:
     systems_status_tagline: 'Werkt alles zoals verwacht?'
     users_in_group: 'Gebruikers in groep'
     user_not_in_group: 'Gebruiker niet in groep'
+    add_new_task: 'Nieuwe taak toevoegen'
+    deleted_task: 'Verwijderde taak: {title}'
+    filtering_tasks: 'Taken filteren'
+    task_modal: 'Taak: {title}'
+    planned_tasks: 'Geplande taken'
+    edit_task: 'Taak bewerken: {title}'
 type:
     confirm: |-
         {type, select,

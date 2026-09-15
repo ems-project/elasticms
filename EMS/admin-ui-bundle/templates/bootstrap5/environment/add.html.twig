@@ -1,7 +1,7 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'emsco-core' %}
 
-{% block title %}{{ 'environment.add.title'|trans }}{% endblock %}
-{% block pagetitle %}{{ 'environment.add.title'|trans }}{% endblock %}
+{% block title %}{{ 'title.add_environment'|trans }}{% endblock %}
+{% block pagetitle %}{{ 'title.add_environment'|trans }}{% endblock %}
 
 {% block body %}
 
@@ -9,12 +9,12 @@
     <div class="col-md-6">
         <div class="card card-warning card-outline">
             <div class="card-header">
-                <h3 class="card-title"><i class="fa fa-warning"></i> {{ 'notice_card.title'|trans }}</h3>
+                <h3 class="card-title"><i class="fa fa-warning"></i> {{ 'key.notice'|trans }}</h3>
             </div>
             <!-- /.box-header -->
             <div class="card-body">
                 <p>
-                    {{ 'environment.add.notice'|trans }}
+                    {{ 'message.environment_add_notice'|trans }}
                 </p>
             </div>
             <!-- /.box-body -->
@@ -24,7 +24,7 @@
         <!-- general form elements -->
         <div class="card card-{{ theme_color }} card-outline">
             <div class="card-header">
-                <h3 class="card-title">{{ 'environment.add.short_title'|trans }}</h3>
+                <h3 class="card-title">{{ 'title.new_environment_short'|trans }}</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->

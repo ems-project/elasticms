@@ -263,7 +263,6 @@ environment:
         index: Index
         indexes: Indexen
         total: Totaal
-    plural: Omgevingen
     property:
         base_url: Basis-URL
         name: Naam
@@ -591,9 +590,7 @@ key:
     customized: Aangepast
     dashboards: Dashboards
     delayed_unassigned_shards: 'Vertraagde niet-toegewezen shards'
-    details: Details
     documentation: Documentatie
-    environments: Omgevingen
     environments_external: 'Externe omgevingen'
     environments_local: 'Lokale omgevingen'
     error: Fout
@@ -1020,7 +1017,6 @@ notification:
         link_title: Notificaties
     message: Bericht
     no_pending: 'Geen wachtende notificaties'
-    no_result: 'Geen resultaat om weer te geven'
     no_result_for_filters: 'Geen resultaat voor deze filtercombinatie'
     nothing_to_treat: 'Geen wachtende notificaties'
     'on': Op
@@ -1031,7 +1027,6 @@ notification:
     revision: Revisie
     sent:
         title: Verzonden
-    to_be_treated: 'Te behandelen'
     treat: Behandelen
     treat_selected: 'Selectie behandelen'
     treat_selection: 'Selectie behandelen'
@@ -1301,13 +1296,11 @@ task:
             edit_revision: 'Revisie bewerken'
             go_revision: Revisie
         column:
-            actions: Acties
             assignee: Toegewezene
             deadline: Deadline
             label: Document
             modified: 'Laatste wijziging'
             requester: Aanvrager
-            status: Status
             title: Taak
             version_next_tag: 'Nieuwe versie'
         search_warning: 'Meer dan {count} taken, zoeken op documenttitel is onmogelijk.'

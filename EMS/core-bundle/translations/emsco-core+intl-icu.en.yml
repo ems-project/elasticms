@@ -263,7 +263,6 @@ environment:
         index: Index
         indexes: Indexes
         total: Total
-    plural: Environments
     property:
         base_url: 'Base URL'
         name: Name
@@ -591,9 +590,7 @@ key:
     customized: Customized
     dashboards: Dashboards
     delayed_unassigned_shards: 'Delayed unassigned shards'
-    details: Details
     documentation: Documentation
-    environments: Environments
     environments_external: 'External environments'
     environments_local: 'Local environments'
     error: Error
@@ -1020,7 +1017,6 @@ notification:
         link_title: Notifications
     message: Message
     no_pending: 'No pending notifications'
-    no_result: 'No result to display'
     no_result_for_filters: 'No result for this filters combinaison'
     nothing_to_treat: 'No pending notifications'
     'on': 'On'
@@ -1031,7 +1027,6 @@ notification:
     revision: Revision
     sent:
         title: Sent
-    to_be_treated: 'To be treated'
     treat: Treat
     treat_selected: 'Treat selected'
     treat_selection: 'Treat selection'
@@ -1301,13 +1296,11 @@ task:
             edit_revision: 'Edit revision'
             go_revision: Revision
         column:
-            actions: Actions
             assignee: Assignee
             deadline: Deadline
             label: Document
             modified: 'Last modification'
             requester: Requester
-            status: Status
             title: Task
             version_next_tag: 'New version'
         search_warning: 'More than {count} tasks, search on document title is impossible.'

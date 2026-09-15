@@ -65,7 +65,7 @@ class LogController extends AbstractController
             'log' => $log,
             'subTitle' => t('type.title_sub', ['type' => 'log'], 'emsco-core'),
             'breadcrumb' => $this->breadcrumb()->add(
-                label: t('key.details', [], 'emsco-core'),
+                label: t('action.details', [], 'emsco-core'),
             ),
         ]);
     }

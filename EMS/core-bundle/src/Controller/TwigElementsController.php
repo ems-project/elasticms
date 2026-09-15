@@ -121,7 +121,7 @@ class TwigElementsController extends AbstractController
         $menu->addChild(t('key.forms', [], 'emsco-core'), 'fa fa-keyboard-o', Routes::FORM_ADMIN_INDEX)->setTranslation([]);
 
         $environmentMenu = $menu->addChild(
-            label: t('key.environments', [], 'emsco-core'),
+            label: t('field.environments', [], 'emsco-core'),
             icon: 'fa fa-database',
             route: Routes::ADMIN_ENVIRONMENT_INDEX
         );

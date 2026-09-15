@@ -14,7 +14,7 @@
                 {% if countPending > 0 %}
                     <li class="nav-item"><a href="#tab_to_treat" data-bs-target="#tab_to_treat" data-bs-toggle="pill" class="nav-link{% if countRejected == 0 %} active{% endif %}" aria-selected="{% if countRejected == 0 %}true{% else %}false{% endif %}">
                         <i class="fa fa-hourglass-half" aria-hidden="true"></i>
-                        {{ 'notification.to_be_treated'|trans }}
+                        {{ 'key.to_be_treated'|trans }}
                         <span class="badge badge-primary">{{ countPending }}</span>
                     </a></li>
                 {% endif %}

@@ -263,7 +263,6 @@ environment:
         index: Index
         indexes: Indexes
         total: Total
-    plural: Environnements
     property:
         base_url: 'URL de base'
         name: Nom
@@ -591,9 +590,7 @@ key:
     customized: Personnalisé
     dashboards: 'Tableaux de bord'
     delayed_unassigned_shards: 'Shards non assignés retardés'
-    details: Détails
     documentation: Documentation
-    environments: Environnements
     environments_external: 'Environnements externes'
     environments_local: 'Environnements locaux'
     error: Erreur
@@ -1020,7 +1017,6 @@ notification:
         link_title: Notifications
     message: Message
     no_pending: 'Aucune notification en attente'
-    no_result: 'Aucun résultat à afficher'
     no_result_for_filters: 'Aucun résultat pour cette combinaison de filtres'
     nothing_to_treat: 'Aucune notification en attente'
     'on': Le
@@ -1031,7 +1027,6 @@ notification:
     revision: Révision
     sent:
         title: Envoyées
-    to_be_treated: 'À traiter'
     treat: Traiter
     treat_selected: 'Traiter la sélection'
     treat_selection: 'Traiter la sélection'
@@ -1301,13 +1296,11 @@ task:
             edit_revision: 'Modifier la révision'
             go_revision: Révision
         column:
-            actions: Actions
             assignee: Assigné
             deadline: Échéance
             label: Document
             modified: 'Dernière modification'
             requester: Demandeur
-            status: Statut
             title: Tâche
             version_next_tag: 'Nouvelle version'
         search_warning: 'Plus de {count} tâches, la recherche sur le titre du document est impossible.'

@@ -302,6 +302,7 @@ field:
         mime_type: 'MIME-type:'
         size: 'Grootte:'
         title: 'Titel:'
+    assignee: Toegewezene
     attributes: 'Extra request-attributen'
     available: Beschikbaar
     channel: Kanaal
@@ -330,6 +331,7 @@ field:
     date_run_next: 'Volgende uitvoeringsdatum'
     date_run_previous: 'Vorige uitvoeringsdatum'
     date_upload: Uploaddatum
+    deadline: Deadline
     definition: Definitie
     description: Beschrijving
     display_name: Weergavenaam
@@ -412,6 +414,7 @@ field:
     release_environment_source: 'Bronomgeving voor publicatie'
     release_environment_target: 'Omgeving voor (de)publicatie'
     render_option: Renderoptie
+    requester: Aanvrager
     revision: Revisie
     revision_version_tag: 'Ja als {version_tag}'
     revision_version_tag_empty: 'Nee (stille publicatie)'
@@ -443,6 +446,7 @@ field:
     template_header: 'Template header'
     template_response: 'Template response'
     text: Tekst
+    title: Taak
     tokenizer: Tokenizer
     total: Totaal
     total_deleted: 'Totaal verwijderd'
@@ -1001,7 +1005,6 @@ notification:
     date: Datum
     empty:
         title: Leeg
-    environment: Omgeving
     filter:
         title: Filters
     folder:
@@ -1011,7 +1014,6 @@ notification:
     label: Notificatie
     menu:
         link_title: Notificaties
-    message: Bericht
     no_pending: 'Geen wachtende notificaties'
     'on': Op
     rejected: Geweigerd
@@ -1285,12 +1287,8 @@ task:
             edit_revision: 'Revisie bewerken'
             go_revision: Revisie
         column:
-            assignee: Toegewezene
-            deadline: Deadline
             label: Document
             modified: 'Laatste wijziging'
-            requester: Aanvrager
-            title: Taak
             version_next_tag: 'Nieuwe versie'
         search_warning: 'Meer dan {count} taken, zoeken op documenttitel is onmogelijk.'
         tab:

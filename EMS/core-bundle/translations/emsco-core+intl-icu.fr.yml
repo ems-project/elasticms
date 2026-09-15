@@ -302,6 +302,7 @@ field:
         mime_type: 'Type MIME :'
         size: 'Taille :'
         title: 'Titre :'
+    assignee: Assigné
     attributes: 'Attributs supplémentaires de la requête'
     available: Disponible
     channel: Canal
@@ -330,6 +331,7 @@ field:
     date_run_next: 'Date de prochaine exécution'
     date_run_previous: 'Date d’exécution précédente'
     date_upload: 'Date d’upload'
+    deadline: Échéance
     definition: Définition
     description: Description
     display_name: 'Nom d’affichage'
@@ -412,6 +414,7 @@ field:
     release_environment_source: 'Environnement source pour la publication'
     release_environment_target: 'Environnement pour la (dé)publication'
     render_option: 'Option de rendu'
+    requester: Demandeur
     revision: Révision
     revision_version_tag: 'Oui comme {version_tag}'
     revision_version_tag_empty: 'Non (publication silencieuse)'
@@ -443,6 +446,7 @@ field:
     template_header: 'En-tête du template'
     template_response: 'Réponse du template'
     text: Texte
+    title: Tâche
     tokenizer: Tokenizer
     total: Total
     total_deleted: 'Total supprimé'
@@ -1001,7 +1005,6 @@ notification:
     date: Date
     empty:
         title: Vide
-    environment: Environnement
     filter:
         title: Filtres
     folder:
@@ -1011,7 +1014,6 @@ notification:
     label: Notification
     menu:
         link_title: Notifications
-    message: Message
     no_pending: 'Aucune notification en attente'
     'on': Le
     rejected: Rejetée
@@ -1285,12 +1287,8 @@ task:
             edit_revision: 'Modifier la révision'
             go_revision: Révision
         column:
-            assignee: Assigné
-            deadline: Échéance
             label: Document
             modified: 'Dernière modification'
-            requester: Demandeur
-            title: Tâche
             version_next_tag: 'Nouvelle version'
         search_warning: 'Plus de {count} tâches, la recherche sur le titre du document est impossible.'
         tab:

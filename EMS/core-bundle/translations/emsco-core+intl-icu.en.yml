@@ -302,6 +302,7 @@ field:
         mime_type: 'MIME Type :'
         size: 'Size :'
         title: 'Title :'
+    assignee: Assignee
     attributes: 'Request extra attributes'
     available: Available
     channel: Channel
@@ -330,6 +331,7 @@ field:
     date_run_next: 'Date next run'
     date_run_previous: 'Date previous run'
     date_upload: 'Date upload'
+    deadline: Deadline
     definition: Definition
     description: Description
     display_name: 'Display name'
@@ -412,6 +414,7 @@ field:
     release_environment_source: 'Source Environment for publication'
     release_environment_target: 'Environment for (un)publication'
     render_option: 'Render option'
+    requester: Requester
     revision: Revision
     revision_version_tag: 'Yes as {version_tag}'
     revision_version_tag_empty: 'No (Silent publish)'
@@ -443,6 +446,7 @@ field:
     template_header: 'Template header'
     template_response: 'Template response'
     text: Text
+    title: Task
     tokenizer: Tokenizer
     total: Total
     total_deleted: 'Total deleted'
@@ -1001,7 +1005,6 @@ notification:
     date: Date
     empty:
         title: Empty
-    environment: Environment
     filter:
         title: Filters
     folder:
@@ -1011,7 +1014,6 @@ notification:
     label: Notification
     menu:
         link_title: Notifications
-    message: Message
     no_pending: 'No pending notifications'
     'on': 'On'
     rejected: Rejected
@@ -1285,12 +1287,8 @@ task:
             edit_revision: 'Edit revision'
             go_revision: Revision
         column:
-            assignee: Assignee
-            deadline: Deadline
             label: Document
             modified: 'Last modification'
-            requester: Requester
-            title: Task
             version_next_tag: 'New version'
         search_warning: 'More than {count} tasks, search on document title is impossible.'
         tab:

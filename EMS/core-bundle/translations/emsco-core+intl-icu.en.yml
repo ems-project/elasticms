@@ -37,6 +37,8 @@ action:
     export_selected: 'Export selected'
     extract_content: 'Extract content'
     hide: Hide
+    hide_revision_sidebar: 'Hide revision sidebar'
+    import: Import
     info: Info
     paste: Paste
     publish: Publish
@@ -65,8 +67,6 @@ action:
     update_from_json: 'Update from JSON'
     update_mapping: 'Update mapping'
     view: View
-    hide_revision_sidebar: 'Hide revision sidebar'
-    import: Import
 asset_extractor:
     status: |-
         {color, select,
@@ -173,23 +173,6 @@ core:
                 other   {There are # indexes}
             }
     version: 'Version {core} with Symfony {symfony}'
-dashboard:
-    exception:
-        title: 'The dashboard {name} raised an exception'
-data:
-    add:
-        new_title: 'New {content_type}'
-        title: 'Add a new {content_type}'
-    custom-view:
-        pagetitle: 'View {name} of the {contentType} "{label}" as indexed in {environment}'
-    view:
-        recursive:
-            as_indexed_in: 'As indexed in {environment}'
-            card_title: 'Recursive view'
-            title: 'View {content_type}:{id}'
-documentation:
-    api:
-        title: Documentation
 email:
     crm_export:
         body_greeting: Regards.
@@ -347,6 +330,7 @@ field:
     header: Header
     header_allow_origin: 'The Access-Control-Allow-Origin header'
     height: Height
+    helptexts: Helptexts
     hidden: Hidden
     icon: Icon
     id: ID
@@ -388,6 +372,7 @@ field:
     password_repeat: 'Repeat password'
     pattern: Pattern
     pdf_size: 'PDF Size'
+    permission: Permission
     plural: Plural
     postition_increment_gap: 'Position increment gap'
     public_access: 'Public Access'
@@ -428,6 +413,7 @@ field:
     template_response: 'Template response'
     text: Text
     title: Task
+    titles: Titles
     tokenizer: Tokenizer
     total: Total
     total_deleted: 'Total deleted'
@@ -445,9 +431,6 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     wysiwyg_profile: 'WYSIWYG profile'
-    helptexts: Helptexts
-    titles: Titles
-    permission: Permission
 field_type:
     json_menu_editor:
         add_item: 'Add item'
@@ -630,6 +613,7 @@ key:
     search_field_options: 'Search field options'
     search_options: 'Search options'
     searches: Searches
+    settings: Settings
     show_search_form: 'Show search form'
     sort_by: 'Sort by'
     sort_option: 'Sort Option'
@@ -648,6 +632,7 @@ key:
     uploaded_files_logs: 'Uploaded Files Logs'
     users: Users
     version: Version
+    versioning: Versioning
     views: Views
     warning: Warning
     warnings: Warnings
@@ -656,8 +641,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
-    settings: Settings
-    versioning: Versioning
 log:
     error:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
@@ -776,6 +759,7 @@ message:
     contenttype_mappings_error: 'Mappings update for {content_type} in {environments} failed: {elasticsearch_dump}'
     contenttype_mappings_updated: 'Mappings successfully updated for content type {content_type} in {environments}'
     dashboard_deleted: 'The dashboard "{label}" has been deleted'
+    dashboard_exception: 'The dashboard {name} raised an exception'
     data_already_unpublished: 'The document "{label}" was already unpublished from {environment}'
     data_cant_finalize_field: '{error_message}'
     data_check_signature_failed: 'Signature mismatch in {environment} for the document "{label}"'
@@ -1356,11 +1340,17 @@ task:
         reject: Reject
         send: Send
 title:
+    add_content_type: 'Add a new {content_type}'
+    as_indexed_in_environment: 'As indexed in {environment}'
     asset_options: 'Asset options'
     content_type_create_ouuid: 'This operation will not index the {content_type}, but initiate a draft only with a specific OUUID'
     content_type_from_json_file: "from a Content Type's JSON file"
     content_type_json_update: 'Update the content type "{content_type}"'
+    new_content_type: 'New {content_type}'
     select_environments_to_compare: 'Select Environments to compare'
+    view_custom: 'View {name} of the {contentType} "{label}" as indexed in {environment}'
+    view_ems_id: 'View {content_type}:{id}'
+    view_recursive: 'Recursive view'
 type:
     confirm: |-
         {type, select,

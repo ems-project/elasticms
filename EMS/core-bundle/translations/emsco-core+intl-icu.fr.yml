@@ -37,6 +37,8 @@ action:
     export_selected: 'Exporter la sélection'
     extract_content: 'Extraire le contenu'
     hide: Masquer
+    hide_revision_sidebar: 'Masquer la barre latérale de révision'
+    import: Importer
     info: Info
     paste: Coller
     publish: Publier
@@ -65,8 +67,6 @@ action:
     update_from_json: 'Mettre à jour depuis JSON'
     update_mapping: 'Mettre à jour le mapping'
     view: Voir
-    hide_revision_sidebar: 'Masquer la barre latérale de révision'
-    import: Importer
 asset_extractor:
     status: |-
         {color, select,
@@ -173,23 +173,6 @@ core:
                 other   {Il y a # index}
             }
     version: 'Version {core} avec Symfony {symfony}'
-dashboard:
-    exception:
-        title: 'Le tableau de bord {name} a généré une exception'
-data:
-    add:
-        new_title: 'Nouveau {content_type}'
-        title: 'Ajouter un nouveau {content_type}'
-    custom-view:
-        pagetitle: 'Vue {name} de {contentType} « {label} » telle qu’indexée dans {environment}'
-    view:
-        recursive:
-            as_indexed_in: 'Tel qu’indexé dans {environment}'
-            card_title: 'Vue récursive'
-            title: 'Voir {content_type}:{id}'
-documentation:
-    api:
-        title: Documentation
 email:
     crm_export:
         body_greeting: Cordialement.
@@ -347,6 +330,7 @@ field:
     header: En-tête
     header_allow_origin: 'L’en-tête Access-Control-Allow-Origin'
     height: Hauteur
+    helptexts: 'Textes d’aide'
     hidden: Masqué
     icon: Icône
     id: ID
@@ -388,6 +372,7 @@ field:
     password_repeat: 'Répéter le mot de passe'
     pattern: Motif
     pdf_size: 'Format PDF'
+    permission: Permission
     plural: Pluriel
     postition_increment_gap: "Écart d'incrément de position"
     public_access: 'Accès public'
@@ -428,6 +413,7 @@ field:
     template_response: 'Réponse du template'
     text: Texte
     title: Tâche
+    titles: Titres
     tokenizer: Tokenizer
     total: Total
     total_deleted: 'Total supprimé'
@@ -445,9 +431,6 @@ field:
     user_uploaded: 'Uploadé par'
     username: "Nom d'utilisateur"
     wysiwyg_profile: 'Profil WYSIWYG'
-    helptexts: 'Textes d’aide'
-    titles: Titres
-    permission: Permission
 field_type:
     json_menu_editor:
         add_item: 'Ajouter un élément'
@@ -630,6 +613,7 @@ key:
     search_field_options: 'Options de champ de recherche'
     search_options: 'Options de recherche'
     searches: Recherches
+    settings: Paramètres
     show_search_form: 'Afficher le formulaire de recherche'
     sort_by: 'Trier par'
     sort_option: 'Option de tri'
@@ -648,6 +632,7 @@ key:
     uploaded_files_logs: 'Logs des fichiers uploadés'
     users: Utilisateurs
     version: Version
+    versioning: Versioning
     views: Vues
     warning: Avertissement
     warnings: Avertissements
@@ -656,8 +641,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profils
     wysiwyg_style_sets: 'Jeux de styles'
-    settings: Paramètres
-    versioning: Versioning
 log:
     error:
         content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'
@@ -776,6 +759,7 @@ message:
     contenttype_mappings_error: 'La mise à jour des mappings pour {content_type} dans {environments} a échoué : {elasticsearch_dump}'
     contenttype_mappings_updated: 'Mappings mis à jour avec succès pour le type de contenu {content_type} dans {environments}'
     dashboard_deleted: 'Le tableau de bord "{label}" a été supprimé'
+    dashboard_exception: 'Le tableau de bord {name} a généré une exception'
     data_already_unpublished: 'Le document "{label}" était déjà dépublié de {environment}'
     data_cant_finalize_field: '{error_message}'
     data_check_signature_failed: 'Signature non concordante dans {environment} pour le document "{label}"'
@@ -1356,11 +1340,17 @@ task:
         reject: Rejeter
         send: Envoyer
 title:
+    add_content_type: 'Ajouter un nouveau {content_type}'
+    as_indexed_in_environment: 'Tel qu’indexé dans {environment}'
     asset_options: 'Options du fichier'
     content_type_create_ouuid: "Cette opération n'indexera pas le {content_type}, mais initiera uniquement un brouillon avec un OUUID spécifique"
     content_type_from_json_file: "à partir d'un fichier JSON d'un content type"
     content_type_json_update: 'Mettre à jour le content type "{content_type}"'
+    new_content_type: 'Nouveau {content_type}'
     select_environments_to_compare: 'Sélectionner les environnements à comparer'
+    view_custom: 'Vue {name} de {contentType} « {label} » telle qu’indexée dans {environment}'
+    view_ems_id: 'Voir {content_type}:{id}'
+    view_recursive: 'Vue récursive'
 type:
     confirm: |-
         {type, select,

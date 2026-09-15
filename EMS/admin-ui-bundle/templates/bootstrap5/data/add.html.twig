@@ -1,7 +1,7 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'emsco-core' %}
 
-{% block title %}{{ 'data.add.title'|trans({'content_type': contentType.singularName}) }}{% endblock %}
-{% block pagetitle %}{{ 'data.add.title'|trans({'content_type': contentType.singularName}) }}{% endblock %}
+{% block title %}{{ 'title.add_content_type'|trans({'content_type': contentType.singularName}) }}{% endblock %}
+{% block pagetitle %}{{ 'title.add_content_type'|trans({'content_type': contentType.singularName}) }}{% endblock %}
 {% block subtitle %}<small>{{ 'title.content_type_create_ouuid'|trans({ 'content_type': contentType.singularName }) }}</small>{% endblock %}
 
 {% block body %}
@@ -23,7 +23,7 @@
         <!-- general form elements -->
         <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
             <div class="card-header">
-                <h3 class="card-title">{{ 'data.add.new_title'|trans({'content_type': contentType.singularName}) }}</h3>
+                <h3 class="card-title">{{ 'title.new_content_type'|trans({'content_type': contentType.singularName}) }}</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->

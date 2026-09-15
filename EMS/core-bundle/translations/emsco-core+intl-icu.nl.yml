@@ -37,6 +37,8 @@ action:
     export_selected: 'Selectie exporteren'
     extract_content: 'Inhoud extraheren'
     hide: Verbergen
+    hide_revision_sidebar: 'Revisiezijbalk verbergen'
+    import: Importeren
     info: Info
     paste: Plakken
     publish: Publiceren
@@ -65,8 +67,6 @@ action:
     update_from_json: 'Bijwerken vanuit JSON'
     update_mapping: 'Mapping bijwerken'
     view: Bekijken
-    hide_revision_sidebar: 'Revisiezijbalk verbergen'
-    import: Importeren
 asset_extractor:
     status: |-
         {color, select,
@@ -173,23 +173,6 @@ core:
                 other   {Er zijn # indexen}
             }
     version: 'Versie {core} met Symfony {symfony}'
-dashboard:
-    exception:
-        title: 'Het dashboard {name} heeft een uitzondering veroorzaakt'
-data:
-    add:
-        new_title: 'Nieuwe {content_type}'
-        title: 'Een nieuwe {content_type} toevoegen'
-    custom-view:
-        pagetitle: 'Weergave {name} van {contentType} "{label}" zoals geïndexeerd in {environment}'
-    view:
-        recursive:
-            as_indexed_in: 'Zoals geïndexeerd in {environment}'
-            card_title: 'Recursieve weergave'
-            title: '{content_type}:{id} bekijken'
-documentation:
-    api:
-        title: Documentatie
 email:
     crm_export:
         body_greeting: 'Met vriendelijke groeten.'
@@ -347,6 +330,7 @@ field:
     header: Header
     header_allow_origin: 'De Access-Control-Allow-Origin-header'
     height: Hoogte
+    helptexts: Helpteksten
     hidden: Verborgen
     icon: Icoon
     id: ID
@@ -388,6 +372,7 @@ field:
     password_repeat: 'Herhaal wachtwoord'
     pattern: Patroon
     pdf_size: PDF-formaat
+    permission: Toestemming
     plural: Meervoud
     postition_increment_gap: 'Positie-increment gap'
     public_access: 'Publieke toegang'
@@ -428,6 +413,7 @@ field:
     template_response: 'Template response'
     text: Tekst
     title: Taak
+    titles: Titels
     tokenizer: Tokenizer
     total: Totaal
     total_deleted: 'Totaal verwijderd'
@@ -445,9 +431,6 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     wysiwyg_profile: WYSIWYG-profiel
-    helptexts: Helpteksten
-    titles: Titels
-    permission: Toestemming
 field_type:
     json_menu_editor:
         add_item: 'Item toevoegen'
@@ -630,6 +613,7 @@ key:
     search_field_options: Zoekveldopties
     search_options: Zoekopties
     searches: Zoekopdrachten
+    settings: Instellingen
     show_search_form: 'Zoekformulier tonen'
     sort_by: 'Sorteren op'
     sort_option: Sorteeroptie
@@ -648,6 +632,7 @@ key:
     uploaded_files_logs: 'Logs van geüploade bestanden'
     users: Gebruikers
     version: Versie
+    versioning: Versionering
     views: Weergaven
     warning: Waarschuwing
     warnings: Waarschuwingen
@@ -656,8 +641,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profielen
     wysiwyg_style_sets: Stijlsets
-    settings: Instellingen
-    versioning: Versionering
 log:
     error:
         content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
@@ -776,6 +759,7 @@ message:
     contenttype_mappings_error: 'Bijwerken van de mappings voor {content_type} in {environments} is mislukt: {elasticsearch_dump}'
     contenttype_mappings_updated: 'Mappings succesvol bijgewerkt voor het inhoudstype {content_type} in {environments}'
     dashboard_deleted: 'Het dashboard "{label}" is verwijderd'
+    dashboard_exception: 'Het dashboard {name} heeft een uitzondering veroorzaakt'
     data_already_unpublished: 'Het document "{label}" was al gedepubliceerd uit {environment}'
     data_cant_finalize_field: '{error_message}'
     data_check_signature_failed: 'Handtekening komt niet overeen in {environment} voor het document "{label}"'
@@ -1356,11 +1340,17 @@ task:
         reject: Weigeren
         send: Verzenden
 title:
+    add_content_type: 'Een nieuwe {content_type} toevoegen'
+    as_indexed_in_environment: 'Zoals geïndexeerd in {environment}'
     asset_options: Asset-opties
     content_type_create_ouuid: 'Deze bewerking indexeert het {content_type} niet, maar start alleen een concept met een specifieke OUUID'
     content_type_from_json_file: 'vanuit een JSON-bestand van een content type'
     content_type_json_update: 'Content type "{content_type}" bijwerken'
+    new_content_type: 'Nieuwe {content_type}'
     select_environments_to_compare: 'Selecteer omgevingen om te vergelijken'
+    view_custom: 'Weergave {name} van {contentType} "{label}" zoals geïndexeerd in {environment}'
+    view_ems_id: '{content_type}:{id} bekijken'
+    view_recursive: 'Recursieve weergave'
 type:
     confirm: |-
         {type, select,

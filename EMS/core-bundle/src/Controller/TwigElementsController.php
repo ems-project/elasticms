@@ -165,11 +165,11 @@ class TwigElementsController extends AbstractController
 
     private function getCrmMenu(): Menu
     {
-        $menu = new Menu(t('form_submissions.title', [], 'emsco-core'));
+        $menu = new Menu(t('key.form_submissions', [], 'emsco-core'));
         if (!$this->isGranted('ROLE_FORM_CRM')) {
             return $menu;
         }
-        $menu->addChild(t('form_submissions.overview', [], 'emsco-core'), 'fa fa-list-alt', 'form.submissions')->setTranslation([]);
+        $menu->addChild(t('key.overview', [], 'emsco-core'), 'fa fa-list-alt', 'form.submissions')->setTranslation([]);
 
         return $menu;
     }

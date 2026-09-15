@@ -81,6 +81,8 @@ action:
     move: Move
     upload_file: 'Upload file'
     upload_files: 'Upload files'
+    create_draft: 'Create {content_type} draft'
+    exit: Exit
 asset_extractor:
     status: |-
         {color, select,
@@ -376,37 +378,12 @@ field:
     wysiwyg_profile: 'WYSIWYG profile'
     file_hash: 'File hash'
     file_info: 'File information'
-form:
-    add:
-        title: 'Add a form'
-    data:
-        add:
-            ouuid:
-                constraint_message: "OUUID has an unauthorized character: A-Z, a-z, 0-9, caret: '-', underscore: '_' or dot: '.'."
-                label: OUUID
-                placeholder: 'Auto-generated if left empty'
-            save: 'Create {content_type} draft'
-    edit:
-        title: 'Edit a form'
-    menu: Forms
-    reorder:
-        title: 'Reorder fields of form: {label}'
-    tagline: 'Reusable components'
-form_submissions:
-    overview: Overview
-    title: 'Form Submissions'
+    ouuid: OUUID
 help:
     add_first_aggregate_option: "Click on 'Add an aggregate option' to create a first Aggregate Option: Click on 'Add an aggregate option' to create a first Aggregate Option"
     add_first_search_field_option: "'Add an search field option' to create a first Search Field Option: Click on 'Add an search field option' to create a first Search Field Option"
     add_first_sort_option: "Click on 'Add a Sort Option' to create a first Sort Option: Click on 'Add a Sort Option' to create a first Sort Option"
     override_styles_set_config: 'override styles sets config'
-inline_editor:
-    action:
-        exit: Exit
-    elements: Elements
-    status:
-        draft_by: 'In draft by "{user}"'
-    title: 'Inline Editor'
 job:
     completed: Completed
     info: 'About this job'
@@ -554,6 +531,7 @@ key:
     textarea_counter: '{count} characters'
     subfield: Subfield
     more_info: 'more info'
+    elements: Elements
 log:
     error:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
@@ -884,6 +862,9 @@ message:
     add_field_to: 'Add a field to <strong>{name}</strong>'
     add_subfield_to: 'Add a subfield to <strong>{name}</strong>'
     duplicate_field: 'Duplicate <strong>{name{</strong>'
+    ouuid_constraint: "OUUID has an unauthorized character: A-Z, a-z, 0-9, caret: '-', underscore: '_' or dot: '.'."
+    ouuid_placeholder: 'Auto-generated if left empty'
+    revision_in_draft_by: 'In draft by "{user}"'
 notification:
     acknowledge: Acknowledge
     actions: Actions
@@ -1033,7 +1014,6 @@ revision:
     field:
         locked: 'Locked until'
         locked_by: 'Locked by'
-        ouuid: Ouuid
     finalized_by: '{date} Finalized by {user}'
     missing: 'no revision in {env}'
     new: 'New {contentType}'
@@ -1299,6 +1279,9 @@ title:
     view_recursive: 'Recursive view'
     error_page: 'Oops! An Error Occurred'
     error: 'An Error Occurred'
+    add_form: 'Add a form'
+    edit_form: 'Edit a form'
+    reorder_form_fields: 'Reorder fields of form: {label}'
 type:
     confirm: |-
         {type, select,

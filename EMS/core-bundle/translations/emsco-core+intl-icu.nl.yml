@@ -81,6 +81,8 @@ action:
     move: Verplaatsen
     upload_file: 'Bestand uploaden'
     upload_files: 'Bestanden uploaden'
+    create_draft: 'Concept voor {content_type} aanmaken'
+    exit: Afsluiten
 asset_extractor:
     status: |-
         {color, select,
@@ -376,37 +378,12 @@ field:
     wysiwyg_profile: WYSIWYG-profiel
     file_hash: Bestandshash
     file_info: Bestandsinformatie
-form:
-    add:
-        title: 'Een formulier toevoegen'
-    data:
-        add:
-            ouuid:
-                constraint_message: "OUUID bevat een niet-toegestaan teken: A-Z, a-z, 0-9, koppelteken: '-', underscore: '_' of punt: '.'."
-                label: OUUID
-                placeholder: 'Automatisch gegenereerd indien leeg gelaten'
-            save: 'Concept voor {content_type} aanmaken'
-    edit:
-        title: 'Een formulier bewerken'
-    menu: Formulieren
-    reorder:
-        title: 'Velden van formulier hersorteren: {label}'
-    tagline: 'Herbruikbare componenten'
-form_submissions:
-    overview: Overzicht
-    title: Formulierinzendingen
+    ouuid: OUUID
 help:
     add_first_aggregate_option: "Klik op 'Aggregatieoptie toevoegen' om een eerste aggregatieoptie te maken"
     add_first_search_field_option: "Klik op 'Zoekveldoptie toevoegen' om een eerste zoekveldoptie te maken"
     add_first_sort_option: "Klik op 'Sorteeroptie toevoegen' om een eerste sorteeroptie te maken"
     override_styles_set_config: 'configuratie van stijlensets overschrijven'
-inline_editor:
-    action:
-        exit: Afsluiten
-    elements: Elementen
-    status:
-        draft_by: 'In concept door "{user}"'
-    title: Inline-editor
 job:
     completed: Voltooid
     info: 'Over deze job'
@@ -554,6 +531,7 @@ key:
     textarea_counter: '{count} tekens'
     subfield: Subveld
     more_info: 'meer info'
+    elements: Elementen
 log:
     error:
         content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
@@ -884,6 +862,9 @@ message:
     add_field_to: 'Een veld toevoegen aan <strong>{name}</strong>'
     add_subfield_to: 'Een subveld toevoegen aan <strong>{name}</strong>'
     duplicate_field: 'Dupliceren <strong>{name}</strong>'
+    ouuid_constraint: "OUUID bevat een niet-toegestaan teken: A-Z, a-z, 0-9, koppelteken: '-', underscore: '_' of punt: '.'."
+    ouuid_placeholder: 'Automatisch gegenereerd indien leeg gelaten'
+    revision_in_draft_by: 'In concept door "{user}"'
 notification:
     acknowledge: Bevestigen
     actions: Acties
@@ -1033,7 +1014,6 @@ revision:
     field:
         locked: 'Vergrendeld tot'
         locked_by: 'Vergrendeld door'
-        ouuid: Ouuid
     finalized_by: '{date} Gefinaliseerd door {user}'
     missing: 'geen revisie in {env}'
     new: 'Nieuw {contentType}'
@@ -1299,6 +1279,9 @@ title:
     view_recursive: 'Recursieve weergave'
     error_page: 'Oeps! Er is een fout opgetreden'
     error: 'Er is een fout opgetreden'
+    add_form: 'Een formulier toevoegen'
+    edit_form: 'Een formulier bewerken'
+    reorder_form_fields: 'Velden van formulier hersorteren: {label}'
 type:
     confirm: |-
         {type, select,

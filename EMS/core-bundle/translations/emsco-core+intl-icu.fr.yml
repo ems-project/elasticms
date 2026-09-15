@@ -81,6 +81,8 @@ action:
     move: Déplacer
     upload_file: 'Uploader le fichier'
     upload_files: 'Uploader les fichiers'
+    create_draft: 'Créer un brouillon {content_type}'
+    exit: Quitter
 asset_extractor:
     status: |-
         {color, select,
@@ -376,37 +378,12 @@ field:
     wysiwyg_profile: 'Profil WYSIWYG'
     file_hash: 'Hash du fichier'
     file_info: 'Informations du fichier'
-form:
-    add:
-        title: 'Ajouter un formulaire'
-    data:
-        add:
-            ouuid:
-                constraint_message: "L’OUUID contient un caractère non autorisé : A-Z, a-z, 0-9, tiret : '-', underscore : '_' ou point : '.'."
-                label: OUUID
-                placeholder: 'Généré automatiquement si laissé vide'
-            save: 'Créer un brouillon {content_type}'
-    edit:
-        title: 'Modifier un formulaire'
-    menu: Formulaires
-    reorder:
-        title: 'Réordonner les champs du formulaire : {label}'
-    tagline: 'Composants réutilisables'
-form_submissions:
-    overview: Aperçu
-    title: 'Soumissions de formulaires'
+    ouuid: OUUID
 help:
     add_first_aggregate_option: 'Cliquez sur « Ajouter une option d’agrégation » pour créer une première option d’agrégation'
     add_first_search_field_option: 'Cliquez sur « Ajouter une option de champ de recherche » pour créer une première option de champ de recherche'
     add_first_sort_option: 'Cliquez sur « Ajouter une option de tri » pour créer une première option de tri'
     override_styles_set_config: 'remplacer la configuration des jeux de styles'
-inline_editor:
-    action:
-        exit: Quitter
-    elements: Éléments
-    status:
-        draft_by: 'En brouillon par "{user}"'
-    title: 'Éditeur en ligne'
 job:
     completed: Terminé
     info: 'À propos de ce job'
@@ -554,6 +531,7 @@ key:
     textarea_counter: '{count} caractères'
     subfield: Sous-champ
     more_info: 'plus d’informations'
+    elements: Éléments
 log:
     error:
         content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'
@@ -884,6 +862,9 @@ message:
     add_field_to: 'Ajouter un champ à <strong>{name}</strong>'
     add_subfield_to: 'Ajouter un sous-champ à <strong>{name}</strong>'
     duplicate_field: 'Dupliquer <strong>{name}</strong>'
+    ouuid_constraint: "L’OUUID contient un caractère non autorisé : A-Z, a-z, 0-9, tiret : '-', underscore : '_' ou point : '.'."
+    ouuid_placeholder: 'Généré automatiquement si laissé vide'
+    revision_in_draft_by: 'En brouillon par "{user}"'
 notification:
     acknowledge: Acquitter
     actions: Actions
@@ -1033,7 +1014,6 @@ revision:
     field:
         locked: 'Verrouillé jusqu’à'
         locked_by: 'Verrouillé par'
-        ouuid: Ouuid
     finalized_by: '{date} Finalisé par {user}'
     missing: 'aucune révision dans {env}'
     new: 'Nouveau {contentType}'
@@ -1299,6 +1279,9 @@ title:
     view_recursive: 'Vue récursive'
     error_page: 'Oups ! Une erreur est survenue'
     error: 'Une erreur est survenue'
+    add_form: 'Ajouter un formulaire'
+    edit_form: 'Modifier un formulaire'
+    reorder_form_fields: 'Réordonner les champs du formulaire : {label}'
 type:
     confirm: |-
         {type, select,

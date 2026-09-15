@@ -276,7 +276,7 @@ class EditController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             match ($this->getClickedButtonName($form)) {
                 RevisionDraftsDataTableType::DISCARD_SELECTED_DRAFT => $this->discardRevisions($table, $contentTypeId),
-                default => $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core')),
+                default => $this->logger->messageError(t('message.invalid_table_action', [], 'emsco-core')),
             };
 
             return $this->redirectToRoute(Routes::DRAFT_IN_PROGRESS, ['contentTypeId' => $contentTypeId->getId()]);
@@ -350,9 +350,9 @@ class EditController extends AbstractController
                 $label = $this->revisionService->display($revision);
                 $this->dataService->discardDraft($revision);
 
-                $this->logger->messageNotice(t('log.notice.draft_deleted', ['revision' => $label], 'emsco-core'));
+                $this->logger->messageNotice(t('message.draft_deleted', ['revision' => $label], 'emsco-core'));
             } catch (NotFoundHttpException) {
-                $this->logger->messageWarning(t('log.warning.draft_not_found', ['revisionId' => $revisionId], 'emsco-core'));
+                $this->logger->messageWarning(t('message.draft_not_found', ['revisionId' => $revisionId], 'emsco-core'));
             }
         }
     }

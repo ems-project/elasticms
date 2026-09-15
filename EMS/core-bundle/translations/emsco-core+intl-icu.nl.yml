@@ -518,27 +518,6 @@ key:
     job_output: Jobuitvoer
     progress: Voortgang
     title: Titel
-log:
-    error:
-        content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
-        delete_failed: 'Verwijderen mislukt'
-        invalid_table_action: 'Onbekende tabelactie'
-    menu: Logs
-    notice:
-        alias_attached: 'De alias "{alias}" is gekoppeld'
-        content_type_referenced: 'Gerefereerd contenttype "{contentType}" uit omgeving "{environment}"'
-        content_type_view_deleted: 'Weergave "{view}" is verwijderd'
-        deleted_orphan_index: 'De index "{index}" is verwijderd'
-        deleted_orphan_indexes: 'Verweesde indexen zijn verwijderd'
-        draft_deleted: 'Concept "{revision}" is verwijderd'
-    tagline: 'Wie deed wat'
-    title: 'Log van {created}'
-    view:
-        title: 'Logs van {created}'
-    warning:
-        draft_not_found: 'Concept niet gevonden met id "{revisionId}"'
-        duplicate_environment: 'Omgeving "{name}" bestaat al!'
-        index_not_found: 'Index "{index}" niet gevonden'
 media_library:
     file:
         add:
@@ -853,6 +832,18 @@ message:
     revision_in_draft_by: 'In concept door "{user}"'
     job_info: 'Over deze job'
     item_outdated: 'Niet meer gesynchroniseerd, sluit en probeer opnieuw!'
+    log_content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
+    delete_failed: 'Verwijderen mislukt'
+    invalid_table_action: 'Onbekende tabelactie'
+    alias_attached: 'De alias "{alias}" is gekoppeld'
+    content_type_referenced: 'Gerefereerd contenttype "{contentType}" uit omgeving "{environment}"'
+    content_type_view_deleted: 'Weergave "{view}" is verwijderd'
+    deleted_orphan_index: 'De index "{index}" is verwijderd'
+    deleted_orphan_indexes: 'Verweesde indexen zijn verwijderd'
+    draft_deleted: 'Concept "{revision}" is verwijderd'
+    draft_not_found: 'Concept niet gevonden met id "{revisionId}"'
+    duplicate_environment: 'Omgeving "{name}" bestaat al!'
+    index_not_found: 'Index "{index}" niet gevonden'
 notification:
     acknowledge: Bevestigen
     actions: Acties
@@ -1272,6 +1263,9 @@ title:
     reorder_form_fields: 'Velden van formulier hersorteren: {label}'
     job_list: Joblijst
     new_label: 'Nieuwe {label}'
+    log_tagline: 'Wie deed wat'
+    log_of: 'Log van {created}'
+    logs_of: 'Logs van {created}'
 type:
     confirm: |-
         {type, select,

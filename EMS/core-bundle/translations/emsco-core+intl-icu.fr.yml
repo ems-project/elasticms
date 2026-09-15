@@ -518,27 +518,6 @@ key:
     job_output: 'Sortie du job'
     progress: Progression
     title: Titre
-log:
-    error:
-        content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'
-        delete_failed: 'Échec de la suppression'
-        invalid_table_action: 'Action de tableau inconnue'
-    menu: Logs
-    notice:
-        alias_attached: 'L’alias « {alias} » a été attaché'
-        content_type_referenced: 'Type de contenu référencé « {contentType} » depuis l’environnement « {environment} »'
-        content_type_view_deleted: 'La vue « {view} » a été supprimée'
-        deleted_orphan_index: 'L’index « {index} » a été supprimé'
-        deleted_orphan_indexes: 'Les indexes orphelins ont été supprimés'
-        draft_deleted: 'Le brouillon « {revision} » a été supprimé'
-    tagline: 'Qui a fait quoi'
-    title: 'Log du {created}'
-    view:
-        title: 'Logs de {created}'
-    warning:
-        draft_not_found: 'Brouillon introuvable avec l’id « {revisionId} »'
-        duplicate_environment: 'L’environnement « {name} » existe déjà !'
-        index_not_found: 'Index « {index} » introuvable'
 media_library:
     file:
         add:
@@ -853,6 +832,18 @@ message:
     revision_in_draft_by: 'En brouillon par "{user}"'
     job_info: 'À propos de ce job'
     item_outdated: 'Désynchronisé, fermez et réessayez !'
+    log_content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'
+    delete_failed: 'Échec de la suppression'
+    invalid_table_action: 'Action de tableau inconnue'
+    alias_attached: 'L’alias « {alias} » a été attaché'
+    content_type_referenced: 'Type de contenu référencé « {contentType} » depuis l’environnement « {environment} »'
+    content_type_view_deleted: 'La vue « {view} » a été supprimée'
+    deleted_orphan_index: 'L’index « {index} » a été supprimé'
+    deleted_orphan_indexes: 'Les indexes orphelins ont été supprimés'
+    draft_deleted: 'Le brouillon « {revision} » a été supprimé'
+    draft_not_found: 'Brouillon introuvable avec l’id « {revisionId} »'
+    duplicate_environment: 'L’environnement « {name} » existe déjà !'
+    index_not_found: 'Index « {index} » introuvable'
 notification:
     acknowledge: Acquitter
     actions: Actions
@@ -1272,6 +1263,9 @@ title:
     reorder_form_fields: 'Réordonner les champs du formulaire : {label}'
     job_list: 'Liste des jobs'
     new_label: 'Nouveau {label}'
+    log_tagline: 'Qui a fait quoi'
+    log_of: 'Log du {created}'
+    logs_of: 'Logs de {created}'
 type:
     confirm: |-
         {type, select,

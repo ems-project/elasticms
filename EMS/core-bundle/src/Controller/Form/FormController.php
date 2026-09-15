@@ -55,7 +55,7 @@ class FormController extends AbstractController
                 TableType::REORDER_ACTION => $this->formManager->reorderByIds(
                     ids: TableType::getReorderedKeys($form->getName(), $request)
                 ),
-                default => $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core')),
+                default => $this->logger->messageError(t('message.invalid_table_action', [], 'emsco-core')),
             };
 
             return $this->redirectToRoute(Routes::FORM_ADMIN_INDEX);

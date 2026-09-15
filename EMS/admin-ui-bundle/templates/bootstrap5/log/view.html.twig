@@ -1,7 +1,7 @@
 {% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
 {% trans_default_domain 'emsco-core' %}
 
-{% block title %}{{ 'log.title'|trans({created: log.created|date(date_time_format)}) }}{% endblock %}
+{% block title %}{{ 'title.log_of'|trans({created: log.created|date(date_time_format)}) }}{% endblock %}
 
 {% block body %}
 <div class="row justify-content-md-center">

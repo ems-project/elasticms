@@ -72,7 +72,6 @@ asset_extractor:
         }
 button:
     confirm: 'Bevestigt u dit?'
-    delete: Verwijderen
     reload_page: 'Pagina herladen'
 certificate:
     status: |-

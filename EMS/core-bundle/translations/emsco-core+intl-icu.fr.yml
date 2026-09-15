@@ -72,7 +72,6 @@ asset_extractor:
         }
 button:
     confirm: 'Confirmez-vous ?'
-    delete: Supprimer
     reload_page: 'Recharger la page'
 certificate:
     status: |-

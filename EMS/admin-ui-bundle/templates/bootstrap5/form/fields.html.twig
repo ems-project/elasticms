@@ -997,21 +997,21 @@
                 <div class="input-group input-group-sm">
                     {{- form_widget(fileItem.filename) -}}
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" title="{{ 'fields.asset.info-modal-button'|trans }}" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}-__name__">
+                        <button type="button" class="btn btn-default" title="{{ 'action.info'|trans }}" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}-__name__">
                             <i class="fa fa-info"></i>
-                            <span class="visually-hidden">{{ 'fields.asset.info-modal-button'|trans }}</span>
+                            <span class="visually-hidden">{{ 'action.info'|trans }}</span>
                         </button>
                         <a type="button" class="btn ui-sortable-handle move-handle" title="{{ 'fields.asset.move-button'|trans }}">
                             <i class="fa fa-arrows"></i>
                             <span class="visually-hidden">{{ 'fields.asset.move-button'|trans }}</span>
                         </a>
-                        <a href="{% if prototype %}#{% else %}{{ ems_asset_path(fileItem.vars.value) }}{% endif %}" type="button" class="btn btn-primary view-asset-button {% if prototype %}disabled{% endif %}" title="{{ 'fields.asset.view-button'|trans }}" target="_blank">
+                        <a href="{% if prototype %}#{% else %}{{ ems_asset_path(fileItem.vars.value) }}{% endif %}" type="button" class="btn btn-primary view-asset-button {% if prototype %}disabled{% endif %}" title="{{ 'action.view'|trans }}" target="_blank">
                             <i class="fa fa-eye"></i>
-                            <span class="visually-hidden">{{ 'fields.asset.view-button'|trans }}</span>
+                            <span class="visually-hidden">{{ 'action.view'|trans }}</span>
                         </a>
-                        <button type="button" class="btn btn-danger remove-item" title="{{ 'fields.asset.remove-button'|trans }}">
+                        <button type="button" class="btn btn-danger remove-item" title="{{ 'action.remove'|trans }}">
                             <i class="fa fa-trash"></i>
-                            <span class="visually-hidden">{{ 'fields.asset.remove-button'|trans }}</span>
+                            <span class="visually-hidden">{{ 'action.remove'|trans }}</span>
                         </button>
                     </span>
                 </div>
@@ -1122,10 +1122,10 @@
             <div class="btn-group">
                 <button type="button" class="btn btn-small btn-default asset-details" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}">
                       <i class="fa fa-info"></i>
-                    {{ 'fields.asset.info-modal-button'|trans }}
+                    {{ 'action.info'|trans }}
                 </button>
-                <a href="{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}{{ ems_asset_path(form.vars.value) }}{% endif %}" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{ 'fields.asset.view-button'|trans }}"><i class="fa fa-eye"></i> {{ 'fields.asset.view-button'|trans }}</a>
-                <a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{ 'fields.asset.clear-button'|trans }}"><i class="fa fa-remove"></i>&nbsp;{{ 'fields.asset.clear-button'|trans }}</a>
+                <a href="{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}{{ ems_asset_path(form.vars.value) }}{% endif %}" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{ 'action.view'|trans }}"><i class="fa fa-eye"></i> {{ 'action.view'|trans }}</a>
+                <a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{ 'action.clear'|trans }}"><i class="fa fa-remove"></i>&nbsp;{{ 'action.clear'|trans }}</a>
             </div>
         {% endif %}
     </div>
@@ -1207,10 +1207,10 @@
         <div class="btn-group">
             <button type="button" class="btn btn-small btn-default asset-details" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}">
               <i class="fa fa-info"></i>
-              {{ 'fields.file.info'|trans }}
+              {{ 'action.info'|trans }}
             </button>
             <a href="#" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{ 'fields.file.view'|trans }}"><i class="fa fa-eye"></i>&nbsp;{{ 'fields.file.view'|trans }}</a>
-            <a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{ 'fields.file.clear'|trans }}"><i class="fa fa-remove"></i>&nbsp;{{ 'fields.file.clear'|trans }}</a>
+            <a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{ 'action.clear'|trans }}"><i class="fa fa-remove"></i>&nbsp;{{ 'action.clear'|trans }}</a>
         </div>
     </div>
 </div>

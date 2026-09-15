@@ -483,26 +483,20 @@ field_type:
 fields:
     asset:
         browse-server: 'Server doorzoeken'
-        clear-button: Wissen
         drag-n-drop-file: 'Sleep uw bestand hierheen'
         drag-n-drop-files: 'Sleep uw bestanden hierheen'
         file-hash: Bestandshash
         file-info: Bestandsinformatie
-        info-modal-button: Info
         init-upload: 'Upload initialiseren'
         move-button: Verplaatsen
-        remove-button: Verwijderen
         upload-file: 'Bestand uploaden'
         upload-files: 'Bestanden uploaden'
-        view-button: Bekijken
     field: Veld
     file:
         asset_options: Assetopties
-        clear: Wissen
         drag_and_drop: 'Sleep uw bestand hierheen'
         extract_content: 'Inhoud extraheren'
         hash_signature: Hash-handtekening
-        info: Info
         preview_alt: 'Voorbeeld van veld {field}'
         upload: 'Bestand uploaden'
         view: Bekijken
@@ -1107,7 +1101,6 @@ release:
         set_status_canceled: 'Release annuleren'
         set_status_ready: 'Release valideren'
         set_status_wip: 'Release herzien'
-        show: Bekijken
     add:
         title: 'Release toevoegen'
     all_releases:
@@ -1641,7 +1634,6 @@ user:
         disable_confirm: 'Deze gebruiker uitschakelen?'
         generate_api: API-sleutel
         generate_api_confirm: 'API-sleutel genereren voor deze gebruiker?'
-        remove: Verwijderen
         remove_confirm: 'Deze gebruiker uit de groep verwijderen?'
         switch: 'Van gebruiker wisselen'
     add:
@@ -1753,19 +1745,15 @@ view:
         fields:
             asset:
                 browse-server: 'Kies een bestand van de server'
-                clear-button: Wissen
                 drag-n-drop-file: 'Sleep uw bestand hierheen'
                 drag-n-drop-files: 'Sleep uw bestanden hierheen'
                 file-hash: 'Hash van het bestand'
                 file-info: Bestandsinformatie
-                info-modal-button: Info
                 init-upload: 'Upload wordt gestart'
                 move-button: Verplaatsen
                 preview: Voorbeeld
-                remove-button: Verwijderen
                 upload-file: 'Bestand uploaden'
                 upload-files: 'Bestanden uploaden'
-                view-button: Bekijken
     macros:
         data-field-type:
             collection_added_items: '{0} Er is niets toegevoegd.|{1} Er is één item toegevoegd.|]1,Inf[ Er zijn {count} items toegevoegd.'

@@ -483,26 +483,20 @@ field_type:
 fields:
     asset:
         browse-server: 'Browse server'
-        clear-button: Clear
         drag-n-drop-file: 'Drag and drop your file here'
         drag-n-drop-files: 'Drag and drop your files here'
         file-hash: 'File hash'
         file-info: 'File information'
-        info-modal-button: Info
         init-upload: 'Initialize upload'
         move-button: Move
-        remove-button: Remove
         upload-file: 'Upload file'
         upload-files: 'Upload files'
-        view-button: View
     field: Field
     file:
         asset_options: 'Asset options'
-        clear: Clear
         drag_and_drop: 'Drag and drop your file here'
         extract_content: 'Extract content'
         hash_signature: 'Hash signature'
-        info: Info
         preview_alt: 'Preview of the field {field}'
         upload: 'Upload file'
         view: View
@@ -1107,7 +1101,6 @@ release:
         set_status_canceled: 'Cancel release'
         set_status_ready: 'Validate release'
         set_status_wip: 'Rework release'
-        show: View
     add:
         title: 'Add a Release'
     all_releases:
@@ -1641,7 +1634,6 @@ user:
         disable_confirm: 'Disable this user?'
         generate_api: 'API key'
         generate_api_confirm: 'Generate API key for this user?'
-        remove: Remove
         remove_confirm: 'Remove this user from the group?'
         switch: 'Switch user'
     add:
@@ -1753,19 +1745,15 @@ view:
         fields:
             asset:
                 browse-server: 'Pick a file from the server'
-                clear-button: Clear
                 drag-n-drop-file: 'Drag and drop your file here'
                 drag-n-drop-files: 'Drag and drop your files here'
                 file-hash: "File's hash"
                 file-info: "File's information"
-                info-modal-button: Info
                 init-upload: 'Upload is starting'
                 move-button: Move
                 preview: 'File preview of field {label}'
-                remove-button: Remove
                 upload-file: 'Upload file'
                 upload-files: 'Upload files'
-                view-button: View
     macros:
         data-field-type:
             collection_added_items: '{0} Nothing has been added.|{1} One item has been added.|]1,Inf[ {count} items have been added.'

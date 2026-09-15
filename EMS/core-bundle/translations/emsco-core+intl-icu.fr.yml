@@ -483,26 +483,20 @@ field_type:
 fields:
     asset:
         browse-server: 'Parcourir le serveur'
-        clear-button: Effacer
         drag-n-drop-file: 'Glissez-déposez votre fichier ici'
         drag-n-drop-files: 'Glissez-déposez vos fichiers ici'
         file-hash: 'Hash du fichier'
         file-info: 'Informations du fichier'
-        info-modal-button: Info
         init-upload: 'Initialiser l’upload'
         move-button: Déplacer
-        remove-button: Retirer
         upload-file: 'Uploader le fichier'
         upload-files: 'Uploader les fichiers'
-        view-button: Voir
     field: Champ
     file:
         asset_options: 'Options de l’asset'
-        clear: Effacer
         drag_and_drop: 'Glissez-déposez votre fichier ici'
         extract_content: 'Extraire le contenu'
         hash_signature: 'Signature du hash'
-        info: Info
         preview_alt: 'Aperçu du champ {field}'
         upload: 'Uploader le fichier'
         view: Voir
@@ -1107,7 +1101,6 @@ release:
         set_status_canceled: 'Annuler la release'
         set_status_ready: 'Valider la release'
         set_status_wip: 'Retravailler la release'
-        show: Voir
     add:
         title: 'Ajouter une release'
     all_releases:
@@ -1641,7 +1634,6 @@ user:
         disable_confirm: "Désactiver cet utilisateur\_?"
         generate_api: 'Clé API'
         generate_api_confirm: "Générer une clé API pour cet utilisateur\_?"
-        remove: Retirer
         remove_confirm: "Retirer cet utilisateur du groupe\_?"
         switch: 'Changer d’utilisateur'
     add:
@@ -1753,19 +1745,15 @@ view:
         fields:
             asset:
                 browse-server: 'Choisir un fichier sur le serveur'
-                clear-button: Effacer
                 drag-n-drop-file: 'Glissez-déposez votre fichier ici'
                 drag-n-drop-files: 'Glissez-déposez vos fichiers ici'
                 file-hash: 'Hash du fichier'
                 file-info: 'Informations du fichier'
-                info-modal-button: Info
                 init-upload: 'Le téléversement démarre'
                 move-button: Déplacer
                 preview: Aperçu
-                remove-button: Supprimer
                 upload-file: 'Téléverser un fichier'
                 upload-files: 'Téléverser des fichiers'
-                view-button: Voir
     macros:
         data-field-type:
             collection_added_items: '{0} Aucun élément n’a été ajouté.|{1} Un élément a été ajouté.|]1,Inf[ {count} éléments ont été ajoutés.'

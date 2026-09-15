@@ -45,7 +45,7 @@ class UserDataTableType extends AbstractEntityTableType
         if ($context instanceof UserContextDTO && $context->inGroup && null !== $context->groupId) {
             $table->addDynamicItemPostAction(
                 route: Routes::USER_REMOVE_FROM_GROUP,
-                labelKey: t('user.action.remove', [], 'emsco-core'),
+                labelKey: t('action.remove', [], 'emsco-core'),
                 icon: 'trash',
                 messageKey: t('user.action.remove_confirm', [], 'emsco-core'),
                 routeParameters: ['user' => 'id', 'groupName' => $context->groupId]

@@ -64,7 +64,7 @@ class ReleaseOverviewDataTableType extends AbstractEntityTableType
         );
         $table->addItemGetAction(
             route: Routes::RELEASE_VIEW,
-            labelKey: t('release.actions.show', [], 'emsco-core'),
+            labelKey: t('action.view', [], 'emsco-core'),
             icon: 'eye',
             attributes: ['data-testid' => 'release-action-show']
         )->addCondition(new Terms('status', [Release::APPLIED_STATUS, Release::SCHEDULED_STATUS, Release::READY_STATUS]));

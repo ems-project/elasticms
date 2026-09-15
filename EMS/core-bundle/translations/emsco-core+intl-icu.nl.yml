@@ -56,6 +56,8 @@ action:
     init_upload: 'Upload initialiseren'
     move: Verplaatsen
     move_item: 'Item verplaatsen'
+    new_entity_name: 'Nieuwe {name}'
+    new_job: 'Nieuwe job'
     next: Volgende
     paste: Plakken
     previous: Vorige
@@ -444,6 +446,7 @@ key:
     ckeditor4: 'CK Editor 4'
     client: Client
     cluster_uuid: Cluster-UUID
+    compare_environments: 'Omgevingen vergelijken'
     completed: Voltooid
     content: Inhoud
     content_type: Contenttype
@@ -507,6 +510,7 @@ key:
     number_of_pending_tasks: 'Aantal wachtende taken'
     'on': Op
     orphan_indexes: 'Verweesde indexen'
+    other: Overige
     outbox: Outbox
     overview: Overzicht
     portrait: Portret
@@ -533,6 +537,8 @@ key:
     search: Zoeken
     search_field_option: Zoekveldoptie
     search_field_options: Zoekveldopties
+    search_in_my_circle: 'In mijn {name}'
+    search_in_plural: 'Zoeken in {plural}'
     search_options: Zoekopties
     searches: Zoekopdrachten
     selected: Geselecteerd
@@ -559,6 +565,7 @@ key:
     unreferenced_aliases: 'Niet-gerefereerde aliassen'
     uploaded_files: 'Geüploade bestanden'
     uploaded_files_logs: 'Logs van geüploade bestanden'
+    user_name_placeholder: '{name}'
     users: Gebruikers
     version: Versie
     versioning: Versionering
@@ -577,6 +584,7 @@ message:
     action_updated: 'De actie "{label}" is bijgewerkt'
     add_field_to: 'Een veld toevoegen aan <strong>{name}</strong>'
     add_subfield_to: 'Een subveld toevoegen aan <strong>{name}</strong>'
+    aggregate_option_missing: "Klik op 'Aggregatieoptie toevoegen' om een eerste aggregatieoptie te maken"
     alias_added: 'Een nieuwe alias "{alias_name}" is toegevoegd aan de index "{index_name}"'
     alias_attached: 'De alias "{alias}" is gekoppeld'
     alias_too_many_indexes: 'Er zijn te veel indexen'
@@ -828,6 +836,7 @@ message:
     schedule_deleted: 'Het schema "{name}" is verwijderd'
     schedule_updated: 'Schema "{name}" is bijgewerkt'
     search_deleted: 'Een zoekopdracht is verwijderd'
+    search_field_option_missing: "Klik op 'Zoekveldoptie toevoegen' om een eerste zoekveldoptie te maken"
     search_paging_limit_exceeded: 'De paginering is beperkt tot de eerste {paging} items, {total} documenten gevonden'
     search_result_count: |-
         {count, plural,
@@ -841,6 +850,7 @@ message:
     search_set_as_default_for_content_type: 'Deze zoekopdracht is ingesteld als standaard zoekformulier voor het content type {content_type}'
     select_new_location: 'Selecteer nieuwe locatie:'
     something_wrong: 'Er is iets mis met deze applicatie.'
+    sort_option_missing: "Klik op 'Sorteeroptie toevoegen' om een eerste sorteeroptie te maken"
     still_in_target: 'Nog in {target}'
     subfield_added: 'Het subveld "{name}" is toegevoegd'
     subfield_name_mandatory: 'De naam van het subveld is verplicht'
@@ -957,38 +967,6 @@ role:
         label: 'Gebruiker lezen'
     webmaster:
         label: Webmaster
-search_options:
-    aggregate:
-        add: 'Aggregatieoptie toevoegen'
-        missing: "Klik op 'Aggregatieoptie toevoegen' om een eerste aggregatieoptie te maken"
-        title: Aggregatieopties
-    field:
-        add: 'Zoekveldoptie toevoegen'
-        missing: "Klik op 'Zoekveldoptie toevoegen' om een eerste zoekveldoptie te maken"
-        title: Zoekveldopties
-    sort:
-        add: 'Sorteeroptie toevoegen'
-        missing: "Klik op 'Sorteeroptie toevoegen' om een eerste sorteeroptie te maken"
-        title: Sorteeropties
-    title: Zoekopties
-sidebar-menu:
-    compare-environments: 'Omgevingen vergelijken'
-    content-types: Contenttypes
-    content_type:
-        create: 'Nieuwe {name}'
-        draft_in_progress: 'Concept in uitvoering'
-        search: 'Zoeken in {plural}'
-        search_in_my_circle: 'In mijn {name}'
-        trash: Prullenbak
-    create-job: 'Nieuwe job'
-    dashboards: Dashboards
-    other: Overige
-    release-admin:
-        index-link: Releases
-    search: Zoeken
-    user:
-        name: '{name}'
-        searches: Zoekopdrachten
 status:
     bus:
         failed: 'Berichten met fout'

@@ -90,7 +90,7 @@ class TwigElementsController extends AbstractController
 
     private function getOtherMenu(): Menu
     {
-        $menu = new Menu(t('sidebar-menu.other', [], 'emsco-core'));
+        $menu = new Menu(t('key.other', [], 'emsco-core'));
         $menu->addChild(t('key.documentation', [], 'emsco-core'), 'fa fa-book', 'documentation')->setTranslation([]);
 
         return $menu;
@@ -133,11 +133,11 @@ class TwigElementsController extends AbstractController
         $menu->addChild(t('key.dashboards', [], 'emsco-core'), 'fa fa-dashboard', Routes::DASHBOARD_ADMIN_INDEX);
         $menu->addChild(t('key.query_searches', [], 'emsco-core'), 'fa fa-list-alt', 'ems_core_query_search_index');
         $menu->addChild(t('key.wysiwyg', [], 'emsco-core'), 'fa fa-edit', Routes::WYSIWYG_INDEX);
-        $menu->addChild(t('sidebar-menu.search', [], 'emsco-core'), 'fa fa-search', 'ems_search_options_index')->setTranslation([]);
+        $menu->addChild(t('key.search', [], 'emsco-core'), 'fa fa-search', 'ems_search_options_index')->setTranslation([]);
         $menu->addChild(t('key.i18n', [], 'emsco-core'), 'fa fa-language', Routes::I18N_INDEX);
         $jobMenu = $menu->addChild(t('key.jobs', [], 'emsco-core'), 'fa fa-terminal', 'job.index');
         $jobMenu->setTranslation([]);
-        $jobMenu->addChild(t('sidebar-menu.create-job', [], 'emsco-core'), 'fa fa-plus', 'job.add')->setTranslation([]);
+        $jobMenu->addChild(t('action.new_job', [], 'emsco-core'), 'fa fa-plus', 'job.add')->setTranslation([]);
         $jobMenu->addChild(t('key.job_logs', [], 'emsco-core'), 'fa fa-file-text-o', 'job.index');
         $jobMenu->addChild(t('key.schedule', [], 'emsco-core'), 'fa fa-calendar-o', Routes::SCHEDULE_INDEX);
 
@@ -180,8 +180,8 @@ class TwigElementsController extends AbstractController
         if (!$this->isGranted('ROLE_PUBLISHER')) {
             return $menu;
         }
-        $menu->addChild(t('sidebar-menu.release-admin.index-link', [], 'emsco-core'), 'fa fa-cube', 'emsco_release_index')->setTranslation([]);
-        $menu->addChild(t('sidebar-menu.compare-environments', [], 'emsco-core'), 'fa fa-align-center', 'environment.align')->setTranslation([]);
+        $menu->addChild(t('key.releases', [], 'emsco-core'), 'fa fa-cube', 'emsco_release_index')->setTranslation([]);
+        $menu->addChild(t('key.compare_environments', [], 'emsco-core'), 'fa fa-align-center', 'environment.align')->setTranslation([]);
         $menu->addChild(t('key.uploaded_files', [], 'emsco-core'), 'fa fa-upload', Routes::UPLOAD_ASSET_PUBLISHER_OVERVIEW)->setTranslation([]);
 
         return $menu;

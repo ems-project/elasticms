@@ -56,6 +56,8 @@ action:
     init_upload: 'Initialiser l’upload'
     move: Déplacer
     move_item: 'Déplacer l’élément'
+    new_entity_name: 'Nouveau {name}'
+    new_job: 'Nouveau job'
     next: Suivant
     paste: Coller
     previous: Précédent
@@ -444,6 +446,7 @@ key:
     ckeditor4: 'CK Editor 4'
     client: Client
     cluster_uuid: 'UUID du cluster'
+    compare_environments: 'Comparer les environnements'
     completed: Terminé
     content: Contenu
     content_type: 'Type de contenu'
@@ -507,6 +510,7 @@ key:
     number_of_pending_tasks: 'Nombre de tâches en attente'
     'on': Le
     orphan_indexes: 'Indexes orphelins'
+    other: Autre
     outbox: 'Boîte d’envoi'
     overview: "Vue d'ensemble"
     portrait: Portrait
@@ -533,6 +537,8 @@ key:
     search: Recherche
     search_field_option: 'Option de champ de recherche'
     search_field_options: 'Options de champ de recherche'
+    search_in_my_circle: 'Dans mon {name}'
+    search_in_plural: 'Rechercher dans {plural}'
     search_options: 'Options de recherche'
     searches: Recherches
     selected: Sélectionné
@@ -559,6 +565,7 @@ key:
     unreferenced_aliases: 'Alias non référencés'
     uploaded_files: 'Fichiers uploadés'
     uploaded_files_logs: 'Logs des fichiers uploadés'
+    user_name_placeholder: '{name}'
     users: Utilisateurs
     version: Version
     versioning: Versioning
@@ -577,6 +584,7 @@ message:
     action_updated: 'L''action "{label}" a été mise à jour'
     add_field_to: 'Ajouter un champ à <strong>{name}</strong>'
     add_subfield_to: 'Ajouter un sous-champ à <strong>{name}</strong>'
+    aggregate_option_missing: 'Cliquez sur « Ajouter une option d’agrégation » pour créer une première option d’agrégation'
     alias_added: 'Un nouvel alias "{alias_name}" a été ajouté à l''index "{index_name}"'
     alias_attached: 'L’alias « {alias} » a été attaché'
     alias_too_many_indexes: "Il y a trop d'index"
@@ -828,6 +836,7 @@ message:
     schedule_deleted: 'La planification "{name}" a été supprimée'
     schedule_updated: 'La planification "{name}" a été mise à jour'
     search_deleted: 'Une recherche a été supprimée'
+    search_field_option_missing: 'Cliquez sur « Ajouter une option de champ de recherche » pour créer une première option de champ de recherche'
     search_paging_limit_exceeded: 'La pagination est limitée aux {paging} premiers éléments, {total} documents trouvés'
     search_result_count: |-
         {count, plural,
@@ -841,6 +850,7 @@ message:
     search_set_as_default_for_content_type: 'Cette recherche a été définie comme formulaire de recherche par défaut pour le type de contenu {content_type}'
     select_new_location: 'Sélectionner un nouvel emplacement :'
     something_wrong: 'Un problème est survenu avec cette application.'
+    sort_option_missing: 'Cliquez sur « Ajouter une option de tri » pour créer une première option de tri'
     still_in_target: 'Toujours dans {target}'
     subfield_added: 'Le sous-champ "{name}" a été ajouté'
     subfield_name_mandatory: 'Le nom du sous-champ est obligatoire'
@@ -957,38 +967,6 @@ role:
         label: 'Lecture utilisateur'
     webmaster:
         label: Webmaster
-search_options:
-    aggregate:
-        add: 'Ajouter une option d’agrégation'
-        missing: 'Cliquez sur « Ajouter une option d’agrégation » pour créer une première option d’agrégation'
-        title: 'Options d’agrégation'
-    field:
-        add: 'Ajouter une option de champ de recherche'
-        missing: 'Cliquez sur « Ajouter une option de champ de recherche » pour créer une première option de champ de recherche'
-        title: 'Options de champ de recherche'
-    sort:
-        add: 'Ajouter une option de tri'
-        missing: 'Cliquez sur « Ajouter une option de tri » pour créer une première option de tri'
-        title: 'Options de tri'
-    title: 'Options de recherche'
-sidebar-menu:
-    compare-environments: 'Comparer les environnements'
-    content-types: 'Types de contenu'
-    content_type:
-        create: 'Nouveau {name}'
-        draft_in_progress: 'Brouillon en cours'
-        search: 'Rechercher dans {plural}'
-        search_in_my_circle: 'Dans mon {name}'
-        trash: Corbeille
-    create-job: 'Nouveau job'
-    dashboards: Dashboards
-    other: Autre
-    release-admin:
-        index-link: Releases
-    search: Recherche
-    user:
-        name: '{name}'
-        searches: Recherches
 status:
     bus:
         failed: 'Messages en erreur'

@@ -56,6 +56,8 @@ action:
     init_upload: 'Initialize upload'
     move: Move
     move_item: 'Move item'
+    new_entity_name: 'New {name}'
+    new_job: 'New job'
     next: Next
     paste: Paste
     previous: Previous
@@ -444,6 +446,7 @@ key:
     ckeditor4: 'CK Editor 4'
     client: Client
     cluster_uuid: 'Cluster UUID'
+    compare_environments: 'Compare environments'
     completed: Completed
     content: Content
     content_type: 'Content type'
@@ -507,6 +510,7 @@ key:
     number_of_pending_tasks: 'Number of pending tasks'
     'on': 'On'
     orphan_indexes: 'Orphan indexes'
+    other: Other
     outbox: Outbox
     overview: Overview
     portrait: Portrait
@@ -533,6 +537,8 @@ key:
     search: Search
     search_field_option: 'Search Field Option'
     search_field_options: 'Search field options'
+    search_in_my_circle: 'In my {name}'
+    search_in_plural: 'Search in {plural}'
     search_options: 'Search options'
     searches: Searches
     selected: Selected
@@ -559,6 +565,7 @@ key:
     unreferenced_aliases: 'Unreferenced aliases'
     uploaded_files: 'Uploaded Files'
     uploaded_files_logs: 'Uploaded Files Logs'
+    user_name_placeholder: '{name}'
     users: Users
     version: Version
     versioning: Versioning
@@ -577,6 +584,7 @@ message:
     action_updated: 'The action "{label}" has been updated'
     add_field_to: 'Add a field to <strong>{name}</strong>'
     add_subfield_to: 'Add a subfield to <strong>{name}</strong>'
+    aggregate_option_missing: "Click on 'Add an aggregate option' to create a first Aggregate Option"
     alias_added: 'A new alias "{alias_name}" has been added to the index "{index_name}"'
     alias_attached: 'The alias "{alias}" has been attached'
     alias_too_many_indexes: 'There are too many indexes'
@@ -828,6 +836,7 @@ message:
     schedule_deleted: 'The schedule "{name}" has been deleted'
     schedule_updated: 'Schedule "{name}" has been updated'
     search_deleted: 'A search has been deleted'
+    search_field_option_missing: "Click on 'Add an search field option' to create a first Search Field Option"
     search_paging_limit_exceeded: 'The paging is limited to the first {paging} items, got {total} documents'
     search_result_count: |-
         {count, plural,
@@ -841,6 +850,7 @@ message:
     search_set_as_default_for_content_type: 'This search has been defined as default search form for the content type {content_type}'
     select_new_location: 'Select new location:'
     something_wrong: 'There is something wrong with this application.'
+    sort_option_missing: "Click on 'Add a Sort Option' to create a first Sort Option"
     still_in_target: 'Still in {target}'
     subfield_added: 'The subfield "{name}" has been added'
     subfield_name_mandatory: 'The subfield name is mandatory'
@@ -957,38 +967,6 @@ role:
         label: 'User read'
     webmaster:
         label: Webmaster
-search_options:
-    aggregate:
-        add: 'Add an Aggregate Option'
-        missing: "Click on 'Add an aggregate option' to create a first Aggregate Option"
-        title: 'Aggregate Options'
-    field:
-        add: 'Add an Search Field Option'
-        missing: "Click on 'Add an search field option' to create a first Search Field Option"
-        title: 'Search Field Options'
-    sort:
-        add: 'Add a Sort Option'
-        missing: "Click on 'Add a Sort Option' to create a first Sort Option"
-        title: 'Sort Options'
-    title: 'Search options'
-sidebar-menu:
-    compare-environments: 'Compare environments'
-    content-types: 'Content types'
-    content_type:
-        create: 'New {name}'
-        draft_in_progress: 'Draft in progress'
-        search: 'Search in {plural}'
-        search_in_my_circle: 'In my {name}'
-        trash: Trash
-    create-job: 'New job'
-    dashboards: Dashboards
-    other: Other
-    release-admin:
-        index-link: Releases
-    search: Search
-    user:
-        name: '{name}'
-        searches: Searches
 status:
     bus:
         failed: 'Messages in error'

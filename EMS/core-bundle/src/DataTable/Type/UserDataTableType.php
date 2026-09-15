@@ -78,7 +78,7 @@ class UserDataTableType extends AbstractEntityTableType
 
             $table->addDynamicItemGetAction(
                 route: Routes::USER_EDIT,
-                labelKey: t('user.action.edit', [], 'emsco-core'),
+                labelKey: t('action.edit', [], 'emsco-core'),
                 icon: 'pencil',
                 routeParameters: ['user' => 'id'],
                 attributes: ['data-testid' => 'user-action-edit']

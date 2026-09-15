@@ -129,7 +129,6 @@ content_type:
 contenttype:
     action:
         modal_import:
-            cancel: Annuleren
             submit: Importeren
 core:
     action:
@@ -485,7 +484,6 @@ fields:
     asset:
         browse-server: 'Server doorzoeken'
         clear-button: Wissen
-        close-modal: Sluiten
         drag-n-drop-file: 'Sleep uw bestand hierheen'
         drag-n-drop-files: 'Sleep uw bestanden hierheen'
         file-hash: Bestandshash
@@ -724,7 +722,6 @@ log:
         duplicate_environment: 'Omgeving "{name}" bestaat al!'
         index_not_found: 'Index "{index}" niet gevonden'
 media_library:
-    close: Sluiten
     file:
         add:
             title: Uploaden
@@ -790,7 +787,6 @@ media_library:
             submit: Hernoemen
             title: 'Map hernoemen'
     home: Start
-    submit: Opslaan
 message:
     action_created: 'Een nieuwe actie "{label}" is aangemaakt'
     action_deleted: 'De actie "{label}" is verwijderd'
@@ -1106,7 +1102,6 @@ release:
         delete_confirm: 'Deze release verwijderen?'
         delete_selected: 'Selectie verwijderen'
         delete_selected_confirm: 'Alle geselecteerde releases verwijderen?'
-        edit: Bewerken
         publish_confirm: 'Bevestigt u dit?'
         publish_release: 'Nu publiceren'
         set_status_canceled: 'Release annuleren'
@@ -1321,11 +1316,7 @@ subtitle:
     user-in-group: 'Gebruikers in groep'
     user-not-in-group: 'Gebruiker niet in groep'
 task:
-    action:
-        cancel: Annuleren
-        save: Opslaan
     assigned_to: 'Toegewezen aan '
-    close: Sluiten
     create:
         button: 'Taak toevoegen'
         submit: 'Taak aanmaken'
@@ -1648,7 +1639,6 @@ user:
         delete_confirm: 'Deze gebruiker verwijderen?'
         disable: Uitschakelen
         disable_confirm: 'Deze gebruiker uitschakelen?'
-        edit: Bewerken
         generate_api: API-sleutel
         generate_api_confirm: 'API-sleutel genereren voor deze gebruiker?'
         remove: Verwijderen
@@ -1662,7 +1652,6 @@ user:
         title: 'Gebruiker toevoegen'
     administration: Gebruikersbeheer
     change_password:
-        cancel: Annuleren
         submit: 'Wachtwoord wijzigen'
         title: 'Uw wachtwoord wijzigen'
     edit:
@@ -1715,7 +1704,6 @@ user:
     profile:
         change_password:
             breadcrumb_title: 'Uw wachtwoord wijzigen'
-            cancel: Annuleren
             submit: 'Wachtwoord wijzigen'
             title: 'Wachtwoord wijzigen'
         edit:
@@ -1723,9 +1711,6 @@ user:
             submit: Bijwerken
             title: 'Uw profiel bewerken'
         show:
-            action:
-                cancel: Annuleren
-                edit: Bewerken
             email: e-mail
             email_notification: e-mailnotificatie
             extra_roles: 'Extra rollen'
@@ -1769,7 +1754,6 @@ view:
             asset:
                 browse-server: 'Kies een bestand van de server'
                 clear-button: Wissen
-                close-modal: Sluiten
                 drag-n-drop-file: 'Sleep uw bestand hierheen'
                 drag-n-drop-files: 'Sleep uw bestanden hierheen'
                 file-hash: 'Hash van het bestand'
@@ -1793,8 +1777,6 @@ view:
     profile:
         show:
             action:
-                cancel: Annuleren
-                edit: Bewerken
                 profile:
                     title: 'Uw profiel'
             alt:
@@ -1921,7 +1903,6 @@ views:
             raw-view: 'Ruwe weergave'
         revision-toolbar-html:
             add-to-release: 'Toevoegen aan release'
-            cancel-label: Annuleren
             cancel-last-updates-label: 'Niet-opgeslagen wijzigingen annuleren'
             cancel-last-updates-message: 'Niet-opgeslagen wijzigingen annuleren'
             cancel-message: 'Laatste wijzigingen annuleren?'

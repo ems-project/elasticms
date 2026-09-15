@@ -268,11 +268,11 @@
         {% if form is defined %}
             <button id="ajax-modal-submit" class="ems-btn" data-variant="primary" data-testid="media-lib-modal-submit">
                 <i class="{{ html_classes('fa', submitIcon|default('fa-save')) }}"></i>
-                {{ submitLabel|default('media_library.submit'|trans) }}
+                {{ submitLabel|default('action.save'|trans) }}
             </button>
         {% endif %}
     {%- endif -%}
-    <button type="button" class="ems-btn" data-dismiss="modal" data-testid="media-lib-modal-cancel">{{ 'media_library.close'|trans }}</button>
+    <button type="button" class="ems-btn" data-dismiss="modal" data-testid="media-lib-modal-cancel">{{ 'action.close'|trans }}</button>
 {%- endblock media_lib_modal_footer -%}
 
 {% block media_lib_modal_preview %}

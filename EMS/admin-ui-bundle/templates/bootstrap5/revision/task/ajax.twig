@@ -26,8 +26,8 @@
                         <div id="revision-tasks-reorder">
                             {% if tasksPlanned|length > 1 %}<a id="btn-tasks-reorder" href="#">{{ 'task.info.change_order'|trans }}</a>{% endif %}
                             <button id="btn-tasks-reorder-save" class="btn btn-xs btn-primary" style="display: none;"
-                                    data-url="{{ path('emsco_task_ajax_reorder', {revisionOuuid: revision.ouuid}) }}">{{ 'task.action.save'|trans }}</button>
-                            <button id="btn-tasks-reorder-cancel" class="btn btn-xs btn-light" style="display: none;">{{ 'task.action.cancel'|trans }}</button>
+                                    data-url="{{ path('emsco_task_ajax_reorder', {revisionOuuid: revision.ouuid}) }}">{{ 'action.save'|trans }}</button>
+                            <button id="btn-tasks-reorder-cancel" class="btn btn-xs btn-light" style="display: none;">{{ 'action.cancel'|trans }}</button>
                         </div>
                     </div>
                     <ul id="revision-tasks-planned-list" class="list-group revision-tasks">
@@ -170,13 +170,13 @@
 
 {% block modalFooterClose %}
     <div class="pull-left">
-        <button type="button" class="btn btn-sm btn-light task-icon-close" data-bs-dismiss="modal">{{ 'task.close'|trans }}</button>
+        <button type="button" class="btn btn-sm btn-light task-icon-close" data-bs-dismiss="modal">{{ 'action.close'|trans }}</button>
     </div>
 {% endblock %}
 
 {% block modalFooterActions %}
     <div class="pull-left">
-        <button type="button" class="btn btn-sm btn-light task-icon-close" data-bs-dismiss="modal">{{ 'task.close'|trans }}</button>
+        <button type="button" class="btn btn-sm btn-light task-icon-close" data-bs-dismiss="modal">{{ 'action.close'|trans }}</button>
     </div>
     {% if fromRevision == false %}
         <div class="float-end">
@@ -199,7 +199,7 @@
 {% block modalCreateFooter %}
     <div class="pull-left">
         <button id="ajax-modal-submit" class="btn btn-sm btn-primary task-icon-create">{{ 'task.create.submit'|trans }}</button>
-        <button type="button" class="btn btn-sm btn-light task-icon-cancel" data-bs-dismiss="modal">{{ 'task.action.cancel'|trans }}</button>
+        <button type="button" class="btn btn-sm btn-light task-icon-cancel" data-bs-dismiss="modal">{{ 'action.cancel'|trans }}</button>
     </div>
 {% endblock %}
 
@@ -276,7 +276,7 @@
                     data-url="{{ path('emsco_task_ajax_delete', {revisionOuuid: revisionOuuid, taskId: task.id}) }}"
                     class="btn btn-sm btn-danger task-icon-delete">{{ 'task.delete.submit'|trans }}</button>
         {% endif %}
-        <button type="button" class="btn btn-sm btn-light task-icon-close" data-bs-dismiss="modal">{{ 'task.close'|trans }}</button>
+        <button type="button" class="btn btn-sm btn-light task-icon-close" data-bs-dismiss="modal">{{ 'action.close'|trans }}</button>
     </div>
 {% endblock %}
 
@@ -287,7 +287,7 @@
 {% block modalDeleteFooter %}
     <div class="pull-left">
         <button id="ajax-modal-submit" class="btn btn-sm btn-danger task-icon-delete">{{ 'task.delete.submit'|trans }}</button>
-        <button type="button" class="btn btn-sm btn-light task-icon-cancel" data-bs-dismiss="modal">{{ 'task.action.cancel'|trans }}</button>
+        <button type="button" class="btn btn-sm btn-light task-icon-cancel" data-bs-dismiss="modal">{{ 'action.cancel'|trans }}</button>
     </div>
 {% endblock %}
 

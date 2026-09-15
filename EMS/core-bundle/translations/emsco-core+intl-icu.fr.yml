@@ -129,7 +129,6 @@ content_type:
 contenttype:
     action:
         modal_import:
-            cancel: Annuler
             submit: Importer
 core:
     action:
@@ -485,7 +484,6 @@ fields:
     asset:
         browse-server: 'Parcourir le serveur'
         clear-button: Effacer
-        close-modal: Fermer
         drag-n-drop-file: 'Glissez-déposez votre fichier ici'
         drag-n-drop-files: 'Glissez-déposez vos fichiers ici'
         file-hash: 'Hash du fichier'
@@ -724,7 +722,6 @@ log:
         duplicate_environment: 'L’environnement « {name} » existe déjà !'
         index_not_found: 'Index « {index} » introuvable'
 media_library:
-    close: Fermer
     file:
         add:
             title: Téléverser
@@ -790,7 +787,6 @@ media_library:
             submit: Renommer
             title: 'Renommer le dossier'
     home: Accueil
-    submit: Enregistrer
 message:
     action_created: 'Une nouvelle action "{label}" a été créée'
     action_deleted: 'L''action "{label}" a été supprimée'
@@ -1106,7 +1102,6 @@ release:
         delete_confirm: "Supprimer la release\_?"
         delete_selected: 'Supprimer la sélection'
         delete_selected_confirm: "Supprimer toutes les releases sélectionnées\_?"
-        edit: Modifier
         publish_confirm: "Confirmez-vous\_?"
         publish_release: 'Publier maintenant'
         set_status_canceled: 'Annuler la release'
@@ -1321,11 +1316,7 @@ subtitle:
     user-in-group: 'Utilisateurs dans le groupe'
     user-not-in-group: 'Utilisateur hors du groupe'
 task:
-    action:
-        cancel: Annuler
-        save: Enregistrer
     assigned_to: 'Assignée à '
-    close: Fermer
     create:
         button: 'Ajouter une tâche'
         submit: 'Créer la tâche'
@@ -1648,7 +1639,6 @@ user:
         delete_confirm: "Supprimer cet utilisateur\_?"
         disable: Désactiver
         disable_confirm: "Désactiver cet utilisateur\_?"
-        edit: Modifier
         generate_api: 'Clé API'
         generate_api_confirm: "Générer une clé API pour cet utilisateur\_?"
         remove: Retirer
@@ -1662,7 +1652,6 @@ user:
         title: 'Ajouter un utilisateur'
     administration: 'Administration des utilisateurs'
     change_password:
-        cancel: Annuler
         submit: 'Changer le mot de passe'
         title: 'Changer votre mot de passe'
     edit:
@@ -1715,7 +1704,6 @@ user:
     profile:
         change_password:
             breadcrumb_title: 'Changer votre mot de passe'
-            cancel: Annuler
             submit: 'Changer le mot de passe'
             title: 'Changer le mot de passe'
         edit:
@@ -1723,9 +1711,6 @@ user:
             submit: 'Mettre à jour'
             title: 'Modifier votre profil'
         show:
-            action:
-                cancel: Annuler
-                edit: Modifier
             email: e-mail
             email_notification: 'notification par e-mail'
             extra_roles: 'Rôles supplémentaires'
@@ -1769,7 +1754,6 @@ view:
             asset:
                 browse-server: 'Choisir un fichier sur le serveur'
                 clear-button: Effacer
-                close-modal: Fermer
                 drag-n-drop-file: 'Glissez-déposez votre fichier ici'
                 drag-n-drop-files: 'Glissez-déposez vos fichiers ici'
                 file-hash: 'Hash du fichier'
@@ -1793,8 +1777,6 @@ view:
     profile:
         show:
             action:
-                cancel: Annuler
-                edit: Modifier
                 profile:
                     title: 'Votre profil'
             alt:
@@ -1921,7 +1903,6 @@ views:
             raw-view: 'Vue brute'
         revision-toolbar-html:
             add-to-release: 'Ajouter à la release'
-            cancel-label: Annuler
             cancel-last-updates-label: 'Annuler les modifications non enregistrées'
             cancel-last-updates-message: 'Annuler les modifications non enregistrées'
             cancel-message: 'Annuler les dernières modifications ?'

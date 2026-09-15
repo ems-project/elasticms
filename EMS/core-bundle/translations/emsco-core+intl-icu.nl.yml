@@ -65,6 +65,8 @@ action:
     update_from_json: 'Bijwerken vanuit JSON'
     update_mapping: 'Mapping bijwerken'
     view: Bekijken
+    hide_revision_sidebar: 'Revisiezijbalk verbergen'
+    import: Importeren
 asset_extractor:
     status: |-
         {color, select,
@@ -105,25 +107,6 @@ color:
     red: Rood
     teal: Blauwgroen
     yellow: Geel
-content-type:
-    field:
-        hide_revision_sidebar:
-            label: 'Revisiezijbalk verbergen'
-        recompute_on_publish:
-            label: 'Documenten herberekenen bij publicatie'
-        tasks_helptexts:
-            label: Helpteksten
-        tasks_titles:
-            label: Titels
-content_type:
-    permission: Toestemming
-    role: Rol
-    settings: Instellingen
-    versioning: Versionering
-contenttype:
-    action:
-        modal_import:
-            submit: Importeren
 core:
     action:
         render-option:
@@ -344,6 +327,7 @@ field:
     error: Foutmelding
     events: Events
     extra: Extra
+    field: Veld
     file:
         disposition: Bestandsdispositie
         disposition_attachment: 'Bijlage (download forceren)'
@@ -387,6 +371,7 @@ field:
     last_seen: 'Laatst gezien'
     locale: Locale
     lowercase: 'Kleine letters'
+    mapping: Mapping
     max_output_size: 'Max. outputgrootte'
     max_token_length: 'Max. tokenlengte'
     mcp_arguments: 'MCP argumenten-template (JSON)'
@@ -460,8 +445,9 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     wysiwyg_profile: WYSIWYG-profiel
-    field: Veld
-    mapping: Mapping
+    helptexts: Helpteksten
+    titles: Titels
+    permission: Toestemming
 field_type:
     json_menu_editor:
         add_item: 'Item toevoegen'
@@ -670,6 +656,8 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profielen
     wysiwyg_style_sets: Stijlsets
+    settings: Instellingen
+    versioning: Versionering
 log:
     error:
         content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
@@ -1032,6 +1020,7 @@ option:
     layout_sidebar_collapse: 'Zijbalk inklapbaar'
     layout_sidebar_mini: 'Zijbalk mini'
     multiple: Meerdere
+    recompute_on_publish: 'Documenten herberekenen bij publicatie'
 out-of-sync:
     modal:
         please-reload: 'Herlaad de pagina.'

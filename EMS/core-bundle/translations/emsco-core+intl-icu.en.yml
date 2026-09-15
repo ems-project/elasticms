@@ -65,6 +65,8 @@ action:
     update_from_json: 'Update from JSON'
     update_mapping: 'Update mapping'
     view: View
+    hide_revision_sidebar: 'Hide revision sidebar'
+    import: Import
 asset_extractor:
     status: |-
         {color, select,
@@ -105,25 +107,6 @@ color:
     red: Red
     teal: Teal
     yellow: Yellow
-content-type:
-    field:
-        hide_revision_sidebar:
-            label: 'Hide revision sidebar'
-        recompute_on_publish:
-            label: 'Recompute documents on publication'
-        tasks_helptexts:
-            label: Helptexts
-        tasks_titles:
-            label: Titles
-content_type:
-    permission: Permission
-    role: Role
-    settings: Settings
-    versioning: Versioning
-contenttype:
-    action:
-        modal_import:
-            submit: Import
 core:
     action:
         render-option:
@@ -344,6 +327,7 @@ field:
     error: 'Error message'
     events: Events
     extra: Extra
+    field: Field
     file:
         disposition: 'File disposition'
         disposition_attachment: 'Attachment (force download)'
@@ -387,6 +371,7 @@ field:
     last_seen: 'Last seen'
     locale: Locale
     lowercase: Lowercase
+    mapping: Mapping
     max_output_size: 'Max output size'
     max_token_length: 'Max token lenght'
     mcp_arguments: 'MCP arguments template (JSON)'
@@ -460,8 +445,9 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     wysiwyg_profile: 'WYSIWYG profile'
-    field: Field
-    mapping: Mapping
+    helptexts: Helptexts
+    titles: Titles
+    permission: Permission
 field_type:
     json_menu_editor:
         add_item: 'Add item'
@@ -670,6 +656,8 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
+    settings: Settings
+    versioning: Versioning
 log:
     error:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
@@ -1032,6 +1020,7 @@ option:
     layout_sidebar_collapse: 'Sidebar collapse'
     layout_sidebar_mini: 'Sidebar mini'
     multiple: Multiple
+    recompute_on_publish: 'Recompute documents on publication'
 out-of-sync:
     modal:
         please-reload: 'Please reload the page.'

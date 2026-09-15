@@ -65,6 +65,8 @@ action:
     update_from_json: 'Mettre à jour depuis JSON'
     update_mapping: 'Mettre à jour le mapping'
     view: Voir
+    hide_revision_sidebar: 'Masquer la barre latérale de révision'
+    import: Importer
 asset_extractor:
     status: |-
         {color, select,
@@ -105,25 +107,6 @@ color:
     red: Rouge
     teal: Sarcelle
     yellow: Jaune
-content-type:
-    field:
-        hide_revision_sidebar:
-            label: 'Masquer la barre latérale de révision'
-        recompute_on_publish:
-            label: 'Recalculer les documents lors de la publication'
-        tasks_helptexts:
-            label: 'Textes d’aide'
-        tasks_titles:
-            label: Titres
-content_type:
-    permission: Permission
-    role: Rôle
-    settings: Paramètres
-    versioning: Versioning
-contenttype:
-    action:
-        modal_import:
-            submit: Importer
 core:
     action:
         render-option:
@@ -344,6 +327,7 @@ field:
     error: 'Message d’erreur'
     events: Événements
     extra: Extra
+    field: Champ
     file:
         disposition: 'Disposition du fichier'
         disposition_attachment: 'Pièce jointe (forcer le téléchargement)'
@@ -387,6 +371,7 @@ field:
     last_seen: 'Vu pour la dernière fois'
     locale: Locale
     lowercase: Minuscules
+    mapping: Mapping
     max_output_size: 'Taille de sortie max.'
     max_token_length: 'Longueur max. du token'
     mcp_arguments: 'Template des arguments MCP (JSON)'
@@ -460,8 +445,9 @@ field:
     user_uploaded: 'Uploadé par'
     username: "Nom d'utilisateur"
     wysiwyg_profile: 'Profil WYSIWYG'
-    field: Champ
-    mapping: Mapping
+    helptexts: 'Textes d’aide'
+    titles: Titres
+    permission: Permission
 field_type:
     json_menu_editor:
         add_item: 'Ajouter un élément'
@@ -670,6 +656,8 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profils
     wysiwyg_style_sets: 'Jeux de styles'
+    settings: Paramètres
+    versioning: Versioning
 log:
     error:
         content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'
@@ -1032,6 +1020,7 @@ option:
     layout_sidebar_collapse: 'Réduction de la barre latérale'
     layout_sidebar_mini: 'Barre latérale mini'
     multiple: Multiple
+    recompute_on_publish: 'Recalculer les documents lors de la publication'
 out-of-sync:
     modal:
         please-reload: 'Veuillez recharger la page.'

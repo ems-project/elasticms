@@ -913,7 +913,6 @@ message:
     revision_draft_updated: 'Brouillon mis à jour pour le document "{label}"'
     revision_edit_draft_warning: 'Vous modifiez une révision déjà publiée, il est plus sûr de <a href="{path}" class="btn btn-primary"><span class="fa fa-pencil"></span> modifier un brouillon</a>'
     revision_finalize_error: 'La révision {revision_id} pour le type de contenu "{content_type}" ne peut pas être finalisée, raison : {error_message}'
-    revision_finalized: 'Le document "{label}" a été publié dans {environment}'
     revision_incomplete_request: 'Il est impossible d''enregistrer le document "{label}". Veuillez vérifier votre configuration PHP/Web (par ex. max_input_vars dans php.ini)'
     revision_json_edit_draft_only: 'Seul un brouillon peut être édité en JSON'
     revision_loaded_from_auto_save: "Les données ont été chargées à partir d'une version enregistrée automatiquement"
@@ -988,7 +987,6 @@ modal:
     loading_information: 'Chargement des informations...'
 navigation:
     toggle: 'Basculer la navigation'
-not-applicable: N/A
 notice_card:
     title: Notice
 notification-menu:
@@ -1096,9 +1094,7 @@ release:
             publish: 'Ajouter un document pour publication'
             unpublish: 'Ajouter un document pour dépublication'
         actions:
-            add_confirm: "Confirmez-vous\_?"
             remove: 'Retirer des documents'
-            remove_confirm: "Confirmez-vous\_?"
         index:
             column:
                 CT: 'Type de contenu'

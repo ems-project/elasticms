@@ -913,7 +913,6 @@ message:
     revision_draft_updated: 'Concept bijgewerkt voor het document "{label}"'
     revision_edit_draft_warning: 'U bewerkt een reeds gepubliceerde revisie, het is veiliger om <a href="{path}" class="btn btn-primary"><span class="fa fa-pencil"></span> een concept te bewerken</a>'
     revision_finalize_error: 'De revisie {revision_id} voor het content type "{content_type}" kan niet worden gefinaliseerd, reden: {error_message}'
-    revision_finalized: 'Het document "{label}" is gepubliceerd in {environment}'
     revision_incomplete_request: 'Het is niet mogelijk om het document "{label}" op te slaan. Controleer uw PHP/webconfiguratie (bv. max_input_vars in php.ini)'
     revision_json_edit_draft_only: 'Enkel een draft kan als JSON bewerkt worden'
     revision_loaded_from_auto_save: 'Gegevens zijn geladen vanuit een automatisch opgeslagen versie'
@@ -988,7 +987,6 @@ modal:
     loading_information: 'Informatie laden...'
 navigation:
     toggle: 'Navigatie omschakelen'
-not-applicable: N.v.t.
 notice_card:
     title: Melding
 notification-menu:
@@ -1096,9 +1094,7 @@ release:
             publish: 'Document toevoegen voor publicatie'
             unpublish: 'Document toevoegen voor depublicatie'
         actions:
-            add_confirm: 'Bevestigt u dit?'
             remove: 'Documenten verwijderen'
-            remove_confirm: 'Bevestigt u dit?'
         index:
             column:
                 CT: Contenttype

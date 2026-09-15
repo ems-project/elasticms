@@ -80,13 +80,13 @@ class ReleaseRevisionsUnpublishDataTableType extends AbstractTableType implement
             name: TableAbstract::ADD_ACTION,
             icon: 'fa fa-minus',
             labelKey: t('release.actions.add_unpublish', [], 'emsco-core'),
-            confirmationKey: t('release.revision.actions.add_confirm', [], 'emsco-core')
+            confirmationKey: t('action.confirmation', [], 'emsco-core')
         );
         $table->addDynamicItemPostAction(
             route: Routes::RELEASE_ADD_REVISION,
             labelKey: t('release.revision.action.unpublish', [], 'emsco-core'),
             icon: 'plus',
-            messageKey: t('release.revision.actions.add_confirm', [], 'emsco-core'),
+            messageKey: t('action.confirmation', [], 'emsco-core'),
             routeParameters: [
                 'release' => (string) $context['release']->getId(),
                 'type' => 'unpublish',

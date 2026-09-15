@@ -48,13 +48,13 @@ class ReleaseRevisionsPublishDataTableType extends AbstractQueryTableType
             name: TableAbstract::ADD_ACTION,
             icon: 'fa fa-plus',
             labelKey: t('release.actions.add_publish', [], 'emsco-core'),
-            confirmationKey: t('release.revision.actions.add_confirm', [], 'emsco-core')
+            confirmationKey: t('action.confirmation', [], 'emsco-core')
         );
         $table->addDynamicItemPostAction(
             route: Routes::RELEASE_ADD_REVISION,
             labelKey: t('release.revision.action.publish', [], 'emsco-core'),
             icon: 'plus',
-            messageKey: t('release.revision.actions.add_confirm', [], 'emsco-core'),
+            messageKey: t('action.confirmation', [], 'emsco-core'),
             routeParameters: [
                 'release' => (string) $release->getId(),
                 'type' => 'publish',

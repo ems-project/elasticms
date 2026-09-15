@@ -913,7 +913,6 @@ message:
     revision_draft_updated: 'Updated draft for the document "{label}"'
     revision_edit_draft_warning: 'You are editing an already published revision, it is safer to <a href="{path}" class="btn btn-primary"><span class="fa fa-pencil"></span> edit a draft</a>'
     revision_finalize_error: 'The revision {revision_id} for the content type "{content_type}" cannot be finalized, reason: {error_message}'
-    revision_finalized: 'The document "{label}" has been published in {environment}'
     revision_incomplete_request: 'It is impossible to save the document "{label}". Please check your PHP/Web configuration (i.e.: max_input_vars in php.ini)'
     revision_json_edit_draft_only: 'Only a draft can be edited as JSON'
     revision_loaded_from_auto_save: 'Data were loaded from an auto-saved version'
@@ -988,7 +987,6 @@ modal:
     loading_information: 'Loading information...'
 navigation:
     toggle: 'Toggle navigation'
-not-applicable: N/A
 notice_card:
     title: Notice
 notification-menu:
@@ -1096,9 +1094,7 @@ release:
             publish: 'Add document for publication'
             unpublish: 'Add document for unpublish'
         actions:
-            add_confirm: 'Do you confirm ?'
             remove: 'Remove documents'
-            remove_confirm: 'Do you confirm ?'
         index:
             column:
                 CT: 'Content Type'

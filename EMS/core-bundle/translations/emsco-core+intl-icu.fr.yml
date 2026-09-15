@@ -54,13 +54,17 @@ action:
     init_upload: 'Initialiser l’upload'
     move: Déplacer
     move_item: 'Déplacer l’élément'
+    next: Suivant
     paste: Coller
+    previous: Précédent
     publish: Publier
+    publish_release: 'Publier maintenant'
     rebuild: Reconstruire
     refresh: Actualiser
     relaunch: Relancer
     reload_page: 'Recharger la page'
     remove: Supprimer
+    remove_documents: 'Retirer des documents'
     rename: Renommer
     reorder: Réordonner
     reorder_content_type: 'Réordonner le type de contenu « {content_type} »'
@@ -72,6 +76,9 @@ action:
     save_close: 'Enregistrer et fermer'
     save_publish_in: 'Enregistrer et publier dans {environments}'
     select_all: 'Tout sélectionner'
+    set_status_canceled: 'Annuler la release'
+    set_status_ready: 'Valider la release'
+    set_status_wip: 'Retravailler la release'
     show: Afficher
     status: Statut
     test: Tester
@@ -89,8 +96,6 @@ action:
     upload_file: 'Uploader le fichier'
     upload_files: 'Uploader les fichiers'
     view: Voir
-    next: Suivant
-    previous: Précédent
 asset_extractor:
     status: |-
         {color, select,
@@ -224,9 +229,11 @@ field:
     circles_to: 'Cercles destinataires'
     color: Couleur
     command: Commande
+    compare: Comparer
     config: Configuration
     content_css: 'CSS du contenu'
     content_js: 'JS du contenu'
+    content_type: 'Type de contenu'
     content_types: 'Types de contenu'
     context: Contexte
     copy_to: 'Copier vers'
@@ -251,6 +258,7 @@ field:
     delay: 'Délai (en jours)'
     description: Description
     display_name: 'Nom d’affichage'
+    docs_count: '# Documents'
     editor: Éditeur
     email: Email
     email_content_type: 'Type de contenu (ex. : text/html)'
@@ -260,6 +268,8 @@ field:
     environment: Environnement
     environment_default: 'Environnement par défaut'
     environment_external: 'Environnement externe'
+    environment_source: 'Environnement source'
+    environment_target: 'Environnement cible'
     environments: Environnements
     error: 'Message d’erreur'
     events: Événements
@@ -381,6 +391,7 @@ field:
     total_ems: 'Total dans EMS'
     translations: Traductions
     type: Type
+    unpublish_in: 'Dépublier dans {env}'
     uri: URI
     user: Utilisateur
     user_deleted: 'Supprimé par'
@@ -402,18 +413,22 @@ key:
     active_primary_shards: 'Shards primaires actifs'
     active_shards: 'Shards actifs'
     active_shards_percent_as_number: 'Shards actifs'
+    add_documents: 'Ajouter des documents'
     add_user: 'Ajouter un utilisateur'
     admin: Admin
     aggregate_option: 'Option d’agrégation'
     aggregate_options: 'Options d’agrégation'
     align_with: 'Aligner avec'
     all_content_types: 'Tous les types de contenu'
+    all_releases: 'Toutes les releases'
     analyzers: Analyseurs
     anonymous_user: 'Utilisateur anonyme'
+    applied: Appliquée
     attachment: 'Pièce jointe'
     bits: Bits
     build_date: 'Date de build'
     build_in: Intégré
+    canceled: Annulée
     channels: Canaux
     ckeditor4: 'CK Editor 4'
     client: Client
@@ -428,7 +443,9 @@ key:
     customized: Personnalisé
     dashboards: 'Tableaux de bord'
     delayed_unassigned_shards: 'Shards non assignés retardés'
+    document: Document
     documentation: Documentation
+    draft: Brouillon
     elasticsearch_information: 'Informations Elasticsearch'
     elements: Éléments
     empty: Vide
@@ -468,6 +485,7 @@ key:
     new_password_confirmation: 'Répéter le nouveau mot de passe'
     none: Aucun
     not-applicable: N/A
+    not_applicable: 'Non applicable'
     not_defined: 'Non défini'
     notice: Notice
     notification: Notification
@@ -481,6 +499,7 @@ key:
     overview: "Vue d'ensemble"
     portrait: Portrait
     prefix_instance_id: 'Préfixer l’alias avec l’ID de l’instance'
+    previous_revision: 'Révision précédente'
     progress: Progression
     public_channel: 'Rendre le canal disponible aux utilisateurs non authentifiés ?'
     public_key: 'Clé publique'
@@ -489,12 +508,16 @@ key:
     push_menu: 'Menu principal'
     query_search: 'Recherche par requête'
     query_searches: QuerySearch
+    ready: Prête
     recent_activities: 'Activités récentes'
+    releases: Releases
     revision_tasks: 'Tâches de révision'
     revisions: Révisions
+    rollback: 'Annuler (rollback)'
     schedule: Planification
     schedule_cron: '<Minute> <Heure> <Jour_du_mois> <Mois_de_l’année> <Jour_de_la_semaine>. Ex. toutes les 15 minutes : */15 * * * *'
     schedule_tag: 'Utilisé pour identifier les workers (ex. CLI) qui exécuteraient le job à distance'
+    scheduled: Planifiée
     search: Recherche
     search_field_option: 'Option de champ de recherche'
     search_field_options: 'Options de champ de recherche'
@@ -707,6 +730,7 @@ message:
     object_choice_limited_result_set: 'Le sélecteur de lien de données est limité aux {limit} premiers documents sur {count}'
     ouuid_constraint: "L’OUUID contient un caractère non autorisé : A-Z, a-z, 0-9, tiret : '-', underscore : '_' ou point : '.'."
     ouuid_placeholder: 'Généré automatiquement si laissé vide'
+    please_reload_page: 'Veuillez recharger la page.'
     preview_alt: 'Aperçu du champ {field}'
     privilege_exception: "Vous n'avez pas suffisamment de droits pour modifier ce document"
     publish_not_authorized: 'Vous ne pouvez pas (dé)publier le type de contenu {content_type}'
@@ -716,11 +740,21 @@ message:
     reindex_command_end: 'Les documents du content type {content_type} ont été réindexés dans {environment} (index : {index})'
     reindex_command_environment_not_found: 'Environnement nommé {environment} introuvable'
     reindex_command_start: 'Démarrage de la réindexation de {content_type} dans {environment}'
+    release_add_publish: 'Ajouter des documents à publier'
+    release_add_unpublish: 'Ajouter des documents à dépublier'
+    release_delete_confirm: "Supprimer la release\_?"
+    release_delete_selected_confirm: "Supprimer toutes les releases sélectionnées\_?"
     release_deleted: 'La release "{name}" a été supprimée'
     release_not_ready: 'Le statut de la release "{name}" n''est pas "ready"'
+    release_revision_finalized_by: '{date} finalisé par {user}'
+    release_revision_missing: 'Le document « {label} » n’est plus disponible dans {environment}'
+    release_revision_no_more_in_target: 'Cette révision a été dépubliée de {target}'
     release_revision_preceding: 'Une révision précédente est déjà liée à la release "{name}"'
+    release_revision_still_in_target: 'Toujours publié dans {target}'
     release_unknown_action: 'Action inconnue'
     removing_files: 'Suppression de {count} fichiers. Veuillez patienter...'
+    revision_add_for_publication: 'Ajouter un document pour publication'
+    revision_add_for_unpublish: 'Ajouter un document pour dépublication'
     revision_add_from_json_error: "Il a été impossible de créer un nouveau document {content_type} en raison d'une erreur interne"
     revision_added_to_release: 'Le document "{label}" a été ajouté à la release "{release}"'
     revision_ajax_update_on_finalized: 'Il est impossible d''enregistrer le document "{label}" car cette révision est déjà finalisée'
@@ -782,6 +816,8 @@ message:
     search_set_as_default: 'Cette recherche a été définie comme recherche par défaut'
     search_set_as_default_for_content_type: 'Cette recherche a été définie comme formulaire de recherche par défaut pour le type de contenu {content_type}'
     select_new_location: 'Sélectionner un nouvel emplacement :'
+    something_wrong: 'Un problème est survenu avec cette application.'
+    still_in_target: 'Toujours dans {target}'
     subfield_added: 'Le sous-champ "{name}" a été ajouté'
     subfield_name_mandatory: 'Le nom du sous-champ est obligatoire'
     subfield_name_not_valid: "Le nom du sous-champ n'est pas valide (format : {field_format})"
@@ -827,8 +863,6 @@ message:
     wysiwyg_styles_set_updated: 'Le jeu de styles « {name} » a été mis à jour'
     xliff_not_current_revision: "La révision {revision_id} de {ouuid} n'est plus la dernière révision. Les traductions n'ont pas été importées."
     xliff_too_many_translations: "{counter} documents de traduction alors qu'un seul est attendu pour l'identifiant de traduction {translation_id} et la locale cible {target_locale} dans l'environnement {environment}"
-    please_reload_page: 'Veuillez recharger la page.'
-    something_wrong: 'Un problème est survenu avec cette application.'
 option:
     allow_add: 'Autoriser l’ajout'
     default_search: 'Dans la recherche par défaut'
@@ -847,75 +881,6 @@ option:
     recompute_on_publish: 'Recalculer les documents lors de la publication'
     restriction: Restriction
     update_referrers: 'Mettre à jour les référents'
-release:
-    actions:
-        add_publish: 'Ajouter des documents à publier'
-        add_unpublish: 'Ajouter des documents à dépublier'
-        delete_confirm: "Supprimer la release\_?"
-        delete_selected_confirm: "Supprimer toutes les releases sélectionnées\_?"
-        publish_release: 'Publier maintenant'
-        set_status_canceled: 'Annuler la release'
-        set_status_ready: 'Valider la release'
-        set_status_wip: 'Retravailler la release'
-    add:
-        title: 'Ajouter une release'
-    all_releases:
-        label: 'Toutes les releases'
-    edit:
-        title: 'Modifier une release'
-    index:
-        column:
-            docs_count: '# Documents'
-        title: 'Liste des releases'
-    menu: Releases
-    release-revision:
-        missing-revision: 'Le document « {label} » n’est plus disponible dans {environment}'
-        no_more_in_target: 'Cette révision a été dépubliée de {target}'
-        not-applicable: 'non applicable'
-        revision: '{date} finalisée par {user}'
-        revision-not-applicable: 'Non applicable'
-        still_in_target: 'Toujours publiée dans {target}'
-    release-revisison:
-        missing-revision: 'Le document « {label} » n’est plus disponible dans {environment}'
-        no_more_in_target: 'Cette révision a été dépubliée de {target}'
-        not-applicable: 'non applicable'
-        revision: '{date} finalisé par {user}'
-        revision-not-applicable: 'Non applicable'
-        still_in_target: 'Toujours publié dans {target}'
-    revision:
-        action:
-            publish: 'Ajouter un document pour publication'
-            unpublish: 'Ajouter un document pour dépublication'
-        actions:
-            remove: 'Retirer des documents'
-        index:
-            column:
-                CT: 'Type de contenu'
-                action: Action
-                compare: Comparer
-                document: Document
-                label: Libellé
-                maxRevId: 'Environnement cible'
-                minRevId: 'Environnement source'
-                previous: 'Révision précédente'
-                revision: Révision
-                still_in_target: 'Toujours dans {target}'
-            publish: 'Liste des documents disponibles pour publication'
-            unpublish: 'Liste des documents disponibles pour dépublication'
-        menu: 'Ajouter des documents'
-        table:
-            rollback:
-                action: 'Annuler (rollback)'
-                confirm: "Confirmez-vous\_?"
-        view:
-            title: 'Documents de la release'
-    status:
-        applied: Appliquée
-        canceled: Annulée
-        ready: Prête
-        scheduled: Planifiée
-        wip: Brouillon
-    unpublish_in: 'Dépublier dans {env}'
 revision:
     draft:
         delete: 'Supprimer ce brouillon'
@@ -1169,6 +1134,7 @@ title:
     add_environment: 'Ajouter un nouvel environnement'
     add_folder: 'Ajouter un dossier'
     add_form: 'Ajouter un formulaire'
+    add_release: 'Ajouter une release'
     align_environments: 'Aligner les environnements'
     align_environments_subtitle: 'il est temps d’aligner les environnements ?'
     as_indexed_in_environment: 'Tel qu’indexé dans {environment}'
@@ -1183,10 +1149,12 @@ title:
     edit_environment: 'Modifier l’environnement « {name} »'
     edit_environment_short: 'Modifier l’environnement'
     edit_form: 'Modifier un formulaire'
+    edit_release: 'Modifier une release'
     error: 'Une erreur est survenue'
     error_page: 'Oups ! Une erreur est survenue'
     job_list: 'Liste des jobs'
     list_environments: 'Liste des environnements'
+    list_releases: 'Liste des releases'
     log_of: 'Log du {created}'
     log_tagline: 'Qui a fait quoi'
     logs_of: 'Logs de {created}'
@@ -1200,8 +1168,16 @@ title:
     new_environment_short: 'Nouvel environnement'
     new_label: 'Nouveau {label}'
     notifications_none_pending: 'Aucune notification en attente'
+    out_of_sync: Désynchronisé
+    pick_a_release: 'Choisir une release pour « {label} »'
+    profile: 'Votre profil'
+    profile_tagline: 'Tout à propos de vous'
+    publish_search_result: 'Publier {count} {content_type} depuis {environment}'
     rebuild_environment: 'Reconstruire l’environnement {name}'
     rebuild_index_short: 'Reconstruire l’index'
+    release_documents: 'Documents de la release'
+    release_revision_list_publish: 'Liste des documents disponibles pour publication'
+    release_revision_list_unpublish: 'Liste des documents disponibles pour dépublication'
     rename_file: 'Renommer le fichier'
     rename_folder: 'Renommer le dossier'
     reorder_form_fields: 'Réordonner les champs du formulaire : {label}'
@@ -1214,11 +1190,6 @@ title:
     view_file: 'Voir le fichier'
     view_file_modal: 'Voir le fichier : {name}'
     view_recursive: 'Vue récursive'
-    out_of_sync: Désynchronisé
-    pick_a_release: 'Choisir une release pour « {label} »'
-    profile_tagline: 'Tout à propos de vous'
-    publish_search_result: 'Publier {count} {content_type} depuis {environment}'
-    profile: 'Votre profil'
 type:
     confirm: |-
         {type, select,

@@ -32,20 +32,20 @@
                     <div class="btn-group">
                         {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
                             url: path('emsco_release_add_revisions', {release: release.id, type: 'publish'}),
-                            label: 'release.actions.add_publish'|trans,
+                            label: 'message.release_add_publish'|trans,
                             icon: 'plus',
                             btnType: 'primary',
                         }) }}
                         {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
                             url: path('emsco_release_add_revisions', {release: release.id, type: 'unpublish'}),
-                            label: 'release.actions.add_unpublish'|trans,
+                            label: 'message.release_add_unpublish'|trans,
                             icon: 'minus',
                             btnType: 'light',
                         }) }}
                         {% if release.revisions|length > 0 %}
                             {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                                 url: path('emsco_release_set_status', {release: release.id, status: 'ready'}),
-                                label: 'release.actions.set_status_ready'|trans,
+                                label: 'action.set_status_ready'|trans,
                                 btnType: 'light',
                                 icon: 'play',
                             }) }}

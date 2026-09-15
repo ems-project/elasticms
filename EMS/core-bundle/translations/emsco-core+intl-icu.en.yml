@@ -54,13 +54,17 @@ action:
     init_upload: 'Initialize upload'
     move: Move
     move_item: 'Move item'
+    next: Next
     paste: Paste
+    previous: Previous
     publish: Publish
+    publish_release: 'Release now'
     rebuild: Rebuild
     refresh: Refresh
     relaunch: Relaunch
     reload_page: 'Reload page'
     remove: Remove
+    remove_documents: 'Remove documents'
     rename: Rename
     reorder: Reorder
     reorder_content_type: 'Reorder the content type "{content_type}"'
@@ -72,6 +76,9 @@ action:
     save_close: 'Save and Close'
     save_publish_in: 'Save and publish in {environments}'
     select_all: 'Select all'
+    set_status_canceled: 'Cancel release'
+    set_status_ready: 'Validate release'
+    set_status_wip: 'Rework release'
     show: Show
     status: Status
     test: Test
@@ -89,8 +96,6 @@ action:
     upload_file: 'Upload file'
     upload_files: 'Upload files'
     view: View
-    next: Next
-    previous: Previous
 asset_extractor:
     status: |-
         {color, select,
@@ -224,9 +229,11 @@ field:
     circles_to: 'Circles to'
     color: Color
     command: Command
+    compare: Compare
     config: Config
     content_css: 'Content css'
     content_js: 'Content js'
+    content_type: 'Content Type'
     content_types: 'Content types'
     context: Context
     copy_to: 'Copy to'
@@ -251,6 +258,7 @@ field:
     delay: 'Delay (in days)'
     description: Description
     display_name: 'Display name'
+    docs_count: '# Documents'
     editor: Editor
     email: Email
     email_content_type: 'Content type (ie: text/html)'
@@ -260,6 +268,8 @@ field:
     environment: Environment
     environment_default: 'Default environment'
     environment_external: 'External environment'
+    environment_source: 'Environment source'
+    environment_target: 'Environment target'
     environments: Environments
     error: 'Error message'
     events: Events
@@ -381,6 +391,7 @@ field:
     total_ems: 'Total in EMS'
     translations: Translations
     type: Type
+    unpublish_in: 'Unpublish in {env}'
     uri: URI
     user: User
     user_deleted: 'Deleted by'
@@ -402,18 +413,22 @@ key:
     active_primary_shards: 'Active primary shards'
     active_shards: 'Active shards'
     active_shards_percent_as_number: 'Active shards'
+    add_documents: 'Add documents'
     add_user: 'Add user'
     admin: Admin
     aggregate_option: 'Aggregate Option'
     aggregate_options: 'Aggregate options'
     align_with: 'Align with'
     all_content_types: 'All Content Types'
+    all_releases: 'All releases'
     analyzers: Analyzers
     anonymous_user: 'Anonymous user'
+    applied: Applied
     attachment: Attachment
     bits: Bits
     build_date: 'Build date'
     build_in: 'Build in'
+    canceled: Canceled
     channels: Channels
     ckeditor4: 'CK Editor 4'
     client: Client
@@ -428,7 +443,9 @@ key:
     customized: Customized
     dashboards: Dashboards
     delayed_unassigned_shards: 'Delayed unassigned shards'
+    document: Document
     documentation: Documentation
+    draft: Draft
     elasticsearch_information: 'Elasticsearch information'
     elements: Elements
     empty: Empty
@@ -468,6 +485,7 @@ key:
     new_password_confirmation: 'Repeat new password'
     none: None
     not-applicable: N/A
+    not_applicable: 'Not applicable'
     not_defined: 'Not defined'
     notice: Notice
     notification: Notification
@@ -481,6 +499,7 @@ key:
     overview: Overview
     portrait: Portrait
     prefix_instance_id: 'Prefix alias with instance ID'
+    previous_revision: 'Previous revision'
     progress: Progress
     public_channel: 'Make channel available for non-authenticated users ?'
     public_key: 'Public key'
@@ -489,12 +508,16 @@ key:
     push_menu: 'Push menu'
     query_search: 'Query search'
     query_searches: QuerySearch
+    ready: Ready
     recent_activities: 'Recent Activities'
+    releases: Releases
     revision_tasks: 'Revision tasks'
     revisions: Revisions
+    rollback: Rollback
     schedule: Schedule
     schedule_cron: '<Minute> <Hour> <Day_of_the_Month> <Month_of_the_Year> <Day_of_the_Week>. E.g. every 15 minutes: */15 * * * *'
     schedule_tag: 'Used to indentify workers (e.g. CLI) which would remotely execute the job'
+    scheduled: Scheduled
     search: Search
     search_field_option: 'Search Field Option'
     search_field_options: 'Search field options'
@@ -707,6 +730,7 @@ message:
     object_choice_limited_result_set: 'The data link picker is limited to the first {limit} of {count} documents'
     ouuid_constraint: "OUUID has an unauthorized character: A-Z, a-z, 0-9, caret: '-', underscore: '_' or dot: '.'."
     ouuid_placeholder: 'Auto-generated if left empty'
+    please_reload_page: 'Please reload the page.'
     preview_alt: 'Preview of the field {field}'
     privilege_exception: 'You do not have enough privileges to edit this document'
     publish_not_authorized: 'You can not (un)publish the content type {content_type}'
@@ -716,11 +740,21 @@ message:
     reindex_command_end: "The content type {content_type}''s documents have been reindexed in {environment} (index: {index})"
     reindex_command_environment_not_found: 'Environment named {environment} not found'
     reindex_command_start: 'Start reindexing {content_type} in {environment}'
+    release_add_publish: 'Add documents for publication'
+    release_add_unpublish: 'Add documents for unpublish'
+    release_delete_confirm: 'Delete the Release?'
+    release_delete_selected_confirm: 'Delete all selected Releases?'
     release_deleted: 'The release "{name}" has been deleted'
     release_not_ready: 'The status of the release "{name}" is not ready'
+    release_revision_finalized_by: '{date} finalized by {user}'
+    release_revision_missing: 'The document "{label}" is no more available in {environment}'
+    release_revision_no_more_in_target: 'This revision has been unpublished from {target}'
     release_revision_preceding: 'A previous revision is already related to the release "{name}"'
+    release_revision_still_in_target: 'Still released in {target}'
     release_unknown_action: 'Unknown action'
     removing_files: 'Removing {count} files. Please wait...'
+    revision_add_for_publication: 'Add document for publication'
+    revision_add_for_unpublish: 'Add document for unpublish'
     revision_add_from_json_error: 'It was impossible to initiate a new {content_type} document due to an internal error'
     revision_added_to_release: 'Document "{label}" has been added to release "{release}"'
     revision_ajax_update_on_finalized: 'It is impossible to save the document "{label}" as this revision is already finalized'
@@ -782,6 +816,8 @@ message:
     search_set_as_default: 'This search has been defined as default search'
     search_set_as_default_for_content_type: 'This search has been defined as default search form for the content type {content_type}'
     select_new_location: 'Select new location:'
+    something_wrong: 'There is something wrong with this application.'
+    still_in_target: 'Still in {target}'
     subfield_added: 'The subfield "{name}" has been added'
     subfield_name_mandatory: 'The subfield name is mandatory'
     subfield_name_not_valid: 'The subfield name is not valid (format: {field_format})'
@@ -827,8 +863,6 @@ message:
     wysiwyg_styles_set_updated: 'Style set "{name}" has been updated'
     xliff_not_current_revision: 'The revision {revision_id} of {ouuid} is no longer the last revision. The translations were not imported.'
     xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
-    please_reload_page: 'Please reload the page.'
-    something_wrong: 'There is something wrong with this application.'
 option:
     allow_add: 'Allow add'
     default_search: 'In default search'
@@ -847,75 +881,6 @@ option:
     recompute_on_publish: 'Recompute documents on publication'
     restriction: Restriction
     update_referrers: 'Update referrers'
-release:
-    actions:
-        add_publish: 'Add documents for publication'
-        add_unpublish: 'Add documents for unpublish'
-        delete_confirm: 'Delete the Release?'
-        delete_selected_confirm: 'Delete all selected Releases?'
-        publish_release: 'Release now'
-        set_status_canceled: 'Cancel release'
-        set_status_ready: 'Validate release'
-        set_status_wip: 'Rework release'
-    add:
-        title: 'Add a Release'
-    all_releases:
-        label: 'All releases'
-    edit:
-        title: 'Edit a Release'
-    index:
-        column:
-            docs_count: '# Documents'
-        title: 'List of Releases'
-    menu: Releases
-    release-revision:
-        missing-revision: 'The document "{label}" is no more available in {environment}'
-        no_more_in_target: 'This revision has been unpublished from {target}'
-        not-applicable: 'not applicable'
-        revision: '{date} finalized by {user}'
-        revision-not-applicable: 'Not applicable'
-        still_in_target: 'Still released in {target}'
-    release-revisison:
-        missing-revision: 'The document "{label}" is no more available in {environment}'
-        no_more_in_target: 'This revision has been unpublished from {target}'
-        not-applicable: 'not applicable'
-        revision: '{date} finalized by {user}'
-        revision-not-applicable: 'Not applicable'
-        still_in_target: 'Still released in {target}'
-    revision:
-        action:
-            publish: 'Add document for publication'
-            unpublish: 'Add document for unpublish'
-        actions:
-            remove: 'Remove documents'
-        index:
-            column:
-                CT: 'Content Type'
-                action: Action
-                compare: Compare
-                document: Document
-                label: Label
-                maxRevId: 'Environment target'
-                minRevId: 'Environment source'
-                previous: 'Previous revision'
-                revision: Revision
-                still_in_target: 'Still in {target}'
-            publish: 'List of documents available for publication'
-            unpublish: 'List of documents available for unpublish'
-        menu: 'Add documents'
-        table:
-            rollback:
-                action: Rollback
-                confirm: 'Do you confirm ?'
-        view:
-            title: "Release's documents"
-    status:
-        applied: Applied
-        canceled: Canceled
-        ready: Ready
-        scheduled: Scheduled
-        wip: Draft
-    unpublish_in: 'Unpublish in {env}'
 revision:
     draft:
         delete: 'Delete this draft'
@@ -1169,6 +1134,7 @@ title:
     add_environment: 'Add a new Environment'
     add_folder: 'Add folder'
     add_form: 'Add a form'
+    add_release: 'Add a Release'
     align_environments: 'Align Environments'
     align_environments_subtitle: 'time to align environments?'
     as_indexed_in_environment: 'As indexed in {environment}'
@@ -1183,10 +1149,12 @@ title:
     edit_environment: 'Edit the environment "{name}"'
     edit_environment_short: 'Edit environment'
     edit_form: 'Edit a form'
+    edit_release: 'Edit a Release'
     error: 'An Error Occurred'
     error_page: 'Oops! An Error Occurred'
     job_list: "Job's list"
     list_environments: 'List Environments'
+    list_releases: 'List of Releases'
     log_of: 'Log of the {created}'
     log_tagline: 'Who did what'
     logs_of: 'Logs of {created}'
@@ -1200,8 +1168,16 @@ title:
     new_environment_short: 'New Environment'
     new_label: 'New {label}'
     notifications_none_pending: 'No pending notifications'
+    out_of_sync: 'Out of sync'
+    pick_a_release: 'Pick a release for "{label}"'
+    profile: 'Your profile'
+    profile_tagline: 'All about you'
+    publish_search_result: 'Publish {count} {content_type} from {environment}'
     rebuild_environment: 'Rebuild the environment {name}'
     rebuild_index_short: 'Rebuild index'
+    release_documents: "Release's documents"
+    release_revision_list_publish: 'List of documents available for publication'
+    release_revision_list_unpublish: 'List of documents available for unpublish'
     rename_file: 'Rename file'
     rename_folder: 'Rename folder'
     reorder_form_fields: 'Reorder fields of form: {label}'
@@ -1214,11 +1190,6 @@ title:
     view_file: 'View file'
     view_file_modal: 'View file: {name}'
     view_recursive: 'Recursive view'
-    out_of_sync: 'Out of sync'
-    pick_a_release: 'Pick a release for "{label}"'
-    profile_tagline: 'All about you'
-    publish_search_result: 'Publish {count} {content_type} from {environment}'
-    profile: 'Your profile'
 type:
     confirm: |-
         {type, select,

@@ -56,7 +56,7 @@
     {% elseif maxrev[0] == release.environmentSource.id %}
         {{ 'revision.finalized_by'|trans({'date': maxrev[2]|date(date_time_format), 'user': maxrev[3]}) }}
     {% else %}
-        {{ 'release.unpublish_in'|trans({'env': release.environmentTarget.name}) }}
+        {{ 'field.unpublish_in'|trans({'env': release.environmentTarget.name}) }}
     {% endif %}
 {% endblock minrevidstatus %}
 

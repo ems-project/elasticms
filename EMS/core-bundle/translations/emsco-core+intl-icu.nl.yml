@@ -54,13 +54,17 @@ action:
     init_upload: 'Upload initialiseren'
     move: Verplaatsen
     move_item: 'Item verplaatsen'
+    next: Volgende
     paste: Plakken
+    previous: Vorige
     publish: Publiceren
+    publish_release: 'Nu publiceren'
     rebuild: Heropbouwen
     refresh: Vernieuwen
     relaunch: Herstarten
     reload_page: 'Pagina herladen'
     remove: Verwijderen
+    remove_documents: 'Documenten verwijderen'
     rename: Hernoemen
     reorder: Hersorteren
     reorder_content_type: 'Het content type "{content_type}" hersorteren'
@@ -72,6 +76,9 @@ action:
     save_close: 'Opslaan en sluiten'
     save_publish_in: 'Opslaan en publiceren in {environments}'
     select_all: 'Alles selecteren'
+    set_status_canceled: 'Release annuleren'
+    set_status_ready: 'Release valideren'
+    set_status_wip: 'Release herzien'
     show: Tonen
     status: Status
     test: Testen
@@ -89,8 +96,6 @@ action:
     upload_file: 'Bestand uploaden'
     upload_files: 'Bestanden uploaden'
     view: Bekijken
-    next: Volgende
-    previous: Vorige
 asset_extractor:
     status: |-
         {color, select,
@@ -224,9 +229,11 @@ field:
     circles_to: 'Kringen naar'
     color: Kleur
     command: Commando
+    compare: Vergelijken
     config: Configuratie
     content_css: Content-CSS
     content_js: Content-JS
+    content_type: Contenttype
     content_types: Contenttypes
     context: Context
     copy_to: 'Kopiëren naar'
@@ -251,6 +258,7 @@ field:
     delay: 'Vertraging (in dagen)'
     description: Beschrijving
     display_name: Weergavenaam
+    docs_count: '# Documenten'
     editor: Editor
     email: E-mail
     email_content_type: 'Contenttype (bv. text/html)'
@@ -260,6 +268,8 @@ field:
     environment: Omgeving
     environment_default: Standaardomgeving
     environment_external: 'Externe omgeving'
+    environment_source: Bronomgeving
+    environment_target: Doelomgeving
     environments: Omgevingen
     error: Foutmelding
     events: Events
@@ -381,6 +391,7 @@ field:
     total_ems: 'Totaal in EMS'
     translations: Vertalingen
     type: Type
+    unpublish_in: 'Depubliceren in {env}'
     uri: URI
     user: Gebruiker
     user_deleted: 'Verwijderd door'
@@ -402,18 +413,22 @@ key:
     active_primary_shards: 'Actieve primaire shards'
     active_shards: 'Actieve shards'
     active_shards_percent_as_number: 'Actieve shards'
+    add_documents: 'Documenten toevoegen'
     add_user: 'Gebruiker toevoegen'
     admin: Admin
     aggregate_option: Aggregatieoptie
     aggregate_options: Aggregatieopties
     align_with: 'Uitlijnen met'
     all_content_types: 'Alle contenttypes'
+    all_releases: 'Alle releases'
     analyzers: Analysatoren
     anonymous_user: 'Anonieme gebruiker'
+    applied: Toegepast
     attachment: Bijlage
     bits: Bits
     build_date: Builddatum
     build_in: Ingebouwd
+    canceled: Geannuleerd
     channels: Kanalen
     ckeditor4: 'CK Editor 4'
     client: Client
@@ -428,7 +443,9 @@ key:
     customized: Aangepast
     dashboards: Dashboards
     delayed_unassigned_shards: 'Vertraagde niet-toegewezen shards'
+    document: Document
     documentation: Documentatie
+    draft: Concept
     elasticsearch_information: Elasticsearch-informatie
     elements: Elementen
     empty: Leeg
@@ -468,6 +485,7 @@ key:
     new_password_confirmation: 'Herhaal nieuw wachtwoord'
     none: Geen
     not-applicable: N.v.t.
+    not_applicable: 'Niet van toepassing'
     not_defined: 'Niet gedefinieerd'
     notice: Melding
     notification: Notificatie
@@ -481,6 +499,7 @@ key:
     overview: Overzicht
     portrait: Portret
     prefix_instance_id: 'Alias voorafgaan met instance-ID'
+    previous_revision: 'Vorige revisie'
     progress: Voortgang
     public_channel: 'Kanaal beschikbaar maken voor niet-geauthenticeerde gebruikers?'
     public_key: 'Publieke sleutel'
@@ -489,12 +508,16 @@ key:
     push_menu: Hoofdmenu
     query_search: 'Query search'
     query_searches: QuerySearch
+    ready: Klaar
     recent_activities: 'Recente activiteiten'
+    releases: Releases
     revision_tasks: Revisietaken
     revisions: Revisies
+    rollback: Terugdraaien
     schedule: Planning
     schedule_cron: '<Minuut> <Uur> <Dag_van_de_maand> <Maand_van_het_jaar> <Dag_van_de_week>. Bv. elke 15 minuten: */15 * * * *'
     schedule_tag: 'Gebruikt om workers (bv. CLI) te identificeren die de job op afstand zouden uitvoeren'
+    scheduled: Gepland
     search: Zoeken
     search_field_option: Zoekveldoptie
     search_field_options: Zoekveldopties
@@ -707,6 +730,7 @@ message:
     object_choice_limited_result_set: 'De datalinkkiezer is beperkt tot de eerste {limit} van {count} documenten'
     ouuid_constraint: "OUUID bevat een niet-toegestaan teken: A-Z, a-z, 0-9, koppelteken: '-', underscore: '_' of punt: '.'."
     ouuid_placeholder: 'Automatisch gegenereerd indien leeg gelaten'
+    please_reload_page: 'Herlaad de pagina.'
     preview_alt: 'Voorbeeld van veld {field}'
     privilege_exception: 'U heeft onvoldoende rechten om dit document te bewerken'
     publish_not_authorized: 'U kunt het content type {content_type} niet (de)publiceren'
@@ -716,11 +740,21 @@ message:
     reindex_command_end: 'De documenten van het content type {content_type} zijn opnieuw geïndexeerd in {environment} (index: {index})'
     reindex_command_environment_not_found: 'Omgeving met naam {environment} niet gevonden'
     reindex_command_start: 'Start herindexering van {content_type} in {environment}'
+    release_add_publish: 'Documenten toevoegen voor publicatie'
+    release_add_unpublish: 'Documenten toevoegen voor depublicatie'
+    release_delete_confirm: 'Deze release verwijderen?'
+    release_delete_selected_confirm: 'Alle geselecteerde releases verwijderen?'
     release_deleted: 'De release "{name}" is verwijderd'
     release_not_ready: 'De status van de release "{name}" is niet "ready"'
+    release_revision_finalized_by: '{date} afgerond door {user}'
+    release_revision_missing: 'Het document "{label}" is niet meer beschikbaar in {environment}'
+    release_revision_no_more_in_target: 'Deze revisie is gedepubliceerd uit {target}'
     release_revision_preceding: 'Er is al een vorige revisie gekoppeld aan de release "{name}"'
+    release_revision_still_in_target: 'Nog steeds gepubliceerd in {target}'
     release_unknown_action: 'Onbekende actie'
     removing_files: '{count} bestanden verwijderen. Even geduld...'
+    revision_add_for_publication: 'Document toevoegen voor publicatie'
+    revision_add_for_unpublish: 'Document toevoegen voor depublicatie'
     revision_add_from_json_error: 'Het was niet mogelijk om een nieuw {content_type} document te starten door een interne fout'
     revision_added_to_release: 'Document "{label}" is toegevoegd aan release "{release}"'
     revision_ajax_update_on_finalized: 'Het is niet mogelijk om het document "{label}" op te slaan omdat deze revisie al is gefinaliseerd'
@@ -782,6 +816,8 @@ message:
     search_set_as_default: 'Deze zoekopdracht is ingesteld als standaardzoekopdracht'
     search_set_as_default_for_content_type: 'Deze zoekopdracht is ingesteld als standaard zoekformulier voor het content type {content_type}'
     select_new_location: 'Selecteer nieuwe locatie:'
+    something_wrong: 'Er is iets mis met deze applicatie.'
+    still_in_target: 'Nog in {target}'
     subfield_added: 'Het subveld "{name}" is toegevoegd'
     subfield_name_mandatory: 'De naam van het subveld is verplicht'
     subfield_name_not_valid: 'De naam van het subveld is niet geldig (formaat: {field_format})'
@@ -827,8 +863,6 @@ message:
     wysiwyg_styles_set_updated: 'De stijlenset "{name}" is bijgewerkt'
     xliff_not_current_revision: 'Revisie {revision_id} van {ouuid} is niet langer de laatste revisie. De vertalingen werden niet geïmporteerd.'
     xliff_too_many_translations: '{counter} vertaaldocumenten terwijl er slechts één wordt verwacht voor vertaal-ID {translation_id} en doeltaal {target_locale} in omgeving {environment}'
-    please_reload_page: 'Herlaad de pagina.'
-    something_wrong: 'Er is iets mis met deze applicatie.'
 option:
     allow_add: 'Toevoegen toestaan'
     default_search: 'In standaardzoekopdracht'
@@ -847,75 +881,6 @@ option:
     recompute_on_publish: 'Documenten herberekenen bij publicatie'
     restriction: Beperking
     update_referrers: 'Verwijzers bijwerken'
-release:
-    actions:
-        add_publish: 'Documenten toevoegen voor publicatie'
-        add_unpublish: 'Documenten toevoegen voor depublicatie'
-        delete_confirm: 'Deze release verwijderen?'
-        delete_selected_confirm: 'Alle geselecteerde releases verwijderen?'
-        publish_release: 'Nu publiceren'
-        set_status_canceled: 'Release annuleren'
-        set_status_ready: 'Release valideren'
-        set_status_wip: 'Release herzien'
-    add:
-        title: 'Release toevoegen'
-    all_releases:
-        label: 'Alle releases'
-    edit:
-        title: 'Release bewerken'
-    index:
-        column:
-            docs_count: '# Documenten'
-        title: 'Lijst van releases'
-    menu: Releases
-    release-revision:
-        missing-revision: 'Het document "{label}" is niet meer beschikbaar in {environment}'
-        no_more_in_target: 'Deze revisie is gedepubliceerd uit {target}'
-        not-applicable: 'niet van toepassing'
-        revision: '{date} gefinaliseerd door {user}'
-        revision-not-applicable: 'Niet van toepassing'
-        still_in_target: 'Nog steeds gepubliceerd in {target}'
-    release-revisison:
-        missing-revision: 'Het document "{label}" is niet meer beschikbaar in {environment}'
-        no_more_in_target: 'Deze revisie is gedepubliceerd uit {target}'
-        not-applicable: 'niet van toepassing'
-        revision: '{date} afgerond door {user}'
-        revision-not-applicable: 'Niet van toepassing'
-        still_in_target: 'Nog steeds gepubliceerd in {target}'
-    revision:
-        action:
-            publish: 'Document toevoegen voor publicatie'
-            unpublish: 'Document toevoegen voor depublicatie'
-        actions:
-            remove: 'Documenten verwijderen'
-        index:
-            column:
-                CT: Contenttype
-                action: Actie
-                compare: Vergelijken
-                document: Document
-                label: Label
-                maxRevId: Doelomgeving
-                minRevId: Bronomgeving
-                previous: 'Vorige revisie'
-                revision: Revisie
-                still_in_target: 'Nog in {target}'
-            publish: 'Lijst van documenten beschikbaar voor publicatie'
-            unpublish: 'Lijst van documenten beschikbaar voor depublicatie'
-        menu: 'Documenten toevoegen'
-        table:
-            rollback:
-                action: Terugdraaien
-                confirm: 'Bevestigt u dit?'
-        view:
-            title: 'Documenten van release'
-    status:
-        applied: Toegepast
-        canceled: Geannuleerd
-        ready: Klaar
-        scheduled: Gepland
-        wip: Concept
-    unpublish_in: 'Depubliceren in {env}'
 revision:
     draft:
         delete: 'Dit concept verwijderen'
@@ -1169,6 +1134,7 @@ title:
     add_environment: 'Een nieuwe omgeving toevoegen'
     add_folder: 'Map toevoegen'
     add_form: 'Een formulier toevoegen'
+    add_release: 'Release toevoegen'
     align_environments: 'Omgevingen uitlijnen'
     align_environments_subtitle: 'tijd om omgevingen uit te lijnen?'
     as_indexed_in_environment: 'Zoals geïndexeerd in {environment}'
@@ -1183,10 +1149,12 @@ title:
     edit_environment: 'Omgeving "{name}" bewerken'
     edit_environment_short: 'Omgeving bewerken'
     edit_form: 'Een formulier bewerken'
+    edit_release: 'Release bewerken'
     error: 'Er is een fout opgetreden'
     error_page: 'Oeps! Er is een fout opgetreden'
     job_list: Joblijst
     list_environments: 'Omgevingen weergeven'
+    list_releases: 'Lijst van releases'
     log_of: 'Log van {created}'
     log_tagline: 'Wie deed wat'
     logs_of: 'Logs van {created}'
@@ -1200,8 +1168,16 @@ title:
     new_environment_short: 'Nieuwe omgeving'
     new_label: 'Nieuwe {label}'
     notifications_none_pending: 'Geen wachtende notificaties'
+    out_of_sync: 'Niet gesynchroniseerd'
+    pick_a_release: 'Kies een release voor "{label}"'
+    profile: 'Uw profiel'
+    profile_tagline: 'Alles over u'
+    publish_search_result: '{count} {content_type} publiceren vanuit {environment}'
     rebuild_environment: 'Omgeving {name} heropbouwen'
     rebuild_index_short: 'Index heropbouwen'
+    release_documents: 'Documenten van release'
+    release_revision_list_publish: 'Lijst van documenten beschikbaar voor publicatie'
+    release_revision_list_unpublish: 'Lijst van documenten beschikbaar voor depublicatie'
     rename_file: 'Bestand hernoemen'
     rename_folder: 'Map hernoemen'
     reorder_form_fields: 'Velden van formulier hersorteren: {label}'
@@ -1214,11 +1190,6 @@ title:
     view_file: 'Bestand bekijken'
     view_file_modal: 'Bestand bekijken: {name}'
     view_recursive: 'Recursieve weergave'
-    out_of_sync: 'Niet gesynchroniseerd'
-    pick_a_release: 'Kies een release voor "{label}"'
-    profile_tagline: 'Alles over u'
-    publish_search_result: '{count} {content_type} publiceren vanuit {environment}'
-    profile: 'Uw profiel'
 type:
     confirm: |-
         {type, select,

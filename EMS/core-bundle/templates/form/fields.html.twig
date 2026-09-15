@@ -819,7 +819,7 @@
 				<span class="input-group">
 					{% if item.type|default('node') == 'node' %}
 						<span class="input-group-btn">
-							<button href="#" type="button" title="{{ 'field_type.json_menu_editor.collapse_button'|trans }}" aria-expanded="false" class="btn btn-default button-collapse"></button>
+							<button href="#" type="button" title="{{ 'action.collapse'|trans }}" aria-expanded="false" class="btn btn-default button-collapse"></button>
 						</span>
 					{% endif %}
 					<span class="input-group-addon" >
@@ -861,7 +861,7 @@
     {% set addMenu %}
         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="fa fa-plus"></span>
-            {{ 'field_type.json_menu_editor.add'|trans }}
+            {{ 'action.add'|trans }}
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
@@ -900,7 +900,7 @@
 		 data-prototype-node="{{ block('json_menu_editor_fieldtype_node')|e('html_attr') }}">
 		<div class="input-group">
 				<span class="input-group-btn">
-					<button type="#" title="{{ 'field_type.json_menu_editor.collapse_all_button'|trans }}" aria-expanded="false" class="btn btn-default button-collapse-all">
+					<button type="#" title="{{ 'action.collapse_all'|trans }}" aria-expanded="false" class="btn btn-default button-collapse-all">
 					</button>
                     {{ addMenu }}
 				</span>

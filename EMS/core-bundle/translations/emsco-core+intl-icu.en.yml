@@ -472,18 +472,12 @@ field:
     wysiwyg_profile: 'WYSIWYG profile'
 field_type:
     json_menu_editor:
-        add: Add
         add_item: 'Add item'
         add_node: 'Add node'
-        collapse_all_button: 'Collapse all'
-        collapse_button: Collapse
-        copy: Copy
         copy_all: 'Copy all'
         delete_item: 'Delete item'
-        edit: Edit
         item_label_placeholder: 'Item label'
         move_item: 'Move item'
-        paste: Paste
     reorder: Reorder
     textarea:
         counter: '{count} characters'
@@ -571,17 +565,9 @@ job:
     user: User
 json_menu_nested:
     action:
-        add: Add
-        cancel: Cancel
-        copy: Copy
         copy_all: 'Copy all'
-        delete: Delete
-        edit: Edit
         move: Move
         new: 'New {label}'
-        paste: Paste
-        save: Save
-        view: View
     column:
         structure: Structure
         title: Title

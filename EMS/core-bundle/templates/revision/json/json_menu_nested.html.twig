@@ -129,13 +129,13 @@
     {%- if 'edit' in node.actions -%}
         <div class="btn-group">
             <button type="button" class="btn btn-sm btn-primary dropdown-toggle btn-json-menu-nested-edit" data-action="edit"
-                    title="{{- 'field_type.json_menu_editor.edit'|trans -}}"
+                    title="{{- 'action.edit'|trans -}}"
                     data-item-id="{{ item.id }}"
                     data-node-id="{{ node.id }}"
                     data-level="{{ level }}"
                     data-testid="btn-json-menu-nested-edit"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-pencil"></i>&nbsp;<span>{{ 'field_type.json_menu_editor.edit'|trans }}</span>
+                <i class="fa fa-pencil"></i>&nbsp;<span>{{ 'action.edit'|trans }}</span>
             </button>
         </div>
     {% endif %}
@@ -182,7 +182,7 @@
             <button type="button" class="btn btn-sm btn-default dropdown-toggle json-menu-nested-add-button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-testid="json-menu-nested-{{ def.defName }}-add-button">
                 <span class="fa fa-plus"></span>
-                {{ 'field_type.json_menu_editor.add'|trans }}
+                {{ 'action.add'|trans }}
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu {{ 'item' == position ? 'pull-right' }}">
@@ -218,7 +218,7 @@
                         <button class="{{ 'root' == position ? 'btn-json-menu-nested-copy-all' : 'btn-json-menu-nested-copy' }}"
                             {%- if 'item' == position %}data-item-id="{{ item.id }}"{% endif -%} data-testid="json-menu-nested-{{ 'root' == position ? 'copy-all' : 'copy'}}">
                             <span class="fa fa-copy"></span>&nbsp;
-                            {{ 'root' == position ? 'field_type.json_menu_editor.copy_all'|trans : 'field_type.json_menu_editor.copy'|trans }}
+                            {{ 'root' == position ? 'field_type.json_menu_editor.copy_all'|trans : 'action.copy'|trans }}
                         </button>
                     </li>
                 {% endif %}
@@ -229,7 +229,7 @@
                                 data-node-id="{{ node.id }}"
                                 {%- if 'root' == position %}data-allow="_root"{% endif -%}
                                 data-testid="json-menu-nested-paste">
-                            <span class="fa fa-paste"></span>&nbsp;{{ 'field_type.json_menu_editor.paste'|trans }}
+                            <span class="fa fa-paste"></span>&nbsp;{{ 'action.paste'|trans }}
                         </button>
                     </li>
                 {% endif %}

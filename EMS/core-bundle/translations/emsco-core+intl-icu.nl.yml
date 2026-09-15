@@ -472,18 +472,12 @@ field:
     wysiwyg_profile: WYSIWYG-profiel
 field_type:
     json_menu_editor:
-        add: Toevoegen
         add_item: 'Item toevoegen'
         add_node: 'Node toevoegen'
-        collapse_all_button: 'Alles inklappen'
-        collapse_button: Inklappen
-        copy: Kopiëren
         copy_all: 'Alles kopiëren'
         delete_item: 'Item verwijderen'
-        edit: Bewerken
         item_label_placeholder: Itemlabel
         move_item: 'Item verplaatsen'
-        paste: Plakken
     reorder: Hersorteren
     textarea:
         counter: '{count} tekens'
@@ -571,17 +565,9 @@ job:
     user: Gebruiker
 json_menu_nested:
     action:
-        add: Toevoegen
-        cancel: Annuleren
-        copy: Kopiëren
         copy_all: 'Alles kopiëren'
-        delete: Verwijderen
-        edit: Bewerken
         move: Verplaatsen
         new: 'Nieuwe {label}'
-        paste: Plakken
-        save: Opslaan
-        view: Bekijken
     column:
         structure: Structuur
         title: Titel

@@ -17,6 +17,7 @@ action:
     close: Sluiten
     collapse: Inklappen
     collapse_all: 'Alles inklappen'
+    compare: Vergelijken
     confirmation: 'Bevestigt u dit?'
     copy: Kopiëren
     create: Aanmaken
@@ -67,7 +68,6 @@ action:
     update_from_json: 'Bijwerken vanuit JSON'
     update_mapping: 'Mapping bijwerken'
     view: Bekijken
-    compare: Vergelijken
 asset_extractor:
     status: |-
         {color, select,
@@ -500,6 +500,7 @@ key:
     admin: Admin
     aggregate_option: Aggregatieoptie
     aggregate_options: Aggregatieopties
+    align_with: 'Uitlijnen met'
     all_content_types: 'Alle contenttypes'
     analyzers: Analysatoren
     anonymous_user: 'Anonieme gebruiker'
@@ -573,6 +574,7 @@ key:
     query_search: 'Query search'
     query_searches: QuerySearch
     recent_activities: 'Recente activiteiten'
+    revision_tasks: Revisietaken
     revisions: Revisies
     schedule: Planning
     schedule_cron: '<Minuut> <Uur> <Dag_van_de_maand> <Maand_van_het_jaar> <Dag_van_de_week>. Bv. elke 15 minuten: */15 * * * *'
@@ -582,6 +584,7 @@ key:
     search_field_options: Zoekveldopties
     search_options: Zoekopties
     searches: Zoekopdrachten
+    selected: Geselecteerd
     settings: Instellingen
     show_search_form: 'Zoekformulier tonen'
     sort_by: 'Sorteren op'
@@ -591,6 +594,7 @@ key:
     system_logs: Systeemlogboeken
     tagline: Tagline
     task_max_waiting_in_queue_millis: 'Maximale wachttijd van taak in wachtrij'
+    template: Sjabloon
     tiptap: Tiptap
     to_be_treated: 'Te behandelen'
     trash: Prullenbak
@@ -610,10 +614,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profielen
     wysiwyg_style_sets: Stijlsets
-    revision_tasks: Revisietaken
-    template: Sjabloon
-    align_with: 'Uitlijnen met'
-    selected: Geselecteerd
 log:
     error:
         content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
@@ -752,13 +752,18 @@ message:
     data_unknown_update_type: 'Het document "{label}" is niet vervangen omdat het updatetype "{update_type}" onbekend is'
     data_unlock_revisions_error: 'Onverwachte fout bij het ontgrendelen'
     data_update_referrers_error: 'Het was onmogelijk om de verwijzingen naar het document bij te werken'
+    difference_count: '{0} Geen verschil|{1} Eén verschil|]1,Inf[ {count} verschillen'
     document_cant_duplicate_ouuid_required: 'Het is niet mogelijk om het document "{label}" te dupliceren omdat het content type "{content_type}" eerst een OUUID vereist'
     document_compared: 'Revisie {revision_id} van het document {content_type}:{ouuid} vergeleken met revisie {compare_revision_id} van het document {compare_content_type}:{compare_ouuid}'
     document_copied: 'De inhoud van het document "{label}" is naar het klembord gekopieerd'
     document_duplicated: 'Het document "{label}" is gebruikt om een nieuw document te starten'
+    email_crm_export: 'In bijlage vindt u de export van de gevraagde CRM-inzendingen.'
+    email_greeting: 'Met vriendelijke groeten.'
+    email_hello: 'Hallo,'
     entity_created: '{entity} {name} is aangemaakt'
     entity_deleted: '{entity} {name} is verwijderd'
     entity_updated: '{entity} {name} is bijgewerkt'
+    environment_add_notice: 'Deze bewerking maakt een nieuwe Elasticsearch-index aan met een alias die ernaar verwijst.'
     environment_alias_missing: 'De alias voor de omgeving {environment} ontbreekt, overweeg een volledig nieuwe alias op te bouwen'
     environment_alias_removed: 'De alias {alias} is verwijderd'
     environment_aligned: 'Omgeving {environment} en {with_environment} zijn afgestemd voor deze content types'
@@ -922,11 +927,6 @@ message:
     wysiwyg_styles_set_updated: 'De stijlenset "{name}" is bijgewerkt'
     xliff_not_current_revision: 'Revisie {revision_id} van {ouuid} is niet langer de laatste revisie. De vertalingen werden niet geïmporteerd.'
     xliff_too_many_translations: '{counter} vertaaldocumenten terwijl er slechts één wordt verwacht voor vertaal-ID {translation_id} en doeltaal {target_locale} in omgeving {environment}'
-    email_greeting: 'Met vriendelijke groeten.'
-    email_hello: 'Hallo,'
-    email_crm_export: 'In bijlage vindt u de export van de gevraagde CRM-inzendingen.'
-    environment_add_notice: 'Deze bewerking maakt een nieuwe Elasticsearch-index aan met een alias die ernaar verwijst.'
-    difference_count: '{0} Geen verschil|{1} Eén verschil|]1,Inf[ {count} verschillen'
 modal:
     loading_information: 'Informatie laden...'
 navigation:
@@ -1319,21 +1319,21 @@ task:
         send: Verzenden
 title:
     add_content_type: 'Een nieuwe {content_type} toevoegen'
+    add_environment: 'Een nieuwe omgeving toevoegen'
+    align_environments: 'Omgevingen uitlijnen'
+    align_environments_subtitle: 'tijd om omgevingen uit te lijnen?'
     as_indexed_in_environment: 'Zoals geïndexeerd in {environment}'
     asset_options: Asset-opties
+    compare_environments: '{environment} vergelijken met {with_environment}'
     content_type_create_ouuid: 'Deze bewerking indexeert het {content_type} niet, maar start alleen een concept met een specifieke OUUID'
     content_type_from_json_file: 'vanuit een JSON-bestand van een content type'
     content_type_json_update: 'Content type "{content_type}" bijwerken'
     new_content_type: 'Nieuwe {content_type}'
+    new_environment_short: 'Nieuwe omgeving'
     select_environments_to_compare: 'Selecteer omgevingen om te vergelijken'
     view_custom: 'Weergave {name} van {contentType} "{label}" zoals geïndexeerd in {environment}'
     view_ems_id: '{content_type}:{id} bekijken'
     view_recursive: 'Recursieve weergave'
-    new_environment_short: 'Nieuwe omgeving'
-    add_environment: 'Een nieuwe omgeving toevoegen'
-    compare_environments: '{environment} vergelijken met {with_environment}'
-    align_environments_subtitle: 'tijd om omgevingen uit te lijnen?'
-    align_environments: 'Omgevingen uitlijnen'
 type:
     confirm: |-
         {type, select,

@@ -17,6 +17,7 @@ action:
     close: Close
     collapse: Collapse
     collapse_all: 'Collapse all'
+    compare: Compare
     confirmation: 'Do you confirm?'
     copy: Copy
     create: Create
@@ -67,7 +68,6 @@ action:
     update_from_json: 'Update from JSON'
     update_mapping: 'Update mapping'
     view: View
-    compare: Compare
 asset_extractor:
     status: |-
         {color, select,
@@ -500,6 +500,7 @@ key:
     admin: Admin
     aggregate_option: 'Aggregate Option'
     aggregate_options: 'Aggregate options'
+    align_with: 'Align with'
     all_content_types: 'All Content Types'
     analyzers: Analyzers
     anonymous_user: 'Anonymous user'
@@ -573,6 +574,7 @@ key:
     query_search: 'Query search'
     query_searches: QuerySearch
     recent_activities: 'Recent Activities'
+    revision_tasks: 'Revision tasks'
     revisions: Revisions
     schedule: Schedule
     schedule_cron: '<Minute> <Hour> <Day_of_the_Month> <Month_of_the_Year> <Day_of_the_Week>. E.g. every 15 minutes: */15 * * * *'
@@ -582,6 +584,7 @@ key:
     search_field_options: 'Search field options'
     search_options: 'Search options'
     searches: Searches
+    selected: Selected
     settings: Settings
     show_search_form: 'Show search form'
     sort_by: 'Sort by'
@@ -591,6 +594,7 @@ key:
     system_logs: 'System logs'
     tagline: Tagline
     task_max_waiting_in_queue_millis: 'Task max waiting in queue'
+    template: Template
     tiptap: Tiptap
     to_be_treated: 'To be treated'
     trash: Trash
@@ -610,10 +614,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
-    revision_tasks: 'Revision tasks'
-    template: Template
-    align_with: 'Align with'
-    selected: Selected
 log:
     error:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
@@ -752,13 +752,18 @@ message:
     data_unknown_update_type: 'The document "{label}" has not been replaced as the update type "{update_type}" is unknown'
     data_unlock_revisions_error: 'Unexpected unlock exception'
     data_update_referrers_error: "It was impossible to update the document's referrers"
+    difference_count: '{0} No difference|{1} One difference|]1,Inf[ {count} differences'
     document_cant_duplicate_ouuid_required: 'It is impossible to duplicate the document "{label}" as the content type "{content_type}" requires an OUUID first'
     document_compared: 'Compared the revision {revision_id} of the document {content_type}:{ouuid} with the revision {compare_revision_id} of the document {compare_content_type}:{compare_ouuid}'
     document_copied: 'The content of the document "{label}" has been copied to the clipboard'
     document_duplicated: 'The document "{label}" has been used to initiate a new document'
+    email_crm_export: 'Please find attached the export of requested CRM submissions.'
+    email_greeting: Regards.
+    email_hello: 'Hello,'
     entity_created: '{entity} {name} has been created'
     entity_deleted: '{entity} {name} has been deleted'
     entity_updated: '{entity} {name} has been updated'
+    environment_add_notice: 'This operation will create a new elastic search index with an alias pointing to it.'
     environment_alias_missing: 'The alias for the environment {environment} is missing, consider to rebuild a brand new alias'
     environment_alias_removed: 'The alias {alias} has been removed'
     environment_aligned: 'Environment {environment} and {with_environment} are aligned for those content types'
@@ -922,11 +927,6 @@ message:
     wysiwyg_styles_set_updated: 'Style set "{name}" has been updated'
     xliff_not_current_revision: 'The revision {revision_id} of {ouuid} is no longer the last revision. The translations were not imported.'
     xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
-    email_greeting: Regards.
-    email_hello: 'Hello,'
-    email_crm_export: 'Please find attached the export of requested CRM submissions.'
-    environment_add_notice: 'This operation will create a new elastic search index with an alias pointing to it.'
-    difference_count: '{0} No difference|{1} One difference|]1,Inf[ {count} differences'
 modal:
     loading_information: 'Loading information...'
 navigation:
@@ -1319,21 +1319,21 @@ task:
         send: Send
 title:
     add_content_type: 'Add a new {content_type}'
+    add_environment: 'Add a new Environment'
+    align_environments: 'Align Environments'
+    align_environments_subtitle: 'time to align environments?'
     as_indexed_in_environment: 'As indexed in {environment}'
     asset_options: 'Asset options'
+    compare_environments: 'Compare {environment} with {with_environment}'
     content_type_create_ouuid: 'This operation will not index the {content_type}, but initiate a draft only with a specific OUUID'
     content_type_from_json_file: "from a Content Type's JSON file"
     content_type_json_update: 'Update the content type "{content_type}"'
     new_content_type: 'New {content_type}'
+    new_environment_short: 'New Environment'
     select_environments_to_compare: 'Select Environments to compare'
     view_custom: 'View {name} of the {contentType} "{label}" as indexed in {environment}'
     view_ems_id: 'View {content_type}:{id}'
     view_recursive: 'Recursive view'
-    new_environment_short: 'New Environment'
-    add_environment: 'Add a new Environment'
-    compare_environments: 'Compare {environment} with {with_environment}'
-    align_environments_subtitle: 'time to align environments?'
-    align_environments: 'Align Environments'
 type:
     confirm: |-
         {type, select,

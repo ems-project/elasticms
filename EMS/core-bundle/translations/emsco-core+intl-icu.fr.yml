@@ -17,6 +17,7 @@ action:
     close: Fermer
     collapse: Réduire
     collapse_all: 'Tout réduire'
+    compare: Comparer
     confirmation: 'Confirmez-vous ?'
     copy: Copier
     create: Créer
@@ -67,7 +68,6 @@ action:
     update_from_json: 'Mettre à jour depuis JSON'
     update_mapping: 'Mettre à jour le mapping'
     view: Voir
-    compare: Comparer
 asset_extractor:
     status: |-
         {color, select,
@@ -500,6 +500,7 @@ key:
     admin: Admin
     aggregate_option: 'Option d’agrégation'
     aggregate_options: 'Options d’agrégation'
+    align_with: 'Aligner avec'
     all_content_types: 'Tous les types de contenu'
     analyzers: Analyseurs
     anonymous_user: 'Utilisateur anonyme'
@@ -573,6 +574,7 @@ key:
     query_search: 'Recherche par requête'
     query_searches: QuerySearch
     recent_activities: 'Activités récentes'
+    revision_tasks: 'Tâches de révision'
     revisions: Révisions
     schedule: Planification
     schedule_cron: '<Minute> <Heure> <Jour_du_mois> <Mois_de_l’année> <Jour_de_la_semaine>. Ex. toutes les 15 minutes : */15 * * * *'
@@ -582,6 +584,7 @@ key:
     search_field_options: 'Options de champ de recherche'
     search_options: 'Options de recherche'
     searches: Recherches
+    selected: Sélectionné
     settings: Paramètres
     show_search_form: 'Afficher le formulaire de recherche'
     sort_by: 'Trier par'
@@ -591,6 +594,7 @@ key:
     system_logs: 'Journaux système'
     tagline: Slogan
     task_max_waiting_in_queue_millis: 'Attente maximale d’une tâche dans la file'
+    template: Modèle
     tiptap: Tiptap
     to_be_treated: 'À traiter'
     trash: Corbeille
@@ -610,10 +614,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profils
     wysiwyg_style_sets: 'Jeux de styles'
-    revision_tasks: 'Tâches de révision'
-    template: Modèle
-    align_with: 'Aligner avec'
-    selected: Sélectionné
 log:
     error:
         content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'
@@ -752,13 +752,18 @@ message:
     data_unknown_update_type: 'Le document "{label}" n''a pas été remplacé car le type de mise à jour "{update_type}" est inconnu'
     data_unlock_revisions_error: 'Exception inattendue lors du déverrouillage'
     data_update_referrers_error: 'Impossible de mettre à jour les référents du document'
+    difference_count: '{0} Aucune différence|{1} Une différence|]1,Inf[ {count} différences'
     document_cant_duplicate_ouuid_required: 'Il est impossible de dupliquer le document "{label}" car le type de contenu "{content_type}" nécessite d''abord un OUUID'
     document_compared: 'Comparaison de la révision {revision_id} du document {content_type}:{ouuid} avec la révision {compare_revision_id} du document {compare_content_type}:{compare_ouuid}'
     document_copied: 'Le contenu du document "{label}" a été copié dans le presse-papiers'
     document_duplicated: 'Le document "{label}" a été utilisé pour créer un nouveau document'
+    email_crm_export: "Vous trouverez ci-joint l'export des soumissions CRM demandées."
+    email_greeting: Cordialement.
+    email_hello: 'Bonjour,'
     entity_created: '{entity} {name} a été créé'
     entity_deleted: '{entity} {name} a été supprimé'
     entity_updated: '{entity} {name} a été mis à jour'
+    environment_add_notice: 'Cette opération créera un nouvel index Elasticsearch avec un alias pointant vers celui-ci.'
     environment_alias_missing: "L'alias pour l'environnement {environment} est manquant, envisagez de reconstruire un tout nouvel alias"
     environment_alias_removed: "L'alias {alias} a été supprimé"
     environment_aligned: 'Les environnements {environment} et {with_environment} sont alignés pour ces types de contenu'
@@ -922,11 +927,6 @@ message:
     wysiwyg_styles_set_updated: 'Le jeu de styles « {name} » a été mis à jour'
     xliff_not_current_revision: "La révision {revision_id} de {ouuid} n'est plus la dernière révision. Les traductions n'ont pas été importées."
     xliff_too_many_translations: "{counter} documents de traduction alors qu'un seul est attendu pour l'identifiant de traduction {translation_id} et la locale cible {target_locale} dans l'environnement {environment}"
-    email_greeting: Cordialement.
-    email_hello: 'Bonjour,'
-    email_crm_export: "Vous trouverez ci-joint l'export des soumissions CRM demandées."
-    environment_add_notice: 'Cette opération créera un nouvel index Elasticsearch avec un alias pointant vers celui-ci.'
-    difference_count: '{0} Aucune différence|{1} Une différence|]1,Inf[ {count} différences'
 modal:
     loading_information: 'Chargement des informations...'
 navigation:
@@ -1319,21 +1319,21 @@ task:
         send: Envoyer
 title:
     add_content_type: 'Ajouter un nouveau {content_type}'
+    add_environment: 'Ajouter un nouvel environnement'
+    align_environments: 'Aligner les environnements'
+    align_environments_subtitle: 'il est temps d’aligner les environnements ?'
     as_indexed_in_environment: 'Tel qu’indexé dans {environment}'
     asset_options: 'Options du fichier'
+    compare_environments: 'Comparer {environment} avec {with_environment}'
     content_type_create_ouuid: "Cette opération n'indexera pas le {content_type}, mais initiera uniquement un brouillon avec un OUUID spécifique"
     content_type_from_json_file: "à partir d'un fichier JSON d'un content type"
     content_type_json_update: 'Mettre à jour le content type "{content_type}"'
     new_content_type: 'Nouveau {content_type}'
+    new_environment_short: 'Nouvel environnement'
     select_environments_to_compare: 'Sélectionner les environnements à comparer'
     view_custom: 'Vue {name} de {contentType} « {label} » telle qu’indexée dans {environment}'
     view_ems_id: 'Voir {content_type}:{id}'
     view_recursive: 'Vue récursive'
-    new_environment_short: 'Nouvel environnement'
-    add_environment: 'Ajouter un nouvel environnement'
-    compare_environments: 'Comparer {environment} avec {with_environment}'
-    align_environments_subtitle: 'il est temps d’aligner les environnements ?'
-    align_environments: 'Aligner les environnements'
 type:
     confirm: |-
         {type, select,

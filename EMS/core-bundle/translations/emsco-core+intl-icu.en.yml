@@ -177,12 +177,6 @@ core:
                 other   {There are # indexes}
             }
     version: 'Version {core} with Symfony {symfony}'
-exception:
-    error:
-        message: 'With the message "{status_text}".'
-        page_title: 'Oops! An Error Occurred'
-        server_returned: 'The server returned a {status_code}'
-        title: 'An Error Occurred'
 field:
     accumulate_file: 'Accumulate in one file'
     alias: Alias
@@ -908,6 +902,7 @@ message:
     wysiwyg_styles_set_updated: 'Style set "{name}" has been updated'
     xliff_not_current_revision: 'The revision {revision_id} of {ouuid} is no longer the last revision. The translations were not imported.'
     xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
+    error_status_with_message: 'With the message "{status_text}".'
 notification:
     acknowledge: Acknowledge
     actions: Actions
@@ -1317,6 +1312,8 @@ title:
     view_environment: 'View the environment {name}'
     view_environment_short: 'View environment'
     view_recursive: 'Recursive view'
+    error_page: 'Oops! An Error Occurred'
+    error: 'An Error Occurred'
 type:
     confirm: |-
         {type, select,

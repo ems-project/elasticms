@@ -177,12 +177,6 @@ core:
                 other   {Il y a # index}
             }
     version: 'Version {core} avec Symfony {symfony}'
-exception:
-    error:
-        message: 'Avec le message « {status_text} ».'
-        page_title: 'Oups ! Une erreur est survenue'
-        server_returned: 'Le serveur a retourné un {status_code}'
-        title: 'Une erreur est survenue'
 field:
     accumulate_file: 'Accumuler dans un seul fichier'
     alias: Alias
@@ -908,6 +902,7 @@ message:
     wysiwyg_styles_set_updated: 'Le jeu de styles « {name} » a été mis à jour'
     xliff_not_current_revision: "La révision {revision_id} de {ouuid} n'est plus la dernière révision. Les traductions n'ont pas été importées."
     xliff_too_many_translations: "{counter} documents de traduction alors qu'un seul est attendu pour l'identifiant de traduction {translation_id} et la locale cible {target_locale} dans l'environnement {environment}"
+    error_status_with_message: 'Avec le message « {status_text} ».'
 notification:
     acknowledge: Acquitter
     actions: Actions
@@ -1317,6 +1312,8 @@ title:
     view_environment: 'Voir l’environnement {name}'
     view_environment_short: 'Voir l’environnement'
     view_recursive: 'Vue récursive'
+    error_page: 'Oups ! Une erreur est survenue'
+    error: 'Une erreur est survenue'
 type:
     confirm: |-
         {type, select,

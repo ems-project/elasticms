@@ -177,12 +177,6 @@ core:
                 other   {Er zijn # indexen}
             }
     version: 'Versie {core} met Symfony {symfony}'
-exception:
-    error:
-        message: 'Met bericht "{status_text}".'
-        page_title: 'Oeps! Er is een fout opgetreden'
-        server_returned: 'De server gaf {status_code} terug'
-        title: 'Er is een fout opgetreden'
 field:
     accumulate_file: 'In één bestand verzamelen'
     alias: Alias
@@ -908,6 +902,7 @@ message:
     wysiwyg_styles_set_updated: 'De stijlenset "{name}" is bijgewerkt'
     xliff_not_current_revision: 'Revisie {revision_id} van {ouuid} is niet langer de laatste revisie. De vertalingen werden niet geïmporteerd.'
     xliff_too_many_translations: '{counter} vertaaldocumenten terwijl er slechts één wordt verwacht voor vertaal-ID {translation_id} en doeltaal {target_locale} in omgeving {environment}'
+    error_status_with_message: 'Met bericht "{status_text}".'
 notification:
     acknowledge: Bevestigen
     actions: Acties
@@ -1317,6 +1312,8 @@ title:
     view_environment: 'Omgeving {name} bekijken'
     view_environment_short: 'Omgeving bekijken'
     view_recursive: 'Recursieve weergave'
+    error_page: 'Oeps! Er is een fout opgetreden'
+    error: 'Er is een fout opgetreden'
 type:
     confirm: |-
         {type, select,

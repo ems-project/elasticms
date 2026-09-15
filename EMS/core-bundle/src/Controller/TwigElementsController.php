@@ -91,14 +91,14 @@ class TwigElementsController extends AbstractController
     private function getOtherMenu(): Menu
     {
         $menu = new Menu(t('sidebar-menu.other', [], 'emsco-core'));
-        $menu->addChild(t('sidebar-menu.documentation', [], 'emsco-core'), 'fa fa-book', 'documentation')->setTranslation([]);
+        $menu->addChild(t('key.documentation', [], 'emsco-core'), 'fa fa-book', 'documentation')->setTranslation([]);
 
         return $menu;
     }
 
     private function getUserAdminMenu(): Menu
     {
-        $menu = new Menu(t('sidebar-menu.user-management', [], 'emsco-core'));
+        $menu = new Menu(t('user.management.title', [], 'emsco-core'));
         if (!$this->isGranted('ROLE_USER_MANAGEMENT')) {
             return $menu;
         }
@@ -113,7 +113,7 @@ class TwigElementsController extends AbstractController
 
     private function getAdminMenu(): Menu
     {
-        $menu = new Menu(t('sidebar-menu.admin', [], 'emsco-core'));
+        $menu = new Menu(t('key.admin', [], 'emsco-core'));
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $menu;
         }
@@ -176,13 +176,13 @@ class TwigElementsController extends AbstractController
 
     private function getPublisherMenu(): Menu
     {
-        $menu = new Menu(t('sidebar-menu.publishers', [], 'emsco-core'));
+        $menu = new Menu(t('key.publishers', [], 'emsco-core'));
         if (!$this->isGranted('ROLE_PUBLISHER')) {
             return $menu;
         }
         $menu->addChild(t('sidebar-menu.release-admin.index-link', [], 'emsco-core'), 'fa fa-cube', 'emsco_release_index')->setTranslation([]);
         $menu->addChild(t('sidebar-menu.compare-environments', [], 'emsco-core'), 'fa fa-align-center', 'environment.align')->setTranslation([]);
-        $menu->addChild(t('sidebar-menu.uploaded-files', [], 'emsco-core'), 'fa fa-upload', Routes::UPLOAD_ASSET_PUBLISHER_OVERVIEW)->setTranslation([]);
+        $menu->addChild(t('key.uploaded_files', [], 'emsco-core'), 'fa fa-upload', Routes::UPLOAD_ASSET_PUBLISHER_OVERVIEW)->setTranslation([]);
 
         return $menu;
     }

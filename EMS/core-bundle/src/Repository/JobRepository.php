@@ -154,7 +154,7 @@ class JobRepository extends EntityRepository
         if ('' !== $searchValue) {
             $or = $qb->expr()->orX(
                 $qb->expr()->like('job.username', ':term'),
-                $qb->expr()->like('job.command', ':term'),
+                $qb->expr()->like('field.command', ':term'),
                 $qb->expr()->like('job.output', ':term')
             );
             $qb->andWhere($or)

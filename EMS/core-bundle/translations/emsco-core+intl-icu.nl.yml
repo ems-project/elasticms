@@ -539,7 +539,6 @@ inline_editor:
         draft_by: 'In concept door "{user}"'
     title: Inline-editor
 job:
-    command: Commando
     completed: Voltooid
     info: 'Over deze job'
     list: Joblijst
@@ -547,8 +546,6 @@ job:
     output: Jobuitvoer
     progress: Voortgang
     started: Starttijd
-    tag: Tag
-    user: Gebruiker
 json_menu_nested:
     action:
         copy_all: 'Alles kopiëren'
@@ -1239,7 +1236,6 @@ search_options:
         title: Sorteeropties
     title: Zoekopties
 sidebar-menu:
-    admin: Admin
     compare-environments: 'Omgevingen vergelijken'
     content-types: Contenttypes
     content_type:
@@ -1250,14 +1246,10 @@ sidebar-menu:
         trash: Prullenbak
     create-job: 'Nieuwe job'
     dashboards: Dashboards
-    documentation: Documentatie
     other: Overige
-    publishers: Publishers
     release-admin:
         index-link: Releases
     search: Zoeken
-    uploaded-files: 'Geüploade bestanden'
-    user-management: Gebruikersbeheer
     user:
         name: '{name}'
         searches: Zoekopdrachten

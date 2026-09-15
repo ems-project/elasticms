@@ -17,11 +17,11 @@
 {% block job_info %}
     {% set list = [{
         icon: 'fa fa-user',
-        label: 'job.user'|trans,
+        label: 'field.user'|trans,
         value: job.user|emsco_display_name,
     }, {
         icon: 'fa fa-terminal',
-        label: 'job.command'|trans,
+        label: 'field.command'|trans,
         content: job.command|default('list'),
         contentClass: 'console',
     }, {
@@ -40,7 +40,7 @@
     {% if job.tag %}
         {% set list = list|merge([{
             icon: 'fa fa-tag',
-            label: 'job.tag'|trans,
+            label: 'field.tag'|trans,
             value: job.tag,
         }]) %}
     {% endif %}

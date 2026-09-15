@@ -539,7 +539,6 @@ inline_editor:
         draft_by: 'En brouillon par "{user}"'
     title: 'Éditeur en ligne'
 job:
-    command: Commande
     completed: Terminé
     info: 'À propos de ce job'
     list: 'Liste des jobs'
@@ -547,8 +546,6 @@ job:
     output: 'Sortie du job'
     progress: Progression
     started: 'Heure de début'
-    tag: Tag
-    user: Utilisateur
 json_menu_nested:
     action:
         copy_all: 'Tout copier'
@@ -1239,7 +1236,6 @@ search_options:
         title: 'Options de tri'
     title: 'Options de recherche'
 sidebar-menu:
-    admin: Admin
     compare-environments: 'Comparer les environnements'
     content-types: 'Types de contenu'
     content_type:
@@ -1250,14 +1246,10 @@ sidebar-menu:
         trash: Corbeille
     create-job: 'Nouveau job'
     dashboards: Dashboards
-    documentation: Documentation
     other: Autre
-    publishers: Publieurs
     release-admin:
         index-link: Releases
     search: Recherche
-    uploaded-files: 'Fichiers uploadés'
-    user-management: 'Gestion des utilisateurs'
     user:
         name: '{name}'
         searches: Recherches

@@ -539,7 +539,6 @@ inline_editor:
         draft_by: 'In draft by "{user}"'
     title: 'Inline Editor'
 job:
-    command: Command
     completed: Completed
     info: 'About this job'
     list: "Job's list"
@@ -547,8 +546,6 @@ job:
     output: "Job's output"
     progress: Progress
     started: 'Started time'
-    tag: Tag
-    user: User
 json_menu_nested:
     action:
         copy_all: 'Copy all'
@@ -1239,7 +1236,6 @@ search_options:
         title: 'Sort Options'
     title: 'Search options'
 sidebar-menu:
-    admin: Admin
     compare-environments: 'Compare environments'
     content-types: 'Content types'
     content_type:
@@ -1250,14 +1246,10 @@ sidebar-menu:
         trash: Trash
     create-job: 'New job'
     dashboards: Dashboards
-    documentation: Documentation
     other: Other
-    publishers: Publishers
     release-admin:
         index-link: Releases
     search: Search
-    uploaded-files: 'Uploaded files'
-    user-management: 'User management'
     user:
         name: '{name}'
         searches: Searches

@@ -83,6 +83,9 @@ action:
     upload_file: 'Bestand uploaden'
     upload_files: 'Bestanden uploaden'
     view: Bekijken
+    upload: Uploaden
+    confirm: Bevestigen
+    rename: Hernoemen
 asset_extractor:
     status: |-
         {color, select,
@@ -518,69 +521,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profielen
     wysiwyg_style_sets: Stijlsets
-media_library:
-    file:
-        add:
-            title: Uploaden
-        delete:
-            title: 'Bestand verwijderen'
-        load_more: 'Meer bestanden laden...'
-        rename:
-            title: 'Bestand hernoemen'
-        revision:
-            title: Revisie
-        view:
-            download: 'Bestand downloaden'
-            fallback: 'Geen plug-in beschikbaar om de bestandsinhoud weer te geven.'
-            title: 'Bestand bekijken'
-            title_modal: 'Bestand bekijken: {name}'
-    files:
-        delete:
-            info: '{count} bestanden verwijderen. Even geduld...'
-            submit: Bevestigen
-            title: '{count} bestanden verwijderen'
-            warning: 'Weet u zeker dat u de {count} geselecteerde bestanden wilt verwijderen?'
-        move:
-            info: 'Huidige locatie: "{path}"'
-            select_folder: 'Selecteer nieuwe locatie:'
-            submit: Verplaatsen
-            success: |-
-                {count, plural,
-                    one {Het geselecteerde bestand verplaatsen van "{from}" naar "{to}". Even geduld...}
-                    other {# bestanden verplaatsen van "{from}" naar "{to}". Even geduld...}
-                }
-            title: |-
-                {count, plural,
-                    one {Bestand verplaatsen}
-                    other {# bestanden verplaatsen}
-                }
-    folder:
-        add:
-            title: 'Map toevoegen'
-        delete:
-            job_info: 'Map wordt verwijderd. Even geduld...'
-            job_info_async: 'De map wordt zo snel mogelijk verwijderd.'
-            submit: Bevestigen
-            title: 'Map verwijderen'
-            warning: |
-                Weet u zeker dat u deze map wilt verwijderen?
-                Deze actie verwijdert ook alle submappen en bestanden die erin zitten.
-        move:
-            info: 'Huidige locatie: "{path}"'
-            job_info: |
-                De geselecteerde map wordt verplaatst van "{from}" naar "{to}"
-                Even geduld...
-            job_info_async: 'De map wordt zo snel mogelijk verplaatst.'
-            select_folder: 'Selecteer nieuwe locatie:'
-            submit: Verplaatsen
-            title: 'Map verplaatsen'
-        rename:
-            job_info: |
-                Map wordt hernoemd.
-                Even geduld...
-            job_info_async: 'De map wordt zo snel mogelijk hernoemd.'
-            submit: Hernoemen
-            title: 'Map hernoemen'
     home: Start
 message:
     action_created: 'Een nieuwe actie "{label}" is aangemaakt'
@@ -844,6 +784,31 @@ message:
     wysiwyg_styles_set_updated: 'De stijlenset "{name}" is bijgewerkt'
     xliff_not_current_revision: 'Revisie {revision_id} van {ouuid} is niet langer de laatste revisie. De vertalingen werden niet geïmporteerd.'
     xliff_too_many_translations: '{counter} vertaaldocumenten terwijl er slechts één wordt verwacht voor vertaal-ID {translation_id} en doeltaal {target_locale} in omgeving {environment}'
+    loading_more_files: 'Meer bestanden laden...'
+    download_file: 'Bestand downloaden'
+    file_preview_fallback: 'Geen plug-in beschikbaar om de bestandsinhoud weer te geven.'
+    removing_files: '{count} bestanden verwijderen. Even geduld...'
+    confirm_delete_files: 'Weet u zeker dat u de {count} geselecteerde bestanden wilt verwijderen?'
+    current_location: 'Huidige locatie: "{path}"'
+    select_new_location: 'Selecteer nieuwe locatie:'
+    move_files_success: |-
+        {count, plural,
+            one {Het geselecteerde bestand verplaatsen van "{from}" naar "{to}". Even geduld...}
+            other {# bestanden verplaatsen van "{from}" naar "{to}". Even geduld...}
+        }
+    folder_delete_in_progress: 'Map wordt verwijderd. Even geduld...'
+    folder_delete_async: 'De map wordt zo snel mogelijk verwijderd.'
+    confirm_delete_folder: |
+        Weet u zeker dat u deze map wilt verwijderen?
+        Deze actie verwijdert ook alle submappen en bestanden die erin zitten.
+    folder_move_in_progress: |
+        De geselecteerde map wordt verplaatst van "{from}" naar "{to}"
+        Even geduld...
+    folder_move_async: 'De map wordt zo snel mogelijk verplaatst.'
+    folder_rename_in_progress: |
+        Map wordt hernoemd.
+        Even geduld...
+    folder_rename_async: 'De map wordt zo snel mogelijk hernoemd.'
 notification:
     acknowledge: Bevestigen
     actions: Acties
@@ -1266,6 +1231,20 @@ title:
     view_environment: 'Omgeving {name} bekijken'
     view_environment_short: 'Omgeving bekijken'
     view_recursive: 'Recursieve weergave'
+    delete_file: 'Bestand verwijderen'
+    rename_file: 'Bestand hernoemen'
+    view_file: 'Bestand bekijken'
+    view_file_modal: 'Bestand bekijken: {name}'
+    delete_files_count: '{count} bestanden verwijderen'
+    move_files: |-
+        {count, plural,
+            one {Bestand verplaatsen}
+            other {# bestanden verplaatsen}
+        }
+    add_folder: 'Map toevoegen'
+    delete_folder: 'Map verwijderen'
+    move_folder: 'Map verplaatsen'
+    rename_folder: 'Map hernoemen'
 type:
     confirm: |-
         {type, select,

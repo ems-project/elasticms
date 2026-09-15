@@ -83,6 +83,9 @@ action:
     upload_file: 'Upload file'
     upload_files: 'Upload files'
     view: View
+    upload: Upload
+    confirm: Confirm
+    rename: Rename
 asset_extractor:
     status: |-
         {color, select,
@@ -518,69 +521,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
-media_library:
-    file:
-        add:
-            title: Upload
-        delete:
-            title: 'Delete file'
-        load_more: 'Loading more files ...'
-        rename:
-            title: 'Rename file'
-        revision:
-            title: Revision
-        view:
-            download: 'Download the file'
-            fallback: 'No plugin-in available to display the file content.'
-            title: 'View file'
-            title_modal: 'View file: {name}'
-    files:
-        delete:
-            info: 'Removing {count} files. Please wait...'
-            submit: Confirm
-            title: 'Delete {count} files'
-            warning: 'Are you sure you want to delete the {count} selected files?'
-        move:
-            info: 'Current location: "{path}"'
-            select_folder: 'Select new location:'
-            submit: Move
-            success: |-
-                {count, plural,
-                    one {Moving the selected file from "{from}" to "{to}". Please wait...}
-                    other {Moving # files from "{from}" to "{to}". Please wait...}
-                }
-            title: |-
-                {count, plural,
-                    one {Move file}
-                    other {Move # files}
-                }
-    folder:
-        add:
-            title: 'Add folder'
-        delete:
-            job_info: 'Folder removing in progress. Please wait...'
-            job_info_async: 'Folder will be removed ASAP.'
-            submit: Confirm
-            title: 'Delete folder'
-            warning: |
-                Are you sure you want to delete this folder?
-                This action will also remove any subfolders and files within.
-        move:
-            info: 'Current location: "{path}"'
-            job_info: |
-                Moving the selected folder from "{from}" to "{to}"
-                Please wait...
-            job_info_async: 'Folder will be moved ASAP.'
-            select_folder: 'Select new location:'
-            submit: Move
-            title: 'Move folder'
-        rename:
-            job_info: |
-                Folder renaming in progress.
-                Please wait...
-            job_info_async: 'Folder will be renamed ASAP.'
-            submit: Rename
-            title: 'Rename folder'
     home: Home
 message:
     action_created: 'A new action "{label}" has been created'
@@ -844,6 +784,31 @@ message:
     wysiwyg_styles_set_updated: 'Style set "{name}" has been updated'
     xliff_not_current_revision: 'The revision {revision_id} of {ouuid} is no longer the last revision. The translations were not imported.'
     xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
+    loading_more_files: 'Loading more files ...'
+    download_file: 'Download the file'
+    file_preview_fallback: 'No plugin-in available to display the file content.'
+    removing_files: 'Removing {count} files. Please wait...'
+    confirm_delete_files: 'Are you sure you want to delete the {count} selected files?'
+    current_location: 'Current location: "{path}"'
+    select_new_location: 'Select new location:'
+    move_files_success: |-
+        {count, plural,
+            one {Moving the selected file from "{from}" to "{to}". Please wait...}
+            other {Moving # files from "{from}" to "{to}". Please wait...}
+        }
+    folder_delete_in_progress: 'Folder removing in progress. Please wait...'
+    folder_delete_async: 'Folder will be removed ASAP.'
+    confirm_delete_folder: |
+        Are you sure you want to delete this folder?
+        This action will also remove any subfolders and files within.
+    folder_move_in_progress: |
+        Moving the selected folder from "{from}" to "{to}"
+        Please wait...
+    folder_move_async: 'Folder will be moved ASAP.'
+    folder_rename_in_progress: |
+        Folder renaming in progress.
+        Please wait...
+    folder_rename_async: 'Folder will be renamed ASAP.'
 notification:
     acknowledge: Acknowledge
     actions: Actions
@@ -1266,6 +1231,20 @@ title:
     view_environment: 'View the environment {name}'
     view_environment_short: 'View environment'
     view_recursive: 'Recursive view'
+    delete_file: 'Delete file'
+    rename_file: 'Rename file'
+    view_file: 'View file'
+    view_file_modal: 'View file: {name}'
+    delete_files_count: 'Delete {count} files'
+    move_files: |-
+        {count, plural,
+            one {Move file}
+            other {Move # files}
+        }
+    add_folder: 'Add folder'
+    delete_folder: 'Delete folder'
+    move_folder: 'Move folder'
+    rename_folder: 'Rename folder'
 type:
     confirm: |-
         {type, select,

@@ -83,6 +83,9 @@ action:
     upload_file: 'Uploader le fichier'
     upload_files: 'Uploader les fichiers'
     view: Voir
+    upload: Téléverser
+    confirm: Confirmer
+    rename: Renommer
 asset_extractor:
     status: |-
         {color, select,
@@ -518,69 +521,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profils
     wysiwyg_style_sets: 'Jeux de styles'
-media_library:
-    file:
-        add:
-            title: Téléverser
-        delete:
-            title: 'Supprimer le fichier'
-        load_more: 'Chargement de fichiers supplémentaires...'
-        rename:
-            title: 'Renommer le fichier'
-        revision:
-            title: Révision
-        view:
-            download: 'Télécharger le fichier'
-            fallback: 'Aucun plugin disponible pour afficher le contenu du fichier.'
-            title: 'Voir le fichier'
-            title_modal: 'Voir le fichier : {name}'
-    files:
-        delete:
-            info: 'Suppression de {count} fichiers. Veuillez patienter...'
-            submit: Confirmer
-            title: 'Supprimer {count} fichiers'
-            warning: 'Êtes-vous sûr de vouloir supprimer les {count} fichiers sélectionnés ?'
-        move:
-            info: 'Emplacement actuel : "{path}"'
-            select_folder: 'Sélectionner un nouvel emplacement :'
-            submit: Déplacer
-            success: |-
-                {count, plural,
-                    one {Déplacement du fichier sélectionné de "{from}" vers "{to}". Veuillez patienter...}
-                    other {Déplacement de # fichiers de "{from}" vers "{to}". Veuillez patienter...}
-                }
-            title: |-
-                {count, plural,
-                    one {Déplacer le fichier}
-                    other {Déplacer # fichiers}
-                }
-    folder:
-        add:
-            title: 'Ajouter un dossier'
-        delete:
-            job_info: 'Suppression du dossier en cours. Veuillez patienter...'
-            job_info_async: 'Le dossier sera supprimé dès que possible.'
-            submit: Confirmer
-            title: 'Supprimer le dossier'
-            warning: |
-                Êtes-vous sûr de vouloir supprimer ce dossier ?
-                Cette action supprimera également tous les sous-dossiers et fichiers qu'il contient.
-        move:
-            info: 'Emplacement actuel : "{path}"'
-            job_info: |
-                Déplacement du dossier sélectionné de "{from}" vers "{to}"
-                Veuillez patienter...
-            job_info_async: 'Le dossier sera déplacé dès que possible.'
-            select_folder: 'Sélectionner un nouvel emplacement :'
-            submit: Déplacer
-            title: 'Déplacer le dossier'
-        rename:
-            job_info: |
-                Renommage du dossier en cours.
-                Veuillez patienter...
-            job_info_async: 'Le dossier sera renommé dès que possible.'
-            submit: Renommer
-            title: 'Renommer le dossier'
     home: Accueil
 message:
     action_created: 'Une nouvelle action "{label}" a été créée'
@@ -844,6 +784,31 @@ message:
     wysiwyg_styles_set_updated: 'Le jeu de styles « {name} » a été mis à jour'
     xliff_not_current_revision: "La révision {revision_id} de {ouuid} n'est plus la dernière révision. Les traductions n'ont pas été importées."
     xliff_too_many_translations: "{counter} documents de traduction alors qu'un seul est attendu pour l'identifiant de traduction {translation_id} et la locale cible {target_locale} dans l'environnement {environment}"
+    loading_more_files: 'Chargement de fichiers supplémentaires...'
+    download_file: 'Télécharger le fichier'
+    file_preview_fallback: 'Aucun plugin disponible pour afficher le contenu du fichier.'
+    removing_files: 'Suppression de {count} fichiers. Veuillez patienter...'
+    confirm_delete_files: 'Êtes-vous sûr de vouloir supprimer les {count} fichiers sélectionnés ?'
+    current_location: 'Emplacement actuel : "{path}"'
+    select_new_location: 'Sélectionner un nouvel emplacement :'
+    move_files_success: |-
+        {count, plural,
+            one {Déplacement du fichier sélectionné de "{from}" vers "{to}". Veuillez patienter...}
+            other {Déplacement de # fichiers de "{from}" vers "{to}". Veuillez patienter...}
+        }
+    folder_delete_in_progress: 'Suppression du dossier en cours. Veuillez patienter...'
+    folder_delete_async: 'Le dossier sera supprimé dès que possible.'
+    confirm_delete_folder: |
+        Êtes-vous sûr de vouloir supprimer ce dossier ?
+        Cette action supprimera également tous les sous-dossiers et fichiers qu'il contient.
+    folder_move_in_progress: |
+        Déplacement du dossier sélectionné de "{from}" vers "{to}"
+        Veuillez patienter...
+    folder_move_async: 'Le dossier sera déplacé dès que possible.'
+    folder_rename_in_progress: |
+        Renommage du dossier en cours.
+        Veuillez patienter...
+    folder_rename_async: 'Le dossier sera renommé dès que possible.'
 notification:
     acknowledge: Acquitter
     actions: Actions
@@ -1266,6 +1231,20 @@ title:
     view_environment: 'Voir l’environnement {name}'
     view_environment_short: 'Voir l’environnement'
     view_recursive: 'Vue récursive'
+    delete_file: 'Supprimer le fichier'
+    rename_file: 'Renommer le fichier'
+    view_file: 'Voir le fichier'
+    view_file_modal: 'Voir le fichier : {name}'
+    delete_files_count: 'Supprimer {count} fichiers'
+    move_files: |-
+        {count, plural,
+            one {Déplacer le fichier}
+            other {Déplacer # fichiers}
+        }
+    add_folder: 'Ajouter un dossier'
+    delete_folder: 'Supprimer le dossier'
+    move_folder: 'Déplacer le dossier'
+    rename_folder: 'Renommer le dossier'
 type:
     confirm: |-
         {type, select,

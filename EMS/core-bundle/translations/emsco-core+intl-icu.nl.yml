@@ -121,7 +121,6 @@ content_type:
     permission: Toestemming
     role: Rol
     settings: Instellingen
-    tasks: Taken
     versioning: Versionering
 contenttype:
     action:
@@ -259,10 +258,8 @@ environment:
             title: 'Beheerde alias bewerken'
         index: Index
         indexes: Indexen
-        total: Totaal
     property:
         base_url: Basis-URL
-        name: Naam
         option:
             default_search: 'In standaardzoekopdracht'
             update_referrers: 'Verwijzers bijwerken'
@@ -574,7 +571,6 @@ key:
     bits: Bits
     build_date: Builddatum
     build_in: Ingebouwd
-    channel: Kanaal
     channels: Kanalen
     ckeditor4: 'CK Editor 4'
     client: Client
@@ -1613,15 +1609,11 @@ user:
         continue: 'Meld u aan bij uw account om verder te gaan'
         forgot: 'Ik ben mijn wachtwoord vergeten'
         message: 'Meld u aan om uw sessie te starten'
-        password: Wachtwoord
-        password1_aria_label: Wachtwoord
-        password_placeholder: Wachtwoord
         remember_me: 'Onthoud mij'
         submit: Aanmelden
         title: Welkom
         user_aria_label: 'E-mail of gebruikersnaam'
         user_placeholder: 'E-mail of gebruikersnaam'
-        username: Gebruikersnaam
         welcome_back: 'Welkom terug!'
     logout:
         exit: Afsluiten

@@ -121,7 +121,6 @@ content_type:
     permission: Permission
     role: Rôle
     settings: Paramètres
-    tasks: Tâches
     versioning: Versioning
 contenttype:
     action:
@@ -259,10 +258,8 @@ environment:
             title: 'Modifier l’alias géré'
         index: Index
         indexes: Indexes
-        total: Total
     property:
         base_url: 'URL de base'
-        name: Nom
         option:
             default_search: 'Dans la recherche par défaut'
             update_referrers: 'Mettre à jour les référents'
@@ -574,7 +571,6 @@ key:
     bits: Bits
     build_date: 'Date de build'
     build_in: Intégré
-    channel: Canal
     channels: Canaux
     ckeditor4: 'CK Editor 4'
     client: Client
@@ -1613,15 +1609,11 @@ user:
         continue: 'Connectez-vous à votre compte pour continuer'
         forgot: 'J’ai oublié mon mot de passe'
         message: 'Connectez-vous pour démarrer votre session'
-        password: 'Mot de passe'
-        password1_aria_label: 'Mot de passe'
-        password_placeholder: 'Mot de passe'
         remember_me: 'Se souvenir de moi'
         submit: 'Se connecter'
         title: Bienvenue
         user_aria_label: 'E-mail ou nom d’utilisateur'
         user_placeholder: 'E-mail ou nom d’utilisateur'
-        username: 'Nom d’utilisateur'
         welcome_back: 'Bon retour !'
     logout:
         exit: Quitter

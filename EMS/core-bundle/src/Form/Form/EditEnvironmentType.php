@@ -34,7 +34,7 @@ class EditEnvironmentType extends AbstractType
         $builder
             ->add('name', IconTextType::class, [
                 'icon' => 'fa fa-tag',
-                'label' => t('environment.property.name', [], 'emsco-core'),
+                'label' => t('field.name', [], 'emsco-core'),
                 'help' => t('environment.edit.notice_rename', [], 'emsco-core'),
             ])
             ->add('label', IconTextType::class, [

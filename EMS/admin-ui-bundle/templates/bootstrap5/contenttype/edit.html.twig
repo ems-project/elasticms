@@ -78,7 +78,7 @@
 
         {% embed '@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig' with {icon: 'fa fa-ticket'} %}
             {% trans_default_domain 'emsco-core' %}
-            {% block title %}{{ 'content_type.tasks'|trans }}{% endblock title %}
+            {% block title %}{{ 'task.title'|trans }}{% endblock title %}
             {% block body %}
                 <div class="row">
                     <div class="col-md-2">{{ form_row(form.settings.tasks_enabled) }}</div>

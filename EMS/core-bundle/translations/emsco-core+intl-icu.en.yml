@@ -121,7 +121,6 @@ content_type:
     permission: Permission
     role: Role
     settings: Settings
-    tasks: Tasks
     versioning: Versioning
 contenttype:
     action:
@@ -259,10 +258,8 @@ environment:
             title: 'Edit managed alias'
         index: Index
         indexes: Indexes
-        total: Total
     property:
         base_url: 'Base URL'
-        name: Name
         option:
             default_search: 'In default search'
             update_referrers: 'Update referrers'
@@ -574,7 +571,6 @@ key:
     bits: Bits
     build_date: 'Build date'
     build_in: 'Build in'
-    channel: Channel
     channels: Channels
     ckeditor4: 'CK Editor 4'
     client: Client
@@ -1613,15 +1609,11 @@ user:
         continue: 'Sign in to your account to continue'
         forgot: 'I forgot my password'
         message: 'Sign in to start your session'
-        password: Password
-        password1_aria_label: Password
-        password_placeholder: Password
         remember_me: 'Remember Me'
         submit: 'Sign In'
         title: Welcome
         user_aria_label: 'Email or Username'
         user_placeholder: 'Email or Username'
-        username: Username
         welcome_back: 'Welcome back!'
     logout:
         exit: Exit

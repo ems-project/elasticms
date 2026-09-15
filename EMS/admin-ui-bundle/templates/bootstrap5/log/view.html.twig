@@ -18,7 +18,7 @@
         {icon: 'fas fa-clock', label: 'key.created'|trans, value: log.created|date(date_time_format)},
         {icon: 'fas fa-message', label: 'field.message'|trans, value: log.message|default('')},
         {icon: 'fas fa-traffic-light', label: 'field.severity'|trans, value: "#{log.levelName} (#{log.level})"},
-        {icon: 'fas fa-road-circle-check', label: 'key.channel'|trans, value: log.channel|default('')},
+        {icon: 'fas fa-road-circle-check', label: 'field.channel'|trans, value: log.channel|default('')},
         {icon: 'fa-solid fa-file-lines', label: 'field.context'|trans, content: log.context|json_encode(constant('JSON_PRETTY_PRINT')), contentTag: 'pre'},
         {icon: 'fa-solid fa-table', label: 'field.extra'|trans, content: log.extra|json_encode(constant('JSON_PRETTY_PRINT')), contentTag: 'pre'},
     ] %}

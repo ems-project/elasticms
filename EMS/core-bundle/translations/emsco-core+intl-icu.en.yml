@@ -14,20 +14,27 @@ action:
     add_release_unpublish: 'Add to release for unpublish'
     add_search_field_option: 'Add an Search Field Option'
     add_sort_option: 'Add a Sort Option'
+    add_task: 'Add a task'
+    add_to_release: 'Add to release'
+    approve: Approve
     attach: Attach
     browse_server: 'Browse server'
     cancel: Cancel
+    change_order: 'Change order'
     clear: Clear
     close: Close
     collapse: Collapse
     collapse_all: 'Collapse all'
     compare: Compare
+    compare_with_current: 'Compare this revision with the current one'
     confirm: Confirm
     confirmation: 'Do you confirm?'
     copy: Copy
     copy_all: 'Copy all'
+    copy_data: 'Copy data'
     create: Create
     create_draft: 'Create {content_type} draft'
+    create_task: 'Create task'
     deactivate: Deactivate
     default_search_for_content_type: 'Default search for {content_type}'
     define: Define
@@ -35,6 +42,7 @@ action:
     delete_all: 'Delete all'
     delete_item: 'Delete item'
     delete_selected: 'Delete selected'
+    delete_task: 'Delete task'
     details: Details
     discard: Discard
     download: Download
@@ -44,6 +52,7 @@ action:
     edit_draft: 'Edit draft'
     edit_entity: 'Edit {entity_name}'
     edit_managed_alias: 'Edit managed alias'
+    edit_revision: 'Edit revision'
     enable: Enable
     exit: Exit
     export: Export
@@ -65,8 +74,10 @@ action:
     publish_release: 'Release now'
     put_back: 'Put back'
     put_back_selected: 'Put back selected'
+    re_index: Re-index
     rebuild: Rebuild
     refresh: Refresh
+    reject: Reject
     relaunch: Relaunch
     reload_page: 'Reload page'
     remove: Remove
@@ -77,11 +88,14 @@ action:
     reorder_content_type_fields: 'Reorder "{content_type}" fields'
     reorganise: Reorganise
     reset_filters: 'Reset filters'
+    revert_to_revision: 'Revert to this revision'
     save: Save
     save_as_draft: 'Save as draft'
     save_close: 'Save and Close'
     save_publish_in: 'Save and publish in {environments}'
+    save_task: 'Save task'
     select_all: 'Select all'
+    send: Send
     set_as_default_search: 'Set as default search'
     set_status_canceled: 'Cancel release'
     set_status_ready: 'Validate release'
@@ -103,16 +117,9 @@ action:
     upload_file: 'Upload file'
     upload_files: 'Upload files'
     view: View
+    view_current_revision: 'View current revision'
     view_draft_in_progress: 'View draft in progress'
-    add_task: 'Add a task'
-    create_task: 'Create task'
-    edit_revision: 'Edit revision'
-    delete_task: 'Delete task'
-    change_order: 'Change order'
-    save_task: 'Save task'
-    approve: Approve
-    reject: Reject
-    send: Send
+    view_this_revision: 'View this revision'
 asset_extractor:
     status: |-
         {color, select,
@@ -221,6 +228,8 @@ core:
     version: 'Version {core} with Symfony {symfony}'
 field:
     accumulate_file: 'Accumulate in one file'
+    action_dropdown_label: 'Actions in {environment}'
+    action_dropdown_sr_only: "Toggle dropdown of {environment}'s actions"
     alias: Alias
     allowed_remote_hosts: 'Allowed remote hosts'
     analyzer: Analyzer
@@ -236,18 +245,21 @@ field:
         mime_type: 'MIME Type :'
         size: 'Size :'
         title: 'Title :'
+    assigned_to: 'Assigned to '
     assignee: Assignee
     attributes: 'Request extra attributes'
     available: Available
     base_url: 'Base URL'
     boolean_clause: 'Boolean clause'
     boost: Boost
+    by_role: 'by role {role}'
     channel: Channel
     char_filter: 'Char filter'
     circles: Circles
     circles_to: 'Circles to'
     color: Color
     command: Command
+    comment: Comment
     compare: Compare
     config: Config
     content_css: 'Content css'
@@ -258,6 +270,7 @@ field:
     copy_to: 'Copy to'
     count: Count
     created_by: 'Created by'
+    creator: Creator
     cron: Cron
     date: Date
     date_build: 'Date build'
@@ -310,6 +323,7 @@ field:
     flags: Flags
     form: Form
     format_tags: 'Format tags'
+    from_sender: 'From {sender}'
     group: Group
     hash: 'Hash signature'
     header: Header
@@ -337,6 +351,7 @@ field:
     language: Language
     language_preferred: 'Language preferred'
     language_ui: 'Language UI'
+    last_modification: 'Last modification'
     last_seen: 'Last seen'
     locale: Locale
     locked_by: 'Locked by'
@@ -353,6 +368,8 @@ field:
     message: Message
     mime_type: 'MIME type'
     name: Name
+    new_version: 'New version'
+    node_name: 'Node name'
     operator: Operator
     options: Options
     orientation: Orientation
@@ -365,7 +382,10 @@ field:
     plural: Plural
     postition_increment_gap: 'Position increment gap'
     public_access: 'Public Access'
+    publish_to: 'Publish to'
+    published_label: 'Published in {environment}'
     query: Query
+    quick_search: 'Quick search'
     rejected_by: 'Rejected by'
     rejected_message: 'Rejected message'
     release_environment_source: 'Source Environment for publication'
@@ -413,6 +433,7 @@ field:
     total_ems: 'Total in EMS'
     translations: Translations
     type: Type
+    unpublish_from: 'Unpublish from'
     unpublish_in: 'Unpublish in {env}'
     uri: URI
     user: User
@@ -424,13 +445,6 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     wysiwyg_profile: 'WYSIWYG profile'
-    assigned_to: 'Assigned to '
-    last_modification: 'Last modification'
-    new_version: 'New version'
-    by_role: 'by role {role}'
-    comment: Comment
-    creator: Creator
-    from_sender: 'From {sender}'
 help:
     add_first_aggregate_option: "Click on 'Add an aggregate option' to create a first Aggregate Option: Click on 'Add an aggregate option' to create a first Aggregate Option"
     add_first_search_field_option: "'Add an search field option' to create a first Search Field Option: Click on 'Add an search field option' to create a first Search Field Option"
@@ -449,14 +463,21 @@ key:
     aggregate_options: 'Aggregate options'
     align_with: 'Align with'
     all_content_types: 'All Content Types'
+    all_linked_documents: 'All linked documents'
     all_releases: 'All releases'
+    all_tasks: 'All tasks'
     analyzers: Analyzers
     anonymous_user: 'Anonymous user'
     applied: Applied
+    assigned_to_me: 'Assigned to me'
+    assignees: Assignees
     attachment: Attachment
+    audit: Audit
+    autosave: Autosave
     bits: Bits
     build_date: 'Build date'
     build_in: 'Build in'
+    by: By
     canceled: Canceled
     channels: Channels
     ckeditor4: 'CK Editor 4'
@@ -470,13 +491,17 @@ key:
     control_sidebar: 'Control sidebar'
     created: Created
     current_password: 'Current password'
+    current_revision: 'Current revision'
+    current_version: 'Current version'
     customized: Customized
     dashboards: Dashboards
     delayed_unassigned_shards: 'Delayed unassigned shards'
+    discard_modifications: 'Discard non-saved modifications'
     document: Document
     documentation: Documentation
     draft: Draft
     draft_in_progress: 'Draft in progress'
+    edit_revision_json: 'JSON raw edit'
     elasticsearch_information: 'Elasticsearch information'
     elements: Elements
     empty: Empty
@@ -484,16 +509,22 @@ key:
     environments_local: 'Local environments'
     error: Error
     export_documents: 'Export documents'
+    failed_jobs: 'Failed jobs'
     filters: Filters
+    finalize: Finalize
+    finalized_by: 'Finalized by'
+    finalized_on: 'Finalized on'
     folders: Folders
     form_root: "Form's root"
     form_submissions: 'Form Submissions'
     forms: Forms
     groups: Groups
+    history: History
     home: Home
     i18n: I18N
     impersonator: Impersonator
     inbox: Inbox
+    information: Information
     initializing_shards: 'Initializing shards'
     inline: Inline
     inline_editor: 'Inline editor'
@@ -503,9 +534,19 @@ key:
     jobs: Jobs
     landscape: Landscape
     last_commands: 'Last commands'
+    last_update: 'Last update'
+    link_to_document: 'Link to document'
+    locked: Locked
     logs: Logs
     loop_count: '#'
     lucene_version: 'Lucene version'
+    mail_action_approved: approved
+    mail_action_assignee_changed: 'changed assignee'
+    mail_action_completed: completed
+    mail_action_created: created
+    mail_action_deleted: deleted
+    mail_action_rejected: rejected
+    mail_action_updated: updated
     managed_aliases: 'Managed aliases'
     mcp: MCP
     mcp_prompts: 'MCP prompts'
@@ -514,10 +555,12 @@ key:
     more_info: 'more info'
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
+    new_versions: 'New versions'
     none: None
     not-applicable: N/A
     not_applicable: 'Not applicable'
     not_defined: 'Not defined'
+    nothing: Nothing
     notice: Notice
     notification: Notification
     notifications: Notifications
@@ -525,10 +568,17 @@ key:
     number_of_nodes: 'Number of nodes'
     number_of_pending_tasks: 'Number of pending tasks'
     'on': 'On'
+    on_lowercase: 'on'
     orphan_indexes: 'Orphan indexes'
     other: Other
+    other_environment_actions: 'Other environment actions'
+    other_revision_actions: 'Other actions on this revision'
     outbox: Outbox
+    overdue_only: 'Overdue only'
     overview: Overview
+    pending: Pending
+    pending_jobs: 'Pending jobs'
+    pendings: Pendings
     portrait: Portrait
     prefix_instance_id: 'Prefix alias with instance ID'
     previous_revision: 'Previous revision'
@@ -540,9 +590,12 @@ key:
     push_menu: 'Push menu'
     query_search: 'Query search'
     query_searches: QuerySearch
+    raw_view: 'Raw view'
     ready: Ready
     recent_activities: 'Recent Activities'
     releases: Releases
+    requested_tasks: 'Requested tasks'
+    requesters: Requesters
     revision_tasks: 'Revision tasks'
     revisions: Revisions
     rollback: Rollback
@@ -564,11 +617,19 @@ key:
     sort_by: 'Sort by'
     sort_option: 'Sort Option'
     sort_options: 'Sort Options'
+    sort_options_lowercase: 'Sort options'
+    statuses: Statuses
     structure: Structure
     subfield: Subfield
     system_logs: 'System logs'
     tagline: Tagline
     task_max_waiting_in_queue_millis: 'Task max waiting in queue'
+    task_status_active: Active
+    task_status_completed: Completed
+    task_status_finished: Finished
+    task_status_planned: Planned
+    task_status_rejected: Rejected
+    tasks: Tasks
     template: Template
     textarea_counter: '{count} characters'
     tiptap: Tiptap
@@ -579,6 +640,7 @@ key:
     unassigned_shards: 'Unassigned shards'
     unknown: Unknown
     unreferenced_aliases: 'Unreferenced aliases'
+    until: Until
     uploaded_files: 'Uploaded Files'
     uploaded_files_logs: 'Uploaded Files Logs'
     user_name_placeholder: '{name}'
@@ -590,35 +652,10 @@ key:
     warnings: Warnings
     webhook_subscriptions: Subscriptions
     webhooks: Webhooks
+    working_area: 'Working area'
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
-    failed_jobs: 'Failed jobs'
-    pending_jobs: 'Pending jobs'
-    all_tasks: 'All tasks'
-    requested_tasks: 'Requested tasks'
-    assigned_to_me: 'Assigned to me'
-    assignees: Assignees
-    overdue_only: 'Overdue only'
-    requesters: Requesters
-    statuses: Statuses
-    new_versions: 'New versions'
-    mail_action_approved: approved
-    mail_action_assignee_changed: 'changed assignee'
-    mail_action_completed: completed
-    mail_action_created: created
-    mail_action_deleted: deleted
-    link_to_document: 'Link to document'
-    mail_action_rejected: rejected
-    mail_action_updated: updated
-    task_status_finished: Finished
-    task_status_completed: Completed
-    task_status_planned: Planned
-    task_status_active: Active
-    task_status_rejected: Rejected
-    tasks: Tasks
-    history: History
-    information: Information
 message:
     action_created: 'A new action "{label}" has been created'
     action_deleted: 'The action "{label}" has been deleted'
@@ -639,12 +676,15 @@ message:
     api_entity_updated: 'Entity {entity} "{name}" has been updated with id {id}'
     asset_extract_error: 'An issue has been raised while extracting information from the file {filename}: {error_message}<br>Please verify your input file and retry or add manually meta information within the info modal menu.'
     asset_extract_file_too_large: 'As this file is larger ({filesize}) than {max_size} its content has not been automatically extracted. You can either force the extraction or specify it manually in the "Info" menu.'
+    cancel_last_modifications_confirm: 'Cancel last modifications ?'
+    cancel_non_saved_modifications: 'Cancel non-saved modifications'
     channel_alias_not_found: 'The channel "{label}" cannot be registered as its alias "{alias}" is missing'
     channel_deleted: 'The channel "{name}" has been deleted'
     confirm_delete_files: 'Are you sure you want to delete the {count} selected files?'
     confirm_delete_folder: |
         Are you sure you want to delete this folder?
         This action will also remove any subfolders and files within.
+    confirm_save_and_publish: 'Confirm save and publish ?'
     content_type_action_not_found: 'Action not found on the content type "{label}"'
     content_type_created: 'The content type "{label}" has been created'
     content_type_deleted: 'The content type "{label}" has been deleted'
@@ -684,17 +724,20 @@ message:
     data_unknown_update_type: 'The document "{label}" has not been replaced as the update type "{update_type}" is unknown'
     data_unlock_revisions_error: 'Unexpected unlock exception'
     data_update_referrers_error: "It was impossible to update the document's referrers"
+    delay_days: '{number} days'
     delete_failed: 'Delete failed'
     delete_this_draft: 'Delete this draft'
     deleted_orphan_index: 'The index "{index}" has been deleted'
     deleted_orphan_indexes: 'Orphan indexes have been deleted'
     difference_count: '{0} No difference|{1} One difference|]1,Inf[ {count} differences'
+    discard_draft_modification_lost: 'Modification made in this draft will be lost'
     document_cant_duplicate_ouuid_required: 'It is impossible to duplicate the document "{label}" as the content type "{content_type}" requires an OUUID first'
     document_compared: 'Compared the revision {revision_id} of the document {content_type}:{ouuid} with the revision {compare_revision_id} of the document {compare_content_type}:{compare_ouuid}'
     document_copied: 'The content of the document "{label}" has been copied to the clipboard'
     document_duplicated: 'The document "{label}" has been used to initiate a new document'
     download_file: 'Download the file'
     draft_deleted: 'Draft "{revision}" has been deleted'
+    draft_modifications_will_be_lost: 'Modifications made in this draft will be lost'
     draft_not_found: 'Draft not found with id "{revisionId}"'
     drag_and_drop_file: 'Drag and drop your file here'
     drag_and_drop_files: 'Drag and drop your files here'
@@ -757,6 +800,7 @@ message:
         Please wait...
     form_deleted: 'The form "{label}" has been deleted'
     form_submission_deleted: 'Form submission with id "{id}" has been deleted!'
+    hide_finished_tasks: 'Hide finished tasks ({number})'
     import_failed: 'Import failed'
     import_file_missing_columns: 'Missing columns in import file, required columns "{columns}"'
     import_file_missing_data: 'Missing data in import file'
@@ -767,18 +811,35 @@ message:
     job_failed: 'The job "{label}" has failed in the environment {environment}'
     job_info: 'About this job'
     job_initialized: 'The job "{label}" has been initialized in the environment {environment}'
+    linked_documents_in: 'Linked documents in {environment} ({length}/{total})'
     loading_information: 'Loading information...'
     loading_more_files: 'Loading more files ...'
     log_content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
+    mail_approved_subject: 'Approved task "{title}" for "{document}"'
+    mail_assignee_changed_subject: 'Assignee changed task "{title}" for "{document}"'
+    mail_completed_subject: 'Ready for validation, task "{title}" for "{document}"'
+    mail_created_subject: 'New task "{title}" for "{document}"'
+    mail_deleted_subject: 'Deleted task "{title}" for "{document}"'
+    mail_greetings: 'Hello {receiver},'
+    mail_kind_regards: 'Kind regards,'
+    mail_overdue_or_active_list: 'Here is the list of overdue or active tasks.'
+    mail_process_urgently: 'Please process them urgently.'
+    mail_rejected_subject: 'Rejected task "{title}" for "{document}"'
+    mail_task_has_been: 'A task has been {action} {role}.'
+    mail_updated_subject: 'Update task "{title}" for "{document}"'
     managed_alias_created: 'Managed alias "{managed_alias_label}" has been created'
     managed_alias_deleted: 'Managed alias "{managed_alias_label}" has been deleted'
     managed_alias_updated: 'Managed alias "{managed_alias_label}" has been updated'
+    messages_in_error: 'Messages in error'
+    messages_in_queue: 'Messages in the queue'
     move_files_success: |-
         {count, plural,
             one {Moving the selected file from "{from}" to "{to}". Please wait...}
             other {Moving # files from "{from}" to "{to}". Please wait...}
         }
+    no_linked_document: 'This document does not have any linked document'
     no_revision_in_env: 'no revision in {env}'
+    no_tasks_for_document: 'No tasks for this document'
     notification_already_pending: 'Another notification {notification_name} is already pending for document "{label}" in {environment} by {notification_username}'
     notification_duplicate: 'At least another notification exists for this object'
     notification_no_results: 'No result to display'
@@ -838,6 +899,7 @@ message:
     revision_compare_not_found: 'Impossible to compare the revision {revision_id} of the document {content_type}:{ouuid} with the revision id {compare_revision_id} as this revision does not exist'
     revision_create_error: 'The revision for the content type "{content_type}" cannot be created, reason: {error_message}'
     revision_create_from_array_error: 'It was impossible to initiate a new {content_type} document due to an internal error'
+    revision_current: 'You are viewing the last revision'
     revision_delete_error: 'The revision {ouuid} for the content type "{content_type}" cannot be deleted, reason: {error_message}'
     revision_deleted: 'The document "{label}" has been deleted'
     revision_deleted_but_referenced: 'The document "{label}" is marked as deleted but is still referenced in {environment}'
@@ -845,6 +907,7 @@ message:
     revision_draft_cannot_be_added_to_release: 'Revision in draft mode can not be added to a release'
     revision_draft_created: 'A new draft has been initiated for the document "{label}"'
     revision_draft_deleted: 'Draft discard for the document "{label}"'
+    revision_draft_in_progress: 'This is a draft in progress'
     revision_draft_publish_error: 'A draft of the document "{label}" cannot be published in {environment}: {error_message}'
     revision_draft_published: 'A draft of the document "{label}" has been published in {environment}'
     revision_draft_updated: 'Updated draft for the document "{label}"'
@@ -862,6 +925,7 @@ message:
     revision_not_published: 'This revision is not published in {environment} anymore'
     revision_not_published_and_duplicate: 'This revision is not published in {environment} anymore and another notification exists'
     revision_only_super_can_finalize_archive: 'Only a super user can finalize an archived revision'
+    revision_previous: 'This is a revision from the past'
     revision_publish_failed: 'The publication of the document "{label}" failed!'
     revision_published: 'The document "{label}" has been published in {environment}'
     revision_read_error: 'The revision for the content type "{content_type}" cannot be found, reason: {error_message}'
@@ -880,6 +944,7 @@ message:
     search_deleted: 'A search has been deleted'
     search_field_option_missing: "Click on 'Add an search field option' to create a first Search Field Option"
     search_paging_limit_exceeded: 'The paging is limited to the first {paging} items, got {total} documents'
+    search_placeholder: Search...
     search_result_count: |-
         {count, plural,
             =-1   {Search result is missing}
@@ -891,12 +956,26 @@ message:
     search_set_as_default: 'This search has been defined as default search'
     search_set_as_default_for_content_type: 'This search has been defined as default search form for the content type {content_type}'
     select_new_location: 'Select new location:'
+    show_finished_tasks: 'Show finished tasks ({number})'
     something_wrong: 'There is something wrong with this application.'
     sort_option_missing: "Click on 'Add a Sort Option' to create a first Sort Option"
     still_in_target: 'Still in {target}'
     subfield_added: 'The subfield "{name}" has been added'
     subfield_name_mandatory: 'The subfield name is mandatory'
     subfield_name_not_valid: 'The subfield name is not valid (format: {field_format})'
+    task_created: 'Task "{title}" successfully created.'
+    task_deleted: 'Task "{title}" successfully deleted.'
+    task_history_approved: '{user} approved the task'
+    task_history_completed: '{user} completed the task'
+    task_history_created: '{user} created the task'
+    task_history_planned: '{user} planned the task'
+    task_history_progress: 'The task became active for {assignee}'
+    task_history_rejected: '{user} rejected the task'
+    task_history_updated: '{user} updated the task'
+    task_revision_locked: 'Revision locked by {user} until {time}'
+    task_search_warning: 'More than {count} tasks, search on document title is impossible.'
+    task_updated: 'Task "{title}" successfully updated.'
+    tika_server_not_configured: 'Tika server is not configured'
     up_to_date: 'Everything is up to date.'
     user_api_key_generated: 'New API key for the user {user_display_name}: {api_key}'
     user_custom_form_not_found: 'Custom user form "{name}" not found'
@@ -939,36 +1018,6 @@ message:
     wysiwyg_styles_set_updated: 'Style set "{name}" has been updated'
     xliff_not_current_revision: 'The revision {revision_id} of {ouuid} is no longer the last revision. The translations were not imported.'
     xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
-    messages_in_error: 'Messages in error'
-    messages_in_queue: 'Messages in the queue'
-    task_created: 'Task "{title}" successfully created.'
-    task_search_warning: 'More than {count} tasks, search on document title is impossible.'
-    delay_days: '{number} days'
-    task_deleted: 'Task "{title}" successfully deleted.'
-    hide_finished_tasks: 'Hide finished tasks ({number})'
-    show_finished_tasks: 'Show finished tasks ({number})'
-    no_tasks_for_document: 'No tasks for this document'
-    task_revision_locked: 'Revision locked by {user} until {time}'
-    mail_approved_subject: 'Approved task "{title}" for "{document}"'
-    mail_assignee_changed_subject: 'Assignee changed task "{title}" for "{document}"'
-    mail_completed_subject: 'Ready for validation, task "{title}" for "{document}"'
-    mail_created_subject: 'New task "{title}" for "{document}"'
-    mail_deleted_subject: 'Deleted task "{title}" for "{document}"'
-    mail_greetings: 'Hello {receiver},'
-    mail_kind_regards: 'Kind regards,'
-    mail_overdue_or_active_list: 'Here is the list of overdue or active tasks.'
-    mail_process_urgently: 'Please process them urgently.'
-    mail_rejected_subject: 'Rejected task "{title}" for "{document}"'
-    mail_task_has_been: 'A task has been {action} {role}.'
-    mail_updated_subject: 'Update task "{title}" for "{document}"'
-    task_history_approved: '{user} approved the task'
-    task_history_completed: '{user} completed the task'
-    task_history_created: '{user} created the task'
-    task_history_planned: '{user} planned the task'
-    task_history_progress: 'The task became active for {assignee}'
-    task_history_rejected: '{user} rejected the task'
-    task_history_updated: '{user} updated the task'
-    task_updated: 'Task "{title}" successfully updated.'
 option:
     allow_add: 'Allow add'
     default_search: 'In default search'
@@ -1044,6 +1093,7 @@ title:
     add_environment: 'Add a new Environment'
     add_folder: 'Add folder'
     add_form: 'Add a form'
+    add_new_task: 'Add a new task'
     add_release: 'Add a Release'
     align_environments: 'Align Environments'
     align_environments_subtitle: 'time to align environments?'
@@ -1056,13 +1106,17 @@ title:
     delete_file: 'Delete file'
     delete_files_count: 'Delete {count} files'
     delete_folder: 'Delete folder'
+    deleted_task: 'Deleted task : {title}'
     drafts_in_progress: '{pluralName} drafts in progress'
     edit_environment: 'Edit the environment "{name}"'
     edit_environment_short: 'Edit environment'
     edit_form: 'Edit a form'
     edit_release: 'Edit a Release'
+    edit_revision_content_type: 'Edit the {contentType}: {revision} '
+    edit_task: 'Edit task : {title}'
     error: 'An Error Occurred'
     error_page: 'Oops! An Error Occurred'
+    filtering_tasks: 'Filtering the tasks'
     items_in_trash: '{pluralName} in trash'
     job_list: "Job's list"
     list_environments: 'List Environments'
@@ -1070,6 +1124,7 @@ title:
     log_of: 'Log of the {created}'
     log_tagline: 'Who did what'
     logs_of: 'Logs of {created}'
+    messages_in_bus: 'Messages in the bus'
     move_files: |-
         {count, plural,
             one {Move file}
@@ -1077,11 +1132,13 @@ title:
         }
     move_folder: 'Move folder'
     new_content_type: 'New {content_type}'
+    new_draft: '{contentType}: new draft'
     new_environment_short: 'New Environment'
     new_label: 'New {label}'
     notifications_none_pending: 'No pending notifications'
     out_of_sync: 'Out of sync'
     pick_a_release: 'Pick a release for "{label}"'
+    planned_tasks: 'Planned tasks'
     profile: 'Your profile'
     profile_tagline: 'All about you'
     publish_search_result: 'Publish {count} {content_type} from {environment}'
@@ -1093,8 +1150,16 @@ title:
     rename_file: 'Rename file'
     rename_folder: 'Rename folder'
     reorder_form_fields: 'Reorder fields of form: {label}'
+    revisions_of_content_type: 'Revisions of {contentType}: {title}'
+    search_engine_results: 'Search engine: {total} results'
+    search_result_error: 'Error with the search result'
     select_environments_to_compare: 'Select Environments to compare'
     select_your_options: 'Select your options'
+    systems_status: "Systems' status"
+    systems_status_tagline: 'Is everything working as expected?'
+    task_modal: 'Task: {title}'
+    user_not_in_group: 'User not in group'
+    users_in_group: 'Users in group'
     view_custom: 'View {name} of the {contentType} "{label}" as indexed in {environment}'
     view_ems_id: 'View {content_type}:{id}'
     view_environment: 'View the environment {name}'
@@ -1102,17 +1167,6 @@ title:
     view_file: 'View file'
     view_file_modal: 'View file: {name}'
     view_recursive: 'Recursive view'
-    messages_in_bus: 'Messages in the bus'
-    systems_status: "Systems' status"
-    systems_status_tagline: 'Is everything working as expected?'
-    users_in_group: 'Users in group'
-    user_not_in_group: 'User not in group'
-    add_new_task: 'Add a new task'
-    deleted_task: 'Deleted task : {title}'
-    filtering_tasks: 'Filtering the tasks'
-    task_modal: 'Task: {title}'
-    planned_tasks: 'Planned tasks'
-    edit_task: 'Edit task : {title}'
 type:
     confirm: |-
         {type, select,
@@ -1478,103 +1532,3 @@ view:
                 permissions_overview: 'Permissions Overview'
                 specific_permissions: 'Permission for {content_type_singular_name}'
                 specific_roles: 'Specific roles of fields'
-views:
-    data:
-        edit-revision-html:
-            cancel-label: 'Discard non-saved modifications'
-            discard-draft-label: 'Delete this draft'
-            discard-draft-message: 'Modifications made in this draft will be lost'
-            new-draft-title: '{contentType}: new draft'
-            subtitle: 'Working area'
-            title: 'Edit the {contentType}: {revision} '
-        revisions-data-html:
-            all-linked-documents: 'All linked documents'
-            audit: Audit
-            by: By
-            current-revision: 'Current revision'
-            current-version: 'Current version'
-            draft-in-progress: 'Draft in progress'
-            finalized-by: 'Finalized by'
-            finalized-on: 'Finalized on'
-            last-update: 'Last update'
-            linked-documents-in: 'Linked documents in {environment} ({length}/{total})'
-            modified-by: 'Modified by'
-            new-version: 'New version'
-            no-linked-document: 'This document does not have any linked document'
-            nothing: Nothing
-            'on': 'on'
-            pending: Pending
-            previous-revision: 'Previous revision'
-            revision: Revision
-            revision-current: 'You are viewing the last revision'
-            revision-draft-in-progress: 'This is a draft in progress'
-            revision-previous: 'This is a revision from the past'
-            revisions: Revisions
-            revisions.th.actions: Actions
-            revisions.th.autosave: Autosave
-            revisions.th.date: Date
-            revisions.th.environments: Environments
-            revisions.th.finalize: Finalize
-            revisions.th.id: '#'
-            revisions.th.locked: Locked
-            revisions.th.pendings: Pendings
-            status: Status
-            title: 'Revisions of {contentType}: {title}'
-            until: Until
-            version: Version
-    elasticsearch:
-        cluster:
-            bits: Bits
-            build-date: 'Build date'
-            cluster-uuid: 'Cluster UUID'
-            lucene-version: 'Lucene version'
-            node-name: 'Node name'
-            public-key: 'Public key'
-            tagline: Tagline
-            tika-server-not-configured: 'Tika server is not configured'
-            version: Version
-        export-search:
-            title: 'Export documents'
-        search:
-            error_title: 'Error with the search result'
-            pagetitle: Search
-            sort-options: 'Sort options'
-            subtitle: '{total}'
-            title: 'Search engine: {total} results'
-    elements:
-        object-toolbar-html:
-            edit-draft: 'Edit draft'
-            new-draft: Edit
-            view-current-revision: 'View current revision'
-            view-draft-in-progress: 'View draft in progress'
-        object-views-button:
-            action-dropdown-label: 'Actions in {environment}'
-            action-dropdown-sr-only: "Toggle dropdown of {environment}'s actions"
-            copy-data: 'Copy data'
-            published-label: 'Published in {environment}'
-            raw-view: 'Raw view'
-        revision-toolbar-html:
-            add-to-release: 'Add to release'
-            cancel-last-updates-label: 'Cancel non-saved modifications'
-            cancel-last-updates-message: 'Cancel non-saved modifications'
-            cancel-message: 'Cancel last modifications ?'
-            compare-label: 'Compare this revision with the current one'
-            discard-draft-label: 'Delete this draft'
-            discard-draft-message: 'Modification made in this draft will be lost'
-            edit-draft-label: 'Edit draft'
-            edit-revision-json: 'JSON raw edit'
-            edit-revision-label: 'Edit revision'
-            finalize-draft-label: 'Save and publish in {environment}'
-            finalize-draft-message: 'Confirm save and publish ?'
-            new-draft-label: Edit
-            other-environment-actions: 'Other environment actions'
-            other-revision-actions: 'Other actions on this revision'
-            publish-to-label: 'Publish to'
-            re-index-label: Re-index
-            revert-revision-label: 'Revert to this revision'
-            unpublish-from-label: 'Unpublish from'
-            view-label: 'View this revision'
-        side-menu-html:
-            anonymous-user: 'Anonymous user'
-            quick-search-label: 'Quick search'
-            quick-search-placeholder: Search...

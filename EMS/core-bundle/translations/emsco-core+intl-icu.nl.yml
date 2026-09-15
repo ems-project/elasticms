@@ -14,20 +14,27 @@ action:
     add_release_unpublish: 'Toevoegen aan release voor depublicatie'
     add_search_field_option: 'Zoekveldoptie toevoegen'
     add_sort_option: 'Sorteeroptie toevoegen'
+    add_task: 'Taak toevoegen'
+    add_to_release: 'Toevoegen aan release'
+    approve: Goedkeuren
     attach: Koppelen
     browse_server: 'Server doorzoeken'
     cancel: Annuleren
+    change_order: 'Volgorde wijzigen'
     clear: Wissen
     close: Sluiten
     collapse: Inklappen
     collapse_all: 'Alles inklappen'
     compare: Vergelijken
+    compare_with_current: 'Deze revisie vergelijken met de huidige'
     confirm: Bevestigen
     confirmation: 'Bevestigt u dit?'
     copy: Kopiëren
     copy_all: 'Alles kopiëren'
+    copy_data: 'Gegevens kopiëren'
     create: Aanmaken
     create_draft: 'Concept voor {content_type} aanmaken'
+    create_task: 'Taak aanmaken'
     deactivate: Deactiveren
     default_search_for_content_type: 'Standaardzoekopdracht voor {content_type}'
     define: Definiëren
@@ -35,6 +42,7 @@ action:
     delete_all: 'Alles verwijderen'
     delete_item: 'Item verwijderen'
     delete_selected: 'Selectie verwijderen'
+    delete_task: 'Taak verwijderen'
     details: Details
     discard: Verwerpen
     download: Downloaden
@@ -44,6 +52,7 @@ action:
     edit_draft: 'Concept bewerken'
     edit_entity: '{entity_name} bewerken'
     edit_managed_alias: 'Beheerde alias bewerken'
+    edit_revision: 'Revisie bewerken'
     enable: Inschakelen
     exit: Afsluiten
     export: Exporteren
@@ -65,8 +74,10 @@ action:
     publish_release: 'Nu publiceren'
     put_back: Terugplaatsen
     put_back_selected: 'Selectie terugplaatsen'
+    re_index: Herindexeren
     rebuild: Heropbouwen
     refresh: Vernieuwen
+    reject: Weigeren
     relaunch: Herstarten
     reload_page: 'Pagina herladen'
     remove: Verwijderen
@@ -77,11 +88,14 @@ action:
     reorder_content_type_fields: '"{content_type}"-velden hersorteren'
     reorganise: Reorganiseren
     reset_filters: 'Filters resetten'
+    revert_to_revision: 'Terugkeren naar deze revisie'
     save: Opslaan
     save_as_draft: 'Opslaan als concept'
     save_close: 'Opslaan en sluiten'
     save_publish_in: 'Opslaan en publiceren in {environments}'
+    save_task: 'Taak opslaan'
     select_all: 'Alles selecteren'
+    send: Verzenden
     set_as_default_search: 'Instellen als standaardzoekopdracht'
     set_status_canceled: 'Release annuleren'
     set_status_ready: 'Release valideren'
@@ -103,16 +117,9 @@ action:
     upload_file: 'Bestand uploaden'
     upload_files: 'Bestanden uploaden'
     view: Bekijken
+    view_current_revision: 'Huidige revisie bekijken'
     view_draft_in_progress: 'Concept in uitvoering bekijken'
-    add_task: 'Taak toevoegen'
-    create_task: 'Taak aanmaken'
-    edit_revision: 'Revisie bewerken'
-    delete_task: 'Taak verwijderen'
-    change_order: 'Volgorde wijzigen'
-    save_task: 'Taak opslaan'
-    approve: Goedkeuren
-    reject: Weigeren
-    send: Verzenden
+    view_this_revision: 'Deze revisie bekijken'
 asset_extractor:
     status: |-
         {color, select,
@@ -221,6 +228,8 @@ core:
     version: 'Versie {core} met Symfony {symfony}'
 field:
     accumulate_file: 'In één bestand verzamelen'
+    action_dropdown_label: 'Acties in {environment}'
+    action_dropdown_sr_only: 'Dropdown met acties van {environment} omschakelen'
     alias: Alias
     allowed_remote_hosts: 'Toegestane externe hosts'
     analyzer: Analyzer
@@ -236,18 +245,21 @@ field:
         mime_type: 'MIME-type:'
         size: 'Grootte:'
         title: 'Titel:'
+    assigned_to: 'Toegewezen aan '
     assignee: Toegewezene
     attributes: 'Extra request-attributen'
     available: Beschikbaar
     base_url: Basis-URL
     boolean_clause: 'Booleaanse clausule'
     boost: Boost
+    by_role: 'per rol {role}'
     channel: Kanaal
     char_filter: 'Char filter'
     circles: Kringen
     circles_to: 'Kringen naar'
     color: Kleur
     command: Commando
+    comment: Commentaar
     compare: Vergelijken
     config: Configuratie
     content_css: Content-CSS
@@ -258,6 +270,7 @@ field:
     copy_to: 'Kopiëren naar'
     count: Aantal
     created_by: 'Aangemaakt door'
+    creator: Maker
     cron: Cron
     date: Datum
     date_build: Builddatum
@@ -310,6 +323,7 @@ field:
     flags: Vlaggen
     form: Formulier
     format_tags: Formaat-tags
+    from_sender: 'Van {sender}'
     group: Groep
     hash: Hash-handtekening
     header: Header
@@ -337,6 +351,7 @@ field:
     language: Taal
     language_preferred: Voorkeurstaal
     language_ui: Interfacetaal
+    last_modification: 'Laatste wijziging'
     last_seen: 'Laatst gezien'
     locale: Locale
     locked_by: 'Vergrendeld door'
@@ -353,6 +368,8 @@ field:
     message: Bericht
     mime_type: MIME-type
     name: Naam
+    new_version: 'Nieuwe versie'
+    node_name: 'Naam van het knooppunt'
     operator: Operator
     options: Opties
     orientation: Oriëntatie
@@ -365,7 +382,10 @@ field:
     plural: Meervoud
     postition_increment_gap: 'Positie-increment gap'
     public_access: 'Publieke toegang'
+    publish_to: 'Publiceren naar'
+    published_label: 'Gepubliceerd in {environment}'
     query: Query
+    quick_search: 'Snel zoeken'
     rejected_by: 'Geweigerd door'
     rejected_message: Weigeringsbericht
     release_environment_source: 'Bronomgeving voor publicatie'
@@ -413,6 +433,7 @@ field:
     total_ems: 'Totaal in EMS'
     translations: Vertalingen
     type: Type
+    unpublish_from: 'Depubliceren van'
     unpublish_in: 'Depubliceren in {env}'
     uri: URI
     user: Gebruiker
@@ -424,13 +445,6 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     wysiwyg_profile: WYSIWYG-profiel
-    assigned_to: 'Toegewezen aan '
-    last_modification: 'Laatste wijziging'
-    new_version: 'Nieuwe versie'
-    by_role: 'per rol {role}'
-    comment: Commentaar
-    creator: Maker
-    from_sender: 'Van {sender}'
 help:
     add_first_aggregate_option: "Klik op 'Aggregatieoptie toevoegen' om een eerste aggregatieoptie te maken"
     add_first_search_field_option: "Klik op 'Zoekveldoptie toevoegen' om een eerste zoekveldoptie te maken"
@@ -449,14 +463,21 @@ key:
     aggregate_options: Aggregatieopties
     align_with: 'Uitlijnen met'
     all_content_types: 'Alle contenttypes'
+    all_linked_documents: 'Alle gekoppelde documenten'
     all_releases: 'Alle releases'
+    all_tasks: 'Alle taken'
     analyzers: Analysatoren
     anonymous_user: 'Anonieme gebruiker'
     applied: Toegepast
+    assigned_to_me: 'Aan mij toegewezen'
+    assignees: Toegewezenen
     attachment: Bijlage
+    audit: Audit
+    autosave: 'Automatisch opslaan'
     bits: Bits
     build_date: Builddatum
     build_in: Ingebouwd
+    by: Door
     canceled: Geannuleerd
     channels: Kanalen
     ckeditor4: 'CK Editor 4'
@@ -470,13 +491,17 @@ key:
     control_sidebar: Controlezijbalk
     created: Aangemaakt
     current_password: 'Huidig wachtwoord'
+    current_revision: 'Huidige revisie'
+    current_version: 'Huidige versie'
     customized: Aangepast
     dashboards: Dashboards
     delayed_unassigned_shards: 'Vertraagde niet-toegewezen shards'
+    discard_modifications: 'Niet-opgeslagen wijzigingen verwerpen'
     document: Document
     documentation: Documentatie
     draft: Concept
     draft_in_progress: 'Concept in uitvoering'
+    edit_revision_json: 'Ruwe JSON-bewerking'
     elasticsearch_information: Elasticsearch-informatie
     elements: Elementen
     empty: Leeg
@@ -484,16 +509,22 @@ key:
     environments_local: 'Lokale omgevingen'
     error: Fout
     export_documents: 'Documenten exporteren'
+    failed_jobs: 'Mislukte jobs'
     filters: Filters
+    finalize: Finaliseren
+    finalized_by: 'Gefinaliseerd door'
+    finalized_on: 'Gefinaliseerd op'
     folders: Mappen
     form_root: 'Wortel van het formulier'
     form_submissions: Formulierinzendingen
     forms: Formulieren
     groups: Groepen
+    history: Geschiedenis
     home: Start
     i18n: I18N
     impersonator: Impersonator
     inbox: Inbox
+    information: Informatie
     initializing_shards: 'Initialiserende shards'
     inline: Inline
     inline_editor: 'Inline editor'
@@ -503,9 +534,19 @@ key:
     jobs: Jobs
     landscape: Landschap
     last_commands: 'Laatste commando’s'
+    last_update: 'Laatste update'
+    link_to_document: 'Link naar document'
+    locked: Vergrendeld
     logs: Logs
     loop_count: '#'
     lucene_version: Lucene-versie
+    mail_action_approved: goedgekeurd
+    mail_action_assignee_changed: 'toegewezene gewijzigd'
+    mail_action_completed: voltooid
+    mail_action_created: aangemaakt
+    mail_action_deleted: verwijderd
+    mail_action_rejected: geweigerd
+    mail_action_updated: bijgewerkt
     managed_aliases: 'Beheerde aliassen'
     mcp: MCP
     mcp_prompts: MCP-prompts
@@ -514,10 +555,12 @@ key:
     more_info: 'meer info'
     new_password: 'Nieuw wachtwoord'
     new_password_confirmation: 'Herhaal nieuw wachtwoord'
+    new_versions: 'Nieuwe versies'
     none: Geen
     not-applicable: N.v.t.
     not_applicable: 'Niet van toepassing'
     not_defined: 'Niet gedefinieerd'
+    nothing: Niets
     notice: Melding
     notification: Notificatie
     notifications: Notificaties
@@ -525,10 +568,17 @@ key:
     number_of_nodes: 'Aantal nodes'
     number_of_pending_tasks: 'Aantal wachtende taken'
     'on': Op
+    on_lowercase: op
     orphan_indexes: 'Verweesde indexen'
     other: Overige
+    other_environment_actions: 'Andere omgevingsacties'
+    other_revision_actions: 'Andere acties op deze revisie'
     outbox: Outbox
+    overdue_only: 'Alleen te laat'
     overview: Overzicht
+    pending: Wachtend
+    pending_jobs: 'Wachtende jobs'
+    pendings: Wachtenden
     portrait: Portret
     prefix_instance_id: 'Alias voorafgaan met instance-ID'
     previous_revision: 'Vorige revisie'
@@ -540,9 +590,12 @@ key:
     push_menu: Hoofdmenu
     query_search: 'Query search'
     query_searches: QuerySearch
+    raw_view: 'Ruwe weergave'
     ready: Klaar
     recent_activities: 'Recente activiteiten'
     releases: Releases
+    requested_tasks: 'Aangevraagde taken'
+    requesters: Aanvragers
     revision_tasks: Revisietaken
     revisions: Revisies
     rollback: Terugdraaien
@@ -564,11 +617,19 @@ key:
     sort_by: 'Sorteren op'
     sort_option: Sorteeroptie
     sort_options: Sorteeropties
+    sort_options_lowercase: Sorteeropties
+    statuses: Statussen
     structure: Structuur
     subfield: Subveld
     system_logs: Systeemlogboeken
     tagline: Tagline
     task_max_waiting_in_queue_millis: 'Maximale wachttijd van taak in wachtrij'
+    task_status_active: Actief
+    task_status_completed: Voltooid
+    task_status_finished: Afgerond
+    task_status_planned: Gepland
+    task_status_rejected: Geweigerd
+    tasks: Taken
     template: Sjabloon
     textarea_counter: '{count} tekens'
     tiptap: Tiptap
@@ -579,6 +640,7 @@ key:
     unassigned_shards: 'Niet-toegewezen shards'
     unknown: Onbekend
     unreferenced_aliases: 'Niet-gerefereerde aliassen'
+    until: Tot
     uploaded_files: 'Geüploade bestanden'
     uploaded_files_logs: 'Logs van geüploade bestanden'
     user_name_placeholder: '{name}'
@@ -590,35 +652,10 @@ key:
     warnings: Waarschuwingen
     webhook_subscriptions: Abonnementen
     webhooks: Webhooks
+    working_area: Werkruimte
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profielen
     wysiwyg_style_sets: Stijlsets
-    failed_jobs: 'Mislukte jobs'
-    pending_jobs: 'Wachtende jobs'
-    all_tasks: 'Alle taken'
-    requested_tasks: 'Aangevraagde taken'
-    assigned_to_me: 'Aan mij toegewezen'
-    assignees: Toegewezenen
-    overdue_only: 'Alleen te laat'
-    requesters: Aanvragers
-    statuses: Statussen
-    new_versions: 'Nieuwe versies'
-    mail_action_approved: goedgekeurd
-    mail_action_assignee_changed: 'toegewezene gewijzigd'
-    mail_action_completed: voltooid
-    mail_action_created: aangemaakt
-    mail_action_deleted: verwijderd
-    link_to_document: 'Link naar document'
-    mail_action_rejected: geweigerd
-    mail_action_updated: bijgewerkt
-    task_status_finished: Afgerond
-    task_status_completed: Voltooid
-    task_status_planned: Gepland
-    task_status_active: Actief
-    task_status_rejected: Geweigerd
-    tasks: Taken
-    history: Geschiedenis
-    information: Informatie
 message:
     action_created: 'Een nieuwe actie "{label}" is aangemaakt'
     action_deleted: 'De actie "{label}" is verwijderd'
@@ -639,12 +676,15 @@ message:
     api_entity_updated: 'Entiteit {entity} "{name}" is bijgewerkt met id {id}'
     asset_extract_error: 'Er is een probleem opgetreden bij het extraheren van informatie uit het bestand {filename}: {error_message}<br>Controleer uw invoerbestand en probeer opnieuw, of voeg de meta-informatie handmatig toe via het info-menu.'
     asset_extract_file_too_large: 'Aangezien dit bestand groter is ({filesize}) dan {max_size}, is de inhoud niet automatisch geëxtraheerd. U kunt de extractie forceren of de inhoud handmatig opgeven in het menu "Info".'
+    cancel_last_modifications_confirm: 'Laatste wijzigingen annuleren?'
+    cancel_non_saved_modifications: 'Niet-opgeslagen wijzigingen annuleren'
     channel_alias_not_found: 'Het kanaal "{label}" kan niet worden geregistreerd omdat de alias "{alias}" ontbreekt'
     channel_deleted: 'Het kanaal "{name}" is verwijderd'
     confirm_delete_files: 'Weet u zeker dat u de {count} geselecteerde bestanden wilt verwijderen?'
     confirm_delete_folder: |
         Weet u zeker dat u deze map wilt verwijderen?
         Deze actie verwijdert ook alle submappen en bestanden die erin zitten.
+    confirm_save_and_publish: 'Opslaan en publiceren bevestigen?'
     content_type_action_not_found: 'Actie niet gevonden op het content type "{label}"'
     content_type_created: 'Het content type "{label}" is aangemaakt'
     content_type_deleted: 'Het content type "{label}" is verwijderd'
@@ -684,17 +724,20 @@ message:
     data_unknown_update_type: 'Het document "{label}" is niet vervangen omdat het updatetype "{update_type}" onbekend is'
     data_unlock_revisions_error: 'Onverwachte fout bij het ontgrendelen'
     data_update_referrers_error: 'Het was onmogelijk om de verwijzingen naar het document bij te werken'
+    delay_days: '{number} dagen'
     delete_failed: 'Verwijderen mislukt'
     delete_this_draft: 'Dit concept verwijderen'
     deleted_orphan_index: 'De index "{index}" is verwijderd'
     deleted_orphan_indexes: 'Verweesde indexen zijn verwijderd'
     difference_count: '{0} Geen verschil|{1} Eén verschil|]1,Inf[ {count} verschillen'
+    discard_draft_modification_lost: 'Wijzigingen in dit concept gaan verloren'
     document_cant_duplicate_ouuid_required: 'Het is niet mogelijk om het document "{label}" te dupliceren omdat het content type "{content_type}" eerst een OUUID vereist'
     document_compared: 'Revisie {revision_id} van het document {content_type}:{ouuid} vergeleken met revisie {compare_revision_id} van het document {compare_content_type}:{compare_ouuid}'
     document_copied: 'De inhoud van het document "{label}" is naar het klembord gekopieerd'
     document_duplicated: 'Het document "{label}" is gebruikt om een nieuw document te starten'
     download_file: 'Bestand downloaden'
     draft_deleted: 'Concept "{revision}" is verwijderd'
+    draft_modifications_will_be_lost: 'Wijzigingen in dit concept gaan verloren'
     draft_not_found: 'Concept niet gevonden met id "{revisionId}"'
     drag_and_drop_file: 'Sleep uw bestand hierheen'
     drag_and_drop_files: 'Sleep uw bestanden hierheen'
@@ -757,6 +800,7 @@ message:
         Even geduld...
     form_deleted: 'Het formulier "{label}" is verwijderd'
     form_submission_deleted: 'Formulierinzending met id "{id}" is verwijderd!'
+    hide_finished_tasks: 'Afgewerkte taken verbergen ({number})'
     import_failed: 'Import mislukt'
     import_file_missing_columns: 'Ontbrekende kolommen in het importbestand, vereiste kolommen "{columns}"'
     import_file_missing_data: 'Ontbrekende gegevens in het importbestand'
@@ -767,18 +811,35 @@ message:
     job_failed: 'De taak "{label}" is mislukt in de omgeving {environment}'
     job_info: 'Over deze job'
     job_initialized: 'De taak "{label}" is geïnitialiseerd in de omgeving {environment}'
+    linked_documents_in: 'Gekoppelde documenten in {environment} ({length}/{total})'
     loading_information: 'Informatie laden...'
     loading_more_files: 'Meer bestanden laden...'
     log_content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
+    mail_approved_subject: 'Taak "{title}" goedgekeurd voor "{document}"'
+    mail_assignee_changed_subject: 'Toegewezene gewijzigd voor taak "{title}" van "{document}"'
+    mail_completed_subject: 'Klaar voor validatie, taak "{title}" voor "{document}"'
+    mail_created_subject: 'Nieuwe taak "{title}" voor "{document}"'
+    mail_deleted_subject: 'Taak "{title}" verwijderd voor "{document}"'
+    mail_greetings: 'Hallo {receiver},'
+    mail_kind_regards: 'Met vriendelijke groeten,'
+    mail_overdue_or_active_list: 'Hier is de lijst met achterstallige of actieve taken.'
+    mail_process_urgently: 'Behandel ze dringend.'
+    mail_rejected_subject: 'Taak "{title}" geweigerd voor "{document}"'
+    mail_task_has_been: 'Een taak is {action} {role}.'
+    mail_updated_subject: 'Taak "{title}" bijgewerkt voor "{document}"'
     managed_alias_created: 'Beheerde alias "{managed_alias_label}" is aangemaakt'
     managed_alias_deleted: 'Beheerde alias "{managed_alias_label}" is verwijderd'
     managed_alias_updated: 'Beheerde alias "{managed_alias_label}" is bijgewerkt'
+    messages_in_error: 'Berichten met fout'
+    messages_in_queue: 'Berichten in de wachtrij'
     move_files_success: |-
         {count, plural,
             one {Het geselecteerde bestand verplaatsen van "{from}" naar "{to}". Even geduld...}
             other {# bestanden verplaatsen van "{from}" naar "{to}". Even geduld...}
         }
+    no_linked_document: 'Dit document heeft geen gekoppelde documenten'
     no_revision_in_env: 'geen revisie in {env}'
+    no_tasks_for_document: 'Geen taken voor dit document'
     notification_already_pending: 'Er is al een andere notificatie {notification_name} in behandeling voor het document "{label}" in {environment} door {notification_username}'
     notification_duplicate: 'Er bestaat minstens één andere notificatie voor dit object'
     notification_no_results: 'Geen resultaat om weer te geven'
@@ -838,6 +899,7 @@ message:
     revision_compare_not_found: 'Onmogelijk om revisie {revision_id} van het document {content_type}:{ouuid} te vergelijken met revisie {compare_revision_id} omdat deze revisie niet bestaat'
     revision_create_error: 'De revisie voor het content type "{content_type}" kan niet worden aangemaakt, reden: {error_message}'
     revision_create_from_array_error: 'Het was niet mogelijk om een nieuw {content_type} document te starten door een interne fout'
+    revision_current: 'U bekijkt de laatste revisie'
     revision_delete_error: 'De revisie {ouuid} voor het content type "{content_type}" kan niet worden verwijderd, reden: {error_message}'
     revision_deleted: 'Het document "{label}" is verwijderd'
     revision_deleted_but_referenced: 'Het document "{label}" is gemarkeerd als verwijderd maar wordt nog steeds gerefereerd in {environment}'
@@ -845,6 +907,7 @@ message:
     revision_draft_cannot_be_added_to_release: 'Een revisie in conceptmodus kan niet worden toegevoegd aan een release'
     revision_draft_created: 'Er is een nieuw concept gestart voor het document "{label}"'
     revision_draft_deleted: 'Concept verworpen voor het document "{label}"'
+    revision_draft_in_progress: 'Dit is een concept in uitvoering'
     revision_draft_publish_error: 'Een concept van het document "{label}" kan niet worden gepubliceerd in {environment}: {error_message}'
     revision_draft_published: 'Een concept van het document "{label}" is gepubliceerd in {environment}'
     revision_draft_updated: 'Concept bijgewerkt voor het document "{label}"'
@@ -862,6 +925,7 @@ message:
     revision_not_published: 'Deze revisie is niet meer gepubliceerd in {environment}'
     revision_not_published_and_duplicate: 'Deze revisie is niet meer gepubliceerd in {environment} en er bestaat een andere notificatie'
     revision_only_super_can_finalize_archive: 'Alleen een supergebruiker kan een gearchiveerde revisie finaliseren'
+    revision_previous: 'Dit is een revisie uit het verleden'
     revision_publish_failed: 'De publicatie van het document "{label}" is mislukt!'
     revision_published: 'Het document "{label}" is gepubliceerd in {environment}'
     revision_read_error: 'De revisie voor het content type "{content_type}" kan niet worden gevonden, reden: {error_message}'
@@ -880,6 +944,7 @@ message:
     search_deleted: 'Een zoekopdracht is verwijderd'
     search_field_option_missing: "Klik op 'Zoekveldoptie toevoegen' om een eerste zoekveldoptie te maken"
     search_paging_limit_exceeded: 'De paginering is beperkt tot de eerste {paging} items, {total} documenten gevonden'
+    search_placeholder: Zoeken...
     search_result_count: |-
         {count, plural,
             =-1   {Zoekresultaat ontbreekt}
@@ -891,12 +956,26 @@ message:
     search_set_as_default: 'Deze zoekopdracht is ingesteld als standaardzoekopdracht'
     search_set_as_default_for_content_type: 'Deze zoekopdracht is ingesteld als standaard zoekformulier voor het content type {content_type}'
     select_new_location: 'Selecteer nieuwe locatie:'
+    show_finished_tasks: 'Afgewerkte taken tonen ({number})'
     something_wrong: 'Er is iets mis met deze applicatie.'
     sort_option_missing: "Klik op 'Sorteeroptie toevoegen' om een eerste sorteeroptie te maken"
     still_in_target: 'Nog in {target}'
     subfield_added: 'Het subveld "{name}" is toegevoegd'
     subfield_name_mandatory: 'De naam van het subveld is verplicht'
     subfield_name_not_valid: 'De naam van het subveld is niet geldig (formaat: {field_format})'
+    task_created: 'Taak "{title}" succesvol aangemaakt.'
+    task_deleted: 'Taak "{title}" succesvol verwijderd.'
+    task_history_approved: '{user} heeft de taak goedgekeurd'
+    task_history_completed: '{user} heeft de taak voltooid'
+    task_history_created: '{user} heeft de taak aangemaakt'
+    task_history_planned: '{user} heeft de taak gepland'
+    task_history_progress: 'De taak is actief geworden voor {assignee}'
+    task_history_rejected: '{user} heeft de taak geweigerd'
+    task_history_updated: '{user} heeft de taak bijgewerkt'
+    task_revision_locked: 'Revisie vergrendeld door {user} tot {time}'
+    task_search_warning: 'Meer dan {count} taken, zoeken op documenttitel is onmogelijk.'
+    task_updated: 'Taak "{title}" succesvol bijgewerkt.'
+    tika_server_not_configured: 'Tika server is niet geconfigureerd'
     up_to_date: 'Alles is up-to-date.'
     user_api_key_generated: 'Nieuwe API-sleutel voor de gebruiker {user_display_name}: {api_key}'
     user_custom_form_not_found: 'Aangepast gebruikersformulier "{name}" niet gevonden'
@@ -939,36 +1018,6 @@ message:
     wysiwyg_styles_set_updated: 'De stijlenset "{name}" is bijgewerkt'
     xliff_not_current_revision: 'Revisie {revision_id} van {ouuid} is niet langer de laatste revisie. De vertalingen werden niet geïmporteerd.'
     xliff_too_many_translations: '{counter} vertaaldocumenten terwijl er slechts één wordt verwacht voor vertaal-ID {translation_id} en doeltaal {target_locale} in omgeving {environment}'
-    messages_in_error: 'Berichten met fout'
-    messages_in_queue: 'Berichten in de wachtrij'
-    task_created: 'Taak "{title}" succesvol aangemaakt.'
-    task_search_warning: 'Meer dan {count} taken, zoeken op documenttitel is onmogelijk.'
-    delay_days: '{number} dagen'
-    task_deleted: 'Taak "{title}" succesvol verwijderd.'
-    hide_finished_tasks: 'Afgewerkte taken verbergen ({number})'
-    show_finished_tasks: 'Afgewerkte taken tonen ({number})'
-    no_tasks_for_document: 'Geen taken voor dit document'
-    task_revision_locked: 'Revisie vergrendeld door {user} tot {time}'
-    mail_approved_subject: 'Taak "{title}" goedgekeurd voor "{document}"'
-    mail_assignee_changed_subject: 'Toegewezene gewijzigd voor taak "{title}" van "{document}"'
-    mail_completed_subject: 'Klaar voor validatie, taak "{title}" voor "{document}"'
-    mail_created_subject: 'Nieuwe taak "{title}" voor "{document}"'
-    mail_deleted_subject: 'Taak "{title}" verwijderd voor "{document}"'
-    mail_greetings: 'Hallo {receiver},'
-    mail_kind_regards: 'Met vriendelijke groeten,'
-    mail_overdue_or_active_list: 'Hier is de lijst met achterstallige of actieve taken.'
-    mail_process_urgently: 'Behandel ze dringend.'
-    mail_rejected_subject: 'Taak "{title}" geweigerd voor "{document}"'
-    mail_task_has_been: 'Een taak is {action} {role}.'
-    mail_updated_subject: 'Taak "{title}" bijgewerkt voor "{document}"'
-    task_history_approved: '{user} heeft de taak goedgekeurd'
-    task_history_completed: '{user} heeft de taak voltooid'
-    task_history_created: '{user} heeft de taak aangemaakt'
-    task_history_planned: '{user} heeft de taak gepland'
-    task_history_progress: 'De taak is actief geworden voor {assignee}'
-    task_history_rejected: '{user} heeft de taak geweigerd'
-    task_history_updated: '{user} heeft de taak bijgewerkt'
-    task_updated: 'Taak "{title}" succesvol bijgewerkt.'
 option:
     allow_add: 'Toevoegen toestaan'
     default_search: 'In standaardzoekopdracht'
@@ -1044,6 +1093,7 @@ title:
     add_environment: 'Een nieuwe omgeving toevoegen'
     add_folder: 'Map toevoegen'
     add_form: 'Een formulier toevoegen'
+    add_new_task: 'Nieuwe taak toevoegen'
     add_release: 'Release toevoegen'
     align_environments: 'Omgevingen uitlijnen'
     align_environments_subtitle: 'tijd om omgevingen uit te lijnen?'
@@ -1056,13 +1106,17 @@ title:
     delete_file: 'Bestand verwijderen'
     delete_files_count: '{count} bestanden verwijderen'
     delete_folder: 'Map verwijderen'
+    deleted_task: 'Verwijderde taak: {title}'
     drafts_in_progress: '{pluralName} concepten in uitvoering'
     edit_environment: 'Omgeving "{name}" bewerken'
     edit_environment_short: 'Omgeving bewerken'
     edit_form: 'Een formulier bewerken'
     edit_release: 'Release bewerken'
+    edit_revision_content_type: '{contentType} bewerken: {revision} '
+    edit_task: 'Taak bewerken: {title}'
     error: 'Er is een fout opgetreden'
     error_page: 'Oeps! Er is een fout opgetreden'
+    filtering_tasks: 'Taken filteren'
     items_in_trash: '{pluralName} in prullenbak'
     job_list: Joblijst
     list_environments: 'Omgevingen weergeven'
@@ -1070,6 +1124,7 @@ title:
     log_of: 'Log van {created}'
     log_tagline: 'Wie deed wat'
     logs_of: 'Logs van {created}'
+    messages_in_bus: 'Berichten in de bus'
     move_files: |-
         {count, plural,
             one {Bestand verplaatsen}
@@ -1077,11 +1132,13 @@ title:
         }
     move_folder: 'Map verplaatsen'
     new_content_type: 'Nieuwe {content_type}'
+    new_draft: '{contentType}: nieuw concept'
     new_environment_short: 'Nieuwe omgeving'
     new_label: 'Nieuwe {label}'
     notifications_none_pending: 'Geen wachtende notificaties'
     out_of_sync: 'Niet gesynchroniseerd'
     pick_a_release: 'Kies een release voor "{label}"'
+    planned_tasks: 'Geplande taken'
     profile: 'Uw profiel'
     profile_tagline: 'Alles over u'
     publish_search_result: '{count} {content_type} publiceren vanuit {environment}'
@@ -1093,8 +1150,16 @@ title:
     rename_file: 'Bestand hernoemen'
     rename_folder: 'Map hernoemen'
     reorder_form_fields: 'Velden van formulier hersorteren: {label}'
+    revisions_of_content_type: 'Revisies van {contentType}: {title}'
+    search_engine_results: 'Zoekmachine: {total} resultaten'
+    search_result_error: 'Fout bij het zoekresultaat'
     select_environments_to_compare: 'Selecteer omgevingen om te vergelijken'
     select_your_options: 'Selecteer uw opties'
+    systems_status: Systeemstatus
+    systems_status_tagline: 'Werkt alles zoals verwacht?'
+    task_modal: 'Taak: {title}'
+    user_not_in_group: 'Gebruiker niet in groep'
+    users_in_group: 'Gebruikers in groep'
     view_custom: 'Weergave {name} van {contentType} "{label}" zoals geïndexeerd in {environment}'
     view_ems_id: '{content_type}:{id} bekijken'
     view_environment: 'Omgeving {name} bekijken'
@@ -1102,17 +1167,6 @@ title:
     view_file: 'Bestand bekijken'
     view_file_modal: 'Bestand bekijken: {name}'
     view_recursive: 'Recursieve weergave'
-    messages_in_bus: 'Berichten in de bus'
-    systems_status: Systeemstatus
-    systems_status_tagline: 'Werkt alles zoals verwacht?'
-    users_in_group: 'Gebruikers in groep'
-    user_not_in_group: 'Gebruiker niet in groep'
-    add_new_task: 'Nieuwe taak toevoegen'
-    deleted_task: 'Verwijderde taak: {title}'
-    filtering_tasks: 'Taken filteren'
-    task_modal: 'Taak: {title}'
-    planned_tasks: 'Geplande taken'
-    edit_task: 'Taak bewerken: {title}'
 type:
     confirm: |-
         {type, select,
@@ -1478,103 +1532,3 @@ view:
                 permissions_overview: 'Overzicht van rechten'
                 specific_permissions: 'Recht voor {content_type_singular_name}'
                 specific_roles: 'Specifieke rollen van velden'
-views:
-    data:
-        edit-revision-html:
-            cancel-label: 'Niet-opgeslagen wijzigingen verwerpen'
-            discard-draft-label: 'Dit concept verwijderen'
-            discard-draft-message: 'Wijzigingen in dit concept gaan verloren'
-            new-draft-title: '{contentType}: nieuw concept'
-            subtitle: Werkruimte
-            title: '{contentType} bewerken: {revision} '
-        revisions-data-html:
-            all-linked-documents: 'Alle gekoppelde documenten'
-            audit: Audit
-            by: Door
-            current-revision: 'Huidige revisie'
-            current-version: 'Huidige versie'
-            draft-in-progress: 'Concept in uitvoering'
-            finalized-by: 'Gefinaliseerd door'
-            finalized-on: 'Gefinaliseerd op'
-            last-update: 'Laatste update'
-            linked-documents-in: 'Gekoppelde documenten in {environment} ({length}/{total})'
-            modified-by: 'Gewijzigd door'
-            new-version: 'Nieuwe versie'
-            no-linked-document: 'Dit document heeft geen gekoppelde documenten'
-            nothing: Niets
-            'on': op
-            pending: Wachtend
-            previous-revision: 'Vorige revisie'
-            revision: Revisie
-            revision-current: 'U bekijkt de laatste revisie'
-            revision-draft-in-progress: 'Dit is een concept in uitvoering'
-            revision-previous: 'Dit is een revisie uit het verleden'
-            revisions: Revisies
-            revisions.th.actions: Acties
-            revisions.th.autosave: 'Automatisch opslaan'
-            revisions.th.date: Datum
-            revisions.th.environments: Omgevingen
-            revisions.th.finalize: Finaliseren
-            revisions.th.id: '#'
-            revisions.th.locked: Vergrendeld
-            revisions.th.pendings: Wachtenden
-            status: Status
-            title: 'Revisies van {contentType}: {title}'
-            until: Tot
-            version: Versie
-    elasticsearch:
-        cluster:
-            bits: Bits
-            build-date: Buildatum
-            cluster-uuid: Cluster-UUID
-            lucene-version: Lucene-versie
-            node-name: 'Naam van het knooppunt'
-            public-key: 'Publieke sleutel'
-            tagline: Tagline
-            tika-server-not-configured: 'Tika server is niet geconfigureerd'
-            version: Versie
-        export-search:
-            title: 'Documenten exporteren'
-        search:
-            error_title: 'Fout bij het zoekresultaat'
-            pagetitle: Zoeken
-            sort-options: Sorteeropties
-            subtitle: '{total}'
-            title: 'Zoekmachine: {total} resultaten'
-    elements:
-        object-toolbar-html:
-            edit-draft: 'Concept bewerken'
-            new-draft: Bewerken
-            view-current-revision: 'Huidige revisie bekijken'
-            view-draft-in-progress: 'Concept in uitvoering bekijken'
-        object-views-button:
-            action-dropdown-label: 'Acties in {environment}'
-            action-dropdown-sr-only: 'Dropdown met acties van {environment} omschakelen'
-            copy-data: 'Gegevens kopiëren'
-            published-label: 'Gepubliceerd in {environment}'
-            raw-view: 'Ruwe weergave'
-        revision-toolbar-html:
-            add-to-release: 'Toevoegen aan release'
-            cancel-last-updates-label: 'Niet-opgeslagen wijzigingen annuleren'
-            cancel-last-updates-message: 'Niet-opgeslagen wijzigingen annuleren'
-            cancel-message: 'Laatste wijzigingen annuleren?'
-            compare-label: 'Deze revisie vergelijken met de huidige'
-            discard-draft-label: 'Dit concept verwijderen'
-            discard-draft-message: 'Wijzigingen in dit concept gaan verloren'
-            edit-draft-label: 'Concept bewerken'
-            edit-revision-json: 'Ruwe JSON-bewerking'
-            edit-revision-label: 'Revisie bewerken'
-            finalize-draft-label: 'Opslaan en publiceren in {environment}'
-            finalize-draft-message: 'Opslaan en publiceren bevestigen?'
-            new-draft-label: Bewerken
-            other-environment-actions: 'Andere omgevingsacties'
-            other-revision-actions: 'Andere acties op deze revisie'
-            publish-to-label: 'Publiceren naar'
-            re-index-label: Herindexeren
-            revert-revision-label: 'Terugkeren naar deze revisie'
-            unpublish-from-label: 'Depubliceren van'
-            view-label: 'Deze revisie bekijken'
-        side-menu-html:
-            anonymous-user: 'Anonieme gebruiker'
-            quick-search-label: 'Snel zoeken'
-            quick-search-placeholder: Zoeken...

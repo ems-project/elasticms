@@ -1,7 +1,7 @@
 {% extends '@EMSAdminUI/bootstrap5/data/abstract-revision.html.twig' %}
 {% trans_default_domain 'emsco-core' %}
 
-{% block subtitle %}<small class="d-block mt-2">{{ 'views.data.edit-revision-html.subtitle'|trans }}</small>{% endblock %}
+{% block subtitle %}<small class="d-block mt-2">{{ 'key.working_area'|trans }}</small>{% endblock %}
 
 {%- block stylesheets %}
     <link rel="stylesheet" href="{{ path('emsco_wysiwyg_styleset_all_prefixed_css') }}">
@@ -54,7 +54,7 @@
                                 {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                                     url: path('emsco_data_cancel_modifications', {revision: revision.id}),
                                     btnClass: 'dropdown-item',
-                                    label: 'views.data.edit-revision-html.cancel-label'|trans,
+                                    label: 'key.discard_modifications'|trans,
                                     icon: 'remove',
                                 }) }}
                             </li>
@@ -66,9 +66,9 @@
             {% if revision.draft %}
                 {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                     url: path('emsco_discard_draft', {revisionId: revision.id, type: revision.contentType.name}),
-                    message: 'views.data.edit-revision-html.discard-draft-message'|trans,
+                    message: 'message.draft_modifications_will_be_lost'|trans,
                     btnType: 'outline-danger',
-                    label: 'views.data.edit-revision-html.discard-draft-label'|trans,
+                    label: 'message.delete_this_draft'|trans,
                     icon: 'trash',
                     group_class: 'float-end',
                 }) }}

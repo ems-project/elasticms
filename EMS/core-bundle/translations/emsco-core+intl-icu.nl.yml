@@ -1,4 +1,5 @@
 action:
+    acknowledge: Bevestigen
     activate: Activeren
     add: Toevoegen
     add_aggregate_option: Aggregatieopties
@@ -21,6 +22,7 @@ action:
     collapse: Inklappen
     collapse_all: 'Alles inklappen'
     compare: Vergelijken
+    confirm: Bevestigen
     confirmation: 'Bevestigt u dit?'
     copy: Kopiëren
     copy_all: 'Alles kopiëren'
@@ -59,6 +61,7 @@ action:
     relaunch: Herstarten
     reload_page: 'Pagina herladen'
     remove: Verwijderen
+    rename: Hernoemen
     reorder: Hersorteren
     reorder_content_type: 'Het content type "{content_type}" hersorteren'
     reorder_content_type_fields: '"{content_type}"-velden hersorteren'
@@ -76,19 +79,18 @@ action:
     toggle_sidebar: 'Zijbalk omschakelen'
     toggle_visibility: 'Zichtbaarheid omschakelen'
     toggle_visibility_selected: 'Zichtbaarheid van selectie omschakelen'
+    treat: Behandelen
+    treat_selected: 'Selectie behandelen'
     update: Bijwerken
     update_content_type_from_json: '{name} bijwerken vanuit een JSON-bestand'
     update_from_json: 'Bijwerken vanuit JSON'
     update_mapping: 'Mapping bijwerken'
+    upload: Uploaden
     upload_file: 'Bestand uploaden'
     upload_files: 'Bestanden uploaden'
     view: Bekijken
-    upload: Uploaden
-    confirm: Bevestigen
-    rename: Hernoemen
-    acknowledge: Bevestigen
-    treat: Behandelen
-    treat_selected: 'Selectie behandelen'
+    next: Volgende
+    previous: Vorige
 asset_extractor:
     status: |-
         {color, select,
@@ -229,7 +231,9 @@ field:
     context: Context
     copy_to: 'Kopiëren naar'
     count: Aantal
+    created_by: 'Aangemaakt door'
     cron: Cron
+    date: Datum
     date_build: Builddatum
     date_created: Aanmaakdatum
     date_execution: Uitvoeringsdatum
@@ -330,6 +334,8 @@ field:
     postition_increment_gap: 'Positie-increment gap'
     public_access: 'Publieke toegang'
     query: Query
+    rejected_by: 'Geweigerd door'
+    rejected_message: Weigeringsbericht
     release_environment_source: 'Bronomgeving voor publicatie'
     release_environment_target: 'Omgeving voor (de)publicatie'
     render_option: Renderoptie
@@ -385,10 +391,6 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     wysiwyg_profile: WYSIWYG-profiel
-    created_by: 'Aangemaakt door'
-    date: Datum
-    rejected_by: 'Geweigerd door'
-    rejected_message: Weigeringsbericht
 help:
     add_first_aggregate_option: "Klik op 'Aggregatieoptie toevoegen' om een eerste aggregatieoptie te maken"
     add_first_search_field_option: "Klik op 'Zoekveldoptie toevoegen' om een eerste zoekveldoptie te maken"
@@ -429,6 +431,7 @@ key:
     documentation: Documentatie
     elasticsearch_information: Elasticsearch-informatie
     elements: Elementen
+    empty: Leeg
     environments_external: 'Externe omgevingen'
     environments_local: 'Lokale omgevingen'
     error: Fout
@@ -439,6 +442,7 @@ key:
     form_submissions: Formulierinzendingen
     forms: Formulieren
     groups: Groepen
+    home: Start
     i18n: I18N
     impersonator: Impersonator
     inbox: Inbox
@@ -471,6 +475,7 @@ key:
     number_of_data_nodes: 'Aantal datanodes'
     number_of_nodes: 'Aantal nodes'
     number_of_pending_tasks: 'Aantal wachtende taken'
+    'on': Op
     orphan_indexes: 'Verweesde indexen'
     outbox: Outbox
     overview: Overzicht
@@ -496,6 +501,7 @@ key:
     search_options: Zoekopties
     searches: Zoekopdrachten
     selected: Geselecteerd
+    sent: Verzonden
     settings: Instellingen
     show_search_form: 'Zoekformulier tonen'
     sort_by: 'Sorteren op'
@@ -512,6 +518,7 @@ key:
     title: Titel
     to_be_treated: 'Te behandelen'
     trash: Prullenbak
+    treat_selection: 'Selectie behandelen'
     unassigned_shards: 'Niet-toegewezen shards'
     unknown: Onbekend
     unreferenced_aliases: 'Niet-gerefereerde aliassen'
@@ -528,11 +535,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profielen
     wysiwyg_style_sets: Stijlsets
-    home: Start
-    empty: Leeg
-    'on': Op
-    sent: Verzonden
-    treat_selection: 'Selectie behandelen'
 message:
     action_created: 'Een nieuwe actie "{label}" is aangemaakt'
     action_deleted: 'De actie "{label}" is verwijderd'
@@ -543,6 +545,7 @@ message:
     alias_added: 'Een nieuwe alias "{alias_name}" is toegevoegd aan de index "{index_name}"'
     alias_attached: 'De alias "{alias}" is gekoppeld'
     alias_too_many_indexes: 'Er zijn te veel indexen'
+    all_treated: 'Alle notificaties zijn behandeld'
     analyzer_created: 'De analyzer "{label}" is aangemaakt'
     analyzer_deleted: 'De analyzer "{label}" is verwijderd'
     analyzer_updated: 'De analyzer "{label}" is bijgewerkt'
@@ -553,6 +556,10 @@ message:
     asset_extract_file_too_large: 'Aangezien dit bestand groter is ({filesize}) dan {max_size}, is de inhoud niet automatisch geëxtraheerd. U kunt de extractie forceren of de inhoud handmatig opgeven in het menu "Info".'
     channel_alias_not_found: 'Het kanaal "{label}" kan niet worden geregistreerd omdat de alias "{alias}" ontbreekt'
     channel_deleted: 'Het kanaal "{name}" is verwijderd'
+    confirm_delete_files: 'Weet u zeker dat u de {count} geselecteerde bestanden wilt verwijderen?'
+    confirm_delete_folder: |
+        Weet u zeker dat u deze map wilt verwijderen?
+        Deze actie verwijdert ook alle submappen en bestanden die erin zitten.
     content_type_action_not_found: 'Actie niet gevonden op het content type "{label}"'
     content_type_created: 'Het content type "{label}" is aangemaakt'
     content_type_deleted: 'Het content type "{label}" is verwijderd'
@@ -570,6 +577,7 @@ message:
     content_type_view_deleted: 'Weergave "{view}" is verwijderd'
     contenttype_mappings_error: 'Bijwerken van de mappings voor {content_type} in {environments} is mislukt: {elasticsearch_dump}'
     contenttype_mappings_updated: 'Mappings succesvol bijgewerkt voor het inhoudstype {content_type} in {environments}'
+    current_location: 'Huidige locatie: "{path}"'
     dashboard_deleted: 'Het dashboard "{label}" is verwijderd'
     dashboard_exception: 'Het dashboard {name} heeft een uitzondering veroorzaakt'
     data_already_unpublished: 'Het document "{label}" was al gedepubliceerd uit {environment}'
@@ -599,6 +607,7 @@ message:
     document_compared: 'Revisie {revision_id} van het document {content_type}:{ouuid} vergeleken met revisie {compare_revision_id} van het document {compare_content_type}:{compare_ouuid}'
     document_copied: 'De inhoud van het document "{label}" is naar het klembord gekopieerd'
     document_duplicated: 'Het document "{label}" is gebruikt om een nieuw document te starten'
+    download_file: 'Bestand downloaden'
     draft_deleted: 'Concept "{revision}" is verwijderd'
     draft_not_found: 'Concept niet gevonden met id "{revisionId}"'
     drag_and_drop_file: 'Sleep uw bestand hierheen'
@@ -645,9 +654,20 @@ message:
     field_syntax_error: 'Syntaxfout bij het veld {field_name}: {error_message}'
     field_template_parse_error: 'Fout bij het parsen van het berekende veld {computed_field_name}: {error_message}'
     field_with_errors: 'Het veld {path} bevat een fout met de melding {error_message}'
+    file_preview_fallback: 'Geen plug-in beschikbaar om de bestandsinhoud weer te geven.'
     file_upload_error: 'Fout tijdens het uploaden van het bestand: {error_message}'
     filter_deleted: 'De filter {filter_name} is verwijderd'
     finalized_when_user: '{date} Gefinaliseerd door {user}'
+    folder_delete_async: 'De map wordt zo snel mogelijk verwijderd.'
+    folder_delete_in_progress: 'Map wordt verwijderd. Even geduld...'
+    folder_move_async: 'De map wordt zo snel mogelijk verplaatst.'
+    folder_move_in_progress: |
+        De geselecteerde map wordt verplaatst van "{from}" naar "{to}"
+        Even geduld...
+    folder_rename_async: 'De map wordt zo snel mogelijk hernoemd.'
+    folder_rename_in_progress: |
+        Map wordt hernoemd.
+        Even geduld...
     form_deleted: 'Het formulier "{label}" is verwijderd'
     form_submission_deleted: 'Formulierinzending met id "{id}" is verwijderd!'
     import_failed: 'Import mislukt'
@@ -661,11 +681,18 @@ message:
     job_info: 'Over deze job'
     job_initialized: 'De taak "{label}" is geïnitialiseerd in de omgeving {environment}'
     loading_information: 'Informatie laden...'
+    loading_more_files: 'Meer bestanden laden...'
     log_content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
     managed_alias_created: 'Beheerde alias "{managed_alias_label}" is aangemaakt'
     managed_alias_deleted: 'Beheerde alias "{managed_alias_label}" is verwijderd'
     managed_alias_updated: 'Beheerde alias "{managed_alias_label}" is bijgewerkt'
+    move_files_success: |-
+        {count, plural,
+            one {Het geselecteerde bestand verplaatsen van "{from}" naar "{to}". Even geduld...}
+            other {# bestanden verplaatsen van "{from}" naar "{to}". Even geduld...}
+        }
     notification_already_pending: 'Er is al een andere notificatie {notification_name} in behandeling voor het document "{label}" in {environment} door {notification_username}'
+    notification_duplicate: 'Er bestaat minstens één andere notificatie voor dit object'
     notification_no_results: 'Geen resultaat om weer te geven'
     notification_no_results_for_filter_combo: 'Geen resultaat voor deze filtercombinatie'
     notification_not_found: 'Melding #{notification_id} niet gevonden'
@@ -693,6 +720,7 @@ message:
     release_not_ready: 'De status van de release "{name}" is niet "ready"'
     release_revision_preceding: 'Er is al een vorige revisie gekoppeld aan de release "{name}"'
     release_unknown_action: 'Onbekende actie'
+    removing_files: '{count} bestanden verwijderen. Even geduld...'
     revision_add_from_json_error: 'Het was niet mogelijk om een nieuw {content_type} document te starten door een interne fout'
     revision_added_to_release: 'Document "{label}" is toegevoegd aan release "{release}"'
     revision_ajax_update_on_finalized: 'Het is niet mogelijk om het document "{label}" op te slaan omdat deze revisie al is gefinaliseerd'
@@ -730,6 +758,8 @@ message:
     revision_not_found_in_environment: 'Het is niet mogelijk om een revisie te identificeren voor het document "{ouuid}" in de omgeving {environment}'
     revision_not_found_in_source: 'Geen revisie gevonden in de omgeving {environment} voor het document "{ouuid}"'
     revision_not_in_target_environment: 'Document "{label}" is niet gepubliceerd in de doelomgeving "{target}"'
+    revision_not_published: 'Deze revisie is niet meer gepubliceerd in {environment}'
+    revision_not_published_and_duplicate: 'Deze revisie is niet meer gepubliceerd in {environment} en er bestaat een andere notificatie'
     revision_only_super_can_finalize_archive: 'Alleen een supergebruiker kan een gearchiveerde revisie finaliseren'
     revision_publish_failed: 'De publicatie van het document "{label}" is mislukt!'
     revision_published: 'Het document "{label}" is gepubliceerd in {environment}'
@@ -751,9 +781,11 @@ message:
     search_result_limited: 'Het zoekresultaat is beperkt tot de eerste {total} documenten'
     search_set_as_default: 'Deze zoekopdracht is ingesteld als standaardzoekopdracht'
     search_set_as_default_for_content_type: 'Deze zoekopdracht is ingesteld als standaard zoekformulier voor het content type {content_type}'
+    select_new_location: 'Selecteer nieuwe locatie:'
     subfield_added: 'Het subveld "{name}" is toegevoegd'
     subfield_name_mandatory: 'De naam van het subveld is verplicht'
     subfield_name_not_valid: 'De naam van het subveld is niet geldig (formaat: {field_format})'
+    up_to_date: 'Alles is up-to-date.'
     user_api_key_generated: 'Nieuwe API-sleutel voor de gebruiker {user_display_name}: {api_key}'
     user_custom_form_not_found: 'Aangepast gebruikersformulier "{name}" niet gevonden'
     user_deleted: 'De gebruiker {user_display_name} is verwijderd'
@@ -795,36 +827,8 @@ message:
     wysiwyg_styles_set_updated: 'De stijlenset "{name}" is bijgewerkt'
     xliff_not_current_revision: 'Revisie {revision_id} van {ouuid} is niet langer de laatste revisie. De vertalingen werden niet geïmporteerd.'
     xliff_too_many_translations: '{counter} vertaaldocumenten terwijl er slechts één wordt verwacht voor vertaal-ID {translation_id} en doeltaal {target_locale} in omgeving {environment}'
-    loading_more_files: 'Meer bestanden laden...'
-    download_file: 'Bestand downloaden'
-    file_preview_fallback: 'Geen plug-in beschikbaar om de bestandsinhoud weer te geven.'
-    removing_files: '{count} bestanden verwijderen. Even geduld...'
-    confirm_delete_files: 'Weet u zeker dat u de {count} geselecteerde bestanden wilt verwijderen?'
-    current_location: 'Huidige locatie: "{path}"'
-    select_new_location: 'Selecteer nieuwe locatie:'
-    move_files_success: |-
-        {count, plural,
-            one {Het geselecteerde bestand verplaatsen van "{from}" naar "{to}". Even geduld...}
-            other {# bestanden verplaatsen van "{from}" naar "{to}". Even geduld...}
-        }
-    folder_delete_in_progress: 'Map wordt verwijderd. Even geduld...'
-    folder_delete_async: 'De map wordt zo snel mogelijk verwijderd.'
-    confirm_delete_folder: |
-        Weet u zeker dat u deze map wilt verwijderen?
-        Deze actie verwijdert ook alle submappen en bestanden die erin zitten.
-    folder_move_in_progress: |
-        De geselecteerde map wordt verplaatst van "{from}" naar "{to}"
-        Even geduld...
-    folder_move_async: 'De map wordt zo snel mogelijk verplaatst.'
-    folder_rename_in_progress: |
-        Map wordt hernoemd.
-        Even geduld...
-    folder_rename_async: 'De map wordt zo snel mogelijk hernoemd.'
-    all_treated: 'Alle notificaties zijn behandeld'
-    up_to_date: 'Alles is up-to-date.'
-    notification_duplicate: 'Er bestaat minstens één andere notificatie voor dit object'
-    revision_not_published: 'Deze revisie is niet meer gepubliceerd in {environment}'
-    revision_not_published_and_duplicate: 'Deze revisie is niet meer gepubliceerd in {environment} en er bestaat een andere notificatie'
+    please_reload_page: 'Herlaad de pagina.'
+    something_wrong: 'Er is iets mis met deze applicatie.'
 option:
     allow_add: 'Toevoegen toestaan'
     default_search: 'In standaardzoekopdracht'
@@ -843,22 +847,6 @@ option:
     recompute_on_publish: 'Documenten herberekenen bij publicatie'
     restriction: Beperking
     update_referrers: 'Verwijzers bijwerken'
-out-of-sync:
-    modal:
-        please-reload: 'Herlaad de pagina.'
-        something-wrong: 'Er is iets mis met deze applicatie.'
-        title: 'Niet gesynchroniseerd'
-pagination:
-    next: Volgende
-    previous: Vorige
-pick-a-release:
-    title: 'Kies een release voor "{label}"'
-profile:
-    title: 'Uw profiel'
-    title_sub: 'Alles over u'
-publish:
-    search_result:
-        title: '{count} {content_type} publiceren vanuit {environment}'
 release:
     actions:
         add_publish: 'Documenten toevoegen voor publicatie'
@@ -1179,6 +1167,7 @@ task:
 title:
     add_content_type: 'Een nieuwe {content_type} toevoegen'
     add_environment: 'Een nieuwe omgeving toevoegen'
+    add_folder: 'Map toevoegen'
     add_form: 'Een formulier toevoegen'
     align_environments: 'Omgevingen uitlijnen'
     align_environments_subtitle: 'tijd om omgevingen uit te lijnen?'
@@ -1188,6 +1177,9 @@ title:
     content_type_create_ouuid: 'Deze bewerking indexeert het {content_type} niet, maar start alleen een concept met een specifieke OUUID'
     content_type_from_json_file: 'vanuit een JSON-bestand van een content type'
     content_type_json_update: 'Content type "{content_type}" bijwerken'
+    delete_file: 'Bestand verwijderen'
+    delete_files_count: '{count} bestanden verwijderen'
+    delete_folder: 'Map verwijderen'
     edit_environment: 'Omgeving "{name}" bewerken'
     edit_environment_short: 'Omgeving bewerken'
     edit_form: 'Een formulier bewerken'
@@ -1198,11 +1190,20 @@ title:
     log_of: 'Log van {created}'
     log_tagline: 'Wie deed wat'
     logs_of: 'Logs van {created}'
+    move_files: |-
+        {count, plural,
+            one {Bestand verplaatsen}
+            other {# bestanden verplaatsen}
+        }
+    move_folder: 'Map verplaatsen'
     new_content_type: 'Nieuwe {content_type}'
     new_environment_short: 'Nieuwe omgeving'
     new_label: 'Nieuwe {label}'
+    notifications_none_pending: 'Geen wachtende notificaties'
     rebuild_environment: 'Omgeving {name} heropbouwen'
     rebuild_index_short: 'Index heropbouwen'
+    rename_file: 'Bestand hernoemen'
+    rename_folder: 'Map hernoemen'
     reorder_form_fields: 'Velden van formulier hersorteren: {label}'
     select_environments_to_compare: 'Selecteer omgevingen om te vergelijken'
     select_your_options: 'Selecteer uw opties'
@@ -1210,22 +1211,14 @@ title:
     view_ems_id: '{content_type}:{id} bekijken'
     view_environment: 'Omgeving {name} bekijken'
     view_environment_short: 'Omgeving bekijken'
-    view_recursive: 'Recursieve weergave'
-    delete_file: 'Bestand verwijderen'
-    rename_file: 'Bestand hernoemen'
     view_file: 'Bestand bekijken'
     view_file_modal: 'Bestand bekijken: {name}'
-    delete_files_count: '{count} bestanden verwijderen'
-    move_files: |-
-        {count, plural,
-            one {Bestand verplaatsen}
-            other {# bestanden verplaatsen}
-        }
-    add_folder: 'Map toevoegen'
-    delete_folder: 'Map verwijderen'
-    move_folder: 'Map verplaatsen'
-    rename_folder: 'Map hernoemen'
-    notifications_none_pending: 'Geen wachtende notificaties'
+    view_recursive: 'Recursieve weergave'
+    out_of_sync: 'Niet gesynchroniseerd'
+    pick_a_release: 'Kies een release voor "{label}"'
+    profile_tagline: 'Alles over u'
+    publish_search_result: '{count} {content_type} publiceren vanuit {environment}'
+    profile: 'Uw profiel'
 type:
     confirm: |-
         {type, select,

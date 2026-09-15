@@ -1,4 +1,5 @@
 action:
+    acknowledge: Acquitter
     activate: Activer
     add: Ajouter
     add_aggregate_option: 'Options d’agrégation'
@@ -21,6 +22,7 @@ action:
     collapse: Réduire
     collapse_all: 'Tout réduire'
     compare: Comparer
+    confirm: Confirmer
     confirmation: 'Confirmez-vous ?'
     copy: Copier
     copy_all: 'Tout copier'
@@ -59,6 +61,7 @@ action:
     relaunch: Relancer
     reload_page: 'Recharger la page'
     remove: Supprimer
+    rename: Renommer
     reorder: Réordonner
     reorder_content_type: 'Réordonner le type de contenu « {content_type} »'
     reorder_content_type_fields: 'Réordonner les champs de « {content_type} »'
@@ -76,19 +79,18 @@ action:
     toggle_sidebar: 'Basculer la barre latérale'
     toggle_visibility: 'Basculer la visibilité'
     toggle_visibility_selected: 'Basculer la visibilité de la sélection'
+    treat: Traiter
+    treat_selected: 'Traiter la sélection'
     update: 'Mettre à jour'
     update_content_type_from_json: 'Mettre à jour {name} depuis un fichier JSON'
     update_from_json: 'Mettre à jour depuis JSON'
     update_mapping: 'Mettre à jour le mapping'
+    upload: Téléverser
     upload_file: 'Uploader le fichier'
     upload_files: 'Uploader les fichiers'
     view: Voir
-    upload: Téléverser
-    confirm: Confirmer
-    rename: Renommer
-    acknowledge: Acquitter
-    treat: Traiter
-    treat_selected: 'Traiter la sélection'
+    next: Suivant
+    previous: Précédent
 asset_extractor:
     status: |-
         {color, select,
@@ -229,7 +231,9 @@ field:
     context: Contexte
     copy_to: 'Copier vers'
     count: Nombre
+    created_by: 'Créée par'
     cron: Cron
+    date: Date
     date_build: 'Date de build'
     date_created: 'Date de création'
     date_execution: 'Date d’exécution'
@@ -330,6 +334,8 @@ field:
     postition_increment_gap: "Écart d'incrément de position"
     public_access: 'Accès public'
     query: Requête
+    rejected_by: 'Rejetée par'
+    rejected_message: 'Message de rejet'
     release_environment_source: 'Environnement source pour la publication'
     release_environment_target: 'Environnement pour la (dé)publication'
     render_option: 'Option de rendu'
@@ -385,10 +391,6 @@ field:
     user_uploaded: 'Uploadé par'
     username: "Nom d'utilisateur"
     wysiwyg_profile: 'Profil WYSIWYG'
-    created_by: 'Créée par'
-    date: Date
-    rejected_by: 'Rejetée par'
-    rejected_message: 'Message de rejet'
 help:
     add_first_aggregate_option: 'Cliquez sur « Ajouter une option d’agrégation » pour créer une première option d’agrégation'
     add_first_search_field_option: 'Cliquez sur « Ajouter une option de champ de recherche » pour créer une première option de champ de recherche'
@@ -429,6 +431,7 @@ key:
     documentation: Documentation
     elasticsearch_information: 'Informations Elasticsearch'
     elements: Éléments
+    empty: Vide
     environments_external: 'Environnements externes'
     environments_local: 'Environnements locaux'
     error: Erreur
@@ -439,6 +442,7 @@ key:
     form_submissions: 'Soumissions de formulaire'
     forms: Formulaires
     groups: Groupes
+    home: Accueil
     i18n: I18N
     impersonator: Impersonnateur
     inbox: 'Boîte de réception'
@@ -471,6 +475,7 @@ key:
     number_of_data_nodes: 'Nombre de nœuds de données'
     number_of_nodes: 'Nombre de nœuds'
     number_of_pending_tasks: 'Nombre de tâches en attente'
+    'on': Le
     orphan_indexes: 'Indexes orphelins'
     outbox: 'Boîte d’envoi'
     overview: "Vue d'ensemble"
@@ -496,6 +501,7 @@ key:
     search_options: 'Options de recherche'
     searches: Recherches
     selected: Sélectionné
+    sent: Envoyées
     settings: Paramètres
     show_search_form: 'Afficher le formulaire de recherche'
     sort_by: 'Trier par'
@@ -512,6 +518,7 @@ key:
     title: Titre
     to_be_treated: 'À traiter'
     trash: Corbeille
+    treat_selection: 'Traiter la sélection'
     unassigned_shards: 'Shards non assignés'
     unknown: Inconnu
     unreferenced_aliases: 'Alias non référencés'
@@ -528,11 +535,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profils
     wysiwyg_style_sets: 'Jeux de styles'
-    home: Accueil
-    empty: Vide
-    'on': Le
-    sent: Envoyées
-    treat_selection: 'Traiter la sélection'
 message:
     action_created: 'Une nouvelle action "{label}" a été créée'
     action_deleted: 'L''action "{label}" a été supprimée'
@@ -543,6 +545,7 @@ message:
     alias_added: 'Un nouvel alias "{alias_name}" a été ajouté à l''index "{index_name}"'
     alias_attached: 'L’alias « {alias} » a été attaché'
     alias_too_many_indexes: "Il y a trop d'index"
+    all_treated: 'Toutes les notifications sont traitées'
     analyzer_created: 'L''analyseur "{label}" a été créé'
     analyzer_deleted: 'L''analyseur "{label}" a été supprimé'
     analyzer_updated: 'L''analyseur "{label}" a été mis à jour'
@@ -553,6 +556,10 @@ message:
     asset_extract_file_too_large: 'Ce fichier étant plus volumineux ({filesize}) que {max_size}, son contenu n''a pas été extrait automatiquement. Vous pouvez forcer l''extraction ou le spécifier manuellement dans le menu "Info".'
     channel_alias_not_found: 'Le canal "{label}" ne peut pas être enregistré car son alias "{alias}" est manquant'
     channel_deleted: 'Le canal "{name}" a été supprimé'
+    confirm_delete_files: 'Êtes-vous sûr de vouloir supprimer les {count} fichiers sélectionnés ?'
+    confirm_delete_folder: |
+        Êtes-vous sûr de vouloir supprimer ce dossier ?
+        Cette action supprimera également tous les sous-dossiers et fichiers qu'il contient.
     content_type_action_not_found: 'Action introuvable sur le type de contenu "{label}"'
     content_type_created: 'Le type de contenu "{label}" a été créé'
     content_type_deleted: 'Le type de contenu "{label}" a été supprimé'
@@ -570,6 +577,7 @@ message:
     content_type_view_deleted: 'La vue « {view} » a été supprimée'
     contenttype_mappings_error: 'La mise à jour des mappings pour {content_type} dans {environments} a échoué : {elasticsearch_dump}'
     contenttype_mappings_updated: 'Mappings mis à jour avec succès pour le type de contenu {content_type} dans {environments}'
+    current_location: 'Emplacement actuel : "{path}"'
     dashboard_deleted: 'Le tableau de bord "{label}" a été supprimé'
     dashboard_exception: 'Le tableau de bord {name} a généré une exception'
     data_already_unpublished: 'Le document "{label}" était déjà dépublié de {environment}'
@@ -599,6 +607,7 @@ message:
     document_compared: 'Comparaison de la révision {revision_id} du document {content_type}:{ouuid} avec la révision {compare_revision_id} du document {compare_content_type}:{compare_ouuid}'
     document_copied: 'Le contenu du document "{label}" a été copié dans le presse-papiers'
     document_duplicated: 'Le document "{label}" a été utilisé pour créer un nouveau document'
+    download_file: 'Télécharger le fichier'
     draft_deleted: 'Le brouillon « {revision} » a été supprimé'
     draft_not_found: 'Brouillon introuvable avec l’id « {revisionId} »'
     drag_and_drop_file: 'Glissez-déposez votre fichier ici'
@@ -645,9 +654,20 @@ message:
     field_syntax_error: 'Erreur de syntaxe dans le champ {field_name} : {error_message}'
     field_template_parse_error: "Erreur lors de l'analyse du champ calculé {computed_field_name} : {error_message}"
     field_with_errors: 'Le champ {path} est en erreur avec le message {error_message}'
+    file_preview_fallback: 'Aucun plugin disponible pour afficher le contenu du fichier.'
     file_upload_error: 'Erreur lors du téléchargement du fichier : {error_message}'
     filter_deleted: 'Le filtre {filter_name} a été supprimé'
     finalized_when_user: '{date} Finalisé par {user}'
+    folder_delete_async: 'Le dossier sera supprimé dès que possible.'
+    folder_delete_in_progress: 'Suppression du dossier en cours. Veuillez patienter...'
+    folder_move_async: 'Le dossier sera déplacé dès que possible.'
+    folder_move_in_progress: |
+        Déplacement du dossier sélectionné de "{from}" vers "{to}"
+        Veuillez patienter...
+    folder_rename_async: 'Le dossier sera renommé dès que possible.'
+    folder_rename_in_progress: |
+        Renommage du dossier en cours.
+        Veuillez patienter...
     form_deleted: 'Le formulaire "{label}" a été supprimé'
     form_submission_deleted: 'La soumission de formulaire avec l''id "{id}" a été supprimée !'
     import_failed: "Échec de l'import"
@@ -661,11 +681,18 @@ message:
     job_info: 'À propos de ce job'
     job_initialized: 'La tâche "{label}" a été initialisée dans l''environnement {environment}'
     loading_information: 'Chargement des informations...'
+    loading_more_files: 'Chargement de fichiers supplémentaires...'
     log_content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'
     managed_alias_created: 'L''alias géré "{managed_alias_label}" a été créé'
     managed_alias_deleted: 'L''alias géré "{managed_alias_label}" a été supprimé'
     managed_alias_updated: 'L''alias géré "{managed_alias_label}" a été mis à jour'
+    move_files_success: |-
+        {count, plural,
+            one {Déplacement du fichier sélectionné de "{from}" vers "{to}". Veuillez patienter...}
+            other {Déplacement de # fichiers de "{from}" vers "{to}". Veuillez patienter...}
+        }
     notification_already_pending: 'Une autre notification {notification_name} est déjà en attente pour le document « {label} » dans {environment} par {notification_username}'
+    notification_duplicate: 'Au moins une autre notification existe pour cet objet'
     notification_no_results: 'Aucun résultat à afficher'
     notification_no_results_for_filter_combo: 'Aucun résultat pour cette combinaison de filtres'
     notification_not_found: 'Notification #{notification_id} introuvable'
@@ -693,6 +720,7 @@ message:
     release_not_ready: 'Le statut de la release "{name}" n''est pas "ready"'
     release_revision_preceding: 'Une révision précédente est déjà liée à la release "{name}"'
     release_unknown_action: 'Action inconnue'
+    removing_files: 'Suppression de {count} fichiers. Veuillez patienter...'
     revision_add_from_json_error: "Il a été impossible de créer un nouveau document {content_type} en raison d'une erreur interne"
     revision_added_to_release: 'Le document "{label}" a été ajouté à la release "{release}"'
     revision_ajax_update_on_finalized: 'Il est impossible d''enregistrer le document "{label}" car cette révision est déjà finalisée'
@@ -730,6 +758,8 @@ message:
     revision_not_found_in_environment: 'Il est impossible d''identifier une révision pour le document "{ouuid}" dans l''environnement {environment}'
     revision_not_found_in_source: 'Révision manquante dans l’environnement {environment} pour le document « {ouuid} »'
     revision_not_in_target_environment: 'Le document "{label}" n''est pas publié dans l''environnement cible "{target}"'
+    revision_not_published: 'Cette révision n’est plus publiée dans {environment}'
+    revision_not_published_and_duplicate: 'Cette révision n’est plus publiée dans {environment} et une autre notification existe'
     revision_only_super_can_finalize_archive: 'Seul un super utilisateur peut finaliser une révision archivée'
     revision_publish_failed: "La publication du document « {label} » a échoué\_!"
     revision_published: 'Le document "{label}" a été publié dans {environment}'
@@ -751,9 +781,11 @@ message:
     search_result_limited: 'Le résultat de recherche est limité aux {total} premiers documents'
     search_set_as_default: 'Cette recherche a été définie comme recherche par défaut'
     search_set_as_default_for_content_type: 'Cette recherche a été définie comme formulaire de recherche par défaut pour le type de contenu {content_type}'
+    select_new_location: 'Sélectionner un nouvel emplacement :'
     subfield_added: 'Le sous-champ "{name}" a été ajouté'
     subfield_name_mandatory: 'Le nom du sous-champ est obligatoire'
     subfield_name_not_valid: "Le nom du sous-champ n'est pas valide (format : {field_format})"
+    up_to_date: 'Tout est à jour.'
     user_api_key_generated: "Nouvelle clé API pour l'utilisateur {user_display_name} : {api_key}"
     user_custom_form_not_found: 'Formulaire utilisateur personnalisé "{name}" introuvable'
     user_deleted: "L'utilisateur {user_display_name} a été supprimé"
@@ -795,36 +827,8 @@ message:
     wysiwyg_styles_set_updated: 'Le jeu de styles « {name} » a été mis à jour'
     xliff_not_current_revision: "La révision {revision_id} de {ouuid} n'est plus la dernière révision. Les traductions n'ont pas été importées."
     xliff_too_many_translations: "{counter} documents de traduction alors qu'un seul est attendu pour l'identifiant de traduction {translation_id} et la locale cible {target_locale} dans l'environnement {environment}"
-    loading_more_files: 'Chargement de fichiers supplémentaires...'
-    download_file: 'Télécharger le fichier'
-    file_preview_fallback: 'Aucun plugin disponible pour afficher le contenu du fichier.'
-    removing_files: 'Suppression de {count} fichiers. Veuillez patienter...'
-    confirm_delete_files: 'Êtes-vous sûr de vouloir supprimer les {count} fichiers sélectionnés ?'
-    current_location: 'Emplacement actuel : "{path}"'
-    select_new_location: 'Sélectionner un nouvel emplacement :'
-    move_files_success: |-
-        {count, plural,
-            one {Déplacement du fichier sélectionné de "{from}" vers "{to}". Veuillez patienter...}
-            other {Déplacement de # fichiers de "{from}" vers "{to}". Veuillez patienter...}
-        }
-    folder_delete_in_progress: 'Suppression du dossier en cours. Veuillez patienter...'
-    folder_delete_async: 'Le dossier sera supprimé dès que possible.'
-    confirm_delete_folder: |
-        Êtes-vous sûr de vouloir supprimer ce dossier ?
-        Cette action supprimera également tous les sous-dossiers et fichiers qu'il contient.
-    folder_move_in_progress: |
-        Déplacement du dossier sélectionné de "{from}" vers "{to}"
-        Veuillez patienter...
-    folder_move_async: 'Le dossier sera déplacé dès que possible.'
-    folder_rename_in_progress: |
-        Renommage du dossier en cours.
-        Veuillez patienter...
-    folder_rename_async: 'Le dossier sera renommé dès que possible.'
-    all_treated: 'Toutes les notifications sont traitées'
-    up_to_date: 'Tout est à jour.'
-    notification_duplicate: 'Au moins une autre notification existe pour cet objet'
-    revision_not_published: 'Cette révision n’est plus publiée dans {environment}'
-    revision_not_published_and_duplicate: 'Cette révision n’est plus publiée dans {environment} et une autre notification existe'
+    please_reload_page: 'Veuillez recharger la page.'
+    something_wrong: 'Un problème est survenu avec cette application.'
 option:
     allow_add: 'Autoriser l’ajout'
     default_search: 'Dans la recherche par défaut'
@@ -843,22 +847,6 @@ option:
     recompute_on_publish: 'Recalculer les documents lors de la publication'
     restriction: Restriction
     update_referrers: 'Mettre à jour les référents'
-out-of-sync:
-    modal:
-        please-reload: 'Veuillez recharger la page.'
-        something-wrong: 'Un problème est survenu avec cette application.'
-        title: Désynchronisé
-pagination:
-    next: Suivant
-    previous: Précédent
-pick-a-release:
-    title: 'Choisir une release pour « {label} »'
-profile:
-    title: 'Votre profil'
-    title_sub: 'Tout à propos de vous'
-publish:
-    search_result:
-        title: 'Publier {count} {content_type} depuis {environment}'
 release:
     actions:
         add_publish: 'Ajouter des documents à publier'
@@ -1179,6 +1167,7 @@ task:
 title:
     add_content_type: 'Ajouter un nouveau {content_type}'
     add_environment: 'Ajouter un nouvel environnement'
+    add_folder: 'Ajouter un dossier'
     add_form: 'Ajouter un formulaire'
     align_environments: 'Aligner les environnements'
     align_environments_subtitle: 'il est temps d’aligner les environnements ?'
@@ -1188,6 +1177,9 @@ title:
     content_type_create_ouuid: "Cette opération n'indexera pas le {content_type}, mais initiera uniquement un brouillon avec un OUUID spécifique"
     content_type_from_json_file: "à partir d'un fichier JSON d'un content type"
     content_type_json_update: 'Mettre à jour le content type "{content_type}"'
+    delete_file: 'Supprimer le fichier'
+    delete_files_count: 'Supprimer {count} fichiers'
+    delete_folder: 'Supprimer le dossier'
     edit_environment: 'Modifier l’environnement « {name} »'
     edit_environment_short: 'Modifier l’environnement'
     edit_form: 'Modifier un formulaire'
@@ -1198,11 +1190,20 @@ title:
     log_of: 'Log du {created}'
     log_tagline: 'Qui a fait quoi'
     logs_of: 'Logs de {created}'
+    move_files: |-
+        {count, plural,
+            one {Déplacer le fichier}
+            other {Déplacer # fichiers}
+        }
+    move_folder: 'Déplacer le dossier'
     new_content_type: 'Nouveau {content_type}'
     new_environment_short: 'Nouvel environnement'
     new_label: 'Nouveau {label}'
+    notifications_none_pending: 'Aucune notification en attente'
     rebuild_environment: 'Reconstruire l’environnement {name}'
     rebuild_index_short: 'Reconstruire l’index'
+    rename_file: 'Renommer le fichier'
+    rename_folder: 'Renommer le dossier'
     reorder_form_fields: 'Réordonner les champs du formulaire : {label}'
     select_environments_to_compare: 'Sélectionner les environnements à comparer'
     select_your_options: 'Sélectionnez vos options'
@@ -1210,22 +1211,14 @@ title:
     view_ems_id: 'Voir {content_type}:{id}'
     view_environment: 'Voir l’environnement {name}'
     view_environment_short: 'Voir l’environnement'
-    view_recursive: 'Vue récursive'
-    delete_file: 'Supprimer le fichier'
-    rename_file: 'Renommer le fichier'
     view_file: 'Voir le fichier'
     view_file_modal: 'Voir le fichier : {name}'
-    delete_files_count: 'Supprimer {count} fichiers'
-    move_files: |-
-        {count, plural,
-            one {Déplacer le fichier}
-            other {Déplacer # fichiers}
-        }
-    add_folder: 'Ajouter un dossier'
-    delete_folder: 'Supprimer le dossier'
-    move_folder: 'Déplacer le dossier'
-    rename_folder: 'Renommer le dossier'
-    notifications_none_pending: 'Aucune notification en attente'
+    view_recursive: 'Vue récursive'
+    out_of_sync: Désynchronisé
+    pick_a_release: 'Choisir une release pour « {label} »'
+    profile_tagline: 'Tout à propos de vous'
+    publish_search_result: 'Publier {count} {content_type} depuis {environment}'
+    profile: 'Votre profil'
 type:
     confirm: |-
         {type, select,

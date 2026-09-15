@@ -1,4 +1,5 @@
 action:
+    acknowledge: Acknowledge
     activate: Activate
     add: Add
     add_aggregate_option: 'Aggregate Options'
@@ -21,6 +22,7 @@ action:
     collapse: Collapse
     collapse_all: 'Collapse all'
     compare: Compare
+    confirm: Confirm
     confirmation: 'Do you confirm?'
     copy: Copy
     copy_all: 'Copy all'
@@ -59,6 +61,7 @@ action:
     relaunch: Relaunch
     reload_page: 'Reload page'
     remove: Remove
+    rename: Rename
     reorder: Reorder
     reorder_content_type: 'Reorder the content type "{content_type}"'
     reorder_content_type_fields: 'Reorder "{content_type}" fields'
@@ -76,19 +79,18 @@ action:
     toggle_sidebar: 'Toggle sidebar'
     toggle_visibility: 'Toggle visibility'
     toggle_visibility_selected: 'Toggle visibility selected'
+    treat: Treat
+    treat_selected: 'Treat selected'
     update: Update
     update_content_type_from_json: 'Update {name} from a JSON file'
     update_from_json: 'Update from JSON'
     update_mapping: 'Update mapping'
+    upload: Upload
     upload_file: 'Upload file'
     upload_files: 'Upload files'
     view: View
-    upload: Upload
-    confirm: Confirm
-    rename: Rename
-    acknowledge: Acknowledge
-    treat: Treat
-    treat_selected: 'Treat selected'
+    next: Next
+    previous: Previous
 asset_extractor:
     status: |-
         {color, select,
@@ -229,7 +231,9 @@ field:
     context: Context
     copy_to: 'Copy to'
     count: Count
+    created_by: 'Created by'
     cron: Cron
+    date: Date
     date_build: 'Date build'
     date_created: 'Date creation'
     date_execution: 'Execution date'
@@ -330,6 +334,8 @@ field:
     postition_increment_gap: 'Position increment gap'
     public_access: 'Public Access'
     query: Query
+    rejected_by: 'Rejected by'
+    rejected_message: 'Rejected message'
     release_environment_source: 'Source Environment for publication'
     release_environment_target: 'Environment for (un)publication'
     render_option: 'Render option'
@@ -385,10 +391,6 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     wysiwyg_profile: 'WYSIWYG profile'
-    created_by: 'Created by'
-    date: Date
-    rejected_by: 'Rejected by'
-    rejected_message: 'Rejected message'
 help:
     add_first_aggregate_option: "Click on 'Add an aggregate option' to create a first Aggregate Option: Click on 'Add an aggregate option' to create a first Aggregate Option"
     add_first_search_field_option: "'Add an search field option' to create a first Search Field Option: Click on 'Add an search field option' to create a first Search Field Option"
@@ -429,6 +431,7 @@ key:
     documentation: Documentation
     elasticsearch_information: 'Elasticsearch information'
     elements: Elements
+    empty: Empty
     environments_external: 'External environments'
     environments_local: 'Local environments'
     error: Error
@@ -439,6 +442,7 @@ key:
     form_submissions: 'Form Submissions'
     forms: Forms
     groups: Groups
+    home: Home
     i18n: I18N
     impersonator: Impersonator
     inbox: Inbox
@@ -471,6 +475,7 @@ key:
     number_of_data_nodes: 'Number of data nodes'
     number_of_nodes: 'Number of nodes'
     number_of_pending_tasks: 'Number of pending tasks'
+    'on': 'On'
     orphan_indexes: 'Orphan indexes'
     outbox: Outbox
     overview: Overview
@@ -496,6 +501,7 @@ key:
     search_options: 'Search options'
     searches: Searches
     selected: Selected
+    sent: Sent
     settings: Settings
     show_search_form: 'Show search form'
     sort_by: 'Sort by'
@@ -512,6 +518,7 @@ key:
     title: Title
     to_be_treated: 'To be treated'
     trash: Trash
+    treat_selection: 'Treat selection'
     unassigned_shards: 'Unassigned shards'
     unknown: Unknown
     unreferenced_aliases: 'Unreferenced aliases'
@@ -528,11 +535,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
-    home: Home
-    empty: Empty
-    'on': 'On'
-    sent: Sent
-    treat_selection: 'Treat selection'
 message:
     action_created: 'A new action "{label}" has been created'
     action_deleted: 'The action "{label}" has been deleted'
@@ -543,6 +545,7 @@ message:
     alias_added: 'A new alias "{alias_name}" has been added to the index "{index_name}"'
     alias_attached: 'The alias "{alias}" has been attached'
     alias_too_many_indexes: 'There are too many indexes'
+    all_treated: 'All notifications treated'
     analyzer_created: 'The analyzer "{label}" has been created'
     analyzer_deleted: 'The analyzer "{label}" has been deleted'
     analyzer_updated: 'The analyzer "{label}" has been updated'
@@ -553,6 +556,10 @@ message:
     asset_extract_file_too_large: 'As this file is larger ({filesize}) than {max_size} its content has not been automatically extracted. You can either force the extraction or specify it manually in the "Info" menu.'
     channel_alias_not_found: 'The channel "{label}" cannot be registered as its alias "{alias}" is missing'
     channel_deleted: 'The channel "{name}" has been deleted'
+    confirm_delete_files: 'Are you sure you want to delete the {count} selected files?'
+    confirm_delete_folder: |
+        Are you sure you want to delete this folder?
+        This action will also remove any subfolders and files within.
     content_type_action_not_found: 'Action not found on the content type "{label}"'
     content_type_created: 'The content type "{label}" has been created'
     content_type_deleted: 'The content type "{label}" has been deleted'
@@ -570,6 +577,7 @@ message:
     content_type_view_deleted: 'View "{view}" has been deleted'
     contenttype_mappings_error: 'Mappings update for {content_type} in {environments} failed: {elasticsearch_dump}'
     contenttype_mappings_updated: 'Mappings successfully updated for content type {content_type} in {environments}'
+    current_location: 'Current location: "{path}"'
     dashboard_deleted: 'The dashboard "{label}" has been deleted'
     dashboard_exception: 'The dashboard {name} raised an exception'
     data_already_unpublished: 'The document "{label}" was already unpublished from {environment}'
@@ -599,6 +607,7 @@ message:
     document_compared: 'Compared the revision {revision_id} of the document {content_type}:{ouuid} with the revision {compare_revision_id} of the document {compare_content_type}:{compare_ouuid}'
     document_copied: 'The content of the document "{label}" has been copied to the clipboard'
     document_duplicated: 'The document "{label}" has been used to initiate a new document'
+    download_file: 'Download the file'
     draft_deleted: 'Draft "{revision}" has been deleted'
     draft_not_found: 'Draft not found with id "{revisionId}"'
     drag_and_drop_file: 'Drag and drop your file here'
@@ -645,9 +654,20 @@ message:
     field_syntax_error: 'Syntax error with field {field_name}: {error_message}'
     field_template_parse_error: 'Error to parse the computed field {computed_field_name}: {error_message}'
     field_with_errors: 'The field {path} is in error with the message {error_message}'
+    file_preview_fallback: 'No plugin-in available to display the file content.'
     file_upload_error: 'Error during file upload: {error_message}'
     filter_deleted: 'The filter {filter_name} has been deleted'
     finalized_when_user: '{date} Finalized by {user}'
+    folder_delete_async: 'Folder will be removed ASAP.'
+    folder_delete_in_progress: 'Folder removing in progress. Please wait...'
+    folder_move_async: 'Folder will be moved ASAP.'
+    folder_move_in_progress: |
+        Moving the selected folder from "{from}" to "{to}"
+        Please wait...
+    folder_rename_async: 'Folder will be renamed ASAP.'
+    folder_rename_in_progress: |
+        Folder renaming in progress.
+        Please wait...
     form_deleted: 'The form "{label}" has been deleted'
     form_submission_deleted: 'Form submission with id "{id}" has been deleted!'
     import_failed: 'Import failed'
@@ -661,11 +681,18 @@ message:
     job_info: 'About this job'
     job_initialized: 'The job "{label}" has been initialized in the environment {environment}'
     loading_information: 'Loading information...'
+    loading_more_files: 'Loading more files ...'
     log_content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
     managed_alias_created: 'Managed alias "{managed_alias_label}" has been created'
     managed_alias_deleted: 'Managed alias "{managed_alias_label}" has been deleted'
     managed_alias_updated: 'Managed alias "{managed_alias_label}" has been updated'
+    move_files_success: |-
+        {count, plural,
+            one {Moving the selected file from "{from}" to "{to}". Please wait...}
+            other {Moving # files from "{from}" to "{to}". Please wait...}
+        }
     notification_already_pending: 'Another notification {notification_name} is already pending for document "{label}" in {environment} by {notification_username}'
+    notification_duplicate: 'At least another notification exists for this object'
     notification_no_results: 'No result to display'
     notification_no_results_for_filter_combo: 'No result for this filters combination'
     notification_not_found: 'Notification #{notification_id} not found'
@@ -693,6 +720,7 @@ message:
     release_not_ready: 'The status of the release "{name}" is not ready'
     release_revision_preceding: 'A previous revision is already related to the release "{name}"'
     release_unknown_action: 'Unknown action'
+    removing_files: 'Removing {count} files. Please wait...'
     revision_add_from_json_error: 'It was impossible to initiate a new {content_type} document due to an internal error'
     revision_added_to_release: 'Document "{label}" has been added to release "{release}"'
     revision_ajax_update_on_finalized: 'It is impossible to save the document "{label}" as this revision is already finalized'
@@ -730,6 +758,8 @@ message:
     revision_not_found_in_environment: 'It is impossible to identify a revision for the document "{ouuid}" in the environment {environment}'
     revision_not_found_in_source: 'Missing revision in the environment {environment} for the document "{ouuid}"'
     revision_not_in_target_environment: 'Document "{label}" is not published in target environment "{target}"'
+    revision_not_published: 'This revision is not published in {environment} anymore'
+    revision_not_published_and_duplicate: 'This revision is not published in {environment} anymore and another notification exists'
     revision_only_super_can_finalize_archive: 'Only a super user can finalize an archived revision'
     revision_publish_failed: 'The publication of the document "{label}" failed!'
     revision_published: 'The document "{label}" has been published in {environment}'
@@ -751,9 +781,11 @@ message:
     search_result_limited: 'The search result is limited to the first {total} documents'
     search_set_as_default: 'This search has been defined as default search'
     search_set_as_default_for_content_type: 'This search has been defined as default search form for the content type {content_type}'
+    select_new_location: 'Select new location:'
     subfield_added: 'The subfield "{name}" has been added'
     subfield_name_mandatory: 'The subfield name is mandatory'
     subfield_name_not_valid: 'The subfield name is not valid (format: {field_format})'
+    up_to_date: 'Everything is up to date.'
     user_api_key_generated: 'New API key for the user {user_display_name}: {api_key}'
     user_custom_form_not_found: 'Custom user form "{name}" not found'
     user_deleted: 'The user {user_display_name} has been deleted'
@@ -795,36 +827,8 @@ message:
     wysiwyg_styles_set_updated: 'Style set "{name}" has been updated'
     xliff_not_current_revision: 'The revision {revision_id} of {ouuid} is no longer the last revision. The translations were not imported.'
     xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
-    loading_more_files: 'Loading more files ...'
-    download_file: 'Download the file'
-    file_preview_fallback: 'No plugin-in available to display the file content.'
-    removing_files: 'Removing {count} files. Please wait...'
-    confirm_delete_files: 'Are you sure you want to delete the {count} selected files?'
-    current_location: 'Current location: "{path}"'
-    select_new_location: 'Select new location:'
-    move_files_success: |-
-        {count, plural,
-            one {Moving the selected file from "{from}" to "{to}". Please wait...}
-            other {Moving # files from "{from}" to "{to}". Please wait...}
-        }
-    folder_delete_in_progress: 'Folder removing in progress. Please wait...'
-    folder_delete_async: 'Folder will be removed ASAP.'
-    confirm_delete_folder: |
-        Are you sure you want to delete this folder?
-        This action will also remove any subfolders and files within.
-    folder_move_in_progress: |
-        Moving the selected folder from "{from}" to "{to}"
-        Please wait...
-    folder_move_async: 'Folder will be moved ASAP.'
-    folder_rename_in_progress: |
-        Folder renaming in progress.
-        Please wait...
-    folder_rename_async: 'Folder will be renamed ASAP.'
-    all_treated: 'All notifications treated'
-    up_to_date: 'Everything is up to date.'
-    notification_duplicate: 'At least another notification exists for this object'
-    revision_not_published: 'This revision is not published in {environment} anymore'
-    revision_not_published_and_duplicate: 'This revision is not published in {environment} anymore and another notification exists'
+    please_reload_page: 'Please reload the page.'
+    something_wrong: 'There is something wrong with this application.'
 option:
     allow_add: 'Allow add'
     default_search: 'In default search'
@@ -843,22 +847,6 @@ option:
     recompute_on_publish: 'Recompute documents on publication'
     restriction: Restriction
     update_referrers: 'Update referrers'
-out-of-sync:
-    modal:
-        please-reload: 'Please reload the page.'
-        something-wrong: 'There is something wrong with this application.'
-        title: 'Out of sync'
-pagination:
-    next: Next
-    previous: Previous
-pick-a-release:
-    title: 'Pick a release for "{label}"'
-profile:
-    title: 'Your profile'
-    title_sub: 'All about you'
-publish:
-    search_result:
-        title: 'Publish {count} {content_type} from {environment}'
 release:
     actions:
         add_publish: 'Add documents for publication'
@@ -1179,6 +1167,7 @@ task:
 title:
     add_content_type: 'Add a new {content_type}'
     add_environment: 'Add a new Environment'
+    add_folder: 'Add folder'
     add_form: 'Add a form'
     align_environments: 'Align Environments'
     align_environments_subtitle: 'time to align environments?'
@@ -1188,6 +1177,9 @@ title:
     content_type_create_ouuid: 'This operation will not index the {content_type}, but initiate a draft only with a specific OUUID'
     content_type_from_json_file: "from a Content Type's JSON file"
     content_type_json_update: 'Update the content type "{content_type}"'
+    delete_file: 'Delete file'
+    delete_files_count: 'Delete {count} files'
+    delete_folder: 'Delete folder'
     edit_environment: 'Edit the environment "{name}"'
     edit_environment_short: 'Edit environment'
     edit_form: 'Edit a form'
@@ -1198,11 +1190,20 @@ title:
     log_of: 'Log of the {created}'
     log_tagline: 'Who did what'
     logs_of: 'Logs of {created}'
+    move_files: |-
+        {count, plural,
+            one {Move file}
+            other {Move # files}
+        }
+    move_folder: 'Move folder'
     new_content_type: 'New {content_type}'
     new_environment_short: 'New Environment'
     new_label: 'New {label}'
+    notifications_none_pending: 'No pending notifications'
     rebuild_environment: 'Rebuild the environment {name}'
     rebuild_index_short: 'Rebuild index'
+    rename_file: 'Rename file'
+    rename_folder: 'Rename folder'
     reorder_form_fields: 'Reorder fields of form: {label}'
     select_environments_to_compare: 'Select Environments to compare'
     select_your_options: 'Select your options'
@@ -1210,22 +1211,14 @@ title:
     view_ems_id: 'View {content_type}:{id}'
     view_environment: 'View the environment {name}'
     view_environment_short: 'View environment'
-    view_recursive: 'Recursive view'
-    delete_file: 'Delete file'
-    rename_file: 'Rename file'
     view_file: 'View file'
     view_file_modal: 'View file: {name}'
-    delete_files_count: 'Delete {count} files'
-    move_files: |-
-        {count, plural,
-            one {Move file}
-            other {Move # files}
-        }
-    add_folder: 'Add folder'
-    delete_folder: 'Delete folder'
-    move_folder: 'Move folder'
-    rename_folder: 'Rename folder'
-    notifications_none_pending: 'No pending notifications'
+    view_recursive: 'Recursive view'
+    out_of_sync: 'Out of sync'
+    pick_a_release: 'Pick a release for "{label}"'
+    profile_tagline: 'All about you'
+    publish_search_result: 'Publish {count} {content_type} from {environment}'
+    profile: 'Your profile'
 type:
     confirm: |-
         {type, select,

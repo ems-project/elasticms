@@ -23,13 +23,13 @@
 
 {% block cluster %}
     {% set list = [{
-        label: 'key.name'|trans,
+        label: 'field.name'|trans,
         value: cluster.cluster_name|default(''),
     }, {
         label: 'key.cluster_uuid'|trans,
         value: cluster.cluster_uuid|default(''),
     }, {
-        label: 'key.status'|trans,
+        label: 'field.status'|trans,
         value: cluster.status|humanize,
     }, {
         label: 'key.tagline'|trans,
@@ -93,7 +93,7 @@
 
 {% block certificate %}
     {% set list = [{
-        label: 'key.status'|trans,
+        label: 'field.status'|trans,
         value: certificate.status|humanize,
     }] %}
     {% if certificate.bits|default %}
@@ -129,7 +129,7 @@
 
 {% block asset_extractor %}
     {% set list = [{
-        label: 'key.status'|trans,
+        label: 'field.status'|trans,
         value: asset_extractor.status|humanize,
     }] %}
     {% if asset_extractor.client|default %}

@@ -266,8 +266,6 @@ environment:
     plural: Environments
     property:
         base_url: 'Base URL'
-        color: Color
-        label: Label
         name: Name
         option:
             default_search: 'In default search'
@@ -587,7 +585,6 @@ key:
     content: Content
     content_type: 'Content type'
     content_types: 'Content Types'
-    context: Context
     control_sidebar: 'Control sidebar'
     created: Created
     current_password: 'Current password'
@@ -601,7 +598,6 @@ key:
     environments_local: 'Local environments'
     error: Error
     export_documents: 'Export documents'
-    extra: Extra
     filters: Filters
     folders: Folders
     form_root: "Form's root"
@@ -616,7 +612,6 @@ key:
     inline_editor: 'Inline editor'
     job_logs: 'Jobs logs'
     jobs: Jobs
-    label: Label
     landscape: Landscape
     last_commands: 'Last commands'
     logs: Logs
@@ -627,8 +622,6 @@ key:
     mcp_prompts: 'MCP prompts'
     mcp_resources: 'MCP resources'
     mcp_tools: 'MCP tools'
-    message: Message
-    name: Name
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
     none: None
@@ -662,12 +655,10 @@ key:
     search_field_options: 'Search field options'
     search_options: 'Search options'
     searches: Searches
-    severity: Severity
     show_search_form: 'Show search form'
     sort_by: 'Sort by'
     sort_option: 'Sort Option'
     sort_options: 'Sort Options'
-    status: Status
     structure: Structure
     system_logs: 'System logs'
     tagline: Tagline
@@ -680,7 +671,6 @@ key:
     unreferenced_aliases: 'Unreferenced aliases'
     uploaded_files: 'Uploaded Files'
     uploaded_files_logs: 'Uploaded Files Logs'
-    username: Username
     users: Users
     version: Version
     views: Views

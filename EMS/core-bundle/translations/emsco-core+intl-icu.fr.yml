@@ -266,8 +266,6 @@ environment:
     plural: Environnements
     property:
         base_url: 'URL de base'
-        color: Couleur
-        label: Libellé
         name: Nom
         option:
             default_search: 'Dans la recherche par défaut'
@@ -587,7 +585,6 @@ key:
     content: Contenu
     content_type: 'Type de contenu'
     content_types: 'Types de contenu'
-    context: Contexte
     control_sidebar: 'Barre latérale de contrôle'
     created: Créé
     current_password: 'Mot de passe actuel'
@@ -601,7 +598,6 @@ key:
     environments_local: 'Environnements locaux'
     error: Erreur
     export_documents: 'Exporter les documents'
-    extra: Extra
     filters: Filtres
     folders: Dossiers
     form_root: 'Racine du formulaire'
@@ -616,7 +612,6 @@ key:
     inline_editor: 'Éditeur inline'
     job_logs: 'Logs des jobs'
     jobs: Jobs
-    label: Libellé
     landscape: Paysage
     last_commands: 'Dernières commandes'
     logs: Logs
@@ -627,8 +622,6 @@ key:
     mcp_prompts: 'Prompts MCP'
     mcp_resources: 'Ressources MCP'
     mcp_tools: 'Outils MCP'
-    message: Message
-    name: Nom
     new_password: 'Nouveau mot de passe'
     new_password_confirmation: 'Répéter le nouveau mot de passe'
     none: Aucun
@@ -662,12 +655,10 @@ key:
     search_field_options: 'Options de champ de recherche'
     search_options: 'Options de recherche'
     searches: Recherches
-    severity: Sévérité
     show_search_form: 'Afficher le formulaire de recherche'
     sort_by: 'Trier par'
     sort_option: 'Option de tri'
     sort_options: 'Options de tri'
-    status: Statut
     structure: Structure
     system_logs: 'Journaux système'
     tagline: Slogan
@@ -680,7 +671,6 @@ key:
     unreferenced_aliases: 'Alias non référencés'
     uploaded_files: 'Fichiers uploadés'
     uploaded_files_logs: 'Logs des fichiers uploadés'
-    username: 'Nom d’utilisateur'
     users: Utilisateurs
     version: Version
     views: Vues

@@ -40,7 +40,7 @@ class EditEnvironmentType extends AbstractType
             ->add('label', IconTextType::class, [
                 'required' => false,
                 'icon' => 'fa fa-header',
-                'label' => t('environment.property.label', [], 'emsco-core'),
+                'label' => t('field.label', [], 'emsco-core'),
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,
@@ -48,7 +48,7 @@ class EditEnvironmentType extends AbstractType
             ])
             ->add('color', ColorPickerType::class, [
                 'required' => false,
-                'label' => t('environment.property.color', [], 'emsco-core'),
+                'label' => t('field.color', [], 'emsco-core'),
             ])
             ->add('baseUrl', TextType::class, [
                 'required' => false,

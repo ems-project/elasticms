@@ -266,8 +266,6 @@ environment:
     plural: Omgevingen
     property:
         base_url: Basis-URL
-        color: Kleur
-        label: Label
         name: Naam
         option:
             default_search: 'In standaardzoekopdracht'
@@ -587,7 +585,6 @@ key:
     content: Inhoud
     content_type: Contenttype
     content_types: Contenttypes
-    context: Context
     control_sidebar: Controlezijbalk
     created: Aangemaakt
     current_password: 'Huidig wachtwoord'
@@ -601,7 +598,6 @@ key:
     environments_local: 'Lokale omgevingen'
     error: Fout
     export_documents: 'Documenten exporteren'
-    extra: Extra
     filters: Filters
     folders: Mappen
     form_root: 'Wortel van het formulier'
@@ -616,7 +612,6 @@ key:
     inline_editor: 'Inline editor'
     job_logs: Joblogs
     jobs: Jobs
-    label: Label
     landscape: Landschap
     last_commands: 'Laatste commando’s'
     logs: Logs
@@ -627,8 +622,6 @@ key:
     mcp_prompts: MCP-prompts
     mcp_resources: MCP-resources
     mcp_tools: MCP-tools
-    message: Bericht
-    name: Naam
     new_password: 'Nieuw wachtwoord'
     new_password_confirmation: 'Herhaal nieuw wachtwoord'
     none: Geen
@@ -662,12 +655,10 @@ key:
     search_field_options: Zoekveldopties
     search_options: Zoekopties
     searches: Zoekopdrachten
-    severity: Ernst
     show_search_form: 'Zoekformulier tonen'
     sort_by: 'Sorteren op'
     sort_option: Sorteeroptie
     sort_options: Sorteeropties
-    status: Status
     structure: Structuur
     system_logs: Systeemlogboeken
     tagline: Tagline
@@ -680,7 +671,6 @@ key:
     unreferenced_aliases: 'Niet-gerefereerde aliassen'
     uploaded_files: 'Geüploade bestanden'
     uploaded_files_logs: 'Logs van geüploade bestanden'
-    username: Gebruikersnaam
     users: Gebruikers
     version: Versie
     views: Weergaven

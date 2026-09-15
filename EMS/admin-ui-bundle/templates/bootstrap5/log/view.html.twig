@@ -13,14 +13,14 @@
 
 {% block content %}
     {% set items = [
-        {icon: 'fas fa-user', label: 'key.username'|trans, value: log.username|default('key.not-applicable'|trans)|emsco_display_name},
+        {icon: 'fas fa-user', label: 'field.username'|trans, value: log.username|default('key.not-applicable'|trans)|emsco_display_name},
         {icon: 'fas fa-user-secret', label: 'key.impersonator'|trans, value: log.impersonator|default('key.not-applicable'|trans)|emsco_display_name},
         {icon: 'fas fa-clock', label: 'key.created'|trans, value: log.created|date(date_time_format)},
-        {icon: 'fas fa-message', label: 'key.message'|trans, value: log.message|default('')},
-        {icon: 'fas fa-traffic-light', label: 'key.severity'|trans, value: "#{log.levelName} (#{log.level})"},
+        {icon: 'fas fa-message', label: 'field.message'|trans, value: log.message|default('')},
+        {icon: 'fas fa-traffic-light', label: 'field.severity'|trans, value: "#{log.levelName} (#{log.level})"},
         {icon: 'fas fa-road-circle-check', label: 'key.channel'|trans, value: log.channel|default('')},
-        {icon: 'fa-solid fa-file-lines', label: 'key.context'|trans, content: log.context|json_encode(constant('JSON_PRETTY_PRINT')), contentTag: 'pre'},
-        {icon: 'fa-solid fa-table', label: 'key.extra'|trans, content: log.extra|json_encode(constant('JSON_PRETTY_PRINT')), contentTag: 'pre'},
+        {icon: 'fa-solid fa-file-lines', label: 'field.context'|trans, content: log.context|json_encode(constant('JSON_PRETTY_PRINT')), contentTag: 'pre'},
+        {icon: 'fa-solid fa-table', label: 'field.extra'|trans, content: log.extra|json_encode(constant('JSON_PRETTY_PRINT')), contentTag: 'pre'},
     ] %}
     {{ include('@EMSAdminUI/bootstrap5/core/list-group.html.twig', {list: items}) }}
 {% endblock content %}

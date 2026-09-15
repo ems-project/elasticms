@@ -50,7 +50,7 @@ class ProfileController extends AbstractController
 
         return $this->render(\sprintf('@%s/user/profile/edit.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
-            'breadcrumb' => $this->breadcrumb()->add(t('user.profile.edit.breadcrumb_title', [], 'emsco-core')),
+            'breadcrumb' => $this->breadcrumb()->add(t('action.edit', [], 'emsco-core')),
         ]);
     }
 
@@ -70,7 +70,7 @@ class ProfileController extends AbstractController
 
         return $this->render(\sprintf('@%s/user/profile/change_password.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
-            'breadcrumb' => $this->breadcrumb()->add(t('user.profile.change_password.breadcrumb_title', [], 'emsco-core')),
+            'breadcrumb' => $this->breadcrumb()->add(t('title.change_your_password', [], 'emsco-core')),
         ]);
     }
 

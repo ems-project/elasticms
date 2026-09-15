@@ -21,6 +21,7 @@ action:
     browse_server: 'Server doorzoeken'
     cancel: Annuleren
     change_order: 'Volgorde wijzigen'
+    change_password: 'Wachtwoord wijzigen'
     clear: Wissen
     close: Sluiten
     collapse: Inklappen
@@ -44,6 +45,7 @@ action:
     delete_selected: 'Selectie verwijderen'
     delete_task: 'Taak verwijderen'
     details: Details
+    disable: Uitschakelen
     discard: Verwerpen
     download: Downloaden
     download_selected: 'Selectie downloaden'
@@ -59,6 +61,7 @@ action:
     export: Exporteren
     export_selected: 'Selectie exporteren'
     extract_content: 'Inhoud extraheren'
+    forgot_password: 'Ik ben mijn wachtwoord vergeten'
     hide: Verbergen
     hide_revision_sidebar: 'Revisiezijbalk verbergen'
     import: Importeren
@@ -102,7 +105,10 @@ action:
     set_status_ready: 'Release valideren'
     set_status_wip: 'Release herzien'
     show: Tonen
+    sign_in: Aanmelden
+    sign_out: Afmelden
     status: Status
+    switch_user: 'Van gebruiker wisselen'
     test: Testen
     toggle_navigation: 'Navigatie omschakelen'
     toggle_sidebar: 'Zijbalk omschakelen'
@@ -306,7 +312,9 @@ field:
     environments: Omgevingen
     error: Foutmelding
     events: Events
+    expiration_date: Vervaldatum
     extra: Extra
+    extra_roles: 'Extra rollen'
     field: Veld
     file:
         disposition: Bestandsdispositie
@@ -354,6 +362,7 @@ field:
     language: Taal
     language_preferred: Voorkeurstaal
     language_ui: Interfacetaal
+    last_login: 'Laatste login'
     last_modification: 'Laatste wijziging'
     last_seen: 'Laatst gezien'
     locale: Locale
@@ -448,7 +457,9 @@ field:
     user_roles: Gebruikersrollen
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
+    username_or_email: 'Gebruikersnaam of e-mailadres'
     wysiwyg_profile: WYSIWYG-profiel
+    is_mail_notification: e-mailnotificatie
 help:
     add_first_aggregate_option: "Klik op 'Aggregatieoptie toevoegen' om een eerste aggregatieoptie te maken"
     add_first_search_field_option: "Klik op 'Zoekveldoptie toevoegen' om een eerste zoekveldoptie te maken"
@@ -472,6 +483,7 @@ key:
     all_tasks: 'Alle taken'
     analyzers: Analysatoren
     anonymous_user: 'Anonieme gebruiker'
+    api_key: API-sleutel
     applied: Toegepast
     assigned_to_me: 'Aan mij toegewezen'
     assignees: Toegewezenen
@@ -494,6 +506,7 @@ key:
     content_types: Contenttypes
     control_sidebar: Controlezijbalk
     created: Aangemaakt
+    csv_export: CSV-export
     current_password: 'Huidig wachtwoord'
     current_revision: 'Huidige revisie'
     current_version: 'Huidige versie'
@@ -506,14 +519,17 @@ key:
     draft: Concept
     draft_in_progress: 'Concept in uitvoering'
     edit_revision_json: 'Ruwe JSON-bewerking'
+    elasticms_logo_alt: 'Logo van elasticMS'
     elasticsearch_information: Elasticsearch-informatie
     elements: Elementen
     email_lowercase: e-mail
     email_notification_lowercase: e-mailmelding
+    email_or_username: 'E-mail of gebruikersnaam'
     empty: Leeg
     environments_external: 'Externe omgevingen'
     environments_local: 'Lokale omgevingen'
     error: Fout
+    excel_export: Excel-export
     export_documents: 'Documenten exporteren'
     failed_jobs: 'Mislukte jobs'
     filters: Filters
@@ -543,6 +559,7 @@ key:
     last_update: 'Laatste update'
     link_to_document: 'Link naar document'
     locale_ui: 'Taal van de interface'
+    locale_ui_abbrev: Interface
     locked: Vergrendeld
     login: Login
     logs: Logs
@@ -563,6 +580,7 @@ key:
     more_info: 'meer info'
     new_password: 'Nieuw wachtwoord'
     new_password_confirmation: 'Herhaal nieuw wachtwoord'
+    new_user: 'Nieuwe gebruiker'
     new_versions: 'Nieuwe versies'
     none: Geen
     not-applicable: N.v.t.
@@ -603,9 +621,11 @@ key:
     ready: Klaar
     recent_activities: 'Recente activiteiten'
     releases: Releases
+    remember_me: 'Onthoud mij'
     reorganise_colon: 'Reorganiseren:'
     requested_tasks: 'Aangevraagde taken'
     requesters: Aanvragers
+    reset_password_subject: 'Wachtwoord resetten'
     revision_tasks: Revisietaken
     revisions: Revisies
     roles_hierarchy: Rolhiërarchie
@@ -626,6 +646,7 @@ key:
     sent: Verzonden
     settings: Instellingen
     show_search_form: 'Zoekformulier tonen'
+    simplified_ui: 'Vereenvoudigde UI'
     sort_by: 'Sorteren op'
     sort_option: Sorteeroptie
     sort_options: Sorteeropties
@@ -658,6 +679,8 @@ key:
     until: Tot
     uploaded_files: 'Geüploade bestanden'
     uploaded_files_logs: 'Logs van geüploade bestanden'
+    user_administration: Gebruikersbeheer
+    user_management: Gebruikersbeheer
     user_name_placeholder: '{name}'
     user_profile_picture_alt: 'Profielfoto van de gebruiker'
     users: Gebruikers
@@ -668,6 +691,8 @@ key:
     warnings: Waarschuwingen
     webhook_subscriptions: Abonnementen
     webhooks: Webhooks
+    welcome: Welkom
+    welcome_back: 'Welkom terug!'
     working_area: Werkruimte
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profielen
@@ -684,6 +709,7 @@ message:
     alias_attached: 'De alias "{alias}" is gekoppeld'
     alias_too_many_indexes: 'Er zijn te veel indexen'
     all_treated: 'Alle notificaties zijn behandeld'
+    allow_configure_wysiwyg: 'Gebruiker toestaan om van WYSIWYG-profiel te wisselen'
     analyzer_created: 'De analyzer "{label}" is aangemaakt'
     analyzer_deleted: 'De analyzer "{label}" is verwijderd'
     analyzer_updated: 'De analyzer "{label}" is bijgewerkt'
@@ -745,9 +771,11 @@ message:
     delay_days: '{number} dagen'
     delete_failed: 'Verwijderen mislukt'
     delete_this_draft: 'Dit concept verwijderen'
+    delete_this_user_confirm: 'Deze gebruiker verwijderen?'
     deleted_orphan_index: 'De index "{index}" is verwijderd'
     deleted_orphan_indexes: 'Verweesde indexen zijn verwijderd'
     difference_count: '{0} Geen verschil|{1} Eén verschil|]1,Inf[ {count} verschillen'
+    disable_user_confirm: 'Deze gebruiker uitschakelen?'
     discard_draft_modification_lost: 'Wijzigingen in dit concept gaan verloren'
     document_cant_duplicate_ouuid_required: 'Het is niet mogelijk om het document "{label}" te dupliceren omdat het content type "{content_type}" eerst een OUUID vereist'
     document_compared: 'Revisie {revision_id} van het document {content_type}:{ouuid} vergeleken met revisie {compare_revision_id} van het document {compare_content_type}:{compare_ouuid}'
@@ -823,6 +851,7 @@ message:
     form_not_defined: 'Formulier niet gedefinieerd'
     form_not_found: 'Formulier niet gevonden'
     form_submission_deleted: 'Formulierinzending met id "{id}" is verwijderd!'
+    generate_api_key_confirm: 'API-sleutel genereren voor deze gebruiker?'
     hide_finished_tasks: 'Afgewerkte taken verbergen ({number})'
     import_failed: 'Import mislukt'
     import_file_missing_columns: 'Ontbrekende kolommen in het importbestand, vereiste kolommen "{columns}"'
@@ -839,6 +868,7 @@ message:
     loading_information: 'Informatie laden...'
     loading_more_files: 'Meer bestanden laden...'
     log_content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
+    logged_in_as: 'Ingelogd als {username}'
     mail_approved_subject: 'Taak "{title}" goedgekeurd voor "{document}"'
     mail_assignee_changed_subject: 'Toegewezene gewijzigd voor taak "{title}" van "{document}"'
     mail_completed_subject: 'Klaar voor validatie, taak "{title}" voor "{document}"'
@@ -854,6 +884,7 @@ message:
     managed_alias_created: 'Beheerde alias "{managed_alias_label}" is aangemaakt'
     managed_alias_deleted: 'Beheerde alias "{managed_alias_label}" is verwijderd'
     managed_alias_updated: 'Beheerde alias "{managed_alias_label}" is bijgewerkt'
+    member_since: 'Lid sinds {date}'
     messages_in_error: 'Berichten met fout'
     messages_in_queue: 'Berichten in de wachtrij'
     move_files_success: |-
@@ -904,8 +935,21 @@ message:
     release_revision_preceding: 'Er is al een vorige revisie gekoppeld aan de release "{name}"'
     release_revision_still_in_target: 'Nog steeds gepubliceerd in {target}'
     release_unknown_action: 'Onbekende actie'
+    remove_user_from_group_confirm: 'Deze gebruiker uit de groep verwijderen?'
     removing_files: '{count} bestanden verwijderen. Even geduld...'
     replaced_by_revision: 'vervangen door revisie {date}'
+    reset_password_check_email: |
+        Er is een e-mail verzonden. Deze bevat een link waarop u moet klikken om uw wachtwoord opnieuw in te stellen.
+        Opmerking: u kunt slechts één keer per {tokenLifetime} uur een nieuw wachtwoord aanvragen.
+
+        Als u geen e-mail ontvangt, controleer dan uw spammap of probeer opnieuw.
+    reset_password_email_body: |-
+        Hallo {username}!
+
+        Om uw wachtwoord opnieuw in te stellen, bezoek {confirmationUrl}
+
+        Met vriendelijke groeten,
+        Het team.
     revision_add_for_publication: 'Document toevoegen voor publicatie'
     revision_add_for_unpublish: 'Document toevoegen voor depublicatie'
     revision_add_from_json_error: 'Het was niet mogelijk om een nieuw {content_type} document te starten door een interne fout'
@@ -984,6 +1028,8 @@ message:
     search_set_as_default_for_content_type: 'Deze zoekopdracht is ingesteld als standaard zoekformulier voor het content type {content_type}'
     select_new_location: 'Selecteer nieuwe locatie:'
     show_finished_tasks: 'Afgewerkte taken tonen ({number})'
+    sign_in_start_session: 'Meld u aan om uw sessie te starten'
+    sign_in_to_continue: 'Meld u aan bij uw account om verder te gaan'
     something_wrong: 'Er is iets mis met deze applicatie.'
     sort_option_missing: "Klik op 'Sorteeroptie toevoegen' om een eerste sorteeroptie te maken"
     still_in_target: 'Nog in {target}'
@@ -1129,6 +1175,7 @@ title:
     align_environments_subtitle: 'tijd om omgevingen uit te lijnen?'
     as_indexed_in_environment: 'Zoals geïndexeerd in {environment}'
     asset_options: Asset-opties
+    change_your_password: 'Uw wachtwoord wijzigen'
     compare_environments: '{environment} vergelijken met {with_environment}'
     content_type_create_ouuid: 'Deze bewerking indexeert het {content_type} niet, maar start alleen een concept met een specifieke OUUID'
     content_type_from_json_file: 'vanuit een JSON-bestand van een content type'
@@ -1139,12 +1186,15 @@ title:
     delete_folder: 'Map verwijderen'
     deleted_task: 'Verwijderde taak: {title}'
     drafts_in_progress: '{pluralName} concepten in uitvoering'
+    edit_display_name: '{display_name} bewerken'
     edit_environment: 'Omgeving "{name}" bewerken'
     edit_environment_short: 'Omgeving bewerken'
     edit_form: 'Een formulier bewerken'
     edit_release: 'Release bewerken'
     edit_revision_content_type: '{contentType} bewerken: {revision} '
     edit_task: 'Taak bewerken: {title}'
+    edit_username: '{username} bewerken'
+    edit_your_profile: 'Uw profiel bewerken'
     error: 'Er is een fout opgetreden'
     error_page: 'Oeps! Er is een fout opgetreden'
     filtering_tasks: 'Taken filteren'
@@ -1183,6 +1233,7 @@ title:
     rename_file: 'Bestand hernoemen'
     rename_folder: 'Map hernoemen'
     reorder_form_fields: 'Velden van formulier hersorteren: {label}'
+    reset_password: 'Wachtwoord resetten'
     revisions_of_content_type: 'Revisies van {contentType}: {title}'
     search_engine_results: 'Zoekmachine: {total} resultaten'
     search_result_error: 'Fout bij het zoekresultaat'
@@ -1390,97 +1441,3 @@ type:
             view          {Het menu aanpassen}
             other         {}
         }
-user:
-    action:
-        delete_confirm: 'Deze gebruiker verwijderen?'
-        disable: Uitschakelen
-        disable_confirm: 'Deze gebruiker uitschakelen?'
-        generate_api: API-sleutel
-        generate_api_confirm: 'API-sleutel genereren voor deze gebruiker?'
-        remove_confirm: 'Deze gebruiker uit de groep verwijderen?'
-        switch: 'Van gebruiker wisselen'
-    add:
-        button: 'Gebruiker toevoegen'
-        card_title: 'Nieuwe gebruiker'
-        page_title: 'Gebruiker toevoegen'
-        subtitle: Gebruikersbeheer
-        title: 'Gebruiker toevoegen'
-    administration: Gebruikersbeheer
-    change_password:
-        submit: 'Wachtwoord wijzigen'
-        title: 'Uw wachtwoord wijzigen'
-    edit:
-        card_title: '{username} bewerken'
-        title: '{display_name} bewerken'
-    export:
-        csv: CSV-export
-        excel: Excel-export
-    index:
-        column:
-            circles: Kringen
-            displayname: Weergavenaam
-            email: E-mail
-            email_notification: E-mailnotificaties
-            expirationDate: Vervaldatum
-            group: Groep
-            lastLogin: 'Laatste login'
-            locale_preferred: Voorkeurslocale
-            locale_ui: Interface
-            roles: Rollen
-            username: Gebruikersnaam
-            wysiwyg_profile: WYSIWYG-profiel
-    logged_in:
-        member_since: 'Lid sinds {date}'
-        title: 'Ingelogd als {username}'
-    login:
-        alt_logo: 'Logo van elasticMS'
-        continue: 'Meld u aan bij uw account om verder te gaan'
-        forgot: 'Ik ben mijn wachtwoord vergeten'
-        message: 'Meld u aan om uw sessie te starten'
-        remember_me: 'Onthoud mij'
-        submit: Aanmelden
-        title: Welkom
-        user_aria_label: 'E-mail of gebruikersnaam'
-        user_placeholder: 'E-mail of gebruikersnaam'
-        welcome_back: 'Welkom terug!'
-    logout:
-        exit: Afsluiten
-        submit: Afmelden
-    management:
-        title: Gebruikersbeheer
-    option:
-        allowed_configure_wysiwyg: 'Gebruiker toestaan om van WYSIWYG-profiel te wisselen'
-        simplified_ui: 'Vereenvoudigde UI'
-    profile:
-        change_password:
-            breadcrumb_title: 'Uw wachtwoord wijzigen'
-            submit: 'Wachtwoord wijzigen'
-            title: 'Wachtwoord wijzigen'
-        edit:
-            breadcrumb_title: Bewerken
-            title: 'Uw profiel bewerken'
-        show:
-            email: e-mail
-            email_notification: e-mailnotificatie
-            extra_roles: 'Extra rollen'
-            locale: UI-locale
-            locale_preferred: Voorkeurslocale
-            username: Gebruikersnaam
-            wysiwyg: WYSIWYG-profiel
-    resetting:
-        check_email: |
-            Er is een e-mail verzonden. Deze bevat een link waarop u moet klikken om uw wachtwoord opnieuw in te stellen.
-            Opmerking: u kunt slechts één keer per {tokenLifetime} uur een nieuw wachtwoord aanvragen.
-
-            Als u geen e-mail ontvangt, controleer dan uw spammap of probeer opnieuw.
-        email:
-            message: |-
-                Hallo {username}!
-
-                Om uw wachtwoord opnieuw in te stellen, bezoek {confirmationUrl}
-
-                Met vriendelijke groeten,
-                Het team.
-            subject: 'Wachtwoord resetten'
-        title: 'Wachtwoord resetten'
-        username_email: 'Gebruikersnaam of e-mailadres'

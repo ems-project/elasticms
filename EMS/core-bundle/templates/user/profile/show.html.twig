@@ -29,7 +29,7 @@
                             <b>{{ 'key.email_notification_lowercase'|trans }}</b> <i class="pull-right fa fa-2x fa-{% if user.emailNotification %}check-{% endif %}square-o"></i>
                         </li>
                         <li class="list-group-item">
-                            <b>{{ 'user.option.simplified_ui'|trans({}, 'emsco-core') }}</b> <i class="pull-right fa fa-2x fa-{% if attribute(user.userOptions, 'simplified_ui') %}check-{% endif %}square-o"></i>
+                            <b>{{ 'key.simplified_ui'|trans({}, 'emsco-core') }}</b> <i class="pull-right fa fa-2x fa-{% if attribute(user.userOptions, 'simplified_ui') %}check-{% endif %}square-o"></i>
                         </li>
                         <li class="list-group-item">
                             <b>{{ 'key.locale_ui'|trans }}</b> <i class="pull-right">{{ user.locale|language_name  }}</i>
@@ -66,7 +66,7 @@
                     </ul>
                     <div class="btn-group">
                         <a href="{{ path(routes.USER_PROFILE_EDIT) }}" class="btn btn-primary" data-testid="profile-edit"><i class="fa fa-pencil"></i> <b>{{ 'action.edit'|trans }}</b></a>
-                        <a href="{{ path(routes.USER_CHANGE_PASSWORD) }}" class="btn btn-primary" data-testid="profile-change-password"><i class="fa fa-lock"></i> <b>{{ 'user.change_password.title'|trans({}, 'emsco-core') }}</b></a>
+                        <a href="{{ path(routes.USER_CHANGE_PASSWORD) }}" class="btn btn-primary" data-testid="profile-change-password"><i class="fa fa-lock"></i> <b>{{ 'title.change_your_password'|trans({}, 'emsco-core') }}</b></a>
                     </div>
                 </div>
             </div>

@@ -21,6 +21,7 @@ action:
     browse_server: 'Parcourir le serveur'
     cancel: Annuler
     change_order: 'Changer l’ordre'
+    change_password: 'Changer le mot de passe'
     clear: Effacer
     close: Fermer
     collapse: Réduire
@@ -44,6 +45,7 @@ action:
     delete_selected: 'Supprimer la sélection'
     delete_task: 'Supprimer la tâche'
     details: Détails
+    disable: Désactiver
     discard: Abandonner
     download: Télécharger
     download_selected: 'Télécharger la sélection'
@@ -59,6 +61,7 @@ action:
     export: Exporter
     export_selected: 'Exporter la sélection'
     extract_content: 'Extraire le contenu'
+    forgot_password: 'J’ai oublié mon mot de passe'
     hide: Masquer
     hide_revision_sidebar: 'Masquer la barre latérale de révision'
     import: Importer
@@ -102,7 +105,10 @@ action:
     set_status_ready: 'Valider la release'
     set_status_wip: 'Retravailler la release'
     show: Afficher
+    sign_in: 'Se connecter'
+    sign_out: 'Se déconnecter'
     status: Statut
+    switch_user: 'Changer d’utilisateur'
     test: Tester
     toggle_navigation: 'Basculer la navigation'
     toggle_sidebar: 'Basculer la barre latérale'
@@ -306,7 +312,9 @@ field:
     environments: Environnements
     error: 'Message d’erreur'
     events: Événements
+    expiration_date: 'Date d’expiration'
     extra: Extra
+    extra_roles: 'Rôles supplémentaires'
     field: Champ
     file:
         disposition: 'Disposition du fichier'
@@ -354,6 +362,7 @@ field:
     language: Langue
     language_preferred: 'Langue préférée'
     language_ui: "Langue de l'interface"
+    last_login: 'Dernière connexion'
     last_modification: 'Dernière modification'
     last_seen: 'Vu pour la dernière fois'
     locale: Locale
@@ -448,7 +457,9 @@ field:
     user_roles: 'Rôles utilisateur'
     user_uploaded: 'Uploadé par'
     username: "Nom d'utilisateur"
+    username_or_email: 'Nom d’utilisateur ou adresse e-mail'
     wysiwyg_profile: 'Profil WYSIWYG'
+    is_mail_notification: 'notification par e-mail'
 help:
     add_first_aggregate_option: 'Cliquez sur « Ajouter une option d’agrégation » pour créer une première option d’agrégation'
     add_first_search_field_option: 'Cliquez sur « Ajouter une option de champ de recherche » pour créer une première option de champ de recherche'
@@ -472,6 +483,7 @@ key:
     all_tasks: 'Toutes les tâches'
     analyzers: Analyseurs
     anonymous_user: 'Utilisateur anonyme'
+    api_key: 'Clé API'
     applied: Appliquée
     assigned_to_me: 'Assignées à moi'
     assignees: Assignés
@@ -494,6 +506,7 @@ key:
     content_types: 'Types de contenu'
     control_sidebar: 'Barre latérale de contrôle'
     created: Créé
+    csv_export: 'Export CSV'
     current_password: 'Mot de passe actuel'
     current_revision: 'Révision actuelle'
     current_version: 'Version actuelle'
@@ -506,14 +519,17 @@ key:
     draft: Brouillon
     draft_in_progress: 'Brouillon en cours'
     edit_revision_json: 'Édition JSON brute'
+    elasticms_logo_alt: 'Logo d’elasticMS'
     elasticsearch_information: 'Informations Elasticsearch'
     elements: Éléments
     email_lowercase: e-mail
     email_notification_lowercase: 'notification par e-mail'
+    email_or_username: 'E-mail ou nom d’utilisateur'
     empty: Vide
     environments_external: 'Environnements externes'
     environments_local: 'Environnements locaux'
     error: Erreur
+    excel_export: 'Export Excel'
     export_documents: 'Exporter les documents'
     failed_jobs: 'Jobs échoués'
     filters: Filtres
@@ -543,6 +559,7 @@ key:
     last_update: 'Dernière mise à jour'
     link_to_document: 'Lien vers le document'
     locale_ui: 'Langue de l’interface'
+    locale_ui_abbrev: Interface
     locked: Verrouillé
     login: Identifiant
     logs: Logs
@@ -563,6 +580,7 @@ key:
     more_info: 'plus d’informations'
     new_password: 'Nouveau mot de passe'
     new_password_confirmation: 'Répéter le nouveau mot de passe'
+    new_user: 'Nouvel utilisateur'
     new_versions: 'Nouvelles versions'
     none: Aucun
     not-applicable: N/A
@@ -603,9 +621,11 @@ key:
     ready: Prête
     recent_activities: 'Activités récentes'
     releases: Releases
+    remember_me: 'Se souvenir de moi'
     reorganise_colon: 'Réorganiser :'
     requested_tasks: 'Tâches demandées'
     requesters: Demandeurs
+    reset_password_subject: 'Réinitialiser le mot de passe'
     revision_tasks: 'Tâches de révision'
     revisions: Révisions
     roles_hierarchy: 'Hiérarchie des rôles'
@@ -626,6 +646,7 @@ key:
     sent: Envoyées
     settings: Paramètres
     show_search_form: 'Afficher le formulaire de recherche'
+    simplified_ui: 'Interfaces simplifiées'
     sort_by: 'Trier par'
     sort_option: 'Option de tri'
     sort_options: 'Options de tri'
@@ -658,6 +679,8 @@ key:
     until: Jusqu’à
     uploaded_files: 'Fichiers uploadés'
     uploaded_files_logs: 'Logs des fichiers uploadés'
+    user_administration: 'Administration des utilisateurs'
+    user_management: 'Gestion des utilisateurs'
     user_name_placeholder: '{name}'
     user_profile_picture_alt: 'Photo de profil de l’utilisateur'
     users: Utilisateurs
@@ -668,6 +691,8 @@ key:
     warnings: Avertissements
     webhook_subscriptions: Abonnements
     webhooks: Webhooks
+    welcome: Bienvenue
+    welcome_back: 'Bon retour !'
     working_area: 'Espace de travail'
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profils
@@ -684,6 +709,7 @@ message:
     alias_attached: 'L’alias « {alias} » a été attaché'
     alias_too_many_indexes: "Il y a trop d'index"
     all_treated: 'Toutes les notifications sont traitées'
+    allow_configure_wysiwyg: "Autorise l'utilisateur à changer de profile WYSIWYG"
     analyzer_created: 'L''analyseur "{label}" a été créé'
     analyzer_deleted: 'L''analyseur "{label}" a été supprimé'
     analyzer_updated: 'L''analyseur "{label}" a été mis à jour'
@@ -745,9 +771,11 @@ message:
     delay_days: '{number} jours'
     delete_failed: 'Échec de la suppression'
     delete_this_draft: 'Supprimer ce brouillon'
+    delete_this_user_confirm: "Supprimer cet utilisateur\_?"
     deleted_orphan_index: 'L’index « {index} » a été supprimé'
     deleted_orphan_indexes: 'Les indexes orphelins ont été supprimés'
     difference_count: '{0} Aucune différence|{1} Une différence|]1,Inf[ {count} différences'
+    disable_user_confirm: "Désactiver cet utilisateur\_?"
     discard_draft_modification_lost: 'Les modifications apportées à ce brouillon seront perdues'
     document_cant_duplicate_ouuid_required: 'Il est impossible de dupliquer le document "{label}" car le type de contenu "{content_type}" nécessite d''abord un OUUID'
     document_compared: 'Comparaison de la révision {revision_id} du document {content_type}:{ouuid} avec la révision {compare_revision_id} du document {compare_content_type}:{compare_ouuid}'
@@ -823,6 +851,7 @@ message:
     form_not_defined: 'Formulaire non défini'
     form_not_found: 'Formulaire introuvable'
     form_submission_deleted: 'La soumission de formulaire avec l''id "{id}" a été supprimée !'
+    generate_api_key_confirm: "Générer une clé API pour cet utilisateur\_?"
     hide_finished_tasks: 'Masquer les tâches terminées ({number})'
     import_failed: "Échec de l'import"
     import_file_missing_columns: 'Colonnes manquantes dans le fichier d''import, colonnes requises "{columns}"'
@@ -839,6 +868,7 @@ message:
     loading_information: 'Chargement des informations...'
     loading_more_files: 'Chargement de fichiers supplémentaires...'
     log_content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'
+    logged_in_as: 'Connecté en tant que {username}'
     mail_approved_subject: 'Tâche « {title} » approuvée pour « {document} »'
     mail_assignee_changed_subject: 'Assigné modifié pour la tâche « {title} » de « {document} »'
     mail_completed_subject: 'Prête pour validation, tâche « {title} » pour « {document} »'
@@ -854,6 +884,7 @@ message:
     managed_alias_created: 'L''alias géré "{managed_alias_label}" a été créé'
     managed_alias_deleted: 'L''alias géré "{managed_alias_label}" a été supprimé'
     managed_alias_updated: 'L''alias géré "{managed_alias_label}" a été mis à jour'
+    member_since: 'Membre depuis le {date}'
     messages_in_error: 'Messages en erreur'
     messages_in_queue: 'Messages dans la file'
     move_files_success: |-
@@ -904,8 +935,21 @@ message:
     release_revision_preceding: 'Une révision précédente est déjà liée à la release "{name}"'
     release_revision_still_in_target: 'Toujours publié dans {target}'
     release_unknown_action: 'Action inconnue'
+    remove_user_from_group_confirm: "Retirer cet utilisateur du groupe\_?"
     removing_files: 'Suppression de {count} fichiers. Veuillez patienter...'
     replaced_by_revision: 'remplacée par la révision {date}'
+    reset_password_check_email: |
+        Un e-mail a été envoyé. Il contient un lien sur lequel vous devez cliquer pour réinitialiser votre mot de passe.
+        Remarque : vous ne pouvez demander un nouveau mot de passe qu’une seule fois toutes les {tokenLifetime} heures.
+
+        Si vous ne recevez pas d’e-mail, vérifiez votre dossier de spam ou réessayez.
+    reset_password_email_body: |-
+        Bonjour {username} !
+
+        Pour réinitialiser votre mot de passe, veuillez visiter {confirmationUrl}
+
+        Cordialement,
+        L'équipe.
     revision_add_for_publication: 'Ajouter un document pour publication'
     revision_add_for_unpublish: 'Ajouter un document pour dépublication'
     revision_add_from_json_error: "Il a été impossible de créer un nouveau document {content_type} en raison d'une erreur interne"
@@ -984,6 +1028,8 @@ message:
     search_set_as_default_for_content_type: 'Cette recherche a été définie comme formulaire de recherche par défaut pour le type de contenu {content_type}'
     select_new_location: 'Sélectionner un nouvel emplacement :'
     show_finished_tasks: 'Afficher les tâches terminées ({number})'
+    sign_in_start_session: 'Connectez-vous pour démarrer votre session'
+    sign_in_to_continue: 'Connectez-vous à votre compte pour continuer'
     something_wrong: 'Un problème est survenu avec cette application.'
     sort_option_missing: 'Cliquez sur « Ajouter une option de tri » pour créer une première option de tri'
     still_in_target: 'Toujours dans {target}'
@@ -1129,6 +1175,7 @@ title:
     align_environments_subtitle: 'il est temps d’aligner les environnements ?'
     as_indexed_in_environment: 'Tel qu’indexé dans {environment}'
     asset_options: 'Options du fichier'
+    change_your_password: 'Changer votre mot de passe'
     compare_environments: 'Comparer {environment} avec {with_environment}'
     content_type_create_ouuid: "Cette opération n'indexera pas le {content_type}, mais initiera uniquement un brouillon avec un OUUID spécifique"
     content_type_from_json_file: "à partir d'un fichier JSON d'un content type"
@@ -1139,12 +1186,15 @@ title:
     delete_folder: 'Supprimer le dossier'
     deleted_task: "Tâche supprimée\_: {title}"
     drafts_in_progress: 'Brouillons en cours de {pluralName}'
+    edit_display_name: 'Modifier {display_name}'
     edit_environment: 'Modifier l’environnement « {name} »'
     edit_environment_short: 'Modifier l’environnement'
     edit_form: 'Modifier un formulaire'
     edit_release: 'Modifier une release'
     edit_revision_content_type: 'Modifier {contentType} : {revision} '
     edit_task: 'Modifier la tâche : {title}'
+    edit_username: 'Modifier {username}'
+    edit_your_profile: 'Modifier votre profil'
     error: 'Une erreur est survenue'
     error_page: 'Oups ! Une erreur est survenue'
     filtering_tasks: 'Filtrage des tâches'
@@ -1183,6 +1233,7 @@ title:
     rename_file: 'Renommer le fichier'
     rename_folder: 'Renommer le dossier'
     reorder_form_fields: 'Réordonner les champs du formulaire : {label}'
+    reset_password: 'Réinitialiser le mot de passe'
     revisions_of_content_type: 'Révisions de {contentType} : {title}'
     search_engine_results: 'Moteur de recherche : {total} résultats'
     search_result_error: 'Erreur avec le résultat de la recherche'
@@ -1390,97 +1441,3 @@ type:
             view          {Personnaliser le menu}
             other         {}
         }
-user:
-    action:
-        delete_confirm: "Supprimer cet utilisateur\_?"
-        disable: Désactiver
-        disable_confirm: "Désactiver cet utilisateur\_?"
-        generate_api: 'Clé API'
-        generate_api_confirm: "Générer une clé API pour cet utilisateur\_?"
-        remove_confirm: "Retirer cet utilisateur du groupe\_?"
-        switch: 'Changer d’utilisateur'
-    add:
-        button: 'Ajouter un utilisateur'
-        card_title: 'Nouvel utilisateur'
-        page_title: 'Ajouter un utilisateur'
-        subtitle: 'Administration des utilisateurs'
-        title: 'Ajouter un utilisateur'
-    administration: 'Administration des utilisateurs'
-    change_password:
-        submit: 'Changer le mot de passe'
-        title: 'Changer votre mot de passe'
-    edit:
-        card_title: 'Modifier {username}'
-        title: 'Modifier {display_name}'
-    export:
-        csv: 'Export CSV'
-        excel: 'Export Excel'
-    index:
-        column:
-            circles: Cercles
-            displayname: 'Nom d’affichage'
-            email: E-mail
-            email_notification: 'Notifications par e-mail'
-            expirationDate: 'Date d’expiration'
-            group: Groupe
-            lastLogin: 'Dernière connexion'
-            locale_preferred: 'Langue préférée'
-            locale_ui: Interface
-            roles: Rôles
-            username: 'Nom d’utilisateur'
-            wysiwyg_profile: 'Profil WYSIWYG'
-    logged_in:
-        member_since: 'Membre depuis le {date}'
-        title: 'Connecté en tant que {username}'
-    login:
-        alt_logo: 'Logo d’elasticMS'
-        continue: 'Connectez-vous à votre compte pour continuer'
-        forgot: 'J’ai oublié mon mot de passe'
-        message: 'Connectez-vous pour démarrer votre session'
-        remember_me: 'Se souvenir de moi'
-        submit: 'Se connecter'
-        title: Bienvenue
-        user_aria_label: 'E-mail ou nom d’utilisateur'
-        user_placeholder: 'E-mail ou nom d’utilisateur'
-        welcome_back: 'Bon retour !'
-    logout:
-        exit: Quitter
-        submit: 'Se déconnecter'
-    management:
-        title: 'Gestion des utilisateurs'
-    option:
-        allowed_configure_wysiwyg: "Autorise l'utilisateur à changer de profile WYSIWYG"
-        simplified_ui: 'Interfaces simplifiées'
-    profile:
-        change_password:
-            breadcrumb_title: 'Changer votre mot de passe'
-            submit: 'Changer le mot de passe'
-            title: 'Changer le mot de passe'
-        edit:
-            breadcrumb_title: Modifier
-            title: 'Modifier votre profil'
-        show:
-            email: e-mail
-            email_notification: 'notification par e-mail'
-            extra_roles: 'Rôles supplémentaires'
-            locale: "Langue de l'interface"
-            locale_preferred: 'Langue préférée'
-            username: 'Nom d’utilisateur'
-            wysiwyg: 'Profil WYSIWYG'
-    resetting:
-        check_email: |
-            Un e-mail a été envoyé. Il contient un lien sur lequel vous devez cliquer pour réinitialiser votre mot de passe.
-            Remarque : vous ne pouvez demander un nouveau mot de passe qu’une seule fois toutes les {tokenLifetime} heures.
-
-            Si vous ne recevez pas d’e-mail, vérifiez votre dossier de spam ou réessayez.
-        email:
-            message: |-
-                Bonjour {username} !
-
-                Pour réinitialiser votre mot de passe, veuillez visiter {confirmationUrl}
-
-                Cordialement,
-                L'équipe.
-            subject: 'Réinitialiser le mot de passe'
-        title: 'Réinitialiser le mot de passe'
-        username_email: 'Nom d’utilisateur ou adresse e-mail'

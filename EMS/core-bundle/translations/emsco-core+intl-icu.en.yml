@@ -21,6 +21,7 @@ action:
     browse_server: 'Browse server'
     cancel: Cancel
     change_order: 'Change order'
+    change_password: 'Change password'
     clear: Clear
     close: Close
     collapse: Collapse
@@ -44,6 +45,7 @@ action:
     delete_selected: 'Delete selected'
     delete_task: 'Delete task'
     details: Details
+    disable: Disable
     discard: Discard
     download: Download
     download_selected: 'Download selected'
@@ -59,6 +61,7 @@ action:
     export: Export
     export_selected: 'Export selected'
     extract_content: 'Extract content'
+    forgot_password: 'I forgot my password'
     hide: Hide
     hide_revision_sidebar: 'Hide revision sidebar'
     import: Import
@@ -102,7 +105,10 @@ action:
     set_status_ready: 'Validate release'
     set_status_wip: 'Rework release'
     show: Show
+    sign_in: 'Sign In'
+    sign_out: 'Sign out'
     status: Status
+    switch_user: 'Switch user'
     test: Test
     toggle_navigation: 'Toggle navigation'
     toggle_sidebar: 'Toggle sidebar'
@@ -306,7 +312,9 @@ field:
     environments: Environments
     error: 'Error message'
     events: Events
+    expiration_date: 'Expiration Date'
     extra: Extra
+    extra_roles: 'Extra roles'
     field: Field
     file:
         disposition: 'File disposition'
@@ -354,6 +362,7 @@ field:
     language: Language
     language_preferred: 'Language preferred'
     language_ui: 'Language UI'
+    last_login: 'Last Login'
     last_modification: 'Last modification'
     last_seen: 'Last seen'
     locale: Locale
@@ -448,7 +457,9 @@ field:
     user_roles: 'User roles'
     user_uploaded: 'Uploaded by'
     username: Username
+    username_or_email: 'Username or email address'
     wysiwyg_profile: 'WYSIWYG profile'
+    is_mail_notification: 'e-mail notification'
 help:
     add_first_aggregate_option: "Click on 'Add an aggregate option' to create a first Aggregate Option: Click on 'Add an aggregate option' to create a first Aggregate Option"
     add_first_search_field_option: "'Add an search field option' to create a first Search Field Option: Click on 'Add an search field option' to create a first Search Field Option"
@@ -472,6 +483,7 @@ key:
     all_tasks: 'All tasks'
     analyzers: Analyzers
     anonymous_user: 'Anonymous user'
+    api_key: 'API key'
     applied: Applied
     assigned_to_me: 'Assigned to me'
     assignees: Assignees
@@ -494,6 +506,7 @@ key:
     content_types: 'Content Types'
     control_sidebar: 'Control sidebar'
     created: Created
+    csv_export: 'CSV export'
     current_password: 'Current password'
     current_revision: 'Current revision'
     current_version: 'Current version'
@@ -506,14 +519,17 @@ key:
     draft: Draft
     draft_in_progress: 'Draft in progress'
     edit_revision_json: 'JSON raw edit'
+    elasticms_logo_alt: "elasticMS's logo"
     elasticsearch_information: 'Elasticsearch information'
     elements: Elements
     email_lowercase: e-mail
     email_notification_lowercase: 'e-mail notification'
+    email_or_username: 'Email or Username'
     empty: Empty
     environments_external: 'External environments'
     environments_local: 'Local environments'
     error: Error
+    excel_export: 'Excel export'
     export_documents: 'Export documents'
     failed_jobs: 'Failed jobs'
     filters: Filters
@@ -543,6 +559,7 @@ key:
     last_update: 'Last update'
     link_to_document: 'Link to document'
     locale_ui: 'Locale UI'
+    locale_ui_abbrev: UI
     locked: Locked
     login: Login
     logs: Logs
@@ -563,6 +580,7 @@ key:
     more_info: 'more info'
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
+    new_user: 'New user'
     new_versions: 'New versions'
     none: None
     not-applicable: N/A
@@ -603,9 +621,11 @@ key:
     ready: Ready
     recent_activities: 'Recent Activities'
     releases: Releases
+    remember_me: 'Remember Me'
     reorganise_colon: 'Reorganise:'
     requested_tasks: 'Requested tasks'
     requesters: Requesters
+    reset_password_subject: 'Reset Password'
     revision_tasks: 'Revision tasks'
     revisions: Revisions
     roles_hierarchy: 'Roles hierarchy'
@@ -626,6 +646,7 @@ key:
     sent: Sent
     settings: Settings
     show_search_form: 'Show search form'
+    simplified_ui: 'Simplified UI'
     sort_by: 'Sort by'
     sort_option: 'Sort Option'
     sort_options: 'Sort Options'
@@ -658,6 +679,8 @@ key:
     until: Until
     uploaded_files: 'Uploaded Files'
     uploaded_files_logs: 'Uploaded Files Logs'
+    user_administration: 'User administration'
+    user_management: 'User management'
     user_name_placeholder: '{name}'
     user_profile_picture_alt: "User profile's picture"
     users: Users
@@ -668,6 +691,8 @@ key:
     warnings: Warnings
     webhook_subscriptions: Subscriptions
     webhooks: Webhooks
+    welcome: Welcome
+    welcome_back: 'Welcome back!'
     working_area: 'Working area'
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
@@ -684,6 +709,7 @@ message:
     alias_attached: 'The alias "{alias}" has been attached'
     alias_too_many_indexes: 'There are too many indexes'
     all_treated: 'All notifications treated'
+    allow_configure_wysiwyg: "Allow user to switch WYSIWYG's profile"
     analyzer_created: 'The analyzer "{label}" has been created'
     analyzer_deleted: 'The analyzer "{label}" has been deleted'
     analyzer_updated: 'The analyzer "{label}" has been updated'
@@ -745,9 +771,11 @@ message:
     delay_days: '{number} days'
     delete_failed: 'Delete failed'
     delete_this_draft: 'Delete this draft'
+    delete_this_user_confirm: 'Delete this user?'
     deleted_orphan_index: 'The index "{index}" has been deleted'
     deleted_orphan_indexes: 'Orphan indexes have been deleted'
     difference_count: '{0} No difference|{1} One difference|]1,Inf[ {count} differences'
+    disable_user_confirm: 'Disable this user?'
     discard_draft_modification_lost: 'Modification made in this draft will be lost'
     document_cant_duplicate_ouuid_required: 'It is impossible to duplicate the document "{label}" as the content type "{content_type}" requires an OUUID first'
     document_compared: 'Compared the revision {revision_id} of the document {content_type}:{ouuid} with the revision {compare_revision_id} of the document {compare_content_type}:{compare_ouuid}'
@@ -823,6 +851,7 @@ message:
     form_not_defined: 'Form not defined'
     form_not_found: 'Form not found'
     form_submission_deleted: 'Form submission with id "{id}" has been deleted!'
+    generate_api_key_confirm: 'Generate API key for this user?'
     hide_finished_tasks: 'Hide finished tasks ({number})'
     import_failed: 'Import failed'
     import_file_missing_columns: 'Missing columns in import file, required columns "{columns}"'
@@ -839,6 +868,7 @@ message:
     loading_information: 'Loading information...'
     loading_more_files: 'Loading more files ...'
     log_content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
+    logged_in_as: 'Logged in as {username}'
     mail_approved_subject: 'Approved task "{title}" for "{document}"'
     mail_assignee_changed_subject: 'Assignee changed task "{title}" for "{document}"'
     mail_completed_subject: 'Ready for validation, task "{title}" for "{document}"'
@@ -854,6 +884,7 @@ message:
     managed_alias_created: 'Managed alias "{managed_alias_label}" has been created'
     managed_alias_deleted: 'Managed alias "{managed_alias_label}" has been deleted'
     managed_alias_updated: 'Managed alias "{managed_alias_label}" has been updated'
+    member_since: 'Member since {date}'
     messages_in_error: 'Messages in error'
     messages_in_queue: 'Messages in the queue'
     move_files_success: |-
@@ -904,8 +935,21 @@ message:
     release_revision_preceding: 'A previous revision is already related to the release "{name}"'
     release_revision_still_in_target: 'Still released in {target}'
     release_unknown_action: 'Unknown action'
+    remove_user_from_group_confirm: 'Remove this user from the group?'
     removing_files: 'Removing {count} files. Please wait...'
     replaced_by_revision: 'replaced by revision {date}'
+    reset_password_check_email: |
+        An email has been sent. It contains a link you must click to reset your password.
+        Note: You can only request a new password once within {tokenLifetime} hours.
+
+        If you don't get an email check your spam folder or try again.
+    reset_password_email_body: |-
+        Hello {username}!
+
+        To reset your password - please visit {confirmationUrl}
+
+        Regards,
+        the Team.
     revision_add_for_publication: 'Add document for publication'
     revision_add_for_unpublish: 'Add document for unpublish'
     revision_add_from_json_error: 'It was impossible to initiate a new {content_type} document due to an internal error'
@@ -984,6 +1028,8 @@ message:
     search_set_as_default_for_content_type: 'This search has been defined as default search form for the content type {content_type}'
     select_new_location: 'Select new location:'
     show_finished_tasks: 'Show finished tasks ({number})'
+    sign_in_start_session: 'Sign in to start your session'
+    sign_in_to_continue: 'Sign in to your account to continue'
     something_wrong: 'There is something wrong with this application.'
     sort_option_missing: "Click on 'Add a Sort Option' to create a first Sort Option"
     still_in_target: 'Still in {target}'
@@ -1129,6 +1175,7 @@ title:
     align_environments_subtitle: 'time to align environments?'
     as_indexed_in_environment: 'As indexed in {environment}'
     asset_options: 'Asset options'
+    change_your_password: 'Change your password'
     compare_environments: 'Compare {environment} with {with_environment}'
     content_type_create_ouuid: 'This operation will not index the {content_type}, but initiate a draft only with a specific OUUID'
     content_type_from_json_file: "from a Content Type's JSON file"
@@ -1139,12 +1186,15 @@ title:
     delete_folder: 'Delete folder'
     deleted_task: 'Deleted task : {title}'
     drafts_in_progress: '{pluralName} drafts in progress'
+    edit_display_name: 'Edit {display_name}'
     edit_environment: 'Edit the environment "{name}"'
     edit_environment_short: 'Edit environment'
     edit_form: 'Edit a form'
     edit_release: 'Edit a Release'
     edit_revision_content_type: 'Edit the {contentType}: {revision} '
     edit_task: 'Edit task : {title}'
+    edit_username: 'Edit {username}'
+    edit_your_profile: 'Edit your profile'
     error: 'An Error Occurred'
     error_page: 'Oops! An Error Occurred'
     filtering_tasks: 'Filtering the tasks'
@@ -1183,6 +1233,7 @@ title:
     rename_file: 'Rename file'
     rename_folder: 'Rename folder'
     reorder_form_fields: 'Reorder fields of form: {label}'
+    reset_password: 'Reset password'
     revisions_of_content_type: 'Revisions of {contentType}: {title}'
     search_engine_results: 'Search engine: {total} results'
     search_result_error: 'Error with the search result'
@@ -1390,97 +1441,3 @@ type:
             view          {Customize the menu}
             other         {}
         }
-user:
-    action:
-        delete_confirm: 'Delete this user?'
-        disable: Disable
-        disable_confirm: 'Disable this user?'
-        generate_api: 'API key'
-        generate_api_confirm: 'Generate API key for this user?'
-        remove_confirm: 'Remove this user from the group?'
-        switch: 'Switch user'
-    add:
-        button: 'Add user'
-        card_title: 'New user'
-        page_title: 'Add user'
-        subtitle: 'User administration'
-        title: 'Add user'
-    administration: 'User administration'
-    change_password:
-        submit: 'Change password'
-        title: 'Change your password'
-    edit:
-        card_title: 'Edit {username}'
-        title: 'Edit {display_name}'
-    export:
-        csv: 'CSV export'
-        excel: 'Excel export'
-    index:
-        column:
-            circles: Circles
-            displayname: 'Display name'
-            email: E-mail
-            email_notification: 'E-mail notifications'
-            expirationDate: 'Expiration Date'
-            group: Group
-            lastLogin: 'Last Login'
-            locale_preferred: 'Locale preferred'
-            locale_ui: UI
-            roles: Roles
-            username: Username
-            wysiwyg_profile: 'WYSIWYG profile'
-    logged_in:
-        member_since: 'Member since {date}'
-        title: 'Logged in as {username}'
-    login:
-        alt_logo: "elasticMS's logo"
-        continue: 'Sign in to your account to continue'
-        forgot: 'I forgot my password'
-        message: 'Sign in to start your session'
-        remember_me: 'Remember Me'
-        submit: 'Sign In'
-        title: Welcome
-        user_aria_label: 'Email or Username'
-        user_placeholder: 'Email or Username'
-        welcome_back: 'Welcome back!'
-    logout:
-        exit: Exit
-        submit: 'Sign out'
-    management:
-        title: 'User management'
-    option:
-        allowed_configure_wysiwyg: "Allow user to switch WYSIWYG's profile"
-        simplified_ui: 'Simplified UI'
-    profile:
-        change_password:
-            breadcrumb_title: 'Change your password'
-            submit: 'Change password'
-            title: 'Change password'
-        edit:
-            breadcrumb_title: Edit
-            title: 'Edit your profile'
-        show:
-            email: e-mail
-            email_notification: 'e-mail notification'
-            extra_roles: 'Extra roles'
-            locale: 'Locale UI'
-            locale_preferred: 'Locale preferred'
-            username: Username
-            wysiwyg: 'WYSIWYG profile'
-    resetting:
-        check_email: |
-            An email has been sent. It contains a link you must click to reset your password.
-            Note: You can only request a new password once within {tokenLifetime} hours.
-
-            If you don't get an email check your spam folder or try again.
-        email:
-            message: |-
-                Hello {username}!
-
-                To reset your password - please visit {confirmationUrl}
-
-                Regards,
-                the Team.
-            subject: 'Reset Password'
-        title: 'Reset password'
-        username_email: 'Username or email address'

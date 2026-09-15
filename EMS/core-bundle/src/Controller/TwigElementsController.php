@@ -98,7 +98,7 @@ class TwigElementsController extends AbstractController
 
     private function getUserAdminMenu(): Menu
     {
-        $menu = new Menu(t('user.management.title', [], 'emsco-core'));
+        $menu = new Menu(t('key.user_management', [], 'emsco-core'));
         if (!$this->isGranted('ROLE_USER_MANAGEMENT')) {
             return $menu;
         }

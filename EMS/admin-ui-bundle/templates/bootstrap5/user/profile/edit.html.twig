@@ -1,7 +1,7 @@
 {% extends '@EMSAdminUI/bootstrap5/user/profile/show.html.twig' %}
 {%- trans_default_domain 'emsco-core' -%}
 
-{% block title %}{{ 'user.profile.edit.title'|trans }}{% endblock title %}
+{% block title %}{{ 'title.edit_your_profile'|trans }}{% endblock title %}
 
 {% block body %}
     {{ form_start(form, {action: path(routes.USER_PROFILE_EDIT)}) }}

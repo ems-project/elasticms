@@ -29,6 +29,7 @@ action:
     create: Aanmaken
     create_draft: 'Concept voor {content_type} aanmaken'
     deactivate: Deactiveren
+    default_search_for_content_type: 'Standaardzoekopdracht voor {content_type}'
     define: Definiëren
     delete: Verwijderen
     delete_all: 'Alles verwijderen'
@@ -40,6 +41,7 @@ action:
     download_selected: 'Selectie downloaden'
     duplicate: Dupliceren
     edit: Bewerken
+    edit_draft: 'Concept bewerken'
     edit_entity: '{entity_name} bewerken'
     edit_managed_alias: 'Beheerde alias bewerken'
     enable: Inschakelen
@@ -59,6 +61,8 @@ action:
     previous: Vorige
     publish: Publiceren
     publish_release: 'Nu publiceren'
+    put_back: Terugplaatsen
+    put_back_selected: 'Selectie terugplaatsen'
     rebuild: Heropbouwen
     refresh: Vernieuwen
     relaunch: Herstarten
@@ -76,6 +80,7 @@ action:
     save_close: 'Opslaan en sluiten'
     save_publish_in: 'Opslaan en publiceren in {environments}'
     select_all: 'Alles selecteren'
+    set_as_default_search: 'Instellen als standaardzoekopdracht'
     set_status_canceled: 'Release annuleren'
     set_status_ready: 'Release valideren'
     set_status_wip: 'Release herzien'
@@ -96,10 +101,7 @@ action:
     upload_file: 'Bestand uploaden'
     upload_files: 'Bestanden uploaden'
     view: Bekijken
-    edit_draft: 'Concept bewerken'
     view_draft_in_progress: 'Concept in uitvoering bekijken'
-    put_back: Terugplaatsen
-    put_back_selected: 'Selectie terugplaatsen'
 asset_extractor:
     status: |-
         {color, select,
@@ -227,6 +229,8 @@ field:
     attributes: 'Extra request-attributen'
     available: Beschikbaar
     base_url: Basis-URL
+    boolean_clause: 'Booleaanse clausule'
+    boost: Boost
     channel: Kanaal
     char_filter: 'Char filter'
     circles: Kringen
@@ -324,6 +328,8 @@ field:
     language_ui: Interfacetaal
     last_seen: 'Laatst gezien'
     locale: Locale
+    locked_by: 'Vergrendeld door'
+    locked_until: 'Vergrendeld tot'
     lowercase: 'Kleine letters'
     mapping: Mapping
     max_output_size: 'Max. outputgrootte'
@@ -336,6 +342,7 @@ field:
     message: Bericht
     mime_type: MIME-type
     name: Naam
+    operator: Operator
     options: Opties
     orientation: Oriëntatie
     ouuid: OUUID
@@ -406,8 +413,6 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     wysiwyg_profile: WYSIWYG-profiel
-    locked_until: 'Vergrendeld tot'
-    locked_by: 'Vergrendeld door'
 help:
     add_first_aggregate_option: "Klik op 'Aggregatieoptie toevoegen' om een eerste aggregatieoptie te maken"
     add_first_search_field_option: "Klik op 'Zoekveldoptie toevoegen' om een eerste zoekveldoptie te maken"
@@ -452,6 +457,7 @@ key:
     document: Document
     documentation: Documentatie
     draft: Concept
+    draft_in_progress: 'Concept in uitvoering'
     elasticsearch_information: Elasticsearch-informatie
     elements: Elementen
     empty: Leeg
@@ -564,7 +570,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profielen
     wysiwyg_style_sets: Stijlsets
-    draft_in_progress: 'Concept in uitvoering'
 message:
     action_created: 'Een nieuwe actie "{label}" is aangemaakt'
     action_deleted: 'De actie "{label}" is verwijderd'
@@ -630,6 +635,7 @@ message:
     data_unlock_revisions_error: 'Onverwachte fout bij het ontgrendelen'
     data_update_referrers_error: 'Het was onmogelijk om de verwijzingen naar het document bij te werken'
     delete_failed: 'Verwijderen mislukt'
+    delete_this_draft: 'Dit concept verwijderen'
     deleted_orphan_index: 'De index "{index}" is verwijderd'
     deleted_orphan_indexes: 'Verweesde indexen zijn verwijderd'
     difference_count: '{0} Geen verschil|{1} Eén verschil|]1,Inf[ {count} verschillen'
@@ -687,6 +693,7 @@ message:
     file_preview_fallback: 'Geen plug-in beschikbaar om de bestandsinhoud weer te geven.'
     file_upload_error: 'Fout tijdens het uploaden van het bestand: {error_message}'
     filter_deleted: 'De filter {filter_name} is verwijderd'
+    finalized_by: '{date} Gefinaliseerd door {user}'
     finalized_when_user: '{date} Gefinaliseerd door {user}'
     folder_delete_async: 'De map wordt zo snel mogelijk verwijderd.'
     folder_delete_in_progress: 'Map wordt verwijderd. Even geduld...'
@@ -721,6 +728,7 @@ message:
             one {Het geselecteerde bestand verplaatsen van "{from}" naar "{to}". Even geduld...}
             other {# bestanden verplaatsen van "{from}" naar "{to}". Even geduld...}
         }
+    no_revision_in_env: 'geen revisie in {env}'
     notification_already_pending: 'Er is al een andere notificatie {notification_name} in behandeling voor het document "{label}" in {environment} door {notification_username}'
     notification_duplicate: 'Er bestaat minstens één andere notificatie voor dit object'
     notification_no_results: 'Geen resultaat om weer te geven'
@@ -743,6 +751,7 @@ message:
     publish_not_authorized: 'U kunt het content type {content_type} niet (de)publiceren'
     publish_not_in_circles: 'U kunt het content type {content_type} niet (de)publiceren omdat u geen enkele kring deelt'
     publish_not_in_default_environment: 'U kunt niet (de)publiceren in de standaardomgeving {environment} van het document "{label}"'
+    put_back_confirm: '"{label}" terugplaatsen?'
     query_search_deleted: 'De query search "{label}" is verwijderd'
     reindex_command_end: 'De documenten van het content type {content_type} zijn opnieuw geïndexeerd in {environment} (index: {index})'
     reindex_command_environment_not_found: 'Omgeving met naam {environment} niet gevonden'
@@ -760,6 +769,7 @@ message:
     release_revision_still_in_target: 'Nog steeds gepubliceerd in {target}'
     release_unknown_action: 'Onbekende actie'
     removing_files: '{count} bestanden verwijderen. Even geduld...'
+    replaced_by_revision: 'vervangen door revisie {date}'
     revision_add_for_publication: 'Document toevoegen voor publicatie'
     revision_add_for_unpublish: 'Document toevoegen voor depublicatie'
     revision_add_from_json_error: 'Het was niet mogelijk om een nieuw {content_type} document te starten door een interne fout'
@@ -819,6 +829,13 @@ message:
     schedule_updated: 'Schema "{name}" is bijgewerkt'
     search_deleted: 'Een zoekopdracht is verwijderd'
     search_paging_limit_exceeded: 'De paginering is beperkt tot de eerste {paging} items, {total} documenten gevonden'
+    search_result_count: |-
+        {count, plural,
+            =-1   {Zoekresultaat ontbreekt}
+            =0    {Geen resultaten gevonden}
+            =1    {1 document gevonden}
+            other {# documenten gevonden}
+        }
     search_result_limited: 'Het zoekresultaat is beperkt tot de eerste {total} documenten'
     search_set_as_default: 'Deze zoekopdracht is ingesteld als standaardzoekopdracht'
     search_set_as_default_for_content_type: 'Deze zoekopdracht is ingesteld als standaard zoekformulier voor het content type {content_type}'
@@ -870,11 +887,6 @@ message:
     wysiwyg_styles_set_updated: 'De stijlenset "{name}" is bijgewerkt'
     xliff_not_current_revision: 'Revisie {revision_id} van {ouuid} is niet langer de laatste revisie. De vertalingen werden niet geïmporteerd.'
     xliff_too_many_translations: '{counter} vertaaldocumenten terwijl er slechts één wordt verwacht voor vertaal-ID {translation_id} en doeltaal {target_locale} in omgeving {environment}'
-    delete_this_draft: 'Dit concept verwijderen'
-    finalized_by: '{date} Gefinaliseerd door {user}'
-    no_revision_in_env: 'geen revisie in {env}'
-    replaced_by_revision: 'vervangen door revisie {date}'
-    put_back_confirm: '"{label}" terugplaatsen?'
 option:
     allow_add: 'Toevoegen toestaan'
     default_search: 'In standaardzoekopdracht'
@@ -945,29 +957,6 @@ role:
         label: 'Gebruiker lezen'
     webmaster:
         label: Webmaster
-search:
-    filter:
-        add: Toevoegen
-        boolean_clause: 'Booleaanse clausule'
-        boost: Boost
-        field: Veld
-        operator: Operator
-        pattern: Patroon
-    form: Formulier
-    query: Query
-    set_default:
-        confirm: 'Bevestigt u dit?'
-        label: 'Instellen als standaardzoekopdracht'
-    set_default_content_type:
-        confirm: 'Bevestigt u dit?'
-        label: 'Standaardzoekopdracht voor {content_type}'
-    title: |-
-        {count, plural,
-            =-1   {Zoekresultaat ontbreekt}
-            =0    {Geen resultaten gevonden}
-            =1    {1 document gevonden}
-            other {# documenten gevonden}
-        }
 search_options:
     aggregate:
         add: 'Aggregatieoptie toevoegen'
@@ -1139,12 +1128,14 @@ title:
     delete_file: 'Bestand verwijderen'
     delete_files_count: '{count} bestanden verwijderen'
     delete_folder: 'Map verwijderen'
+    drafts_in_progress: '{pluralName} concepten in uitvoering'
     edit_environment: 'Omgeving "{name}" bewerken'
     edit_environment_short: 'Omgeving bewerken'
     edit_form: 'Een formulier bewerken'
     edit_release: 'Release bewerken'
     error: 'Er is een fout opgetreden'
     error_page: 'Oeps! Er is een fout opgetreden'
+    items_in_trash: '{pluralName} in prullenbak'
     job_list: Joblijst
     list_environments: 'Omgevingen weergeven'
     list_releases: 'Lijst van releases'
@@ -1183,8 +1174,6 @@ title:
     view_file: 'Bestand bekijken'
     view_file_modal: 'Bestand bekijken: {name}'
     view_recursive: 'Recursieve weergave'
-    drafts_in_progress: '{pluralName} concepten in uitvoering'
-    items_in_trash: '{pluralName} in prullenbak'
 type:
     confirm: |-
         {type, select,

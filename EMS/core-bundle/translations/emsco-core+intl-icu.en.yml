@@ -29,6 +29,7 @@ action:
     create: Create
     create_draft: 'Create {content_type} draft'
     deactivate: Deactivate
+    default_search_for_content_type: 'Default search for {content_type}'
     define: Define
     delete: Delete
     delete_all: 'Delete all'
@@ -40,6 +41,7 @@ action:
     download_selected: 'Download selected'
     duplicate: Duplicate
     edit: Edit
+    edit_draft: 'Edit draft'
     edit_entity: 'Edit {entity_name}'
     edit_managed_alias: 'Edit managed alias'
     enable: Enable
@@ -59,6 +61,8 @@ action:
     previous: Previous
     publish: Publish
     publish_release: 'Release now'
+    put_back: 'Put back'
+    put_back_selected: 'Put back selected'
     rebuild: Rebuild
     refresh: Refresh
     relaunch: Relaunch
@@ -76,6 +80,7 @@ action:
     save_close: 'Save and Close'
     save_publish_in: 'Save and publish in {environments}'
     select_all: 'Select all'
+    set_as_default_search: 'Set as default search'
     set_status_canceled: 'Cancel release'
     set_status_ready: 'Validate release'
     set_status_wip: 'Rework release'
@@ -96,10 +101,7 @@ action:
     upload_file: 'Upload file'
     upload_files: 'Upload files'
     view: View
-    edit_draft: 'Edit draft'
     view_draft_in_progress: 'View draft in progress'
-    put_back: 'Put back'
-    put_back_selected: 'Put back selected'
 asset_extractor:
     status: |-
         {color, select,
@@ -227,6 +229,8 @@ field:
     attributes: 'Request extra attributes'
     available: Available
     base_url: 'Base URL'
+    boolean_clause: 'Boolean clause'
+    boost: Boost
     channel: Channel
     char_filter: 'Char filter'
     circles: Circles
@@ -324,6 +328,8 @@ field:
     language_ui: 'Language UI'
     last_seen: 'Last seen'
     locale: Locale
+    locked_by: 'Locked by'
+    locked_until: 'Locked until'
     lowercase: Lowercase
     mapping: Mapping
     max_output_size: 'Max output size'
@@ -336,6 +342,7 @@ field:
     message: Message
     mime_type: 'MIME type'
     name: Name
+    operator: Operator
     options: Options
     orientation: Orientation
     ouuid: OUUID
@@ -406,8 +413,6 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     wysiwyg_profile: 'WYSIWYG profile'
-    locked_until: 'Locked until'
-    locked_by: 'Locked by'
 help:
     add_first_aggregate_option: "Click on 'Add an aggregate option' to create a first Aggregate Option: Click on 'Add an aggregate option' to create a first Aggregate Option"
     add_first_search_field_option: "'Add an search field option' to create a first Search Field Option: Click on 'Add an search field option' to create a first Search Field Option"
@@ -452,6 +457,7 @@ key:
     document: Document
     documentation: Documentation
     draft: Draft
+    draft_in_progress: 'Draft in progress'
     elasticsearch_information: 'Elasticsearch information'
     elements: Elements
     empty: Empty
@@ -564,7 +570,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
-    draft_in_progress: 'Draft in progress'
 message:
     action_created: 'A new action "{label}" has been created'
     action_deleted: 'The action "{label}" has been deleted'
@@ -630,6 +635,7 @@ message:
     data_unlock_revisions_error: 'Unexpected unlock exception'
     data_update_referrers_error: "It was impossible to update the document's referrers"
     delete_failed: 'Delete failed'
+    delete_this_draft: 'Delete this draft'
     deleted_orphan_index: 'The index "{index}" has been deleted'
     deleted_orphan_indexes: 'Orphan indexes have been deleted'
     difference_count: '{0} No difference|{1} One difference|]1,Inf[ {count} differences'
@@ -687,6 +693,7 @@ message:
     file_preview_fallback: 'No plugin-in available to display the file content.'
     file_upload_error: 'Error during file upload: {error_message}'
     filter_deleted: 'The filter {filter_name} has been deleted'
+    finalized_by: '{date} Finalized by {user}'
     finalized_when_user: '{date} Finalized by {user}'
     folder_delete_async: 'Folder will be removed ASAP.'
     folder_delete_in_progress: 'Folder removing in progress. Please wait...'
@@ -721,6 +728,7 @@ message:
             one {Moving the selected file from "{from}" to "{to}". Please wait...}
             other {Moving # files from "{from}" to "{to}". Please wait...}
         }
+    no_revision_in_env: 'no revision in {env}'
     notification_already_pending: 'Another notification {notification_name} is already pending for document "{label}" in {environment} by {notification_username}'
     notification_duplicate: 'At least another notification exists for this object'
     notification_no_results: 'No result to display'
@@ -743,6 +751,7 @@ message:
     publish_not_authorized: 'You can not (un)publish the content type {content_type}'
     publish_not_in_circles: 'You can not (un)publish the content type {content_type} as you do not share any circle'
     publish_not_in_default_environment: 'You can not (un)publish in the default environment {environment} of the document "{label}"'
+    put_back_confirm: 'Put back "{label}" ?'
     query_search_deleted: 'The query search "{label}" has been deleted'
     reindex_command_end: "The content type {content_type}''s documents have been reindexed in {environment} (index: {index})"
     reindex_command_environment_not_found: 'Environment named {environment} not found'
@@ -760,6 +769,7 @@ message:
     release_revision_still_in_target: 'Still released in {target}'
     release_unknown_action: 'Unknown action'
     removing_files: 'Removing {count} files. Please wait...'
+    replaced_by_revision: 'replaced by revision {date}'
     revision_add_for_publication: 'Add document for publication'
     revision_add_for_unpublish: 'Add document for unpublish'
     revision_add_from_json_error: 'It was impossible to initiate a new {content_type} document due to an internal error'
@@ -819,6 +829,13 @@ message:
     schedule_updated: 'Schedule "{name}" has been updated'
     search_deleted: 'A search has been deleted'
     search_paging_limit_exceeded: 'The paging is limited to the first {paging} items, got {total} documents'
+    search_result_count: |-
+        {count, plural,
+            =-1   {Search result is missing}
+            =0    {No results found}
+            =1    {1 document found}
+            other {# documents found}
+        }
     search_result_limited: 'The search result is limited to the first {total} documents'
     search_set_as_default: 'This search has been defined as default search'
     search_set_as_default_for_content_type: 'This search has been defined as default search form for the content type {content_type}'
@@ -870,11 +887,6 @@ message:
     wysiwyg_styles_set_updated: 'Style set "{name}" has been updated'
     xliff_not_current_revision: 'The revision {revision_id} of {ouuid} is no longer the last revision. The translations were not imported.'
     xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
-    delete_this_draft: 'Delete this draft'
-    finalized_by: '{date} Finalized by {user}'
-    no_revision_in_env: 'no revision in {env}'
-    replaced_by_revision: 'replaced by revision {date}'
-    put_back_confirm: 'Put back "{label}" ?'
 option:
     allow_add: 'Allow add'
     default_search: 'In default search'
@@ -945,29 +957,6 @@ role:
         label: 'User read'
     webmaster:
         label: Webmaster
-search:
-    filter:
-        add: Add
-        boolean_clause: 'Boolean clause'
-        boost: Boost
-        field: Field
-        operator: Operator
-        pattern: Pattern
-    form: Form
-    query: Query
-    set_default:
-        confirm: 'Do you confirm ?'
-        label: 'Set as default search'
-    set_default_content_type:
-        confirm: 'Do you confirm ?'
-        label: 'Default search for {content_type}'
-    title: |-
-        {count, plural,
-            =-1   {Search result is missing}
-            =0    {No results found}
-            =1    {1 document found}
-            other {# documents found}
-        }
 search_options:
     aggregate:
         add: 'Add an Aggregate Option'
@@ -1139,12 +1128,14 @@ title:
     delete_file: 'Delete file'
     delete_files_count: 'Delete {count} files'
     delete_folder: 'Delete folder'
+    drafts_in_progress: '{pluralName} drafts in progress'
     edit_environment: 'Edit the environment "{name}"'
     edit_environment_short: 'Edit environment'
     edit_form: 'Edit a form'
     edit_release: 'Edit a Release'
     error: 'An Error Occurred'
     error_page: 'Oops! An Error Occurred'
+    items_in_trash: '{pluralName} in trash'
     job_list: "Job's list"
     list_environments: 'List Environments'
     list_releases: 'List of Releases'
@@ -1183,8 +1174,6 @@ title:
     view_file: 'View file'
     view_file_modal: 'View file: {name}'
     view_recursive: 'Recursive view'
-    drafts_in_progress: '{pluralName} drafts in progress'
-    items_in_trash: '{pluralName} in trash'
 type:
     confirm: |-
         {type, select,

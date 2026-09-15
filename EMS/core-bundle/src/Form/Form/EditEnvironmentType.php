@@ -75,7 +75,7 @@ class EditEnvironmentType extends AbstractType
             ->add('save', SubmitEmsType::class, [
                 'attr' => ['class' => 'btn btn-primary btn-sm ', 'data-testid' => 'btn-action-save'],
                 'icon' => 'fa fa-save',
-                'label' => t('environment.edit.save', [], 'emsco-core'),
+                'label' => t('action.update', [], 'emsco-core'),
             ]);
 
         if (\array_key_exists('type', $options) && $options['type']) {

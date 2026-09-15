@@ -63,6 +63,7 @@ action:
     update_from_json: 'Bijwerken vanuit JSON'
     update_mapping: 'Mapping bijwerken'
     view: Bekijken
+    update: Bijwerken
 asset_extractor:
     status: |-
         {color, select,
@@ -252,7 +253,6 @@ environment:
             Als u de alias wilt hernoemen,
             maak dan een nieuwe omgeving aan en lijn deze uit met de omgeving waarvan u de alias wilt hernoemen.
             Verwijder vervolgens de vorige.
-        save: Bijwerken
         short_title: 'Omgeving bewerken'
         title: 'Omgeving "{name}" bewerken'
     index:
@@ -729,8 +729,6 @@ media_library:
         view:
             download: 'Bestand downloaden'
             fallback: 'Geen plug-in beschikbaar om de bestandsinhoud weer te geven.'
-            next: Volgende
-            previous: Vorige
             title: 'Bestand bekijken'
             title_modal: 'Bestand bekijken: {name}'
     files:
@@ -1700,7 +1698,6 @@ user:
             title: 'Wachtwoord wijzigen'
         edit:
             breadcrumb_title: Bewerken
-            submit: Bijwerken
             title: 'Uw profiel bewerken'
         show:
             email: e-mail

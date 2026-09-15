@@ -63,6 +63,7 @@ action:
     update_from_json: 'Mettre à jour depuis JSON'
     update_mapping: 'Mettre à jour le mapping'
     view: Voir
+    update: 'Mettre à jour'
 asset_extractor:
     status: |-
         {color, select,
@@ -252,7 +253,6 @@ environment:
             Si vous avez l’intention de renommer l’alias,
             veuillez créer un nouvel environnement et l’aligner sur celui dont vous souhaitez renommer l’alias.
             Supprimez ensuite l’ancien.
-        save: 'Mettre à jour'
         short_title: 'Modifier l’environnement'
         title: 'Modifier l’environnement « {name} »'
     index:
@@ -729,8 +729,6 @@ media_library:
         view:
             download: 'Télécharger le fichier'
             fallback: 'Aucun plugin disponible pour afficher le contenu du fichier.'
-            next: Suivant
-            previous: Précédent
             title: 'Voir le fichier'
             title_modal: 'Voir le fichier : {name}'
     files:
@@ -1700,7 +1698,6 @@ user:
             title: 'Changer le mot de passe'
         edit:
             breadcrumb_title: Modifier
-            submit: 'Mettre à jour'
             title: 'Modifier votre profil'
         show:
             email: e-mail

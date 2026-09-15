@@ -63,6 +63,7 @@ action:
     update_from_json: 'Update from JSON'
     update_mapping: 'Update mapping'
     view: View
+    update: Update
 asset_extractor:
     status: |-
         {color, select,
@@ -252,7 +253,6 @@ environment:
             If you intend to rename the alias,
             please create a new environment and align it to the one you would like to rename the alias.
             Then delete the previous one.
-        save: Update
         short_title: 'Edit environment'
         title: 'Edit the environment "{name}"'
     index:
@@ -729,8 +729,6 @@ media_library:
         view:
             download: 'Download the file'
             fallback: 'No plugin-in available to display the file content.'
-            next: Next
-            previous: Previous
             title: 'View file'
             title_modal: 'View file: {name}'
     files:
@@ -1700,7 +1698,6 @@ user:
             title: 'Change password'
         edit:
             breadcrumb_title: Edit
-            submit: Update
             title: 'Edit your profile'
         show:
             email: e-mail

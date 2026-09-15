@@ -112,7 +112,7 @@
 
 {% block icontext_help %}
     <div class="d-flex justify-content-between flex-row-reverse">
-        <span class="text-counter form-text" data-counter-label="{{ 'field_type.textarea.counter'|trans|e('html_attr') }}" data-counter-target="{{ form.vars.id }}"></span>
+        <span class="text-counter form-text" data-counter-label="{{ 'key.textarea_counter'|trans|e('html_attr') }}" data-counter-target="{{ form.vars.id }}"></span>
         {{ block('form_help') }}
     </div>
 {% endblock icontext_help %}
@@ -820,18 +820,18 @@
                     <span class="input-group-addon" >
                         <i class="{% if item.icon|default(false) %}{{ item.icon }}{% elseif item.type|default('node') == 'node' %}fa fa-folder{% else %}fa fa-file-text{% endif %}"></i>
                     </span>
-                    <input type="text" class="form-control itemLabel ignore-ems-update" placeholder="{{ 'field_type.json_menu_editor.item_label_placeholder'|trans }}" value="{{ item.label|default('') }}">
+                    <input type="text" class="form-control itemLabel ignore-ems-update" placeholder="{{ 'key.item_label'|trans }}" value="{{ item.label|default('') }}">
                     <span class="input-group-btn">
-                        <a type="button" class="btn btn-primary json_menu_sortable_handle_button" title="{{ 'field_type.json_menu_editor.move_item'|trans }}">
+                        <a type="button" class="btn btn-primary json_menu_sortable_handle_button" title="{{ 'action.move_item'|trans }}">
                             <i class="fa fa-arrows"></i>
-                            <span class="">{{ 'field_type.json_menu_editor.move_item'|trans }}</span>
+                            <span class="">{{ 'action.move_item'|trans }}</span>
                         </a>
                         {% if item.type|default('node') == 'node' %}
                             {{ addMenu }}
                         {% endif %}
-                        <a type="button" class="btn btn-danger json_menu_sortable_remove_button" title="{{ 'field_type.json_menu_editor.delete_item'|trans }}">
+                        <a type="button" class="btn btn-danger json_menu_sortable_remove_button" title="{{ 'action.delete_item'|trans }}">
                             <i class="fa fa-trash"></i>
-                            <span class="visually-hidden">{{ 'field_type.json_menu_editor.delete_item'|trans }}</span>
+                            <span class="visually-hidden">{{ 'action.delete_item'|trans }}</span>
                         </a>
                     </span>
                 </span>
@@ -866,7 +866,7 @@
                     <li>
                         <a type="button" class="json_menu_sortable_add_item_button" data-label="" data-content-type="{{ type|e('html_attr') }}" data-icon="{{ contentTypeIcon|e('html_attr') }}">
                             <i class="{{ contentTypeIcon }}"></i>
-                            {{ 'field_type.json_menu_editor.add_item'|trans({'singular': contentType.singularName}) }}
+                            {{ 'action.add_item'|trans({'singular': contentType.singularName}) }}
                         </a>
                     </li>
                 {% endif %}
@@ -878,7 +878,7 @@
                     <li>
                         <a type="button" class="json_menu_sortable_add_node_button" data-label="" data-content-type="{{ type|e('html_attr') }}" data-icon="{{ contentTypeIcon|e('html_attr') }}">
                             <i class="{{ contentTypeIcon }}"></i>
-                            {{ 'field_type.json_menu_editor.add_node'|trans({'singular': contentType.singularName}) }}
+                            {{ 'action.add_node'|trans({'singular': contentType.singularName}) }}
                         </a>
                     </li>
                 {% endif %}
@@ -1438,7 +1438,7 @@
 
 {% block textarea_help %}
     <div class="d-flex justify-content-between flex-row-reverse">
-        <span class="text-counter form-text" data-counter-label="{{ 'field_type.textarea.counter'|trans|e('html_attr') }}" data-counter-target="{{ form.vars.id }}"></span>
+        <span class="text-counter form-text" data-counter-label="{{ 'key.textarea_counter'|trans|e('html_attr') }}" data-counter-target="{{ form.vars.id }}"></span>
         {{ block('form_help') }}
     </div>
 {% endblock textarea_help %}

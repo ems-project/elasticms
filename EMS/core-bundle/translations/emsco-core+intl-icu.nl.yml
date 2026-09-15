@@ -71,6 +71,11 @@ action:
     update_from_json: 'Bijwerken vanuit JSON'
     update_mapping: 'Mapping bijwerken'
     view: Bekijken
+    add_item: 'Item toevoegen'
+    add_node: 'Node toevoegen'
+    copy_all: 'Alles kopiëren'
+    delete_item: 'Item verwijderen'
+    move_item: 'Item verplaatsen'
 asset_extractor:
     status: |-
         {color, select,
@@ -364,16 +369,6 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     wysiwyg_profile: WYSIWYG-profiel
-field_type:
-    json_menu_editor:
-        add_item: 'Item toevoegen'
-        add_node: 'Node toevoegen'
-        copy_all: 'Alles kopiëren'
-        delete_item: 'Item verwijderen'
-        item_label_placeholder: Itemlabel
-        move_item: 'Item verplaatsen'
-    textarea:
-        counter: '{count} tekens'
 fields:
     asset:
         browse-server: 'Server doorzoeken'
@@ -579,6 +574,8 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profielen
     wysiwyg_style_sets: Stijlsets
+    item_label: Itemlabel
+    textarea_counter: '{count} tekens'
 log:
     error:
         content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'

@@ -154,9 +154,9 @@
 {% block buttonMove %}
     {% if 'move' in node.actions %}
         <a type="button" class="btn btn-sm btn-light btn-json-menu-nested-move"
-           title="{{- 'field_type.json_menu_editor.move_item'|trans -}}">
+           title="{{- 'action.move_item'|trans -}}">
             <i class="fa fa-arrows"></i>
-            {{ 'field_type.json_menu_editor.move_item'|trans }}
+            {{ 'action.move_item'|trans }}
         </a>
     {% endif %}
 {% endblock %}
@@ -164,9 +164,9 @@
 {% block buttonDelete %}
     {% if 'delete' in node.actions %}
         <button type="button" class="btn btn-sm btn-outline-danger btn-json-menu-nested-delete"
-                title="{{- 'field_type.json_menu_editor.delete_item'|trans -}}"
+                title="{{- 'action.delete_item'|trans -}}"
                 data-item-id="{{ item.id }}">
-            <i class="fa fa-trash"></i>&nbsp;<span class="visually-hidden">{{- 'field_type.json_menu_editor.delete_item'|trans -}}</span>
+            <i class="fa fa-trash"></i>&nbsp;<span class="visually-hidden">{{- 'action.delete_item'|trans -}}</span>
         </button>
     {% endif %}
 {% endblock %}
@@ -186,12 +186,12 @@
                     {%- set addNode = def.getNodeByName(addNodeName) -%}
                     <li>
                         <button type="button" class="btn-json-menu-nested-add"
-                                title="{{ 'field_type.json_menu_editor.add_item'|trans({'singular': addNode.label}) }}"
+                                title="{{ 'action.add_item'|trans({'singular': addNode.label}) }}"
                                 data-item-id="{{ item.id }}"
                                 data-node-id="{{ addNode.id }}"
                                 data-level="{{ level }}">
                             {%- if addNode.icon|default(false) -%}<i class="{{ addNode.icon }}"></i>{%- endif -%}
-                            {{ 'field_type.json_menu_editor.add_item'|trans({'singular': addNode.label}) }}
+                            {{ 'action.add_item'|trans({'singular': addNode.label}) }}
                         </button>
                     </li>
                 {%- endfor -%}
@@ -213,7 +213,7 @@
                         <button class="{{ 'root' == position ? 'btn-json-menu-nested-copy-all' : 'btn-json-menu-nested-copy' }}"
                             {%- if 'item' == position %}data-item-id="{{ item.id }}"{% endif -%}>
                             <span class="fa fa-copy"></span>&nbsp;
-                            {{ 'root' == position ? 'field_type.json_menu_editor.copy_all'|trans : 'action.copy'|trans }}
+                            {{ 'root' == position ? 'action.copy_all'|trans : 'action.copy'|trans }}
                         </button>
                     </li>
                 {% endif %}

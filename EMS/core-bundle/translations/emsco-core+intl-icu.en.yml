@@ -71,6 +71,11 @@ action:
     update_from_json: 'Update from JSON'
     update_mapping: 'Update mapping'
     view: View
+    add_item: 'Add item'
+    add_node: 'Add node'
+    copy_all: 'Copy all'
+    delete_item: 'Delete item'
+    move_item: 'Move item'
 asset_extractor:
     status: |-
         {color, select,
@@ -364,16 +369,6 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     wysiwyg_profile: 'WYSIWYG profile'
-field_type:
-    json_menu_editor:
-        add_item: 'Add item'
-        add_node: 'Add node'
-        copy_all: 'Copy all'
-        delete_item: 'Delete item'
-        item_label_placeholder: 'Item label'
-        move_item: 'Move item'
-    textarea:
-        counter: '{count} characters'
 fields:
     asset:
         browse-server: 'Browse server'
@@ -579,6 +574,8 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
+    item_label: 'Item label'
+    textarea_counter: '{count} characters'
 log:
     error:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'

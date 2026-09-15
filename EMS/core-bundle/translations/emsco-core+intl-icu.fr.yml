@@ -71,6 +71,11 @@ action:
     update_from_json: 'Mettre à jour depuis JSON'
     update_mapping: 'Mettre à jour le mapping'
     view: Voir
+    add_item: 'Ajouter un élément'
+    add_node: 'Ajouter un nœud'
+    copy_all: 'Tout copier'
+    delete_item: 'Supprimer l’élément'
+    move_item: 'Déplacer l’élément'
 asset_extractor:
     status: |-
         {color, select,
@@ -364,16 +369,6 @@ field:
     user_uploaded: 'Uploadé par'
     username: "Nom d'utilisateur"
     wysiwyg_profile: 'Profil WYSIWYG'
-field_type:
-    json_menu_editor:
-        add_item: 'Ajouter un élément'
-        add_node: 'Ajouter un nœud'
-        copy_all: 'Tout copier'
-        delete_item: 'Supprimer l’élément'
-        item_label_placeholder: 'Libellé de l’élément'
-        move_item: 'Déplacer l’élément'
-    textarea:
-        counter: '{count} caractères'
 fields:
     asset:
         browse-server: 'Parcourir le serveur'
@@ -579,6 +574,8 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profils
     wysiwyg_style_sets: 'Jeux de styles'
+    item_label: 'Libellé de l’élément'
+    textarea_counter: '{count} caractères'
 log:
     error:
         content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'

@@ -95,7 +95,7 @@
 	{% else %}
 		{{ block('form_widget') }}
 	{% endif %}
-    <span class="pull-right text-counter" data-counter-label="{{ 'field_type.textarea.counter'|trans|e('html_attr') }}"></span>
+    <span class="pull-right text-counter" data-counter-label="{{ 'key.textarea_counter'|trans|e('html_attr') }}"></span>
 {%- endblock icontext_widget %}
 
 
@@ -825,18 +825,18 @@
 					<span class="input-group-addon" >
                         <i class="{% if item.icon|default(false) %}{{ item.icon }}{% elseif item.type|default('node') == 'node' %}fa fa-folder{% else %}fa fa-file-text{% endif %}"></i>
                     </span>
-					<input type="text" class="form-control itemLabel ignore-ems-update" placeholder="{{ 'field_type.json_menu_editor.item_label_placeholder'|trans }}" value="{{ item.label|default('') }}">
+					<input type="text" class="form-control itemLabel ignore-ems-update" placeholder="{{ 'key.item_label'|trans }}" value="{{ item.label|default('') }}">
 					<span class="input-group-btn">
-						<a type="button" class="btn btn-primary json_menu_sortable_handle_button" title="{{ 'field_type.json_menu_editor.move_item'|trans }}">
+						<a type="button" class="btn btn-primary json_menu_sortable_handle_button" title="{{ 'action.move_item'|trans }}">
 							<i class="fa fa-arrows"></i>
-							<span class="">{{ 'field_type.json_menu_editor.move_item'|trans }}</span>
+							<span class="">{{ 'action.move_item'|trans }}</span>
 						</a>
 						{% if item.type|default('node') == 'node' %}
                             {{ addMenu }}
 						{% endif %}
-						<a type="button" class="btn btn-danger json_menu_sortable_remove_button" title="{{ 'field_type.json_menu_editor.delete_item'|trans }}">
+						<a type="button" class="btn btn-danger json_menu_sortable_remove_button" title="{{ 'action.delete_item'|trans }}">
 							<i class="fa fa-trash"></i>
-							<span class="sr-only">{{ 'field_type.json_menu_editor.delete_item'|trans }}</span>
+							<span class="sr-only">{{ 'action.delete_item'|trans }}</span>
 						</a>
 					</span>
 				</span>
@@ -872,7 +872,7 @@
                     <li>
                         <a type="button" class="json_menu_sortable_add_item_button" data-label="" data-content-type="{{ type|e('html_attr') }}" data-icon="{{ contentTypeIcon|e('html_attr') }}">
                             <i class="{{ contentTypeIcon }}"></i>
-                            {{ 'field_type.json_menu_editor.add_item'|trans({'singular': contentType.singularName}) }}
+                            {{ 'action.add_item'|trans({'singular': contentType.singularName}) }}
                         </a>
                     </li>
                 {% endif %}
@@ -884,7 +884,7 @@
                     <li>
                         <a type="button" class="json_menu_sortable_add_node_button" data-label="" data-content-type="{{ type|e('html_attr') }}" data-icon="{{ contentTypeIcon|e('html_attr') }}">
                             <i class="{{ contentTypeIcon }}"></i>
-                            {{ 'field_type.json_menu_editor.add_node'|trans({'singular': contentType.singularName}) }}
+                            {{ 'action.add_node'|trans({'singular': contentType.singularName}) }}
                         </a>
                     </li>
                 {% endif %}
@@ -1449,7 +1449,7 @@
 
 {% block textarea_widget %}
     {{ parent() }}
-    <span class="pull-right text-counter" data-counter-label="{{ 'field_type.textarea.counter'|trans|e('html_attr') }}"></span>
+    <span class="pull-right text-counter" data-counter-label="{{ 'key.textarea_counter'|trans|e('html_attr') }}"></span>
 {% endblock textarea_widget %}
 
 {% block collection_entry_with_grouped_remove %}

@@ -72,7 +72,6 @@ asset_extractor:
             other   {Étrange... Contactez votre administrateur système}
         }
 button:
-    confirm: 'Confirmez-vous ?'
     reload_page: 'Recharger la page'
 certificate:
     status: |-
@@ -1089,7 +1088,6 @@ release:
         add_unpublish: 'Ajouter des documents à dépublier'
         delete_confirm: "Supprimer la release\_?"
         delete_selected_confirm: "Supprimer toutes les releases sélectionnées\_?"
-        publish_confirm: "Confirmez-vous\_?"
         publish_release: 'Publier maintenant'
         set_status_canceled: 'Annuler la release'
         set_status_ready: 'Valider la release'

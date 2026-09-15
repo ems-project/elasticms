@@ -106,7 +106,7 @@ class ReleaseOverviewDataTableType extends AbstractEntityTableType
             route: Routes::RELEASE_PUBLISH,
             labelKey: t('release.actions.publish_release', [], 'emsco-core'),
             icon: 'toggle-on',
-            messageKey: t('release.actions.publish_confirm', [], 'emsco-core'),
+            messageKey: t('action.confirmation', [], 'emsco-core'),
             attributes: ['data-testid' => 'release-action-publish']
         )->addCondition(new Terms('status', [Release::READY_STATUS]));
         $table->addItemGetAction(

@@ -72,7 +72,6 @@ asset_extractor:
             other   {Well, that’s odd... Contact your system administrator}
         }
 button:
-    confirm: 'Do you confirm?'
     reload_page: 'Reload page'
 certificate:
     status: |-
@@ -1089,7 +1088,6 @@ release:
         add_unpublish: 'Add documents for unpublish'
         delete_confirm: 'Delete the Release?'
         delete_selected_confirm: 'Delete all selected Releases?'
-        publish_confirm: 'Do you confirm ?'
         publish_release: 'Release now'
         set_status_canceled: 'Cancel release'
         set_status_ready: 'Validate release'

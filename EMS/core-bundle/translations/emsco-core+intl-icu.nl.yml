@@ -72,7 +72,6 @@ asset_extractor:
             other   {Dat is vreemd... Neem contact op met uw systeembeheerder}
         }
 button:
-    confirm: 'Bevestigt u dit?'
     reload_page: 'Pagina herladen'
 certificate:
     status: |-
@@ -1089,7 +1088,6 @@ release:
         add_unpublish: 'Documenten toevoegen voor depublicatie'
         delete_confirm: 'Deze release verwijderen?'
         delete_selected_confirm: 'Alle geselecteerde releases verwijderen?'
-        publish_confirm: 'Bevestigt u dit?'
         publish_release: 'Nu publiceren'
         set_status_canceled: 'Release annuleren'
         set_status_ready: 'Release valideren'

@@ -118,7 +118,7 @@ class ReleaseOverviewDataTableType extends AbstractEntityTableType
         )->addCondition(new Terms('status', [Release::READY_STATUS]));
         $table->addItemPostAction(
             route: Routes::RELEASE_DELETE,
-            labelKey: t('release.actions.delete', [], 'emsco-core'),
+            labelKey: t('action.delete', [], 'emsco-core'),
             icon: 'trash',
             messageKey: t('release.actions.delete_confirm', [], 'emsco-core'),
             attributes: ['data-testid' => 'release-action-delete']
@@ -126,7 +126,7 @@ class ReleaseOverviewDataTableType extends AbstractEntityTableType
         $table->addTableAction(
             name: TableAbstract::DELETE_ACTION,
             icon: 'fa fa-trash',
-            labelKey: t('release.actions.delete_selected', [], 'emsco-core'),
+            labelKey: t('action.delete_selected', [], 'emsco-core'),
             confirmationKey: t('release.actions.delete_selected_confirm', [], 'emsco-core')
         )->setCssClass('btn btn-outline-danger');
     }

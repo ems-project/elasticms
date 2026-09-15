@@ -239,7 +239,6 @@ environment:
         title: 'Add a new Environment'
     align:
         align_with: 'Align with'
-        checkbox-all: 'Select all'
         circles: Circles
         compare: Compare
         compare_title: 'Compare {environment} with {with_environment}'
@@ -477,7 +476,6 @@ field_type:
         delete_item: 'Delete item'
         item_label_placeholder: 'Item label'
         move_item: 'Move item'
-    reorder: Reorder
     textarea:
         counter: '{count} characters'
 fields:
@@ -1041,7 +1039,6 @@ notification:
     rejected: Rejected
     rejected_by: 'Rejected by'
     rejected_message: 'Rejected message'
-    reset_filters: 'Reset filters'
     revision: Revision
     sent:
         title: Sent
@@ -1090,9 +1087,7 @@ release:
     actions:
         add_publish: 'Add documents for publication'
         add_unpublish: 'Add documents for unpublish'
-        delete: Delete
         delete_confirm: 'Delete the Release?'
-        delete_selected: 'Delete selected'
         delete_selected_confirm: 'Delete all selected Releases?'
         publish_confirm: 'Do you confirm ?'
         publish_release: 'Release now'
@@ -1626,7 +1621,6 @@ type:
         }
 user:
     action:
-        delete: Delete
         delete_confirm: 'Delete this user?'
         disable: Disable
         disable_confirm: 'Disable this user?'

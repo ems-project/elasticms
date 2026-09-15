@@ -108,7 +108,7 @@ class UserDataTableType extends AbstractEntityTableType
             )->addCondition(new Terms('roles', [Roles::ROLE_API]));
             $table->addDynamicItemPostAction(
                 route: Routes::USER_DELETE,
-                labelKey: t('user.action.delete', [], 'emsco-core'),
+                labelKey: t('action.delete', [], 'emsco-core'),
                 icon: 'trash',
                 messageKey: t('user.action.delete_confirm', [], 'emsco-core'),
                 routeParameters: ['user' => 'id'],

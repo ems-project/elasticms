@@ -1,7 +1,7 @@
 {% trans_default_domain 'emsco-core' %}{{ form_start(treatform) }}
 
     {% if notifications|length <= 0 %}
-        <p>{{ 'notification.no_result_for_filters'|trans }}: <a href="{{ path('notifications.inbox') }}">{{ 'notification.reset_filters'|trans }}</a></p>
+        <p>{{ 'notification.no_result_for_filters'|trans }}: <a href="{{ path('notifications.inbox') }}">{{ 'action.reset_filters'|trans }}</a></p>
     {% else %}
 
         <div class="table-responsive">

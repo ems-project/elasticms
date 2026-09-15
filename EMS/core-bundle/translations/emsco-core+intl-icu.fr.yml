@@ -239,7 +239,6 @@ environment:
         title: 'Ajouter un nouvel environnement'
     align:
         align_with: 'Aligner avec'
-        checkbox-all: 'Tout sélectionner'
         circles: Cercles
         compare: Comparer
         compare_title: 'Comparer {environment} avec {with_environment}'
@@ -477,7 +476,6 @@ field_type:
         delete_item: 'Supprimer l’élément'
         item_label_placeholder: 'Libellé de l’élément'
         move_item: 'Déplacer l’élément'
-    reorder: Réordonner
     textarea:
         counter: '{count} caractères'
 fields:
@@ -1041,7 +1039,6 @@ notification:
     rejected: Rejetée
     rejected_by: 'Rejetée par'
     rejected_message: 'Message de rejet'
-    reset_filters: 'réinitialiser les filtres'
     revision: Révision
     sent:
         title: Envoyées
@@ -1090,9 +1087,7 @@ release:
     actions:
         add_publish: 'Ajouter des documents à publier'
         add_unpublish: 'Ajouter des documents à dépublier'
-        delete: Supprimer
         delete_confirm: "Supprimer la release\_?"
-        delete_selected: 'Supprimer la sélection'
         delete_selected_confirm: "Supprimer toutes les releases sélectionnées\_?"
         publish_confirm: "Confirmez-vous\_?"
         publish_release: 'Publier maintenant'
@@ -1626,7 +1621,6 @@ type:
         }
 user:
     action:
-        delete: Supprimer
         delete_confirm: "Supprimer cet utilisateur\_?"
         disable: Désactiver
         disable_confirm: "Désactiver cet utilisateur\_?"

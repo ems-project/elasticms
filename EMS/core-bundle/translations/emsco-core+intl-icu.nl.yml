@@ -239,7 +239,6 @@ environment:
         title: 'Een nieuwe omgeving toevoegen'
     align:
         align_with: 'Uitlijnen met'
-        checkbox-all: 'Alles selecteren'
         circles: Kringen
         compare: Vergelijken
         compare_title: '{environment} vergelijken met {with_environment}'
@@ -477,7 +476,6 @@ field_type:
         delete_item: 'Item verwijderen'
         item_label_placeholder: Itemlabel
         move_item: 'Item verplaatsen'
-    reorder: Hersorteren
     textarea:
         counter: '{count} tekens'
 fields:
@@ -1041,7 +1039,6 @@ notification:
     rejected: Geweigerd
     rejected_by: 'Geweigerd door'
     rejected_message: Weigeringsbericht
-    reset_filters: 'filters resetten'
     revision: Revisie
     sent:
         title: Verzonden
@@ -1090,9 +1087,7 @@ release:
     actions:
         add_publish: 'Documenten toevoegen voor publicatie'
         add_unpublish: 'Documenten toevoegen voor depublicatie'
-        delete: Verwijderen
         delete_confirm: 'Deze release verwijderen?'
-        delete_selected: 'Selectie verwijderen'
         delete_selected_confirm: 'Alle geselecteerde releases verwijderen?'
         publish_confirm: 'Bevestigt u dit?'
         publish_release: 'Nu publiceren'
@@ -1626,7 +1621,6 @@ type:
         }
 user:
     action:
-        delete: Verwijderen
         delete_confirm: 'Deze gebruiker verwijderen?'
         disable: Uitschakelen
         disable_confirm: 'Deze gebruiker uitschakelen?'

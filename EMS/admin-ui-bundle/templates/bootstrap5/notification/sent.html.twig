@@ -17,7 +17,7 @@
         <div class="box-body ">
 
         {% if notifications|length <= 0 %}
-        <p>{{ 'notification.no_result'|trans }}: <a href="{{ path('notifications.sent') }}">{{ 'notification.reset_filters'|trans }}</a></p>
+        <p>{{ 'notification.no_result'|trans }}: <a href="{{ path('notifications.sent') }}">{{ 'action.reset_filters'|trans }}</a></p>
         {% else %}
         <div class="table-responsive">
                         <table class="table table-condensed table-striped">

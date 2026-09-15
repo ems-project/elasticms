@@ -59,11 +59,11 @@ action:
     toggle_sidebar: 'Zijbalk omschakelen'
     toggle_visibility: 'Zichtbaarheid omschakelen'
     toggle_visibility_selected: 'Zichtbaarheid van selectie omschakelen'
+    update: Bijwerken
     update_content_type_from_json: '{name} bijwerken vanuit een JSON-bestand'
     update_from_json: 'Bijwerken vanuit JSON'
     update_mapping: 'Mapping bijwerken'
     view: Bekijken
-    update: Bijwerken
 asset_extractor:
     status: |-
         {color, select,

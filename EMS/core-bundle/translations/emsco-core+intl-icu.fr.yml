@@ -59,11 +59,11 @@ action:
     toggle_sidebar: 'Basculer la barre latérale'
     toggle_visibility: 'Basculer la visibilité'
     toggle_visibility_selected: 'Basculer la visibilité de la sélection'
+    update: 'Mettre à jour'
     update_content_type_from_json: 'Mettre à jour {name} depuis un fichier JSON'
     update_from_json: 'Mettre à jour depuis JSON'
     update_mapping: 'Mettre à jour le mapping'
     view: Voir
-    update: 'Mettre à jour'
 asset_extractor:
     status: |-
         {color, select,

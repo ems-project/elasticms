@@ -59,11 +59,11 @@ action:
     toggle_sidebar: 'Toggle sidebar'
     toggle_visibility: 'Toggle visibility'
     toggle_visibility_selected: 'Toggle visibility selected'
+    update: Update
     update_content_type_from_json: 'Update {name} from a JSON file'
     update_from_json: 'Update from JSON'
     update_mapping: 'Update mapping'
     view: View
-    update: Update
 asset_extractor:
     status: |-
         {color, select,

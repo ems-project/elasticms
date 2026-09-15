@@ -1,5 +1,5 @@
 {% trans_default_domain 'emsco-core' %}{% if rejectedNotifications|length <= 0 %}
-    <p>{{ 'notification.no_result_for_filters'|trans }}: <a href="{{ path('notifications.inbox') }}">{{ 'action.reset_filters'|trans }}</a></p>
+    <p>{{ 'message.notification_no_results_for_filter_combo'|trans }}: <a href="{{ path('notifications.inbox') }}">{{ 'action.reset_filters'|trans }}</a></p>
 {% else %}
     <div class="table-responsive">
         <table class="table table-condensed table-striped">

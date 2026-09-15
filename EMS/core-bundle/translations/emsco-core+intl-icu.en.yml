@@ -64,6 +64,7 @@ action:
     update_from_json: 'Update from JSON'
     update_mapping: 'Update mapping'
     view: View
+    reload_page: 'Reload page'
 asset_extractor:
     status: |-
         {color, select,
@@ -71,8 +72,6 @@ asset_extractor:
             red     {Red: Asset extractor is not fully operational. Contact your system administrator}
             other   {Well, that’s odd... Contact your system administrator}
         }
-button:
-    reload_page: 'Reload page'
 certificate:
     status: |-
         {color, select,
@@ -1014,8 +1013,6 @@ notification:
         link_title: Notifications
     message: Message
     no_pending: 'No pending notifications'
-    no_result_for_filters: 'No result for this filters combinaison'
-    nothing_to_treat: 'No pending notifications'
     'on': 'On'
     rejected: Rejected
     rejected_by: 'Rejected by'
@@ -1046,7 +1043,6 @@ option:
 out-of-sync:
     modal:
         please-reload: 'Please reload the page.'
-        reload-page: 'Reload page'
         something-wrong: 'There is something wrong with this application.'
         title: 'Out of sync'
 pagination:
@@ -1401,9 +1397,6 @@ title:
     content_type_create_ouuid: 'This operation will not index the {content_type}, but initiate a draft only with a specific OUUID'
     content_type_from_json_file: "from a Content Type's JSON file"
     content_type_json_update: 'Update the content type "{content_type}"'
-    error: 'An Error Occurred'
-    error_page: 'Oops! An Error Occurred'
-    notifications_none_pending: 'No pending notifications'
     select_environments_to_compare: 'Select Environments to compare'
 type:
     confirm: |-

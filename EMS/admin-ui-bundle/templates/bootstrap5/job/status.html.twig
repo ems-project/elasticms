@@ -80,7 +80,7 @@
             {% if not job.done %}
                 {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
                     url: path('emsco_job_status', {job: job.id}),
-                    label: 'button.reload_page'|trans,
+                    label: 'action.reload_page'|trans,
                     icon: 'refresh',
                 }) }}
             {% endif %}

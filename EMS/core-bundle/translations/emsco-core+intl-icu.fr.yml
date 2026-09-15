@@ -64,6 +64,7 @@ action:
     update_from_json: 'Mettre à jour depuis JSON'
     update_mapping: 'Mettre à jour le mapping'
     view: Voir
+    reload_page: 'Recharger la page'
 asset_extractor:
     status: |-
         {color, select,
@@ -71,8 +72,6 @@ asset_extractor:
             red     {Rouge : l’extracteur d’assets n’est pas complètement opérationnel. Contactez votre administrateur système}
             other   {Étrange... Contactez votre administrateur système}
         }
-button:
-    reload_page: 'Recharger la page'
 certificate:
     status: |-
         {color, select,
@@ -1014,8 +1013,6 @@ notification:
         link_title: Notifications
     message: Message
     no_pending: 'Aucune notification en attente'
-    no_result_for_filters: 'Aucun résultat pour cette combinaison de filtres'
-    nothing_to_treat: 'Aucune notification en attente'
     'on': Le
     rejected: Rejetée
     rejected_by: 'Rejetée par'
@@ -1046,7 +1043,6 @@ option:
 out-of-sync:
     modal:
         please-reload: 'Veuillez recharger la page.'
-        reload-page: 'Recharger la page'
         something-wrong: 'Un problème est survenu avec cette application.'
         title: Désynchronisé
 pagination:
@@ -1401,9 +1397,6 @@ title:
     content_type_create_ouuid: "Cette opération n'indexera pas le {content_type}, mais initiera uniquement un brouillon avec un OUUID spécifique"
     content_type_from_json_file: "à partir d'un fichier JSON d'un content type"
     content_type_json_update: 'Mettre à jour le content type "{content_type}"'
-    error: 'Une erreur est survenue'
-    error_page: "Oups\_! Une erreur est survenue"
-    notifications_none_pending: 'Aucune notification en attente'
     select_environments_to_compare: 'Sélectionner les environnements à comparer'
 type:
     confirm: |-

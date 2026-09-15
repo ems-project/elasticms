@@ -64,6 +64,7 @@ action:
     update_from_json: 'Bijwerken vanuit JSON'
     update_mapping: 'Mapping bijwerken'
     view: Bekijken
+    reload_page: 'Pagina herladen'
 asset_extractor:
     status: |-
         {color, select,
@@ -71,8 +72,6 @@ asset_extractor:
             red     {Rood: asset extractor is niet volledig operationeel. Neem contact op met uw systeembeheerder}
             other   {Dat is vreemd... Neem contact op met uw systeembeheerder}
         }
-button:
-    reload_page: 'Pagina herladen'
 certificate:
     status: |-
         {color, select,
@@ -1014,8 +1013,6 @@ notification:
         link_title: Notificaties
     message: Bericht
     no_pending: 'Geen wachtende notificaties'
-    no_result_for_filters: 'Geen resultaat voor deze filtercombinatie'
-    nothing_to_treat: 'Geen wachtende notificaties'
     'on': Op
     rejected: Geweigerd
     rejected_by: 'Geweigerd door'
@@ -1046,7 +1043,6 @@ option:
 out-of-sync:
     modal:
         please-reload: 'Herlaad de pagina.'
-        reload-page: 'Pagina herladen'
         something-wrong: 'Er is iets mis met deze applicatie.'
         title: 'Niet gesynchroniseerd'
 pagination:
@@ -1401,9 +1397,6 @@ title:
     content_type_create_ouuid: 'Deze bewerking indexeert het {content_type} niet, maar start alleen een concept met een specifieke OUUID'
     content_type_from_json_file: 'vanuit een JSON-bestand van een content type'
     content_type_json_update: 'Content type "{content_type}" bijwerken'
-    error: 'Er is een fout opgetreden'
-    error_page: 'Oeps! Er is een fout opgetreden'
-    notifications_none_pending: 'Geen wachtende notificaties'
     select_environments_to_compare: 'Selecteer omgevingen om te vergelijken'
 type:
     confirm: |-

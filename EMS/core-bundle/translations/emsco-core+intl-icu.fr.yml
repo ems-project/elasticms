@@ -173,19 +173,6 @@ core:
                 other   {Il y a # index}
             }
     version: 'Version {core} avec Symfony {symfony}'
-ems_core:
-    dashboard:
-        export:
-            label: Exporter
-        revision_task:
-            label: 'Tâches de révision'
-        template:
-            label: Modèle
-entity:
-    edit:
-        title: 'Modifier {entity_name}'
-    new:
-        title: 'Nouveau {entity_name}'
 environment:
     add:
         notice: 'Cette opération créera un nouvel index Elasticsearch avec un alias pointant vers celui-ci.'
@@ -636,6 +623,8 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profils
     wysiwyg_style_sets: 'Jeux de styles'
+    revision_tasks: 'Tâches de révision'
+    template: Modèle
 log:
     error:
         content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'

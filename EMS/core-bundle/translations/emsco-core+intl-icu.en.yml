@@ -173,19 +173,6 @@ core:
                 other   {There are # indexes}
             }
     version: 'Version {core} with Symfony {symfony}'
-ems_core:
-    dashboard:
-        export:
-            label: Export
-        revision_task:
-            label: 'Revision tasks'
-        template:
-            label: Template
-entity:
-    edit:
-        title: 'Edit {entity_name}'
-    new:
-        title: 'New {entity_name}'
 environment:
     add:
         notice: 'This operation will create a new elastic search index with an alias pointing to it.'
@@ -636,6 +623,8 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
+    revision_tasks: 'Revision tasks'
+    template: Template
 log:
     error:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'

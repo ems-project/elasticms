@@ -173,19 +173,6 @@ core:
                 other   {Er zijn # indexen}
             }
     version: 'Versie {core} met Symfony {symfony}'
-ems_core:
-    dashboard:
-        export:
-            label: Exporteren
-        revision_task:
-            label: Revisietaken
-        template:
-            label: Sjabloon
-entity:
-    edit:
-        title: '{entity_name} bewerken'
-    new:
-        title: 'Nieuwe {entity_name}'
 environment:
     add:
         notice: 'Deze bewerking maakt een nieuwe Elasticsearch-index aan met een alias die ernaar verwijst.'
@@ -636,6 +623,8 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profielen
     wysiwyg_style_sets: Stijlsets
+    revision_tasks: Revisietaken
+    template: Sjabloon
 log:
     error:
         content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'

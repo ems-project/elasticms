@@ -1,16 +1,14 @@
+{% trans_default_domain 'emsco-core' %}
+
 {% for dashboard in dashboardMenu.children %}
-    <li class="nav-item">
-        <a href="{{ path(dashboard.route, dashboard.routeParameters) }}" class="nav-link{% if dashboard.color %} text-{{ dashboard.color }}{% endif %}">
-            <i class="{{ dashboard.icon }}"></i>
-        </a>
-    </li>
+    <button class="nav-link nav-icon-btn {% if dashboard.color %} text-{{ dashboard.color }}{% endif %}">
+        <i class="{{ dashboard.icon }} icon-fa"></i>
+    </button>
 {% endfor %}
 
-<li class="nav-item">
-    <a href="{{ path('notifications.inbox') }}" class="nav-link" title="{{ 'key.notifications'|trans({}, 'emsco-core') }}">
-        <i class="fa fa-envelope"></i>
-        {% if counter > 0 %}
-            <span class="navbar-badge badge text-bg-warning">{{ counter }}</span>
-        {% endif %}
-    </a>
-</li>
+<a href="{{ path('notifications.inbox') }}" class="nav-link nav-icon-btn" aria-label="{{ 'key.notifications'|trans }}">
+    <i class="fa-solid fa-envelope icon-fa"></i>
+    {% if counter > 0 %}
+        <span class="badge-dot">{{ counter }}</span>
+    {% endif %}
+</a>

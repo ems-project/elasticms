@@ -1,5 +1,228 @@
 {% extends '@EMSAdminUI/layout/base.html.twig' %}
 
+{%- block color_switcher -%}
+    <div class="dropdown">
+        <button class="nav-icon-btn dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="fa-solid fa-palette icon-fa"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-end p-3" style="width:210px">
+            <div class="theme-panel-label">Display</div>
+            <div class="d-flex mb-3" style="margin-left:-1px">
+                <button type="button" class="mode-btn" data-mode="light">Light</button>
+                <button type="button" class="mode-btn" data-mode="dark">Dark</button>
+            </div>
+            <div class="theme-panel-label">Color</div>
+            <div class="d-flex gap-2 mb-3">
+                <button class="skin-swatch" data-skin="blue" style="background:#3c8dbc"></button>
+                <button class="skin-swatch" data-skin="green" style="background:#00a65a"></button>
+                <button class="skin-swatch" data-skin="purple" style="background:#605ca8"></button>
+                <button class="skin-swatch" data-skin="yellow" style="background:#f39c12"></button>
+                <button class="skin-swatch" data-skin="red" style="background:#dd4b39"></button>
+            </div>
+        </div>
+    </div>
+{%- endblock color_switcher -%}
+
 {%- block body -%}
-    <h1>TEST</h1>
+    <div class="wrapper">
+        <div class="header-brand" id="headerBrand">elastic<b>MS</b></div>
+        <header class="main-header">
+            <div class="logo">
+                <span class="logo-mini" style="color:var(--brand-color)">X</span>
+                <span class="logo-full">elastic<b>MS</b><span class="logo-project" id="projectNameHeader"></span></span>
+            </div>
+            <nav class="navbar-top">
+                <button class="navbar-toggle" id="sidebarToggle" aria-label="Zijbalk in-/uitklappen">
+                    <i class="fa-solid fa-bars" style="font-size:1.2rem"></i>
+                </button>
+                <div class="navbar-right">
+                    {%- if app.user -%}
+                        {{ render(controller('EMS\\CoreBundle\\Controller\\ChannelController::menu')) }}
+                        {{ render(controller('EMS\\CoreBundle\\Controller\\NotificationController::menuNotification')) }}
+                    {%- endif -%}
+                    {{ block('color_switcher') }}
+
+{#                    <button class="nav-icon-btn" id="controlSidebarToggle" aria-label="Taken tonen">#}
+{#                        <i class="fa-solid fa-list-check icon-fa"></i>#}
+{#                        <span class="badge-dot">2</span>#}
+{#                    </button>#}
+
+                    <div class="dropdown">
+                        <button class="user-menu-btn dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-circle-user icon-fa" style="color:#fff"></i>
+                            <span class="d-none d-sm-inline small">Davmat</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item small" href="#"><i class="fa-solid fa-gear" style="font-size:.85rem;margin-right:6px"></i>Profiel</a></li>
+                            <li><a class="dropdown-item small" href="#" data-action="logout"><i class="fa-solid fa-right-from-bracket" style="font-size:.85rem;margin-right:6px"></i>Afmelden</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <aside class="main-sidebar">
+            <div class="user-panel">
+                <svg width="42" height="42" viewBox="0 0 42 42" style="border-radius:50%;background:#3c8dbc;flex-shrink:0">
+                    <text x="21" y="27" text-anchor="middle" fill="#fff" font-size="16" font-weight="700" font-family="Inter">DM</text>
+                </svg>
+                <div class="info">
+                    <div>Davmat</div>
+                    <small><span class="status-dot"></span> Online</small>
+                </div>
+            </div>
+
+            <div class="sidebar-search">
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" placeholder="Zoeken...">
+                    <button class="btn" type="button"><i class="fa-solid fa-magnifying-glass" style="font-size:.8rem"></i></button>
+                </div>
+            </div>
+
+            <div class="nav-label">Hoofdmenu</div>
+            <ul class="sidebar-menu">
+                <li class="active" data-page-item="dashboard">
+                    <a href="#" class="nav-page" data-page="dashboard">
+                        <span class="nav-icon"><i class="fa-solid fa-gauge icon-fa"></i></span>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                </li>
+                <li data-page-item="forms">
+                    <a href="#" class="nav-page" data-page="forms">
+                        <span class="nav-icon"><i class="fa-solid fa-pen-to-square icon-fa"></i></span>
+                        <span class="nav-text">Formulieren</span>
+                    </a>
+                </li>
+                <li data-page-item="ui">
+                    <a href="#" class="nav-page" data-page="ui">
+                        <span class="nav-icon"><i class="fa-solid fa-shapes icon-fa"></i></span>
+                        <span class="nav-text">UI-elementen</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-chart-column icon-fa"></i></span><span class="nav-text">Statistieken</span></a>
+                </li>
+                <li class="treeview">
+                    <a href="#" class="menu-toggle">
+                        <span class="nav-icon"><i class="fa-solid fa-table-cells icon-fa"></i></span>
+                        <span class="nav-text">Content</span>
+                        <span class="caret"><i class="fa-solid fa-angle-right" style="font-size:.75rem"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#">Alle pagina's</a></li>
+                        <li><a href="#">Categorie&euml;n</a></li>
+                        <li><a href="#">Media-bibliotheek</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="nav-icon"><i class="fa-solid fa-cart-shopping icon-fa"></i></span>
+                        <span class="nav-text">Bestellingen</span>
+                        <span class="nav-badge">12</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="#" class="menu-toggle">
+                        <span class="nav-icon"><i class="fa-solid fa-users icon-fa"></i></span>
+                        <span class="nav-text">Gebruikers</span>
+                        <span class="caret"><i class="fa-solid fa-angle-right" style="font-size:.75rem"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#">Overzicht</a></li>
+                        <li><a href="#">Rollen &amp; rechten</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-box icon-fa"></i></span><span class="nav-text">Voorraad</span></a>
+                </li>
+                <li class="nav-label">Beheer</li>
+                <li>
+                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-file-invoice-dollar icon-fa"></i></span><span class="nav-text">Facturatie</span></a>
+                </li>
+                <li>
+                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-chart-pie icon-fa"></i></span><span class="nav-text">Rapporten</span></a>
+                </li>
+                <li>
+                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-plug icon-fa"></i></span><span class="nav-text">Integraties</span></a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="nav-icon"><i class="fa-solid fa-comments icon-fa"></i></span>
+                        <span class="nav-text">Berichten</span>
+                        <span class="nav-badge">3</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-calendar-days icon-fa"></i></span><span class="nav-text">Kalender</span></a>
+                </li>
+                <li>
+                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-folder-open icon-fa"></i></span><span class="nav-text">Documenten</span></a>
+                </li>
+                <li>
+                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-circle-question icon-fa"></i></span><span class="nav-text">Help &amp; ondersteuning</span></a>
+                </li>
+                <li>
+                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-gear icon-fa"></i></span><span class="nav-text">Instellingen</span></a>
+                </li>
+            </ul>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <div class="control-sidebar" id="controlSidebar">
+            <div class="control-sidebar-header">
+                <h3>Taken</h3>
+                <button class="control-sidebar-close" id="controlSidebarClose" aria-label="Sluiten"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="control-sidebar-body">
+                <div class="job-item">
+                    <div class="job-item-top"><span>Media-import</span><span class="status-pill pending">Bezig</span></div>
+                    <div class="progress-admin"><span style="width:64%;background:#00c0ef"></span></div>
+                    <div class="job-meta">64% &middot; gestart 2 min geleden</div>
+                </div>
+                <div class="job-item">
+                    <div class="job-item-top"><span>Herindexering zoekindex</span><span class="status-pill pending">Bezig</span></div>
+                    <div class="progress-admin"><span style="width:28%;background:#00c0ef"></span></div>
+                    <div class="job-meta">28% &middot; gestart 6 min geleden</div>
+                </div>
+                <div class="job-item">
+                    <div class="job-item-top"><span>Nachtelijke back-up</span><span class="status-pill ok">Voltooid</span></div>
+                    <div class="job-meta">Klaar om 03:00 &middot; 4,2 GB</div>
+                </div>
+                <div class="job-item">
+                    <div class="job-item-top"><span>Export bestellingen (CSV)</span><span class="status-pill ok">Voltooid</span></div>
+                    <div class="job-meta">Klaar &middot; 12 min geleden</div>
+                </div>
+                <div class="job-item">
+                    <div class="job-item-top"><span>Synchronisatie voorraad</span><span class="status-pill failed">Mislukt</span></div>
+                    <div class="job-meta">Foutcode 502 &middot; 18 min geleden</div>
+                </div>
+                <div class="job-item">
+                    <div class="job-item-top"><span>Cache opwarmen</span><span class="status-pill ok">Voltooid</span></div>
+                    <div class="job-meta">Klaar &middot; 25 min geleden</div>
+                </div>
+            </div>
+        </div>
+        <div class="control-sidebar-overlay" id="controlSidebarOverlay"></div>
+
+        <div class="content-wrapper">
+            <div class="content-header">
+                <h1 id="pageTitle">Dashboard</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#" data-page="dashboard" class="nav-page">Start</a></li>
+                        <li class="breadcrumb-item active" aria-current="page" id="pageCrumb">Dashboard</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="content">
+
+            </div>
+        </div>
+        <footer class="main-footer">
+            <div>&copy; 2026 Jouw Bedrijf</div>
+            <div>Versie 1.0.0 &middot; gebouwd met Bootstrap 5</div>
+        </footer>
+    </div>
 {%- endblock body -%}

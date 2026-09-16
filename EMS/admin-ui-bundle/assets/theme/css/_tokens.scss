@@ -5,11 +5,11 @@
   --sidebar-bg: #222d32;
   --sidebar-active-bg: #1e282c;
   --sidebar-text: #b8c7ce;
-  --skin-color: #3c8dbc;
+  --skin-color: #{map-get($adminlte-colors, 'light-blue')};
   --sidebar-active-border: var(--skin-color);
   --logo-bg: color-mix(in srgb, var(--skin-color) 90%, black);
   --navbar-text: #ffffff;
-  --badge-dot-bg: #f39c12;
+  --badge-dot-bg: #{map-get($adminlte-colors, 'yellow')};
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   --brand-color: var(--bs-primary);
@@ -25,18 +25,18 @@
 }
 
 :root[data-skin='green'] {
-  --skin-color: #00a65a;
+  --skin-color: #{map-get($adminlte-colors, 'green')};
 }
 :root[data-skin='purple'] {
   --skin-color: #605ca8;
 }
 :root[data-skin='yellow'] {
-  --skin-color: #f39c12;
+  --skin-color: #{map-get($adminlte-colors, 'yellow')};
   --navbar-text: #4a3800;
   --badge-dot-bg: var(--sidebar-active-bg);
 }
 :root[data-skin='red'] {
-  --skin-color: #dd4b39;
+  --skin-color: #{map-get($adminlte-colors, 'red')};
 }
 
 :root[data-bs-theme='dark'] .btn-close {

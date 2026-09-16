@@ -25,8 +25,15 @@ class DefaultController extends AbstractController
         );
     }
 
-    public function layout(): Response
+    public function layout(): Page
     {
-        return $this->render('@EMSAdminUI/layout/layout.html.twig');
+        return new Page(
+            context: [
+                'icon' => 'fa fa-book',
+                'title' => t('key.documentation', [], 'emsco-core'),
+                'breadcrumb' => new Navigation()->add(t('key.documentation', [], 'emsco-core')),
+            ],
+            template: 'page/page_documentation2.html.twig',
+        );
     }
 }

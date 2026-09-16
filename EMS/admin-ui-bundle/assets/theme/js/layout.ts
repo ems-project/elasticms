@@ -4,6 +4,14 @@ function isMobile(): boolean {
     return window.innerWidth < MOBILE_BREAKPOINT;
 }
 
+function isSidebarMiniEnabled(): boolean {
+    return document.documentElement.dataset.sidebarMode === 'mini';
+}
+
+function collapsedClass(): string {
+    return isSidebarMiniEnabled() ? 'sidebar-collapse' : 'sidebar-hidden';
+}
+
 function initHeaderScroll(): void {
     const body = document.body;
     let lastScrollY = window.scrollY;
@@ -46,6 +54,7 @@ function initControlSidebar(): void {
 
 function initSidebar(): void {
     const body = document.body;
+    const root = document.documentElement;
     const toggle = document.getElementById('sidebarToggle');
     const overlay = document.getElementById('sidebarOverlay');
 
@@ -53,31 +62,20 @@ function initSidebar(): void {
         return;
     }
 
-    let collapsed = false;
-    try {
-        collapsed = localStorage.getItem('adminlte-collapsed') === '1';
-    } catch {
-        collapsed = false;
-    }
+    const collapsed = isSidebarMiniEnabled() || root.dataset.sidebarCollapsed === '1';
     if (collapsed && !isMobile()) {
-        body.classList.add('sidebar-collapse');
+        body.classList.add(collapsedClass());
     }
     document.documentElement.removeAttribute('data-collapsed');
 
     toggle.addEventListener('click', () => {
         if (isMobile()) {
             body.classList.toggle('sidebar-open');
-        } else {
-            body.classList.toggle('sidebar-collapse');
-            try {
-                localStorage.setItem(
-                    'adminlte-collapsed',
-                    body.classList.contains('sidebar-collapse') ? '1' : '0',
-                );
-            } catch {
-                /* storage unavailable */
-            }
+            return;
         }
+        const cls = collapsedClass();
+        body.classList.toggle(cls);
+        root.dataset.sidebarCollapsed = body.classList.contains(cls) ? '1' : '0';
     });
 
     overlay.addEventListener('click', () => {

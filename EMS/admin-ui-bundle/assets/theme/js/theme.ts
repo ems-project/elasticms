@@ -2,7 +2,7 @@ type ThemeMode = 'light' | 'dark';
 
 const DEFAULT_PROJECT_NAME = 'Klantportaal';
 
-function readStorage(key: string): string | null {
+export function readStorage(key: string): string | null {
   try {
     return localStorage.getItem(key);
   } catch {
@@ -10,7 +10,7 @@ function readStorage(key: string): string | null {
   }
 }
 
-function writeStorage(key: string, value: string): void {
+export function writeStorage(key: string, value: string): void {
   try {
     localStorage.setItem(key, value);
   } catch {
@@ -26,7 +26,7 @@ export function initTheme(): void {
 
   function updateModeButtons(mode: ThemeMode | null): void {
     const effective: ThemeMode =
-      mode ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        mode ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     modeButtons.forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.mode === effective);
     });
@@ -52,11 +52,11 @@ export function initTheme(): void {
 
   const storedTheme = readStorage('adminlte-theme');
   const effectiveTheme: ThemeMode =
-    storedTheme === 'light' || storedTheme === 'dark'
-      ? storedTheme
-      : window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light';
+      storedTheme === 'light' || storedTheme === 'dark'
+          ? storedTheme
+          : window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
   root.setAttribute('data-bs-theme', effectiveTheme);
   updateModeButtons(effectiveTheme);
 
@@ -83,6 +83,28 @@ export function initTheme(): void {
       }
     });
   });
+
+  const sidebarMiniToggle = document.getElementById('sidebarMiniToggle') as HTMLInputElement | null;
+  const sidebarMiniEnabled = readStorage('adminlte-sidebar-mini') === '1';
+  if (sidebarMiniEnabled) {
+    root.setAttribute('data-sidebar-mode', 'mini');
+  } else {
+    root.removeAttribute('data-sidebar-mode');
+  }
+  if (sidebarMiniToggle) {
+    sidebarMiniToggle.checked = sidebarMiniEnabled;
+    sidebarMiniToggle.addEventListener('change', () => {
+      const enabled = sidebarMiniToggle.checked;
+      writeStorage('adminlte-sidebar-mini', enabled ? '1' : '0');
+      if (enabled) {
+        root.setAttribute('data-sidebar-mode', 'mini');
+      } else {
+        root.removeAttribute('data-sidebar-mode');
+      }
+    });
+  }
+
+  localStorage.removeItem('adminlte-collapsed');
 
   const projectHeader = document.getElementById('projectNameHeader');
   const headerBrand = document.getElementById('headerBrand');

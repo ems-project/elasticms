@@ -549,6 +549,16 @@ body.sidebar-collapse {
   }
 }
 
+body.sidebar-hidden {
+  .content-wrapper,
+  .main-footer {
+    margin-left: 0;
+  }
+  .main-sidebar {
+    transform: translateX(-100%);
+  }
+}
+
 @media (max-width: 899.98px) {
   .main-header .logo {
     display: none;

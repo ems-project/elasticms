@@ -3,19 +3,25 @@ import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 import $ from 'jquery';
 import 'datatables.net-bs5';
 
-import { initSidebar } from './sidebar';
+import { initLayout } from './layout';
 import { initTheme } from './theme';
-import { initHeaderScroll } from './header-scroll';
-import { initControlSidebar } from './control-sidebar';
 import { initLogin } from './login';
 import { initOrdersTable } from './orders-table';
 import { initUiDemo } from './ui-demo';
 
+
+
 document.addEventListener('DOMContentLoaded', () => {
-  initSidebar();
+  document.querySelectorAll<HTMLImageElement>('.avatar-img').forEach(img => {
+    if (img.complete && img.naturalWidth === 0) {
+      img.style.display = 'none';
+    } else {
+      img.addEventListener('error', () => img.style.display = 'none', { once: true });
+    }
+  });
+
+  initLayout();
   initTheme();
-  initHeaderScroll();
-  initControlSidebar();
   initLogin();
   initOrdersTable($);
   initUiDemo();

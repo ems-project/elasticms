@@ -1,4 +1,5 @@
 {% extends '@EMSAdminUI/layout/base.html.twig' %}
+{% trans_default_domain 'emsco-core' %}
 
 {%- block color_switcher -%}
     <div class="dropdown">
@@ -23,6 +24,31 @@
     </div>
 {%- endblock color_switcher -%}
 
+{%- block user_menu -%}
+    <div class="dropdown user-menu">
+        <button class="user-menu-btn dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static">
+            {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', { class: 'avatar-sm', width: 25, height: 25 }) }}
+            <span class="d-none d-sm-inline small">{{ app.user.username }}</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end user-menu-dropdown">
+            <li class="user-menu-header">
+                {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', { class: 'avatar-lg', width: 60, height: 60 }) }}
+                <p class="user-menu-title">{{ 'user.logged_in.title'|trans({'username': app.user.username}, 'emsco-core') }}</p>
+                <p class="user-menu-meta">{{ 'user.logged_in.member_since'|trans({'date': app.user.created|date(date_time_format)}, 'emsco-core') }}</p>
+                <p class="user-menu-roles">{{ app.user.roles|map(r => r|trans({}, 'emsco-core'))|join(', ') }}</p>
+            </li>
+            <li class="user-menu-actions">
+                <a class="btn btn-outline-secondary btn-sm" href="{{ path('emsco_user_profile') }}">{{ 'user.profile.title'|trans({}, 'emsco-core') }}</a>
+                {% if is_granted('IS_IMPERSONATOR') %}
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" data-action="logout">{{ 'user.logout.exit'|trans({}, 'emsco-core') }}</a>
+                {% else %}
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ path('emsco_user_logout') }}" data-action="logout">{{ 'user.logout.submit'|trans({}, 'emsco-core') }}</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+{%- endblock user_menu -%}
+
 {%- block body -%}
     <div class="wrapper">
         <div class="header-brand" id="headerBrand">elastic<b>MS</b></div>
@@ -41,22 +67,11 @@
                         {{ render(controller('EMS\\CoreBundle\\Controller\\NotificationController::menuNotification')) }}
                     {%- endif -%}
                     {{ block('color_switcher') }}
-
-{#                    <button class="nav-icon-btn" id="controlSidebarToggle" aria-label="Taken tonen">#}
-{#                        <i class="fa-solid fa-list-check icon-fa"></i>#}
-{#                        <span class="badge-dot">2</span>#}
-{#                    </button>#}
-
-                    <div class="dropdown">
-                        <button class="user-menu-btn dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa-solid fa-circle-user icon-fa" style="color:#fff"></i>
-                            <span class="d-none d-sm-inline small">Davmat</span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item small" href="#"><i class="fa-solid fa-gear" style="font-size:.85rem;margin-right:6px"></i>Profiel</a></li>
-                            <li><a class="dropdown-item small" href="#" data-action="logout"><i class="fa-solid fa-right-from-bracket" style="font-size:.85rem;margin-right:6px"></i>Afmelden</a></li>
-                        </ul>
-                    </div>
+                    <button class="nav-icon-btn" id="controlSidebarToggle" aria-label="{{ 'action.toggle_sidebar'|trans }}">
+                        <i class="fa-solid fa-refresh icon-fa"></i>
+                        <span id="activity-counter" class="badge-dot"></span>
+                    </button>
+                    {{ block('user_menu') }}
                 </div>
             </nav>
         </header>

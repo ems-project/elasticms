@@ -106,6 +106,26 @@ export function initTheme(): void {
 
   localStorage.removeItem('adminlte-collapsed');
 
+  const sidebarCollapseToggle = document.getElementById('sidebarCollapseToggle') as HTMLInputElement | null;
+  const sidebarCollapseEnabled = readStorage('adminlte-sidebar-collapsed') === '1';
+  if (sidebarCollapseEnabled) {
+    root.setAttribute('data-sidebar-collapsed', '1');
+  } else {
+    root.removeAttribute('data-sidebar-collapsed');
+  }
+  if (sidebarCollapseToggle) {
+    sidebarCollapseToggle.checked = sidebarCollapseEnabled;
+    sidebarCollapseToggle.addEventListener('change', () => {
+      const enabled = sidebarCollapseToggle.checked;
+      writeStorage('adminlte-sidebar-collapsed', enabled ? '1' : '0');
+      if (enabled) {
+        root.setAttribute('data-sidebar-collapsed', '1');
+      } else {
+        root.removeAttribute('data-sidebar-collapsed');
+      }
+    });
+  }
+
   const projectHeader = document.getElementById('projectNameHeader');
   const headerBrand = document.getElementById('headerBrand');
   const sidebarBrandDesktop = document.getElementById('sidebarBrandDesktop');

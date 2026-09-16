@@ -62,7 +62,7 @@ function initSidebar(): void {
         return;
     }
 
-    const collapsed = isSidebarMiniEnabled() || root.dataset.sidebarCollapsed === '1';
+    const collapsed = root.dataset.sidebarCollapsed === '1';
     if (collapsed && !isMobile()) {
         body.classList.add(collapsedClass());
     }

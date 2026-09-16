@@ -8,6 +8,7 @@ use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Core\UI\Page\Page;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+use Symfony\Component\HttpFoundation\Response;
 use function Symfony\Component\Translation\t;
 
 class DefaultController extends AbstractController
@@ -22,5 +23,10 @@ class DefaultController extends AbstractController
             ],
             template: 'page/page_documentation.html.twig',
         );
+    }
+
+    public function layout(): Response
+    {
+        return $this->render('@EMSAdminUI/layout/layout.html.twig');
     }
 }

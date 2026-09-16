@@ -1,0 +1,93 @@
+.login-page {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: var(--content-bg);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+
+  &.active {
+    display: flex;
+  }
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--box-bg);
+  border-top: 3px solid var(--brand-color);
+  border-radius: 4px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14);
+}
+
+.login-brand {
+  text-align: center;
+  padding: 28px 24px 8px;
+
+  p {
+    margin: 12px 0 0;
+    color: var(--text-muted);
+    font-size: 0.87rem;
+  }
+}
+
+.login-body {
+  padding: 8px 24px 24px;
+}
+
+.login-footer {
+  padding: 14px 24px;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.login-sep {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-color);
+  }
+}
+
+.ems-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  .ems-mark {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  .ems-word {
+    font-size: 1.45rem;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    color: var(--text-color);
+    line-height: 1;
+
+    b {
+      font-weight: 800;
+    }
+  }
+}
+
+.main-header .logo .ems-mark {
+  width: 26px;
+  height: 26px;
+}

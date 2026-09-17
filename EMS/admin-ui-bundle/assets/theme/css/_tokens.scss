@@ -1,10 +1,18 @@
 :root {
+  --font-size-base: #{$font-size-base * 0.875};
+  --font-size-xs: calc(var(--font-size-base) * 0.75);
+  --font-size-sm: calc(var(--font-size-base) * 0.85);
+  --font-size-md: var(--font-size-base);
+  --font-size-lg: calc(var(--font-size-base) * 1.5);
+
   --sidebar-width: 230px;
   --sidebar-mini-width: 50px;
   --header-height: 51px;
   --sidebar-bg: #222d32;
   --sidebar-active-bg: #1e282c;
   --sidebar-text: #b8c7ce;
+  --sidebar-sub-bg: #2c3b41;
+  --sidebar-submenu-icon: rgba(255, 255, 255, 0.4);
   --skin-color: #{map-get($adminlte-colors, 'light-blue')};
   --sidebar-active-border: var(--skin-color);
   --logo-bg: color-mix(in srgb, var(--skin-color) 90%, black);

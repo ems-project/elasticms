@@ -1,56 +1,80 @@
-<div class="user-panel my-3 d-flex">
-    <div class="image">
-        {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
-            class: 'rounded-circle avatar ms-3 img-fluid',
-            width: 37,
-            height: 37,
-        }) }}
-    </div>
-    <div class="info ms-3">
+{% trans_default_domain 'emsco-core' %}
+
+<div class="user-panel">
+    {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', { width: 30, height: 30 }) }}
+    <div class="info">
         {% if app.user %}
-            <div class="dropdown user-menu">
-                <a class="dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">
-                    {{ app.user.displayName }}
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li class="dropdown-header">{{ 'message.logged_in_as'|trans({'username': app.user.username}, 'emsco-core') }}</li>
-                    <li class="dropdown-divider"></li>
-                    <li>
-                        <a href="{{ path(routes.USER_PROFILE) }}" class="dropdown-item">{{ 'title.profile'|trans({}, 'emsco-core') }}</a>
-                    </li>
-                    {% if is_granted('IS_IMPERSONATOR') %}
-                        <li>
-                            <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="dropdown-item">{{ 'action.exit'|trans({}, 'emsco-core') }}</a>
-                        </li>
-                    {% else %}
-                        <li>
-                            <a href="{{ path(routes.USER_LOGOUT) }}" class="dropdown-item">{{ 'action.sign_out'|trans({}, 'emsco-core') }}</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
+            <a href="{{ path('emsco_user_profile') }}" class="info-name">{{ app.user.displayName }}</a>
         {% else %}
-            <p class="text-white mb-0">{{ 'key.anonymous_user'|trans({}, 'emsco-core') }}</p>
+            <p class="info-name">{{ 'key.anonymous_user'|trans }}</p>
         {% endif %}
-        {% if status is defined %}
-            {% set statusTitle = 'cluster.status'|trans({color: status}, 'emsco-core') %}
-            <a href="{{ path('elasticsearch.status') }}" id="status-overview" title="{{ statusTitle }}">
+        {%- if status is defined -%}
+            <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="info-status fs-6" data-testid="status-overview">
                 {%- with {
-                    title: statusTitle,
+                    title: 'cluster.status'|trans({color: status}, 'emsco-core'),
                     status: status,
                 } -%}
                     {{ block('status', '@EMSAdminUI/bootstrap5/elasticsearch/status.html.twig') }}
                 {%- endwith -%}
             </a>
-        {% endif %}
+        {%- endif -%}
     </div>
 </div>
 
-<ul class="sidebar-nav">
-    {% for item in menu|default([])|filter(p => p.hasChildren) %}
-        <li class="sidebar-header">{{ item.title|trans }}</li>
-        {% for menu in item.children %}
-            {{ block('sidebarMenu', '@EMSAdminUI/bootstrap5/elements/menu.html.twig') }}
-        {% endfor %}
-    {% endfor %}
-</ul>
+{% if app.user %}
+    <div class="sidebar-search">
+        <form action="{{ path('ems_quick_search') }}" method="get" class="sidebar-form">
+            <div class="input-group input-group-sm">
+                <label for="q" class="sr-only">{{ 'field.quick_search'|trans }}</label>
+                <input type="text" class="form-control" id="q" name="q" placeholder="{{ 'message.search_placeholder'|trans }}" data-testid="search-general-query">
+                <button class="btn" type="submit" name="search" id="search-btn" data-testid="search-general-submit">
+                    <i class="fa-solid fa-magnifying-glass" style="font-size:.8rem"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+{% endif %}
+
+{% for group in menu|default([])|filter(g => g.hasChildren) %}
+    <div class="nav-label">{{ group.title|trans }}</div>
+    <ul class="sidebar-menu">
+        {%- for menu in group.children -%}
+            {%- set menuLabel = menu.labelTranslation is not null ? menu.labelTranslation|trans : menu.label -%}
+            {%- set menuRoute = menu.hasChildren ? '#' : path(menu.route, menu.routeParameters) -%}
+            <li {% if menu.hasChildren %}class="treeview"{% endif %}>
+                <a href="{{ menuRoute }}"
+                   class="{{ html_classes({ 'menu-toggle': menu.hasChildren, ("text-#{menu.color}"): menu.color }) }}"
+                   data-testid="menu-item-{{ menuLabel|ems_slug }}">
+                    <span class="nav-icon"><i class="{{ menu.icon }} icon-fa"></i></span>
+                    <span class="nav-text">{{ menuLabel }}</span>
+                    {% if menu.hasBadge %}
+                        <span class="nav-badge {{ html_classes('nav-badge', { ("bg-#{menu.badgeColor}"): menu.badgeColor }) }}">
+                            {{ menu.badge }}
+                        </span>
+                    {% elseif menu.hasChildren %}
+                        <span class="caret"><i class="fa-solid fa-angle-right" style="font-size:.75rem"></i></span>
+                    {% endif %}
+                </a>
+                {%- if menu.hasChildren -%}
+                    <ul class="treeview-menu">
+                        {%- for item in menu.children -%}
+                            {%- set itemLabel = item.labelTranslation is not null ? item.labelTranslation|trans : item.label -%}
+                            <li>
+                                <a href="{{ path(menu.route, menu.routeParameters) }}"
+                                   data-testid="menu-item-{{ menuLabel|ems_slug }}-{{ itemLabel|ems_slug }}">
+                                    <span class="nav-icon"><i class="{{ item.icon }} icon-fa"></i></span>
+                                    <span class="nav-text">{{ itemLabel }}</span>
+                                    {% if item.hasBadge %}
+                                        <span class="nav-badge {{ html_classes('nav-badge', { ("bg-#{item.badgeColor}"): item.badgeColor }) }}">
+                                            {{ item.badge }}
+                                        </span>
+                                    {% endif %}
+                                </a>
+                            </li>
+                        {%- endfor -%}
+                    </ul>
+                {%- endif -%}
+            </li>
+        {%- endfor -%}
+    </ul>
+{% endfor %}

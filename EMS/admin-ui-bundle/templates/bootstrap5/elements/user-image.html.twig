@@ -1,9 +1,8 @@
 {% set w = width|default(128) %}
 {% set h = height|default(128) %}
 <span class="{{ html_classes('avatar-wrap', class|default('')) }}" style="width:{{ w }}px;height:{{ h }}px">
-    <i class="fa-solid fa-circle-user avatar-fallback" style="font-size:{{ w }}px"></i>
     {% if app.user %}
-        <img class="avatar-img" src="https://www.gravatar.com/avatar/{{ app.user.email|lower|ems_md5 }}?s=256&d=404"
+        <img class="avatar-img" src="https://www.gravatar.com/avatar/{{ app.user.email|lower|ems_md5 }}?s=256&d=mp"
              alt="{{ app.user.displayName }}" width="{{ w }}" height="{{ h }}">
     {% endif %}
 </span>

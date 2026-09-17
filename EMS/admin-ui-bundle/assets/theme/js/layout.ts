@@ -106,19 +106,8 @@ function initSidebar(): void {
     });
 }
 
-function initAvatarFallback(): void {
-    document.querySelectorAll<HTMLImageElement>('.avatar-img').forEach((img) => {
-        if (img.complete && img.naturalWidth === 0) {
-            img.style.display = 'none';
-        } else {
-            img.addEventListener('error', () => (img.style.display = 'none'), { once: true });
-        }
-    });
-}
-
 export function initLayout(): void {
     initHeaderScroll();
     initControlSidebar();
     initSidebar();
-    initAvatarFallback();
 }

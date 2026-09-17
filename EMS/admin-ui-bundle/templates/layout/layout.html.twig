@@ -33,7 +33,6 @@
     </div>
 {%- endblock color_switcher -%}
 
-
 {%- block user_menu -%}
     <div class="dropdown user-menu">
         <button class="user-menu-btn dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static">
@@ -87,107 +86,13 @@
         </header>
 
         <aside class="main-sidebar">
-            <div class="user-panel">
-                {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', { width: 30, height: 30 }) }}
-                <div class="info">
-                    <div>Davmat</div>
-                    <small><span class="status-dot"></span> Online</small>
-                </div>
-            </div>
-
-            <div class="sidebar-search">
-                <div class="input-group input-group-sm">
-                    <input type="text" class="form-control" placeholder="Zoeken...">
-                    <button class="btn" type="button"><i class="fa-solid fa-magnifying-glass" style="font-size:.8rem"></i></button>
-                </div>
-            </div>
-
-            <div class="nav-label">Hoofdmenu</div>
-            <ul class="sidebar-menu">
-                <li class="active" data-page-item="dashboard">
-                    <a href="#" class="nav-page" data-page="dashboard">
-                        <span class="nav-icon"><i class="fa-solid fa-gauge icon-fa"></i></span>
-                        <span class="nav-text">Dashboard</span>
-                    </a>
-                </li>
-                <li data-page-item="forms">
-                    <a href="#" class="nav-page" data-page="forms">
-                        <span class="nav-icon"><i class="fa-solid fa-pen-to-square icon-fa"></i></span>
-                        <span class="nav-text">Formulieren</span>
-                    </a>
-                </li>
-                <li data-page-item="ui">
-                    <a href="#" class="nav-page" data-page="ui">
-                        <span class="nav-icon"><i class="fa-solid fa-shapes icon-fa"></i></span>
-                        <span class="nav-text">UI-elementen</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-chart-column icon-fa"></i></span><span class="nav-text">Statistieken</span></a>
-                </li>
-                <li class="treeview">
-                    <a href="#" class="menu-toggle">
-                        <span class="nav-icon"><i class="fa-solid fa-table-cells icon-fa"></i></span>
-                        <span class="nav-text">Content</span>
-                        <span class="caret"><i class="fa-solid fa-angle-right" style="font-size:.75rem"></i></span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#">Alle pagina's</a></li>
-                        <li><a href="#">Categorie&euml;n</a></li>
-                        <li><a href="#">Media-bibliotheek</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="nav-icon"><i class="fa-solid fa-cart-shopping icon-fa"></i></span>
-                        <span class="nav-text">Bestellingen</span>
-                        <span class="nav-badge">12</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="#" class="menu-toggle">
-                        <span class="nav-icon"><i class="fa-solid fa-users icon-fa"></i></span>
-                        <span class="nav-text">Gebruikers</span>
-                        <span class="caret"><i class="fa-solid fa-angle-right" style="font-size:.75rem"></i></span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#">Overzicht</a></li>
-                        <li><a href="#">Rollen &amp; rechten</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-box icon-fa"></i></span><span class="nav-text">Voorraad</span></a>
-                </li>
-                <li class="nav-label">Beheer</li>
-                <li>
-                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-file-invoice-dollar icon-fa"></i></span><span class="nav-text">Facturatie</span></a>
-                </li>
-                <li>
-                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-chart-pie icon-fa"></i></span><span class="nav-text">Rapporten</span></a>
-                </li>
-                <li>
-                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-plug icon-fa"></i></span><span class="nav-text">Integraties</span></a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="nav-icon"><i class="fa-solid fa-comments icon-fa"></i></span>
-                        <span class="nav-text">Berichten</span>
-                        <span class="nav-badge">3</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-calendar-days icon-fa"></i></span><span class="nav-text">Kalender</span></a>
-                </li>
-                <li>
-                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-folder-open icon-fa"></i></span><span class="nav-text">Documenten</span></a>
-                </li>
-                <li>
-                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-circle-question icon-fa"></i></span><span class="nav-text">Help &amp; ondersteuning</span></a>
-                </li>
-                <li>
-                    <a href="#"><span class="nav-icon"><i class="fa-solid fa-gear icon-fa"></i></span><span class="nav-text">Instellingen</span></a>
-                </li>
-            </ul>
+            {% if app.user %}
+                {{ render(controller('EMS\\CoreBundle\\Controller\\TwigElementsController::sideMenu')) }}
+            {% else %}
+                {{ include('@EMSAdminUI/bootstrap5/elements/side-menu.html.twig', {
+                    contentTypes: emsco_get_content_types(),
+                }) }}
+            {% endif %}
         </aside>
 
         <div class="sidebar-overlay" id="sidebarOverlay"></div>

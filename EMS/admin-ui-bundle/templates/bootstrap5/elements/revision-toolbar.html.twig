@@ -8,14 +8,14 @@
                 revisionId: revisionId,
             }),
             btnType: 'primary',
-            label: 'views.elements.revision-toolbar-html.view-label'|trans,
+            label: 'action.view_this_revision'|trans,
             icon: 'eye'}) }}
 
     {% endif %}
     {% if current and not draft and is_granted(instance.contentType.roles.edit) %}
         {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
             url: path('emsco_data_new_draft', {ouuid: revision.ouuid, type: revision.contentType.name, item: app.request.query.get('item')}),
-            label: 'views.elements.revision-toolbar-html.new-draft-label'|trans,
+            label: 'action.edit'|trans,
             btnType: 'primary',
             icon: 'pencil'}) }}
     {% endif %}
@@ -25,7 +25,7 @@
                 <div class="btn-group">
                     {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
                         url: path('emsco_edit_revision', {revisionId: revisionId, item: app.request.query.get('item')}),
-                        label: 'views.elements.revision-toolbar-html.edit-draft-label'|trans,
+                        label: 'action.edit_draft'|trans,
                         btnType: 'primary',
                         icon: 'pencil'}) }}
                     {% if is_granted('ROLE_SUPER') %}
@@ -35,7 +35,7 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="{{ path('emsco_edit_json_revision', {revision: revisionId}) }}" class="dropdown-item">{{ 'views.elements.revision-toolbar-html.edit-revision-json'|trans }}</a>
+                                    <a href="{{ path('emsco_edit_json_revision', {revision: revisionId}) }}" class="dropdown-item">{{ 'key.edit_revision_json'|trans }}</a>
                                 </li>
                             </ul>
                         </div>
@@ -44,8 +44,8 @@
                 {% if autoSave %}
                     {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                         url: path('emsco_data_cancel_modifications', {revision: revisionId}),
-                        message: 'views.elements.revision-toolbar-html.cancel-message'|trans,
-                        label: 'views.elements.revision-toolbar-html.cancel-label'|trans,
+                        message: 'message.cancel_last_modifications_confirm'|trans,
+                        label: 'action.cancel'|trans,
                         btnType: 'default',
                         icon: 'remove',
                     }) }}
@@ -55,16 +55,16 @@
                     {% if not autoSave %}
                         {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                             url: path('emsco_data_finalize', {revision: revisionId}),
-                            message: 'views.elements.revision-toolbar-html.finalize-draft-message'|trans,
-                            label: 'views.elements.revision-toolbar-html.finalize-draft-label'|trans({'environment': instance.contentType.environment.label|default('')}),
+                            message: 'message.confirm_save_and_publish'|trans,
+                            label: 'action.save_publish_in'|trans({'environment': instance.contentType.environment.label|default('')}),
                             btnType: 'default',
                             icon: 'check',
                         }) }}
                     {% endif %}
                     {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                     url: path('emsco_discard_draft', {revisionId: revisionId}),
-                    label: 'views.elements.revision-toolbar-html.discard-draft-label'|trans,
-                    message: 'views.elements.revision-toolbar-html.discard-draft-message'|trans,
+                    label: 'message.delete_this_draft'|trans,
+                    message: 'message.discard_draft_modification_lost'|trans,
                     btnType: 'outline-danger',
                     icon: 'trash',
                 }) }}
@@ -85,7 +85,7 @@
 
                 <div class="btn-group">
                     <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown">
-                        <span class="visually-hidden">{{ 'views.elements.revision-toolbar-html.other-revision-actions'|trans }}</span>
+                        <span class="visually-hidden">{{ 'key.other_revision_actions'|trans }}</span>
                         <span class="fa fa-ellipsis-h"></span>
                     </button>
                     <ul class="dropdown-menu">
@@ -93,13 +93,13 @@
                             <li>{{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
                                 url: path('emsco_edit_revision', {revisionId: revisionId}),
                                 btnClass: 'dropdown-item',
-                                label: 'views.elements.revision-toolbar-html.edit-draft-label'|trans,
+                                label: 'action.edit_draft'|trans,
                                 icon: 'pencil'}) }}</li>
                             {% if autoSave %}
                                 <li>{{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                                     url: path('emsco_data_cancel_modifications', {revision: revisionId}),
                                     btnClass: 'dropdown-item',
-                                    label: 'views.elements.revision-toolbar-html.cancel-last-updates-label'|trans,
+                                    label: 'message.cancel_non_saved_modifications'|trans,
                                     icon: 'remove',
                                 }) }}</li>
                             {% endif %}
@@ -108,29 +108,29 @@
                                 <li>{{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
                                         url: path('emsco_pick_a_release', {revision: revision.id}),
                                         btnClass: 'dropdown-item',
-                                        label: 'views.elements.revision-toolbar-html.add-to-release'|trans(),
+                                        label: 'action.add_to_release'|trans(),
                                         icon: 'fa fa-map-pin'}) }}</li>
                             {% endif %}
                             {% if is_granted('ROLE_SUPER') and instance.contentType.environment not in environmentsRevision.environments %}
                                 <li>{{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
                                     url: path('emsco_edit_revision', {revisionId: revisionId}),
                                     btnClass: 'dropdown-item',
-                                    label: 'views.elements.revision-toolbar-html.edit-revision-label'|trans,
+                                    label: 'action.edit_revision'|trans,
                                     icon: 'pencil'}) }}</li>
                             {% endif %}
                             {% if autoSave %}
                                 <li>{{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                                     url: path('emsco_data_cancel_modifications', {revision: revisionId}),
                                     btnClass: 'dropdown-item',
-                                    message: 'views.elements.revision-toolbar-html.cancel-last-updates-message'|trans,
-                                    label: 'views.elements.revision-toolbar-html.cancel-last-updates-label'|trans,
+                                    message: 'message.cancel_non_saved_modifications'|trans,
+                                    label: 'message.cancel_non_saved_modifications'|trans,
                                     icon: 'remove',
                                 }) }}</li>
                             {% endif %}
                                 <li>{{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                                     url: path('emsco_data_revert', {id: revisionId}),
                                     btnClass: 'dropdown-item',
-                                    label: 'views.elements.revision-toolbar-html.revert-revision-label'|trans,
+                                    label: 'action.revert_to_revision'|trans,
                                     icon: 'undo'}) }}</li>
                         {% endif %}
                         {% if rev is defined and revision is defined and compareId is defined and rev.id != revision.id and compareId != rev.id and compareId != revision.id %}
@@ -143,7 +143,7 @@
                                     page: page,
                                 }),
                                 btnClass: 'dropdown-item',
-                                label: 'views.elements.revision-toolbar-html.compare-label'|trans,
+                                label: 'action.compare_with_current'|trans,
                                 icon: 'compress'}) }}</li>
                         {% endif %}
                     </ul>
@@ -157,7 +157,7 @@
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="fa fa-toggle-on"></span>&nbsp;
-                            {{ 'views.elements.revision-toolbar-html.publish-to-label'|trans }}
+                            {{ 'field.publish_to'|trans }}
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
@@ -172,7 +172,7 @@
                 <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="fa fa-toggle-off"></span>&nbsp;
-                            {{ 'views.elements.revision-toolbar-html.unpublish-from-label'|trans }}
+                            {{ 'field.unpublish_from'|trans }}
                             <span class="caret"></span>
                       </button>
                        <ul class="dropdown-menu">
@@ -186,14 +186,14 @@
             {% if emsco_is_super() and environmentsRevision.environments|length > 0 %}
                 <div class="btn-group">
                     <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown">
-                        <span class="visually-hidden">{{ 'views.elements.revision-toolbar-html.other-environment-actions'|trans }}</span>
+                        <span class="visually-hidden">{{ 'key.other_environment_actions'|trans }}</span>
                         <span class="fa fa-ellipsis-h"></span>
                     </button>
                     <ul class="dropdown-menu">
                         <li>{{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                             url: path('emsco_data_reindex', {revisionId: revisionId}),
                             btnClass: 'dropdown-item',
-                            label: 'views.elements.revision-toolbar-html.re-index-label'|trans,
+                            label: 'action.re_index'|trans,
                             icon: 'recycle'}) }}</li>
                     </ul>
                 </div>

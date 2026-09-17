@@ -1,10 +1,10 @@
 {% trans_default_domain 'emsco-core' %}{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
-{% block title %} {{ 'search_options.title'|trans }} {% endblock %}
-{% block pagetitle %} {{ 'search_options.title'|trans }} {% endblock %}
+{% block title %} {{ 'key.search_options'|trans }} {% endblock %}
+{% block pagetitle %} {{ 'key.search_options'|trans }} {% endblock %}
 
 {% block breadcrumb %}
     <ol class="breadcrumb float-sm-end">
-        <li class="breadcrumb-item"><i class="fa fa-search"></i> {{ 'search_options.title'|trans }}</li>
+        <li class="breadcrumb-item"><i class="fa fa-search"></i> {{ 'key.search_options'|trans }}</li>
        </ol>
 {% endblock %}
 
@@ -14,9 +14,9 @@
             {{ include('@EMSAdminUI/bootstrap5/entity/list-entities.html.twig', {
                 entities: sortOptions,
                 icon: 'fa fa-sort-alpha-asc',
-                title: 'search_options.sort.title'|trans,
-                add_label: 'search_options.sort.add'|trans,
-                missing_label: 'search_options.sort.missing'|trans,
+                title: 'key.sort_options'|trans,
+                add_label: 'action.add_sort_option'|trans,
+                missing_label: 'message.sort_option_missing'|trans,
                 add_route: 'ems_search_sort_option_new',
                 edit_route: 'ems_search_sort_option_edit',
                 form: sortOptionReorderForm,
@@ -26,9 +26,9 @@
             {{ include('@EMSAdminUI/bootstrap5/entity/list-entities.html.twig', {
                 entities: aggregateOptions,
                 icon: 'fa fa-th',
-                title: 'search_options.aggregate.title'|trans,
-                add_label: 'search_options.aggregate.add'|trans,
-                missing_label: 'search_options.aggregate.missing'|trans,
+                title: 'key.aggregate_options'|trans,
+                add_label: 'action.add_aggregate_option'|trans,
+                missing_label: 'message.aggregate_option_missing'|trans,
                 add_route: 'ems_search_aggregate_option_new',
                 edit_route: 'ems_search_aggregate_option_edit',
                 form: aggregateOptionReorderForm,
@@ -38,9 +38,9 @@
             {{ include('@EMSAdminUI/bootstrap5/entity/list-entities.html.twig', {
                 entities: searchFieldOptions,
                 icon: 'fa fa-th',
-                title: 'search_options.field.title'|trans,
-                add_label: 'search_options.field.add'|trans,
-                missing_label: 'search_options.field.missing'|trans,
+                title: 'key.search_field_options'|trans,
+                add_label: 'action.add_search_field_option'|trans,
+                missing_label: 'message.search_field_option_missing'|trans,
                 add_route: 'ems_search_field_option_new',
                 edit_route: 'ems_search_field_option_edit',
                 form: searchFieldOptionReorderForm,

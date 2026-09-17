@@ -47,7 +47,7 @@
     <nav class="navbar navbar-static-top" role="navigation">
       <!-- Sidebar toggle button-->
       <a href="#" class="sidebar-toggle" data-bs-toggle="push-menu" role="button" id="sidebar-toggle-button">
-        <span class="visually-hidden">{{ 'navigation.toggle'|trans }}</span>
+        <span class="visually-hidden">{{ 'action.toggle_navigation'|trans }}</span>
       </a>
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
@@ -87,8 +87,8 @@
                 }) }}
 
                 <p>
-                  {{ 'user.logged_in.title'|trans({'username': app.user.username}, 'emsco-core') }}
-                  <small>{{ 'user.logged_in.member_since'|trans({'date': app.user.created|date(date_time_format)}, 'emsco-core') }}</small>
+                  {{ 'message.logged_in_as'|trans({'username': app.user.username}, 'emsco-core') }}
+                  <small>{{ 'message.member_since'|trans({'date': app.user.created|date(date_time_format)}, 'emsco-core') }}</small>
                   <small>
                       {% for role in app.user.roles %}
                           {{ (role|replace({'ROLE_': 'ROLE.'}) ~ '.label')|lower|trans([], 'emsco-core') }}{% if not loop.last %},{% endif %}
@@ -98,13 +98,13 @@
               </li>
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="{{ path(routes.USER_PROFILE) }}" class="btn btn-light btn-flat">{{ 'user.profile.title'|trans({}, 'emsco-core') }}</a>
+                  <a href="{{ path(routes.USER_PROFILE) }}" class="btn btn-light btn-flat">{{ 'title.profile'|trans({}, 'emsco-core') }}</a>
                 </div>
                 <div class="float-end">
                        {% if is_granted('IS_IMPERSONATOR') %}
-                           <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="btn btn-light btn-flat">{{ 'user.logout.exit'|trans({}, 'emsco-core') }}</a>
+                           <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="btn btn-light btn-flat">{{ 'action.exit'|trans({}, 'emsco-core') }}</a>
                        {% else %}
-                           <a href="{{ path(routes.USER_LOGOUT) }}" class="btn btn-light btn-flat">{{ 'user.logout.submit'|trans({}, 'emsco-core') }}</a>
+                           <a href="{{ path(routes.USER_LOGOUT) }}" class="btn btn-light btn-flat">{{ 'action.sign_out'|trans({}, 'emsco-core') }}</a>
                        {% endif %}
                 </div>
               </li>
@@ -112,7 +112,7 @@
           </li>
           {% else %}
           <li>
-            <a href="{{ path(routes.USER_LOGIN) }}" ><span class="glyphicon glyphicon-lock"></span> {{ 'user.login.submit'|trans({}, 'emsco-core') }}</a>
+            <a href="{{ path(routes.USER_LOGIN) }}" ><span class="glyphicon glyphicon-lock"></span> {{ 'action.sign_in'|trans({}, 'emsco-core') }}</a>
           </li>
           {% endif %}
         </ul>
@@ -147,7 +147,7 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title" id="myModalNotifications">
-                            <strong>{{ 'notification.plural'|trans }}</strong>
+                            <strong>{{ 'key.notifications'|trans }}</strong>
                 </h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
               </div>
@@ -173,7 +173,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="waitingModalLabel">{{ 'modal.loading_information'|trans }}</h3>
+        <h3 class="modal-title" id="waitingModalLabel">{{ 'message.loading_information'|trans }}</h3>
       </div>
       <div class="modal-body">
         <div class="progress progress-striped active" style="margin-bottom:0;"><div class="progress-bar" style="width: 100%"></div></div>

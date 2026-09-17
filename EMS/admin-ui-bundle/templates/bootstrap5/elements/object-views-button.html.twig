@@ -100,7 +100,7 @@
             link: path('emsco_data_copy', {environment: environment.name, type: contentType.name, ouuid: ouuid}),
             link_attributes: [{name: 'class', value: 'dropdown-item'}],
             icon: 'fa fa-copy',
-            label: 'views.elements.object-views-button.copy-data'|trans,
+            label: 'action.copy_data'|trans,
         }]) %}
         {% if not contentType.askForOuuid %}
             {% set contentTypeActions = contentTypeActions|merge([{
@@ -115,7 +115,7 @@
             link: path('emsco_data_view', {environmentName: environment.name, type: contentType.name, ouuid: ouuid}),
             link_attributes: [{name: 'class', value: 'dropdown-item'}],
             icon: 'fa fa-th',
-            label: 'views.elements.object-views-button.raw-view'|trans,
+            label: 'key.raw_view'|trans,
         }]) %}
     {% endif %}
 
@@ -123,9 +123,9 @@
         {% if contentTypeActions|default([])|length > 0 %}
             <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa fa-eye"></i>
-                {{ 'views.elements.object-views-button.action-dropdown-label'|trans({'environment': environment.label}) }}
+                {{ 'field.action_dropdown_label'|trans({'environment': environment.label}) }}
                 <span class="caret"></span>
-                <span class="sr-only">{{ 'views.elements.object-views-button.action-dropdown-sr-only'|trans({'environment': environment.label}) }}</span>
+                <span class="sr-only">{{ 'field.action_dropdown_sr_only'|trans({'environment': environment.label}) }}</span>
             </button>
             <ul class="dropdown-menu" role="menu">
                 {% for a in contentTypeActions %}
@@ -154,13 +154,13 @@
         {% else %}
             <button type="button" class="btn btn-light btn-sm" style="cursor: default">
                 <i class="fa fa-eye"></i>
-                {{ 'views.elements.object-views-button.published-label'|trans({'environment': environment.label}) }}
+                {{ 'field.published_label'|trans({'environment': environment.label}) }}
             </button>
         {% endif %}
     </div>
 {% else %}
     <a class="btn btn-sm btn-outline-primary" href="{{ path('emsco_data_view', {environmentName: environment.name, type: contentType.name, ouuid: object.ouuid}) }}">
         <i class="fa fa-th"></i>
-        {{ 'views.elements.object-views-button.raw-view'|trans }}
+        {{ 'key.raw_view'|trans }}
     </a>
 {% endif %}

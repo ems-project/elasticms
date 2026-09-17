@@ -37,7 +37,7 @@
 {%- block user_menu -%}
     <div class="dropdown user-menu">
         <button class="user-menu-btn dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static">
-            {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', { class: 'avatar-sm', width: 25, height: 25 }) }}
+            {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', { class: 'avatar-sm', width: 30, height: 30 }) }}
             <span class="d-none d-sm-inline small">{{ app.user.username }}</span>
         </button>
         <ul class="dropdown-menu dropdown-menu-end user-menu-dropdown">
@@ -88,9 +88,7 @@
 
         <aside class="main-sidebar">
             <div class="user-panel">
-                <svg width="42" height="42" viewBox="0 0 42 42" style="border-radius:50%;background:#3c8dbc;flex-shrink:0">
-                    <text x="21" y="27" text-anchor="middle" fill="#fff" font-size="16" font-weight="700" font-family="Inter">DM</text>
-                </svg>
+                {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', { width: 30, height: 30 }) }}
                 <div class="info">
                     <div>Davmat</div>
                     <small><span class="status-dot"></span> Online</small>

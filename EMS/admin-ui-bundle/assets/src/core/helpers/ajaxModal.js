@@ -237,8 +237,11 @@ class AjaxModal {
     }
 }
 
-const ajaxModal = new AjaxModal('#ajax-modal')
-const pickFileModal = new AjaxModal('#pick-file-server-modal')
+const ajaxModalEl = document.querySelector('#ajax-modal')
+const ajaxModal = ajaxModalEl ? new AjaxModal('#ajax-modal') : null
+
+const pickFileModalEl = document.querySelector('#pick-file-server-modal')
+const pickFileModal = pickFileModalEl ? new AjaxModal('#pick-file-server-modal') : null
 
 export default ajaxModal
 export { pickFileModal }

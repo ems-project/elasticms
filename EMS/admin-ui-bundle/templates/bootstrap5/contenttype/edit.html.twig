@@ -24,8 +24,8 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>{{ 'content_type.permission'|trans }}</th>
-                <th>{{ 'content_type.role'|trans }}</th>
+                <th>{{ 'field.permission'|trans }}</th>
+                <th>{{ 'field.role'|trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -42,8 +42,8 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>{{ 'content_type.field'|trans }}</th>
-                    <th>{{ 'content_type.mapping'|trans }}</th>
+                    <th>{{ 'field.field'|trans }}</th>
+                    <th>{{ 'field.mapping'|trans }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -68,7 +68,7 @@
         {% if mapping %}
             {% embed '@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig' with {icon: 'fa fa-sliders'} %}
                 {% trans_default_domain 'emsco-core' %}
-                {% block title %}{{ 'content_type.mapping'|trans }}{% endblock title %}
+                {% block title %}{{ 'field.mapping'|trans }}{% endblock title %}
                 {% block body %}
                     <pre class="ems-code-editor" data-language="ace/mode/json"
                          data-theme="ace/theme/chrome">{{ mapping|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
@@ -78,7 +78,7 @@
 
         {% embed '@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig' with {icon: 'fa fa-ticket'} %}
             {% trans_default_domain 'emsco-core' %}
-            {% block title %}{{ 'content_type.tasks'|trans }}{% endblock title %}
+            {% block title %}{{ 'key.tasks'|trans }}{% endblock title %}
             {% block body %}
                 <div class="row">
                     <div class="col-md-2">{{ form_row(form.settings.tasks_enabled) }}</div>
@@ -90,7 +90,7 @@
         {% if form.versioning is defined %}
             {% embed '@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig' with {icon: 'fa fa-tags'} %}
                 {% trans_default_domain 'emsco-core' %}
-                {% block title %}{{ 'content_type.versioning'|trans }}{% endblock title %}
+                {% block title %}{{ 'key.versioning'|trans }}{% endblock title %}
                 {% block body %}
                     <div class="row">
                         {% for versionField in form.versioning.fields %}
@@ -106,7 +106,7 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>{{ 'content_type.settings'|trans }}</th>
+                <th>{{ 'key.settings'|trans }}</th>
             </tr>
             </thead>
             <tbody>

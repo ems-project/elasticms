@@ -59,6 +59,12 @@
                         <li class="pt-2">
                             <a href="{{ path(routes.USER_PROFILE) }}" class="dropdown-item"><i class="fa fa-user"></i> {{ 'title.profile'|trans({}, 'emsco-core') }}</a>
                         </li>
+                        <li>
+                            <div class="dropdown-item form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" role="switch" id="sidebarMiniToggle">
+                                <label class="form-check-label" for="sidebarMiniToggle">{{ 'action.compact_sidebar'|trans({}, 'emsco-core') }}</label>
+                            </div>
+                        </li>
                         {% if is_granted('IS_IMPERSONATOR') %}
                             <li>
                                 <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="dropdown-item" data-testid="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> {{ 'action.exit'|trans({}, 'emsco-core') }}</a>

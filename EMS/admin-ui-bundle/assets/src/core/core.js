@@ -24,7 +24,7 @@ import WYSIWYG from './plugins/wysiwyg.ts'
 
 import RevisionTask from './components/revisionTask'
 import Modal from './components/modal'
-import Sidebar from './components/sidebar'
+import Sidebar from './components/sidebar.ts'
 import Action from './components/action'
 
 import { EMS_ADDED_DOM_EVENT } from './events/addedDomEvent'

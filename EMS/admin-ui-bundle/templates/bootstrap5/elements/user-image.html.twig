@@ -1,8 +1,5 @@
-{% set w = width|default(128) %}
-{% set h = height|default(128) %}
-<span class="{{ html_classes('avatar-wrap', class|default('')) }}" style="width:{{ w }}px;height:{{ h }}px">
-    {% if app.user %}
-        <img class="avatar-img" src="https://www.gravatar.com/avatar/{{ app.user.email|lower|ems_md5 }}?s=256&d=mp"
-             alt="{{ app.user.displayName }}" width="{{ w }}" height="{{ h }}">
-    {% endif %}
-</span>
+{% if app.user %}
+    <img src="{{ asset('images/anonymous.gif', 'emscore') }}" data-original="https://www.gravatar.com/avatar/{{ app.user.email|lower|ems_md5 }}?s=256" class="{{ class }} lazy" alt="{{ app.user.displayName }}" width="{{ width|default(128) }}" height="{{ height|default(128) }}">
+{% else %}
+    <img src="{{ asset('images/anonymous.gif', 'emscore') }}" class="{{ class }}" alt="{{ 'key.anonymous_user'|trans({}, 'emsco-core') }}" width="{{ width|default(128) }}" height="{{ height|default(128) }}">
+{% endif %}

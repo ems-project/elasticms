@@ -1,19 +1,17 @@
 {% if channels|default([])|length > 0 %}
-    <div class="dropdown">
-        <button class="nav-icon-btn dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static">
-            <i class="fa-solid fa-eye icon-fa"></i>
+    <li class="nav-item dropdown">
+        <a class="nav-link" data-bs-toggle="dropdown" href="#">
+            <i class="fa fa-eye"></i>
             <span class="visually-hidden">{{ 'key.channels'|trans({}, 'emsco-core') }}</span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end">
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
             {% set homepage = path('homepage') %}
             {% for channel in channels %}
-                <li>
-                    <a href="{{ channel.getEntryPath(homepage) }}" target="_blank" class="dropdown-item">
-                        <i class="fa fa-{{ channel.public|default ? 'unlock-alt' : 'lock' }} icon-fa"></i>
-                        {{ channel.label }}
-                    </a>
-                </li>
+                <a href="{{ channel.getEntryPath(homepage) }}" target="_blank" class="dropdown-item">
+                    <i class="fa fa-{{ channel.public|default ? 'unlock-alt' : 'lock' }} me-2"></i>
+                    {{ channel.label }}
+                </a>
             {% endfor %}
-        </ul>
-    </div>
+        </div>
+    </li>
 {% endif %}

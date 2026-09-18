@@ -26,6 +26,7 @@ action:
     close: Sluiten
     collapse: Inklappen
     collapse_all: 'Alles inklappen'
+    compact_sidebar: 'Compacte zijbalk'
     compare: Vergelijken
     compare_with_current: 'Deze revisie vergelijken met de huidige'
     confirm: Bevestigen

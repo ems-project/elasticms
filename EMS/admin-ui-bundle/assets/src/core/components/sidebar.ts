@@ -1,12 +1,14 @@
 'use strict'
 
 const SIDEBAR_COLLAPSED_STORAGE_KEY = 'ems.sidebar.collapsed'
+const SIDEBAR_MINI_STORAGE_KEY = 'ems.sidebar.mini'
 const SIDEBAR_TEMPORARY_OPEN_CLASS = 'sidebar-temporary-open'
 
 export default class Sidebar {
     constructor() {
         this.activateMenu()
         this.initToggle()
+        this.initMiniToggle()
     }
 
     initToggle() {
@@ -31,7 +33,24 @@ export default class Sidebar {
         })
     }
 
-    initTemporaryAccess(sidebar, label) {
+    initMiniToggle() {
+        const isMini = document.documentElement.classList.contains('sidebar-mini')
+        document.documentElement.classList.toggle('sidebar-mini', isMini)
+
+        const toggle = document.getElementById('sidebarMiniToggle')
+        if (!(toggle instanceof HTMLInputElement)) {
+            return
+        }
+        toggle.checked = isMini
+
+        toggle.addEventListener('change', () => {
+            const mini = toggle.checked
+            document.documentElement.classList.toggle('sidebar-mini', mini)
+            this.saveMiniState(mini)
+        })
+    }
+
+    initTemporaryAccess(sidebar: HTMLElement, label: string) {
         const trigger = document.createElement('button')
         trigger.type = 'button'
         trigger.className = 'sidebar-temporary-toggle'
@@ -58,7 +77,7 @@ export default class Sidebar {
         })
     }
 
-    applyThemeColor(element) {
+    applyThemeColor(element: HTMLElement) {
         const themeColor = document.body.getAttribute('data-theme-color')
 
         if (themeColor) {
@@ -66,7 +85,7 @@ export default class Sidebar {
         }
     }
 
-    openTemporarySidebar(sidebar) {
+    openTemporarySidebar(sidebar: HTMLElement) {
         if (!sidebar.classList.contains('collapsed')) {
             return
         }
@@ -78,7 +97,7 @@ export default class Sidebar {
         document.documentElement.classList.remove(SIDEBAR_TEMPORARY_OPEN_CLASS)
     }
 
-    saveCollapsedState(collapsed) {
+    saveCollapsedState(collapsed: boolean) {
         try {
             localStorage.setItem(SIDEBAR_COLLAPSED_STORAGE_KEY, collapsed ? '1' : '0')
         } catch {
@@ -86,20 +105,25 @@ export default class Sidebar {
         }
     }
 
+    saveMiniState(mini: boolean) {
+        try {
+            localStorage.setItem(SIDEBAR_MINI_STORAGE_KEY, mini ? '1' : '0')
+        } catch {
+            return
+        }
+    }
+
     activateMenu() {
-        let bestMatch = null
+        let bestMatch: Element | null = null
+        let bestMatchHrefLength = 0
         const menuLinks = document.querySelectorAll('#sidebar a.sidebar-link')
         const pathname = window.location.pathname
 
         for (let i = 0; i < menuLinks.length; ++i) {
             const href = menuLinks[i].getAttribute('href')
-            if (
-                href &&
-                href !== '#' &&
-                pathname.startsWith(href) &&
-                (bestMatch === null || href.length > bestMatch.getAttribute('href').length)
-            ) {
+            if (href && href !== '#' && pathname.startsWith(href) && href.length > bestMatchHrefLength) {
                 bestMatch = menuLinks[i]
+                bestMatchHrefLength = href.length
             }
         }
 
@@ -118,7 +142,7 @@ export default class Sidebar {
             if (link) {
                 link.classList.remove('collapsed')
             }
-            el = el.parentElement?.closest('.sidebar-item')
+            el = el.parentElement?.closest('.sidebar-item') ?? null
         }
     }
 }

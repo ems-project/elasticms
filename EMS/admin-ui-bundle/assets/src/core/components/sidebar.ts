@@ -5,10 +5,13 @@ const SIDEBAR_MINI_STORAGE_KEY = 'ems.sidebar.mini'
 const SIDEBAR_TEMPORARY_OPEN_CLASS = 'sidebar-temporary-open'
 
 export default class Sidebar {
+    sidebar: HTMLElement | null = null
+
     constructor() {
         this.activateMenu()
         this.initToggle()
         this.initMiniToggle()
+        this.initCollapseCheckbox()
     }
 
     initToggle() {
@@ -18,6 +21,7 @@ export default class Sidebar {
         if (!sidebar || !toggle) {
             return
         }
+        this.sidebar = sidebar
 
         const isCollapsed = document.documentElement.classList.contains('sidebar-collapsed')
         sidebar.classList.toggle('collapsed', isCollapsed)
@@ -27,9 +31,32 @@ export default class Sidebar {
             event.preventDefault()
             event.stopPropagation()
             this.closeTemporarySidebar()
-            const collapsed = sidebar.classList.toggle('collapsed')
-            document.documentElement.classList.toggle('sidebar-collapsed', collapsed)
-            this.saveCollapsedState(collapsed)
+            this.setCollapsed(sidebar.classList.toggle('collapsed'))
+        })
+    }
+
+    setCollapsed(collapsed: boolean) {
+        document.documentElement.classList.toggle('sidebar-collapsed', collapsed)
+        this.saveCollapsedState(collapsed)
+        const checkbox = document.getElementById('devSidebarCollapsed')
+        if (checkbox instanceof HTMLInputElement) {
+            checkbox.checked = collapsed
+        }
+    }
+
+    initCollapseCheckbox() {
+        const checkbox = document.getElementById('devSidebarCollapsed')
+        if (!(checkbox instanceof HTMLInputElement) || !this.sidebar) {
+            return
+        }
+        checkbox.checked = this.sidebar.classList.contains('collapsed')
+
+        checkbox.addEventListener('change', () => {
+            if (!this.sidebar) {
+                return
+            }
+            this.sidebar.classList.toggle('collapsed', checkbox.checked)
+            this.setCollapsed(checkbox.checked)
         })
     }
 
@@ -37,7 +64,7 @@ export default class Sidebar {
         const isMini = document.documentElement.classList.contains('sidebar-mini')
         document.documentElement.classList.toggle('sidebar-mini', isMini)
 
-        const toggle = document.getElementById('sidebarMiniToggle')
+        const toggle = document.getElementById('devSidebarMini')
         if (!(toggle instanceof HTMLInputElement)) {
             return
         }
@@ -55,7 +82,6 @@ export default class Sidebar {
         trigger.type = 'button'
         trigger.className = 'sidebar-temporary-toggle'
         trigger.setAttribute('aria-label', label)
-        this.applyThemeColor(trigger)
 
         const backdrop = document.createElement('button')
         backdrop.type = 'button'
@@ -75,14 +101,6 @@ export default class Sidebar {
                 this.closeTemporarySidebar()
             }
         })
-    }
-
-    applyThemeColor(element: HTMLElement) {
-        const themeColor = document.body.getAttribute('data-theme-color')
-
-        if (themeColor) {
-            element.classList.add(`bg-${themeColor}`)
-        }
     }
 
     openTemporarySidebar(sidebar: HTMLElement) {

@@ -1,6 +1,6 @@
 {%- trans_default_domain 'emsco-core' -%}
 
-<nav class="navbar navbar-expand bg-{{ theme_color }}" {{ theme_color_contrast == 'dark' ? 'data-bs-theme="dark"' }}>
+<nav class="navbar navbar-expand" {{ theme_color_contrast == 'dark' ? 'data-bs-theme="dark"' }}>
     <a href="#" class="sidebar-toggle js-sidebar-toggle" data-widget="pushmenu" role="button" aria-label="{{ 'key.push_menu'|trans }}">
         <i class="hamburger align-self-center"></i>
     </a>
@@ -23,9 +23,12 @@
                 <a class="nav-link" data-bs-toggle="offcanvas" href="#control-sidebar" role="button" aria-controls="control-sidebar">
                     <i id="ajax-activity" class="fa fa-refresh"></i>
                     <span class="visually-hidden">{{ 'action.toggle_sidebar'|trans }}</span>
-                    <span id="activity-counter" class="badge bg-{{ theme_color }} navbar-badge"></span>
+                    <span id="activity-counter" class="badge navbar-badge"></span>
                 </a>
             </li>
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                {{ include('@EMSAdminUI/bootstrap5/elements/dev-panel.html.twig') }}
+            {% endif %}
             {% if app.user %}
                 <li class="nav-item dropdown user-menu" data-testid="user-menu">
                     <a class="nav-link dropdown-toggle d-none d-sm-inline-block p-0" href="#" data-bs-toggle="dropdown">
@@ -36,7 +39,7 @@
                         }) }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end pt-0">
-                        <li class="user-header bg-{{ theme_color }} p-2">
+                        <li class="user-header p-2">
                             <div class="text-center">
                                 {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
                                     class: 'rounded-circle',
@@ -58,12 +61,6 @@
                         </li>
                         <li class="pt-2">
                             <a href="{{ path(routes.USER_PROFILE) }}" class="dropdown-item"><i class="fa fa-user"></i> {{ 'title.profile'|trans({}, 'emsco-core') }}</a>
-                        </li>
-                        <li>
-                            <div class="dropdown-item form-check form-switch mb-0">
-                                <input class="form-check-input" type="checkbox" role="switch" id="sidebarMiniToggle">
-                                <label class="form-check-label" for="sidebarMiniToggle">{{ 'action.compact_sidebar'|trans({}, 'emsco-core') }}</label>
-                            </div>
                         </li>
                         {% if is_granted('IS_IMPERSONATOR') %}
                             <li>

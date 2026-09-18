@@ -25,6 +25,7 @@ import WYSIWYG from './plugins/wysiwyg.ts'
 import RevisionTask from './components/revisionTask'
 import Modal from './components/modal'
 import Sidebar from './components/sidebar.ts'
+import Theme from './components/theme.ts'
 import Action from './components/action'
 
 import { EMS_ADDED_DOM_EVENT } from './events/addedDomEvent'
@@ -84,7 +85,7 @@ class Core {
         this.initStatusRefresh()
         this.initCtrlSaveEvent()
         initIcons(document.body)
-        this.components = [new RevisionTask(), new Modal(), new Sidebar()]
+        this.components = [new Theme(), new RevisionTask(), new Modal(), new Sidebar()]
     }
 
     initStatusRefresh() {

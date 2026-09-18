@@ -26,7 +26,6 @@ action:
     close: Fermer
     collapse: Réduire
     collapse_all: 'Tout réduire'
-    compact_sidebar: 'Menu latéral compact'
     compare: Comparer
     compare_with_current: 'Comparer cette révision avec la révision actuelle'
     confirm: Confirmer

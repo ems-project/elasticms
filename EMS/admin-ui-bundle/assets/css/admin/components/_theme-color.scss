@@ -1,0 +1,24 @@
+// Sidebar/topbar branding color. The server always renders
+// `data-theme="{{ theme_color }}"` on <html> (see base/html5.html.twig),
+// and this drives the sidebar/navbar chrome here - buttons/cards elsewhere
+// always stay on the normal Bootstrap $primary color, unaffected.
+//
+// ROLE_SUPER_ADMIN users can override this attribute client-side via the
+// dev panel (templates/bootstrap5/elements/dev-panel.html.twig) to preview
+// other colors without touching the theme_color config; regular users only
+// ever see the server-rendered value.
+@each $name, $color in $theme-colors {
+  html[data-theme='#{$name}'] {
+    .navbar,
+    .user-header,
+    #activity-counter,
+    .sidebar-temporary-toggle {
+      background-color: $color !important;
+    }
+
+    .sidebar-brand {
+      background-color: $color !important;
+      background-image: linear-gradient(90deg, transparent, darken($color, 10%)) !important;
+    }
+  }
+}

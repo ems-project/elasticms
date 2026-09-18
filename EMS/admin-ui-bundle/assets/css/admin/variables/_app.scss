@@ -50,7 +50,7 @@ $min-contrast-ratio: 3 !default;
 $enable-validation-icons: false !default;
 $enable-rfs: false !default;
 $enable-negative-margins: true !default;
-$enable-dark-mode: false !default;
+$enable-dark-mode: true !default;
 
 // Transitions
 $transition-base: all .35s ease-in-out !default;
@@ -140,6 +140,9 @@ $social-colors: (
 // Body
 $body-bg: #f5f7fb !default;
 $body-color: $gray-700 !default;
+$body-bg-dark: #14171a !default;
+$body-color-dark: #e7e9eb !default;
+$border-color-dark: #2e3338 !default;
 
 // Links
 $link-color:      $body-color;

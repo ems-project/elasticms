@@ -26,7 +26,6 @@ action:
     close: Close
     collapse: Collapse
     collapse_all: 'Collapse all'
-    compact_sidebar: 'Compact sidebar'
     compare: Compare
     compare_with_current: 'Compare this revision with the current one'
     confirm: Confirm

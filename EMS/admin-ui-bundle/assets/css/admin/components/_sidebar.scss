@@ -100,12 +100,6 @@ a.sidebar-link {
   b {
     text-transform: uppercase;
   }
-
-  @each $name, $color in $theme-colors {
-    &.bg-#{$name} {
-      background-image: linear-gradient(90deg, transparent, darken($color, 10%));
-    }
-  }
 }
 
 // Toggle states

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ app.request.locale }}">
+<html lang="{{ app.request.locale }}" data-theme="{{ theme_color }}">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -15,6 +15,12 @@
                 }
                 if (localStorage.getItem('ems.sidebar.mini') === '1') {
                     document.documentElement.classList.add('sidebar-mini')
+                }
+                var mode = localStorage.getItem('ems.theme.mode')
+                if (mode === 'light' || mode === 'dark') {
+                    document.documentElement.setAttribute('data-bs-theme', mode)
+                } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.setAttribute('data-bs-theme', 'dark')
                 }
             } catch (e) {}
         </script>

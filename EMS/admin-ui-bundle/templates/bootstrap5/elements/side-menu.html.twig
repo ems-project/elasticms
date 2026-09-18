@@ -46,6 +46,15 @@
     </div>
 </div>
 
+<form class="px-3 pb-3" action="{{ path('ems_quick_search') }}" method="get">
+    <div class="input-group input-group-sidebar">
+        <input class="form-control" type="search" name="q" placeholder="{{ 'key.search'|trans({}, 'emsco-core') }}" aria-label="{{ 'key.search'|trans({}, 'emsco-core') }}">
+        <button class="btn" type="submit" aria-label="{{ 'key.show_search_form'|trans({}, 'emsco-core') }}">
+            <i class="fas fa-search align-middle"></i>
+        </button>
+    </div>
+</form>
+
 <ul class="sidebar-nav">
     {% for item in menu|default([])|filter(p => p.hasChildren) %}
         <li class="sidebar-header">{{ item.title|trans }}</li>

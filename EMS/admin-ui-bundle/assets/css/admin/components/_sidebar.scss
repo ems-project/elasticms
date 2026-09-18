@@ -102,6 +102,29 @@ a.sidebar-link {
   }
 }
 
+// Sidebar search
+.input-group-sidebar .btn,
+.input-group-sidebar .form-control {
+  background: $gray-400;
+  color: $gray-800;
+  border: 0;
+  border-radius: 20px;
+  box-shadow: none;
+  height: calc(2.1875rem + 2px);
+  padding: .4rem 1rem;
+}
+
+.input-group-sidebar .btn:focus,
+.input-group-sidebar .form-control:focus {
+  background: $gray-400;
+  box-shadow: none;
+  outline: 0;
+}
+
+.input-group-sidebar .btn {
+  color: $gray-700;
+}
+
 // Toggle states
 .sidebar-toggle {
   position: relative;

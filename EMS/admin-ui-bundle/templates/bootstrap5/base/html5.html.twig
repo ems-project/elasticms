@@ -27,7 +27,6 @@
         </script>
         {%- if vite.isDevServerRunning is same as(false) -%}
             <link rel="stylesheet" href="{{ asset('src/app.js.css', 'emsadminui') }}">
-            <script src="{{ asset('src/app.js', 'emsadminui') }}" type="module"></script>
         {%- endif -%}
         {%- if wysiwygInfo is defined and wysiwygInfo.editor == constant('EMS\\CoreBundle\\Entity\\WysiwygProfile::CKEDITOR4') -%}
             <link rel="stylesheet" href="{{ asset('ckeditor4.css', 'emscore') }}">
@@ -49,6 +48,10 @@
         {%- if wysiwygInfo is defined and wysiwygInfo.editor == constant('EMS\\CoreBundle\\Entity\\WysiwygProfile::CKEDITOR4') -%}
             <script src="{{ asset('ckeditor4.js', 'emscore') }}"></script>
         {%- endif -%}
+        {%- if vite.isDevServerRunning -%}
+            <script type="module" src="{{- vite.devServerClient -}}"></script>
+        {%- endif -%}
+        <script src="{{ asset('src/app.js', 'emsadminui') }}" type="module"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

@@ -11,10 +11,6 @@ return function (RoutingConfigurator $routes): void {
         ->controller([DefaultController::class, 'documentation'])
         ->methods(['GET', 'HEAD']);
 
-    $routes->add('test', '/layout')
-        ->controller([DefaultController::class, 'layout'])
-        ->methods(['GET']);
-
     $routes->add('health-check', '/health_check.{_format}')
         ->controller([ElasticsearchController::class, 'status'])
         ->methods(['GET', 'POST'])

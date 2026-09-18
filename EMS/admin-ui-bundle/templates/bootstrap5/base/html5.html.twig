@@ -13,9 +13,6 @@
                 if (localStorage.getItem('ems.sidebar.collapsed') === '1') {
                     document.documentElement.classList.add('sidebar-collapsed')
                 }
-                if (localStorage.getItem('ems.sidebar.mini') === '1') {
-                    document.documentElement.classList.add('sidebar-mini')
-                }
                 var mode = localStorage.getItem('ems.theme.mode')
                 if (mode === 'light' || mode === 'dark') {
                     document.documentElement.setAttribute('data-bs-theme', mode)

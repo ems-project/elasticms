@@ -1,7 +1,6 @@
 'use strict'
 
 const SIDEBAR_COLLAPSED_STORAGE_KEY = 'ems.sidebar.collapsed'
-const SIDEBAR_MINI_STORAGE_KEY = 'ems.sidebar.mini'
 const SIDEBAR_TEMPORARY_OPEN_CLASS = 'sidebar-temporary-open'
 
 export default class Sidebar {
@@ -10,7 +9,6 @@ export default class Sidebar {
     constructor() {
         this.activateMenu()
         this.initToggle()
-        this.initMiniToggle()
         this.initCollapseCheckbox()
     }
 
@@ -60,23 +58,6 @@ export default class Sidebar {
         })
     }
 
-    initMiniToggle() {
-        const isMini = document.documentElement.classList.contains('sidebar-mini')
-        document.documentElement.classList.toggle('sidebar-mini', isMini)
-
-        const toggle = document.getElementById('devSidebarMini')
-        if (!(toggle instanceof HTMLInputElement)) {
-            return
-        }
-        toggle.checked = isMini
-
-        toggle.addEventListener('change', () => {
-            const mini = toggle.checked
-            document.documentElement.classList.toggle('sidebar-mini', mini)
-            this.saveMiniState(mini)
-        })
-    }
-
     initTemporaryAccess(sidebar: HTMLElement, label: string) {
         const trigger = document.createElement('button')
         trigger.type = 'button'
@@ -118,14 +99,6 @@ export default class Sidebar {
     saveCollapsedState(collapsed: boolean) {
         try {
             localStorage.setItem(SIDEBAR_COLLAPSED_STORAGE_KEY, collapsed ? '1' : '0')
-        } catch {
-            return
-        }
-    }
-
-    saveMiniState(mini: boolean) {
-        try {
-            localStorage.setItem(SIDEBAR_MINI_STORAGE_KEY, mini ? '1' : '0')
         } catch {
             return
         }

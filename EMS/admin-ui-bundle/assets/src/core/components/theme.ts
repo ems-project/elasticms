@@ -9,8 +9,8 @@ export default class Theme {
     constructor() {
         this.initMode()
         this.initColorOverride()
-        this.initModeToggle()
-        this.initColorSelect()
+        this.initModeButtons()
+        this.initColorSwatches()
     }
 
     initMode() {
@@ -35,18 +35,31 @@ export default class Theme {
         } catch {
             return
         }
+        this.updateModeButtons(mode)
     }
 
-    initModeToggle() {
-        const select = document.getElementById('devThemeMode')
-        if (!(select instanceof HTMLSelectElement)) {
+    initModeButtons() {
+        const buttons = document.querySelectorAll<HTMLButtonElement>('.mode-btn')
+        if (buttons.length === 0) {
             return
         }
-        select.value = this.readMode() ?? 'light'
-        select.addEventListener('change', () => {
-            if (select.value === 'light' || select.value === 'dark') {
-                this.setMode(select.value)
-            }
+        // initMode() runs first and always sets this attribute.
+        const effective = (document.documentElement.getAttribute('data-bs-theme') as ThemeMode | null) ?? 'light'
+        this.updateModeButtons(effective)
+
+        buttons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const mode = button.dataset.mode
+                if (mode === 'light' || mode === 'dark') {
+                    this.setMode(mode)
+                }
+            })
+        })
+    }
+
+    updateModeButtons(mode: ThemeMode) {
+        document.querySelectorAll<HTMLButtonElement>('.mode-btn').forEach((button) => {
+            button.classList.toggle('active', button.dataset.mode === mode)
         })
     }
 
@@ -75,19 +88,35 @@ export default class Theme {
         } catch {
             return
         }
+        this.updateColorSwatches(color)
     }
 
-    initColorSelect() {
-        const select = document.getElementById('devThemeColor')
-        if (!(select instanceof HTMLSelectElement)) {
+    initColorSwatches() {
+        const swatches = document.querySelectorAll<HTMLButtonElement>('.skin-swatch')
+        if (swatches.length === 0) {
             return
         }
         const current = this.readColorOverride()
         if (current) {
-            select.value = current
+            this.updateColorSwatches(current)
         }
-        select.addEventListener('change', () => {
-            this.setColorOverride(select.value)
+
+        swatches.forEach((swatch) => {
+            swatch.addEventListener('click', () => {
+                const color = swatch.dataset.skin
+                if (color) {
+                    this.setColorOverride(color)
+                }
+                // Avoid the browser's default focus ring lingering on the
+                // clicked swatch, which can look like a second "active" mark.
+                swatch.blur()
+            })
+        })
+    }
+
+    updateColorSwatches(color: string) {
+        document.querySelectorAll<HTMLButtonElement>('.skin-swatch').forEach((swatch) => {
+            swatch.classList.toggle('active', swatch.dataset.skin === color)
         })
     }
 }

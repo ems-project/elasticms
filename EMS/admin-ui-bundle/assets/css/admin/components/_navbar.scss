@@ -135,6 +135,15 @@
   color: #fff;
 }
 
+.navbar-nav > .nav-item > .nav-link {
+  border-radius: $border-radius;
+  transition: $transition-appearance-fast;
+
+  &:hover {
+    background: rgba($black, .1);
+  }
+}
+
 .user-menu .dropdown-toggle::after {
   content: none;
 }

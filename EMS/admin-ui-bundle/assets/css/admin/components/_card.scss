@@ -3,6 +3,18 @@
   box-shadow: $card-shadow;
 }
 
+// Bootstrap's card component doesn't remap its own color-mode variables,
+// so give it a dark surface explicitly (one shade lighter than the page
+// background, matching how --bs-tertiary-bg is used elsewhere).
+[data-bs-theme='dark'] {
+  --bs-card-bg: var(--bs-tertiary-bg);
+  --bs-card-color: var(--bs-body-color);
+}
+
+[data-bs-theme='dark'] .card-title {
+  color: var(--bs-emphasis-color);
+}
+
 .card-header {
   border-bottom-width: 1px;
 }

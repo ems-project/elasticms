@@ -128,7 +128,7 @@ a.sidebar-link {
     margin-left: -$sidebar-width;
   }
 
-  html.sidebar-collapsed & {
+  html[data-sidebar-collapsed] & {
     margin-left: -$sidebar-width;
   }
 
@@ -148,7 +148,7 @@ a.sidebar-link {
       margin-left: 0;
     }
 
-    html.sidebar-collapsed & {
+    html[data-sidebar-collapsed] & {
       margin-left: 0;
     }
 
@@ -181,7 +181,7 @@ html.sidebar-temporary-open body {
   transform: translateY(-50%);
 
   @media (min-width: #{map-get($grid-breakpoints, 'lg')}) {
-    html.sidebar-collapsed & {
+    html[data-sidebar-collapsed] & {
       display: block;
     }
   }

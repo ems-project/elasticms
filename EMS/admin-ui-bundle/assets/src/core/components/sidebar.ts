@@ -21,7 +21,7 @@ export default class Sidebar {
         }
         this.sidebar = sidebar
 
-        const isCollapsed = document.documentElement.classList.contains('sidebar-collapsed')
+        const isCollapsed = document.documentElement.hasAttribute('data-sidebar-collapsed')
         sidebar.classList.toggle('collapsed', isCollapsed)
         this.initTemporaryAccess(sidebar, toggle.getAttribute('aria-label') ?? 'Sidebar menu')
 
@@ -34,7 +34,11 @@ export default class Sidebar {
     }
 
     setCollapsed(collapsed: boolean) {
-        document.documentElement.classList.toggle('sidebar-collapsed', collapsed)
+        if (collapsed) {
+            document.documentElement.setAttribute('data-sidebar-collapsed', '')
+        } else {
+            document.documentElement.removeAttribute('data-sidebar-collapsed')
+        }
         this.saveCollapsedState(collapsed)
         const checkbox = document.getElementById('devSidebarCollapsed')
         if (checkbox instanceof HTMLInputElement) {

@@ -11,7 +11,7 @@
         <script>
             try {
                 if (localStorage.getItem('ems.sidebar.collapsed') === '1') {
-                    document.documentElement.classList.add('sidebar-collapsed')
+                    document.documentElement.setAttribute('data-sidebar-collapsed', '')
                 }
                 var mode = localStorage.getItem('ems.theme.mode')
                 if (mode === 'light' || mode === 'dark') {
@@ -19,10 +19,15 @@
                 } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
                     document.documentElement.setAttribute('data-bs-theme', 'dark')
                 }
+                var themeColorOverride = localStorage.getItem('ems.dev.themeColor')
+                if (themeColorOverride) {
+                    document.documentElement.setAttribute('data-theme', themeColorOverride)
+                }
             } catch (e) {}
         </script>
         {%- if vite.isDevServerRunning is same as(false) -%}
             <link rel="stylesheet" href="{{ asset('src/app.js.css', 'emsadminui') }}">
+            <script src="{{ asset('src/app.js', 'emsadminui') }}" type="module"></script>
         {%- endif -%}
         {%- if wysiwygInfo is defined and wysiwygInfo.editor == constant('EMS\\CoreBundle\\Entity\\WysiwygProfile::CKEDITOR4') -%}
             <link rel="stylesheet" href="{{ asset('ckeditor4.css', 'emscore') }}">
@@ -44,10 +49,6 @@
         {%- if wysiwygInfo is defined and wysiwygInfo.editor == constant('EMS\\CoreBundle\\Entity\\WysiwygProfile::CKEDITOR4') -%}
             <script src="{{ asset('ckeditor4.js', 'emscore') }}"></script>
         {%- endif -%}
-        {%- if vite.isDevServerRunning -%}
-            <script type="module" src="{{- vite.devServerClient -}}"></script>
-        {%- endif -%}
-        <script src="{{ asset('src/app.js', 'emsadminui') }}" type="module"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

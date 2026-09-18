@@ -61,4 +61,7 @@
 @import "admin/utilities/cursors";
 @import "admin/utilities/sizing";
 
+// Dark mode overrides last, so they can safely override any component above
+@import "admin/components/dark-mode";
+
 @import "core/core";

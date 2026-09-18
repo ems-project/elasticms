@@ -122,6 +122,11 @@ $theme-colors: (
   "aqua": $aqua
 ) !default;
 
+// The 5 theme_color values the app actually supports - see
+// css/admin/components/_theme-color.scss and templates/bootstrap5/elements/dev-panel.html.twig.
+// 'blue' is the theme_color config default.
+$theme-colors-supported: 'blue', 'purple', 'green', 'red', 'yellow' !default;
+
 // Social colors
 $social-colors: (
   "facebook": #3b5998,

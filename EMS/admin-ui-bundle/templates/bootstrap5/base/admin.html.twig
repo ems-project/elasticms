@@ -19,8 +19,6 @@
     'data-wysiwyg-info': wysiwygInfo|json_encode,
     'data-asset-path': asset(''),
 } %}
-{% set theme_color_contrast = theme_color in ['yellow', 'lime', 'white', 'cyan'] ? 'light' : 'dark' %}
-
 {% block breadcrumb %}
     {% if breadcrumb is defined %}
         <ol class="breadcrumb float-sm-end">

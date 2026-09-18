@@ -1,5 +1,7 @@
 .navbar-nav .dropdown-menu {
   box-shadow: $box-shadow;
+  margin-top: .5rem !important;
+  color: var(--bs-body-color);
 }
 
 .dropdown .dropdown-menu.show {
@@ -53,7 +55,7 @@
   }
 
   &:hover {
-    background: $gray-100;
+    background: var(--bs-tertiary-bg);
   }
 }
 
@@ -61,7 +63,7 @@
   padding: $spacer*0.75;
   text-align: center;
   font-weight: $font-weight-bold;
-  border-bottom: 1px solid $gray-300;
+  border-bottom: 1px solid var(--bs-border-color);
 }
 
 .dropdown-menu-footer {

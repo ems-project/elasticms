@@ -2,19 +2,24 @@
 // Uses Bootstrap's own dark-mode-aware CSS variables (--bs-border-color,
 // --bs-body-color, ...) so the panel itself follows [data-bs-theme=dark]
 // automatically, without a separate token layer.
+.dev-panel-menu {
+  padding: 1.1rem 1.25rem;
+}
+
 .dev-panel-label {
-  font-size: .78rem;
+  font-size: .72rem;
   font-weight: 700;
   color: var(--bs-secondary-color);
   text-transform: uppercase;
-  letter-spacing: .04em;
-  margin-bottom: 8px;
+  letter-spacing: .06em;
+  margin-bottom: 10px;
 }
 
 .mode-btn {
   flex: 1;
-  padding: 6px 0;
-  font-size: .82rem;
+  padding: 8px 0;
+  font-size: .85rem;
+  font-weight: 600;
   border: 1px solid var(--bs-border-color);
   background: transparent;
   color: var(--bs-body-color);
@@ -36,8 +41,8 @@
 }
 
 .skin-swatch {
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   border: 2px solid transparent;
   padding: 0;
@@ -45,11 +50,11 @@
 
   &.active {
     border-color: var(--bs-body-bg);
-    box-shadow: 0 0 0 2px var(--bs-body-color);
+    box-shadow: 0 0 0 2px $primary;
   }
 }
 
-@each $name in ('light-blue', 'purple', 'green', 'red', 'yellow') {
+@each $name in $theme-colors-supported {
   .skin-swatch[data-skin='#{$name}'] {
     background-color: map-get($theme-colors, $name);
   }

@@ -2,6 +2,17 @@
   border-bottom: $navbar-border-bottom;
   box-shadow: $navbar-box-shadow;
 
+  // The navbar always sits on a colored background (theme_color), never
+  // .navbar-dark/.navbar-light, so set its own link-color variables once
+  // instead of fighting Bootstrap's default (light-navbar-assuming)
+  // .nav-link/:hover/.active/.show selectors one by one.
+  --bs-navbar-color: #fff;
+  --bs-navbar-hover-color: #fff;
+  --bs-navbar-active-color: #fff;
+  --bs-navbar-disabled-color: rgba(255, 255, 255, .5);
+  --bs-navbar-brand-color: #fff;
+  --bs-navbar-brand-hover-color: #fff;
+
   @include media-breakpoint-down(md) {
     width: 100vw;
   }
@@ -131,8 +142,8 @@
   direction: ltr;
 }
 
-.nav-link {
-  color: #fff;
+.navbar-nav > .nav-item {
+  margin-inline: 2px;
 }
 
 .navbar-nav > .nav-item > .nav-link {
@@ -140,10 +151,11 @@
   transition: $transition-appearance-fast;
 
   &:hover {
-    background: rgba($black, .1);
+    background: rgba($white, .15);
   }
 }
 
-.user-menu .dropdown-toggle::after {
+.user-menu .dropdown-toggle::after,
+.dev-panel-toggle::after {
   content: none;
 }

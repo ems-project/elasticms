@@ -4,20 +4,20 @@
     server config. Not translated on purpose - safe to remove later.
 #}
 <li class="nav-item dropdown" data-testid="dev-panel">
-    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" title="Dev panel">
+    <a class="nav-link dropdown-toggle dev-panel-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" title="Dev panel">
         <i class="fa fa-flask"></i>
     </a>
-    <div class="dropdown-menu dropdown-menu-end p-3" style="min-width: 220px;">
+    <div class="dropdown-menu dropdown-menu-end dev-panel-menu p-3" style="min-width: 240px;">
         <div class="dev-panel-label">Mode</div>
-        <div class="d-flex mb-3">
+        <div class="d-flex mb-4">
             <button type="button" class="mode-btn" data-mode="light">Light</button>
             <button type="button" class="mode-btn" data-mode="dark">Dark</button>
         </div>
 
         <div class="dev-panel-label">Theme color (sidebar/topbar)</div>
-        <div class="d-flex gap-2 mb-3">
-            {# AdminLTE2 skin colors only - matches the loop in css/admin/components/_dev-panel.scss #}
-            {% for color in ['light-blue', 'purple', 'green', 'red', 'yellow'] %}
+        <div class="d-flex gap-3 mb-4">
+            {# The 5 supported theme_color values - matches $theme-colors-supported in css/admin/components/_theme-color.scss #}
+            {% for color in ['blue', 'purple', 'green', 'red', 'yellow'] %}
                 <button type="button" class="skin-swatch" data-skin="{{ color }}" title="{{ color }}"></button>
             {% endfor %}
         </div>

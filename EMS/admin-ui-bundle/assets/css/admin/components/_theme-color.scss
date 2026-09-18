@@ -7,7 +7,14 @@
 // dev panel (templates/bootstrap5/elements/dev-panel.html.twig) to preview
 // other colors without touching the theme_color config; regular users only
 // ever see the server-rendered value.
-@each $name, $color in $theme-colors {
+//
+// Colors light enough that the navbar needs dark text/icons instead of the
+// default white - everything else gets a white hamburger instead (the
+// navbar's .nav-link text is already white by default).
+$theme-color-light-contrast: 'yellow';
+
+@each $name in $theme-colors-supported {
+  $color: map-get($theme-colors, $name);
   html[data-theme='#{$name}'] {
     .navbar,
     .user-header,
@@ -19,6 +26,20 @@
     .sidebar-brand {
       background-color: $color !important;
       background-image: linear-gradient(90deg, transparent, darken($color, 10%)) !important;
+    }
+
+    @if index($theme-color-light-contrast, $name) {
+      .navbar {
+        --bs-navbar-color: #{$gray-800};
+        --bs-navbar-hover-color: #{$gray-800};
+        --bs-navbar-active-color: #{$gray-800};
+      }
+    } @else {
+      .navbar .hamburger,
+      .navbar .hamburger:before,
+      .navbar .hamburger:after {
+        background: #fff;
+      }
     }
   }
 }

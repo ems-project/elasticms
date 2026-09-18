@@ -1,7 +1,3 @@
-// Dev panel (ROLE_SUPER_ADMIN tooling, see elements/dev-panel.html.twig).
-// Uses Bootstrap's own dark-mode-aware CSS variables (--bs-border-color,
-// --bs-body-color, ...) so the panel itself follows [data-bs-theme=dark]
-// automatically, without a separate token layer.
 .dev-panel-menu {
   padding: 1.1rem 1.25rem;
 }

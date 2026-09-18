@@ -9,13 +9,24 @@ variables/_app.scss   Sass variables (compile-time): Bootstrap overrides,
                        sidebar/navbar tokens, $theme-colors map,
                        $theme-colors-supported (see below)
 mixins/                small reusable Sass mixins
-components/            one file per UI area (sidebar, navbar, card, ...)
+components/            grouped by UI area - see conventions below
 utilities/             small utility classes (cursors, sizing)
 vendor/                overrides for 3rd-party CSS (flatpickr, simplebar)
 ```
 
 `components/_dark-mode.scss` and `components/_theme-color.scss` are
 imported last in `app.scss`, so they can override any other component.
+
+## Conventions
+
+- Group related pieces of the app shell into one file instead of one file
+  per widget - e.g. `components/_layout.scss` holds the wrapper, navbar,
+  hamburger, avatar and sidebar together, split into `// ===== Name =====`
+  sections. Small unrelated one-off Bootstrap tweaks also share a file
+  (`_bootstrap-overrides.scss`) rather than getting a file each.
+- No explanatory comments in these SCSS files - only short section headers
+  where a file covers more than one area. Put the reasoning in this
+  README instead.
 
 ## Theme color (sidebar/topbar branding)
 

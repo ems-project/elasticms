@@ -1,7 +1,13 @@
 action:
     acknowledge: Acknowledge
     activate: Activate
-    add: Add
+    add: |-
+        {type, select,
+            sort_option   {Add a sort option}
+            aggregate_option   {Add an aggregate option}
+            search_field_option   {Add a search field option}
+            other   {Add}
+        }
     add_aggregate_option: 'Aggregate Options'
     add_alias: 'Add alias'
     add_entity: 'New {entity_name}'
@@ -84,7 +90,13 @@ action:
     reject: Reject
     relaunch: Relaunch
     reload_page: 'Reload page'
-    remove: Remove
+    remove: |-
+        {type, select,
+            sort_option   {Remove this sort option}
+            aggregate_option   {Remove this aggregate option}
+            search_field_option   {Remove this search field option}
+            other   {Remove}
+        }
     remove_documents: 'Remove documents'
     rename: Rename
     reorder: Reorder

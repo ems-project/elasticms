@@ -1,7 +1,13 @@
 action:
     acknowledge: Bevestigen
     activate: Activeren
-    add: Toevoegen
+    add: |-
+        {type, select,
+            sort_option   {Voeg een sorteeroptie toe}
+            aggregate_option   {Voeg een aggregatieoptie toe}
+            search_field_option   {Voeg een optie voor een zoekveld toe}
+            other   {Toevoegen}
+        }
     add_aggregate_option: Aggregatieopties
     add_alias: 'Alias toevoegen'
     add_entity: 'Nieuwe {entity_name}'
@@ -84,7 +90,13 @@ action:
     reject: Weigeren
     relaunch: Herstarten
     reload_page: 'Pagina herladen'
-    remove: Verwijderen
+    remove: |-
+        {type, select,
+            sort_option   {Verwijder deze sorteeroptie}
+            aggregate_option   {Verwijder deze aggregatieoptie}
+            search_field_option   {Verwijder deze optie voor het zoekveld}
+            other   {Verwijderen}
+        }
     remove_documents: 'Documenten verwijderen'
     rename: Hernoemen
     reorder: Hersorteren
@@ -237,7 +249,7 @@ field:
     accumulate_file: 'In één bestand verzamelen'
     action_dropdown_label: 'Acties in {environment}'
     action_dropdown_sr_only: 'Dropdown met acties van {environment} omschakelen'
-    aggregate_options: 'Aggregatieopties'
+    aggregate_options: Aggregatieopties
     alias: Alias
     allowed_remote_hosts: 'Toegestane externe hosts'
     analyzer: Analyzer
@@ -428,7 +440,7 @@ field:
     separator: Scheidingsteken
     severity: Ernst
     singular: Enkelvoud
-    sort_options: 'Sorteeropties'
+    sort_options: Sorteeropties
     spreadsheet: Spreadsheet
     status: Status
     stopwords: Stopwoorden

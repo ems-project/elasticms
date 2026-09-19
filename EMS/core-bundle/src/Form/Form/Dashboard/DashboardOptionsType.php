@@ -123,6 +123,9 @@ class DashboardOptionsType extends AbstractType
         ;
     }
 
+    /**
+     * @param FormBuilderInterface<mixed> $builder
+     */
     private function buildForLegacySearch(FormBuilderInterface $builder): void
     {
         $builder
@@ -131,18 +134,39 @@ class DashboardOptionsType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'entry_type' => SortOptionType::class,
+                'attr' => [
+                    'class' => 'a2lix_lib_sf_collection',
+                    'data-lang-add' => t('action.add', ['type' => 'sort_option'], 'emsco-core'),
+                    'data-lang-remove' => t('action.remove', ['type' => 'sort_option'], 'emsco-core'),
+                    'data-entry-remove-class' => 'btn btn-sm btn-danger',
+                ],
+                'row_attr' => ['class' => 'col-md-12'],
             ])
             ->add('aggregateOptions', CollectionType::class, [
                 'label' => t('field.aggregate_options', [], 'emsco-core'),
                 'allow_add' => true,
                 'allow_delete' => true,
                 'entry_type' => AggregateOptionType::class,
+                'attr' => [
+                    'class' => 'a2lix_lib_sf_collection',
+                    'data-lang-add' => t('action.add', ['type' => 'aggregate_option'], 'emsco-core'),
+                    'data-lang-remove' => t('action.remove', ['type' => 'aggregate_option'], 'emsco-core'),
+                    'data-entry-remove-class' => 'btn btn-sm btn-danger',
+                ],
+                'row_attr' => ['class' => 'col-md-12'],
             ])
             ->add('searchFieldOptions', CollectionType::class, [
                 'label' => t('field.search_field_options', [], 'emsco-core'),
                 'allow_add' => true,
                 'allow_delete' => true,
                 'entry_type' => SearchFieldOptionType::class,
+                'attr' => [
+                    'class' => 'a2lix_lib_sf_collection',
+                    'data-lang-add' => t('action.add', ['type' => 'search_field_option'], 'emsco-core'),
+                    'data-lang-remove' => t('action.remove', ['type' => 'search_field_option'], 'emsco-core'),
+                    'data-entry-remove-class' => 'btn btn-sm btn-danger',
+                ],
+                'row_attr' => ['class' => 'col-md-12'],
             ]);
     }
 }

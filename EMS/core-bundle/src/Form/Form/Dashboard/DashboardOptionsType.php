@@ -129,7 +129,7 @@ class DashboardOptionsType extends AbstractType
     private function buildForLegacySearch(FormBuilderInterface $builder): void
     {
         $builder
-            ->add('sortOptions', CollectionType::class, [
+            ->add(DashboardOptions::SORT_OPTION, CollectionType::class, [
                 'label' => t('field.sort_options', [], 'emsco-core'),
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -142,7 +142,7 @@ class DashboardOptionsType extends AbstractType
                 ],
                 'row_attr' => ['class' => 'col-md-12'],
             ])
-            ->add('aggregateOptions', CollectionType::class, [
+            ->add(DashboardOptions::AGGREGATE_OPTIONS, CollectionType::class, [
                 'label' => t('field.aggregate_options', [], 'emsco-core'),
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -155,7 +155,7 @@ class DashboardOptionsType extends AbstractType
                 ],
                 'row_attr' => ['class' => 'col-md-12'],
             ])
-            ->add('searchFieldOptions', CollectionType::class, [
+            ->add(DashboardOptions::SEARCH_FIELD_OPTIONS, CollectionType::class, [
                 'label' => t('field.search_field_options', [], 'emsco-core'),
                 'allow_add' => true,
                 'allow_delete' => true,

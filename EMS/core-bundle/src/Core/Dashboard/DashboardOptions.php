@@ -19,6 +19,9 @@ class DashboardOptions implements \ArrayAccess
     final public const string FILENAME = 'filename';
     final public const string MIMETYPE = 'mimetype';
     final public const string FILE_DISPOSITION = 'fileDisposition';
+    final public const string SORT_OPTION = 'sortOptions';
+    final public const string AGGREGATE_OPTIONS = 'aggregateOptions';
+    final public const string SEARCH_FIELD_OPTIONS = 'searchFieldOptions';
 
     private const array OPTIONS = [
         self::BODY,
@@ -27,6 +30,9 @@ class DashboardOptions implements \ArrayAccess
         self::FILENAME,
         self::MIMETYPE,
         self::FILE_DISPOSITION,
+        self::SORT_OPTION,
+        self::AGGREGATE_OPTIONS,
+        self::SEARCH_FIELD_OPTIONS,
     ];
 
     /**
@@ -55,8 +61,11 @@ class DashboardOptions implements \ArrayAccess
         return isset($this->options[$offset]);
     }
 
+    /**
+     * @return mixed[]|string|null
+     */
     #[\Override]
-    public function offsetGet($offset): ?string
+    public function offsetGet($offset): mixed
     {
         return $this->options[$offset] ?? null;
     }

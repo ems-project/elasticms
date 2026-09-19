@@ -7,6 +7,7 @@ namespace Application\Migrations;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use EMS\Helpers\Standard\Json;
 use Ramsey\Uuid\Uuid;
 
 final class Version20260919133300 extends AbstractMigration
@@ -43,14 +44,42 @@ final class Version20260919133300 extends AbstractMigration
             return;
         }
 
+        $sortOptions = \array_map(static fn (array $option): array => [
+            'name' => $option['name'],
+            'field' => $option['field'],
+            'orderKey' => $option['orderkey'],
+            'inverted' => $option['inverted'],
+            'icon' => $option['icon'],
+        ], $this->connection->fetchAllAssociative('SELECT name, field, orderkey, inverted, icon FROM sort_option ORDER BY orderkey'));
+        $searchFieldOptions = \array_map(static fn (array $option): array => [
+            'name' => $option['name'],
+            'field' => $option['field'],
+            'orderKey' => $option['orderkey'],
+            'icon' => $option['icon'],
+            'contentTypes' => Json::decode((string) $option['contenttypes']),
+            'operators' => Json::decode((string) $option['operators']),
+        ], $this->connection->fetchAllAssociative('SELECT name, field, orderkey, icon, contenttypes, operators FROM search_field_option ORDER BY orderkey'));
+        $aggregateOptions = \array_map(static fn (array $option): array => [
+            'name' => $option['name'],
+            'config' => $option['config'],
+            'template' => $option['template'],
+            'orderKey' => $option['orderkey'],
+            'icon' => $option['icon'],
+        ], $this->connection->fetchAllAssociative('SELECT name, config, template, orderkey, icon FROM aggregate_option ORDER BY orderkey'));
+
         $this->addSql(<<<'SQL'
             INSERT INTO dashboard (
                 id, created, modified, name, icon, label, sidebar_menu, notification_menu, definition, type, role, color, options, order_key
             ) VALUES (
-                :id, NOW(), NOW(), 'advanced_search', 'fa fa-search', 'Advanced search', TRUE, FALSE, NULL, 'ems_core.dashboard.advanced_search', 'ROLE_USER', NULL, '{}'::json, COALESCE((SELECT MAX(order_key) + 1 FROM dashboard), 1)
+                :id, NOW(), NOW(), 'advanced_search', 'fa fa-search', 'Advanced search', TRUE, FALSE, NULL, 'ems_core.dashboard.advanced_search', 'ROLE_USER', NULL, CAST(:options AS JSON), COALESCE((SELECT MAX(order_key) + 1 FROM dashboard), 1)
             )
         SQL, [
             'id' => Uuid::uuid4()->toString(),
+            'options' => Json::encode([
+                'sortOptions' => $sortOptions,
+                'searchFieldOptions' => $searchFieldOptions,
+                'aggregateOptions' => $aggregateOptions,
+            ]),
         ]);
     }
 

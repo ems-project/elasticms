@@ -47,6 +47,10 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems_core.dashboard.advanced_search', AdvancedSearch::class)
         ->args([
             service('twig'),
+            service('request_stack'),
+            service('form.factory'),
+            service('router'),
+            service('ems_common.storage.manager'),
             '%ems_core.template_namespace%',
         ])
         ->tag('ems.dashboard', ['alias' => 'advanced_search']);

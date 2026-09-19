@@ -1,0 +1,21 @@
+{% extends '@EMSCore/base.html.twig' %}
+{% trans_default_domain 'emsco-core' %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('emsco_dashboard', {name: dashboard.name}) }}"><i class="{{ dashboard.icon }}"></i> {{ dashboard.label }}</a></li>
+        {% block breadcrumb_items %}{% endblock breadcrumb_items %}
+    </ol>
+{% endblock %}
+
+{% block title %}{{ dashboard.label }}{% endblock %}
+{% block pagetitle %}{{ block('title') }}{% endblock %}
+{% block subtitle %}{% endblock %}
+
+
+
+{% block body %}
+    {% include "@EMSCore/elasticsearch/search-form-filter.html.twig" with {
+        form: form,
+    } %}
+{% endblock body %}

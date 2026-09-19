@@ -440,13 +440,16 @@ field:
     separator: Scheidingsteken
     severity: Ernst
     singular: Enkelvoud
+    sort_by: 'Sorteren op'
     sort_options: Sorteeropties
+    sort_order: 'Sorteervolgorde'
     spreadsheet: Spreadsheet
     status: Status
     stopwords: Stopwoorden
     styles_set: Stijlenset
     table_default_css: 'Standaard class-attribuut van tabel'
     tag: Tag
+    template: Template
     template_body: 'Template body'
     template_footer: 'Template footer'
     template_header: 'Template header'
@@ -489,6 +492,7 @@ key:
     add_documents: 'Documenten toevoegen'
     add_user: 'Gebruiker toevoegen'
     admin: Admin
+    advanced_search: 'Geavanceerd zoeken'
     aggregate_option: Aggregatieoptie
     aggregate_options: Aggregatieopties
     align_with: 'Uitlijnen met'
@@ -500,6 +504,7 @@ key:
     anonymous_user: 'Anonieme gebruiker'
     api_key: API-sleutel
     applied: Toegepast
+    ascending: 'Oplopend'
     assigned_to_me: 'Aan mij toegewezen'
     assignees: Toegewezenen
     attachment: Bijlage
@@ -528,6 +533,7 @@ key:
     customized: Aangepast
     dashboards: Dashboards
     delayed_unassigned_shards: 'Vertraagde niet-toegewezen shards'
+    descending: Dalend
     discard_modifications: 'Niet-opgeslagen wijzigingen verwerpen'
     document: Document
     documentation: Documentatie
@@ -572,7 +578,6 @@ key:
     landscape: Landschap
     last_commands: 'Laatste commando’s'
     last_update: 'Laatste update'
-    advanced_search: 'Geavanceerd zoeken'
     link_to_document: 'Link naar document'
     locale_ui: 'Taal van de interface'
     locale_ui_abbrev: Interface

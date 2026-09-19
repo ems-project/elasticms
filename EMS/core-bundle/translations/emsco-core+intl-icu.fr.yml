@@ -440,13 +440,16 @@ field:
     separator: Séparateur
     severity: Sévérité
     singular: Singulier
+    sort_by: 'Trier par'
     sort_options: 'Options de tri'
+    sort_order: 'Ordre de tri'
     spreadsheet: 'Feuille de calcul'
     status: Statut
     stopwords: 'Mots vides'
     styles_set: 'Jeu de styles'
     table_default_css: 'Attribut class par défaut du tableau'
     tag: Tag
+    template: Template
     template_body: 'Corps du template'
     template_footer: 'Pied du template'
     template_header: 'En-tête du template'
@@ -489,6 +492,7 @@ key:
     add_documents: 'Ajouter des documents'
     add_user: 'Ajouter un utilisateur'
     admin: Admin
+    advanced_search: 'Recherche avancée'
     aggregate_option: 'Option d’agrégation'
     aggregate_options: 'Options d’agrégation'
     align_with: 'Aligner avec'
@@ -500,6 +504,7 @@ key:
     anonymous_user: 'Utilisateur anonyme'
     api_key: 'Clé API'
     applied: Appliquée
+    ascending: Ascendant
     assigned_to_me: 'Assignées à moi'
     assignees: Assignés
     attachment: 'Pièce jointe'
@@ -528,6 +533,7 @@ key:
     customized: Personnalisé
     dashboards: 'Tableaux de bord'
     delayed_unassigned_shards: 'Shards non assignés retardés'
+    descending: 'Descendant'
     discard_modifications: 'Abandonner les modifications non enregistrées'
     document: Document
     documentation: Documentation
@@ -572,7 +578,6 @@ key:
     landscape: Paysage
     last_commands: 'Dernières commandes'
     last_update: 'Dernière mise à jour'
-    advanced_search: 'Recherche avancée'
     link_to_document: 'Lien vers le document'
     locale_ui: 'Langue de l’interface'
     locale_ui_abbrev: Interface

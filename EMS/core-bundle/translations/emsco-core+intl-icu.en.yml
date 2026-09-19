@@ -489,6 +489,7 @@ key:
     add_documents: 'Add documents'
     add_user: 'Add user'
     admin: Admin
+    advanced_search: 'Advanced search'
     aggregate_option: 'Aggregate Option'
     aggregate_options: 'Aggregate options'
     align_with: 'Align with'
@@ -500,6 +501,7 @@ key:
     anonymous_user: 'Anonymous user'
     api_key: 'API key'
     applied: Applied
+    ascending: Ascending
     assigned_to_me: 'Assigned to me'
     assignees: Assignees
     attachment: Attachment
@@ -528,6 +530,7 @@ key:
     customized: Customized
     dashboards: Dashboards
     delayed_unassigned_shards: 'Delayed unassigned shards'
+    descending: Descending
     discard_modifications: 'Discard non-saved modifications'
     document: Document
     documentation: Documentation
@@ -572,7 +575,6 @@ key:
     landscape: Landscape
     last_commands: 'Last commands'
     last_update: 'Last update'
-    advanced_search: 'Advanced search'
     link_to_document: 'Link to document'
     locale_ui: 'Locale UI'
     locale_ui_abbrev: UI

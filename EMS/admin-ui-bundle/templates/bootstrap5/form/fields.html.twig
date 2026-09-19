@@ -1451,3 +1451,10 @@
         {{ form.vars.label|emsco_i18n }}
     </button>
 {%- endblock action_row -%}
+
+{% block attributes -%}
+    {%- for attrname, attrvalue in attr|filter(p => p is ems_translatable_message) -%}
+        {%- set attr = attr|merge({(attrname): attrvalue|trans}) -%}
+    {%- endfor -%}
+    {{- parent() -}}
+{%- endblock attributes -%}

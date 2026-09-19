@@ -1,7 +1,13 @@
 action:
     acknowledge: Acquitter
     activate: Activer
-    add: Ajouter
+    add: |-
+        {type, select,
+            sort_option   {Ajouter une option de tri}
+            aggregate_option   {Ajouter une option d'agrégation}
+            search_field_option   {Ajouter une option de champ de recherche}
+            other   {Ajouter}
+        }
     add_aggregate_option: 'Options d’agrégation'
     add_alias: 'Ajouter un alias'
     add_entity: 'Nouveau {entity_name}'
@@ -84,7 +90,13 @@ action:
     reject: Rejeter
     relaunch: Relancer
     reload_page: 'Recharger la page'
-    remove: Supprimer
+    remove: |-
+        {type, select,
+            sort_option   {Supprimer cette option de tri}
+            aggregate_option   {Supprimer cette option d'agrégation}
+            search_field_option   {Supprimer cette option de champ de recherche}
+            other   {Supprimer}
+        }
     remove_documents: 'Retirer des documents'
     rename: Renommer
     reorder: Réordonner
@@ -237,6 +249,7 @@ field:
     accumulate_file: 'Accumuler dans un seul fichier'
     action_dropdown_label: 'Actions dans {environment}'
     action_dropdown_sr_only: 'Basculer le menu déroulant des actions de {environment}'
+    aggregate_options: "Options d'agrégation"
     alias: Alias
     allowed_remote_hosts: 'Hôtes distants autorisés'
     analyzer: Analyzer
@@ -423,9 +436,11 @@ field:
     role_view: Voir
     roles: Rôles
     search_config: 'Configuration de recherche'
+    search_field_options: 'Options du champ de recherche'
     separator: Séparateur
     severity: Sévérité
     singular: Singulier
+    sort_options: 'Options de tri'
     spreadsheet: 'Feuille de calcul'
     status: Statut
     stopwords: 'Mots vides'
@@ -557,6 +572,7 @@ key:
     landscape: Paysage
     last_commands: 'Dernières commandes'
     last_update: 'Dernière mise à jour'
+    advanced_search: 'Recherche avancée'
     link_to_document: 'Lien vers le document'
     locale_ui: 'Langue de l’interface'
     locale_ui_abbrev: Interface

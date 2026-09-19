@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Core\Dashboard\Services;
 
 use EMS\CoreBundle\Entity\Dashboard;
@@ -19,7 +21,7 @@ class LegacySearch implements DashboardInterface
             'dashboard' => $dashboard,
             'options' => $dashboard->getOptions(),
         ]));
-        
+
         return $response;
     }
 }

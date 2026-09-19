@@ -51,7 +51,8 @@ class AdvancedSearch implements DashboardInterface
 
         $options = $dashboard->getOptions();
         $uid = $request->query->get('uid');
-        $search = $this->getDefaultSearch($options);
+        $query = $request->query->get('q');
+        $search = $this->getDefaultSearch($options, $query);
 
         $response = new Response();
         $form = $this->formFactory->create(SearchFormType::class, $search);
@@ -69,7 +70,7 @@ class AdvancedSearch implements DashboardInterface
         return $response;
     }
 
-    private function getDefaultSearch(DashboardOptions $options): Search
+    private function getDefaultSearch(DashboardOptions $options, ?string $query): Search
     {
         $search = new Search();
         $search->setEnvironments(Type::array($options->offsetGet(DashboardOptions::ENVIRONMENTS) ?? []));
@@ -85,7 +86,13 @@ class AdvancedSearch implements DashboardInterface
             $search->removeFilter($filter);
         }
         foreach ($filters as $filter) {
-            $search->addFilter(SearchFilter::fromArray($filter));
+            $searchFilter = SearchFilter::fromArray($filter);
+            $pattern = $searchFilter->getPattern();
+            if (null !== $query && null !== $pattern) {
+                $searchFilter->setPattern(str_replace('%q%', $query, $pattern));
+            }
+            $search->addFilter($searchFilter);
+            
         }
 
         return $search;

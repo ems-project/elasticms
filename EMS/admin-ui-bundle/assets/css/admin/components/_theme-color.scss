@@ -10,11 +10,6 @@ $theme-color-light-contrast: 'yellow';
       background-color: $color !important;
     }
 
-    .sidebar-brand {
-      background-color: $color !important;
-      background-image: linear-gradient(90deg, transparent, darken($color, 10%)) !important;
-    }
-
     @if index($theme-color-light-contrast, $name) {
       .navbar {
         --bs-navbar-color: #{$gray-800};

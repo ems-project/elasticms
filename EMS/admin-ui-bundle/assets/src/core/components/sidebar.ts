@@ -2,6 +2,7 @@
 
 const SIDEBAR_COLLAPSED_STORAGE_KEY = 'ems.sidebar.collapsed'
 const SIDEBAR_TEMPORARY_OPEN_CLASS = 'sidebar-temporary-open'
+const MOBILE_QUERY = '(max-width: 991.98px)'
 
 export default class Sidebar {
     sidebar: HTMLElement | null = null
@@ -79,13 +80,21 @@ export default class Sidebar {
             this.openTemporarySidebar(sidebar)
         })
         backdrop.addEventListener('click', () => {
-            this.closeTemporarySidebar()
+            this.closeOverlay(sidebar)
         })
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
-                this.closeTemporarySidebar()
+                this.closeOverlay(sidebar)
             }
         })
+    }
+
+    closeOverlay(sidebar: HTMLElement) {
+        this.closeTemporarySidebar()
+        if (window.matchMedia(MOBILE_QUERY).matches && sidebar.classList.contains('collapsed')) {
+            sidebar.classList.remove('collapsed')
+            this.setCollapsed(false)
+        }
     }
 
     openTemporarySidebar(sidebar: HTMLElement) {

@@ -17,6 +17,17 @@
   overflow: hidden;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  padding-top: $navbar-row-height + $navbar-brand-row-height;
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $navbar-row-height;
+  }
+}
+
+html.header-compact .main {
+  @include media-breakpoint-down(lg) {
+    padding-top: $navbar-row-height;
+  }
 }
 
 footer.footer {
@@ -41,6 +52,8 @@ footer.footer {
 .navbar {
   border-bottom: $navbar-border-bottom;
   box-shadow: $navbar-box-shadow;
+  flex-wrap: wrap;
+  padding: 0;
 
   --bs-navbar-color: #fff;
   --bs-navbar-hover-color: #fff;
@@ -48,9 +61,17 @@ footer.footer {
   --bs-navbar-disabled-color: rgba(255, 255, 255, .5);
   --bs-navbar-brand-color: #fff;
   --bs-navbar-brand-hover-color: #fff;
+}
 
-  @include media-breakpoint-down(md) {
-    width: 100vw;
+.navbar-fixed {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: $zindex-modal + 2;
+
+  @include media-breakpoint-up(lg) {
+    left: $sidebar-width;
   }
 }
 
@@ -69,9 +90,15 @@ footer.footer {
 .navbar-brand {
   font-weight: $navbar-brand-font-weight;
   font-size: $navbar-brand-font-size;
-  padding: $navbar-brand-padding-y $navbar-brand-padding-x;
+  padding: 0 $navbar-brand-padding-x;
   color: $navbar-brand-color;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: $navbar-brand-row-height;
+  background: darken($sidebar-bg, 5%);
+  order: -1;
+  flex: 0 0 100%;
 
   svg,
   .feather {
@@ -82,6 +109,31 @@ footer.footer {
     margin-right: 0.375rem;
     margin-top: -0.375rem;
   }
+
+  @include media-breakpoint-down(lg) {
+    transition: $transition-appearance-fast;
+
+    html.header-compact & {
+      display: none;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: $zindex-modal + 2;
+    width: $sidebar-width;
+    height: $navbar-row-height;
+  }
+}
+
+.navbar-toolbar {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  min-width: 0;
+  padding: var(--bs-navbar-padding-y) var(--bs-navbar-padding-x);
 }
 
 .nav-icon,
@@ -144,7 +196,8 @@ footer.footer {
 
 @include media-breakpoint-down(sm) {
   .navbar {
-    padding: 0.75rem;
+    --bs-navbar-padding-y: 0.75rem;
+    --bs-navbar-padding-x: 0.75rem;
   }
 
   .nav-icon {
@@ -270,7 +323,7 @@ footer.footer {
 
   html.sidebar-temporary-open & {
     position: fixed;
-    top: 0;
+    top: $navbar-row-height;
     bottom: 0;
     left: 0;
     z-index: $zindex-modal + 1;
@@ -287,6 +340,10 @@ footer.footer {
   background: $sidebar-bg;
   position: sticky;
   top: 0;
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $navbar-row-height;
+  }
 }
 
 .sidebar-nav {
@@ -338,29 +395,6 @@ a.sidebar-link {
   color: $sidebar-link-active-color;
   background: $sidebar-link-active-bg;
   border-left-color: $sidebar-link-active-border-left-color;
-}
-
-.sidebar-brand {
-  font-weight: $sidebar-brand-font-weight;
-  font-size: $sidebar-brand-font-size;
-  padding: 0 $sidebar-brand-padding-x;
-  display: block;
-  color: $sidebar-brand-color;
-  height: 53px;
-  line-height: 53px;
-
-  &:hover {
-    text-decoration: none;
-    color: $sidebar-brand-color;
-  }
-
-  &:focus {
-    outline: 0;
-  }
-
-  b {
-    text-transform: uppercase;
-  }
 }
 
 .input-group-sidebar .btn,
@@ -419,19 +453,29 @@ a.sidebar-link {
   }
 
   @media (min-width: 1px) and (max-width: #{map-get($grid-breakpoints, 'lg') - .02px}) {
+    position: fixed;
+    top: $navbar-row-height + $navbar-brand-row-height;
+    bottom: 0;
+    left: 0;
+    z-index: $zindex-modal + 1;
     margin-left: -$sidebar-width;
+    box-shadow: 0 0.5rem 2rem rgba($black, 0.35);
 
-    &.collapsed {
-      margin-left: 0;
-    }
-
-    html[data-sidebar-collapsed] & {
-      margin-left: 0;
-    }
-
+    &.collapsed,
+    html[data-sidebar-collapsed] &,
     html.sidebar-temporary-open & {
       margin-left: 0;
     }
+
+    html.header-compact & {
+      top: $navbar-row-height;
+    }
+  }
+}
+
+@media (max-width: #{map-get($grid-breakpoints, 'lg') - .02px}) {
+  html[data-sidebar-collapsed] body {
+    overflow: hidden;
   }
 }
 
@@ -479,6 +523,12 @@ html.sidebar-temporary-open body {
 
   html.sidebar-temporary-open & {
     display: block;
+  }
+
+  @media (max-width: #{map-get($grid-breakpoints, 'lg') - .02px}) {
+    html[data-sidebar-collapsed] & {
+      display: block;
+    }
   }
 }
 

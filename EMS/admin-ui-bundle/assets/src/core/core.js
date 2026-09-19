@@ -84,8 +84,22 @@ class Core {
         }
         this.initStatusRefresh()
         this.initCtrlSaveEvent()
+        this.initHeaderScroll()
         initIcons(document.body)
         this.components = [new Theme(), new RevisionTask(), new Modal(), new Sidebar()]
+    }
+
+    initHeaderScroll() {
+        let compact = null
+        const update = () => {
+            const next = window.scrollY > 10
+            if (next !== compact) {
+                document.documentElement.classList.toggle('header-compact', next)
+                compact = next
+            }
+        }
+        window.addEventListener('scroll', update, { passive: true })
+        update()
     }
 
     initStatusRefresh() {

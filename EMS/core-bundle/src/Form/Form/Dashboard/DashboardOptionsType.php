@@ -10,6 +10,8 @@ use EMS\CoreBundle\Core\Dashboard\Services\DashboardInterface;
 use EMS\CoreBundle\Core\Dashboard\Services\Export;
 use EMS\CoreBundle\Core\Dashboard\Services\Template;
 use EMS\CoreBundle\Form\Field\CodeEditorType;
+use EMS\CoreBundle\Form\Field\ContentTypePickerType;
+use EMS\CoreBundle\Form\Field\EnvironmentPickerType;
 use EMS\CoreBundle\Form\Form\AggregateOptionType;
 use EMS\CoreBundle\Form\Form\SearchFieldOptionType;
 use EMS\CoreBundle\Form\Form\SortOptionType;
@@ -129,6 +131,32 @@ class DashboardOptionsType extends AbstractType
     private function buildForLegacySearch(FormBuilderInterface $builder): void
     {
         $builder
+            ->add(DashboardOptions::ENVIRONMENTS, EnvironmentPickerType::class, [
+                'label' => t('field.environments', [], 'emsco-core'),
+                'required' => false,
+                'multiple' => true,
+                'row_attr' => ['class' => 'col-md-12'],
+            ])
+            ->add(DashboardOptions::CONTENT_TYPES, ContentTypePickerType::class, [
+                'label' => t('field.content_types', [], 'emsco-core'),
+                'required' => false,
+                'multiple' => true,
+                'row_attr' => ['class' => 'col-md-12'],
+            ])
+            ->add(DashboardOptions::SORT_BY, null, [
+                'label' => t('field.sort_by', [], 'emsco-core'),
+                'required' => false,
+                'row_attr' => ['class' => 'col-md-12'],
+            ])
+            ->add(DashboardOptions::SORT_ORDER, ChoiceType::class, [
+                'label' => t('field.sort_order', [], 'emsco-core'),
+                'required' => false,
+                'row_attr' => ['class' => 'col-md-12'],
+                'choices' => [
+                    t('key.ascending', [], 'emsco-core')->getMessage() => 'ASC',
+                    t('key.descending', [], 'emsco-core')->getMessage() => 'DESC',
+                ]
+            ])
             ->add(DashboardOptions::SORT_OPTION, CollectionType::class, [
                 'label' => t('field.sort_options', [], 'emsco-core'),
                 'allow_add' => true,

@@ -146,6 +146,25 @@
     </div>
 {% endblock %}
 
+{% block environments_facet %}
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-database"></i> {{ 'key.environments'|trans }}</h3>
+        </div>
+        <div class="box-body">
+            {% for index in response.getAggregation('indexes').buckets %}
+                <a href="{{ path(paginationPath, currentFilters|merge({ page: 1, environment: indexes.(index.key).name })) }}" class="btn btn-block btn-social bg-{{ indexes.(index.key).color|default('gray') }}">
+                    <i class="fa fa-eye"></i>
+                    {{ attribute(indexes, index.key).label }}
+                    <span class=" badge pull-right">
+                        {{ index.count }}
+                    </span>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
 {% block body %}
 <div class="row">
     <div id="search-page-form" class="col-md-12">
@@ -171,6 +190,7 @@
     <div id="search-facets" class="col-md-3" data-testid="search-facets">
         {{ block('sort_option') }}
         {{ block('content_types_facet') }}
+        {{ block('environments_facet') }}
     </div>
 </div>
 {% endblock body %}

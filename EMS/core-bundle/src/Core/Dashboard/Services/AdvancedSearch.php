@@ -223,6 +223,12 @@ class AdvancedSearch implements DashboardInterface
 
             return $data;
         }
+        $environment = Type::nullableString($request->query->get('environment'));
+        if (\is_string($environment)) {
+            $data['environments'] = [$environment];
+
+            return $data;
+        }
 
         return null;
     }

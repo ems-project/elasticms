@@ -25,6 +25,7 @@ class DashboardOptions implements \ArrayAccess
     final public const string CONTENT_TYPES = 'contentTypes';
     final public const string SORT_BY = 'sortBy';
     final public const string SORT_ORDER = 'sortOrder';
+    final public const string MINIMUM_SHOULD_MATCH = 'minimumShouldMatch';
     final public const string SORT_OPTION = 'sortOptions';
     final public const string AGGREGATE_OPTIONS = 'aggregateOptions';
     final public const string SEARCH_FIELD_OPTIONS = 'searchFieldOptions';
@@ -40,6 +41,7 @@ class DashboardOptions implements \ArrayAccess
         self::CONTENT_TYPES,
         self::SORT_BY,
         self::SORT_ORDER,
+        self::MINIMUM_SHOULD_MATCH,
         self::SORT_OPTION,
         self::AGGREGATE_OPTIONS,
         self::SEARCH_FIELD_OPTIONS,
@@ -99,5 +101,10 @@ class DashboardOptions implements \ArrayAccess
     public function offsetUnset($offset): void
     {
         unset($this->options[$offset]);
+    }
+
+    public function getInteger(string $offset, ?int $default = null): int
+    {
+        return Type::integer($this->options[$offset] ?? $default);
     }
 }

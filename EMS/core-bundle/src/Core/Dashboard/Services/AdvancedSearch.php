@@ -75,6 +75,7 @@ class AdvancedSearch implements DashboardInterface
         $search->setContentTypes(Type::array($options->offsetGet(DashboardOptions::CONTENT_TYPES) ?? []));
         $search->setSortBy($options->getNullableString(DashboardOptions::SORT_BY));
         $search->setSortOrder($options->getNullableString(DashboardOptions::SORT_ORDER));
+        $search->setMinimumShouldMatch($options->getInteger(DashboardOptions::MINIMUM_SHOULD_MATCH, 1));
 
         return $search;
     }

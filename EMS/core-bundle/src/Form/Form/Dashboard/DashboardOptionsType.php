@@ -18,6 +18,7 @@ use EMS\CoreBundle\Form\Form\SortOptionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\OptionsResolver\Options;
@@ -156,6 +157,12 @@ class DashboardOptionsType extends AbstractType
                     t('key.ascending', [], 'emsco-core')->getMessage() => 'asc',
                     t('key.descending', [], 'emsco-core')->getMessage() => 'desc',
                 ],
+            ])
+            ->add(DashboardOptions::MINIMUM_SHOULD_MATCH, IntegerType::class, [
+                'label' => t('field.minimum_should_match', [], 'emsco-core'),
+                'required' => false,
+                'row_attr' => ['class' => 'col-md-12'],
+                'empty_data' => 1,
             ])
             ->add(DashboardOptions::SORT_OPTION, CollectionType::class, [
                 'label' => t('field.sort_options', [], 'emsco-core'),

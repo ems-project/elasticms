@@ -394,6 +394,7 @@ field:
     mcp_response: 'MCP uitvoerschema-template (JSON)'
     message: Bericht
     mime_type: MIME-type
+    minimum_should_match: 'Minimum aantal overeenkomsten'
     name: Naam
     new_version: 'Nieuwe versie'
     node_name: 'Naam van het knooppunt'

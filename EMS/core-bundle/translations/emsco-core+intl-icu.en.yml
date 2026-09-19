@@ -394,6 +394,7 @@ field:
     mcp_response: 'MCP response template (JSON)'
     message: Message
     mime_type: 'MIME type'
+    minimum_should_match: 'Minimum should match'
     name: Name
     new_version: 'New version'
     node_name: 'Node name'

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use EMS\CoreBundle\Core\Dashboard\DashboardService;
+use EMS\CoreBundle\Core\Dashboard\Services\AdvancedSearch;
 use EMS\CoreBundle\Core\Dashboard\Services\Export;
-use EMS\CoreBundle\Core\Dashboard\Services\LegacySearch;
 use EMS\CoreBundle\Core\Dashboard\Services\RevisionTask;
 use EMS\CoreBundle\Core\Dashboard\Services\Template;
 
@@ -44,7 +44,7 @@ return static function (ContainerConfigurator $container) {
         ])
         ->tag('ems.dashboard', ['alias' => 'revision_task']);
 
-    $services->set('ems_core.dashboard.advanced_search', LegacySearch::class)
+    $services->set('ems_core.dashboard.advanced_search', AdvancedSearch::class)
         ->args([
             service('twig'),
             '%ems_core.template_namespace%',

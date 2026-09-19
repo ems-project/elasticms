@@ -8,7 +8,7 @@ use EMS\CoreBundle\Entity\Dashboard;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-class LegacySearch implements DashboardInterface
+class AdvancedSearch implements DashboardInterface
 {
     public function __construct(private readonly Environment $twig, private readonly string $templateNamespace)
     {

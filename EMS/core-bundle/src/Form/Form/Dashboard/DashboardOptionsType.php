@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Form\Dashboard;
 
 use EMS\CoreBundle\Core\Dashboard\DashboardOptions;
+use EMS\CoreBundle\Core\Dashboard\Services\AdvancedSearch;
 use EMS\CoreBundle\Core\Dashboard\Services\DashboardInterface;
 use EMS\CoreBundle\Core\Dashboard\Services\Export;
-use EMS\CoreBundle\Core\Dashboard\Services\LegacySearch;
 use EMS\CoreBundle\Core\Dashboard\Services\Template;
 use EMS\CoreBundle\Form\Field\CodeEditorType;
 use EMS\CoreBundle\Form\Form\AggregateOptionType;
@@ -51,7 +51,7 @@ class DashboardOptionsType extends AbstractType
         match ($dashboard::class) {
             Export::class => $this->buildForExport($builder) ,
             Template::class => $this->buildForTemplate($builder),
-            LegacySearch::class => $this->buildForLegacySearch($builder),
+            AdvancedSearch::class => $this->buildForLegacySearch($builder),
             default => null,
         };
     }

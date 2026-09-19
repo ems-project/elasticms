@@ -440,13 +440,16 @@ field:
     separator: Separator
     severity: Severity
     singular: Singular
+    sort_by: 'Sort by'
     sort_options: 'Sort options'
+    sort_order: 'Sort order'
     spreadsheet: Spreadsheet
     status: Status
     stopwords: Stopwords
     styles_set: 'Styles set'
     table_default_css: 'Default Table class attribute'
     tag: Tag
+    template: Template
     template_body: 'Template body'
     template_footer: 'Template footer'
     template_header: 'Template header'

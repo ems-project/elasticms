@@ -52,30 +52,6 @@ class SearchFieldOptionType extends AbstractType
         ])->add('contentTypes', ContentTypePickerType::class, [
             'multiple' => true,
             'required' => false,
-        ])->add('save', SubmitEmsType::class, [
-            'attr' => [
-                'class' => 'btn btn-primary btn-sm ',
-                'data-testid' => 'btn-action-save',
-            ],
-            'icon' => 'fa fa-save',
-        ]);
-
-        if (!$options['createform']) {
-            $builder->add('remove', SubmitEmsType::class, [
-                'attr' => [
-                    'class' => 'btn btn-primary btn-sm ',
-                    'data-testid' => 'btn-action-remove',
-                ],
-                'icon' => 'fa fa-trash',
-            ]);
-        }
-    }
-
-    #[\Override]
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'createform' => false,
         ]);
     }
 }

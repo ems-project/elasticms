@@ -37,31 +37,6 @@ class AggregateOptionType extends AbstractType
         ])
         ->add('template', CodeEditorType::class, [
             'language' => 'ace/mode/twig',
-        ])
-        ->add('save', SubmitEmsType::class, [
-            'attr' => [
-                'class' => 'btn btn-primary btn-sm ',
-                'data-testid' => 'btn-action-save',
-            ],
-            'icon' => 'fa fa-save',
-        ]);
-
-        if (!$options['createform']) {
-            $builder->add('remove', SubmitEmsType::class, [
-                'attr' => [
-                    'class' => 'btn btn-primary btn-sm ',
-                    'data-testid' => 'btn-action-remove',
-                ],
-                'icon' => 'fa fa-trash',
-            ]);
-        }
-    }
-
-    #[\Override]
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'createform' => false,
         ]);
     }
 }

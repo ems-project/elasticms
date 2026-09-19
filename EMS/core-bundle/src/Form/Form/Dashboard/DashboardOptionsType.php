@@ -181,7 +181,7 @@ class DashboardOptionsType extends AbstractType
                 ],
                 'row_attr' => ['class' => 'col-md-12'],
             ])
-            ->add(DashboardOptions::SORT_OPTION, CollectionType::class, [
+            ->add(DashboardOptions::SORT_OPTIONS, CollectionType::class, [
                 'label' => t('field.sort_options', [], 'emsco-core'),
                 'allow_add' => true,
                 'allow_delete' => true,

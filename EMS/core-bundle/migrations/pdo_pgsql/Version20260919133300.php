@@ -67,6 +67,11 @@ final class Version20260919133300 extends AbstractMigration
             'icon' => $option['icon'],
         ], $this->connection->fetchAllAssociative('SELECT name, config, template, orderkey, icon FROM aggregate_option ORDER BY orderkey'));
 
+        $environments = $this->connection->fetchFirstColumn('SELECT name FROM environment WHERE in_default_search IS TRUE ORDER BY order_key');
+        if ([] === $environments) {
+            $environments = $this->connection->fetchFirstColumn('SELECT name FROM environment ORDER BY order_key');
+        }
+
         $this->addSql(<<<'SQL'
             INSERT INTO dashboard (
                 id, created, modified, name, icon, label, sidebar_menu, notification_menu, definition, type, role, color, options, order_key
@@ -78,6 +83,7 @@ final class Version20260919133300 extends AbstractMigration
         SQL, [
             'id' => Uuid::uuid4()->toString(),
             'options' => Json::encode([
+                'environments' => $environments,
                 'sortOptions' => $sortOptions,
                 'searchFieldOptions' => $searchFieldOptions,
                 'aggregateOptions' => $aggregateOptions,

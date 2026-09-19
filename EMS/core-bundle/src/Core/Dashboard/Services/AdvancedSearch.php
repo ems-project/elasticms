@@ -202,8 +202,8 @@ class AdvancedSearch implements DashboardInterface
     }
 
     /**
-     * @param  string[]      $data
-     * @return string[]|null
+     * @param  mixed[]      $data
+     * @return mixed[]|null
      */
     private function applyChanges(Request $request, array $data, DashboardOptions $options): ?array
     {
@@ -217,13 +217,19 @@ class AdvancedSearch implements DashboardInterface
 
             return $data;
         }
+        $contentType = Type::nullableString($request->query->get('contentType'));
+        if (\is_string($contentType)) {
+            $data['contentTypes'] = [$contentType];
+
+            return $data;
+        }
 
         return null;
     }
 
     /**
-     * @param  array<string, string> $data
-     * @return array<string, string>
+     * @param  mixed[] $data
+     * @return mixed[]
      */
     private function applySortChange(array $data, DashboardOptions $options, string $sortByFieldName): array
     {

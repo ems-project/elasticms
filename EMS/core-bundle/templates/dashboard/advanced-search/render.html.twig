@@ -113,6 +113,39 @@
     {% endif %}
 {% endblock %}
 
+{% block content_types_facet %}
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-sitemap"></i> {{ 'key.content_types'|trans }}</h3>
+        </div>
+        <div class="box-body">
+            {% for index in response.getAggregation('types').buckets %}
+                {% if attribute(types, index.key) is defined %}
+                    {% set icon = attribute(types, index.key).icon|default('fa fa-book') %}
+                    {% set color = attribute(types, index.key).color|default('gray') %}
+                    {% set label = index.count > 1 ? attribute(types, index.key).pluralName : attribute(types, index.key).singularName %}
+                {% else %}
+                    {% set icon = 'fa fa-question' %}
+                    {% set color = 'gray' %}
+                    {% set label = index.key|humanize %}
+                {% endif %}
+                <a href="{{ path(paginationPath, currentFilters|merge({ page: 1, contentType: index.key })) }}" class="btn btn-block btn-social bg-{{ color }}">
+                    <i class="{{ icon }}"></i>
+                    {{ label }}
+                    <span class=" badge pull-right">{{ index.count }}</span>
+                </a>
+            {% endfor %}
+            {% if response.getAggregation('types').raw.sum_other_doc_count > 0 %}
+                <a href="#" class="disabled btn btn-block btn-social btn-gray">
+                    <i class="fa fa-question"></i>
+                    {{ 'key.other'|trans }}
+                    <span class=" badge pull-right">{{ response.getAggregation('types').raw.sum_other_doc_count }}</span>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
 {% block body %}
 <div class="row">
     <div id="search-page-form" class="col-md-12">
@@ -137,6 +170,7 @@
     </div>
     <div id="search-facets" class="col-md-3" data-testid="search-facets">
         {{ block('sort_option') }}
+        {{ block('content_types_facet') }}
     </div>
 </div>
 {% endblock body %}

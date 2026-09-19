@@ -17,7 +17,7 @@ class AdvancedSearch implements DashboardInterface
     public function getResponse(Dashboard $dashboard): Response
     {
         $response = new Response();
-        $response->setContent($this->twig->render(\sprintf('@%s/dashboard/legacy-search/render.html.twig', $this->templateNamespace), [
+        $response->setContent($this->twig->render(\sprintf('@%s/dashboard/advanced-search/render.html.twig', $this->templateNamespace), [
             'dashboard' => $dashboard,
             'options' => $dashboard->getOptions(),
         ]));

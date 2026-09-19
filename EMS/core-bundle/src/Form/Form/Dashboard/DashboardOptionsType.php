@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Form\Form\Dashboard;
 use EMS\CoreBundle\Core\Dashboard\DashboardOptions;
 use EMS\CoreBundle\Core\Dashboard\Services\DashboardInterface;
 use EMS\CoreBundle\Core\Dashboard\Services\Export;
+use EMS\CoreBundle\Core\Dashboard\Services\LegacySearch;
 use EMS\CoreBundle\Core\Dashboard\Services\Template;
 use EMS\CoreBundle\Form\Field\CodeEditorType;
 use Symfony\Component\Form\AbstractType;
@@ -46,6 +47,7 @@ class DashboardOptionsType extends AbstractType
         match ($dashboard::class) {
             Export::class => $this->buildForExport($builder) ,
             Template::class => $this->buildForTemplate($builder),
+            LegacySearch::class => $this->buildForLegacySearch($builder),
             default => null,
         };
     }
@@ -115,5 +117,9 @@ class DashboardOptionsType extends AbstractType
             ->setRequired(['dashboard'])
             ->setAllowedTypes('dashboard', DashboardInterface::class)
         ;
+    }
+
+    private function buildForLegacySearch(FormBuilderInterface $builder)
+    {
     }
 }

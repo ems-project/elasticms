@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Form;
 
+use EMS\CoreBundle\Core\Dashboard\DashboardOptions;
 use EMS\CoreBundle\Entity\Form\Search;
 use EMS\CoreBundle\Entity\SearchFieldOption;
 use EMS\CoreBundle\Entity\SortOption;
@@ -72,7 +73,23 @@ class SearchFormType extends AbstractType
         } else {
             /** @var SortOption[] $sortOptions */
             $sortOptions = $this->sortOptionService->getAll();
-            if ($isSuper || empty($sortOptions)) {
+            if ($options['dashboardOptions'] instanceof DashboardOptions && [] !== $options['dashboardOptions']->getArray(DashboardOptions::SORT_OPTIONS)) {
+                $sortFields = [];
+                $sortFieldIcons = [];
+                foreach ($options['dashboardOptions']->getArray(DashboardOptions::SORT_OPTIONS) as $sortOption) {
+                    $sortFields[$sortOption['name']] = $sortOption['field'];
+                    $sortFieldIcons[$sortOption['field']] = $sortOption['icon'];
+                }
+
+                $builder->add('sortBy', ChoiceType::class, [
+                    'required' => false,
+                    'choices' => $sortFields,
+                    'choice_label' => fn ($value, $label) => \sprintf('<span><i class="%s"></i>&nbsp;%s</span>', $sortFieldIcons[$value], $label),
+                    'attr' => [
+                        'class' => 'select2',
+                    ],
+                ]);
+            } elseif ($isSuper || empty($sortOptions)) {
                 $builder->add('sortBy', TextType::class, [
                     'required' => false,
                 ]);
@@ -155,6 +172,7 @@ class SearchFormType extends AbstractType
             'savedSearch' => false,
             'csrf_protection' => false,
             'light' => false,
+            'dashboardOptions' => null,
         ]);
     }
 

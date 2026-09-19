@@ -92,9 +92,9 @@
             </div>
             <div class="box-body">
                 {% for option in options.sortOptions %}
-                    {% set active = option.name == search.sortBy %}
+                    {% set active = option.field == search.sortBy %}
                     {% set order = active ? search.sortOrder : option.inverted ? 'desc' : 'asc' %}
-                    <a href="{{ path(paginationPath, currentFilters|merge({page: 1, sortBy: option.name})) }}" class="btn btn-block btn-social btn-primary {% if active %} active{% endif %}">
+                    <a href="{{ path(paginationPath, currentFilters|merge({page: 1, sortBy: option.field})) }}" class="btn btn-block btn-social btn-primary {% if active %} active{% endif %}">
                         <i class="{% if option.icon %}{{ option.icon }}{% else %}fa fa-sort-alpha-asc{% endif %}"></i>
                         {{ option.name }}
                         {% if active %}

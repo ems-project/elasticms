@@ -73,7 +73,9 @@ class AdvancedSearch implements DashboardInterface
         $page = $request->query->getInt('page', 1);
         if (\is_string($uid)) {
             $search = new Search();
-            $form = $this->formFactory->create(SearchFormType::class, $search);
+            $form = $this->formFactory->create(SearchFormType::class, $search, [
+                'dashboardOptions' => $options,
+            ]);
             $data = $this->storageManager->getConfig($uid);
             $newData = $this->applyChanges($request, $data, $options);
             if ($newData) {
@@ -88,7 +90,9 @@ class AdvancedSearch implements DashboardInterface
             $form->submit($data);
         } else {
             $search = $this->getDefaultSearch($options, $query);
-            $form = $this->formFactory->create(SearchFormType::class, $search);
+            $form = $this->formFactory->create(SearchFormType::class, $search, [
+                'dashboardOptions' => $options,
+            ]);
         }
 
         $types = $this->contentTypeRepository->findAllAsAssociativeArray();
@@ -203,9 +207,9 @@ class AdvancedSearch implements DashboardInterface
      */
     private function applyChanges(Request $request, array $data, DashboardOptions $options): ?array
     {
-        $sortByName = Type::nullableString($request->query->get('sortBy'));
-        if (null !== $sortByName) {
-            return $this->applySortChange($data, $options, $sortByName);
+        $sortByFieldName = Type::nullableString($request->query->get('sortBy'));
+        if (null !== $sortByFieldName) {
+            return $this->applySortChange($data, $options, $sortByFieldName);
         }
         if ($request->query->has('clearSort')) {
             unset($data['sortBy']);
@@ -221,21 +225,21 @@ class AdvancedSearch implements DashboardInterface
      * @param  array<string, string> $data
      * @return array<string, string>
      */
-    private function applySortChange(array $data, DashboardOptions $options, string $sortByName): array
+    private function applySortChange(array $data, DashboardOptions $options, string $sortByFieldName): array
     {
         foreach ($options->getArray(DashboardOptions::SORT_OPTIONS) as $sortBy) {
-            if ($sortByName !== ($sortBy['name'] ?? null)) {
+            if ($sortByFieldName !== ($sortBy['field'] ?? null)) {
                 continue;
             }
-            if ($sortByName === ($data['sortBy'] ?? null)) {
+            if ($sortByFieldName === ($data['sortBy'] ?? null)) {
                 $data['sortOrder'] = ('desc' === $data['sortOrder']) ? 'asc' : 'desc';
             } else {
-                $data['sortBy'] = $sortByName;
+                $data['sortBy'] = $sortBy['field'];
                 $data['sortOrder'] = ($sortBy['inverted'] ?? null) ? 'desc' : 'asc';
             }
 
             return $data;
         }
-        throw new \RuntimeException(\sprintf('Sort option %s not found', $sortByName));
+        throw new \RuntimeException(\sprintf('Sort option %s not found', $sortByFieldName));
     }
 }

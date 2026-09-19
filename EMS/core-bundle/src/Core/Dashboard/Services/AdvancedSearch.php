@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Dashboard\Services;
 
+use EMS\CommonBundle\Elasticsearch\Response\Response as CommonResponse;
+use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Core\Dashboard\DashboardOptions;
 use EMS\CoreBundle\Entity\Dashboard;
@@ -11,6 +13,7 @@ use EMS\CoreBundle\Entity\Form\Search;
 use EMS\CoreBundle\Entity\Form\SearchFilter;
 use EMS\CoreBundle\Form\Form\SearchFormType;
 use EMS\CoreBundle\Routes;
+use EMS\CoreBundle\Service\SearchService;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -28,6 +31,8 @@ class AdvancedSearch implements DashboardInterface
         private readonly FormFactory $formFactory,
         private readonly RouterInterface $router,
         private readonly StorageManager $storageManager,
+        private readonly SearchService $searchService,
+        private readonly ElasticaService $elasticaService,
         private readonly string $templateNamespace
     ) {
     }
@@ -54,20 +59,20 @@ class AdvancedSearch implements DashboardInterface
         $query = $request->query->get('q');
         $search = $this->getDefaultSearch($options, $query);
 
-        $response = new Response();
         $form = $this->formFactory->create(SearchFormType::class, $search);
         if (\is_string($uid)) {
             $data = $this->storageManager->getConfig($uid);
             $form->submit($data);
         }
 
-        $response->setContent($this->twig->render(\sprintf('@%s/dashboard/advanced-search/render.html.twig', $this->templateNamespace), [
+        $response = $this->buildQuery($search);
+
+        return new Response($this->twig->render(\sprintf('@%s/dashboard/advanced-search/render.html.twig', $this->templateNamespace), [
             'dashboard' => $dashboard,
             'form' => $form->createView(),
             'options' => $options,
+            'response' => $response,
         ]));
-
-        return $response;
     }
 
     private function getDefaultSearch(DashboardOptions $options, ?string $query): Search
@@ -89,12 +94,18 @@ class AdvancedSearch implements DashboardInterface
             $searchFilter = SearchFilter::fromArray($filter);
             $pattern = $searchFilter->getPattern();
             if (null !== $query && null !== $pattern) {
-                $searchFilter->setPattern(str_replace('%q%', $query, $pattern));
+                $searchFilter->setPattern(\str_replace('%q%', $query, $pattern));
             }
             $search->addFilter($searchFilter);
-            
         }
 
         return $search;
+    }
+
+    private function buildQuery(Search $search): CommonResponse
+    {
+        $esSearch = $this->searchService->generateSearch($search);
+
+        return CommonResponse::fromResultSet($this->elasticaService->search($esSearch));
     }
 }

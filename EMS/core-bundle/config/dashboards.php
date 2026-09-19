@@ -51,6 +51,8 @@ return static function (ContainerConfigurator $container) {
             service('form.factory'),
             service('router'),
             service('ems_common.storage.manager'),
+            service('ems.service.search'),
+            service('ems_common.service.elastica'),
             '%ems_core.template_namespace%',
         ])
         ->tag('ems.dashboard', ['alias' => 'advanced_search']);

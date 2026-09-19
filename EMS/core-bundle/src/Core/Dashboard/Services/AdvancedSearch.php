@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Dashboard\Services;
 
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
+use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Elasticsearch\Response\Response as CommonResponse;
+use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Core\Dashboard\DashboardOptions;
@@ -12,7 +15,10 @@ use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Entity\Form\Search;
 use EMS\CoreBundle\Entity\Form\SearchFilter;
 use EMS\CoreBundle\Form\Form\SearchFormType;
+use EMS\CoreBundle\Repository\ContentTypeRepository;
+use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Routes;
+use EMS\CoreBundle\Service\AggregateOptionService;
 use EMS\CoreBundle\Service\SearchService;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\Form\FormFactory;
@@ -23,9 +29,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
+use function Symfony\Component\Translation\t;
+
 class AdvancedSearch implements DashboardInterface
 {
     public function __construct(
+        private readonly LocalizedLoggerInterface $logger,
         private readonly Environment $twig,
         private RequestStack $requestStack,
         private readonly FormFactory $formFactory,
@@ -33,6 +42,9 @@ class AdvancedSearch implements DashboardInterface
         private readonly StorageManager $storageManager,
         private readonly SearchService $searchService,
         private readonly ElasticaService $elasticaService,
+        private readonly ContentTypeRepository $contentTypeRepository,
+        private readonly EnvironmentRepository $environmentRepository,
+        private readonly int $pagingSize,
         private readonly string $templateNamespace
     ) {
     }
@@ -57,21 +69,52 @@ class AdvancedSearch implements DashboardInterface
         $options = $dashboard->getOptions();
         $uid = $request->query->get('uid');
         $query = $request->query->get('q');
-        $search = $this->getDefaultSearch($options, $query);
-
-        $form = $this->formFactory->create(SearchFormType::class, $search);
+        $page = $request->query->getInt('page', 1);
         if (\is_string($uid)) {
+            $search = new Search();
+            $form = $this->formFactory->create(SearchFormType::class, $search);
             $data = $this->storageManager->getConfig($uid);
             $form->submit($data);
+        } else {
+            $search = $this->getDefaultSearch($options, $query);
+            $form = $this->formFactory->create(SearchFormType::class, $search);
         }
 
-        $response = $this->buildQuery($search);
+        $types = $this->contentTypeRepository->findAllAsAssociativeArray();
+        $environments = $this->environmentRepository->findAllAsAssociativeArray('alias');
+
+        try {
+            $response = $this->buildQuery($search, $page);
+            if ($response->getTotal() >= 50000) {
+                $this->logger->messageWarning(t('message.search_paging_limit_exceeded', [
+                    'total' => $response->getTotal(),
+                    'paging' => '50.000',
+                ], 'emsco-core'));
+                $lastPage = \ceil(50000 / $this->pagingSize);
+            } else {
+                $lastPage = \ceil($response->getTotal() / $this->pagingSize);
+            }
+            $indexes = $this->getMapIndexes($response, $environments);
+        } catch (\Throwable $throwable) {
+            $this->logger->messageError(t('message.action_error', [
+                'error_message' => $throwable->getMessage(),
+            ], 'emsco-core'), [
+                EmsFields::LOG_EXCEPTION_FIELD => $throwable,
+            ]);
+            $response = null;
+            $lastPage = 0;
+            $indexes = [];
+        }
 
         return new Response($this->twig->render(\sprintf('@%s/dashboard/advanced-search/render.html.twig', $this->templateNamespace), [
             'dashboard' => $dashboard,
             'form' => $form->createView(),
             'options' => $options,
             'response' => $response,
+            'page' => $page,
+            'lastPage' => $lastPage,
+            'types' => $types,
+            'indexes' => $indexes,
         ]));
     }
 
@@ -87,9 +130,7 @@ class AdvancedSearch implements DashboardInterface
         if ([] === $filters) {
             return $search;
         }
-        foreach ($search->getFilters() as $filter) {
-            $search->removeFilter($filter);
-        }
+        $search->clearFilters();
         foreach ($filters as $filter) {
             $searchFilter = SearchFilter::fromArray($filter);
             $pattern = $searchFilter->getPattern();
@@ -102,10 +143,42 @@ class AdvancedSearch implements DashboardInterface
         return $search;
     }
 
-    private function buildQuery(Search $search): CommonResponse
+    private function buildQuery(Search $search, int $page): CommonResponse
     {
         $esSearch = $this->searchService->generateSearch($search);
+        $esSearch->setFrom(($page - 1) * $this->pagingSize);
+        $esSearch->setSize(Type::integer($this->pagingSize));
+        $esSearch->addTermsAggregation(AggregateOptionService::CONTENT_TYPES_AGGREGATION, EMSSource::FIELD_CONTENT_TYPE, 15);
+        $esSearch->addTermsAggregation(AggregateOptionService::INDEXES_AGGREGATION, '_index', 15);
 
         return CommonResponse::fromResultSet($this->elasticaService->search($esSearch));
+    }
+
+    /**
+     * @param  array<string, string> $environments
+     * @return array<string, string>
+     */
+    private function getMapIndexes(CommonResponse $response, array $environments): array
+    {
+        $indexes = $response->getAggregation(AggregateOptionService::INDEXES_AGGREGATION);
+        if (null === $indexes) {
+            return [];
+        }
+        $mapIndex = [];
+        foreach ($indexes->getBuckets() as $bucket) {
+            $indexName = $bucket->getKey();
+            if (null === $indexName) {
+                continue;
+            }
+            $aliases = $this->elasticaService->getAliasesFromIndex($indexName);
+            foreach ($aliases as $alias) {
+                if (isset($environments[$alias])) {
+                    $mapIndex[$indexName] = $environments[$alias];
+                    break;
+                }
+            }
+        }
+
+        return $mapIndex;
     }
 }

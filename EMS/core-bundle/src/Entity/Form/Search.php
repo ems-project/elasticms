@@ -132,6 +132,11 @@ class Search implements \JsonSerializable
         }
     }
 
+    public function clearFilters(): void
+    {
+        $this->filters->clear();
+    }
+
     /**
      * @return Collection<int, SearchFilter>
      */

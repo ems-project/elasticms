@@ -9,6 +9,8 @@ use EMS\CoreBundle\Core\Dashboard\Services\AdvancedSearch;
 use EMS\CoreBundle\Core\Dashboard\Services\Export;
 use EMS\CoreBundle\Core\Dashboard\Services\RevisionTask;
 use EMS\CoreBundle\Core\Dashboard\Services\Template;
+use EMS\CoreBundle\Repository\ContentTypeRepository;
+use EMS\CoreBundle\Repository\EnvironmentRepository;
 
 return static function (ContainerConfigurator $container) {
     $services = $container->services();
@@ -46,6 +48,7 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems_core.dashboard.advanced_search', AdvancedSearch::class)
         ->args([
+            service('emsco.logger'),
             service('twig'),
             service('request_stack'),
             service('form.factory'),
@@ -53,6 +56,9 @@ return static function (ContainerConfigurator $container) {
             service('ems_common.storage.manager'),
             service('ems.service.search'),
             service('ems_common.service.elastica'),
+            service(ContentTypeRepository::class),
+            service(EnvironmentRepository::class),
+            '%ems_core.paging_size%',
             '%ems_core.template_namespace%',
         ])
         ->tag('ems.dashboard', ['alias' => 'advanced_search']);

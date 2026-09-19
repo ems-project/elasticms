@@ -10,8 +10,12 @@ use EMS\CoreBundle\Core\Dashboard\Services\Export;
 use EMS\CoreBundle\Core\Dashboard\Services\LegacySearch;
 use EMS\CoreBundle\Core\Dashboard\Services\Template;
 use EMS\CoreBundle\Form\Field\CodeEditorType;
+use EMS\CoreBundle\Form\Form\AggregateOptionType;
+use EMS\CoreBundle\Form\Form\SearchFieldOptionType;
+use EMS\CoreBundle\Form\Form\SortOptionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\OptionsResolver\Options;
@@ -119,7 +123,26 @@ class DashboardOptionsType extends AbstractType
         ;
     }
 
-    private function buildForLegacySearch(FormBuilderInterface $builder)
+    private function buildForLegacySearch(FormBuilderInterface $builder): void
     {
+        $builder
+            ->add('sortOptions', CollectionType::class, [
+                'label' => t('field.sort_options', [], 'emsco-core'),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'entry_type' => SortOptionType::class,
+            ])
+            ->add('aggregateOptions', CollectionType::class, [
+                'label' => t('field.aggregate_options', [], 'emsco-core'),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'entry_type' => AggregateOptionType::class,
+            ])
+            ->add('searchFieldOptions', CollectionType::class, [
+                'label' => t('field.search_field_options', [], 'emsco-core'),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'entry_type' => SearchFieldOptionType::class,
+            ]);
     }
 }

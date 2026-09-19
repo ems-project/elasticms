@@ -237,6 +237,7 @@ field:
     accumulate_file: 'Accumulate in one file'
     action_dropdown_label: 'Actions in {environment}'
     action_dropdown_sr_only: "Toggle dropdown of {environment}'s actions"
+    aggregate_options: 'Aggregate options'
     alias: Alias
     allowed_remote_hosts: 'Allowed remote hosts'
     analyzer: Analyzer
@@ -423,9 +424,11 @@ field:
     role_view: View
     roles: Roles
     search_config: 'Search config'
+    search_field_options: 'Search field options'
     separator: Separator
     severity: Severity
     singular: Singular
+    sort_options: 'Sort options'
     spreadsheet: Spreadsheet
     status: Status
     stopwords: Stopwords

@@ -237,6 +237,7 @@ field:
     accumulate_file: 'In één bestand verzamelen'
     action_dropdown_label: 'Acties in {environment}'
     action_dropdown_sr_only: 'Dropdown met acties van {environment} omschakelen'
+    aggregate_options: 'Aggregatieopties'
     alias: Alias
     allowed_remote_hosts: 'Toegestane externe hosts'
     analyzer: Analyzer
@@ -423,9 +424,11 @@ field:
     role_view: Zien
     roles: Rollen
     search_config: Zoekconfiguratie
+    search_field_options: 'Opties voor het zoekveld'
     separator: Scheidingsteken
     severity: Ernst
     singular: Enkelvoud
+    sort_options: 'Sorteeropties'
     spreadsheet: Spreadsheet
     status: Status
     stopwords: Stopwoorden

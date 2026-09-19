@@ -71,7 +71,7 @@ final class Version20260919133300 extends AbstractMigration
             INSERT INTO dashboard (
                 id, created, modified, name, icon, label, sidebar_menu, notification_menu, definition, type, role, color, options, order_key
             ) VALUES (
-                :id, NOW(), NOW(), 'advanced_search', 'fa fa-search', 'Advanced search', TRUE, FALSE,
+                :id, NOW(), NOW(), 'advanced_search', 'fa fa-search', 'Search', TRUE, FALSE,
                 CASE WHEN EXISTS (SELECT 1 FROM dashboard WHERE definition = 'quick_search') THEN NULL ELSE 'quick_search' END,
                 'ems_core.dashboard.advanced_search', 'ROLE_USER', NULL, CAST(:options AS JSON), COALESCE((SELECT MAX(order_key) + 1 FROM dashboard), 1)
             )

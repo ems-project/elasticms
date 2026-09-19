@@ -537,7 +537,7 @@ key:
     customized: Personnalisé
     dashboards: 'Tableaux de bord'
     delayed_unassigned_shards: 'Shards non assignés retardés'
-    descending: 'Descendant'
+    descending: Descendant
     discard_modifications: 'Abandonner les modifications non enregistrées'
     document: Document
     documentation: Documentation

@@ -8,6 +8,7 @@ use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Elasticsearch\Response\Response as CommonResponse;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Search\Search as CommonSearch;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Core\Dashboard\DashboardOptions;
@@ -82,9 +83,11 @@ class AdvancedSearch implements DashboardInterface
 
         $types = $this->contentTypeRepository->findAllAsAssociativeArray();
         $environments = $this->environmentRepository->findAllAsAssociativeArray('alias');
+        $esSearch = $this->buildQuery($search, $page);
+        $searchBody = \array_filter(['query' => $esSearch->getQueryArray(), 'sort' => $esSearch->getSort()]);
 
         try {
-            $response = $this->buildQuery($search, $page);
+            $response = CommonResponse::fromResultSet($this->elasticaService->search($esSearch));
             if ($response->getTotal() >= 50000) {
                 $this->logger->messageWarning(t('message.search_paging_limit_exceeded', [
                     'total' => $response->getTotal(),
@@ -115,6 +118,7 @@ class AdvancedSearch implements DashboardInterface
             'lastPage' => $lastPage,
             'types' => $types,
             'indexes' => $indexes,
+            'body' => $searchBody,
         ]));
     }
 
@@ -143,7 +147,7 @@ class AdvancedSearch implements DashboardInterface
         return $search;
     }
 
-    private function buildQuery(Search $search, int $page): CommonResponse
+    private function buildQuery(Search $search, int $page): CommonSearch
     {
         $esSearch = $this->searchService->generateSearch($search);
         $esSearch->setFrom(($page - 1) * $this->pagingSize);
@@ -151,7 +155,7 @@ class AdvancedSearch implements DashboardInterface
         $esSearch->addTermsAggregation(AggregateOptionService::CONTENT_TYPES_AGGREGATION, EMSSource::FIELD_CONTENT_TYPE, 15);
         $esSearch->addTermsAggregation(AggregateOptionService::INDEXES_AGGREGATION, '_index', 15);
 
-        return CommonResponse::fromResultSet($this->elasticaService->search($esSearch));
+        return $esSearch;
     }
 
     /**

@@ -572,7 +572,7 @@ key:
     landscape: Landschap
     last_commands: 'Laatste commando’s'
     last_update: 'Laatste update'
-    legacy_search: 'Geavanceerd zoeken'
+    advanced_search: 'Geavanceerd zoeken'
     link_to_document: 'Link naar document'
     locale_ui: 'Taal van de interface'
     locale_ui_abbrev: Interface

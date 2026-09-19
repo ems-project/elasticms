@@ -572,7 +572,7 @@ key:
     landscape: Landscape
     last_commands: 'Last commands'
     last_update: 'Last update'
-    legacy_search: 'Advanced search'
+    advanced_search: 'Advanced search'
     link_to_document: 'Link to document'
     locale_ui: 'Locale UI'
     locale_ui_abbrev: UI

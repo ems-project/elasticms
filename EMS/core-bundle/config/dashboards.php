@@ -44,10 +44,10 @@ return static function (ContainerConfigurator $container) {
         ])
         ->tag('ems.dashboard', ['alias' => 'revision_task']);
 
-    $services->set('ems_core.dashboard.legacy_search', LegacySearch::class)
+    $services->set('ems_core.dashboard.advanced_search', LegacySearch::class)
         ->args([
             service('twig'),
             '%ems_core.template_namespace%',
         ])
-        ->tag('ems.dashboard', ['alias' => 'legacy_search']);
+        ->tag('ems.dashboard', ['alias' => 'advanced_search']);
 };

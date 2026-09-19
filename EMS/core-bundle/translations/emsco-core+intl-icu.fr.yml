@@ -572,7 +572,7 @@ key:
     landscape: Paysage
     last_commands: 'Dernières commandes'
     last_update: 'Dernière mise à jour'
-    legacy_search: 'Recherche avancée'
+    advanced_search: 'Recherche avancée'
     link_to_document: 'Lien vers le document'
     locale_ui: 'Langue de l’interface'
     locale_ui_abbrev: Interface

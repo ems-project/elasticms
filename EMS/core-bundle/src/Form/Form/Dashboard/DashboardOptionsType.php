@@ -153,9 +153,9 @@ class DashboardOptionsType extends AbstractType
                 'required' => false,
                 'row_attr' => ['class' => 'col-md-12'],
                 'choices' => [
-                    t('key.ascending', [], 'emsco-core')->getMessage() => 'ASC',
-                    t('key.descending', [], 'emsco-core')->getMessage() => 'DESC',
-                ]
+                    t('key.ascending', [], 'emsco-core')->getMessage() => 'asc',
+                    t('key.descending', [], 'emsco-core')->getMessage() => 'desc',
+                ],
             ])
             ->add(DashboardOptions::SORT_OPTION, CollectionType::class, [
                 'label' => t('field.sort_options', [], 'emsco-core'),

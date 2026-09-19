@@ -694,7 +694,7 @@ The `template/admin/clear-cache.html.twig` twig:
 
 ### ems_translatable_message
 
-Test that an object is translatable message. Example:
+Test that an object is a translatable message. Example:
 
 ```twig
 {%- if object is ems_translatable_message -%}

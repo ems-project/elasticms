@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Dashboard;
 
+use EMS\Helpers\Standard\Type;
+
 /**
  * @implements \ArrayAccess<string, string>
  */
@@ -76,6 +78,11 @@ class DashboardOptions implements \ArrayAccess
     public function offsetGet($offset): mixed
     {
         return $this->options[$offset] ?? null;
+    }
+
+    public function getNullableString(string $offset): ?string
+    {
+        return null == $this->options[$offset] ? null : Type::string($this->options[$offset]);
     }
 
     #[\Override]

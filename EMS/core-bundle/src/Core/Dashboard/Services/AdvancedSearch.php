@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Dashboard\Services;
 
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\CoreBundle\Core\Dashboard\DashboardOptions;
 use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Entity\Form\Search;
 use EMS\CoreBundle\Form\Form\SearchFormType;
@@ -47,8 +48,10 @@ class AdvancedSearch implements DashboardInterface
             ]));
         }
 
+        $options = $dashboard->getOptions();
         $uid = $request->query->get('uid');
-        $search = new Search();
+        $search = $this->getDefaultSearch($options);
+
         $response = new Response();
         $form = $this->formFactory->create(SearchFormType::class, $search);
         if (\is_string($uid)) {
@@ -59,9 +62,20 @@ class AdvancedSearch implements DashboardInterface
         $response->setContent($this->twig->render(\sprintf('@%s/dashboard/advanced-search/render.html.twig', $this->templateNamespace), [
             'dashboard' => $dashboard,
             'form' => $form->createView(),
-            'options' => $dashboard->getOptions(),
+            'options' => $options,
         ]));
 
         return $response;
+    }
+
+    private function getDefaultSearch(DashboardOptions $options): Search
+    {
+        $search = new Search();
+        $search->setEnvironments(Type::array($options->offsetGet(DashboardOptions::ENVIRONMENTS) ?? []));
+        $search->setContentTypes(Type::array($options->offsetGet(DashboardOptions::CONTENT_TYPES) ?? []));
+        $search->setSortBy($options->getNullableString(DashboardOptions::SORT_BY));
+        $search->setSortOrder($options->getNullableString(DashboardOptions::SORT_ORDER));
+
+        return $search;
     }
 }

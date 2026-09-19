@@ -30,6 +30,7 @@ action:
     change_order: 'Volgorde wijzigen'
     change_password: 'Wachtwoord wijzigen'
     clear: Wissen
+    clear_sort_options: 'Sorteeropties wissen'
     close: Sluiten
     collapse: Inklappen
     collapse_all: 'Alles inklappen'
@@ -363,6 +364,7 @@ field:
     index: Index
     indexes: Indexen
     instance: Instantie
+    inverted: Omgekeerd
     is_active: Actief
     is_default: Standaard
     is_dirty: Gewijzigd
@@ -402,6 +404,7 @@ field:
     new_version: 'Nieuwe versie'
     node_name: 'Naam van het knooppunt'
     operator: Operator
+    operators: 'Exploitanten'
     options: Opties
     orientation: Oriëntatie
     ouuid: OUUID

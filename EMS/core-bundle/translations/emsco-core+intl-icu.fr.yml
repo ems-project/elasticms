@@ -30,6 +30,7 @@ action:
     change_order: 'Changer l’ordre'
     change_password: 'Changer le mot de passe'
     clear: Effacer
+    clear_sort_options: 'Effacer les options de tri'
     close: Fermer
     collapse: Réduire
     collapse_all: 'Tout réduire'
@@ -363,6 +364,7 @@ field:
     index: Index
     indexes: Indexes
     instance: Instance
+    inverted: Inversé
     is_active: Actif
     is_default: 'Par défaut'
     is_dirty: Modifié
@@ -402,6 +404,7 @@ field:
     new_version: 'Nouvelle version'
     node_name: 'Nom du nœud'
     operator: Opérateur
+    operators: 'Opérateurs'
     options: Options
     orientation: Orientation
     ouuid: OUUID

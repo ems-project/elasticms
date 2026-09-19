@@ -30,6 +30,7 @@ action:
     change_order: 'Change order'
     change_password: 'Change password'
     clear: Clear
+    clear_sort_options: 'Clear sort options'
     close: Close
     collapse: Collapse
     collapse_all: 'Collapse all'
@@ -363,6 +364,7 @@ field:
     index: Index
     indexes: Indexes
     instance: Instance
+    inverted: Inverted
     is_active: Active
     is_default: Default
     is_dirty: Dirty
@@ -402,6 +404,7 @@ field:
     new_version: 'New version'
     node_name: 'Node name'
     operator: Operator
+    operators: Operators
     options: Options
     orientation: Orientation
     ouuid: OUUID

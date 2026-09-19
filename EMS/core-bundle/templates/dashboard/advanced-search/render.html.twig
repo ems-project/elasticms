@@ -1,6 +1,9 @@
 {% extends '@EMSCore/base.html.twig' %}
 {% trans_default_domain 'emsco-core' %}
 
+{% set paginationPath = app.request.get('_route') %}
+{% set currentFilters = app.request.query|merge({name: dashboard.name}) %}
+
 {% block breadcrumb %}
     <ol class="breadcrumb">
         <li><a href="{{ path('emsco_dashboard', {name: dashboard.name}) }}"><i class="{{ dashboard.icon }}"></i> {{ dashboard.label }}</a></li>
@@ -18,8 +21,8 @@
             {% include '@EMSCore/elements/pagination.html.twig' with {
                 'lastPage': lastPage,
                 'currentPage': page,
-                'currentFilters': app.request.query|merge({name: dashboard.name}),
-                'paginationPath': app.request.get('_route'),
+                'currentFilters': currentFilters,
+                'paginationPath': paginationPath,
                 'showAlwaysFirstAndLast': false
             } %}
         </div>
@@ -81,6 +84,35 @@
     {% endfor %}
 {% endblock %}
 
+{% block sort_option %}
+    {% if options.sortOptions|length %}
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title"><i class="fa fa-sort-alpha-asc"></i> {{ 'key.sort_options_lowercase'|trans }}</h3>
+            </div>
+            <div class="box-body">
+                {% for option in options.sortOptions %}
+                    {% set active = option.name == search.sortBy %}
+                    {% set order = active ? search.sortOrder : option.inverted ? 'desc' : 'asc' %}
+                    <a href="{{ path(paginationPath, currentFilters|merge({page: 1, sortBy: option.name})) }}" class="btn btn-block btn-social btn-primary {% if active %} active{% endif %}">
+                        <i class="{% if option.icon %}{{ option.icon }}{% else %}fa fa-sort-alpha-asc{% endif %}"></i>
+                        {{ option.name }}
+                        {% if active %}
+                            <i class="fa fa-sort-{{ order }} pull-right"></i>
+                        {% endif %}
+                    </a>
+                {% endfor %}
+                {% if search.sortBy %}
+                    <a href="{{ path(paginationPath, currentFilters|merge({ page: 1, clearSort: true })) }}" class="btn btn-block btn-social btn-primary">
+                        <i class="fa fa-remove"></i>
+                        {{ 'action.clear_sort_options'|trans }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
 {% block body %}
 <div class="row">
     <div id="search-page-form" class="col-md-12">
@@ -102,6 +134,9 @@
                 {{ block('pagination') }}
             </div>
         {% endif %}
+    </div>
+    <div id="search-facets" class="col-md-3" data-testid="search-facets">
+        {{ block('sort_option') }}
     </div>
 </div>
 {% endblock body %}

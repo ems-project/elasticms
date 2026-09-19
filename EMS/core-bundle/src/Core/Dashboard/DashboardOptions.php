@@ -89,6 +89,15 @@ class DashboardOptions implements \ArrayAccess
         return null == $this->options[$offset] ? null : Type::string($this->options[$offset]);
     }
 
+    /**
+     * @param  mixed[] $default
+     * @return mixed[]
+     */
+    public function getArray(string $offset, array $default = []): array
+    {
+        return Type::array($this->options[$offset] ?? $default);
+    }
+
     #[\Override]
     public function offsetSet($offset, $value): void
     {

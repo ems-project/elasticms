@@ -75,6 +75,16 @@ class AdvancedSearch implements DashboardInterface
             $search = new Search();
             $form = $this->formFactory->create(SearchFormType::class, $search);
             $data = $this->storageManager->getConfig($uid);
+            $newData = $this->applyChanges($request, $data, $options);
+            if ($newData) {
+                $uid = $this->storageManager->saveConfig($newData);
+
+                return new RedirectResponse($this->router->generate(Routes::DASHBOARD, [
+                    'uid' => $uid,
+                    'name' => $dashboard->getName(),
+                ]));
+            }
+
             $form->submit($data);
         } else {
             $search = $this->getDefaultSearch($options, $query);
@@ -119,6 +129,7 @@ class AdvancedSearch implements DashboardInterface
             'types' => $types,
             'indexes' => $indexes,
             'body' => $searchBody,
+            'search' => $search,
         ]));
     }
 
@@ -184,5 +195,47 @@ class AdvancedSearch implements DashboardInterface
         }
 
         return $mapIndex;
+    }
+
+    /**
+     * @param  string[]      $data
+     * @return string[]|null
+     */
+    private function applyChanges(Request $request, array $data, DashboardOptions $options): ?array
+    {
+        $sortByName = Type::nullableString($request->query->get('sortBy'));
+        if (null !== $sortByName) {
+            return $this->applySortChange($data, $options, $sortByName);
+        }
+        if ($request->query->has('clearSort')) {
+            unset($data['sortBy']);
+            unset($data['sortOrder']);
+
+            return $data;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param  array<string, string> $data
+     * @return array<string, string>
+     */
+    private function applySortChange(array $data, DashboardOptions $options, string $sortByName): array
+    {
+        foreach ($options->getArray(DashboardOptions::SORT_OPTIONS) as $sortBy) {
+            if ($sortByName !== ($sortBy['name'] ?? null)) {
+                continue;
+            }
+            if ($sortByName === ($data['sortBy'] ?? null)) {
+                $data['sortOrder'] = ('desc' === $data['sortOrder']) ? 'asc' : 'desc';
+            } else {
+                $data['sortBy'] = $sortByName;
+                $data['sortOrder'] = ($sortBy['inverted'] ?? null) ? 'desc' : 'asc';
+            }
+
+            return $data;
+        }
+        throw new \RuntimeException(\sprintf('Sort option %s not found', $sortByName));
     }
 }

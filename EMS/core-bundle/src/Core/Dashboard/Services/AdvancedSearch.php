@@ -8,6 +8,7 @@ use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Core\Dashboard\DashboardOptions;
 use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Entity\Form\Search;
+use EMS\CoreBundle\Entity\Form\SearchFilter;
 use EMS\CoreBundle\Form\Form\SearchFormType;
 use EMS\CoreBundle\Routes;
 use EMS\Helpers\Standard\Type;
@@ -76,6 +77,16 @@ class AdvancedSearch implements DashboardInterface
         $search->setSortBy($options->getNullableString(DashboardOptions::SORT_BY));
         $search->setSortOrder($options->getNullableString(DashboardOptions::SORT_ORDER));
         $search->setMinimumShouldMatch($options->getInteger(DashboardOptions::MINIMUM_SHOULD_MATCH, 1));
+        $filters = Type::array($options->offsetGet(DashboardOptions::FILTERS) ?? []);
+        if ([] === $filters) {
+            return $search;
+        }
+        foreach ($search->getFilters() as $filter) {
+            $search->removeFilter($filter);
+        }
+        foreach ($filters as $filter) {
+            $search->addFilter(SearchFilter::fromArray($filter));
+        }
 
         return $search;
     }

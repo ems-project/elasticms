@@ -3,9 +3,10 @@ action:
     activate: Activeren
     add: |-
         {type, select,
-            sort_option   {Voeg een sorteeroptie toe}
             aggregate_option   {Voeg een aggregatieoptie toe}
+            filter   {Een filter toevoegen}
             search_field_option   {Voeg een optie voor een zoekveld toe}
+            sort_option   {Voeg een sorteeroptie toe}
             other   {Toevoegen}
         }
     add_aggregate_option: Aggregatieopties
@@ -92,9 +93,10 @@ action:
     reload_page: 'Pagina herladen'
     remove: |-
         {type, select,
-            sort_option   {Verwijder deze sorteeroptie}
             aggregate_option   {Verwijder deze aggregatieoptie}
+            filter   {Verwijder deze filter}
             search_field_option   {Verwijder deze optie voor het zoekveld}
+            sort_option   {Verwijder deze sorteeroptie}
             other   {Verwijderen}
         }
     remove_documents: 'Documenten verwijderen'
@@ -344,6 +346,7 @@ field:
     file_info: Bestandsinformatie
     file_info_apostrophe: Bestandsinformatie
     filter: Filter
+    filters: Filters
     flags: Vlaggen
     form: Formulier
     format_tags: Formaat-tags

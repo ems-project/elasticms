@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Entity\Form;
 
 use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
+use EMS\Helpers\Standard\Type;
 
 class SearchFilter implements \JsonSerializable
 {
@@ -30,6 +31,19 @@ class SearchFilter implements \JsonSerializable
             'operator' => $this->operator,
             'boost' => $this->boost,
         ];
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    public static function fromArray(array $data): self
+    {
+        return new self()
+            ->setPattern(Type::nullableString($data['pattern'] ?? null))
+            ->setField(Type::nullableString($data['field'] ?? null))
+            ->setBooleanClause(Type::string($data['booleanClause'] ?? 'must'))
+            ->setOperator(Type::string($data['operator'] ?? 'query_and'))
+            ->setBoost(Type::nullableString($data['boost'] ?? null));
     }
 
     /**

@@ -15,6 +15,7 @@ use EMS\CoreBundle\Form\Field\EnvironmentPickerType;
 use EMS\CoreBundle\Form\Form\AggregateOptionType;
 use EMS\CoreBundle\Form\Form\SearchFieldOptionType;
 use EMS\CoreBundle\Form\Form\SortOptionType;
+use EMS\CoreBundle\Form\Subform\SearchFilterType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -163,6 +164,22 @@ class DashboardOptionsType extends AbstractType
                 'required' => false,
                 'row_attr' => ['class' => 'col-md-12'],
                 'empty_data' => 1,
+            ])
+            ->add(DashboardOptions::FILTERS, CollectionType::class, [
+                'label' => t('field.filters', [], 'emsco-core'),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'entry_type' => SearchFilterType::class,
+                'attr' => [
+                    'class' => 'a2lix_lib_sf_collection',
+                    'data-lang-add' => t('action.add', ['type' => 'filter'], 'emsco-core'),
+                    'data-lang-remove' => t('action.remove', ['type' => 'filter'], 'emsco-core'),
+                    'data-entry-remove-class' => 'btn btn-sm btn-danger',
+                ],
+                'entry_options' => [
+                    'data_class' => null,
+                ],
+                'row_attr' => ['class' => 'col-md-12'],
             ])
             ->add(DashboardOptions::SORT_OPTION, CollectionType::class, [
                 'label' => t('field.sort_options', [], 'emsco-core'),

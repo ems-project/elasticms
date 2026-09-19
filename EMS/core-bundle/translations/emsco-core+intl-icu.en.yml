@@ -3,9 +3,10 @@ action:
     activate: Activate
     add: |-
         {type, select,
-            sort_option   {Add a sort option}
             aggregate_option   {Add an aggregate option}
+            filter   {Add a filter}
             search_field_option   {Add a search field option}
+            sort_option   {Add a sort option}
             other   {Add}
         }
     add_aggregate_option: 'Aggregate Options'
@@ -92,9 +93,10 @@ action:
     reload_page: 'Reload page'
     remove: |-
         {type, select,
-            sort_option   {Remove this sort option}
             aggregate_option   {Remove this aggregate option}
+            filter   {Remove this filter}
             search_field_option   {Remove this search field option}
+            sort_option   {Remove this sort option}
             other   {Remove}
         }
     remove_documents: 'Remove documents'
@@ -344,6 +346,7 @@ field:
     file_info: 'File information'
     file_info_apostrophe: "File's information"
     filter: Filter
+    filters: Filters
     flags: Flags
     form: Form
     format_tags: 'Format tags'

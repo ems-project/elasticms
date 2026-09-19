@@ -26,6 +26,7 @@ class DashboardOptions implements \ArrayAccess
     final public const string SORT_BY = 'sortBy';
     final public const string SORT_ORDER = 'sortOrder';
     final public const string MINIMUM_SHOULD_MATCH = 'minimumShouldMatch';
+    final public const string FILTERS = 'filters';
     final public const string SORT_OPTION = 'sortOptions';
     final public const string AGGREGATE_OPTIONS = 'aggregateOptions';
     final public const string SEARCH_FIELD_OPTIONS = 'searchFieldOptions';
@@ -42,6 +43,7 @@ class DashboardOptions implements \ArrayAccess
         self::SORT_BY,
         self::SORT_ORDER,
         self::MINIMUM_SHOULD_MATCH,
+        self::FILTERS,
         self::SORT_OPTION,
         self::AGGREGATE_OPTIONS,
         self::SEARCH_FIELD_OPTIONS,

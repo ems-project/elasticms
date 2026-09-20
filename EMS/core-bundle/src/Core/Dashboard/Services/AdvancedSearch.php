@@ -14,8 +14,10 @@ use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Core\Dashboard\DashboardOptions;
 use EMS\CoreBundle\Entity\Dashboard;
+use EMS\CoreBundle\Entity\Form\ExportDocuments;
 use EMS\CoreBundle\Entity\Form\Search;
 use EMS\CoreBundle\Entity\Form\SearchFilter;
+use EMS\CoreBundle\Form\Form\ExportDocumentsType;
 use EMS\CoreBundle\Form\Form\SearchFormType;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\EnvironmentRepository;
@@ -58,6 +60,10 @@ class AdvancedSearch implements DashboardInterface
         $request = $this->requestStack->getMainRequest();
         if (null === $request) {
             throw new \RuntimeException('Request must be set');
+        }
+
+        if (Request::METHOD_POST === $request->getMethod() && isset(Type::array($request->request->all()['search_form'])['exportResults'])) {
+            return $this->exportResult($request, $dashboard);
         }
         if (Request::METHOD_POST === $request->getMethod()) {
             $searchForm = Type::array($request->request->all()['search_form']);
@@ -328,5 +334,46 @@ class AdvancedSearch implements DashboardInterface
         $recursiveCheck($json);
 
         return $json;
+    }
+
+    private function exportResult(Request $request, Dashboard $dashboard): Response
+    {
+        $search = new Search();
+        $form = $this->formFactory->create(SearchFormType::class, $search, [
+            'dashboardOptions' => $dashboard->getOptions(),
+        ]);
+        $form->handleRequest($request);
+        $esSearch = $this->buildQuery($search, 1);
+        $this->addAggregations($esSearch, $dashboard->getOptions());
+        $response = CommonResponse::fromResultSet($this->elasticaService->search($esSearch));
+        $searchBody = \array_filter(['query' => $esSearch->getQueryArray(), 'sort' => $esSearch->getSort()]);
+        $types = $this->contentTypeRepository->findAllAsAssociativeArray();
+
+        $exportForms = [];
+        $contentTypes = $response->getAggregation(AggregateOptionService::CONTENT_TYPES_AGGREGATION)?->getBuckets() ?? [];
+        foreach ($contentTypes as $bucket) {
+            if (null === $name = $bucket->getKey()) {
+                continue;
+            }
+            $contentType = $types[$name];
+
+            $exportForm = $this->formFactory->create(ExportDocumentsType::class, new ExportDocuments(
+                $contentType,
+                $this->router->generate('emsco_search_export', ['contentType' => $contentType->getId()]),
+                Json::encode($searchBody)
+            ));
+
+            $exportForms[] = [
+                'form' => $exportForm->createView(),
+                'title' => t('type.export', ['type' => 'documents', 'count' => $bucket->getCount(), 'singular' => $contentType->getSingularName(), 'plural' => $contentType->getPluralName()], 'emsco-core'),
+                'icon' => $contentType->getIcon(),
+            ];
+        }
+
+        return new Response($this->twig->render(\sprintf('@%s/elasticsearch/export-search.html.twig', $this->templateNamespace), [
+            'forms' => $exportForms,
+            'title' => t('key.export_documents', [], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'search'], 'emsco-core'),
+        ]));
     }
 }

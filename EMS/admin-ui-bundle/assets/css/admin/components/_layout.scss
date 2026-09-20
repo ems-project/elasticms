@@ -24,6 +24,23 @@
   }
 }
 
+.content {
+  padding: $content-padding-mobile;
+  flex: 1;
+  width: 100vw;
+  max-width: 100vw;
+  direction: ltr;
+
+  @include media-breakpoint-up(md) {
+    width: auto;
+    max-width: auto;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding: $content-padding-desktop;
+  }
+}
+
 html.header-compact .main {
   @include media-breakpoint-down(lg) {
     padding-top: $navbar-row-height;
@@ -144,6 +161,12 @@ html.header-compact #control-sidebar {
   flex: 1;
   min-width: 0;
   height: $navbar-row-height;
+}
+
+.navbar-nav .dropdown-menu {
+  box-shadow: $box-shadow;
+  color: var(--bs-body-color);
+  margin-top: 0 !important;
 }
 
 .nav-icon,

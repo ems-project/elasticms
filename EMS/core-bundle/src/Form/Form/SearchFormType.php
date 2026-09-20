@@ -175,15 +175,4 @@ class SearchFormType extends AbstractType
             'dashboardOptions' => null,
         ]);
     }
-
-    /**
-     * @param FormView<FormView>   $view
-     * @param FormInterface<mixed> $form
-     * @param array<mixed>         $options
-     */
-    #[\Override]
-    public function buildView(FormView $view, FormInterface $form, array $options): void
-    {
-        parent::buildView($view, $form, $options);
-    }
 }

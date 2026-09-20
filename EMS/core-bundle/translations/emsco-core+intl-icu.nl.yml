@@ -1196,6 +1196,7 @@ role:
 title:
     add_content_type: 'Een nieuwe {content_type} toevoegen'
     add_environment: 'Een nieuwe omgeving toevoegen'
+    add_filter: 'Filter toevoegen'
     add_folder: 'Map toevoegen'
     add_form: 'Een formulier toevoegen'
     add_new_task: 'Nieuwe taak toevoegen'

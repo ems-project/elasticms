@@ -1196,6 +1196,7 @@ role:
 title:
     add_content_type: 'Ajouter un nouveau {content_type}'
     add_environment: 'Ajouter un nouvel environnement'
+    add_filter: 'Ajouter un filtre'
     add_folder: 'Ajouter un dossier'
     add_form: 'Ajouter un formulaire'
     add_new_task: 'Ajouter une nouvelle tâche'

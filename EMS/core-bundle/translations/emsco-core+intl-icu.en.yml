@@ -1196,6 +1196,7 @@ role:
 title:
     add_content_type: 'Add a new {content_type}'
     add_environment: 'Add a new Environment'
+    add_filter: 'Add filter'
     add_folder: 'Add folder'
     add_form: 'Add a form'
     add_new_task: 'Add a new task'

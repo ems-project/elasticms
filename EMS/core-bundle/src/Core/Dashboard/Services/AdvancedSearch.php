@@ -65,11 +65,11 @@ class AdvancedSearch implements DashboardInterface
             unset($searchForm['search']);
             $uid = $this->storageManager->saveConfig($searchForm);
 
-            return new RedirectResponse($this->router->generate(Routes::DASHBOARD, [
+            return new RedirectResponse($this->router->generate(Routes::DASHBOARD, \array_filter([
                 'uid' => $uid,
                 'name' => $dashboard->getName(),
                 'open' => $open,
-            ]));
+            ])));
         }
 
         $options = $dashboard->getOptions();

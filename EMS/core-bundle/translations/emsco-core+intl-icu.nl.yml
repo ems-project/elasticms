@@ -68,6 +68,7 @@ action:
     enable: Inschakelen
     exit: Afsluiten
     export: Exporteren
+    export_content_type: '{pluralName} exporteren'
     export_selected: 'Selectie exporteren'
     extract_content: 'Inhoud extraheren'
     forgot_password: 'Ik ben mijn wachtwoord vergeten'
@@ -351,6 +352,7 @@ field:
     filters: Filters
     flags: Vlaggen
     form: Formulier
+    format: Formaat
     format_tags: Formaat-tags
     from_sender: 'Van {sender}'
     group: Groep
@@ -485,6 +487,7 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     username_or_email: 'Gebruikersnaam of e-mailadres'
+    with_business_key: 'Met zakelijke sleutel'
     wysiwyg_profile: WYSIWYG-profiel
 help:
     add_first_aggregate_option: "Klik op 'Aggregatieoptie toevoegen' om een eerste aggregatieoptie te maken"
@@ -717,7 +720,7 @@ key:
     tiptap: Tiptap
     title: Titel
     to_be_treated: 'Te behandelen'
-    total_documents: >-
+    total_documents: |-
         {count, plural,
             =0 {Geen documenten gevonden}
             one {1 document}

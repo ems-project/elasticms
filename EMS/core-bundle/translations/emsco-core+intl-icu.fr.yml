@@ -68,6 +68,7 @@ action:
     enable: Activer
     exit: Quitter
     export: Exporter
+    export_content_type: 'Exporter {pluralName}'
     export_selected: 'Exporter la sélection'
     extract_content: 'Extraire le contenu'
     forgot_password: 'J’ai oublié mon mot de passe'
@@ -351,6 +352,7 @@ field:
     filters: Filtres
     flags: Indicateurs
     form: Formulaire
+    format: Format
     format_tags: 'Tags de format'
     from_sender: 'De {sender}'
     group: Groupe
@@ -485,6 +487,7 @@ field:
     user_uploaded: 'Uploadé par'
     username: "Nom d'utilisateur"
     username_or_email: 'Nom d’utilisateur ou adresse e-mail'
+    with_business_key: 'Avec clé métier'
     wysiwyg_profile: 'Profil WYSIWYG'
 help:
     add_first_aggregate_option: 'Cliquez sur « Ajouter une option d’agrégation » pour créer une première option d’agrégation'
@@ -717,12 +720,12 @@ key:
     tiptap: Tiptap
     title: Titre
     to_be_treated: 'À traiter'
-    total_documents: >-
-          {count, plural,
-              =0 {Aucun document trouvé}
-              one {1 document}
-              other {{total} documents}
-          }
+    total_documents: |-
+        {count, plural,
+            =0 {Aucun document trouvé}
+            one {1 document}
+            other {{total} documents}
+        }
     trash: Corbeille
     treat_selection: 'Traiter la sélection'
     unassigned_shards: 'Shards non assignés'

@@ -85,6 +85,7 @@ action:
     paste: Coller
     previous: Précédent
     publish: Publier
+    publish_content_type: 'Publier {total} {pluralName}'
     publish_release: 'Publier maintenant'
     put_back: Restaurer
     put_back_selected: 'Restaurer la sélection'

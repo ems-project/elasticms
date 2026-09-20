@@ -516,6 +516,7 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.contenttype'),
             service('ems.service.search'),
             service('ems_common.service.elastica'),
+            service('ems_common.storage.manager'),
             '%ems_core.template_namespace%',
         ])
         ->call('setContainer')

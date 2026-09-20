@@ -85,6 +85,7 @@ action:
     paste: Plakken
     previous: Vorige
     publish: Publiceren
+    publish_content_type: 'Publiceer {total} {pluralName}'
     publish_release: 'Nu publiceren'
     put_back: Terugplaatsen
     put_back_selected: 'Selectie terugplaatsen'

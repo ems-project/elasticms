@@ -85,6 +85,7 @@ action:
     paste: Paste
     previous: Previous
     publish: Publish
+    publish_content_type: 'Publish {total} {pluralName}'
     publish_release: 'Release now'
     put_back: 'Put back'
     put_back_selected: 'Put back selected'

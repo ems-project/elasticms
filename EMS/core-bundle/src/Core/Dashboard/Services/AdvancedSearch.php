@@ -147,6 +147,7 @@ class AdvancedSearch implements DashboardInterface
             'body' => $searchBody,
             'search' => $search,
             'aggregateOptions' => $aggregateOptions,
+            'uid' => $uid,
         ]));
     }
 

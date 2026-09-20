@@ -46,6 +46,17 @@ footer.footer {
 
 #control-sidebar {
   --bs-offcanvas-width: 230px;
+  top: $navbar-row-height + $navbar-brand-row-height;
+
+  @include media-breakpoint-up(lg) {
+    top: $navbar-row-height;
+  }
+}
+
+html.header-compact #control-sidebar {
+  @include media-breakpoint-down(lg) {
+    top: $navbar-row-height;
+  }
 }
 
 // ===== Navbar =====
@@ -68,7 +79,7 @@ footer.footer {
   top: 0;
   right: 0;
   left: 0;
-  z-index: $zindex-modal + 2;
+  z-index: $zindex-fixed;
 
   @include media-breakpoint-up(lg) {
     left: $sidebar-width;
@@ -121,7 +132,7 @@ footer.footer {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: $zindex-modal + 2;
+    z-index: $zindex-fixed;
     width: $sidebar-width;
     height: $navbar-row-height;
   }
@@ -132,7 +143,7 @@ footer.footer {
   align-items: stretch;
   flex: 1;
   min-width: 0;
-  padding: var(--bs-navbar-padding-y) var(--bs-navbar-padding-x);
+  height: $navbar-row-height;
 }
 
 .nav-icon,
@@ -187,12 +198,6 @@ footer.footer {
   }
 }
 
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-  .navbar .avatar {
-    max-height: 47px;
-  }
-}
-
 @include media-breakpoint-down(sm) {
   .navbar {
     --bs-navbar-padding-y: 0.75rem;
@@ -230,16 +235,30 @@ footer.footer {
   direction: ltr;
 }
 
+.navbar-collapse,
+.navbar-nav,
 .navbar-nav > .nav-item {
-  margin-inline: 2px;
+  height: 100%;
 }
 
+.navbar-nav {
+  align-items: stretch;
+}
+
+.sidebar-toggle,
 .navbar-nav > .nav-item > .nav-link {
-  border-radius: $border-radius;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 .85rem;
+  color: #fff;
+  text-decoration: none;
   transition: $transition-appearance-fast;
 
   &:hover {
-    background: rgba($white, .15);
+    color: #fff;
+    text-decoration: none;
+    background: rgba($black, .12);
   }
 }
 
@@ -248,54 +267,15 @@ footer.footer {
   content: none;
 }
 
-// ===== Hamburger =====
-.hamburger,
-.hamburger:before,
-.hamburger:after {
-  cursor: pointer;
-  border-radius: 1px;
-  height: 3px;
-  width: $hamburger-width-middle;
-  background: $gray-700;
-  display: block;
-  content: '';
-  transition: $transition-appearance-fast;
-}
-
-.hamburger {
-  position: relative;
-}
-
-.hamburger:before {
-  top: -7.5px;
-  width: $hamburger-width-top;
-  position: absolute;
-}
-
-.hamburger:after {
-  bottom: -7.5px;
-  width: $hamburger-width-bottom;
-  position: absolute;
-}
-
-.sidebar-toggle {
-  .hamburger {
-    z-index: 1;
-  }
-}
-
-.hamburger-right {
-  &,
-  &:before,
-  &:after {
-    right: 0;
-  }
-}
-
 // ===== Avatar =====
 .avatar {
   width: 37px;
   height: 37px;
+}
+
+.avatar-sm {
+  width: 24px;
+  height: 24px;
 }
 
 .avatar-lg {
@@ -325,7 +305,7 @@ footer.footer {
     top: $navbar-row-height;
     bottom: 0;
     left: 0;
-    z-index: $zindex-modal + 1;
+    z-index: $zindex-fixed - 2;
     margin-left: 0;
     box-shadow: 0 0.5rem 2rem rgba($black, 0.35);
   }
@@ -418,26 +398,6 @@ a.sidebar-link {
   color: $gray-700;
 }
 
-.sidebar-toggle {
-  position: relative;
-  cursor: pointer;
-  width: 26px;
-  height: 26px;
-  display: flex;
-
-  &:hover::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0rem 0rem 16px 9px rgba(0, 0, 0, 0.25);
-    width: 1px;
-    height: 1px;
-    z-index: 0;
-  }
-}
-
 .sidebar {
   &.collapsed {
     margin-left: -$sidebar-width;
@@ -456,7 +416,7 @@ a.sidebar-link {
     top: $navbar-row-height + $navbar-brand-row-height;
     bottom: 0;
     left: 0;
-    z-index: $zindex-modal + 1;
+    z-index: $zindex-fixed - 2;
     margin-left: -$sidebar-width;
     box-shadow: 0 0.5rem 2rem rgba($black, 0.35);
 
@@ -476,10 +436,6 @@ a.sidebar-link {
   html[data-sidebar-collapsed] body {
     overflow: hidden;
   }
-}
-
-.sidebar-toggle {
-  margin-right: $spacer;
 }
 
 html.sidebar-temporary-open body {
@@ -514,7 +470,7 @@ html.sidebar-temporary-open body {
 .sidebar-temporary-backdrop {
   position: fixed;
   inset: 0;
-  z-index: $zindex-modal;
+  z-index: $zindex-fixed - 5;
   display: none;
   padding: 0;
   border: 0;

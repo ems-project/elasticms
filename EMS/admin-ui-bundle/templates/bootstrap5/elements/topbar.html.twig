@@ -6,7 +6,7 @@
     </a>
     <div class="navbar-toolbar">
         <a href="#" class="sidebar-toggle js-sidebar-toggle" data-widget="pushmenu" role="button" aria-label="{{ 'key.push_menu'|trans }}">
-            <i class="hamburger align-self-center"></i>
+            <i class="fa fa-bars"></i>
         </a>
         <div class="navbar-collapse collapse">
             <ul class="navbar-nav navbar-align">
@@ -27,12 +27,13 @@
                 {% endif %}
                 {% if app.user %}
                     <li class="nav-item dropdown user-menu" data-testid="user-menu">
-                        <a class="nav-link dropdown-toggle d-none d-sm-inline-block p-0" href="#" data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle justify-content-center" href="#" data-bs-toggle="dropdown">
                             {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
-                                class: 'rounded-circle avatar ms-3 img-fluid',
-                                width: 37,
-                                height: 37,
+                                class: 'rounded-circle avatar-sm img-fluid',
+                                width: 24,
+                                height: 24,
                             }) }}
+                            <span class="d-none d-sm-inline ms-2">{{ app.user.username }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end pt-0">
                             <li class="user-header p-2">

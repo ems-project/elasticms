@@ -213,7 +213,7 @@ $navbar-brand-padding-y: $spacer*0.875 !default;
 $navbar-brand-padding-x: 0 !default;
 $navbar-brand-color: $gray-100 !default;
 $navbar-brand-font-weight: $font-weight-normal !default;
-$navbar-brand-font-size: 1.15rem !default;
+$navbar-brand-font-size: 1.4rem !default;
 $navbar-brand-icon-color: $primary !default;
 
 $navbar-bg: $white !default;
@@ -348,11 +348,6 @@ $bs-datetimepicker-active-bg: $primary !default;
 
 // Simplebar
 $simplebar-scrollbar-bg: $white !default;
-
-// Hamburger
-$hamburger-width-top: 24px !default;
-$hamburger-width-middle: 24px !default;
-$hamburger-width-bottom: 16px !default;
 
 // Stats
 $stat-bg: lighten($primary, 35%) !default;

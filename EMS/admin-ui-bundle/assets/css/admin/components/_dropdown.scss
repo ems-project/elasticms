@@ -1,7 +1,7 @@
 .navbar-nav .dropdown-menu {
   box-shadow: $box-shadow;
-  margin-top: .5rem !important;
   color: var(--bs-body-color);
+  margin-top: 0 !important;
 }
 
 .dropdown .dropdown-menu.show {

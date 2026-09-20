@@ -1,55 +1,9 @@
-<div class="user-panel my-3 d-flex">
-    <div class="image">
-        {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
-            class: 'rounded-circle avatar ms-3 img-fluid',
-            width: 37,
-            height: 37,
-        }) }}
-    </div>
-    <div class="info ms-3">
-        {% if app.user %}
-            <div class="dropdown user-menu">
-                <a class="dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">
-                    {{ app.user.displayName }}
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li class="dropdown-header">{{ 'message.logged_in_as'|trans({'username': app.user.username}, 'emsco-core') }}</li>
-                    <li class="dropdown-divider"></li>
-                    <li>
-                        <a href="{{ path(routes.USER_PROFILE) }}" class="dropdown-item">{{ 'title.profile'|trans({}, 'emsco-core') }}</a>
-                    </li>
-                    {% if is_granted('IS_IMPERSONATOR') %}
-                        <li>
-                            <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="dropdown-item">{{ 'action.exit'|trans({}, 'emsco-core') }}</a>
-                        </li>
-                    {% else %}
-                        <li>
-                            <a href="{{ path(routes.USER_LOGOUT) }}" class="dropdown-item">{{ 'action.sign_out'|trans({}, 'emsco-core') }}</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-        {% else %}
-            <p class="text-white mb-0">{{ 'key.anonymous_user'|trans({}, 'emsco-core') }}</p>
-        {% endif %}
-        {% if status is defined %}
-            {% set statusTitle = 'cluster.status'|trans({color: status}, 'emsco-core') %}
-            <a href="{{ path('elasticsearch.status') }}" id="status-overview" title="{{ statusTitle }}">
-                {%- with {
-                    title: statusTitle,
-                    status: status,
-                } -%}
-                    {{ block('status', '@EMSAdminUI/bootstrap5/elasticsearch/status.html.twig') }}
-                {%- endwith -%}
-            </a>
-        {% endif %}
-    </div>
-</div>
+{% trans_default_domain 'emsco-core' %}
 
-<form class="px-3 pb-3" action="{{ path('ems_quick_search') }}" method="get">
+<form class="px-3 pt-3 pb-3 sidebar-search" action="{{ path('ems_quick_search') }}" method="get">
     <div class="input-group input-group-sidebar">
-        <input class="form-control" type="search" name="q" placeholder="{{ 'key.search'|trans({}, 'emsco-core') }}" aria-label="{{ 'key.search'|trans({}, 'emsco-core') }}">
-        <button class="btn" type="submit" aria-label="{{ 'key.show_search_form'|trans({}, 'emsco-core') }}">
+        <input class="form-control" type="search" name="q" placeholder="{{ 'key.search'|trans }}" aria-label="{{ 'key.search'|trans }}">
+        <button class="btn" type="submit" aria-label="{{ 'key.show_search_form'|trans }}">
             <i class="fas fa-search align-middle"></i>
         </button>
     </div>
@@ -63,3 +17,15 @@
         {% endfor %}
     {% endfor %}
 </ul>
+
+{% if status is defined %}
+    {% set statusTitle = 'cluster.status'|trans({color: status}, 'emsco-core') %}
+    <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="sidebar-status" title="{{ statusTitle }}">
+        {%- with {
+            title: statusTitle,
+            status: status,
+        } -%}
+            {{ block('status', '@EMSAdminUI/bootstrap5/elasticsearch/status.html.twig') }}
+        {%- endwith -%}
+    </a>
+{% endif %}

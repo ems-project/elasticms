@@ -35,4 +35,8 @@ html[data-bs-theme='dark'] {
   .form-control::placeholder {
     color: var(--bs-secondary-color);
   }
+
+  footer.footer {
+    background: var(--bs-tertiary-bg);
+  }
 }

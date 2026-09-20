@@ -48,9 +48,11 @@ html.header-compact .main {
 }
 
 footer.footer {
-  padding: $spacer $spacer*0.875;
+  padding: .75rem $spacer*0.875;
   direction: ltr;
   background: $footer-bg;
+  border-top: 1px solid var(--bs-border-color);
+  font-size: $font-size-sm;
 
   ul {
     margin-bottom: 0;
@@ -73,6 +75,14 @@ footer.footer {
 html.header-compact #control-sidebar {
   @include media-breakpoint-down(lg) {
     top: $navbar-row-height;
+  }
+}
+
+.offcanvas-backdrop {
+  z-index: $zindex-fixed - 5;
+
+  @include media-breakpoint-up(lg) {
+    display: none;
   }
 }
 
@@ -263,21 +273,25 @@ html.header-compact #control-sidebar {
     text-decoration: none;
     background: rgba($black, .12);
   }
+
+  > i {
+    font-size: .95rem;
+  }
 }
 
 .navbar-badge {
   position: absolute;
-  top: 8px;
-  right: 4px;
-  min-width: 14px;
-  height: 14px;
-  padding: 0 3px;
+  top: 6px;
+  right: 3px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
   border-radius: 999px;
   background: map-get($theme-colors-supported, 'yellow');
   color: $white;
-  font-size: .6rem;
+  font-size: .7rem;
   font-weight: 700;
-  line-height: 14px;
+  line-height: 18px;
   text-align: center;
 }
 
@@ -338,6 +352,10 @@ html.header-compact #control-sidebar {
   position: sticky;
   top: 0;
 
+  @include media-breakpoint-down(lg) {
+    height: 100%;
+  }
+
   @include media-breakpoint-up(lg) {
     padding-top: $navbar-row-height;
   }
@@ -348,10 +366,27 @@ html.header-compact #control-sidebar {
   margin-bottom: 0;
   list-style: none;
   flex-grow: 1;
+  min-height: 0;
 
   overflow-y: auto;
   scrollbar-color: $sidebar-link-color transparent;
   scrollbar-width: thin;
+}
+
+.sidebar-status {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: .75rem 1rem;
+  border-top: 1px solid rgba($white, .12);
+  color: rgba($white, .7);
+  font-size: $font-size-sm;
+  text-decoration: none;
+
+  &:hover {
+    color: $white;
+    text-decoration: none;
+  }
 }
 
 .sidebar-link,
@@ -396,24 +431,28 @@ a.sidebar-link {
 
 .input-group-sidebar .btn,
 .input-group-sidebar .form-control {
-  background: $gray-400;
-  color: $gray-800;
-  border: 0;
+  background: rgba($white, .08) !important;
+  color: $white !important;
+  border: 1px solid rgba($white, .12) !important;
   border-radius: 20px;
   box-shadow: none;
-  height: calc(2.1875rem + 2px);
-  padding: .4rem 1rem;
+  height: calc(1.8rem + 2px);
+  padding: .3rem 1rem;
+}
+
+.input-group-sidebar .form-control::placeholder {
+  color: rgba($white, .5);
 }
 
 .input-group-sidebar .btn:focus,
 .input-group-sidebar .form-control:focus {
-  background: $gray-400;
+  background: rgba($white, .12) !important;
   box-shadow: none;
   outline: 0;
 }
 
-.input-group-sidebar .btn {
-  color: $gray-700;
+.sidebar-search {
+  border-bottom: 1px solid rgba($white, .12);
 }
 
 .sidebar {

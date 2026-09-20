@@ -23,6 +23,7 @@ action:
     add_sort_option: 'Sorteeroptie toevoegen'
     add_task: 'Taak toevoegen'
     add_to_release: 'Toevoegen aan release'
+    apply_filters: 'Filters toepassen'
     approve: Goedkeuren
     attach: Koppelen
     browse_server: 'Server doorzoeken'
@@ -561,6 +562,7 @@ key:
     excel_export: Excel-export
     export_documents: 'Documenten exporteren'
     failed_jobs: 'Mislukte jobs'
+    filter: Filter
     filters: Filters
     finalize: Finaliseren
     finalized_by: 'Gefinaliseerd door'
@@ -570,6 +572,8 @@ key:
     form_submissions: Formulierinzendingen
     forms: Formulieren
     groups: Groepen
+    gt: 'Groter dan'
+    gte: 'Groter dan of gelijk aan'
     history: Geschiedenis
     home: Start
     i18n: I18N
@@ -593,6 +597,8 @@ key:
     login: Login
     logs: Logs
     loop_count: '#'
+    lt: 'Minder dan'
+    lte: 'Kleiner dan of gelijk aan'
     lucene_version: Lucene-versie
     mail_action_approved: goedgekeurd
     mail_action_assignee_changed: 'toegewezene gewijzigd'
@@ -602,11 +608,17 @@ key:
     mail_action_rejected: geweigerd
     mail_action_updated: bijgewerkt
     managed_aliases: 'Beheerde aliassen'
+    match_and: 'Match (en)'
+    match_or: 'Match (of)'
+    match_phrase: 'Match frase'
+    match_phrase_prefix: 'Match met zinsdeelprefix'
     mcp: MCP
     mcp_prompts: MCP-prompts
     mcp_resources: MCP-resources
     mcp_tools: MCP-tools
     more_info: 'meer info'
+    must: Moeten
+    must_not: 'Mag niet'
     new_password: 'Nieuw wachtwoord'
     new_password_confirmation: 'Herhaal nieuw wachtwoord'
     new_user: 'Nieuwe gebruiker'
@@ -636,6 +648,7 @@ key:
     pendings: Wachtenden
     permission_overview_singular: 'Overzicht van rechten'
     portrait: Portret
+    prefix: Voorvoegsel
     prefix_instance_id: 'Alias voorafgaan met instance-ID'
     previous_revision: 'Vorige revisie'
     progress: Voortgang
@@ -644,6 +657,8 @@ key:
     public_view: 'Publiek beschikbaar (zonder authenticatie)'
     publishers: Publishers
     push_menu: Hoofdmenu
+    query_and: 'Query (en)'
+    query_or: 'Query (of)'
     query_search: 'Query search'
     query_searches: QuerySearch
     raw_view: 'Ruwe weergave'
@@ -674,6 +689,7 @@ key:
     selected: Geselecteerd
     sent: Verzonden
     settings: Instellingen
+    should: 'Zou moeten'
     show_search_form: 'Zoekformulier tonen'
     simplified_ui: 'Vereenvoudigde UI'
     sort_by: 'Sorteren op'
@@ -696,6 +712,7 @@ key:
     task_status_rejected: Geweigerd
     tasks: Taken
     template: Sjabloon
+    term: Termijn
     textarea_counter: '{count} tekens'
     tiptap: Tiptap
     title: Titel

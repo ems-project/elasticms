@@ -23,6 +23,7 @@ action:
     add_sort_option: 'Ajouter une option de tri'
     add_task: 'Ajouter une tâche'
     add_to_release: 'Ajouter à la release'
+    apply_filters: 'Appliquer les filtres'
     approve: Approuver
     attach: Attacher
     browse_server: 'Parcourir le serveur'
@@ -561,6 +562,7 @@ key:
     excel_export: 'Export Excel'
     export_documents: 'Exporter les documents'
     failed_jobs: 'Jobs échoués'
+    filter: Filtre
     filters: Filtres
     finalize: Finaliser
     finalized_by: 'Finalisée par'
@@ -570,6 +572,8 @@ key:
     form_submissions: 'Soumissions de formulaire'
     forms: Formulaires
     groups: Groupes
+    gt: 'Plus grand que'
+    gte: 'Plus grand ou égal à'
     history: Historique
     home: Accueil
     i18n: I18N
@@ -593,6 +597,8 @@ key:
     login: Identifiant
     logs: Logs
     loop_count: '#'
+    lt: 'Plus petit que'
+    lte: 'Plus petit ou égal à'
     lucene_version: 'Version de Lucene'
     mail_action_approved: approuvée
     mail_action_assignee_changed: 'assigné modifié'
@@ -602,11 +608,17 @@ key:
     mail_action_rejected: rejetée
     mail_action_updated: 'mise à jour'
     managed_aliases: 'Alias gérés'
+    match_and: 'Correspondance (et)'
+    match_or: 'Correspondance (ou)'
+    match_phrase: 'Correspondance exacte'
+    match_phrase_prefix: 'Correspondance de préfixe de phrase'
     mcp: MCP
     mcp_prompts: 'Prompts MCP'
     mcp_resources: 'Ressources MCP'
     mcp_tools: 'Outils MCP'
     more_info: 'plus d’informations'
+    must: Doit
+    must_not: 'Ne doit pas'
     new_password: 'Nouveau mot de passe'
     new_password_confirmation: 'Répéter le nouveau mot de passe'
     new_user: 'Nouvel utilisateur'
@@ -636,6 +648,7 @@ key:
     pendings: 'En attente'
     permission_overview_singular: 'Vue d’ensemble des permissions'
     portrait: Portrait
+    prefix: Préfixe
     prefix_instance_id: 'Préfixer l’alias avec l’ID de l’instance'
     previous_revision: 'Révision précédente'
     progress: Progression
@@ -644,6 +657,8 @@ key:
     public_view: 'Disponible publiquement (sans authentification)'
     publishers: Publieurs
     push_menu: 'Menu principal'
+    query_and: 'Requête (et)'
+    query_or: 'Requête (ou)'
     query_search: 'Recherche par requête'
     query_searches: QuerySearch
     raw_view: 'Vue brute'
@@ -674,6 +689,7 @@ key:
     selected: Sélectionné
     sent: Envoyées
     settings: Paramètres
+    should: Devrait
     show_search_form: 'Afficher le formulaire de recherche'
     simplified_ui: 'Interfaces simplifiées'
     sort_by: 'Trier par'
@@ -696,6 +712,7 @@ key:
     task_status_rejected: Rejetée
     tasks: Tâches
     template: Modèle
+    term: Terme
     textarea_counter: '{count} caractères'
     tiptap: Tiptap
     title: Titre

@@ -23,6 +23,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+use function Symfony\Component\Translation\t;
+
 /**
  * @extends AbstractType<mixed>
  */
@@ -52,6 +54,7 @@ class SearchFormType extends AbstractType
         }
 
         $builder->add('filters', CollectionType::class, [
+            'label' => t('field.filters', [], 'emsco-core'),
             'entry_type' => SearchFilterType::class,
             'allow_add' => true,
             'entry_options' => [
@@ -62,6 +65,7 @@ class SearchFormType extends AbstractType
         ]);
         if ($options['light']) {
             $builder->add('applyFilters', SubmitEmsType::class, [
+                'label' => t('action.apply_filters', [], 'emsco-core'),
                 'attr' => [
                     'class' => 'btn btn-primary btn-md',
                     'data-testid' => 'btn-action-apply-filters',
@@ -80,15 +84,25 @@ class SearchFormType extends AbstractType
                 }
 
                 $builder->add('sortBy', ChoiceType::class, [
+                    'label' => t('field.sort_by', [], 'emsco-core'),
                     'required' => false,
                     'choices' => $sortFields,
-                    'choice_label' => fn ($value, $label) => \sprintf('<span><i class="%s"></i>&nbsp;%s</span>', $sortFieldIcons[$value], $label),
+                    'choice_label' => fn ($value, $label) => $label,
+                    'choice_translation_domain' => false,
+                    'choice_attr' => static fn (
+                        mixed $choice,
+                        string $label,
+                        mixed $value,
+                    ): array => [
+                        'data-icon' => $sortFieldIcons[$value] ?? '',
+                    ],
                     'attr' => [
                         'class' => 'select2',
                     ],
                 ]);
             } elseif ($isSuper || empty($sortOptions)) {
                 $builder->add('sortBy', TextType::class, [
+                    'label' => t('field.sort_by', [], 'emsco-core'),
                     'required' => false,
                 ]);
             } else {
@@ -100,9 +114,17 @@ class SearchFormType extends AbstractType
                 }
 
                 $builder->add('sortBy', ChoiceType::class, [
+                    'label' => t('field.sort_by', [], 'emsco-core'),
                     'required' => false,
                     'choices' => $sortFields,
-                    'choice_label' => fn ($value, $label) => \sprintf('<span><i class="%s"></i>&nbsp;%s</span>', $sortFieldIcons[$value], $label),
+                    'choice_label' => fn ($value, $label) => $label,
+                    'choice_attr' => static fn (
+                        mixed $choice,
+                        string $label,
+                        mixed $value,
+                    ): array => [
+                        'data-icon' => $sortFieldIcons[$value] ?? '',
+                    ],
                     'attr' => [
                         'class' => 'select2',
                     ],
@@ -110,11 +132,23 @@ class SearchFormType extends AbstractType
             }
 
             $builder->add('sortOrder', ChoiceType::class, [
+                'label' => t('field.sort_order', [], 'emsco-core'),
                 'choices' => [
-                    'Ascending' => 'asc',
-                    'Descending' => 'desc',
+                    'key.ascending' => 'asc',
+                    'key.descending' => 'desc',
                 ],
-                'choice_label' => fn ($value, $label) => \sprintf('<span class=""><i class="fa fa-sort-%s"></i>&nbsp;%s</span>', $value, $label),
+                'choice_label' => fn ($value, $label) => t($label, [], 'emsco-core'),
+                'choice_attr' => static fn (
+                    mixed $choice,
+                    string $label,
+                    mixed $value,
+                ): array => [
+                    'data-icon' => match ($value) {
+                        'asc' => 'fa fa-sort-asc',
+                        'desc' => 'fa fa-sort-desc',
+                        default => '',
+                    },
+                ],
                 'attr' => [
                     'class' => 'select2',
                 ],
@@ -122,6 +156,7 @@ class SearchFormType extends AbstractType
             ]);
 
             $builder->add('minimumShouldMatch', IntegerType::class, [
+                'label' => t('field.minimum_should_match', [], 'emsco-core'),
                 'required' => false,
                 'empty_data' => '1',
                 'attr' => [
@@ -130,23 +165,27 @@ class SearchFormType extends AbstractType
             ]);
 
             $builder->add('search', SubmitEmsType::class, [
+                'label' => t('key.search', [], 'emsco-core'),
                 'attr' => [
                     'class' => 'btn btn-primary btn-md',
                     'data-testid' => 'btn-action-search',
                 ],
                 'icon' => 'fa fa-search',
             ])->add('exportResults', SubmitEmsType::class, [
+                'label' => t('action.export', [], 'emsco-core'),
                 'attr' => [
                     'class' => 'btn btn-primary btn-sm',
                     'data-testid' => 'btn-action-export',
                 ],
                 'icon' => 'fa fa-archive',
             ])->add('environments', EnvironmentPickerType::class, [
+                'label' => t('field.environments', [], 'emsco-core'),
                 'multiple' => true,
                 'required' => false,
                 'managedOnly' => false,
                 'userPublishEnvironments' => false,
             ])->add('contentTypes', ContentTypePickerType::class, [
+                'label' => t('field.content_types', [], 'emsco-core'),
                 'multiple' => true,
                 'required' => false,
             ]);

@@ -23,6 +23,7 @@ action:
     add_sort_option: 'Add a Sort Option'
     add_task: 'Add a task'
     add_to_release: 'Add to release'
+    apply_filters: 'Apply filters'
     approve: Approve
     attach: Attach
     browse_server: 'Browse server'
@@ -561,6 +562,7 @@ key:
     excel_export: 'Excel export'
     export_documents: 'Export documents'
     failed_jobs: 'Failed jobs'
+    filter: Filter
     filters: Filters
     finalize: Finalize
     finalized_by: 'Finalized by'
@@ -570,6 +572,8 @@ key:
     form_submissions: 'Form Submissions'
     forms: Forms
     groups: Groups
+    gt: 'Greater than'
+    gte: 'Greater than or equal to'
     history: History
     home: Home
     i18n: I18N
@@ -593,6 +597,8 @@ key:
     login: Login
     logs: Logs
     loop_count: '#'
+    lt: 'Less than'
+    lte: 'Less than or equal to'
     lucene_version: 'Lucene version'
     mail_action_approved: approved
     mail_action_assignee_changed: 'changed assignee'
@@ -602,11 +608,17 @@ key:
     mail_action_rejected: rejected
     mail_action_updated: updated
     managed_aliases: 'Managed aliases'
+    match_and: 'Match (and)'
+    match_or: 'Match (or)'
+    match_phrase: 'Match phrase'
+    match_phrase_prefix: 'Match phrase prefix'
     mcp: MCP
     mcp_prompts: 'MCP prompts'
     mcp_resources: 'MCP resources'
     mcp_tools: 'MCP tools'
     more_info: 'more info'
+    must: Must
+    must_not: 'Must not'
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
     new_user: 'New user'
@@ -636,6 +648,7 @@ key:
     pendings: Pendings
     permission_overview_singular: 'Permission Overview'
     portrait: Portrait
+    prefix: Prefix
     prefix_instance_id: 'Prefix alias with instance ID'
     previous_revision: 'Previous revision'
     progress: Progress
@@ -644,6 +657,8 @@ key:
     public_view: 'Publicly available (without authentication)'
     publishers: Publishers
     push_menu: 'Push menu'
+    query_and: 'Query (and)'
+    query_or: 'Query (or)'
     query_search: 'Query search'
     query_searches: QuerySearch
     raw_view: 'Raw view'
@@ -674,6 +689,7 @@ key:
     selected: Selected
     sent: Sent
     settings: Settings
+    should: Should
     show_search_form: 'Show search form'
     simplified_ui: 'Simplified UI'
     sort_by: 'Sort by'
@@ -696,6 +712,7 @@ key:
     task_status_rejected: Rejected
     tasks: Tasks
     template: Template
+    term: Term
     textarea_counter: '{count} characters'
     tiptap: Tiptap
     title: Title

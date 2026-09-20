@@ -3,7 +3,7 @@
     {% trans_default_domain 'emsco-core' %}
     <li class="sidebar-item">
         <a href="{{ menu.hasChildren ? '#' : path(menu.route, menu.routeParameters) }}" class="sidebar-link{% if menu.color %}  text-{{ menu.color }}{% endif %}{% if menu.hasChildren %} collapsed{% endif %}" {% if menu.hasChildren %}data-bs-target="#nav-{{ menu.label|ems_slug }}" data-bs-toggle="collapse"{% endif %}>
-            <i class="align-middle {{ menu.icon }}"></i>&nbsp;
+            <i class="align-middle {{ menu.icon }}"></i>
             <span class="align-middle">
                 {{ menu.labelTranslation is not null ? menu.labelTranslation|trans : menu.label }}
                 {% if menu.hasBadge %}

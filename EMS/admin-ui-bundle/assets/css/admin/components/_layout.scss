@@ -391,7 +391,9 @@ html.header-compact #control-sidebar {
 
 .sidebar-link,
 a.sidebar-link {
-  display: block;
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
   padding: $sidebar-link-padding;
   font-weight: $sidebar-link-font-weight;
   transition: background .1s ease-in-out;
@@ -405,6 +407,8 @@ a.sidebar-link {
   border-left-color: $sidebar-link-border-left-color;
 
   i {
+    flex-shrink: 0;
+    line-height: inherit;
     color: inherit;
     width: 20px;
   }
@@ -416,10 +420,6 @@ a.sidebar-link {
 
 .sidebar-item.active > .sidebar-link {
   border-left-width: 3px;
-}
-
-.sidebar-dropdown .sidebar-item.active > .sidebar-link {
-  border-left-width: 0;
 }
 
 .sidebar-item.active > .sidebar-link,
@@ -545,16 +545,22 @@ html.sidebar-temporary-open body {
 }
 
 .sidebar-header {
-  background: transparent;
+  background: $sidebar-section-bg;
   padding: $sidebar-header-padding;
   font-size: $sidebar-header-font-size;
+  font-weight: $font-weight-bold;
   color: $sidebar-header-color;
+}
+
+.sidebar-nav > .sidebar-item:last-child {
+  margin-bottom: 1rem;
 }
 
 .sidebar-badge {
   position: absolute;
   right: $sidebar-link-padding-x;
-  top: 14px;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 1;
 }
 
@@ -580,8 +586,12 @@ html.sidebar-temporary-open body {
   transform: rotate(-135deg);
 }
 
+.sidebar-dropdown {
+  background: $sidebar-section-bg;
+}
+
 .sidebar-dropdown .sidebar-link {
-  font-size: 90%;
   font-weight: 400;
-  padding: $sidebar-link-padding-y $sidebar-link-padding-x $sidebar-link-padding-y calc($sidebar-link-padding-x * 2.5);
+  background: transparent;
+  padding: $sidebar-link-padding-y $sidebar-link-padding-x $sidebar-link-padding-y calc($sidebar-link-padding-x * 2);
 }

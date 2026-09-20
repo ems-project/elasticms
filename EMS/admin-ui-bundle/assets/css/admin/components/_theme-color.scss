@@ -13,6 +13,10 @@
         background-color: $color !important;
       }
     }
+
+    .sidebar-item.active > .sidebar-link {
+      border-left-color: $color !important;
+    }
   }
 }
 

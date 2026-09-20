@@ -404,7 +404,7 @@ field:
     new_version: 'Nouvelle version'
     node_name: 'Nom du nœud'
     operator: Opérateur
-    operators: 'Opérateurs'
+    operators: Opérateurs
     options: Options
     orientation: Orientation
     ouuid: OUUID
@@ -554,6 +554,7 @@ key:
     email_notification_lowercase: 'notification par e-mail'
     email_or_username: 'E-mail ou nom d’utilisateur'
     empty: Vide
+    environments: Environnements
     environments_external: 'Environnements externes'
     environments_local: 'Environnements locaux'
     error: Erreur

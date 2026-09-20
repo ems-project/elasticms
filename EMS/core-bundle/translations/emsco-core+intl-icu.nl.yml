@@ -404,7 +404,7 @@ field:
     new_version: 'Nieuwe versie'
     node_name: 'Naam van het knooppunt'
     operator: Operator
-    operators: 'Exploitanten'
+    operators: Exploitanten
     options: Opties
     orientation: Oriëntatie
     ouuid: OUUID
@@ -554,6 +554,7 @@ key:
     email_notification_lowercase: e-mailmelding
     email_or_username: 'E-mail of gebruikersnaam'
     empty: Leeg
+    environments: Omgevingen
     environments_external: 'Externe omgevingen'
     environments_local: 'Lokale omgevingen'
     error: Fout

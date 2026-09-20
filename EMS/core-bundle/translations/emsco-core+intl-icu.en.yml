@@ -554,6 +554,7 @@ key:
     email_notification_lowercase: 'e-mail notification'
     email_or_username: 'Email or Username'
     empty: Empty
+    environments: Environments
     environments_external: 'External environments'
     environments_local: 'Local environments'
     error: Error

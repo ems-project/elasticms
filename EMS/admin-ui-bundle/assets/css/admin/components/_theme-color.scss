@@ -1,7 +1,4 @@
-$theme-color-light-contrast: 'yellow';
-
-@each $name in $theme-colors-supported {
-  $color: map-get($theme-colors, $name);
+@each $name, $color in $theme-colors-supported {
   html[data-theme='#{$name}'] {
     .navbar,
     .user-header,
@@ -10,17 +7,17 @@ $theme-color-light-contrast: 'yellow';
       background-color: $color !important;
     }
 
-    @if index($theme-color-light-contrast, $name) {
-      .navbar {
-        --bs-navbar-color: #{$gray-800};
-        --bs-navbar-hover-color: #{$gray-800};
-        --bs-navbar-active-color: #{$gray-800};
-      }
-    } @else {
-      .navbar .hamburger,
-      .navbar .hamburger:before,
-      .navbar .hamburger:after {
-        background: #fff;
+    .navbar .hamburger,
+    .navbar .hamburger:before,
+    .navbar .hamburger:after {
+      background: #fff;
+    }
+
+    .navbar-brand {
+      background-color: color-mix(in srgb, #{$color} 90%, black) !important;
+
+      &:hover {
+        background-color: $color !important;
       }
     }
   }

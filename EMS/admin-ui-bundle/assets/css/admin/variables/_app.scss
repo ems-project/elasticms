@@ -123,7 +123,13 @@ $theme-colors: (
 ) !default;
 
 // Supported theme colors
-$theme-colors-supported: 'blue', 'purple', 'green', 'red', 'yellow' !default;
+$theme-colors-supported: (
+  'blue': #3c8dbc,
+  'purple': #605ca8,
+  'green': #00a65a,
+  'red': #dd4b39,
+  'yellow': #f39c12
+) !default;
 
 // Social colors
 $social-colors: (

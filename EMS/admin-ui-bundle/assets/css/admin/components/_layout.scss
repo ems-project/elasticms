@@ -99,6 +99,7 @@ footer.footer {
   background: darken($sidebar-bg, 5%);
   order: -1;
   flex: 0 0 100%;
+  transition: $transition-appearance-fast;
 
   svg,
   .feather {
@@ -111,8 +112,6 @@ footer.footer {
   }
 
   @include media-breakpoint-down(lg) {
-    transition: $transition-appearance-fast;
-
     html.header-compact & {
       display: none;
     }

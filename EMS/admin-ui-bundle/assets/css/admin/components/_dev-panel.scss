@@ -50,8 +50,8 @@
   }
 }
 
-@each $name in $theme-colors-supported {
+@each $name, $color in $theme-colors-supported {
   .skin-swatch[data-skin='#{$name}'] {
-    background-color: map-get($theme-colors, $name);
+    background-color: $color;
   }
 }

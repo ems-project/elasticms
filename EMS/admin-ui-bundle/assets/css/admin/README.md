@@ -34,12 +34,17 @@ The `theme_color` app config (a Twig global, e.g. `blue`) is rendered as
 `data-theme="{{ theme_color }}"` on `<html>` in `base/html5.html.twig` -
 for every user, always. `components/_theme-color.scss` reacts to that
 attribute and colors **only** the sidebar/topbar chrome (navbar,
-sidebar-brand, badges, the temporary-sidebar-toggle) - buttons, cards and
+user-header, badges, the temporary-sidebar-toggle) - buttons, cards and
 everything else always stay on the normal Bootstrap `$primary`, untouched.
+`.navbar-brand` gets a darkened version of the color instead (full color
+on hover), since it sits on top of the navbar/sidebar rather than blending
+into it.
 
-Only 5 colors are actually supported: `$theme-colors-supported` in
+Only 5 colors are actually supported, with fixed AdminLTE2 hex values (not
+Bootstrap's own `$blue`/`$red`/etc., which are also used for unrelated
+buttons/badges site-wide): `$theme-colors-supported` in
 `variables/_app.scss` (`blue`, `purple`, `green`, `red`, `yellow` - `blue`
-is the config default). That list is the single source of truth; the dev
+is the config default). That map is the single source of truth; the dev
 panel's swatches (`elements/dev-panel.html.twig`,
 `components/_dev-panel.scss`) read the same variable.
 

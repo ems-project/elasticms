@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Dashboard\Services;
 
 use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
+use EMS\CommonBundle\Elasticsearch\Aggregation\ElasticaAggregation;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Elasticsearch\Response\Response as CommonResponse;
 use EMS\CommonBundle\Helper\EmsFields;
@@ -21,7 +22,9 @@ use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\AggregateOptionService;
 use EMS\CoreBundle\Service\SearchService;
+use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -69,7 +72,7 @@ class AdvancedSearch implements DashboardInterface
 
         $options = $dashboard->getOptions();
         $uid = $request->query->get('uid');
-        $query = $request->query->get('q');
+        $query = $request->query->get('q', '');
         $page = $request->query->getInt('page', 1);
         if (\is_string($uid)) {
             $search = new Search();
@@ -98,6 +101,7 @@ class AdvancedSearch implements DashboardInterface
         $types = $this->contentTypeRepository->findAllAsAssociativeArray();
         $environments = $this->environmentRepository->findAllAsAssociativeArray('alias');
         $esSearch = $this->buildQuery($search, $page);
+        $aggregateOptions = $this->addAggregations($esSearch, $options);
         $searchBody = \array_filter(['query' => $esSearch->getQueryArray(), 'sort' => $esSearch->getSort()]);
 
         try {
@@ -134,10 +138,11 @@ class AdvancedSearch implements DashboardInterface
             'indexes' => $indexes,
             'body' => $searchBody,
             'search' => $search,
+            'aggregateOptions' => $aggregateOptions,
         ]));
     }
 
-    private function getDefaultSearch(DashboardOptions $options, ?string $query): Search
+    private function getDefaultSearch(DashboardOptions $options, string $query): Search
     {
         $search = new Search();
         $search->setEnvironments(Type::array($options->offsetGet(DashboardOptions::ENVIRONMENTS) ?? []));
@@ -152,10 +157,7 @@ class AdvancedSearch implements DashboardInterface
         $search->clearFilters();
         foreach ($filters as $filter) {
             $searchFilter = SearchFilter::fromArray($filter);
-            $pattern = $searchFilter->getPattern();
-            if (null !== $query && null !== $pattern) {
-                $searchFilter->setPattern(\str_replace('%q%', $query, $pattern));
-            }
+            $searchFilter->setPattern(\str_replace('%q%', $query, $searchFilter->getPattern() ?? ''));
             $search->addFilter($searchFilter);
         }
 
@@ -229,6 +231,18 @@ class AdvancedSearch implements DashboardInterface
 
             return $data;
         }
+        $pattern = Type::nullableString($request->query->get('pattern'));
+        $field = Type::nullableString($request->query->get('field'));
+        if (\is_string($pattern) || \is_string($field)) {
+            return $this->applyAddFilter($request, $data, $field ?? '', $pattern ?? '');
+        }
+        $removeFilter = Type::nullableString($request->query->get('removeFilter'));
+        if (\is_string($removeFilter)) {
+            unset($data['filters'][(int) $removeFilter]);
+            $data['filters'] = \array_values($data['filters']);
+
+            return $data;
+        }
 
         return null;
     }
@@ -253,5 +267,64 @@ class AdvancedSearch implements DashboardInterface
             return $data;
         }
         throw new \RuntimeException(\sprintf('Sort option %s not found', $sortByFieldName));
+    }
+
+    /**
+     * @param  mixed[] $data
+     * @return mixed[]
+     */
+    private function applyAddFilter(Request $request, array $data, string $field, string $pattern): array
+    {
+        $filters = \array_values($data['filters'] ?? []);
+        $filters[] = [
+            'booleanClause' => $request->query->get('clause') ?? 'must',
+            'boost' => $request->query->get('boost') ?? '',
+            'operator' => $request->query->get('operator') ?? 'term',
+            'field' => $field,
+            'pattern' => $pattern,
+        ];
+        $data['filters'] = $filters;
+
+        return $data;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function addAggregations(CommonSearch $esSearch, DashboardOptions $options): array
+    {
+        $aggregations = [];
+        foreach ($options->getArray(DashboardOptions::AGGREGATE_OPTIONS) as $aggregateOption) {
+            $id = Uuid::uuid4()->toString();
+            $aggregations[$id] = $aggregateOption;
+            $aggregation = new ElasticaAggregation($id);
+            $config = self::convertAggregation(Type::string($aggregateOption['config'] ?? null));
+            foreach ($config as $basename => $param) {
+                $aggregation->setConfig($basename, $param);
+            }
+            $esSearch->addAggregation($aggregation);
+        }
+
+        return $aggregations;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private static function convertAggregation(string $config): array
+    {
+        $recursiveCheck = function (array &$json) use (&$recursiveCheck) {
+            foreach ($json as $field => &$data) {
+                if ('reverse_nested' === $field && empty($data)) {
+                    $data = new \stdClass();
+                } elseif (\is_array($data)) {
+                    $recursiveCheck($data);
+                }
+            }
+        };
+        $json = Json::decode($config);
+        $recursiveCheck($json);
+
+        return $json;
     }
 }

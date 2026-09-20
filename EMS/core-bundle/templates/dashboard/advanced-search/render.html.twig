@@ -33,11 +33,11 @@
     {% for result in response.documents %}
         <div class="panel panel-default">
             <div class="panel-heading" data-testid="search-page-item">
-                {% if attribute(types, result.contentType) is defined %}
-                    <span class="text-{{ attribute(types, result.contentType).color }}">
-					  	<i class="{{ attribute(types, result.contentType).icon }}"></i>
+                {% if types.(result.contentType) is defined %}
+                    <span class="text-{{ types.(result.contentType).color }}">
+					  	<i class="{{ types.(result.contentType).icon }}"></i>
 						{% if form.vars.data.environments|length != 1 %}
-                            {{ attribute(types, result.contentType).singularName }} |
+                            {{ types.(result.contentType).singularName }} |
                         {% endif %}
 
                         {% set resultLabel = result|emsco_display %}
@@ -57,13 +57,13 @@
                     </div>
                 </div>
             {% endif %}
-            {% if attribute(types, result.contentType) is defined and attribute(types, result.contentType).indexTwig %}
+            {% if types.(result.contentType) is defined and types.(result.contentType).indexTwig %}
                 <div class="panel-body">
                     <div class="col-xs-12">
                         {{
-                        attribute(types, result.contentType).indexTwig|emsco_generate_from_template({
-                            environment: attribute(indexes, result.index),
-                            contentType: attribute(types, result.contentType),
+                        types.(result.contentType).indexTwig|emsco_generate_from_template({
+                            environment: indexes.(result.index),
+                            contentType: types.(result.contentType),
                             object: result,
                             source: result.source
                         })|raw
@@ -72,10 +72,10 @@
                 </div>
             {% endif %}
             <div class="box-footer">
-                {% if attribute(types, result.contentType) is defined %}
+                {% if types.(result.contentType) is defined %}
                     {% include '@EMSCore/elements/object-toolbar.html.twig' with {
-                        environment: attribute(indexes, result.index),
-                        contentType: attribute(types, result.contentType),
+                        environment: indexes.(result.index),
+                        contentType: types.(result.contentType),
                         object: result.raw,
                     }%}
                 {% endif %}
@@ -94,7 +94,7 @@
                 {% for option in options.sortOptions %}
                     {% set active = option.field == search.sortBy %}
                     {% set order = active ? search.sortOrder : option.inverted ? 'desc' : 'asc' %}
-                    <a href="{{ path(paginationPath, currentFilters|merge({page: 1, sortBy: option.field})) }}" class="btn btn-block btn-social btn-primary {% if active %} active{% endif %}">
+                    <a href="{{ path(paginationPath, currentFilters|merge({sortBy: option.field})) }}" class="btn btn-block btn-social btn-primary {% if active %} active{% endif %}">
                         <i class="{% if option.icon %}{{ option.icon }}{% else %}fa fa-sort-alpha-asc{% endif %}"></i>
                         {{ option.name }}
                         {% if active %}
@@ -103,7 +103,7 @@
                     </a>
                 {% endfor %}
                 {% if search.sortBy %}
-                    <a href="{{ path(paginationPath, currentFilters|merge({ page: 1, clearSort: true })) }}" class="btn btn-block btn-social btn-primary">
+                    <a href="{{ path(paginationPath, currentFilters|merge({ clearSort: true })) }}" class="btn btn-block btn-social btn-primary">
                         <i class="fa fa-remove"></i>
                         {{ 'action.clear_sort_options'|trans }}
                     </a>
@@ -120,16 +120,16 @@
         </div>
         <div class="box-body">
             {% for index in response.getAggregation('types').buckets %}
-                {% if attribute(types, index.key) is defined %}
-                    {% set icon = attribute(types, index.key).icon|default('fa fa-book') %}
-                    {% set color = attribute(types, index.key).color|default('gray') %}
-                    {% set label = index.count > 1 ? attribute(types, index.key).pluralName : attribute(types, index.key).singularName %}
+                {% if types.(index.key) is defined %}
+                    {% set icon = types.(index.key).icon|default('fa fa-book') %}
+                    {% set color = types.(index.key).color|default('gray') %}
+                    {% set label = index.count > 1 ? types.(index.key).pluralName : types.(index.key).singularName %}
                 {% else %}
                     {% set icon = 'fa fa-question' %}
                     {% set color = 'gray' %}
                     {% set label = index.key|humanize %}
                 {% endif %}
-                <a href="{{ path(paginationPath, currentFilters|merge({ page: 1, contentType: index.key })) }}" class="btn btn-block btn-social bg-{{ color }}">
+                <a href="{{ path(paginationPath, currentFilters|merge({ contentType: index.key })) }}" class="btn btn-block btn-social bg-{{ color }}">
                     <i class="{{ icon }}"></i>
                     {{ label }}
                     <span class=" badge pull-right">{{ index.count }}</span>
@@ -153,9 +153,9 @@
         </div>
         <div class="box-body">
             {% for index in response.getAggregation('indexes').buckets %}
-                <a href="{{ path(paginationPath, currentFilters|merge({ page: 1, environment: indexes.(index.key).name })) }}" class="btn btn-block btn-social bg-{{ indexes.(index.key).color|default('gray') }}">
+                <a href="{{ path(paginationPath, currentFilters|merge({ environment: indexes.(index.key).name })) }}" class="btn btn-block btn-social bg-{{ indexes.(index.key).color|default('gray') }}">
                     <i class="fa fa-eye"></i>
-                    {{ attribute(indexes, index.key).label }}
+                    {{ indexes.(index.key).label }}
                     <span class=" badge pull-right">
                         {{ index.count }}
                     </span>

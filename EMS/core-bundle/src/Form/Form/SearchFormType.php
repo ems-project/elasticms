@@ -152,15 +152,6 @@ class SearchFormType extends AbstractType
                 'multiple' => true,
                 'required' => false,
             ]);
-            if (!$options['savedSearch']) {
-                $builder->add('save', SubmitEmsType::class, [
-                    'attr' => [
-                        'class' => 'btn btn-primary btn-md',
-                        'data-testid' => 'btn-action-save-search',
-                    ],
-                    'icon' => 'fa fa-save',
-                ]);
-            }
         }
     }
 
@@ -169,7 +160,6 @@ class SearchFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Search::class,
-            'savedSearch' => false,
             'csrf_protection' => false,
             'light' => false,
             'dashboardOptions' => null,

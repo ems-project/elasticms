@@ -4,13 +4,14 @@ const SIDEBAR_COLLAPSED_STORAGE_KEY = 'ems.sidebar.collapsed'
 const SIDEBAR_TEMPORARY_OPEN_CLASS = 'sidebar-temporary-open'
 const MOBILE_QUERY = '(max-width: 991.98px)'
 
+export const SIDEBAR_COLLAPSED_CHANGE_EVENT = 'ems:sidebar-collapsed-change'
+
 export default class Sidebar {
     sidebar: HTMLElement | null = null
 
     constructor() {
         this.activateMenu()
         this.initToggle()
-        this.initCollapseCheckbox()
     }
 
     initToggle() {
@@ -41,26 +42,7 @@ export default class Sidebar {
             document.documentElement.removeAttribute('data-sidebar-collapsed')
         }
         this.saveCollapsedState(collapsed)
-        const checkbox = document.getElementById('devSidebarCollapsed')
-        if (checkbox instanceof HTMLInputElement) {
-            checkbox.checked = collapsed
-        }
-    }
-
-    initCollapseCheckbox() {
-        const checkbox = document.getElementById('devSidebarCollapsed')
-        if (!(checkbox instanceof HTMLInputElement) || !this.sidebar) {
-            return
-        }
-        checkbox.checked = this.sidebar.classList.contains('collapsed')
-
-        checkbox.addEventListener('change', () => {
-            if (!this.sidebar) {
-                return
-            }
-            this.sidebar.classList.toggle('collapsed', checkbox.checked)
-            this.setCollapsed(checkbox.checked)
-        })
+        document.dispatchEvent(new CustomEvent(SIDEBAR_COLLAPSED_CHANGE_EVENT, { detail: { collapsed } }))
     }
 
     initTemporaryAccess(sidebar: HTMLElement, label: string) {

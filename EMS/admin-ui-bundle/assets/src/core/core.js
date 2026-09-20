@@ -26,6 +26,7 @@ import RevisionTask from './components/revisionTask'
 import Modal from './components/modal'
 import Sidebar from './components/sidebar.ts'
 import Theme from './components/theme.ts'
+import DevPanel from './components/devPanel.ts'
 import Action from './components/action'
 
 import { EMS_ADDED_DOM_EVENT } from './events/addedDomEvent'
@@ -86,7 +87,9 @@ class Core {
         this.initCtrlSaveEvent()
         this.initHeaderScroll()
         initIcons(document.body)
-        this.components = [new Theme(), new RevisionTask(), new Modal(), new Sidebar()]
+        const theme = new Theme()
+        const sidebar = new Sidebar()
+        this.components = [theme, sidebar, new DevPanel(theme, sidebar), new RevisionTask(), new Modal()]
     }
 
     initHeaderScroll() {

@@ -195,27 +195,6 @@ html.header-compact #control-sidebar {
 }
 
 .nav-item {
-  .indicator {
-    background: $primary;
-    box-shadow: $box-shadow;
-    border-radius: 50%;
-    display: block;
-    height: 18px;
-    width: 18px;
-    padding: 1px;
-    position: absolute;
-    top: 0;
-    right: -8px;
-    text-align: center;
-    transition: top .1s ease-out;
-    font-size: 0.675rem;
-    color: $white;
-  }
-
-  &:hover .indicator {
-    top: -4px;
-  }
-
   a:focus {
     outline: 0;
   }
@@ -270,6 +249,7 @@ html.header-compact #control-sidebar {
 
 .sidebar-toggle,
 .navbar-nav > .nav-item > .nav-link {
+  position: relative;
   display: flex;
   align-items: center;
   height: 100%;
@@ -285,8 +265,23 @@ html.header-compact #control-sidebar {
   }
 }
 
-.user-menu .dropdown-toggle::after,
-.dev-panel-toggle::after {
+.navbar-badge {
+  position: absolute;
+  top: 8px;
+  right: 4px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  border-radius: 999px;
+  background: map-get($theme-colors-supported, 'yellow');
+  color: $white;
+  font-size: .6rem;
+  font-weight: 700;
+  line-height: 14px;
+  text-align: center;
+}
+
+.user-menu .dropdown-toggle::after {
   content: none;
 }
 

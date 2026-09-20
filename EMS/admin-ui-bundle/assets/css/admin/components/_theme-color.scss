@@ -2,7 +2,6 @@
   html[data-theme='#{$name}'] {
     .navbar,
     .user-header,
-    #activity-counter,
     .sidebar-temporary-toggle {
       background-color: $color !important;
     }
@@ -15,4 +14,8 @@
       }
     }
   }
+}
+
+html[data-theme='yellow'] .navbar-badge {
+  background: map-get($theme-colors-supported, 'red') !important;
 }

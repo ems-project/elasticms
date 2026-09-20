@@ -3,14 +3,12 @@
 const THEME_MODE_STORAGE_KEY = 'ems.theme.mode'
 const THEME_COLOR_STORAGE_KEY = 'ems.dev.themeColor'
 
-type ThemeMode = 'light' | 'dark'
+export type ThemeMode = 'light' | 'dark'
 
 export default class Theme {
     constructor() {
         this.initMode()
         this.initColorOverride()
-        this.initModeButtons()
-        this.initColorSwatches()
     }
 
     initMode() {
@@ -35,32 +33,6 @@ export default class Theme {
         } catch {
             return
         }
-        this.updateModeButtons(mode)
-    }
-
-    initModeButtons() {
-        const buttons = document.querySelectorAll<HTMLButtonElement>('.mode-btn')
-        if (buttons.length === 0) {
-            return
-        }
-        // initMode() runs first and always sets this attribute.
-        const effective = (document.documentElement.getAttribute('data-bs-theme') as ThemeMode | null) ?? 'light'
-        this.updateModeButtons(effective)
-
-        buttons.forEach((button) => {
-            button.addEventListener('click', () => {
-                const mode = button.dataset.mode
-                if (mode === 'light' || mode === 'dark') {
-                    this.setMode(mode)
-                }
-            })
-        })
-    }
-
-    updateModeButtons(mode: ThemeMode) {
-        document.querySelectorAll<HTMLButtonElement>('.mode-btn').forEach((button) => {
-            button.classList.toggle('active', button.dataset.mode === mode)
-        })
     }
 
     // The server always renders `data-theme="{{ theme_color }}"` on <html>
@@ -88,35 +60,5 @@ export default class Theme {
         } catch {
             return
         }
-        this.updateColorSwatches(color)
-    }
-
-    initColorSwatches() {
-        const swatches = document.querySelectorAll<HTMLButtonElement>('.skin-swatch')
-        if (swatches.length === 0) {
-            return
-        }
-        const current = this.readColorOverride()
-        if (current) {
-            this.updateColorSwatches(current)
-        }
-
-        swatches.forEach((swatch) => {
-            swatch.addEventListener('click', () => {
-                const color = swatch.dataset.skin
-                if (color) {
-                    this.setColorOverride(color)
-                }
-                // Avoid the browser's default focus ring lingering on the
-                // clicked swatch, which can look like a second "active" mark.
-                swatch.blur()
-            })
-        })
-    }
-
-    updateColorSwatches(color: string) {
-        document.querySelectorAll<HTMLButtonElement>('.skin-swatch').forEach((swatch) => {
-            swatch.classList.toggle('active', swatch.dataset.skin === color)
-        })
     }
 }

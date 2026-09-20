@@ -1,7 +1,7 @@
 {% trans_default_domain 'emsco-core' %}
 {{ form_start(form) }}
 	<div class="box ">
-		<div id="searchFormBoxBody" class="collapse {% if openSearchForm is defined and openSearchForm %}in{% endif %}" aria-expanded="{% if openSearchForm is not defined or not openSearchForm %}false{%else%}true{% endif %}">
+		<div id="searchFormBoxBody" class="collapse {% if app.request.query.get('open') %}in{% endif %}" aria-expanded="{% if app.request.query.get('open') %}true{%else%}false{% endif %}">
 			<div class="box-body" >
 				<div class="row">
 					{% if form.environments is defined %}

@@ -61,12 +61,14 @@ class AdvancedSearch implements DashboardInterface
         }
         if (Request::METHOD_POST === $request->getMethod()) {
             $searchForm = Type::array($request->request->all()['search_form']);
+            $open = isset($searchForm['search']);
             unset($searchForm['search']);
             $uid = $this->storageManager->saveConfig($searchForm);
 
             return new RedirectResponse($this->router->generate(Routes::DASHBOARD, [
                 'uid' => $uid,
                 'name' => $dashboard->getName(),
+                'open' => $open,
             ]));
         }
 

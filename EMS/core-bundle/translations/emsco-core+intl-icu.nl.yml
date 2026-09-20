@@ -717,6 +717,12 @@ key:
     tiptap: Tiptap
     title: Titel
     to_be_treated: 'Te behandelen'
+    total_documents: >-
+        {count, plural,
+            =0 {Geen documenten gevonden}
+            one {1 document}
+            other {{total} documenten}
+        }
     trash: Prullenbak
     treat_selection: 'Selectie behandelen'
     unassigned_shards: 'Niet-toegewezen shards'

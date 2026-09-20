@@ -717,6 +717,12 @@ key:
     tiptap: Tiptap
     title: Titre
     to_be_treated: 'À traiter'
+    total_documents: >-
+          {count, plural,
+              =0 {Aucun document trouvé}
+              one {1 document}
+              other {{total} documents}
+          }
     trash: Corbeille
     treat_selection: 'Traiter la sélection'
     unassigned_shards: 'Shards non assignés'

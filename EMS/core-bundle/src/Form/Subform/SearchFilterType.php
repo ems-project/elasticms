@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Subform;
 
 use EMS\CoreBundle\Entity\Form\SearchFilter;
-use EMS\CoreBundle\Entity\SearchFieldOption;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -41,12 +40,11 @@ class SearchFilterType extends AbstractType
                 'required' => false,
                 'choice_translation_domain' => false,
                 'choice_attr' => function ($category, $key, $index) use ($options) {
-                    /** @var SearchFieldOption $searchFieldOption */
                     $searchFieldOption = $options['searchFields'][$key];
 
                     return [
-                        'data-content-types' => Json::encode($searchFieldOption->getContentTypes()),
-                        'data-operators' => Json::encode($searchFieldOption->getOperators()),
+                        'data-content-types' => Json::encode($searchFieldOption['contentTypes']),
+                        'data-operators' => Json::encode($searchFieldOption['operators']),
                     ];
                 },
             ]);

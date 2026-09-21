@@ -45,12 +45,11 @@ class SearchFormType extends AbstractType
 
         $searchFields = [];
         $searchFieldsData = [];
-
-        /** @var SearchFieldOption[] $searchFieldOptions */
-        $searchFieldOptions = $this->searchFieldOptionService->getAll();
-        foreach ($searchFieldOptions as $searchFieldOption) {
-            $searchFieldsData[$searchFieldOption->getName()] = $searchFieldOption->getField();
-            $searchFields[$searchFieldOption->getName()] = $searchFieldOption;
+        if ($options['dashboardOptions'] instanceof DashboardOptions && [] !== $options['dashboardOptions']->getArray(DashboardOptions::SEARCH_FIELD_OPTIONS)) {
+            foreach ($options['dashboardOptions']->getArray(DashboardOptions::SEARCH_FIELD_OPTIONS) as $searchFieldOption) {
+                $searchFieldsData[$searchFieldOption['name']] = $searchFieldOption['field'];
+                $searchFields[$searchFieldOption['name']] = $searchFieldOption;
+            }
         }
 
         $builder->add('filters', CollectionType::class, [

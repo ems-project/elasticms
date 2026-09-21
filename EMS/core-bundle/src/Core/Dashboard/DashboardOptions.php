@@ -86,7 +86,7 @@ class DashboardOptions implements \ArrayAccess
 
     public function getNullableString(string $offset, ?string $default = null): ?string
     {
-        return isset($this->options[$offset]) && null !== $this->options[$offset] ? Type::string($this->options[$offset]) : $default;
+        return isset($this->options[$offset]) ? Type::string($this->options[$offset]) : $default;
     }
 
     /**

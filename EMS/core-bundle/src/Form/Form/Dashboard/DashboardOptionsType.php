@@ -55,7 +55,7 @@ class DashboardOptionsType extends AbstractType
         match ($dashboard::class) {
             Export::class => $this->buildForExport($builder) ,
             Template::class => $this->buildForTemplate($builder),
-            AdvancedSearch::class => $this->buildForLegacySearch($builder),
+            AdvancedSearch::class => $this->buildForAdvancedSearch($builder),
             default => null,
         };
     }
@@ -130,7 +130,7 @@ class DashboardOptionsType extends AbstractType
     /**
      * @param FormBuilderInterface<mixed> $builder
      */
-    private function buildForLegacySearch(FormBuilderInterface $builder): void
+    private function buildForAdvancedSearch(FormBuilderInterface $builder): void
     {
         $builder
             ->add(DashboardOptions::ENVIRONMENTS, EnvironmentPickerType::class, [

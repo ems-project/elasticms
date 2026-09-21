@@ -129,7 +129,7 @@ final class Version20260919133300 extends AbstractMigration
                         id, content_type_id, created, modified, name, type, icon, label, role, public, options, order_key, definition
                     ) VALUES (
                         nextval('view_id_seq'), :contentTypeId, NOW(), NOW(), :name, 'ems.view.redirection', 'fa fa-search', :label,
-                        'ROLE_USER', FALSE, CAST(:options AS JSON), COALESCE((SELECT MAX(order_key) + 1 FROM dashboard), 1), NULL
+                        'ROLE_USER', FALSE, CAST(:options AS JSON), -1, NULL
                     )
                 SQL, [
                             'contentTypeId' => $search['contentTypeId'],

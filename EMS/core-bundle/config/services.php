@@ -121,7 +121,6 @@ use EMS\CoreBundle\Service\ReleaseService;
 use EMS\CoreBundle\Service\RestClientService;
 use EMS\CoreBundle\Service\Revision\PostProcessingService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
-use EMS\CoreBundle\Service\SearchFieldOptionService;
 use EMS\CoreBundle\Service\SearchService;
 use EMS\CoreBundle\Service\TemplateService;
 use EMS\CoreBundle\Service\UserService;
@@ -675,13 +674,6 @@ return static function (ContainerConfigurator $container) {
             service('translator'),
         ]);
 
-    $services->set('ems.service.search_field_option', SearchFieldOptionService::class)
-        ->args([
-            service('doctrine'),
-            service('emsco.logger'),
-            service('translator'),
-        ]);
-
     $services->set('ems.service.wysiwyg_styles_set', WysiwygStylesSetService::class)
         ->args([
             service('ems.repository.wysiwyg_style_set'),
@@ -1021,8 +1013,6 @@ return static function (ContainerConfigurator $container) {
     $services->alias(Mapping::class, 'ems.service.mapping');
 
     $services->alias(WysiwygProfileService::class, 'ems.service.wysiwyg_profile');
-
-    $services->alias(SearchFieldOptionService::class, 'ems.service.search_field_option');
 
     $services->alias(WysiwygStylesSetService::class, 'ems.service.wysiwyg_styles_set');
 

@@ -7,6 +7,23 @@ outline: [2, 2]
 > [!TIP] It is recommended to rebuild all indexes after an upgrade:
 > `emsco:environment:rebuild --all`
 
+## 7.4
+
+The legacy search (`/search`) has been removed. As well as the entities `SortOption`,  `SearchFieldOption` and `AggregateOption`
+
+User's searches have been removed. If you want to add a shortcut, for a specific content type's manu, 
+you can add a Redirection view with the following template:
+
+```twig
+{%- set data = {contentTypes:[view.contentType.name],environments:[view.contentType.environment.name],filters:[{booleanClause:"must",field:"",operator:"query_and",pattern:""}],minimumShouldMatch:"1",sortBy:"_finalization_datetime",sortOrder:"asc"} -%}
+{%- set uid = emsco_save_contents(data|json_encode, 'search_page.json', 'application/json', 1).sha1 -%}
+
+{{- path('emsco_dashboard', {uid:uid, name:'advanced_search'}) -}}
+```
+
+Even if the `AggregateOption` are migrated into a default 
+
+
 ## 7.3
 
 - BC: media library template no longer relies on Bootstrap classes or Font Awesome icons by default,

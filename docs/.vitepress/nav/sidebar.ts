@@ -28,6 +28,7 @@ const sidebar: DefaultTheme.SidebarMulti = {
                 { text: 'Environment variables', link: '/elasticms-admin/environment-variables' },
                 { text: 'Commands', link: '/elasticms-admin/commands/commands' },
                 { text: 'Jobs', link: '/elasticms-admin/commands/jobs' },
+                { text: 'Inline editor', link: '/elasticms-admin/content/inline_editor.md' },
                 {
                     text: 'ContentType',
                     collapsed: true,
@@ -57,6 +58,7 @@ const sidebar: DefaultTheme.SidebarMulti = {
                         { text: 'Login', link: '/elasticms-admin/api/login' },
                         { text: 'Data', link: '/elasticms-admin/api/data' },
                         { text: 'Search', link: '/elasticms-admin/api/search' },
+                        { text: 'Submission', link: '/elasticms-admin/api/submission' },
                         { text: 'File', link: '/elasticms-admin/api/file' },
                         { text: 'User', link: '/elasticms-admin/api/user' },
                         { text: 'Job', link: '/elasticms-admin/api/job' },

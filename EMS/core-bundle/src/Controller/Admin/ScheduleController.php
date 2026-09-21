@@ -51,7 +51,7 @@ final class ScheduleController extends AbstractController
                 TableType::REORDER_ACTION => $this->scheduleManager->reorderByIds(
                     ids: TableType::getReorderedKeys($form->getName(), $request)
                 ),
-                default => $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core')),
+                default => $this->logger->messageError(t('message.invalid_table_action', [], 'emsco-core')),
             };
 
             return $this->redirectToRoute(Routes::SCHEDULE_INDEX);
@@ -75,7 +75,7 @@ final class ScheduleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->scheduleManager->update($schedule);
-            $this->logger->notice('log.schedule.created', ['name' => $schedule->getName()]);
+            $this->logger->messageNotice(t('message.schedule_created', ['name' => $schedule->getName()], 'emsco-core'));
 
             return $this->redirectToRoute(Routes::SCHEDULE_INDEX);
         }
@@ -99,7 +99,7 @@ final class ScheduleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->scheduleManager->update($schedule);
-            $this->logger->notice('log.schedule.updated', ['name' => $schedule->getName()]);
+            $this->logger->messageNotice(t('message.schedule_updated', ['name' => $schedule->getName()], 'emsco-core'));
 
             if ('json' === $request->getRequestFormat()) {
                 return $this->flashMessageLogger->buildJsonResponse(['success' => true]);

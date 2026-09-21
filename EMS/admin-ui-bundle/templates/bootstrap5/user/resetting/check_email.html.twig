@@ -1,17 +1,17 @@
 {%- trans_default_domain 'emsco-core' -%}
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
 
-{% block title %}{{ 'user.resetting.title'|trans }}{% endblock %}
+{% block title %}{{ 'title.reset_password'|trans }}{% endblock %}
 
 {% block body %}
     <div class="row">
         <div class="col-md-12">
             <div class="card card-{{ theme_color }}">
                 <div class="card-header with-border">
-                    <h3 class="card-title">{{ 'user.resetting.title'|trans }}</h3>
+                    <h3 class="card-title">{{ 'title.reset_password'|trans }}</h3>
                 </div>
                 <div class="card-body">
-                    <p>{{ 'user.resetting.check_email'|trans({'%tokenLifetime%': (tokenLifetime / 3600)})|nl2br }}</p>
+                    <p>{{ 'message.reset_password_check_email'|trans({'tokenLifetime': (tokenLifetime / 3600)})|nl2br }}</p>
                 </div>
             </div>
         </div>

@@ -62,7 +62,9 @@ class FilterController extends AbstractController
     public function delete(Filter $filter): Response
     {
         $this->filterManager->delete($filter);
-        $this->logger->notice('log.filter.deleted', ['filter_name' => $filter->getName()]);
+        $this->logger->messageNotice(t('message.filter_deleted', [
+            'filter_name' => $filter->getName(),
+        ], 'emsco-core'));
 
         return $this->redirectToRoute(Routes::FILTER_INDEX);
     }
@@ -118,7 +120,7 @@ class FilterController extends AbstractController
                 TableType::REORDER_ACTION => $this->filterManager->reorderByIds(
                     ...TableType::getReorderedKeys($form->getName(), $request)
                 ),
-                default => $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core')),
+                default => $this->logger->messageError(t('message.invalid_table_action', [], 'emsco-core')),
             };
 
             return $this->redirectToRoute(Routes::FILTER_INDEX);

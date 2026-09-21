@@ -2,7 +2,7 @@
     <div class="box box-primary ">
         <div class="box-header with-border">
             <h3 class="box-title">
-                <i class="fa fa-envelope-o"></i> {{ 'notification.sent.title'|trans }}
+                <i class="fa fa-envelope-o"></i> {{ 'key.sent'|trans }}
             </h3>
 
             {{ include('@EMSAdminUI/bootstrap5/elements/pagination.html.twig', {
@@ -17,21 +17,21 @@
         <div class="box-body ">
 
         {% if notifications|length <= 0 %}
-        <p>{{ 'notification.no_result'|trans }}: <a href="{{ path('notifications.sent') }}">{{ 'notification.reset_filters'|trans }}</a></p>
+        <p>{{ 'message.notification_no_results'|trans }}: <a href="{{ path('notifications.sent') }}">{{ 'action.reset_filters'|trans }}</a></p>
         {% else %}
         <div class="table-responsive">
                         <table class="table table-condensed table-striped">
                             <tbody>
                                 <tr>
                                     <th class="" style="">
-                                          {{ 'notification.label'|trans }}
+                                          {{ 'key.notification'|trans }}
                                     </th>
-                                    <th>{{ 'notification.created_by'|trans }}</th>
-                                    <th>{{ 'notification.date'|trans }}</th>
-                                    <th>{{ 'notification.environment'|trans }}</th>
-                                    <th>{{ 'notification.warnings'|trans }}</th>
-                                    <th>{{ 'notification.revision'|trans }}</th>
-                                    <th>{{ 'notification.actions'|trans }}</th>
+                                    <th>{{ 'field.created_by'|trans }}</th>
+                                    <th>{{ 'field.date'|trans }}</th>
+                                    <th>{{ 'field.environment'|trans }}</th>
+                                    <th>{{ 'key.warnings'|trans }}</th>
+                                    <th>{{ 'field.revision'|trans }}</th>
+                                    <th>{{ 'key.actions'|trans }}</th>
                                 </tr>
                             </tbody>
                             {% for notification in notifications %}
@@ -53,11 +53,11 @@
                                         {% endif %}
                                     {% endfor %}
                                     {% if not found and notification.counter > 1 %}
-                                        <i class="fa fa-warning  text-{{ notification.revision.contentType.color }}" title="{{ 'notification.warning.revision_not_published_and_duplicate'|trans({'%environment%': notification.name}) }}"></i> {{ 'notification.warning.revision_not_published_and_duplicate'|trans({'%environment%': notification.environment.name}) }}
+                                        <i class="fa fa-warning  text-{{ notification.revision.contentType.color }}" title="{{ 'message.revision_not_published_and_duplicate'|trans({'environment': notification.name}) }}"></i> {{ 'message.revision_not_published_and_duplicate'|trans({'environment': notification.environment.name}) }}
                                     {% elseif not found %}
-                                        <i class="fa fa-warning  text-{{ notification.revision.contentType.color }}" title="{{ 'notification.warning.revision_not_published'|trans({'%environment%': notification.environment.name}) }}"></i> {{ 'notification.warning.revision_not_published'|trans({'%environment%': notification.environment.name}) }}
+                                        <i class="fa fa-warning  text-{{ notification.revision.contentType.color }}" title="{{ 'message.revision_not_published'|trans({'environment': notification.environment.name}) }}"></i> {{ 'message.revision_not_published'|trans({'environment': notification.environment.name}) }}
                                     {% elseif notification.counter > 1 %}
-                                        <i class="fa fa-warning  text-{{ notification.revision.contentType.color }}" title="{{ 'notification.warning.duplicate'|trans }}"></i> {{ 'notification.warning.duplicate'|trans }}
+                                        <i class="fa fa-warning  text-{{ notification.revision.contentType.color }}" title="{{ 'message.notification_duplicate'|trans }}"></i> {{ 'message.notification_duplicate'|trans }}
                                     {% else %}
                                         <i class="fa fa-thumbs-up  text-{{ notification.revision.contentType.color }}"></i>
                                     {% endif %}
@@ -73,7 +73,7 @@
                                                     url: path('notification.cancel', {notification: notification.id}),
                                                     label: 'action.cancel'|trans({}, 'emsco-core'),
                                                     icon: 'ban',
-                                                    message: 'button.confirm'|trans,
+                                                    message: 'action.confirmation'|trans,
                                                 }) }}
                                             {% endif %}
 
@@ -99,13 +99,13 @@
             <div class="box-header with-border">
               <i class="fa fa-check"></i>
 
-              <h3 class="box-title">{{ 'notification.empty.title'|trans }}</h3>
+              <h3 class="box-title">{{ 'key.empty'|trans }}</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
 
               <div class="callout callout-success">
-                <h4>{{ 'notification.no_pending'|trans }}</h4>
+                <h4>{{ 'title.notifications_none_pending'|trans }}</h4>
               </div>
             </div>
             <!-- /.box-body -->

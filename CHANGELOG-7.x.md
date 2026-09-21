@@ -1,5 +1,63 @@
 # Changelog 7.x
 
+## 7.3.8 (2026-09-14)
+### Bug Fixes
+* fix(admin/inline-editor): buttons not working and media library by @Davidmattei in https://github.com/ems-project/elasticms/pull/1850
+* fix(admin/textarea): count textarea length by @Davidmattei in https://github.com/ems-project/elasticms/pull/1851
+* fix(admin/translations): labels per type of role permission by @theus77 in https://github.com/ems-project/elasticms/pull/1849
+* fix(admin/translations): transParameters can't be passed as trans parameter by @theus77 in https://github.com/ems-project/elasticms/pull/1848
+
+## 7.3.7 (2026-09-11)
+### Features
+* feat(admin/job): add EMSCO_JOB_CLEAN_TIME environment variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1814
+* feat(admin/json-menu-nested): add block preview template for items by @theus77 in https://github.com/ems-project/elasticms/pull/1804
+* feat(admin/mcp): add custom mcp tools by @theus77 in https://github.com/ems-project/elasticms/pull/1809
+* feat(admin/mcp): resources and prompts mcp by @theus77 in https://github.com/ems-project/elasticms/pull/1825
+* feat(admin/translations): merge EMSCoreBundle domain by @Davidmattei in https://github.com/ems-project/elasticms/pull/1834
+* feat(admin/translations): merge EMSCoreBundle domain part 2 by @Davidmattei in https://github.com/ems-project/elasticms/pull/1835
+* feat(admin/translations): merge ems_logger into emsco core domain by @Davidmattei in https://github.com/ems-project/elasticms/pull/1831
+* feat(admin/user): create user default wysiwyg profile by @Davidmattei in https://github.com/ems-project/elasticms/pull/1803
+* feat(web/security): SSO on-the-fly user creation via group mapping by @Davidmattei in https://github.com/ems-project/elasticms/pull/1802
+* feat(web/security): match firewall regex prevents attribute _authenticated by @Davidmattei in https://github.com/ems-project/elasticms/pull/1808
+### Bug Fixes
+* fix(admin/field): correct support date range type by @Davidmattei in https://github.com/ems-project/elasticms/pull/1846
+* fix(admin/group): role export are indexed by @Davidmattei in https://github.com/ems-project/elasticms/pull/1810
+* fix(admin/i18n): fallback to the default locale only if the locale is not specified by @theus77 in https://github.com/ems-project/elasticms/pull/1824
+* fix(admin/inline-edit): new content config option by @Davidmattei in https://github.com/ems-project/elasticms/pull/1842
+* fix(admin/media-lib): pick file from browser not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/1844
+* fix(admin/media-lib): update default template folder in name by @Davidmattei in https://github.com/ems-project/elasticms/pull/1843
+* fix(admin/revision): unlock all command all envs by @Davidmattei in https://github.com/ems-project/elasticms/pull/1845
+* fix(admin/tiptap): drag & drop svg with correct dimensions by @Davidmattei in https://github.com/ems-project/elasticms/pull/1811
+* fix(admin/tiptap): media library paths unset name & type by @Davidmattei in https://github.com/ems-project/elasticms/pull/1805
+* fix(admin/wysiwyg): profile delete set user profile null by @Davidmattei in https://github.com/ems-project/elasticms/pull/1827
+* fix(common/cache): fix invalid cache key by hashing storage toString by @theus77 in https://github.com/ems-project/elasticms/pull/1806
+* fix(common/storage): default storage asset and empty check by @Davidmattei in https://github.com/ems-project/elasticms/pull/1829
+* fix(common/storage): fix performance issues when s3 is slow by @theus77 in https://github.com/ems-project/elasticms/pull/1801
+* fix(common/storage): longer default timeouts on S3 requests by @theus77 in https://github.com/ems-project/elasticms/pull/1817
+* fix(common/storage): storage services not available should return 503 not 404 by @theus77 in https://github.com/ems-project/elasticms/pull/1826
+* fix(demo): avoid app.user and is_granted calls by @theus77 in https://github.com/ems-project/elasticms/pull/1836
+* fix(demo): target not defined by @theus77 in https://github.com/ems-project/elasticms/pull/1837
+* fix(form/file): require if constraint on multiple files by @Davidmattei in https://github.com/ems-project/elasticms/pull/1822
+* fix(user/role): add ROLE_USER to roleless users by @theus77 in https://github.com/ems-project/elasticms/pull/1800
+* fix(web/asset): remove EMSCH_ASSET_CONFIG_TYPE (not used) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1813
+* fix(web/security): authorizationChecker isGranted() start the session  by @theus77 in https://github.com/ems-project/elasticms/pull/1832
+* fix(web/ssso): keycloak oauth2 always calls decrypt by @Davidmattei in https://github.com/ems-project/elasticms/pull/1833
+### Documentation
+* docs: submission api by @theus77 in https://github.com/ems-project/elasticms/pull/1839
+### Code Refactoring
+* refactor(admin/translations): merge domains by @Davidmattei in https://github.com/ems-project/elasticms/pull/1819
+* refactor(admin/translations): new validators domain for core by @Davidmattei in https://github.com/ems-project/elasticms/pull/1818
+* refactor(admin/translations): remove admin ui domains by @Davidmattei in https://github.com/ems-project/elasticms/pull/1815
+### Chores
+* chore(admin/ck5): remove image & link modal by @Davidmattei in https://github.com/ems-project/elasticms/pull/1816
+* chore(demo): add better blocks template example by @theus77 in https://github.com/ems-project/elasticms/pull/1812
+* chore(demo): add make target 'demo-restore-configs' by @theus77 in https://github.com/ems-project/elasticms/pull/1838
+* chore(doc): add upgrade note 6.x by @Davidmattei in https://github.com/ems-project/elasticms/pull/1807
+* chore: composer update symfony v7.4.16 => v7.4.18 by @Davidmattei in https://github.com/ems-project/elasticms/pull/1830
+* chore: format docs by @theus77 in https://github.com/ems-project/elasticms/pull/1820
+* chore: rector by @theus77 in https://github.com/ems-project/elasticms/pull/1821
+* chore: update docker-logs in makeFile by @Davidmattei in https://github.com/ems-project/elasticms/pull/1828
+
 ## 7.3.5 (2026-08-18)
 ### Bug Fixes
 * fix(admin/tiptap): color auto mode inside parent element by @Davidmattei in https://github.com/ems-project/elasticms/pull/1798

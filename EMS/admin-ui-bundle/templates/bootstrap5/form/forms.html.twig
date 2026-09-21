@@ -23,9 +23,9 @@
 
 {% block emsco_form_table_column_data_value_bool %}
     {%- if attribute(line.data, column.attribute)|default(false) -%}
-        <i class="fa fa-check-square" title="{{ 'form.data.bool_table_column.true_value'|trans }}"></i> <span class="visually-hidden">{{ 'form.data.bool_table_column.true_value'|trans }}</span>
+        <i class="fa fa-check-square" title="{{ 'option.enabled'|trans({}, 'emsco-core') }}"></i> <span class="visually-hidden">{{ 'option.enabled'|trans({}, 'emsco-core') }}</span>
     {%- else -%}
-        <i class="fa-regular fa-square" title="{{ 'form.data.bool_table_column.false_value'|trans }}"></i> <span class="visually-hidden">{{ 'form.data.bool_table_column.false_value'|trans }}</span>
+        <i class="fa-regular fa-square" title="{{ 'option.disabled'|trans({}, 'emsco-core') }}"></i> <span class="visually-hidden">{{ 'option.disabled'|trans({}, 'emsco-core') }}</span>
     {%- endif -%}
 {% endblock emsco_form_table_column_data_value_bool %}
 
@@ -90,7 +90,7 @@
             {%- if not loop.first -%}
                 {%- if loop.last %} &amp; {% else %}, {% endif -%}
             {%- endif -%}
-            {{- string|replace({'ROLE_': 'ROLE.'})|lower|trans([], 'emsco-core') -}}
+            {{- (string|replace({'ROLE_': 'ROLE.'}) ~ '.label')|lower|trans([], 'emsco-core') -}}
         {%- endfor -%}
     {%- endif -%}
 {% endblock emsco_form_table_column_data_value_roles %}

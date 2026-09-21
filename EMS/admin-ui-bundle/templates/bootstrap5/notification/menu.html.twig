@@ -7,7 +7,7 @@
 {% endfor %}
 
 <li class="nav-item">
-    <a href="{{ path('notifications.inbox') }}" class="nav-link" title="{{ 'notification.menu.link_title'|trans({}, 'emsco-core') }}">
+    <a href="{{ path('notifications.inbox') }}" class="nav-link" title="{{ 'key.notifications'|trans({}, 'emsco-core') }}">
         <i class="fa fa-envelope"></i>
         {% if counter > 0 %}
             <span class="navbar-badge badge text-bg-warning">{{ counter }}</span>

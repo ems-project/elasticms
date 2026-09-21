@@ -8,6 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\ORM\NonUniqueResultException;
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\ContentType\Version\VersionFields;
@@ -27,6 +28,8 @@ use Psr\Log\NullLogger;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+use function Symfony\Component\Translation\t;
+
 class PublishService
 {
     private readonly RevisionRepository $revRepository;
@@ -41,8 +44,8 @@ class PublishService
         private readonly DataService $dataService,
         private readonly UserService $userService,
         private readonly EventDispatcherInterface $dispatcher,
-        private readonly LoggerInterface $logger,
-        private readonly LoggerInterface $auditLogger,
+        private readonly LocalizedLoggerInterface $logger,
+        private readonly LocalizedLoggerInterface $auditLogger,
         private readonly Bulker $bulker,
         private readonly EnvironmentRevisionRepository $environmentRevisionRepository,
     ) {
@@ -69,29 +72,21 @@ class PublishService
 
             $this->dataService->sign($revision, true);
             if ($this->indexService->indexRevision($revision)) {
-                $this->logger->notice('service.publish.draft_published', [
-                    EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                    EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                    EmsFields::LOG_ENVIRONMENT_FIELD => $revision->giveContentType()->giveEnvironment()->getName(),
-                    EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
-                ]);
+                $this->logger->messageNotice(t('message.revision_draft_published', [
+                    'environment' => $revision->giveContentType()->giveEnvironment()->getLabel(),
+                    'label' => $revision->getLabel(),
+                ], 'emsco-core'), LogRevisionContext::update($revision));
             } else {
-                $this->logger->warning('service.publish.draft_published_failed', [
-                    EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                    EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
-                    EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                    EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                ]);
+                $this->logger->messageWarning(t('message.revision_publish_failed', [
+                    'label' => $revision->getLabel(),
+                ], 'emsco-core'), LogRevisionContext::update($revision));
             }
         } catch (\Exception $exception) {
-            $this->logger->warning('service.publish.publish_draft_error', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                EmsFields::LOG_ENVIRONMENT_FIELD => $revision->giveContentType()->giveEnvironment()->getName(),
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $exception->getMessage(),
-                EmsFields::LOG_EXCEPTION_FIELD => $exception,
-            ]);
+            $this->logger->messageWarning(t('message.revision_draft_publish_error', [
+                'label' => $revision->getLabel(),
+                'environment' => $revision->giveContentType()->giveEnvironment()->getLabel(),
+                'error_message' => $exception->getMessage(),
+            ], 'emsco-core'), LogRevisionContext::update($revision));
         }
     }
 
@@ -123,9 +118,11 @@ class PublishService
             throw new \RuntimeException('Draft revision passed to bulk publish!');
         }
 
-        $logContext = LogRevisionContext::publish($revision, $environment);
         if ($revision->giveContentType()->giveEnvironment() === $environment && !$revision->hasEndTime()) {
-            $this->logger->warning('service.publish.not_in_default_environment', $logContext);
+            $this->logger->messageWarning(t('message.publish_not_in_default_environment', [
+                'label' => $revision->getLabel(),
+                'environment' => $revision->giveContentType()->giveEnvironment()->getLabel(),
+            ], 'emsco-core'));
 
             return 0;
         }
@@ -217,7 +214,6 @@ class PublishService
      */
     public function publish(Revision $revision, Environment $environment, ?string $commandUser = null, bool $canPublish = false): int
     {
-        $logContext = LogRevisionContext::publish($revision, $environment);
         if (null === $commandUser && !$canPublish && !$this->canPublish($revision, $environment)) {
             return 0;
         }
@@ -233,7 +229,10 @@ class PublishService
         $already = false;
         if ($item === $revision) {
             $already = true;
-            $this->logger->notice('service.publish.already_published', $logContext);
+            $this->logger->messageNotice(t('message.revision_already_published', [
+                'label' => $revision->getLabel(),
+                'environment' => $revision->giveContentType()->giveEnvironment()->getLabel(),
+            ], 'emsco-core'), LogRevisionContext::publish($revision, $environment));
         } elseif ($item) {
             $this->dataService->lockRevision(revision: $item, publishEnv: $environment, username: $commandUser);
             $item->removeEnvironment($environment, $username);
@@ -248,17 +247,21 @@ class PublishService
             $this->revRepository->save($revision);
 
             if (null === $commandUser) {
-                $this->auditLogger->notice('log.published.success', [...[
-                    EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
-                ], ...$logContext]);
+                $this->auditLogger->messageNotice(t('message.revision_published', [
+                    'label' => $revision->getLabel(),
+                    'environment' => $revision->giveContentType()->giveEnvironment()->getLabel(),
+                ], 'emsco-core'), [
+                    ...[EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE],
+                    ...LogRevisionContext::publish($revision, $environment),
+                ]);
             }
 
             $this->dispatcher->dispatch(new RevisionPublishEvent($revision, $environment));
         }
         if (!$this->indexService->indexRevision($revision, $environment)) {
-            $this->logger->warning('service.publish.publish_failed', [...[
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
-            ], ...$logContext]);
+            $this->logger->messageWarning(t('message.revision_publish_failed', [
+                'label' => $revision->getLabel(),
+            ], 'emsco-core'), LogRevisionContext::publish($revision, $environment));
         }
 
         $this->dataService->unlockRevision($revision, $commandUser);
@@ -274,22 +277,17 @@ class PublishService
         if (null === $userCommand) {
             $user = $this->userService->getCurrentUser();
             if (!empty($environment->getCircles() && !$this->authorizationChecker->isGranted('ROLE_USER_MANAGEMENT') && empty(\array_intersect($environment->getCircles(), $user->getCircles())))) {
-                $this->logger->warning('service.publish.not_in_circles', [
-                    EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                    EmsFields::LOG_OUUID_FIELD => $revision->giveOuuid(),
-                    EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
-                ]);
+                $this->logger->messageWarning(t('message.publish_not_in_circles', [
+                    'content_type' => $revision->giveContentType()->getSingularName(),
+                ], 'emsco-core'), LogRevisionContext::unpublish($revision, $environment));
 
                 return;
             }
 
             if (!$this->authorizationChecker->isGranted($revision->giveContentType()->role(ContentTypeRoles::PUBLISH))) {
-                $this->logger->warning('service.publish.not_authorized', [
-                    EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                    EmsFields::LOG_OUUID_FIELD => $revision->giveOuuid(),
-                    EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
-                    EmsFields::LOG_REVISION_ID_FIELD => $environment->getId(),
-                ]);
+                $this->logger->messageWarning(t('message.publish_not_authorized', [
+                    'content_type' => $revision->giveContentType()->getSingularName(),
+                ], 'emsco-core'), LogRevisionContext::unpublish($revision, $environment));
 
                 return;
             }
@@ -299,12 +297,10 @@ class PublishService
         }
 
         if ($revision->giveContentType()->giveEnvironment() === $environment) {
-            $this->logger->warning('service.publish.not_in_default_environment', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
-                EmsFields::LOG_REVISION_ID_FIELD => $environment->getId(),
-            ]);
+            $this->logger->messageWarning(t('message.publish_not_in_default_environment', [
+                'label' => $revision->getLabel(),
+                'environment' => $environment->getLabel(),
+            ], 'emsco-core'), LogRevisionContext::unpublish($revision, $environment));
 
             return;
         }
@@ -320,20 +316,24 @@ class PublishService
 
         try {
             $this->indexService->delete($revision, $environment);
-            $this->auditLogger->notice('log.unpublished.success', LogRevisionContext::unpublish($revision, $environment));
+            $this->auditLogger->messageNotice(t('message.revision_unpublished', [
+                'label' => $revision->getLabel(),
+                'environment' => $revision->giveContentType()->giveEnvironment()->getLabel(),
+            ], 'emsco-core'), LogRevisionContext::unpublish($revision, $environment));
 
             $this->dispatcher->dispatch(new RevisionUnpublishEvent($revision, $environment));
         } catch (\Throwable) {
             if (!$revision->getDeleted()) {
-                $this->logger->warning('service.publish.already_unpublished', LogRevisionContext::publish($revision, $environment));
+                $this->logger->messageWarning(t('message.data_already_unpublished', [
+                    'environment' => $environment->getLabel(),
+                    'label' => $revision->getLabel(),
+                ], 'emsco-core'), LogRevisionContext::unpublish($revision, $environment));
             }
         }
     }
 
     private function canPublish(Revision $revision, Environment $environment): bool
     {
-        $logContext = LogRevisionContext::publish($revision, $environment);
-
         $publisher = $this->environmentPublisherFactory->create($environment, $revision);
         foreach ($publisher->getRevisionMessages() as $message) {
             $this->logger->log($message['level'], $message['message']);
@@ -345,19 +345,26 @@ class PublishService
 
         $user = $this->userService->getCurrentUser();
         if (!empty($environment->getCircles()) && !$this->authorizationChecker->isGranted('ROLE_USER_MANAGEMENT') && empty(\array_intersect($environment->getCircles(), $user->getCircles()))) {
-            $this->logger->warning('service.publish.not_in_circles', $logContext);
+            $this->logger->messageWarning(t('message.publish_not_in_circles', [
+                'content_type' => $revision->giveContentType()->getSingularName(),
+            ], 'emsco-core'), LogRevisionContext::publish($revision, $environment));
 
             return false;
         }
 
         if (!$this->authorizationChecker->isGranted($revision->giveContentType()->role(ContentTypeRoles::PUBLISH))) {
-            $this->logger->warning('service.publish.not_authorized', $logContext);
+            $this->logger->messageWarning(t('message.publish_not_authorized', [
+                'content_type' => $revision->giveContentType()->getSingularName(),
+            ], 'emsco-core'), LogRevisionContext::publish($revision, $environment));
 
             return false;
         }
 
         if ($revision->giveContentType()->giveEnvironment() === $environment && !empty($revision->getEndTime())) {
-            $this->logger->warning('service.publish.not_in_default_environment', $logContext);
+            $this->logger->messageWarning(t('message.publish_not_in_default_environment', [
+                'label' => $revision->getLabel(),
+                'environment' => $environment->getLabel(),
+            ], 'emsco-core'), LogRevisionContext::publish($revision, $environment));
 
             return false;
         }
@@ -374,11 +381,10 @@ class PublishService
         );
 
         if (!$revision) {
-            $this->logger->warning('service.publish.revision_not_found_in_source', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-                EmsFields::LOG_OUUID_FIELD => $ouuid,
-                EmsFields::LOG_ENVIRONMENT_FIELD => $environmentTarget->getName(),
-            ]);
+            $this->logger->messageWarning(t('message.revision_not_found_in_source', [
+                'environment' => $environmentTarget->getLabel(),
+                'label' => $ouuid,
+            ], 'emsco-core'), []);
         } else {
             $this->publish($revision, $environmentTarget);
         }

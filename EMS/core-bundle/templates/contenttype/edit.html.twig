@@ -1,4 +1,4 @@
-{% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
+{% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'emsco-core' %}
 
 {% block title %}Edit "{{ contentType.singularName }}"  content type{% endblock %}
 {% block pagetitle %}Edit "{{ contentType.singularName }}" content type{% endblock %}
@@ -154,7 +154,7 @@
                         {% endif %}
                         <a href="{{ path('emsco_admin_content_type_update_from_json', {contentType: contentType.id}) }}" class="btn btn-sm btn-primary">
                             <i class="fa fa-refresh"></i>
-                            {{ 'contenttype.action.update_from_json'|trans }}
+                            {{ 'action.update_from_json'|trans({}, 'emsco-core') }}
                         </a>
                     </div>
                 </div>

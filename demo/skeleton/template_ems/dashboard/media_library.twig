@@ -63,7 +63,7 @@
 {%- block media_lib_file -%}
     <div style="flex: 4">
         <a class="btn-file-view" href="{{- mediaFile.urlView -}}" data-id="{{- mediaFile.id -}}">
-            {{ mediaFile.folder[folder.path|default('')|length + 1:] }}{{- mediaFile.name -}}
+            {{- mediaFile.name -}}
         </a>
     </div>
     <div style="flex: 4">{{- mediaFile.file.mimetype|trans({}, 'ems-mimetypes') -}}</div>

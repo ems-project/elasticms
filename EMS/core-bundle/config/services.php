@@ -137,6 +137,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 return static function (ContainerConfigurator $container) {
     $services = $container->services();
@@ -188,7 +189,7 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.channel.register'),
             service('twig'),
             service('doctrine'),
-            service('logger'),
+            service('emsco.logger'),
             service('router'),
         ])
         ->tag('kernel.event_listener', ['event' => 'kernel.exception', 'method' => 'onKernelException'])
@@ -216,21 +217,21 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems.dashboard.manager', DashboardManager::class)
         ->args([
             service('ems.repository.dashboard'),
-            service('logger'),
+            service('emsco.logger'),
             service('security.authorization_checker'),
         ])
         ->tag('emsco.entity.service', ['priority' => 50]);
 
     $services->set('ems.form.field-type.manager', FieldTypeManager::class)
         ->args([
-            service('logger'),
+            service('emsco.logger'),
             service('form.registry'),
         ]);
 
     $services->set('ems.form.manager', FormManager::class)
         ->args([
             service('ems.repository.form'),
-            service('logger'),
+            service('emsco.logger'),
         ])
         ->tag('emsco.entity.service', ['priority' => 70]);
 
@@ -244,7 +245,7 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems.service.channel', ChannelService::class)
         ->args([
             service('ems.repository.channel'),
-            service('logger'),
+            service('emsco.logger'),
         ])
         ->tag('emsco.entity.service', ['priority' => 40]);
 
@@ -252,7 +253,7 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('ems.repository.channel'),
             service(EnvironmentHelperInterface::class),
-            service('logger'),
+            service('emsco.logger'),
             service('ems.service.index'),
             '%ems_core.security.firewall.core%',
             '%ems_core.instance_id%',
@@ -356,7 +357,7 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.revision'),
             service('ems_common.service.elastica'),
             service('ems.repository.query_search'),
-            service('logger'),
+            service('emsco.logger'),
             service('ems.service.environment'),
         ])
         ->tag('emsco.entity.service', ['priority' => 30]);
@@ -365,7 +366,7 @@ return static function (ContainerConfigurator $container) {
 
     $services->set(XliffService::class)
         ->args([
-            service('logger'),
+            service('emsco.logger'),
             service('ems.service.revision'),
             service('ems_common.service.elastica'),
         ]);
@@ -415,6 +416,7 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service(ContentTypeService::class),
             service(AuthorizationCheckerInterface::class),
+            service(TranslatorInterface::class),
         ])
         ->tag('form.type');
 
@@ -456,7 +458,6 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems_core.core_ui.flash_message_logger', FlashMessageLogger::class)
         ->args([
             service('request_stack'),
-            service('translator'),
         ]);
 
     $services->set('ems.view.manager', ViewManager::class)
@@ -468,7 +469,7 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems.schedule.manager', ScheduleManager::class)
         ->args([
             service('ems.repository.schedule'),
-            service('logger'),
+            service('emsco.logger'),
         ])
         ->tag('emsco.entity.service', ['priority' => 20]);
 
@@ -561,7 +562,7 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('ems.service.data'),
             service('form.factory'),
-            service('logger'),
+            service('emsco.logger'),
             service('emsco.logger.audit'),
             service(RevisionRepository::class),
             service('ems.service.publish'),
@@ -585,7 +586,7 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems.service.alias', AliasService::class)
         ->args([
-            service('logger'),
+            service('emsco.logger'),
             service(Client::class),
             service(EnvironmentRepository::class),
             service(ManagedAliasRepository::class),
@@ -626,7 +627,7 @@ return static function (ContainerConfigurator $container) {
             service('doctrine'),
             service('ems.service.user'),
             service('security.authorization_checker'),
-            service('logger'),
+            service('emsco.logger'),
             service('ems_common.service.elastica'),
             service('ems.service.alias'),
             service('ems.repository.environment_revision'),
@@ -664,41 +665,41 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems.service.wysiwyg_profile', WysiwygProfileService::class)
         ->args([
             service('ems.repository.wysiwyg_profile'),
-            service('logger'),
+            service('emsco.logger'),
         ])
         ->tag('emsco.entity.service', ['priority' => 110]);
 
     $services->set('ems.service.aggregate_option', AggregateOptionService::class)
         ->args([
             service('doctrine'),
-            service('logger'),
+            service('emsco.logger'),
             service('translator'),
         ]);
 
     $services->set('ems.service.sort_option', SortOptionService::class)
         ->args([
             service('doctrine'),
-            service('logger'),
+            service('emsco.logger'),
             service('translator'),
         ]);
 
     $services->set('ems.service.search_field_option', SearchFieldOptionService::class)
         ->args([
             service('doctrine'),
-            service('logger'),
+            service('emsco.logger'),
             service('translator'),
         ]);
 
     $services->set('ems.service.wysiwyg_styles_set', WysiwygStylesSetService::class)
         ->args([
             service('ems.repository.wysiwyg_style_set'),
-            service('logger'),
+            service('emsco.logger'),
         ])
         ->tag('emsco.entity.service', ['priority' => 100]);
 
     $services->set('ems.service.objectchoicecache', ObjectChoiceCacheService::class)
         ->args([
-            service('logger'),
+            service('emsco.logger'),
             service('ems.service.contenttype'),
             service('ems.service.revision'),
             service('security.authorization_checker'),
@@ -728,7 +729,7 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('doctrine'),
             service('ems.service.user'),
-            service('logger'),
+            service('emsco.logger'),
             service('ems.service.data'),
             service('ems_core.core_mail.mailer_service'),
             service('twig'),
@@ -839,7 +840,7 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems.service.asset_extractor', AssetExtractorService::class)
         ->args([
             service('ems.service.rest_client'),
-            service('logger'),
+            service('emsco.logger'),
             service('doctrine'),
             service('ems.service.file'),
             '%ems_core.tika_server%',
@@ -901,7 +902,7 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems.service.action', ActionService::class)
         ->args([
             service('ems.repository.template'),
-            service('logger'),
+            service('emsco.logger'),
             service('ems.service.search'),
             service('twig'),
             service(JobService::class),
@@ -914,14 +915,14 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.data'),
             service('ems.service.release_revision'),
             service('ems.service.publish'),
-            service('logger'),
+            service('emsco.logger'),
         ]);
 
     $services->set('ems.service.release_revision', ReleaseRevisionService::class)
         ->args([
             service('ems.repository.release_revision'),
             service(RevisionRepository::class),
-            service('logger'),
+            service('emsco.logger'),
             service('ems.service.contenttype'),
         ])
         ->tag('kernel.event_listener', ['event' => RevisionFinalizeDraftEvent::class, 'method' => 'finalizeDraftEvent', 'priority' => 0]);
@@ -934,8 +935,7 @@ return static function (ContainerConfigurator $container) {
             service('ems.repository.form_submission'),
             service('ems.repository.form_submission_file'),
             service('twig'),
-            service('request_stack'),
-            service('translator'),
+            service('emsco.logger'),
             '%ems_core.template_namespace%',
         ]);
 

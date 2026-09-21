@@ -13,6 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *     document: DocumentInterface,
  *     path: string,
  *     element: string,
+ *     content: ?string,
  *     attributes: array<string, scalar|null>
  * }
  */
@@ -30,6 +31,7 @@ class InlineEditConfigFactory
             path: $options['path'],
             element: $options['element'],
             attributes: $options['attributes'],
+            content: $options['content']
         );
     }
 
@@ -45,11 +47,13 @@ class InlineEditConfigFactory
             ->setDefaults([
                 'element' => 'div',
                 'attributes' => [],
+                'content' => null,
             ])
             ->setRequired(['document', 'path'])
             ->setAllowedTypes('element', 'string')
             ->setAllowedTypes('document', DocumentInterface::class)
             ->setAllowedTypes('path', 'string')
+            ->setAllowedTypes('content', ['null', 'string'])
             ->setAllowedTypes('attributes', 'array')
             ->setNormalizer('attributes', static function (Options $options, array $value): array {
                 foreach ($value as $key => $val) {
@@ -59,6 +63,9 @@ class InlineEditConfigFactory
                 }
 
                 return $value;
+            })
+            ->setNormalizer('content', static function (Options $options, ?string $value): ?string {
+                return '' === $value ? null : $value;
             });
 
         /** @var InlineEditOptions $config */

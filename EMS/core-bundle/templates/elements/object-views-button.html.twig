@@ -1,4 +1,4 @@
-{% trans_default_domain 'EMSCoreBundle' %}
+{% trans_default_domain 'emsco-core' %}
 {%- set ouuid = object.ouuid|default(object._id is defined ? object._id : '') -%}
 {%- set source = object.source|default(object._source is defined ? object._source : []) -%}
 {%- if contentType -%}
@@ -98,8 +98,8 @@
     {% if is_granted('ROLE_COPY_PASTE') %}
         {% set contentTypeActions = contentTypeActions|merge([{
             link: path('emsco_data_copy', {'environment': environment.name, 'type': contentType.name, 'ouuid': ouuid} ),
-            icon: 'views.elements.object-views-button.copy-data-icon-class'|trans,
-            label: 'views.elements.object-views-button.copy-data'|trans
+            icon: 'fa fa-copy',
+            label: 'action.copy_data'|trans
         }]) %}
         {% if not contentType.askForOuuid  %}
             {% set contentTypeActions = contentTypeActions|merge([{
@@ -111,18 +111,18 @@
         {% endif %}
         {% set contentTypeActions = contentTypeActions|merge([{
             link: path('emsco_data_view', {'environmentName': environment.name, 'type': contentType.name, 'ouuid': ouuid} ),
-            icon: 'views.elements.object-views-button.raw-view-icon-class'|trans,
-            label: 'views.elements.object-views-button.raw-view'|trans
+            icon: 'fa fa-th',
+            label: 'key.raw_view'|trans
         }]) %}
     {% endif %}
 
     <div class="btn-group">
         {% if contentTypeActions|default([])|length > 0 %}
             <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-testid="revision-actions-in-{{ environment.label|lower }}">
-                <i class="{{ 'views.elements.object-views-button.action-dropdown-icon-class'|trans }}"></i>
-                {{ 'views.elements.object-views-button.action-dropdown-label'|trans({'%environment%': environment.label}) }}
+                <i class="fa fa-eye"></i>
+                {{ 'field.action_dropdown_label'|trans({'environment': environment.label}) }}
                 <span class="caret"></span>
-                <span class="sr-only">{{ 'views.elements.object-views-button.action-dropdown-sr-only'|trans({'%environment%': environment.label}) }}</span>
+                <span class="sr-only">{{ 'field.action_dropdown_sr_only'|trans({'environment': environment.label}) }}</span>
             </button>
             <ul class="dropdown-menu" role="menu">
                 {% for a in contentTypeActions %}
@@ -149,14 +149,14 @@
             </ul>
         {% else %}
             <button type="button" class="btn btn-default btn-sm" style="cursor: default">
-                <i class="{{ 'views.elements.object-views-button.action-dropdown-icon-class'|trans }}"></i>
-                {{ 'views.elements.object-views-button.published-label'|trans({'%environment%': environment.label}) }}
+                <i class="fa fa-eye"></i>
+                {{ 'field.published_label'|trans({'environment': environment.label}) }}
             </button>
         {% endif %}
     </div>
 {% else %}
     <a class="btn btn-sm btn-default " href="{{ path('emsco_data_view', {'environmentName': environment.name, 'type': contentType.name, 'ouuid': object.ouuid} ) }}" data-testid="revision-actions-view-current">
-        <i class="{{ 'views.elements.object-views-button.raw-view-icon-class'|trans }}"></i>
-        {{ 'views.elements.object-views-button.raw-view'|trans }}
+        <i class="fa fa-th"></i>
+        {{ 'key.raw_view'|trans }}
     </a>
 {% endif %}

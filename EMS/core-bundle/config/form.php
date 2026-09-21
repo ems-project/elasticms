@@ -80,7 +80,6 @@ use EMS\CoreBundle\Form\Form\UserOptionsType;
 use EMS\CoreBundle\Form\Form\UserType;
 use EMS\CoreBundle\Form\Form\ViewType;
 use EMS\CoreBundle\Form\Nature\ReorganizeType;
-use EMS\CoreBundle\Form\Revision\Task\RevisionTaskFiltersType;
 use EMS\CoreBundle\Form\Revision\Task\RevisionTaskType;
 use EMS\CoreBundle\Form\Submission\ProcessType;
 use EMS\CoreBundle\Form\View\Criteria\CriteriaFilterType;
@@ -120,7 +119,7 @@ return static function (ContainerConfigurator $container) {
             service('form.registry'),
             service('ems.service.elasticsearch'),
             service('ems.service.data'),
-            service('logger'),
+            service('emsco.logger'),
         ])
         ->tag('ems.form.datafieldtype', ['alias' => 'collection'])
         ->tag('form.type');
@@ -584,7 +583,10 @@ return static function (ContainerConfigurator $container) {
         ->tag('form.type');
 
     $services->set('ems.form.field.analyzeroptionstype', AnalyzerOptionsType::class)
-        ->args([service('doctrine')])
+        ->args([
+            service('doctrine'),
+            service('translator'),
+        ])
         ->tag('form.type');
 
     $services->set('ems.form.field.analyzerpickertype', AnalyzerPickerType::class)
@@ -607,9 +609,6 @@ return static function (ContainerConfigurator $container) {
         ->args([service('ems.service.user')])
         ->tag('form.type');
 
-    $services->set('emsco.form.revision.task.filters', RevisionTaskFiltersType::class)
-        ->tag('form.type');
-
     $services->set('emsco.form.revision.task', RevisionTaskType::class)
         ->args(['%ems_core.datepicker_format%'])
         ->tag('form.type');
@@ -619,7 +618,7 @@ return static function (ContainerConfigurator $container) {
             service('ems.form.manager'),
             service('form.registry'),
             service('ems.service.data'),
-            service('logger'),
+            service('emsco.logger'),
             '%ems_core.custom_user_options_form%',
         ])
         ->tag('form.type');

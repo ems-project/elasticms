@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Core\Revision\Release\ReleaseRevisionType;
+use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -59,6 +60,18 @@ class Release implements EntityInterface
         $this->status = $status;
 
         return $this;
+    }
+
+    public function getStatusLabel(): TranslatableMessage
+    {
+        return match ($this->status) {
+            self::WIP_STATUS => t('key.draft', [], 'emsco-core'),
+            self::READY_STATUS => t('key.ready', [], 'emsco-core'),
+            self::APPLIED_STATUS => t('key.applied', [], 'emsco-core'),
+            self::CANCELED_STATUS => t('key.canceled', [], 'emsco-core'),
+            self::SCHEDULED_STATUS => t('key.scheduled', [], 'emsco-core'),
+            default => t('key.unknown', [], 'emsco-core')
+        };
     }
 
     public function getExecutionDate(): ?\DateTime

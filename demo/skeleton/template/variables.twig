@@ -7,7 +7,7 @@
 } -%}
 {%- do emsch_assets_version(include('@EMSCH/template/asset_hash.twig')|trim) -%}
 {%- set baseUrl = '/' -%}
-{%- if app.user -%}
+{%- if '/channel/' in path('robots.txt') -%}
     {%- set baseUrl = "/channel/#{trans_default_domain}" -%}
 {%- endif -%}
 

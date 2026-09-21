@@ -1,8 +1,8 @@
-{% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
+{% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'emsco-core' %}
 
 {% set label = object|emsco_display %}
 
-{% block title %}{{ 'data.custom-view.pagetitle'|trans({ '%name%':template.label, '%contentType%': contentType.singularName, '%label%': label, '%environment%': environment.label  }) }}{% endblock %}
+{% block title %}{{ 'title.view_custom'|trans({ 'name':template.label, 'contentType': contentType.singularName, 'label': label, 'environment': environment.label }, 'emsco-core') }}{% endblock %}
 {% block pagetitle %}
 	<i class="{% if contentType.icon %}{{ contentType.icon }} {% else %} fa fa-question {% endif %} "></i>
 	{{ block('title') }}

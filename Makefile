@@ -250,6 +250,10 @@ demo-backup-configs: ## backup demo configs
 	@$(RUN_WEB) c:c
 	@$(RUN_WEB) ems:admin:login --username=demo --password=demo
 	@$(RUN_WEB) ems:admin:backup --configs-folder=./demo/configs/admin --configs --export
+demo-restore-configs: ## restore demo configs
+	@$(RUN_WEB) c:c
+	@$(RUN_WEB) ems:admin:login --username=demo --password=demo
+	@$(RUN_WEB) ems:admin:restore --configs-folder=./demo/configs/admin --configs --force
 demo-backup-documents: ## backup demo documents
 	@$(RUN_ADMIN) ems:admin:backup --documents-folder=./demo/configs/document --documents --export
 demo-npm/%: ## demo npm

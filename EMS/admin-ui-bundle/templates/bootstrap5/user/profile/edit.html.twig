@@ -1,7 +1,7 @@
 {% extends '@EMSAdminUI/bootstrap5/user/profile/show.html.twig' %}
 {%- trans_default_domain 'emsco-core' -%}
 
-{% block title %}{{ 'user.profile.edit.title'|trans }}{% endblock title %}
+{% block title %}{{ 'title.edit_your_profile'|trans }}{% endblock title %}
 
 {% block body %}
     {{ form_start(form, {action: path(routes.USER_PROFILE_EDIT)}) }}
@@ -31,8 +31,8 @@
                 </div>
                 <div class="card-footer">
                     {{ form_row(form._token) }}
-                    <input type="submit" value="{{ 'user.profile.edit.submit'|trans }}" class="btn btn-primary"/>
-                    <a href="{{ path(routes.USER_PROFILE) }}" class="btn float-end btn-light">{{ 'user.profile.show.action.cancel'|trans }}</a>
+                    <input type="submit" value="{{ 'action.update'|trans }}" class="btn btn-primary"/>
+                    <a href="{{ path(routes.USER_PROFILE) }}" class="btn float-end btn-light">{{ 'action.cancel'|trans }}</a>
                 </div>
             </div>
         </div>

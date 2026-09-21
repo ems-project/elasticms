@@ -24,10 +24,10 @@ return function (RoutingConfigurator $routes): void {
 
     // Elasticsearch search routes
     $routes->add('ems_search', '/search')
-        ->controller([ElasticsearchController::class, 'search'])
+        ->controller([ElasticsearchController::class, 'quickSearch'])
         ->methods(['GET', 'POST']);
 
     $routes->add('elasticsearch.search', '/search')
-        ->controller([ElasticsearchController::class, 'search'])
+        ->controller([ElasticsearchController::class, 'quickSearch'])
         ->methods(['GET', 'POST']);
 };

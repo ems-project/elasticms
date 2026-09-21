@@ -90,7 +90,6 @@ use EMS\CoreBundle\Repository\JobRepository;
 use EMS\CoreBundle\Repository\ManagedAliasRepository;
 use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Service\ActionService;
-use EMS\CoreBundle\Service\AggregateOptionService;
 use EMS\CoreBundle\Service\AliasService;
 use EMS\CoreBundle\Service\AssetExtractorService;
 use EMS\CoreBundle\Service\Channel\ChannelRegistrar;
@@ -667,13 +666,6 @@ return static function (ContainerConfigurator $container) {
         ])
         ->tag('emsco.entity.service', ['priority' => 110]);
 
-    $services->set('ems.service.aggregate_option', AggregateOptionService::class)
-        ->args([
-            service('doctrine'),
-            service('emsco.logger'),
-            service('translator'),
-        ]);
-
     $services->set('ems.service.wysiwyg_styles_set', WysiwygStylesSetService::class)
         ->args([
             service('ems.repository.wysiwyg_style_set'),
@@ -1007,8 +999,6 @@ return static function (ContainerConfigurator $container) {
     $services->alias(SearchService::class, 'ems.service.search');
 
     $services->alias(PublishService::class, 'ems.service.publish');
-
-    $services->alias(AggregateOptionService::class, 'ems.service.aggregate_option');
 
     $services->alias(Mapping::class, 'ems.service.mapping');
 

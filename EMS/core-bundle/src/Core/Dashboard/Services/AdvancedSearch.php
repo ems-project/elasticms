@@ -22,7 +22,6 @@ use EMS\CoreBundle\Form\Form\SearchFormType;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Routes;
-use EMS\CoreBundle\Service\AggregateOptionService;
 use EMS\CoreBundle\Service\SearchService;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
@@ -39,6 +38,9 @@ use function Symfony\Component\Translation\t;
 
 class AdvancedSearch implements DashboardInterface
 {
+    final public const string CONTENT_TYPES_AGGREGATION = 'types';
+    final public const string INDEXES_AGGREGATION = 'indexes';
+
     public function __construct(
         private readonly LocalizedLoggerInterface $logger,
         private readonly Environment $twig,
@@ -178,8 +180,8 @@ class AdvancedSearch implements DashboardInterface
         $esSearch = $this->searchService->generateSearch($search);
         $esSearch->setFrom(($page - 1) * $this->pagingSize);
         $esSearch->setSize(Type::integer($this->pagingSize));
-        $esSearch->addTermsAggregation(AggregateOptionService::CONTENT_TYPES_AGGREGATION, EMSSource::FIELD_CONTENT_TYPE, 15);
-        $esSearch->addTermsAggregation(AggregateOptionService::INDEXES_AGGREGATION, '_index', 15);
+        $esSearch->addTermsAggregation(self::CONTENT_TYPES_AGGREGATION, EMSSource::FIELD_CONTENT_TYPE, 15);
+        $esSearch->addTermsAggregation(self::INDEXES_AGGREGATION, '_index', 15);
 
         return $esSearch;
     }
@@ -190,7 +192,7 @@ class AdvancedSearch implements DashboardInterface
      */
     private function getMapIndexes(CommonResponse $response, array $environments): array
     {
-        $indexes = $response->getAggregation(AggregateOptionService::INDEXES_AGGREGATION);
+        $indexes = $response->getAggregation(self::INDEXES_AGGREGATION);
         if (null === $indexes) {
             return [];
         }
@@ -351,7 +353,7 @@ class AdvancedSearch implements DashboardInterface
         $types = $this->contentTypeRepository->findAllAsAssociativeArray();
 
         $exportForms = [];
-        $contentTypes = $response->getAggregation(AggregateOptionService::CONTENT_TYPES_AGGREGATION)?->getBuckets() ?? [];
+        $contentTypes = $response->getAggregation(self::CONTENT_TYPES_AGGREGATION)?->getBuckets() ?? [];
         foreach ($contentTypes as $bucket) {
             if (null === $name = $bucket->getKey()) {
                 continue;

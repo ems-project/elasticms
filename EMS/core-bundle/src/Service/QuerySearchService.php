@@ -11,6 +11,7 @@ use EMS\CommonBundle\Elasticsearch\Response\Response as CommonResponse;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\Core\Dashboard\Services\AdvancedSearch;
 use EMS\CoreBundle\Core\Document\DataLinks;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
@@ -274,7 +275,7 @@ final readonly class QuerySearchService implements EntityServiceInterface
         $aliases = $this->getAliasesFromEnvironments($querySearch->getEnvironments());
         $query = Json::decode($query);
         $search = $this->elasticaService->convertElasticsearchBody($aliases, [], $query);
-        $search->addTermsAggregation(AggregateOptionService::CONTENT_TYPES_AGGREGATION, EMSSource::FIELD_CONTENT_TYPE, 30);
+        $search->addTermsAggregation(AdvancedSearch::CONTENT_TYPES_AGGREGATION, EMSSource::FIELD_CONTENT_TYPE, 30);
 
         return $search;
     }

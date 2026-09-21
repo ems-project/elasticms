@@ -66,7 +66,7 @@ class UserDataTableType extends AbstractEntityTableType
 
             $table->addDynamicItemGetAction(Routes::USER_EDIT, 'user.action.edit', 'pencil', ['user' => 'id'], ['data-testid' => 'user-action-edit']);
             if ($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
-                $table->addDynamicItemGetAction('homepage', 'user.action.switch', 'user-secret', ['_switch_user' => 'username'], ['data-testid' => 'user-action-switch-user']);   
+                $table->addDynamicItemGetAction('homepage', 'user.action.switch', 'user-secret', ['_switch_user' => 'username'], ['data-testid' => 'user-action-switch-user']);
             }
             $table->addDynamicItemPostAction(Routes::USER_ENABLING, 'user.action.disable', 'user-times', 'user.action.disable_confirm', ['user' => 'id'], ['data-testid' => 'user-action-disabled']);
             $table->addDynamicItemPostAction(Routes::USER_API_KEY, 'user.action.generate_api', 'key', 'user.action.generate_api_confirm', ['username' => 'username'], ['data-testid' => 'user-action-generate-api'])->addCondition(new Terms('roles', [Roles::ROLE_API]));

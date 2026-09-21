@@ -9,10 +9,38 @@ outline: [2, 2]
 
 ## 7.4
 
-The legacy search (`/search`) has been removed. As well as the entities `SortOption`,  `SearchFieldOption` and `AggregateOption`
+The legacy search (`/search`) has been removed. As well as the entities `SortOption`,
+`SearchFieldOption` and `AggregateOption`.
 
-User's searches have been removed. If you want to add a shortcut, for a specific content type's manu, 
-you can add a Redirection view with the following template:
+If needed, for Postgres database, a doctrine migration script creates an `advanced_search` dashboard
+with the existing `SortOption`, `SearchFieldOption` and `AggregateOption` entities. But the
+migration script is not able to migrate the template of the `AggregateOption` options. You have to
+review those templates. Here is an example of template for a user aggregation facet:
+
+```twig
+{% set fieldName = '_finalized_by' %}
+
+{% if aggregation.buckets|length == 1 and search.filters|filter(p => p.operator == 'term' and p.booleanClause == 'must' and p.field == fieldName)|length == 1 %}
+    {% for key, filter in search.filters|filter(p => p.operator == 'term' and p.booleanClause == 'must' and p.field == fieldName) %}
+  <a href="{{ path(paginationPath, currentFilters|merge({ removeFilter: key })) }}" class="btn btn-block btn-social btn-default">
+   <i class="fa fa-remove"></i>
+   Remove facet "{{ aggregation.buckets[0].key|emsco_display_name }}"
+  </a>
+    {% endfor %}
+{% else %}
+ {% for index in aggregation.buckets %}
+  <a href="{{ path(paginationPath, currentFilters|merge({ operator: 'term', clause: 'must', field: fieldName, pattern: index.key, boost: 0.5 })) }}" class="btn btn-block btn-social btn-default">
+   <i class="fa fa-user"></i>
+   {{ index.key|emsco_display_name }}
+   <span class=" badge pull-right">{{ index.doc_count }}</span>
+  </a>
+ {% endfor %}
+{% endif %}
+```
+
+Search entities have been removed. Per search entities defined as default search for a content type,
+for Postgres database, a redirection view (to the `advanced_search`) as been added the to content
+type. you can add a redirection view to the `advanced_search` with the following template:
 
 ```twig
 {%- set data = {contentTypes:[view.contentType.name],environments:[view.contentType.environment.name],filters:[{booleanClause:"must",field:"",operator:"query_and",pattern:""}],minimumShouldMatch:"1",sortBy:"_finalization_datetime",sortOrder:"asc"} -%}
@@ -21,8 +49,14 @@ you can add a Redirection view with the following template:
 {{- path('emsco_dashboard', {uid:uid, name:'advanced_search'}) -}}
 ```
 
-Even if the `AggregateOption` are migrated into a default 
+For each search entity, for Postgres database, a query search has been created in order to replace
+it. But :
 
+- The migration script doesn't support filter with a nested field. You have to review the query
+  search by yourself.
+- The migration script doesn't update the 'DataLinkFieldType' entities. You have to review content
+  types with data links where the option `displayOptions.type` or `displayOptions.searchId` are
+  defined.
 
 ## 7.3
 

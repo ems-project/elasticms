@@ -17,7 +17,6 @@ export default defineConfig({
         cssMinify: 'esbuild',
         rolldownOptions: {
             input: {
-                theme: 'theme/app.ts',
                 app: 'src/app.js',
                 swaggerui: 'src/swagger-ui.js',
                 calendar: 'src/calendar.js',

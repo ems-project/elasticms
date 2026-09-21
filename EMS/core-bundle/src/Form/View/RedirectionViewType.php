@@ -37,7 +37,6 @@ class RedirectionViewType extends ViewType
         $builder->add('template', CodeEditorType::class, [
             'label' => 'Template',
             'attr' => [],
-            'slug' => 'redirection_template',
         ]);
     }
 

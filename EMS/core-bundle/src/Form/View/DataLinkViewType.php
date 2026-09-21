@@ -36,7 +36,6 @@ class DataLinkViewType extends ViewType
         $builder->add('template', CodeEditorType::class, [
             'label' => 'Template',
             'attr' => [],
-            'slug' => 'data_link_template',
         ]);
     }
 

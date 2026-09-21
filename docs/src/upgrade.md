@@ -9,13 +9,13 @@ outline: [2, 2]
 
 ## 7.4
 
-The legacy search (`/search`) has been removed. As well as the entities `SortOption`,
-`SearchFieldOption` and `AggregateOption`.
+The legacy search (`/search`) has been removed, along with the `SortOption`, `SearchFieldOption`,
+and `AggregateOption` entities.
 
-If needed, for Postgres database, a doctrine migration script creates an `advanced_search` dashboard
-with the existing `SortOption`, `SearchFieldOption` and `AggregateOption` entities. But the
-migration script is not able to migrate the template of the `AggregateOption` options. You have to
-review those templates. Here is an example of template for a user aggregation facet:
+If needed, for PostgreSQL databases, a Doctrine migration script creates an `advanced_search`
+dashboard based on the existing `SortOption`, `SearchFieldOption`, and `AggregateOption` entities.
+However, the migration script cannot migrate the templates of the `AggregateOption` entities. You
+must review these templates. Here is an example of a template for a user aggregation facet:
 
 ```twig
 {% set fieldName = '_finalized_by' %}
@@ -38,9 +38,10 @@ review those templates. Here is an example of template for a user aggregation fa
 {% endif %}
 ```
 
-Search entities have been removed. Per search entities defined as default search for a content type,
-for Postgres database, a redirection view (to the `advanced_search`) as been added the to content
-type. you can add a redirection view to the `advanced_search` with the following template:
+Search entities have been removed. For each search entity defined as the default search for a
+content type, the PostgreSQL migration adds a redirect view to the `advanced_search` dashboard to
+the content type. You can add a redirect view to the `advanced_search` dashboard using the following
+template:
 
 ```twig
 {%- set data = {contentTypes:[view.contentType.name],environments:[view.contentType.environment.name],filters:[{booleanClause:"must",field:"",operator:"query_and",pattern:""}],minimumShouldMatch:"1",sortBy:"_finalization_datetime",sortOrder:"asc"} -%}
@@ -49,13 +50,13 @@ type. you can add a redirection view to the `advanced_search` with the following
 {{- path('emsco_dashboard', {uid:uid, name:'advanced_search'}) -}}
 ```
 
-For each search entity, for Postgres database, a query search has been created in order to replace
-it. But :
+For PostgreSQL databases, a query search has been created for each search entity to replace it.
+However:
 
-- The migration script doesn't support filter with a nested field. You have to review the query
-  search by yourself.
-- The migration script doesn't update the 'DataLinkFieldType' entities. You have to review content
-  types with data links where the option `displayOptions.type` or `displayOptions.searchId` are
+- The migration script does not support filters on nested fields. You must review the query search
+  manually.
+- The migration script does not update `DataLinkFieldType` entities. You must review content types
+  containing data links for which the `displayOptions.type` or `displayOptions.searchId` option is
   defined.
 
 ## 7.3

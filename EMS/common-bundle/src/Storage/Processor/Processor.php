@@ -240,7 +240,8 @@ class Processor
         if (null === $fileSize = $stream->getSize()) {
             return $response;
         }
-        $response->headers->set('Content-Length', (string) $fileSize);
+        $response->headers->set(Headers::CONTENT_LENGTH, (string) $fileSize);
+        $response->headers->set(Headers::X_FILE_SIZE, (string) $fileSize);
 
         if ($stream->isSeekable()) {
             $response->headers->set('Accept-Ranges', $request->isMethodSafe() ? 'bytes' : 'none');
@@ -364,6 +365,8 @@ class Processor
             Headers::CONTENT_DISPOSITION => HeaderUtils::DISPOSITION_INLINE.'; '.HeaderUtils::toString(['filename' => \basename($path)], ';'),
             Headers::CONTENT_TYPE => $streamWrapper->getMimetype(),
         ]));
+        $response->headers->set(Headers::CONTENT_LENGTH, (string) $streamWrapper->getSize());
+        $response->headers->set(Headers::X_FILE_SIZE, (string) $streamWrapper->getSize());
 
         return $response;
     }

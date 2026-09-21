@@ -123,7 +123,6 @@ use EMS\CoreBundle\Service\Revision\PostProcessingService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\CoreBundle\Service\SearchFieldOptionService;
 use EMS\CoreBundle\Service\SearchService;
-use EMS\CoreBundle\Service\SortOptionService;
 use EMS\CoreBundle\Service\TemplateService;
 use EMS\CoreBundle\Service\UserService;
 use EMS\CoreBundle\Service\WebhookService;
@@ -676,13 +675,6 @@ return static function (ContainerConfigurator $container) {
             service('translator'),
         ]);
 
-    $services->set('ems.service.sort_option', SortOptionService::class)
-        ->args([
-            service('doctrine'),
-            service('emsco.logger'),
-            service('translator'),
-        ]);
-
     $services->set('ems.service.search_field_option', SearchFieldOptionService::class)
         ->args([
             service('doctrine'),
@@ -1027,8 +1019,6 @@ return static function (ContainerConfigurator $container) {
     $services->alias(AggregateOptionService::class, 'ems.service.aggregate_option');
 
     $services->alias(Mapping::class, 'ems.service.mapping');
-
-    $services->alias(SortOptionService::class, 'ems.service.sort_option');
 
     $services->alias(WysiwygProfileService::class, 'ems.service.wysiwyg_profile');
 

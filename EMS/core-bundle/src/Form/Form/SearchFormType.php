@@ -6,14 +6,10 @@ namespace EMS\CoreBundle\Form\Form;
 
 use EMS\CoreBundle\Core\Dashboard\DashboardOptions;
 use EMS\CoreBundle\Entity\Form\Search;
-use EMS\CoreBundle\Entity\SearchFieldOption;
-use EMS\CoreBundle\Entity\SortOption;
 use EMS\CoreBundle\Form\Field\ContentTypePickerType;
 use EMS\CoreBundle\Form\Field\EnvironmentPickerType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
 use EMS\CoreBundle\Form\Subform\SearchFilterType;
-use EMS\CoreBundle\Service\SearchFieldOptionService;
-use EMS\CoreBundle\Service\SortOptionService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -30,7 +26,7 @@ use function Symfony\Component\Translation\t;
  */
 class SearchFormType extends AbstractType
 {
-    public function __construct(private readonly AuthorizationCheckerInterface $authorizationChecker, private readonly SortOptionService $sortOptionService, private readonly SearchFieldOptionService $searchFieldOptionService)
+    public function __construct(private readonly AuthorizationCheckerInterface $authorizationChecker)
     {
     }
 
@@ -72,8 +68,6 @@ class SearchFormType extends AbstractType
                 'icon' => 'fa fa-check',
             ]);
         } else {
-            /** @var SortOption[] $sortOptions */
-            $sortOptions = $this->sortOptionService->getAll();
             if ($options['dashboardOptions'] instanceof DashboardOptions && [] !== $options['dashboardOptions']->getArray(DashboardOptions::SORT_OPTIONS)) {
                 $sortFields = [];
                 $sortFieldIcons = [];
@@ -99,34 +93,10 @@ class SearchFormType extends AbstractType
                         'class' => 'select2',
                     ],
                 ]);
-            } elseif ($isSuper || empty($sortOptions)) {
+            } elseif ($isSuper) {
                 $builder->add('sortBy', TextType::class, [
                     'label' => t('field.sort_by', [], 'emsco-core'),
                     'required' => false,
-                ]);
-            } else {
-                $sortFields = [];
-                $sortFieldIcons = [];
-                foreach ($sortOptions as $sortOption) {
-                    $sortFields[$sortOption->getName()] = $sortOption->getField();
-                    $sortFieldIcons[$sortOption->getField()] = $sortOption->getIcon();
-                }
-
-                $builder->add('sortBy', ChoiceType::class, [
-                    'label' => t('field.sort_by', [], 'emsco-core'),
-                    'required' => false,
-                    'choices' => $sortFields,
-                    'choice_label' => fn ($value, $label) => $label,
-                    'choice_attr' => static fn (
-                        mixed $choice,
-                        string $label,
-                        mixed $value,
-                    ): array => [
-                        'data-icon' => $sortFieldIcons[$value] ?? '',
-                    ],
-                    'attr' => [
-                        'class' => 'select2',
-                    ],
                 ]);
             }
 

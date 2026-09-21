@@ -56,7 +56,6 @@ use EMS\CoreBundle\Controller\Revision\DetailController;
 use EMS\CoreBundle\Controller\Revision\EditController;
 use EMS\CoreBundle\Controller\Revision\TaskController;
 use EMS\CoreBundle\Controller\Revision\TrashController;
-use EMS\CoreBundle\Controller\SearchController;
 use EMS\CoreBundle\Controller\TwigElementsController;
 use EMS\CoreBundle\Controller\UploadedFileController;
 use EMS\CoreBundle\Controller\UploadedFileWysiwygController;
@@ -876,19 +875,6 @@ return static function (ContainerConfigurator $container) {
             service(NotificationRepository::class),
             service('ems_core.core_ui.flash_message_logger'),
             '%ems_core.paging_size%',
-            '%ems_core.template_namespace%',
-        ])
-        ->call('setContainer')
-        ->tag('container.service_subscriber')
-        ->tag('controller.service_arguments');
-
-    $services->set(SearchController::class)
-        ->public()
-        ->args([
-            service('ems.service.sort_option'),
-            service('ems.service.aggregate_option'),
-            service('ems.service.search_field_option'),
-            service('translator'),
             '%ems_core.template_namespace%',
         ])
         ->call('setContainer')

@@ -133,7 +133,6 @@ class TwigElementsController extends AbstractController
         $menu->addChild(t('key.dashboards', [], 'emsco-core'), 'fa fa-dashboard', Routes::DASHBOARD_ADMIN_INDEX);
         $menu->addChild(t('key.query_searches', [], 'emsco-core'), 'fa fa-list-alt', 'ems_core_query_search_index');
         $menu->addChild(t('key.wysiwyg', [], 'emsco-core'), 'fa fa-edit', Routes::WYSIWYG_INDEX);
-        $menu->addChild(t('key.search', [], 'emsco-core'), 'fa fa-search', 'ems_search_options_index')->setTranslation([]);
         $menu->addChild(t('key.i18n', [], 'emsco-core'), 'fa fa-language', Routes::I18N_INDEX);
         $jobMenu = $menu->addChild(t('key.jobs', [], 'emsco-core'), 'fa fa-terminal', 'job.index');
         $jobMenu->setTranslation([]);

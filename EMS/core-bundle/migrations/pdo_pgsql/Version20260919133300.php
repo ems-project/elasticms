@@ -7,6 +7,9 @@ namespace Application\Migrations;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use Elastica\Query\BoolQuery;
+use Elastica\Query\Terms;
+use EMS\CoreBundle\Entity\Form\SearchFilter;
 use EMS\Helpers\Standard\Json;
 use Ramsey\Uuid\Uuid;
 
@@ -67,32 +70,37 @@ final class Version20260919133300 extends AbstractMigration
             'icon' => $option['icon'],
         ], $this->connection->fetchAllAssociative('SELECT name, config, template, orderkey, icon FROM aggregate_option ORDER BY orderkey'));
         $connection = $this->connection;
-        $views = \array_map(static fn (array $view): array => [
-            'id' => $view['id'],
-            'environments' => $view['environments'],
-            'contenttypes' => $view['contenttypes'],
-            'sort_by' => $view['sort_by'],
-            'sort_order' => $view['sort_order'],
-            'default_search' => $view['default_search'],
-            'minimum_should_match' => $view['minimum_should_match'] ?? 1,
-            'contentTypeId' => $view['content_type_id'],
+        $searches = \array_map(static fn (array $search): array => [
+            'id' => $search['id'],
+            'name' => $search['name'],
+            'environments' => $search['environments'],
+            'contenttypes' => $search['contenttypes'],
+            'sort_by' => $search['sort_by'],
+            'sort_order' => $search['sort_order'],
+            'default_search' => $search['default_search'],
+            'minimum_should_match' => $search['minimum_should_match'] ?? 1,
+            'contentTypeId' => $search['content_type_id'],
             'filters' => \array_map(static fn (array $filter): array => [
                 'booleanClause' => $filter['boolean_clause'],
                 'field' => $filter['field'],
                 'operator' => $filter['operator'],
                 'pattern' => $filter['pattern'],
                 'boost' => $filter['boost'],
-            ], $connection->fetchAllAssociative('SELECT boolean_clause, field, operator, pattern, boost FROM search_filter WHERE search_id = :id', ['id' => $view['id']])),
-        ], $this->connection->fetchAllAssociative('SELECT id, environments, contenttypes, sort_by, sort_order, default_search, minimum_should_match, content_type_id FROM search'));
+            ], $connection->fetchAllAssociative('SELECT boolean_clause, field, operator, pattern, boost FROM search_filter WHERE search_id = :id', ['id' => $search['id']])),
+        ], $this->connection->fetchAllAssociative('SELECT id, name, environments, contenttypes, sort_by, sort_order, default_search, minimum_should_match, content_type_id FROM search'));
 
-        $environments = $this->connection->fetchFirstColumn('SELECT name FROM environment WHERE in_default_search IS TRUE ORDER BY order_key');
-        if ([] === $environments) {
-            $environments = $this->connection->fetchFirstColumn('SELECT name FROM environment ORDER BY order_key');
+        $defaultEnvironments = $this->connection->fetchFirstColumn('SELECT name FROM environment WHERE in_default_search IS TRUE ORDER BY order_key');
+        if ([] === $defaultEnvironments) {
+            $defaultEnvironments = $this->connection->fetchFirstColumn('SELECT name FROM environment ORDER BY order_key');
         }
-        $contentTypes = [];
-        $sortBy = null;
-        $sortOrder = null;
-        $filters = [[
+        $environmentsByName = [];
+        foreach ($this->connection->fetchAllAssociative('SELECT id, name FROM environment') as $environment) {
+            $environmentsByName[$environment['name']] = $environment['id'];
+        }
+        $defaultContentTypes = [];
+        $defaultSortBy = null;
+        $defaultSortOrder = null;
+        $defaultFilters = [[
             'booleanClause' => 'must',
             'field' => '',
             'operator' => 'must_et',
@@ -100,18 +108,18 @@ final class Version20260919133300 extends AbstractMigration
             'boost' => '',
             'minimum_should_match' => 1,
         ]];
-        $minimumShouldMatch = 1;
-        foreach ($views as $view) {
-            if ($view['default_search']) {
-                $environments = Json::decode($view['environments']);
-                $contentTypes = Json::decode($view['contenttypes']);
-                $sortBy = $view['sort_by'];
-                $sortOrder = $view['sort_order'];
-                $filters = $view['filters'];
-                $minimumShouldMatch = $view['minimum_should_match'];
+        $defaultMinimumShouldMatch = 1;
+        foreach ($searches as $search) {
+            if ($search['default_search']) {
+                $defaultEnvironments = Json::decode($search['environments']);
+                $defaultContentTypes = Json::decode($search['contenttypes']);
+                $defaultSortBy = $search['sort_by'];
+                $defaultSortOrder = $search['sort_order'];
+                $defaultFilters = $search['filters'];
+                $defaultMinimumShouldMatch = $search['minimum_should_match'];
             }
-            if ($view['contentTypeId']) {
-                $contentType = $connection->fetchAssociative('SELECT name, pluralname, singularname FROM content_type WHERE id = :id', ['id' => $view['contentTypeId']]);
+            if ($search['contentTypeId']) {
+                $contentType = $connection->fetchAssociative('SELECT name, pluralname, singularname FROM content_type WHERE id = :id', ['id' => $search['contentTypeId']]);
                 if (!$contentType) {
                     continue;
                 }
@@ -124,7 +132,7 @@ final class Version20260919133300 extends AbstractMigration
                         'ROLE_USER', FALSE, CAST(:options AS JSON), COALESCE((SELECT MAX(order_key) + 1 FROM dashboard), 1), NULL
                     )
                 SQL, [
-                            'contentTypeId' => $view['contentTypeId'],
+                            'contentTypeId' => $search['contentTypeId'],
                             'name' => \sprintf('search_in_%s', $contentType['name']),
                             'label' => \sprintf('Search in %s', $contentType['pluralname']),
                             'options' => Json::encode([
@@ -133,11 +141,87 @@ final class Version20260919133300 extends AbstractMigration
                                 {%%- set uid = emsco_save_contents(data|json_encode, 'search_%s.json', 'application/json', 1).sha1 -%%}
                                 
                                 {{- path('emsco_dashboard', {uid:uid, name:'advanced_search'}) -}}
-                                TWIG, Json::encode($view['filters']), $view['minimum_should_match'], $view['sort_by'], $view['sort_order'], $contentType['name']),
+                                TWIG, Json::encode($search['filters']), $search['minimum_should_match'], $search['sort_by'], $search['sort_order'], $contentType['name']),
                             ]),
                         ]);
 
             }
+
+            $boolQuery = new BoolQuery();
+            $boolQuery->setMinimumShouldMatch($search['minimum_should_match'] ?? 1);
+            $searchContentTypes = \array_values(array_filter(Json::decode($search['contenttypes']), fn($v) => \is_string($v)));
+            if ([] !== $searchContentTypes) {
+                $terms = new Terms('_contenttype');
+                $terms->setTerms($searchContentTypes);
+                $boolQuery->addMust($terms);
+            }
+            foreach ($search['filters'] as $filter) {
+                if (!$filter['pattern']) {
+                    $filter['pattern'] = '%query%';
+                }
+                $searchFilter = SearchFilter::fromArray($filter)->generateEsFilter();
+                if (null === $searchFilter) {
+                    continue;
+                }
+                switch ($filter['booleanClause']) {
+                    case 'must':
+                        $boolQuery->addMust($searchFilter);
+                        break;
+                    case 'should':
+                        $boolQuery->addShould($searchFilter);
+                        break;
+                    case 'must_not':
+                        $boolQuery->addMustNot($searchFilter);
+                        break;
+                    case 'filter':
+                        $boolQuery->addFilter(new BoolQuery()->addMust($searchFilter));
+                        break;
+                    default:
+                        throw new \RuntimeException(\sprintf('Unexpected %s boolean clause', $filter['booleanClause']));
+                }
+            }
+
+            
+            $query = [
+                'query' => $boolQuery->toArray(),
+            ];
+            if ($search['sort_by']) {
+                $query['sort'] = [[
+                    $search['sort_by'] => $search['sort_order'] ?? 'asc',
+                ]];
+            }
+
+            $id = Uuid::uuid4()->toString();
+            $this->addSql(<<<'SQL'
+                    INSERT INTO query_search (
+                        id, created, modified, label, name, options, order_key
+                    ) VALUES (
+                        :id, NOW(), NOW(), :label, :name, CAST(:options AS JSON), COALESCE((SELECT MAX(order_key) + 1 FROM query_search), 1)
+                    )
+                SQL, [
+                'id' => $id,
+                'label' => \sprintf('Migrated search "%s"', $search['name']),
+                'name' => \sprintf('migrated_search_%s_%s', \strtolower($search['name']), substr(Uuid::uuid4()->toString(), -6)),
+                'options' => Json::encode([
+                    'query' => Json::encode($query),
+                ]),
+            ]);
+
+            $environmentQuerySearches = \array_map(fn($v) => [
+                'query_search_id' => $id,
+                'environment_id' => $environmentsByName[$v],
+            ], array_values(Json::decode($search['environments'])));
+            foreach ($environmentQuerySearches as $environmentQuerySearche) {
+                $this->addSql(<<<'SQL'
+                    INSERT INTO environment_query_search (
+                        query_search_id, environment_id
+                    ) VALUES (
+                        :query_search_id, :environment_id
+                    )
+                SQL, $environmentQuerySearche);
+            }
+            
+            
         }
 
         $this->addSql(<<<'SQL'
@@ -151,12 +235,12 @@ final class Version20260919133300 extends AbstractMigration
         SQL, [
             'id' => Uuid::uuid4()->toString(),
             'options' => Json::encode([
-                'environments' => $environments,
-                'contentTypes' => $contentTypes,
-                'sortBy' => $sortBy,
-                'sortOrder' => $sortOrder,
-                'filters' => $filters,
-                'minimum_should_match' => $minimumShouldMatch,
+                'environments' => $defaultEnvironments,
+                'contentTypes' => $defaultContentTypes,
+                'sortBy' => $defaultSortBy,
+                'sortOrder' => $defaultSortOrder,
+                'filters' => $defaultFilters,
+                'minimum_should_match' => $defaultMinimumShouldMatch,
                 'sortOptions' => $sortOptions,
                 'searchFieldOptions' => $searchFieldOptions,
                 'aggregateOptions' => $aggregateOptions,

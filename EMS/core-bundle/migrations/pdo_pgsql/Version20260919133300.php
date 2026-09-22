@@ -31,7 +31,7 @@ final class Version20260919133300 extends AbstractMigration
 
         $this->addSql('ALTER TABLE content_type ADD query_search_id UUID DEFAULT NULL');
         $this->addSql('ALTER TABLE content_type ADD CONSTRAINT FK_41BCBAEC936B6C19 FOREIGN KEY (query_search_id) REFERENCES query_search (id)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_41BCBAEC936B6C19 ON content_type (query_search_id)');
+        $this->addSql('CREATE INDEX IDX_41BCBAEC936B6C19 ON content_type (query_search_id)');
         $this->addSql('ALTER TABLE query_search ADD default_query_search BOOLEAN DEFAULT false NOT NULL');
         
         $hasAdvancedSearchOptions = (bool) $this->connection->fetchOne(<<<'SQL'
@@ -275,7 +275,7 @@ final class Version20260919133300 extends AbstractMigration
         );
 
         $this->addSql('ALTER TABLE content_type DROP CONSTRAINT FK_41BCBAEC936B6C19');
-        $this->addSql('DROP INDEX UNIQ_41BCBAEC936B6C19');
+        $this->addSql('DROP INDEX IDX_41BCBAEC936B6C19');
         $this->addSql('ALTER TABLE content_type DROP query_search_id');
         $this->addSql('ALTER TABLE query_search DROP default_query_search');
 

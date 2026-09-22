@@ -27,6 +27,11 @@ final class Version20260919133300 extends AbstractMigration
             !$this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform,
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
         );
+        
+        $this->addSql('ALTER TABLE content_type ADD default_query_search UUID DEFAULT NULL');
+        $this->addSql('ALTER TABLE content_type ADD CONSTRAINT FK_41BCBAECE3B25D69 FOREIGN KEY (default_query_search) REFERENCES query_search (id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_41BCBAECE3B25D69 ON content_type (default_query_search)');
+        $this->addSql('ALTER TABLE query_search ADD default_search BOOLEAN DEFAULT false NOT NULL');
 
         $hasAdvancedSearchOptions = (bool) $this->connection->fetchOne(<<<'SQL'
             SELECT EXISTS (
@@ -255,6 +260,11 @@ final class Version20260919133300 extends AbstractMigration
             !$this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform,
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
         );
+
+        $this->addSql('ALTER TABLE content_type DROP CONSTRAINT FK_41BCBAECE3B25D69');
+        $this->addSql('DROP INDEX UNIQ_41BCBAECE3B25D69');
+        $this->addSql('ALTER TABLE content_type DROP default_query_search');
+        $this->addSql('ALTER TABLE query_search DROP default_search');
 
         $this->addSql('DELETE FROM dashboard WHERE name = :name', [
             'name' => 'advanced_search',

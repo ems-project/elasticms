@@ -81,6 +81,7 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     protected array $fields = [];
     /** @var array<string, bool|string[]> */
     protected ?array $settings = null;
+    protected ?QuerySearch $defaultQuerySearch = null;
 
     public function __construct()
     {
@@ -989,5 +990,15 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     public function setSettings(ContentTypeSettings $settings): void
     {
         $this->settings = $settings->getSettings();
+    }
+
+    public function getDefaultQuerySearch(): ?QuerySearch
+    {
+        return $this->defaultQuerySearch;
+    }
+
+    public function setDefaultQuerySearch(?QuerySearch $defaultQuerySearch): void
+    {
+        $this->defaultQuerySearch = $defaultQuerySearch;
     }
 }

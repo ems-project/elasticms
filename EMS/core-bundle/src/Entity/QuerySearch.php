@@ -25,6 +25,7 @@ class QuerySearch extends JsonDeserializer implements \JsonSerializable, EntityI
     /** @var array<string, mixed> */
     protected array $options = ['query' => '{}'];
     protected int $orderKey = 9999;
+    protected bool $default = false;
 
     public function __construct()
     {
@@ -151,4 +152,16 @@ class QuerySearch extends JsonDeserializer implements \JsonSerializable, EntityI
 
         return $json;
     }
+
+    public function isDefault(): bool
+    {
+        return $this->default;
+    }
+
+    public function setDefault(bool $default): void
+    {
+        $this->default = $default;
+    }
+    
+    
 }

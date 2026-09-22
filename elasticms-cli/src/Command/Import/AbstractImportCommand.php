@@ -13,6 +13,7 @@ use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
+use EMS\CommonBundle\Exception\StorageServicesUnavailableException;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\NotFoundException;
@@ -174,7 +175,7 @@ abstract class AbstractImportCommand extends AbstractCommand
     {
         try {
             return $this->storageManager->getFile($fileIdentifier);
-        } catch (NotFoundException) {
+        } catch (NotFoundException|StorageServicesUnavailableException) {
             return $this->adminHelper->getCoreApi()->file()->getFile($fileIdentifier);
         }
     }

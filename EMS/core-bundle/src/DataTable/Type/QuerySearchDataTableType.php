@@ -29,7 +29,7 @@ class QuerySearchDataTableType extends AbstractEntityTableType
 
         $table->addColumn(t('field.label', [], 'emsco-core'), 'label');
         $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
-        $table->addColumnDefinition(new BoolTableColumn(t('field.is_default', [], 'emsco-core'), 'default'));
+        $table->addColumnDefinition(new BoolTableColumn(t('field.is_default', [], 'emsco-core'), 'default', 'circle'));
 
         $this
             ->addColumnsCreatedModifiedDate($table)

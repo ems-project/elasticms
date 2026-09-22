@@ -688,8 +688,6 @@ key:
     scheduled: Scheduled
     search: Search
     search_field_options: 'Search field options'
-    search_in_my_circle: 'In my {name}'
-    search_in_plural: 'Search in {plural}'
     search_options: 'Search options'
     searches: Searches
     selected: Selected

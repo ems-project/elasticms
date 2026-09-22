@@ -688,8 +688,6 @@ key:
     scheduled: Gepland
     search: Zoeken
     search_field_options: Zoekveldopties
-    search_in_my_circle: 'In mijn {name}'
-    search_in_plural: 'Zoeken in {plural}'
     search_options: Zoekopties
     searches: Zoekopdrachten
     selected: Geselecteerd

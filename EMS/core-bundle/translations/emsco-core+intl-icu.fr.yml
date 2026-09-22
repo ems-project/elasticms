@@ -688,8 +688,6 @@ key:
     scheduled: Planifiée
     search: Recherche
     search_field_options: 'Options de champ de recherche'
-    search_in_my_circle: 'Dans mon {name}'
-    search_in_plural: 'Rechercher dans {plural}'
     search_options: 'Options de recherche'
     searches: Recherches
     selected: Sélectionné

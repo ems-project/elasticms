@@ -886,7 +886,6 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('ems.service.asset_extractor'),
             service('ems_common.service.elastica'),
-            service('ems.service.user'),
             service('ems.service.job'),
             service('ems.dashboard.manager'),
             service('ems.service.contenttype'),

@@ -832,7 +832,6 @@ return static function (ContainerConfigurator $container) {
             service('ems_common.service.elastica'),
             service('ems.service.environment'),
             service('ems.service.contenttype'),
-            service('ems.repository.search'),
             service(RevisionRepository::class),
         ]);
 

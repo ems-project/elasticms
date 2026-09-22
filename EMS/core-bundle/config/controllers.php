@@ -837,7 +837,6 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.asset_extractor'),
             service('security.authorization_checker'),
             service('ems.service.job'),
-            service('ems.dashboard.manager'),
             service('translator'),
             service('serializer'),
             service('ems.repository.messenger_messages_repository'),

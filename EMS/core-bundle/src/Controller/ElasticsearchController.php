@@ -7,10 +7,8 @@ namespace EMS\CoreBundle\Controller;
 use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Commands;
-use EMS\CoreBundle\Core\Dashboard\DashboardManager;
 use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Entity\ContentType;
-use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Entity\Form\ExportDocuments;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Form\Field\IconTextType;
@@ -26,7 +24,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -43,7 +40,6 @@ class ElasticsearchController extends AbstractController
         private readonly AssetExtractorService $assetExtractorService,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly JobService $jobService,
-        private readonly DashboardManager $dashboardManager,
         private readonly TranslatorInterface $translator,
         private readonly SerializerInterface $serializer,
         private readonly MessengerMessagesRepository $messengerMessagesRepository,
@@ -199,16 +195,6 @@ class ElasticsearchController extends AbstractController
         }
 
         return $response;
-    }
-
-    public function quickSearch(Request $request): Response
-    {
-        $dashboard = $this->dashboardManager->getDefinition(Dashboard::DEFINITION_QUICK_SEARCH);
-        if (null === $dashboard) {
-            throw new NotFoundHttpException('Quick search dashboard not defined');
-        }
-
-        return $this->redirectToRoute(Routes::DASHBOARD, \array_filter(['name' => $dashboard->getName(), 'q' => $request->query->get('q')]));
     }
 
     public function export(Request $request, ContentType $contentType): Response

@@ -7,9 +7,7 @@ namespace EMS\CoreBundle\Controller;
 use EMS\CoreBundle\Core\Dashboard\DashboardManager;
 use EMS\CoreBundle\Core\Dashboard\DashboardService;
 use EMS\CoreBundle\Entity\Dashboard;
-use EMS\CoreBundle\Routes;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -19,12 +17,12 @@ final class DashboardController extends AbstractController
     {
     }
 
-    public function dashboard(?string $name): Response
+    public function quickSearch(): Response
     {
-        if (null === $name) {
-            return $this->landingDashboard();
+        $dashboard = $this->dashboardManager->getDefinition(Dashboard::DEFINITION_QUICK_SEARCH);
+        if (null === $dashboard) {
+            return $this->redirectToRoute('notifications.inbox');
         }
-        $dashboard = $this->dashboardManager->getByName($name);
         if (!$this->isGranted($dashboard->getRole())) {
             throw new AccessDeniedHttpException();
         }
@@ -33,13 +31,21 @@ final class DashboardController extends AbstractController
         return $dashboardService->getResponse($dashboard);
     }
 
-    private function landingDashboard(): RedirectResponse
+    public function dashboard(?string $name = null): Response
     {
-        $dashboard = $this->dashboardManager->getDefinition(Dashboard::DEFINITION_LANDING_PAGE);
-        if (null !== $dashboard) {
-            return $this->redirectToRoute(Routes::DASHBOARD, ['name' => $dashboard->getName()]);
+        if (null === $name) {
+            $dashboard = $this->dashboardManager->getDefinition(Dashboard::DEFINITION_LANDING_PAGE);
+        } else {
+            $dashboard = $this->dashboardManager->getByName($name);
         }
+        if (null === $dashboard) {
+            return $this->redirectToRoute('notifications.inbox');
+        }
+        if (!$this->isGranted($dashboard->getRole())) {
+            throw new AccessDeniedHttpException();
+        }
+        $dashboardService = $this->dashboardService->get($dashboard->getType());
 
-        return $this->redirectToRoute('notifications.inbox');
+        return $dashboardService->getResponse($dashboard);
     }
 }

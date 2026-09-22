@@ -505,7 +505,6 @@ key:
     add_user: 'Ajouter un utilisateur'
     admin: Admin
     advanced_search: 'Recherche avancée'
-    aggregate_option: 'Option d’agrégation'
     aggregate_options: 'Options d’agrégation'
     align_with: 'Aligner avec'
     all_content_types: 'Tous les types de contenu'
@@ -620,7 +619,6 @@ key:
     mcp_prompts: 'Prompts MCP'
     mcp_resources: 'Ressources MCP'
     mcp_tools: 'Outils MCP'
-    more_info: 'plus d’informations'
     must: Doit
     must_not: 'Ne doit pas'
     new_password: 'Nouveau mot de passe'
@@ -684,7 +682,6 @@ key:
     schedule_tag: 'Utilisé pour identifier les workers (ex. CLI) qui exécuteraient le job à distance'
     scheduled: Planifiée
     search: Recherche
-    search_field_option: 'Option de champ de recherche'
     search_field_options: 'Options de champ de recherche'
     search_in_my_circle: 'Dans mon {name}'
     search_in_plural: 'Rechercher dans {plural}'
@@ -697,7 +694,6 @@ key:
     show_search_form: 'Afficher le formulaire de recherche'
     simplified_ui: 'Interfaces simplifiées'
     sort_by: 'Trier par'
-    sort_option: 'Option de tri'
     sort_options: 'Options de tri'
     sort_options_lowercase: 'Options de tri'
     specif_roles_abbrev: 'Rôles spéc.'
@@ -721,12 +717,6 @@ key:
     tiptap: Tiptap
     title: Titre
     to_be_treated: 'À traiter'
-    total_documents: |-
-        {count, plural,
-            =0 {Aucun document trouvé}
-            one {1 document}
-            other {{total} documents}
-        }
     trash: Corbeille
     treat_selection: 'Traiter la sélection'
     unassigned_shards: 'Shards non assignés'
@@ -737,7 +727,6 @@ key:
     uploaded_files_logs: 'Logs des fichiers uploadés'
     user_administration: 'Administration des utilisateurs'
     user_management: 'Gestion des utilisateurs'
-    user_name_placeholder: '{name}'
     user_profile_picture_alt: 'Photo de profil de l’utilisateur'
     users: Utilisateurs
     version: Version
@@ -776,6 +765,7 @@ message:
     asset_extract_file_too_large: 'Ce fichier étant plus volumineux ({filesize}) que {max_size}, son contenu n''a pas été extrait automatiquement. Vous pouvez forcer l''extraction ou le spécifier manuellement dans le menu "Info".'
     cancel_last_modifications_confirm: 'Annuler les dernières modifications ?'
     cancel_non_saved_modifications: 'Annuler les modifications non enregistrées'
+    cant_delete_query_search: '{1} La recherche {label} est toujours liée à un type de contenu et ne peut pas être supprimée.|]1,Inf[ {count} La recherche {label} est toujours liée à {count} types de contenu et ne peut pas être supprimée.'
     channel_alias_not_found: 'Le canal "{label}" ne peut pas être enregistré car son alias "{alias}" est manquant'
     channel_deleted: 'Le canal "{name}" a été supprimé'
     collection_added_items: '{0} Aucun élément n’a été ajouté.|{1} Un élément a été ajouté.|]1,Inf[ {count} éléments ont été ajoutés.'
@@ -1068,7 +1058,6 @@ message:
     schedule_created: 'La planification "{name}" a été créée'
     schedule_deleted: 'La planification "{name}" a été supprimée'
     schedule_updated: 'La planification "{name}" a été mise à jour'
-    search_deleted: 'Une recherche a été supprimée'
     search_field_option_missing: 'Cliquez sur « Ajouter une option de champ de recherche » pour créer une première option de champ de recherche'
     search_paging_limit_exceeded: 'La pagination est limitée aux {paging} premiers éléments, {total} documents trouvés'
     search_placeholder: Rechercher...
@@ -1077,11 +1066,8 @@ message:
             =-1   {Le résultat de recherche est manquant}
             =0    {Aucun résultat trouvé}
             =1    {1 document trouvé}
-            other {# documents trouvés}
+            other {{total} documents trouvés}
         }
-    search_result_limited: 'Le résultat de recherche est limité aux {total} premiers documents'
-    search_set_as_default: 'Cette recherche a été définie comme recherche par défaut'
-    search_set_as_default_for_content_type: 'Cette recherche a été définie comme formulaire de recherche par défaut pour le type de contenu {content_type}'
     select_new_location: 'Sélectionner un nouvel emplacement :'
     show_finished_tasks: 'Afficher les tâches terminées ({number})'
     sign_in_start_session: 'Connectez-vous pour démarrer votre session'

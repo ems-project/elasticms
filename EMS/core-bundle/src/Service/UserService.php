@@ -5,18 +5,14 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Service;
 
 use EMS\CommonBundle\Entity\EntityInterface;
-use EMS\CoreBundle\Core\UI\Menu;
 use EMS\CoreBundle\Core\User\UserList;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Entity\UserInterface;
-use EMS\CoreBundle\Repository\SearchRepository;
 use EMS\CoreBundle\Repository\UserRepository;
 use EMS\CoreBundle\Roles;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
-use function Symfony\Component\Translation\t;
 
 class UserService implements EntityServiceInterface
 {

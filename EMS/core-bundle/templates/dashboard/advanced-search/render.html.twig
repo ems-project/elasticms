@@ -85,7 +85,7 @@
 {% endblock %}
 
 {% block sort_option %}
-    {% if options.sortOptions|length %}
+    {% if options.sortOptions|default([])|length %}
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title"><i class="fa fa-sort-alpha-asc"></i> {{ 'key.sort_options_lowercase'|trans }}</h3>

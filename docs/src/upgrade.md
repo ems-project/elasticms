@@ -50,6 +50,9 @@ template:
 {{- path('emsco_dashboard', {uid:uid, name:'advanced_search'}) -}}
 ```
 
+**Note:** the `search in my circles` feature is removed and not automatically migrated to a
+redirection view.
+
 For PostgreSQL databases, a query search has been created for each search entity to replace it.
 However:
 

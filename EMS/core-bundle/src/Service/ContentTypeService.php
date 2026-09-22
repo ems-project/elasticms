@@ -633,7 +633,6 @@ class ContentTypeService implements EntityServiceInterface
             if (isset($counters[$contentType->getId()])) {
                 $menuEntry->setBadge((string) $counters[$contentType->getId()]);
             }
-            $this->addMenuSearchLinks($contentType, $menuEntry, $circleContentType, $user);
             $this->addMenuViewLinks($contentType, $menuEntry);
             $this->addDraftInProgressLink($contentType, $menuEntry);
 
@@ -650,23 +649,6 @@ class ContentTypeService implements EntityServiceInterface
         }
 
         return $menu;
-    }
-
-    private function addMenuSearchLinks(ContentType $contentType, MenuEntry $menuEntry, ?ContentType $circleContentType, UserInterface $user): void
-    {
-        $roles = $contentType->getRoles();
-
-        if (!$this->authorizationChecker->isGranted($roles[ContentTypeRoles::SHOW_LINK_SEARCH])) {
-            return;
-        }
-
-        $menuEntry->addChild(t('key.search_in_plural', ['%plural%' => $contentType->getPluralName()], 'emsco-core'), 'fa fa-search', Routes::DATA_DEFAULT_VIEW, ['type' => $contentType->getName()]);
-
-        if (null === $circleContentType || null === $contentType->getCirclesField() || '' === $contentType->getCirclesField() || empty($user->getCircles())) {
-            return;
-        }
-
-        $menuEntry->addChild(t('key.search_in_my_circle', ['%name%' => \count($user->getCircles()) > 1 ? $circleContentType->getPluralName() : $circleContentType->getSingularName()], 'emsco-core'), $circleContentType->getIcon() ?? '', Routes::DATA_IN_MY_CIRCLE_VIEW, ['name' => $contentType->getName()]);
     }
 
     private function addMenuViewLinks(ContentType $contentType, MenuEntry $menuEntry): void

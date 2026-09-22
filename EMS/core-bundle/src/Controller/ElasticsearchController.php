@@ -217,27 +217,6 @@ class ElasticsearchController extends AbstractController
         return $response;
     }
 
-    public function indexSearch(): Response
-    {
-        return $this->render(\sprintf('@%s/elasticsearch/index.html.twig', $this->templateNamespace), [
-            'data' => $this->searchService->getAll(),
-        ]);
-    }
-
-    /**
-     * @param int $id
-     */
-    public function deleteSearch($id): Response
-    {
-        $search = $this->searchRepository->find($id);
-        if (null === $search) {
-            throw $this->createNotFoundException('Preset saved search not found');
-        }
-        $this->searchRepository->remove($search);
-
-        return $this->redirectToRoute('elasticsearch.search');
-    }
-
     public function quickSearch(Request $request): Response
     {
         $dashboard = $this->dashboardManager->getDefinition(Dashboard::DEFINITION_QUICK_SEARCH);
@@ -268,50 +247,6 @@ class ElasticsearchController extends AbstractController
         ], [
             'search_form' => $search->jsonSerialize(),
         ]);
-    }
-
-    public function setDefaultSearch(int $id, ?string $contentType): Response
-    {
-        if (null !== $contentType) {
-            $contentType = $this->contentTypeService->giveByName($contentType);
-            $searchs = $this->searchRepository->findBy([
-                'contentType' => $contentType->getId(),
-            ]);
-            /** @var Search $search */
-            foreach ($searchs as $search) {
-                $search->setContentType(null);
-                $this->searchRepository->save($search);
-            }
-
-            $search = $this->searchRepository->find($id);
-            if ($search instanceof Search) {
-                $search->setContentType($contentType);
-                $this->searchRepository->save($search);
-
-                $this->logger->messageNotice(t('message.search_set_as_default_for_content_type', [
-                    'content_type' => $contentType->getSingularName(),
-                ], 'emsco-core'));
-            }
-        } else {
-            $searchs = $this->searchRepository->findBy([
-                'default' => true,
-            ]);
-            /** @var Search $search */
-            foreach ($searchs as $search) {
-                $search->setDefault(false);
-                $this->searchRepository->save($search);
-            }
-            $search = $this->searchRepository->find($id);
-
-            if ($search instanceof Search) {
-                $search->setDefault(true);
-                $this->searchRepository->save($search);
-
-                $this->logger->messageNotice(t('message.search_set_as_default', [], 'emsco-core'));
-            }
-        }
-
-        return $this->redirectToRoute('elasticsearch.search', ['searchId' => $id]);
     }
 
     public function legacySearch(Request $request, DataLinks $dataLinks): void

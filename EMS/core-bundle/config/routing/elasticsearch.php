@@ -9,8 +9,4 @@ return function (RoutingConfigurator $routes): void {
     $routes->add('elasticsearch.alias.add', '/alias/add/{name}')
         ->controller([ElasticsearchController::class, 'addAlias'])
         ->methods(['GET', 'POST']);
-
-    $routes->add('elasticsearch.search.index', '/index-search')
-        ->controller([ElasticsearchController::class, 'indexSearch'])
-        ->methods(['GET']);
 };

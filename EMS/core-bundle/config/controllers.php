@@ -25,6 +25,7 @@ use EMS\CoreBundle\Controller\Api\File\ExtractDataController;
 use EMS\CoreBundle\Controller\Api\Form\VerificationController;
 use EMS\CoreBundle\Controller\Api\JobApiController;
 use EMS\CoreBundle\Controller\Api\McpController;
+use EMS\CoreBundle\Controller\Api\Search\SearchController;
 use EMS\CoreBundle\Controller\Api\WebhookSubscriptionController;
 use EMS\CoreBundle\Controller\BrowseController;
 use EMS\CoreBundle\Controller\ChannelController;
@@ -320,7 +321,7 @@ return static function (ContainerConfigurator $container) {
         ->tag('container.service_subscriber')
         ->tag('controller.service_arguments');
 
-    $services->set(\EMS\CoreBundle\Controller\Api\Search\SearchController::class)
+    $services->set(SearchController::class)
         ->args([service('ems_common.service.elastica')])
         ->tag('controller.service_arguments');
 

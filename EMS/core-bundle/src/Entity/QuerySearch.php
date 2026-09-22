@@ -162,6 +162,4 @@ class QuerySearch extends JsonDeserializer implements \JsonSerializable, EntityI
     {
         $this->default = $default;
     }
-    
-    
 }

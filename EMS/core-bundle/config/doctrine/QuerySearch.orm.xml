@@ -28,7 +28,7 @@
       </join-table>
     </many-to-many>
 
-    <field name="default" column="default_search" type="boolean">
+    <field name="default" column="default_query_search" type="boolean">
       <options>
         <option name="default">0</option>
       </options>

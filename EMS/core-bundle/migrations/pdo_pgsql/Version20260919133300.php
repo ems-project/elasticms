@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Migrations;
 
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
@@ -27,12 +28,12 @@ final class Version20260919133300 extends AbstractMigration
             !$this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform,
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
         );
-        
-        $this->addSql('ALTER TABLE content_type ADD default_query_search UUID DEFAULT NULL');
-        $this->addSql('ALTER TABLE content_type ADD CONSTRAINT FK_41BCBAECE3B25D69 FOREIGN KEY (default_query_search) REFERENCES query_search (id)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_41BCBAECE3B25D69 ON content_type (default_query_search)');
-        $this->addSql('ALTER TABLE query_search ADD default_search BOOLEAN DEFAULT false NOT NULL');
 
+        $this->addSql('ALTER TABLE content_type ADD query_search_id UUID DEFAULT NULL');
+        $this->addSql('ALTER TABLE content_type ADD CONSTRAINT FK_41BCBAEC936B6C19 FOREIGN KEY (query_search_id) REFERENCES query_search (id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_41BCBAEC936B6C19 ON content_type (query_search_id)');
+        $this->addSql('ALTER TABLE query_search ADD default_query_search BOOLEAN DEFAULT false NOT NULL');
+        
         $hasAdvancedSearchOptions = (bool) $this->connection->fetchOne(<<<'SQL'
             SELECT EXISTS (
                 SELECT 1
@@ -199,17 +200,21 @@ final class Version20260919133300 extends AbstractMigration
             $id = Uuid::uuid4()->toString();
             $this->addSql(<<<'SQL'
                     INSERT INTO query_search (
-                        id, created, modified, label, name, options, order_key
+                        id, created, modified, label, name, default_query_search, options, order_key
                     ) VALUES (
-                        :id, NOW(), NOW(), :label, :name, CAST(:options AS JSON), COALESCE((SELECT MAX(order_key) + 1 FROM query_search), 1)
+                        :id, NOW(), NOW(), :label, :name, :default_query_search, CAST(:options AS JSON), COALESCE((SELECT MAX(order_key) + 1 FROM query_search), 1)
                     )
                 SQL, [
                 'id' => $id,
                 'label' => \sprintf('Migrated search "%s"', $search['name']),
                 'name' => \sprintf('migrated_search_%s_%s', \strtolower($search['name']), substr(Uuid::uuid4()->toString(), -6)),
+                'default_query_search' => $search['default_search'],
                 'options' => Json::encode([
                     'query' => Json::encode($query),
                 ]),
+            ],
+            [
+                'default_query_search' => ParameterType::BOOLEAN,
             ]);
 
             $environmentQuerySearches = \array_map(fn($v) => [
@@ -226,7 +231,15 @@ final class Version20260919133300 extends AbstractMigration
                 SQL, $environmentQuerySearche);
             }
             
-            
+            if ($search['contentTypeId']) {
+                $this->addSql(<<<'SQL'
+                    UPDATE content_type SET query_search_id = :query_search_id
+                    WHERE id = :id
+                SQL, [
+                    'id' => $search['contentTypeId'],
+                    'query_search_id' => $id,
+                ]);
+            }
         }
 
         $this->addSql(<<<'SQL'
@@ -261,10 +274,10 @@ final class Version20260919133300 extends AbstractMigration
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
         );
 
-        $this->addSql('ALTER TABLE content_type DROP CONSTRAINT FK_41BCBAECE3B25D69');
-        $this->addSql('DROP INDEX UNIQ_41BCBAECE3B25D69');
-        $this->addSql('ALTER TABLE content_type DROP default_query_search');
-        $this->addSql('ALTER TABLE query_search DROP default_search');
+        $this->addSql('ALTER TABLE content_type DROP CONSTRAINT FK_41BCBAEC936B6C19');
+        $this->addSql('DROP INDEX UNIQ_41BCBAEC936B6C19');
+        $this->addSql('ALTER TABLE content_type DROP query_search_id');
+        $this->addSql('ALTER TABLE query_search DROP default_query_search');
 
         $this->addSql('DELETE FROM dashboard WHERE name = :name', [
             'name' => 'advanced_search',

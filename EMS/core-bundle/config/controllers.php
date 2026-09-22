@@ -425,7 +425,6 @@ return static function (ContainerConfigurator $container) {
             service('translator'),
             service('ems.content_type.view_types'),
             service(ContentTypeRepository::class),
-            service('ems.repository.search'),
             service(RevisionRepository::class),
             service('ems.service.action'),
             service('ems_core.core_ui.flash_message_logger'),

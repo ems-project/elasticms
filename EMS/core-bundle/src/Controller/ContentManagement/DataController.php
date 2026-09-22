@@ -67,7 +67,6 @@ class DataController extends AbstractController
         private readonly TranslatorInterface $translator,
         private readonly ViewTypes $viewTypes,
         private readonly ContentTypeRepository $contentTypeRepository,
-        private readonly SearchRepository $searchRepository,
         private readonly RevisionRepository $revisionRepository,
         private readonly ActionService $actionService,
         private readonly FlashMessageLogger $flashMessageLogger,
@@ -79,43 +78,17 @@ class DataController extends AbstractController
 
     public function root(string $name): Response
     {
-        $contentType = $this->contentTypeRepository->findOneBy([
-            'name' => $name,
-            'deleted' => false,
-        ]);
-
-        if (!$contentType instanceof ContentType) {
-            throw new NotFoundHttpException('Content type '.$name.' not found');
-        }
-
-        $searches = $this->searchRepository->findBy([
-            'contentType' => $contentType->getId(),
-        ]);
-        foreach ($searches as $search) {
-            return $this->forward(ElasticsearchController::class.'::search', [
-                'query' => null,
-            ], [
-                'search_form' => $search->jsonSerialize(),
+        $contentType = $this->contentTypeService->giveByName($name);
+        foreach ($contentType->getViews() as $view) {
+            if (!$this->isGranted($view->getRole())) {
+                continue;
+            }
+            
+            return $this->redirectToRoute($view->isPublic() ? Routes::DATA_PUBLIC_VIEW : Routes::DATA_PRIVATE_VIEW, [
+                'viewId' => $view->getId(),
             ]);
         }
-
-        $searchForm = new Search();
-        $searchForm->setContentTypes([$contentType->getName()]);
-        $searchForm->setEnvironments([$contentType->giveEnvironment()->getName()]);
-        $searchForm->setSortBy('_finalization_datetime');
-        if ($contentType->getSortBy()) {
-            $searchForm->setSortBy($contentType->getSortBy());
-        }
-        $searchForm->setSortOrder('desc');
-        if ($contentType->getSortOrder()) {
-            $searchForm->setSortOrder($contentType->getSortOrder());
-        }
-
-        return $this->forward(ElasticsearchController::class.'::search', [
-            'query' => null,
-        ], [
-            'search_form' => $searchForm->jsonSerialize(),
-        ]);
+        throw new NotFoundHttpException('View not found');
     }
 
     public function inMyCircles(string $name): Response

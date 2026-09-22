@@ -1,5 +1,11 @@
 # Changelog 6.x
 
+## 6.9.37 (2026-09-22)
+### Bug Fixes
+* fix(admin): correct catch Storage exceptions and admin only switch user by @theus77 in https://github.com/ems-project/elasticms/pull/1858
+* fix(common/storage): streamedResponse may rewrite the Content-Length by @theus77 in https://github.com/ems-project/elasticms/pull/1853
+* fix(docker): minio image switch to quay.io by @Davidmattei in https://github.com/ems-project/elasticms/pull/1855
+
 ## 6.9.36 (2026-09-11)
 ### Bug Fixes
 * fix(admin/field): correct support date range type by @Davidmattei in https://github.com/ems-project/elasticms/pull/1846

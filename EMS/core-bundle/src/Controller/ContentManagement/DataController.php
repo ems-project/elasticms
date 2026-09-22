@@ -28,7 +28,6 @@ use EMS\CoreBundle\Form\Form\RevisionType;
 use EMS\CoreBundle\Helper\EmsCoreResponse;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\RevisionRepository;
-use EMS\CoreBundle\Repository\SearchRepository;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\ActionService;
 use EMS\CoreBundle\Service\ContentTypeService;
@@ -83,7 +82,7 @@ class DataController extends AbstractController
             if (!$this->isGranted($view->getRole())) {
                 continue;
             }
-            
+
             return $this->redirectToRoute($view->isPublic() ? Routes::DATA_PUBLIC_VIEW : Routes::DATA_PRIVATE_VIEW, [
                 'viewId' => $view->getId(),
             ]);

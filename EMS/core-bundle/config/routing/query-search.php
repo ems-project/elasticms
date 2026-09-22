@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use EMS\CoreBundle\Controller\Admin\QuerySearchController;
-use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 use EMS\CoreBundle\Routes;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return function (RoutingConfigurator $routes): void {
     $routes->add(Routes::ADMIN_QUERY_SEARCH_INDEX, '/')

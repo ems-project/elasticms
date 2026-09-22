@@ -4,19 +4,14 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller;
 
-use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
-use EMS\CommonBundle\Elasticsearch\Response\Response as CommonResponse;
-use EMS\CommonBundle\Search\Search as CommonSearch;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Dashboard\DashboardManager;
-use EMS\CoreBundle\Core\Document\DataLinks;
 use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Entity\Form\ExportDocuments;
-use EMS\CoreBundle\Entity\Form\Search;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Form\Field\IconTextType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
@@ -31,7 +26,6 @@ use EMS\CoreBundle\Service\IndexService;
 use EMS\CoreBundle\Service\JobService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\CoreBundle\Service\SearchService;
-use EMS\Helpers\Standard\Type;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,13 +45,9 @@ class ElasticsearchController extends AbstractController
         private readonly ElasticaService $elasticaService,
         private readonly DataService $dataService,
         private readonly AssetExtractorService $assetExtractorService,
-        private readonly ContentTypeService $contentTypeService,
-        private readonly RevisionService $revisionService,
-        private readonly SearchService $searchService,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly JobService $jobService,
         private readonly DashboardManager $dashboardManager,
-        private readonly SearchRepository $searchRepository,
         private readonly TranslatorInterface $translator,
         private readonly SerializerInterface $serializer,
         private readonly MessengerMessagesRepository $messengerMessagesRepository,
@@ -223,116 +213,6 @@ class ElasticsearchController extends AbstractController
         }
 
         return $this->redirectToRoute(Routes::DASHBOARD, \array_filter(['name' => $dashboard->getName(), 'q' => $request->query->get('q')]));
-    }
-
-    public function legacySearch(Request $request, DataLinks $dataLinks): void
-    {
-        $environments = Type::string($request->query->get('environment', ''));
-        $searchId = $dataLinks->getSearchId();
-        $category = $request->query->get('category');
-        $assetName = $request->query->get('asset_name');
-        $circleOnly = $request->query->get('circle');
-        $dataLink = $request->query->get('dataLink');
-
-        if (\is_string($dataLink)) {
-            $emsLink = EMSLink::fromText($dataLink);
-            $contentType = $this->contentTypeService->giveByName($emsLink->getContentType());
-            $document = $this->searchService->getDocument($contentType, $emsLink->getOuuid());
-
-            $dataLinks->addContentTypes($contentType);
-            $dataLinks->addDocument(document: $document, displayLabel: $this->revisionService->display($document));
-
-            return;
-        }
-
-        $contentTypes = $dataLinks->getContentTypeNames();
-
-        $search = null;
-        if ($searchId) {
-            $search = $this->searchRepository->findOneBy(['id' => $searchId]);
-        }
-
-        if (!$search instanceof Search) {
-            $search = $this->searchService->getDefaultSearch($contentTypes);
-        }
-
-        $searchContentTypes = $search->getContentTypes();
-        foreach ($searchContentTypes as $searchContentType) {
-            $dataLinks->addContentTypes($this->contentTypeService->giveByName($searchContentType));
-        }
-
-        if ($assetName) {
-            $allContentTypes = $this->contentTypeService->getAll();
-            // For search only in contentType with Asset field == $assetName.
-            $contentTypes = [];
-            foreach ($allContentTypes as $contentType) {
-                if ($contentType->hasAssetField()) {
-                    $contentTypes[] = $contentType->getName();
-                }
-            }
-        }
-
-        if ([] !== $contentTypes) {
-            $search->setContentTypes($contentTypes);
-        }
-
-        if (!empty($environments) && null === $searchId) {
-            $search->setEnvironments(\explode(',', $environments));
-        }
-
-        $search->setSearchPattern($dataLinks->getPattern(), true);
-        $commonSearch = $this->searchService->generateSearch($search);
-
-        if ($circleOnly && !$this->authorizationChecker->isGranted('ROLE_USER_MANAGEMENT')) {
-            /** @var UserInterface $user */
-            $user = $this->getUser();
-            $circles = $user->getCircles();
-
-            $ouuids = [];
-            foreach ($circles as $circle) {
-                \preg_match('/(?P<type>\w+):(?P<ouuid>\w+)/', (string) $circle, $matches);
-                if (isset($matches['ouuid'])) {
-                    $ouuids[] = $matches['ouuid'];
-                }
-            }
-            $query = $commonSearch->getQuery();
-            $boolQuery = $this->elasticaService->getBoolQuery();
-            if (!$query instanceof $boolQuery) {
-                if (null !== $query) {
-                    $boolQuery->addMust($query);
-                }
-                $query = $boolQuery;
-            }
-            $query->addMust($this->elasticaService->getTermsQuery('_id', $ouuids));
-            $commonSearch = new CommonSearch($commonSearch->getIndices(), $query);
-        }
-
-        if (null !== $category && 1 === \count($contentTypes)) {
-            $contentType = $this->contentTypeService->getByName(\array_first($contentTypes));
-            if (false !== $contentType && $contentType->hasCategoryField()) {
-                $categoryField = $contentType->giveCategoryField();
-                $boolQuery = $this->elasticaService->getBoolQuery();
-                $query = $commonSearch->getQuery();
-                if (!$query instanceof $boolQuery) {
-                    if (null !== $query) {
-                        $boolQuery->addMust($query);
-                    }
-                    $query = $boolQuery;
-                }
-                $query->addMust($this->elasticaService->getTermsQuery($categoryField, [$category]));
-                $commonSearch = new CommonSearch($commonSearch->getIndices(), $query);
-            }
-        }
-
-        $commonSearch->setFrom($dataLinks->getFrom());
-        $commonSearch->setSize($dataLinks->getSize());
-
-        $response = CommonResponse::fromResultSet($this->elasticaService->search($commonSearch));
-
-        $dataLinks->setTotal($response->getTotal());
-        foreach ($response->getDocuments() as $document) {
-            $dataLinks->addDocument(document: $document, displayLabel: $this->revisionService->display($document));
-        }
     }
 
     public function export(Request $request, ContentType $contentType): Response

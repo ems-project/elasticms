@@ -9,13 +9,14 @@ outline: [2, 2]
 
 ## 7.4
 
-The legacy search (`/search`) has been removed, along with the `SortOption`, `SearchFieldOption`,
-and `AggregateOption` entities.
+The legacy search (`/search`) has been removed, along with the `Search`, `SortOption`,
+`SearchFieldOption`, and `AggregateOption` entities.
 
 If needed, for PostgreSQL databases, a Doctrine migration script creates an `advanced_search`
-dashboard based on the existing `SortOption`, `SearchFieldOption`, and `AggregateOption` entities.
-However, the migration script cannot migrate the templates of the `AggregateOption` entities. You
-must review these templates. Here is an example of a template for a user aggregation facet:
+dashboard based on the existing `Search`, `SortOption`, `SearchFieldOption`, and `AggregateOption`
+entities. However, the migration script cannot migrate the templates of the `AggregateOption`
+entities. You must review these templates. Here is an example of a template for a user aggregation
+facet:
 
 ```twig
 {% set fieldName = '_finalized_by' %}

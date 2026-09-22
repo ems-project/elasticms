@@ -17,6 +17,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use function Symfony\Component\Translation\t;
+
 /**
  * @extends AbstractType<mixed>
  */
@@ -64,21 +66,27 @@ class ContentTypeType extends AbstractType
 
         if ($environment->getManaged()) {
             $builder->add('autoPublish', CheckboxType::class, [
-                'label' => 'Silently publish draft and auto-save into the default environment',
+                'label' => t('field.auto_publish', [], 'emsco-core'),
                 'required' => false,
             ]);
         }
 
-        $builder->add('singularName', TextType::class);
-        $builder->add('pluralName', TextType::class);
+        $builder->add('singularName', TextType::class, [
+            'label' => t('field.singular_name', [], 'emsco-core'),
+        ]);
+        $builder->add('pluralName', TextType::class, [
+            'label' => t('field.plural_name', [], 'emsco-core'),
+        ]);
         $builder->add('icon', IconPickerType::class, [
             'required' => false,
         ]);
         $builder->add('color', ColorPickerType::class, [
+            'label' => t('field.color', [], 'emsco-core'),
             'required' => false,
         ]);
 
         $builder->add('description', TextareaType::class, [
+            'label' => t('field.description', [], 'emsco-core'),
             'required' => false,
             'attr' => [
                 'class' => 'ems-wysiwyg',
@@ -87,6 +95,7 @@ class ContentTypeType extends AbstractType
 
         if ($options['twigWithWysiwyg']) {
             $builder->add('indexTwig', TextareaType::class, [
+                'label' => t('field.index_twig', [], 'emsco-core'),
                 'required' => false,
                 'attr' => [
                     'class' => 'ems-wysiwyg',
@@ -95,6 +104,7 @@ class ContentTypeType extends AbstractType
             ]);
         } else {
             $builder->add('indexTwig', CodeEditorType::class, [
+                'label' => t('field.index_twig', [], 'emsco-core'),
                 'required' => false,
                 'attr' => [
                 ],
@@ -103,6 +113,7 @@ class ContentTypeType extends AbstractType
         }
 
         $builder->add('extra', TextareaType::class, [
+            'label' => t('field.extra', [], 'emsco-core'),
             'required' => false,
             'attr' => [
                 'rows' => 10,
@@ -110,6 +121,7 @@ class ContentTypeType extends AbstractType
         ]);
 
         $builder->add('save', SubmitEmsType::class, [
+            'label' => t('action.save', [], 'emsco-core'),
             'attr' => [
                 'class' => 'btn btn-primary btn-sm ',
                 'data-testid' => 'btn-action-save',
@@ -117,6 +129,7 @@ class ContentTypeType extends AbstractType
             'icon' => 'fa fa-save',
         ]);
         $builder->add('saveAndUpdateMapping', SubmitEmsType::class, [
+            'label' => t('action.save_update_mapping', [], 'emsco-core'),
             'attr' => [
                 'class' => 'btn btn-primary btn-sm ',
                 'data-testid' => 'btn-action-save-update-mapping',
@@ -124,6 +137,7 @@ class ContentTypeType extends AbstractType
             'icon' => 'fa fa-save',
         ]);
         $builder->add('saveAndClose', SubmitEmsType::class, [
+            'label' => t('action.save_close', [], 'emsco-core'),
             'attr' => [
                 'class' => 'btn btn-primary btn-sm ',
                 'data-testid' => 'btn-action-save-close',
@@ -150,12 +164,14 @@ class ContentTypeType extends AbstractType
 
         if ($environment->getManaged()) {
             $builder->add('defaultValue', CodeEditorType::class, [
+                'label' => t('field.default_value', [], 'emsco-core'),
                 'required' => false,
             ])->add('askForOuuid', CheckboxType::class, [
                 'label' => 'Ask for OUUID',
                 'required' => false,
             ]);
             $builder->add('saveAndEditStructure', SubmitEmsType::class, [
+                'label' => t('action.save_and_edit_structure', [], 'emsco-core'),
                 'attr' => [
                     'class' => 'btn btn-primary btn-sm ',
                     'data-testid' => 'btn-action-save-edit-structure',
@@ -163,6 +179,7 @@ class ContentTypeType extends AbstractType
                 'icon' => 'fa fa-save',
             ]);
             $builder->add('saveAndReorder', SubmitEmsType::class, [
+                'label' => t('action.save_and_reorder', [], 'emsco-core'),
                 'attr' => [
                     'class' => 'btn btn-primary btn-sm ',
                     'data-testid' => 'btn-action-save-reoder',

@@ -112,10 +112,13 @@ action:
     reset_filters: 'Reset filters'
     revert_to_revision: 'Revert to this revision'
     save: Save
+    save_and_edit_structure: 'Save and edit structure'
+    save_and_reorder: 'Save and reorder'
     save_as_draft: 'Save as draft'
     save_close: 'Save and Close'
     save_publish_in: 'Save and publish in {environments}'
     save_task: 'Save task'
+    save_update_mapping: 'Save and edit mapping'
     select_all: 'Select all'
     send: Send
     set_as_default: |-
@@ -279,6 +282,7 @@ field:
     assigned_to: 'Assigned to '
     assignee: Assignee
     attributes: 'Request extra attributes'
+    auto_publish: 'Silently publish draft and auto-save into the default environment'
     available: Available
     base_url: 'Base URL'
     boolean_clause: 'Boolean clause'
@@ -317,6 +321,7 @@ field:
     date_run_previous: 'Date previous run'
     date_upload: 'Date upload'
     deadline: Deadline
+    default_value: 'Default value'
     definition: Definition
     delay: 'Delay (in days)'
     description: Description
@@ -371,6 +376,7 @@ field:
     icon: Icon
     id: ID
     index: Index
+    index_twig: 'Index template (Twig)'
     indexes: Indexes
     instance: Instance
     inverted: Inverted
@@ -423,6 +429,7 @@ field:
     pdf_size: 'PDF Size'
     permission: Permission
     plural: Plural
+    plural_name: 'Plural name'
     postition_increment_gap: 'Position increment gap'
     public_access: 'Public Access'
     publish_to: 'Publish to'
@@ -455,6 +462,7 @@ field:
     search_field_options: 'Search field options'
     separator: Separator
     severity: Severity
+    singular_name: 'Singular name'
     singular: Singular
     sort_by: 'Sort by'
     sort_options: 'Sort options'

@@ -73,9 +73,12 @@ class AdvancedSearch implements DashboardInterface
             unset($searchForm['search']);
             $uid = $this->storageManager->saveConfig($searchForm);
 
-            return new RedirectResponse($this->router->generate(Routes::DASHBOARD, \array_filter([
+            $isQuickSearch = Dashboard::DEFINITION_QUICK_SEARCH === $dashboard->getDefinition();
+            $isLanding = Dashboard::DEFINITION_LANDING_PAGE === $dashboard->getDefinition();
+
+            return new RedirectResponse($this->router->generate($isQuickSearch ? 'ems_search' : Routes::DASHBOARD, \array_filter([
                 'uid' => $uid,
-                'name' => $dashboard->getName(),
+                'name' => $isLanding || $isQuickSearch ? null : $dashboard->getName(),
                 'open' => $open,
             ])));
         }

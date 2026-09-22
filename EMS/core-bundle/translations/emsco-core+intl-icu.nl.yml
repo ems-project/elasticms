@@ -112,10 +112,13 @@ action:
     reset_filters: 'Filters resetten'
     revert_to_revision: 'Terugkeren naar deze revisie'
     save: Opslaan
+    save_and_edit_structure: 'Opslaan en structuur bewerken'
+    save_and_reorder: 'Opslaan en hersorteren'
     save_as_draft: 'Opslaan als concept'
     save_close: 'Opslaan en sluiten'
     save_publish_in: 'Opslaan en publiceren in {environments}'
     save_task: 'Taak opslaan'
+    save_update_mapping: 'Opslaan en mapping bewerken'
     select_all: 'Alles selecteren'
     send: Verzenden
     set_as_default: |-
@@ -279,6 +282,7 @@ field:
     assigned_to: 'Toegewezen aan '
     assignee: Toegewezene
     attributes: 'Extra request-attributen'
+    auto_publish: 'Concept stilzwijgend publiceren en automatisch opslaan in de standaardomgeving'
     available: Beschikbaar
     base_url: Basis-URL
     boolean_clause: 'Booleaanse clausule'
@@ -317,6 +321,7 @@ field:
     date_run_previous: 'Vorige uitvoeringsdatum'
     date_upload: Uploaddatum
     deadline: Deadline
+    default_value: Standaardwaarde
     definition: Definitie
     delay: 'Vertraging (in dagen)'
     description: Beschrijving
@@ -371,6 +376,7 @@ field:
     icon: Icoon
     id: ID
     index: Index
+    index_twig: 'Indextemplate (Twig)'
     indexes: Indexen
     instance: Instantie
     inverted: Omgekeerd
@@ -423,6 +429,7 @@ field:
     pdf_size: PDF-formaat
     permission: Toestemming
     plural: Meervoud
+    plural_name: Meervoudsnaam
     postition_increment_gap: 'Positie-increment gap'
     public_access: 'Publieke toegang'
     publish_to: 'Publiceren naar'
@@ -455,6 +462,7 @@ field:
     search_field_options: 'Opties voor het zoekveld'
     separator: Scheidingsteken
     severity: Ernst
+    singular_name: Enkelvoudsnaam
     singular: Enkelvoud
     sort_by: 'Sorteren op'
     sort_options: Sorteeropties

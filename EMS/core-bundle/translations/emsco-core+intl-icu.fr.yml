@@ -112,10 +112,13 @@ action:
     reset_filters: 'Réinitialiser les filtres'
     revert_to_revision: 'Revenir à cette révision'
     save: Enregistrer
+    save_and_edit_structure: 'Enregistrer et modifier la structure'
+    save_and_reorder: 'Enregistrer et réordonner'
     save_as_draft: 'Enregistrer comme brouillon'
     save_close: 'Enregistrer et fermer'
     save_publish_in: 'Enregistrer et publier dans {environments}'
     save_task: 'Enregistrer la tâche'
+    save_update_mapping: 'Enregistrer et modifier le mapping'
     select_all: 'Tout sélectionner'
     send: Envoyer
     set_as_default: |-
@@ -279,6 +282,7 @@ field:
     assigned_to: 'Assignée à '
     assignee: Assigné
     attributes: 'Attributs supplémentaires de la requête'
+    auto_publish: 'Publier silencieusement le brouillon et l’enregistrer automatiquement dans l’environnement par défaut'
     available: Disponible
     base_url: 'URL de base'
     boolean_clause: 'Clause booléenne'
@@ -317,6 +321,7 @@ field:
     date_run_previous: 'Date d’exécution précédente'
     date_upload: 'Date d’upload'
     deadline: Échéance
+    default_value: 'Valeur par défaut'
     definition: Définition
     delay: 'Délai (en jours)'
     description: Description
@@ -371,6 +376,7 @@ field:
     icon: Icône
     id: ID
     index: Index
+    index_twig: 'Template d’index (Twig)'
     indexes: Indexes
     instance: Instance
     inverted: Inversé
@@ -423,6 +429,7 @@ field:
     pdf_size: 'Format PDF'
     permission: Permission
     plural: Pluriel
+    plural_name: 'Nom pluriel'
     postition_increment_gap: "Écart d'incrément de position"
     public_access: 'Accès public'
     publish_to: 'Publier vers'
@@ -455,6 +462,7 @@ field:
     search_field_options: 'Options du champ de recherche'
     separator: Séparateur
     severity: Sévérité
+    singular_name: 'Nom singulier'
     singular: Singulier
     sort_by: 'Trier par'
     sort_options: 'Options de tri'

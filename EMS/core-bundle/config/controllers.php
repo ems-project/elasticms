@@ -707,7 +707,6 @@ return static function (ContainerConfigurator $container) {
         ->public()
         ->args([
             service('ems.service.query_search'),
-            service(ElasticsearchController::class),
             service('ems_core.core_document.data_links_factory'),
         ])
         ->call('setContainer')
@@ -836,7 +835,6 @@ return static function (ContainerConfigurator $container) {
             service('ems_common.service.elastica'),
             service('ems.service.data'),
             service('ems.service.asset_extractor'),
-            service('ems.service.environment'),
             service('ems.service.contenttype'),
             service('ems.service.revision'),
             service('ems.service.search'),

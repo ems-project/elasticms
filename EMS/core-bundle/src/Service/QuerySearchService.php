@@ -167,12 +167,8 @@ final readonly class QuerySearchService implements EntityServiceInterface
         }
     }
 
-    public function querySearchDataLinks(DataLinks $dataLinks): void
+    public function querySearchDataLinks(DataLinks $dataLinks, QuerySearch $querySearch): void
     {
-        $querySearch = $this->getOneByName($dataLinks->getQuerySearchName());
-        if (!$querySearch instanceof QuerySearch) {
-            throw new \RuntimeException(\sprintf('QuerySearch %s not found', $dataLinks->getQuerySearchName()));
-        }
         $encodedPattern = Json::encode($dataLinks->getPattern());
         $encodedPattern = \substr($encodedPattern, 1, \strlen($encodedPattern) - 2);
 
@@ -299,6 +295,6 @@ final readonly class QuerySearchService implements EntityServiceInterface
 
     public function getDefault(): ?QuerySearch
     {
-        return  $this->querySearchRepository->getDefault();
+        return $this->querySearchRepository->getDefault();
     }
 }

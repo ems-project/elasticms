@@ -17,7 +17,6 @@ use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Entity\Form\ExportDocuments;
 use EMS\CoreBundle\Entity\Form\Search;
-use EMS\CoreBundle\Entity\Form\SearchFilter;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Form\Field\IconTextType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
@@ -28,7 +27,6 @@ use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\AssetExtractorService;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
-use EMS\CoreBundle\Service\EnvironmentService;
 use EMS\CoreBundle\Service\IndexService;
 use EMS\CoreBundle\Service\JobService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
@@ -38,6 +36,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -52,7 +51,6 @@ class ElasticsearchController extends AbstractController
         private readonly ElasticaService $elasticaService,
         private readonly DataService $dataService,
         private readonly AssetExtractorService $assetExtractorService,
-        private readonly EnvironmentService $environmentService,
         private readonly ContentTypeService $contentTypeService,
         private readonly RevisionService $revisionService,
         private readonly SearchService $searchService,
@@ -220,33 +218,11 @@ class ElasticsearchController extends AbstractController
     public function quickSearch(Request $request): Response
     {
         $dashboard = $this->dashboardManager->getDefinition(Dashboard::DEFINITION_QUICK_SEARCH);
-        if (null !== $dashboard) {
-            return $this->redirectToRoute(Routes::DASHBOARD, ['name' => $dashboard->getName(), 'q' => $query = $request->query->get('q', '')]);
-        }
-        $query = $request->query->get('q');
-        $search = $this->searchRepository->findOneBy([
-            'default' => true,
-        ]);
-        if ($search instanceof Search) {
-            /** @var SearchFilter $filter */
-            foreach ($search->getFilters() as &$filter) {
-                if (empty($filter->getPattern())) {
-                    $filter->setPattern($query);
-                }
-            }
-        } else {
-            $search = new Search();
-            $search->setEnvironments($this->environmentService->getEnvironmentNames());
-            if (false !== $query) {
-                $search->getFirstFilter()->setPattern($query)->setBooleanClause('must');
-            }
+        if (null === $dashboard) {
+            throw new NotFoundHttpException('Quick search dashboard not defined');
         }
 
-        return $this->forward(ElasticsearchController::class.'::search', [
-            'query' => null,
-        ], [
-            'search_form' => $search->jsonSerialize(),
-        ]);
+        return $this->redirectToRoute(Routes::DASHBOARD, \array_filter(['name' => $dashboard->getName(), 'q' => $request->query->get('q')]));
     }
 
     public function legacySearch(Request $request, DataLinks $dataLinks): void

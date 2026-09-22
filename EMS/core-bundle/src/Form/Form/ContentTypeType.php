@@ -39,11 +39,12 @@ class ContentTypeType extends AbstractType
         if (null !== $mapping) {
             $builder->add('sortOrder', ChoiceType::class, [
                 'required' => false,
-                'label' => 'Default sort order',
+                'label' => t('field.default_sort_order', [], 'emsco-core'),
                 'choices' => [
-                    'Ascending' => 'asc',
-                    'Descending' => 'desc',
+                    t('key.ascending', [], 'emsco-core')->getMessage() => 'asc',
+                    t('key.descending', [], 'emsco-core')->getMessage() => 'desc',
                 ],
+                'translation_domain' => 'emsco-core',
             ]);
 
             if ($environment->getManaged()) {
@@ -54,13 +55,16 @@ class ContentTypeType extends AbstractType
             }
         }
 
-        $builder->add('refererFieldName');
+        $builder->add('refererFieldName', null, [
+            'label' => t('field.referer_field_name', [], 'emsco-core'),
+            'required' => false,
+        ]);
         $builder->add('editTwigWithWysiwyg', CheckboxType::class, [
-            'label' => 'Edit the Twig template with a WYSIWYG editor',
+            'label' => t('field.edit_twig_with_wysiwyg', [], 'emsco-core'),
             'required' => false,
         ]);
         $builder->add('webContent', CheckboxType::class, [
-            'label' => 'Web content (available in WYSIWYG field as internal link)',
+            'label' => t('field.web_content', [], 'emsco-core'),
             'required' => false,
         ]);
 
@@ -145,7 +149,10 @@ class ContentTypeType extends AbstractType
             'icon' => 'fa fa-save',
         ]);
 
-        $builder->add('rootContentType');
+        $builder->add('rootContentType', null, [
+            'required' => false,
+            'label' => t('field.root_content_type', [], 'emsco-core'),
+        ]);
 
         $builder->add('roles', ContentTypeRolesType::class, [
             'managed' => $environment->getManaged(),
@@ -167,7 +174,7 @@ class ContentTypeType extends AbstractType
                 'label' => t('field.default_value', [], 'emsco-core'),
                 'required' => false,
             ])->add('askForOuuid', CheckboxType::class, [
-                'label' => 'Ask for OUUID',
+                'label' => t('field.ask_for_ouuid', [], 'emsco-core'),
                 'required' => false,
             ]);
             $builder->add('saveAndEditStructure', SubmitEmsType::class, [

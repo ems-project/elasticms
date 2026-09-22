@@ -267,6 +267,7 @@ field:
     alias: Alias
     allowed_remote_hosts: 'Allowed remote hosts'
     analyzer: Analyzer
+    ask_for_ouuid: 'Ask for OUUID'
     asset:
         author: 'Author :'
         content: 'Content :'
@@ -279,6 +280,7 @@ field:
         mime_type: 'MIME Type :'
         size: 'Size :'
         title: 'Title :'
+    asset_field: 'Asset'
     assigned_to: 'Assigned to '
     assignee: Assignee
     attributes: 'Request extra attributes'
@@ -287,7 +289,9 @@ field:
     base_url: 'Base URL'
     boolean_clause: 'Boolean clause'
     boost: Boost
+    business_id: 'Business ID'
     by_role: 'by role {role}'
+    category: Category
     channel: Channel
     char_filter: 'Char filter'
     circles: Circles
@@ -312,6 +316,7 @@ field:
     date_created: 'Date creation'
     date_execution: 'Execution date'
     date_expiration: 'Expiration date'
+    date_from: 'Date from'
     date_modified: 'Date modified'
     date_range:
         duration: Duration
@@ -319,13 +324,17 @@ field:
         to: To
     date_run_next: 'Date next run'
     date_run_previous: 'Date previous run'
+    date_to: 'Date to'
     date_upload: 'Date upload'
+    dates_interval_one_day: 'Dates interval one day'
+    dates_read_only: 'Dates read only'
     deadline: Deadline
     default_sort_order: 'Default sort order'
     default_value: 'Default value'
     definition: Definition
     delay: 'Delay (in days)'
     description: Description
+    display: Display
     display_name: 'Display name'
     docs_count: '# Documents'
     edit_twig_with_wysiwyg: 'Edit the Twig template with a WYSIWYG editor'
@@ -420,6 +429,7 @@ field:
     name: Name
     new_version: 'New version'
     node_name: 'Node name'
+    not_blank_new_version: 'Not blank new version'
     operator: Operator
     operators: Operators
     options: Options
@@ -438,6 +448,7 @@ field:
     published_label: 'Published in {environment}'
     query: Query
     quick_search: 'Quick search'
+    referer_field_name: 'Referer field name'
     rejected_by: 'Rejected by'
     rejected_message: 'Rejected message'
     release_environment_source: 'Source Environment for publication'
@@ -460,12 +471,14 @@ field:
     role_trash: Trash
     role_view: View
     roles: Roles
+    root_content_type: 'Root content type'
     search_config: 'Search config'
     search_field_options: 'Search field options'
     separator: Separator
     severity: Severity
     singular: Singular
     singular_name: 'Singular name'
+    sort: Sort
     sort_by: 'Sort by'
     sort_options: 'Sort options'
     sort_order: 'Sort order'
@@ -475,6 +488,7 @@ field:
     styles_set: 'Styles set'
     table_default_css: 'Default Table class attribute'
     tag: Tag
+    tags: Tags
     template: Template
     template_body: 'Template body'
     template_footer: 'Template footer'
@@ -485,6 +499,7 @@ field:
     title: Task
     titles: Titles
     tokenizer: Tokenizer
+    tooltip: Tooltip
     total: Total
     total_deleted: 'Total deleted'
     total_elastic: 'Total in ES'
@@ -503,6 +518,7 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     username_or_email: 'Username or email address'
+    version_tag: 'Version tag'
     web_content: 'Web content (available in WYSIWYG field as internal link)'
     with_business_key: 'With business key'
     wysiwyg_profile: 'WYSIWYG profile'

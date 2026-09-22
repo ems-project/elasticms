@@ -118,6 +118,11 @@ action:
     save_task: 'Save task'
     select_all: 'Select all'
     send: Send
+    set_as_default: |-
+        {type, select,
+            query_search   {Set as default search}
+            other   {Set as default}
+        }
     set_as_default_search: 'Set as default search'
     set_status_canceled: 'Cancel release'
     set_status_ready: 'Validate release'

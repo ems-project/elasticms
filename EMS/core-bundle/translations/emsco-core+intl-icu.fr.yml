@@ -118,6 +118,11 @@ action:
     save_task: 'Enregistrer la tâche'
     select_all: 'Tout sélectionner'
     send: Envoyer
+    set_as_default: |-
+        {type, select,
+            query_search   {Définir comme recherche par défaut}
+            other   {Définir par défaut}
+        }
     set_as_default_search: 'Définir comme recherche par défaut'
     set_status_canceled: 'Annuler la release'
     set_status_ready: 'Valider la release'

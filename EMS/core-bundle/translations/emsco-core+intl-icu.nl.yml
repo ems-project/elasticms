@@ -118,6 +118,11 @@ action:
     save_task: 'Taak opslaan'
     select_all: 'Alles selecteren'
     send: Verzenden
+    set_as_default: |-
+        {type, select,
+            query_search   {Instellen als standaardzoekopdracht}
+            other   {Instellen als standaard}
+        }
     set_as_default_search: 'Instellen als standaardzoekopdracht'
     set_status_canceled: 'Release annuleren'
     set_status_ready: 'Release valideren'

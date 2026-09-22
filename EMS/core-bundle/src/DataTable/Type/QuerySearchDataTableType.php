@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\DataTable\Type;
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Roles;
+use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\QuerySearchService;
 
 use function Symfony\Component\Translation\t;
@@ -30,9 +31,20 @@ class QuerySearchDataTableType extends AbstractEntityTableType
 
         $this
             ->addColumnsCreatedModifiedDate($table)
-            ->addItemEdit($table, 'ems_core_query_search_edit')
-            ->addItemDelete($table, 'query_search', 'ems_core_query_search_delete')
-            ->addTableToolbarActionAdd($table, 'ems_core_query_search_add')
+            ->addItemEdit($table, Routes::ADMIN_QUERY_SEARCH_EDIT);
+
+        $setAsDefault = $table->addItemPostAction(
+            route: Routes::ADMIN_QUERY_SEARCH_SET_AS_DEFAULT,
+            labelKey: t('action.set_as_default', ['type' => 'query_search'], 'emsco-core'),
+            icon: 'check',
+            messageKey: t('type.confirm', ['type' => 'set_as_default'], 'emsco-core'),
+            attributes: ['data-testid' => 'btn-action-set-as-default']
+        );
+        $setAsDefault->setButtonType('primary');
+
+        $this
+            ->addItemDelete($table, 'query_search', Routes::ADMIN_QUERY_SEARCH_DELETE)
+            ->addTableToolbarActionAdd($table, Routes::ADMIN_QUERY_SEARCH_ADD)
             ->addTableActionDelete($table, 'query_search');
     }
 

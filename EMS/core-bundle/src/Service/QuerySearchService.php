@@ -54,6 +54,12 @@ final readonly class QuerySearchService implements EntityServiceInterface
     public function delete(QuerySearch $querySearch): void
     {
         $label = $querySearch->getLabel();
+        $count = $querySearch->getContentTypesHavingThisAsDefault()->count();
+        if ($count > 0) {
+            $this->logger->messageError(t('message.cant_delete_query_search', ['label' => $label, 'count' => $count], 'emsco-core'));
+
+            return;
+        }
         $this->querySearchRepository->delete($querySearch);
         $this->logger->messageWarning(t('message.query_search_deleted', ['label' => $label], 'emsco-core'));
     }

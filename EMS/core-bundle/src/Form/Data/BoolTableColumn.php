@@ -11,10 +11,11 @@ final class BoolTableColumn extends TableColumn
     public function __construct(
         string|TranslatableMessage $titleKey,
         string $attribute,
-        private readonly string $iconType = 'square')
-    {
+        private readonly string $iconType = 'square'
+    ) {
         parent::__construct($titleKey, $attribute);
     }
+
     #[\Override]
     public function tableDataBlock(): string
     {

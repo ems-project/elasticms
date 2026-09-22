@@ -93,7 +93,7 @@ class SearchFormType extends AbstractType
                         'class' => 'select2',
                     ],
                 ]);
-            } elseif ($isSuper) {
+            } else {
                 $builder->add('sortBy', TextType::class, [
                     'label' => t('field.sort_by', [], 'emsco-core'),
                     'required' => false,

@@ -267,6 +267,7 @@ field:
     alias: Alias
     allowed_remote_hosts: 'Toegestane externe hosts'
     analyzer: Analyzer
+    ask_for_ouuid: 'Om OUUID vragen'
     asset:
         author: 'Auteur:'
         content: 'Inhoud:'
@@ -279,6 +280,7 @@ field:
         mime_type: 'MIME-type:'
         size: 'Grootte:'
         title: 'Titel:'
+    asset_field: Asset
     assigned_to: 'Toegewezen aan '
     assignee: Toegewezene
     attributes: 'Extra request-attributen'
@@ -287,7 +289,9 @@ field:
     base_url: Basis-URL
     boolean_clause: 'Booleaanse clausule'
     boost: Boost
+    business_id: 'Zakelijke ID'
     by_role: 'per rol {role}'
+    category: Categorie
     channel: Kanaal
     char_filter: 'Char filter'
     circles: Kringen
@@ -312,6 +316,7 @@ field:
     date_created: Aanmaakdatum
     date_execution: Uitvoeringsdatum
     date_expiration: Vervaldatum
+    date_from: 'Datum vanaf'
     date_modified: Wijzigingsdatum
     date_range:
         duration: Duur
@@ -319,14 +324,20 @@ field:
         to: Tot
     date_run_next: 'Volgende uitvoeringsdatum'
     date_run_previous: 'Vorige uitvoeringsdatum'
+    date_to: 'Datum tot'
     date_upload: Uploaddatum
+    dates_interval_one_day: 'Datumbereik van één dag'
+    dates_read_only: 'Datums alleen-lezen'
     deadline: Deadline
+    default_sort_order: 'Standaard sorteervolgorde'
     default_value: Standaardwaarde
     definition: Definitie
     delay: 'Vertraging (in dagen)'
     description: Beschrijving
+    display: Weergave
     display_name: Weergavenaam
     docs_count: '# Documenten'
+    edit_twig_with_wysiwyg: 'Twig-template bewerken met een WYSIWYG-editor'
     editor: Editor
     email: E-mail
     email_content_type: 'Contenttype (bv. text/html)'
@@ -418,6 +429,7 @@ field:
     name: Naam
     new_version: 'Nieuwe versie'
     node_name: 'Naam van het knooppunt'
+    not_blank_new_version: 'Nieuwe versie niet leeg'
     operator: Operator
     operators: Exploitanten
     options: Opties
@@ -436,6 +448,7 @@ field:
     published_label: 'Gepubliceerd in {environment}'
     query: Query
     quick_search: 'Snel zoeken'
+    referer_field_name: 'Naam van refererveld'
     rejected_by: 'Geweigerd door'
     rejected_message: Weigeringsbericht
     release_environment_source: 'Bronomgeving voor publicatie'
@@ -458,12 +471,14 @@ field:
     role_trash: Afval
     role_view: Zien
     roles: Rollen
+    root_content_type: Hoofdcontenttype
     search_config: Zoekconfiguratie
     search_field_options: 'Opties voor het zoekveld'
     separator: Scheidingsteken
     severity: Ernst
     singular: Enkelvoud
     singular_name: Enkelvoudsnaam
+    sort: Sortering
     sort_by: 'Sorteren op'
     sort_options: Sorteeropties
     sort_order: Sorteervolgorde
@@ -473,6 +488,7 @@ field:
     styles_set: Stijlenset
     table_default_css: 'Standaard class-attribuut van tabel'
     tag: Tag
+    tags: Tags
     template: Template
     template_body: 'Template body'
     template_footer: 'Template footer'
@@ -483,6 +499,7 @@ field:
     title: Taak
     titles: Titels
     tokenizer: Tokenizer
+    tooltip: Tooltip
     total: Totaal
     total_deleted: 'Totaal verwijderd'
     total_elastic: 'Totaal in ES'
@@ -501,6 +518,8 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     username_or_email: 'Gebruikersnaam of e-mailadres'
+    version_tag: Versietag
+    web_content: 'Webinhoud (beschikbaar in WYSIWYG-veld als interne link)'
     with_business_key: 'Met zakelijke sleutel'
     wysiwyg_profile: WYSIWYG-profiel
 help:

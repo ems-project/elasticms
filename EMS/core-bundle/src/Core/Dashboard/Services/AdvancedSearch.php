@@ -168,7 +168,7 @@ class AdvancedSearch implements DashboardInterface
         $search->clearFilters();
         foreach ($filters as $filter) {
             $searchFilter = SearchFilter::fromArray($filter);
-            $searchFilter->setPattern(\str_replace('%q%', $query, $searchFilter->getPattern() ?? ''));
+            $searchFilter->setPattern(\str_replace('%query%', $query, $searchFilter->getPattern() ?? ''));
             $search->addFilter($searchFilter);
         }
 

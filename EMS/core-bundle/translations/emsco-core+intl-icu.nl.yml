@@ -462,8 +462,8 @@ field:
     search_field_options: 'Opties voor het zoekveld'
     separator: Scheidingsteken
     severity: Ernst
-    singular_name: Enkelvoudsnaam
     singular: Enkelvoud
+    singular_name: Enkelvoudsnaam
     sort_by: 'Sorteren op'
     sort_options: Sorteeropties
     sort_order: Sorteervolgorde

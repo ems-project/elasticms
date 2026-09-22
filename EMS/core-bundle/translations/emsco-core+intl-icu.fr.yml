@@ -462,8 +462,8 @@ field:
     search_field_options: 'Options du champ de recherche'
     separator: Séparateur
     severity: Sévérité
-    singular_name: 'Nom singulier'
     singular: Singulier
+    singular_name: 'Nom singulier'
     sort_by: 'Trier par'
     sort_options: 'Options de tri'
     sort_order: 'Ordre de tri'

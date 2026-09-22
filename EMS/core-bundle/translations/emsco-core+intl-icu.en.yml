@@ -321,12 +321,14 @@ field:
     date_run_previous: 'Date previous run'
     date_upload: 'Date upload'
     deadline: Deadline
+    default_sort_order: 'Default sort order'
     default_value: 'Default value'
     definition: Definition
     delay: 'Delay (in days)'
     description: Description
     display_name: 'Display name'
     docs_count: '# Documents'
+    edit_twig_with_wysiwyg: 'Edit the Twig template with a WYSIWYG editor'
     editor: Editor
     email: Email
     email_content_type: 'Content type (ie: text/html)'
@@ -462,8 +464,8 @@ field:
     search_field_options: 'Search field options'
     separator: Separator
     severity: Severity
-    singular_name: 'Singular name'
     singular: Singular
+    singular_name: 'Singular name'
     sort_by: 'Sort by'
     sort_options: 'Sort options'
     sort_order: 'Sort order'
@@ -501,6 +503,7 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     username_or_email: 'Username or email address'
+    web_content: 'Web content (available in WYSIWYG field as internal link)'
     with_business_key: 'With business key'
     wysiwyg_profile: 'WYSIWYG profile'
 help:

@@ -654,7 +654,6 @@ return static function (ContainerConfigurator $container) {
             service('security.token_storage'),
             service('security.helper'),
             service('ems.repository.user'),
-            service('ems.repository.search'),
             service('security.authorization_checker'),
             '%security.role_hierarchy.roles%',
         ]);

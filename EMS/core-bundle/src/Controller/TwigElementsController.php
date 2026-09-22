@@ -11,7 +11,6 @@ use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\AssetExtractorService;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\JobService;
-use EMS\CoreBundle\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +24,6 @@ class TwigElementsController extends AbstractController
     public function __construct(
         private readonly AssetExtractorService $assetExtractorService,
         private readonly ElasticaService $elasticaService,
-        private readonly UserService $userService,
         private readonly JobService $jobService,
         private readonly DashboardManager $dashboardManager,
         private readonly ContentTypeService $contentTypeService,
@@ -46,7 +44,6 @@ class TwigElementsController extends AbstractController
             [
                 'status' => $status,
                 'menu' => [
-                    $this->userService->getSidebarMenu(),
                     $this->dashboardManager->getSidebarMenu(),
                     $this->contentTypeService->getContentTypeMenu(),
                     $this->getPublisherMenu(),

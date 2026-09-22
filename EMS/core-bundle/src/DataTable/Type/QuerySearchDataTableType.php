@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\DataTable\Type;
 
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
+use EMS\CoreBundle\Form\Data\BoolTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
@@ -28,6 +29,7 @@ class QuerySearchDataTableType extends AbstractEntityTableType
 
         $table->addColumn(t('field.label', [], 'emsco-core'), 'label');
         $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
+        $table->addColumnDefinition(new BoolTableColumn(t('field.is_default', [], 'emsco-core'), 'default'));
 
         $this
             ->addColumnsCreatedModifiedDate($table)

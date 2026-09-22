@@ -285,4 +285,15 @@ final readonly class QuerySearchService implements EntityServiceInterface
 
         return $search;
     }
+
+    public function setAsDefault(QuerySearch $querySearch): void
+    {
+        if (null !== $defaultQuerySearch = $this->querySearchRepository->getDefault()) {
+            $defaultQuerySearch->setDefault(false);
+            $this->update($defaultQuerySearch);
+        }
+
+        $querySearch->setDefault(true);
+        $this->update($querySearch);
+    }
 }

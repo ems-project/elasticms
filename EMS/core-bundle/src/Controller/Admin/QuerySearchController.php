@@ -116,6 +116,8 @@ final class QuerySearchController extends AbstractController
 
     public function setAsDefault(QuerySearch $querySearch): RedirectResponse
     {
+        $this->querySearchService->setAsDefault($querySearch);
+
         return $this->redirectToRoute(Routes::ADMIN_QUERY_SEARCH_INDEX);
     }
 

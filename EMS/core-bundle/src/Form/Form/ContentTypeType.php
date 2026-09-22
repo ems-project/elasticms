@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Form;
 
+use Doctrine\ORM\EntityRepository;
 use EMS\CoreBundle\Entity\ContentType;
+use EMS\CoreBundle\Entity\QuerySearch;
 use EMS\CoreBundle\Form\Field\CodeEditorType;
 use EMS\CoreBundle\Form\Field\ColorPickerType;
 use EMS\CoreBundle\Form\Field\IconPickerType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -160,6 +163,17 @@ class ContentTypeType extends AbstractType
         ]);
         $builder->add('settings', ContentTypeSettingsType::class, [
             'label' => false,
+        ]);
+        $builder->add('querySearch', EntityType::class, [
+            'required' => false,
+            'label' => t('key.query_search', [], 'emsco-core'),
+            'class' => QuerySearch::class,
+            'choice_label' => 'label',
+            'query_builder' => fn (EntityRepository $er) => $er->createQueryBuilder('qs')->orderBy('qs.orderKey', 'ASC'),
+            'attr' => [
+                'data-live-search' => true,
+                'class' => 'query-search-picker',
+            ],
         ]);
 
         if (null !== $mapping) {

@@ -280,7 +280,7 @@ field:
         mime_type: 'MIME Type :'
         size: 'Size :'
         title: 'Title :'
-    asset_field: 'Asset'
+    asset_field: Asset
     assigned_to: 'Assigned to '
     assignee: Assignee
     attributes: 'Request extra attributes'

@@ -40,7 +40,7 @@ Bootstrap 3 version :
 {% endif %}
 ```
 
-Bootstrap 3 version :
+Bootstrap 5 version :
 ```twig
 {% set fieldName = '_finalized_by' %}
 

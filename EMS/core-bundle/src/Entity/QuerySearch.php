@@ -151,6 +151,7 @@ class QuerySearch extends JsonDeserializer implements \JsonSerializable, EntityI
         $json->removeProperty('id');
         $json->removeProperty('created');
         $json->removeProperty('modified');
+        $json->removeProperty('contentTypesHavingThisAsDefault');
         $json->replaceCollectionByEntityNames('environments');
 
         return $json;

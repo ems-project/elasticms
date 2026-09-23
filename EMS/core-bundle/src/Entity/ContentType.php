@@ -856,6 +856,7 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
         $json->removeProperty('dirty');
         $json->removeProperty('active');
         $json->handlePersistentCollections('templates', 'views');
+        $json->replaceByEntityNames('querySearch');
 
         return $json;
     }

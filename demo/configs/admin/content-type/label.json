@@ -467,8 +467,7 @@
             "delete": "ROLE_WEBMASTER",
             "trash": "ROLE_WEBMASTER",
             "archive": "not-defined",
-            "show_link_create": "ROLE_WEBMASTER",
-            "show_link_search": "not-defined"
+            "show_link_create": "ROLE_WEBMASTER"
         },
         "fields": {
             "display": null,
@@ -484,7 +483,10 @@
         "settings": {
             "tasks_enabled": false,
             "hide_revision_sidebar": false
-        }
+        },
+        "querySearch": null
     },
-    "replaced": []
+    "replaced": [
+        "querySearch"
+    ]
 }

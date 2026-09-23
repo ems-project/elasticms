@@ -216,8 +216,7 @@
             "delete": "not-defined",
             "trash": "not-defined",
             "archive": "not-defined",
-            "show_link_create": "not-defined",
-            "show_link_search": "not-defined"
+            "show_link_create": "not-defined"
         },
         "fields": {
             "display": null,
@@ -234,7 +233,10 @@
             "tasks_enabled": false,
             "tasks_titles": [],
             "hide_revision_sidebar": false
-        }
+        },
+        "querySearch": null
     },
-    "replaced": []
+    "replaced": [
+        "querySearch"
+    ]
 }

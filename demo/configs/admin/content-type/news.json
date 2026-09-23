@@ -748,8 +748,7 @@
             "delete": "ROLE_PUBLISHER",
             "trash": "ROLE_WEBMASTER",
             "archive": "not-defined",
-            "show_link_create": "ROLE_USER",
-            "show_link_search": "not-defined"
+            "show_link_create": "ROLE_USER"
         },
         "fields": {
             "display": "(rawData['display_label_'~userLocale] ?? rawData['display_label_fr'])",
@@ -768,7 +767,10 @@
             "tasks_helptexts": [],
             "hide_revision_sidebar": false,
             "recompute_on_publish": false
-        }
+        },
+        "querySearch": null
     },
-    "replaced": []
+    "replaced": [
+        "querySearch"
+    ]
 }

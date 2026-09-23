@@ -716,7 +716,6 @@ key:
     search: Recherche
     search_field_options: 'Options de champ de recherche'
     search_options: 'Options de recherche'
-    searches: Recherches
     selected: Sélectionné
     sent: Envoyées
     settings: Paramètres
@@ -1308,8 +1307,6 @@ title:
     reorder_form_fields: 'Réordonner les champs du formulaire : {label}'
     reset_password: 'Réinitialiser le mot de passe'
     revisions_of_content_type: 'Révisions de {contentType} : {title}'
-    search_engine_results: 'Moteur de recherche : {total} résultats'
-    search_result_error: 'Erreur avec le résultat de la recherche'
     select_environments_to_compare: 'Sélectionner les environnements à comparer'
     select_your_options: 'Sélectionnez vos options'
     specific_permissions_for: 'Permission pour {content_type_singular_name}'

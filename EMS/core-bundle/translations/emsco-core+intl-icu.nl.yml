@@ -716,7 +716,6 @@ key:
     search: Zoeken
     search_field_options: Zoekveldopties
     search_options: Zoekopties
-    searches: Zoekopdrachten
     selected: Geselecteerd
     sent: Verzonden
     settings: Instellingen
@@ -1308,8 +1307,6 @@ title:
     reorder_form_fields: 'Velden van formulier hersorteren: {label}'
     reset_password: 'Wachtwoord resetten'
     revisions_of_content_type: 'Revisies van {contentType}: {title}'
-    search_engine_results: 'Zoekmachine: {total} resultaten'
-    search_result_error: 'Fout bij het zoekresultaat'
     select_environments_to_compare: 'Selecteer omgevingen om te vergelijken'
     select_your_options: 'Selecteer uw opties'
     specific_permissions_for: 'Recht voor {content_type_singular_name}'

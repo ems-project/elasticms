@@ -109,7 +109,7 @@ final class Version20260919133300 extends AbstractMigration
         $defaultFilters = [[
             'booleanClause' => 'must',
             'field' => '',
-            'operator' => 'must_and',
+            'operator' => 'query_and',
             'pattern' => '',
             'boost' => '',
             'minimum_should_match' => 1,

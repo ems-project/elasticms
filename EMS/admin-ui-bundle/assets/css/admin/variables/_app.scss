@@ -50,7 +50,7 @@ $min-contrast-ratio: 3 !default;
 $enable-validation-icons: false !default;
 $enable-rfs: false !default;
 $enable-negative-margins: true !default;
-$enable-dark-mode: false !default;
+$enable-dark-mode: true !default;
 
 // Transitions
 $transition-base: all .35s ease-in-out !default;
@@ -122,6 +122,15 @@ $theme-colors: (
   "aqua": $aqua
 ) !default;
 
+// Supported theme colors
+$theme-colors-supported: (
+  'blue': #3c8dbc,
+  'purple': #605ca8,
+  'green': #00a65a,
+  'red': #dd4b39,
+  'yellow': #f39c12
+) !default;
+
 // Social colors
 $social-colors: (
   "facebook": #3b5998,
@@ -140,6 +149,9 @@ $social-colors: (
 // Body
 $body-bg: #f5f7fb !default;
 $body-color: $gray-700 !default;
+$body-bg-dark: #1a1d21 !default;
+$body-color-dark: #e7e9eb !default;
+$border-color-dark: #40464d !default;
 
 // Links
 $link-color:      $body-color;
@@ -193,13 +205,15 @@ $navbar-padding-x: $spacer*1.375 !default;
 $navbar-nav-link-padding-x: .5rem !default;
 $navbar-border-bottom: 0 !default;
 $navbar-box-shadow: 0 0 2rem 0 rgba($dark, .1) !default;
+$navbar-row-height: 53px !default;
+$navbar-brand-row-height: 44px !default;
 
 // Navbar brand
 $navbar-brand-padding-y: $spacer*0.875 !default;
 $navbar-brand-padding-x: 0 !default;
 $navbar-brand-color: $gray-100 !default;
 $navbar-brand-font-weight: $font-weight-normal !default;
-$navbar-brand-font-size: 1.15rem !default;
+$navbar-brand-font-size: 1.4rem !default;
 $navbar-brand-icon-color: $primary !default;
 
 $navbar-bg: $white !default;
@@ -267,9 +281,10 @@ $sidebar-brand-font-size: 1.15rem !default;
 $sidebar-brand-color: $gray-100 !default;
 
 // Sidebar header
-$sidebar-header-padding: 1.5rem 1rem 0.375rem !default;
+$sidebar-header-padding: 1.25rem 1rem .5rem !default;
 $sidebar-header-font-size: $font-size-sm !default;
-$sidebar-header-color: #fff;
+$sidebar-header-color: #{rgba($white, .6)};
+$sidebar-section-bg: rgba($black, .15) !default;
 
 // Sidebar link
 $sidebar-link-padding-y: .625rem;
@@ -334,11 +349,6 @@ $bs-datetimepicker-active-bg: $primary !default;
 
 // Simplebar
 $simplebar-scrollbar-bg: $white !default;
-
-// Hamburger
-$hamburger-width-top: 24px !default;
-$hamburger-width-middle: 24px !default;
-$hamburger-width-bottom: 16px !default;
 
 // Stats
 $stat-bg: lighten($primary, 35%) !default;

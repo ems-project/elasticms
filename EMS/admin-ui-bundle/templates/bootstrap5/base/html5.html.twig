@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ app.request.locale }}">
+<html lang="{{ app.request.locale }}" data-theme="{{ theme_color }}">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -11,7 +11,17 @@
         <script>
             try {
                 if (localStorage.getItem('ems.sidebar.collapsed') === '1') {
-                    document.documentElement.classList.add('sidebar-collapsed')
+                    document.documentElement.setAttribute('data-sidebar-collapsed', '')
+                }
+                var mode = localStorage.getItem('ems.theme.mode')
+                if (mode === 'light' || mode === 'dark') {
+                    document.documentElement.setAttribute('data-bs-theme', mode)
+                } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.setAttribute('data-bs-theme', 'dark')
+                }
+                var themeColorOverride = localStorage.getItem('ems.dev.themeColor')
+                if (themeColorOverride) {
+                    document.documentElement.setAttribute('data-theme', themeColorOverride)
                 }
             } catch (e) {}
         </script>

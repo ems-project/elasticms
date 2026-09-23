@@ -4,7 +4,6 @@
 {%- set wysiwygInfo = emsco_wysiwyg_info() -%}
 {% set body_attr = {
     class: 'hold-transition sidebar-mini sidebar-mini-md layout-fixed layout-navbar-fixed',
-    'data-theme-color': theme_color,
     'data-hash-algo': ems_hash_algo,
     'data-status-url': path('elasticsearch.status', {_format: 'json'}),
     'data-search-api': path('elasticsearch.api.search'),
@@ -20,8 +19,6 @@
     'data-wysiwyg-info': wysiwygInfo|json_encode,
     'data-asset-path': asset(''),
 } %}
-{% set theme_color_contrast = theme_color in ['yellow', 'lime', 'white', 'cyan'] ? 'light' : 'dark' %}
-
 {% block breadcrumb %}
     {% if breadcrumb is defined %}
         <ol class="breadcrumb float-sm-end">

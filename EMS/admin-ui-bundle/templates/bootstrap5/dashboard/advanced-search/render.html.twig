@@ -152,7 +152,7 @@
 {% endblock %}
 
 {% block environments_facet %}
-    {% if response and response.getAggregation('indexes').buckets|default([])|length > 0 %}
+    {% if response %}
         {% set header %}
             <h3 class="box-title"><i class="fa fa-database"></i> {{ 'key.environments'|trans }}</h3>
         {% endset %}

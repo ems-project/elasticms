@@ -1,7 +1,7 @@
 {% trans_default_domain 'emsco-core' %}
 {{ form_start(form) }}
     <div class="card card-{{ theme_color }} card-outline">
-        <div id="searchFormBoxBody" class="collapse {% if openSearchForm is defined and openSearchForm %}in{% endif %}" aria-expanded="{% if openSearchForm is not defined or not openSearchForm %}false{% else %}true{% endif %}">
+        <div id="searchFormBoxBody" class="collapse {% if app.request.query.get('open') %}show{% endif %}" aria-expanded="{% if app.request.query.get('open') %}false{% else %}true{% endif %}">
             <div class="card-body" >
                 <div class="row">
                     {% if form.environments is defined %}

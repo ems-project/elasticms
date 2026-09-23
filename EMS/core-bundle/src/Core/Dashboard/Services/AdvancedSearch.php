@@ -154,6 +154,7 @@ class AdvancedSearch implements DashboardInterface
             'search' => $search,
             'aggregateOptions' => $aggregateOptions,
             'uid' => $uid,
+            'title' => $dashboard->getLabel(),
             'breadcrumb' => $breadcrumb,
         ]));
     }

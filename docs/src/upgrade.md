@@ -16,8 +16,9 @@ If needed, for PostgreSQL databases, a Doctrine migration script creates an `adv
 dashboard based on the existing `Search`, `SortOption`, `SearchFieldOption`, and `AggregateOption`
 entities. However, the migration script cannot migrate the templates of the `AggregateOption`
 entities. You must review these templates. Here is an example of a template for a user aggregation
-facet:
+facet.
 
+Bootstrap 3 version :
 ```twig
 {% set fieldName = '_finalized_by' %}
 
@@ -38,6 +39,30 @@ facet:
  {% endfor %}
 {% endif %}
 ```
+
+Bootstrap 3 version :
+```twig
+{% set fieldName = '_finalized_by' %}
+
+{% if aggregation.buckets|length == 1 and search.filters|filter(p => p.operator == 'term' and p.booleanClause == 'must' and p.field == fieldName)|length == 1 %}
+    {% for key, filter in search.filters|filter(p => p.operator == 'term' and p.booleanClause == 'must' and p.field == fieldName) %}
+  <a href="{{ path(paginationPath, currentFilters|merge({ removeFilter: key })) }}" class="btn btn-block btn-social btn-default">
+   <i class="fa fa-remove"></i>
+   Remove facet "{{ aggregation.buckets[0].key|emsco_display_name }}"
+  </a>
+    {% endfor %}
+{% else %}
+ {% for index in aggregation.buckets %}
+  <a href="{{ path(paginationPath, currentFilters|merge({ operator: 'term', clause: 'must', field: fieldName, pattern: index.key, boost: 0.5 })) }}" class="btn btn-default d-flex align-items-center">
+   <i class="fa fa-user me-2"></i>
+   {{ index.key|emsco_display_name }}
+   <span class="badge bg-secondary ms-auto">{{ index.doc_count }}</span>
+  </a>
+ {% endfor %}
+{% endif %}
+```
+
+
 
 Search entities have been removed. For each search entity defined as the default search for a
 content type, the PostgreSQL migration adds a redirect view to the `advanced_search` dashboard to

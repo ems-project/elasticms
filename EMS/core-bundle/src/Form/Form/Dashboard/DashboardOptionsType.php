@@ -172,8 +172,8 @@ class DashboardOptionsType extends AbstractType
                 'entry_type' => SearchFilterType::class,
                 'attr' => [
                     'class' => 'a2lix_lib_sf_collection',
-                    'data-lang-add' => t('action.add', ['type' => 'filter'], 'emsco-core'),
-                    'data-lang-remove' => t('action.remove', ['type' => 'filter'], 'emsco-core'),
+                    'data-lang-add' => t('action.add_type', ['type' => 'filter'], 'emsco-core'),
+                    'data-lang-remove' => t('action.remove_type', ['type' => 'filter'], 'emsco-core'),
                     'data-entry-remove-class' => 'btn btn-sm btn-danger',
                 ],
                 'entry_options' => [
@@ -188,8 +188,8 @@ class DashboardOptionsType extends AbstractType
                 'entry_type' => SortOptionType::class,
                 'attr' => [
                     'class' => 'a2lix_lib_sf_collection',
-                    'data-lang-add' => t('action.add', ['type' => 'sort_option'], 'emsco-core'),
-                    'data-lang-remove' => t('action.remove', ['type' => 'sort_option'], 'emsco-core'),
+                    'data-lang-add' => t('action.add_type', ['type' => 'sort_option'], 'emsco-core'),
+                    'data-lang-remove' => t('action.remove_type', ['type' => 'sort_option'], 'emsco-core'),
                     'data-entry-remove-class' => 'btn btn-sm btn-danger',
                 ],
                 'row_attr' => ['class' => 'col-md-12'],
@@ -201,8 +201,8 @@ class DashboardOptionsType extends AbstractType
                 'entry_type' => AggregateOptionType::class,
                 'attr' => [
                     'class' => 'a2lix_lib_sf_collection',
-                    'data-lang-add' => t('action.add', ['type' => 'aggregate_option'], 'emsco-core'),
-                    'data-lang-remove' => t('action.remove', ['type' => 'aggregate_option'], 'emsco-core'),
+                    'data-lang-add' => t('action.add_type', ['type' => 'aggregate_option'], 'emsco-core'),
+                    'data-lang-remove' => t('action.remove_type', ['type' => 'aggregate_option'], 'emsco-core'),
                     'data-entry-remove-class' => 'btn btn-sm btn-danger',
                 ],
                 'row_attr' => ['class' => 'col-md-12'],
@@ -214,8 +214,8 @@ class DashboardOptionsType extends AbstractType
                 'entry_type' => SearchFieldOptionType::class,
                 'attr' => [
                     'class' => 'a2lix_lib_sf_collection',
-                    'data-lang-add' => t('action.add', ['type' => 'search_field_option'], 'emsco-core'),
-                    'data-lang-remove' => t('action.remove', ['type' => 'search_field_option'], 'emsco-core'),
+                    'data-lang-add' => t('action.add_type', ['type' => 'search_field_option'], 'emsco-core'),
+                    'data-lang-remove' => t('action.remove_type', ['type' => 'search_field_option'], 'emsco-core'),
                     'data-entry-remove-class' => 'btn btn-sm btn-danger',
                 ],
                 'row_attr' => ['class' => 'col-md-12'],

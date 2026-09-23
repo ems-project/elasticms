@@ -1,14 +1,7 @@
 action:
     acknowledge: Acquitter
     activate: Activer
-    add: |-
-        {type, select,
-            aggregate_option   {Ajouter une option d'agrégation}
-            filter   {Ajouter un filtre}
-            search_field_option   {Ajouter une option de champ de recherche}
-            sort_option   {Ajouter une option de tri}
-            other   {Ajouter}
-        }
+    add: Ajouter
     add_aggregate_option: 'Options d’agrégation'
     add_alias: 'Ajouter un alias'
     add_entity: 'Nouveau {entity_name}'
@@ -23,6 +16,14 @@ action:
     add_sort_option: 'Ajouter une option de tri'
     add_task: 'Ajouter une tâche'
     add_to_release: 'Ajouter à la release'
+    add_type: |-
+        {type, select,
+            aggregate_option   {Ajouter une option d'agrégation}
+            filter   {Ajouter un filtre}
+            search_field_option   {Ajouter une option de champ de recherche}
+            sort_option   {Ajouter une option de tri}
+            other   {Ajouter}
+        }
     apply_filters: 'Appliquer les filtres'
     approve: Approuver
     attach: Attacher
@@ -95,7 +96,9 @@ action:
     reject: Rejeter
     relaunch: Relancer
     reload_page: 'Recharger la page'
-    remove: |-
+    remove: Supprimer
+    remove_documents: 'Retirer des documents'
+    remove_type: |-
         {type, select,
             aggregate_option   {Supprimer cette option d'agrégation}
             filter   {Supprimer ce filtre}
@@ -103,7 +106,6 @@ action:
             sort_option   {Supprimer cette option de tri}
             other   {Supprimer}
         }
-    remove_documents: 'Retirer des documents'
     rename: Renommer
     reorder: Réordonner
     reorder_content_type: 'Réordonner le type de contenu « {content_type} »'
@@ -1238,7 +1240,6 @@ role:
 title:
     add_content_type: 'Ajouter un nouveau {content_type}'
     add_environment: 'Ajouter un nouvel environnement'
-    add_filter: 'Ajouter un filtre'
     add_folder: 'Ajouter un dossier'
     add_form: 'Ajouter un formulaire'
     add_new_task: 'Ajouter une nouvelle tâche'

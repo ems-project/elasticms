@@ -1,14 +1,7 @@
 action:
     acknowledge: Acknowledge
     activate: Activate
-    add: |-
-        {type, select,
-            aggregate_option   {Add an aggregate option}
-            filter   {Add a filter}
-            search_field_option   {Add a search field option}
-            sort_option   {Add a sort option}
-            other   {Add}
-        }
+    add: Add
     add_aggregate_option: 'Aggregate Options'
     add_alias: 'Add alias'
     add_entity: 'New {entity_name}'
@@ -23,6 +16,14 @@ action:
     add_sort_option: 'Add a Sort Option'
     add_task: 'Add a task'
     add_to_release: 'Add to release'
+    add_type: |-
+        {type, select,
+            aggregate_option   {Add aggregate option}
+            filter   {Add filter}
+            search_field_option   {Add search field option}
+            sort_option   {Add sort option}
+            other   {Add}
+        }
     apply_filters: 'Apply filters'
     approve: Approve
     attach: Attach
@@ -95,7 +96,9 @@ action:
     reject: Reject
     relaunch: Relaunch
     reload_page: 'Reload page'
-    remove: |-
+    remove: Remove
+    remove_documents: 'Remove documents'
+    remove_type: |-
         {type, select,
             aggregate_option   {Remove this aggregate option}
             filter   {Remove this filter}
@@ -103,7 +106,6 @@ action:
             sort_option   {Remove this sort option}
             other   {Remove}
         }
-    remove_documents: 'Remove documents'
     rename: Rename
     reorder: Reorder
     reorder_content_type: 'Reorder the content type "{content_type}"'
@@ -1238,7 +1240,6 @@ role:
 title:
     add_content_type: 'Add a new {content_type}'
     add_environment: 'Add a new Environment'
-    add_filter: 'Add filter'
     add_folder: 'Add folder'
     add_form: 'Add a form'
     add_new_task: 'Add a new task'

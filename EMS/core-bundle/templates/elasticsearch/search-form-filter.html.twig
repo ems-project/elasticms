@@ -76,7 +76,7 @@
 			<div class="box-footer">
 				<div class="form-group">
 					<div class="btn-group pull-right">
-						<a class="btn btn-primary" href="#" id="add-search-filter-button"><i class="fa fa-plus"></i> {{ 'title.add_filter'|trans }}</a>
+						<a class="btn btn-primary" href="#" id="add-search-filter-button"><i class="fa fa-plus"></i> {{ 'action.add_type'|trans({type: 'filter'}) }}</a>
 						{% if form.search is defined %}
 							{{ form_widget(form.search) }}
 						{% endif %}

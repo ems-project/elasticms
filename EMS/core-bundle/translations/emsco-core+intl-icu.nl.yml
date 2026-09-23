@@ -1,14 +1,7 @@
 action:
     acknowledge: Bevestigen
     activate: Activeren
-    add: |-
-        {type, select,
-            aggregate_option   {Voeg een aggregatieoptie toe}
-            filter   {Een filter toevoegen}
-            search_field_option   {Voeg een optie voor een zoekveld toe}
-            sort_option   {Voeg een sorteeroptie toe}
-            other   {Toevoegen}
-        }
+    add: Toevoegen
     add_aggregate_option: Aggregatieopties
     add_alias: 'Alias toevoegen'
     add_entity: 'Nieuwe {entity_name}'
@@ -23,6 +16,14 @@ action:
     add_sort_option: 'Sorteeroptie toevoegen'
     add_task: 'Taak toevoegen'
     add_to_release: 'Toevoegen aan release'
+    add_type: |-
+        {type, select,
+            aggregate_option   {Voeg een aggregatieoptie toe}
+            filter   {Een filter toevoegen}
+            search_field_option   {Voeg een optie voor een zoekveld toe}
+            sort_option   {Voeg een sorteeroptie toe}
+            other   {Toevoegen}
+        }
     apply_filters: 'Filters toepassen'
     approve: Goedkeuren
     attach: Koppelen
@@ -95,7 +96,9 @@ action:
     reject: Weigeren
     relaunch: Herstarten
     reload_page: 'Pagina herladen'
-    remove: |-
+    remove: Verwijderen
+    remove_documents: 'Documenten verwijderen'
+    remove_type: |-
         {type, select,
             aggregate_option   {Verwijder deze aggregatieoptie}
             filter   {Verwijder deze filter}
@@ -103,7 +106,6 @@ action:
             sort_option   {Verwijder deze sorteeroptie}
             other   {Verwijderen}
         }
-    remove_documents: 'Documenten verwijderen'
     rename: Hernoemen
     reorder: Hersorteren
     reorder_content_type: 'Het content type "{content_type}" hersorteren'
@@ -1238,7 +1240,6 @@ role:
 title:
     add_content_type: 'Een nieuwe {content_type} toevoegen'
     add_environment: 'Een nieuwe omgeving toevoegen'
-    add_filter: 'Filter toevoegen'
     add_folder: 'Map toevoegen'
     add_form: 'Een formulier toevoegen'
     add_new_task: 'Nieuwe taak toevoegen'

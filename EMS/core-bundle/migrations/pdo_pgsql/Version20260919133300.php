@@ -112,7 +112,6 @@ final class Version20260919133300 extends AbstractMigration
             'operator' => 'query_and',
             'pattern' => '',
             'boost' => '',
-            'minimum_should_match' => 1,
         ]];
         $defaultMinimumShouldMatch = 1;
         

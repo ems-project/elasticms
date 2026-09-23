@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Dashboard\Services;
 
 use EMS\CoreBundle\Core\Dashboard\DashboardOptions;
+use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Entity\Dashboard;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
@@ -16,7 +17,7 @@ class Export implements DashboardInterface
     }
 
     #[\Override]
-    public function getResponse(Dashboard $dashboard): Response
+    public function getResponse(Dashboard $dashboard, Navigation $breadcrumb): Response
     {
         $response = new Response();
         try {

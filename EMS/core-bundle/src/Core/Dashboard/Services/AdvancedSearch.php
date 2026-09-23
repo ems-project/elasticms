@@ -13,6 +13,7 @@ use EMS\CommonBundle\Search\Search as CommonSearch;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Core\Dashboard\DashboardOptions;
+use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Entity\Form\ExportDocuments;
 use EMS\CoreBundle\Entity\Form\Search;
@@ -57,7 +58,7 @@ class AdvancedSearch implements DashboardInterface
     ) {
     }
 
-    public function getResponse(Dashboard $dashboard): Response
+    public function getResponse(Dashboard $dashboard, Navigation $breadcrumb): Response
     {
         $request = $this->requestStack->getMainRequest();
         if (null === $request) {
@@ -153,6 +154,7 @@ class AdvancedSearch implements DashboardInterface
             'search' => $search,
             'aggregateOptions' => $aggregateOptions,
             'uid' => $uid,
+            'breadcrumb' => $breadcrumb,
         ]));
     }
 

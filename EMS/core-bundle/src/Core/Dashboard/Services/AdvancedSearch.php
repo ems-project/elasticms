@@ -68,50 +68,50 @@ class AdvancedSearch implements DashboardInterface
         if (Request::METHOD_POST === $request->getMethod() && isset(Type::array($request->request->all()['search_form'])['exportResults'])) {
             return $this->exportResult($request, $dashboard);
         }
+        $uid = $request->query->get('uid');
+        $options = $dashboard->getOptions();
+        $isQuickSearch = Dashboard::DEFINITION_QUICK_SEARCH === $dashboard->getDefinition();
+        $isLanding = Dashboard::DEFINITION_LANDING_PAGE === $dashboard->getDefinition();
+        $route = $isQuickSearch ? 'ems_search' : Routes::DASHBOARD;
+        $params = \array_filter([
+            'name' => $isLanding || $isQuickSearch ? null : $dashboard->getName(),
+        ]);
+
         if (Request::METHOD_POST === $request->getMethod()) {
             $searchForm = Type::array($request->request->all()['search_form']);
             $open = isset($searchForm['search']);
             unset($searchForm['search']);
             $uid = $this->storageManager->saveConfig($searchForm);
 
-            $isQuickSearch = Dashboard::DEFINITION_QUICK_SEARCH === $dashboard->getDefinition();
-            $isLanding = Dashboard::DEFINITION_LANDING_PAGE === $dashboard->getDefinition();
-
-            return new RedirectResponse($this->router->generate($isQuickSearch ? 'ems_search' : Routes::DASHBOARD, \array_filter([
+            return new RedirectResponse($this->router->generate($route, \array_merge($params, [
                 'uid' => $uid,
-                'name' => $isLanding || $isQuickSearch ? null : $dashboard->getName(),
                 'open' => $open,
+            ])));
+        } elseif (!\is_string($uid)) {
+            $search = $this->getDefaultSearch($options, $request->query->get('q', ''));
+            $uid = $this->storageManager->saveConfig($search->jsonSerialize());
+
+            return new RedirectResponse($this->router->generate($route, \array_merge($params, [
+                'uid' => $uid,
             ])));
         }
 
-        $options = $dashboard->getOptions();
-        $uid = $request->query->get('uid');
-        $query = $request->query->get('q', '');
         $page = $request->query->getInt('page', 1);
-        if (\is_string($uid)) {
-            $search = new Search();
-            $form = $this->formFactory->create(SearchFormType::class, $search, [
-                'dashboardOptions' => $options,
-            ]);
-            $data = $this->storageManager->getConfig($uid);
-            $newData = $this->applyChanges($request, $data, $options);
-            if ($newData) {
-                $uid = $this->storageManager->saveConfig($newData);
+        $search = new Search();
+        $form = $this->formFactory->create(SearchFormType::class, $search, [
+            'dashboardOptions' => $options,
+        ]);
+        $data = $this->storageManager->getConfig($uid);
+        $newData = $this->applyChanges($request, $data, $options);
+        if ($newData) {
+            $uid = $this->storageManager->saveConfig($newData);
 
-                return new RedirectResponse($this->router->generate(Routes::DASHBOARD, [
-                    'uid' => $uid,
-                    'name' => $dashboard->getName(),
-                ]));
-            }
-
-            $form->submit($data);
-        } else {
-            $search = $this->getDefaultSearch($options, $query);
-            $form = $this->formFactory->create(SearchFormType::class, $search, [
-                'dashboardOptions' => $options,
-            ]);
+            return new RedirectResponse($this->router->generate($route, \array_merge($params, [
+                'uid' => $uid,
+            ])));
         }
 
+        $form->submit($data);
         $types = $this->contentTypeRepository->findAllAsAssociativeArray();
         $environments = $this->environmentRepository->findAllAsAssociativeArray('alias');
         $esSearch = $this->buildQuery($search, $page);

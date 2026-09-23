@@ -18,7 +18,7 @@ final class Version20260919133300 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'If needed, create an advanced search dashboard';
+        return 'Cleaning of old legacy search entities + Advanced search dashboard + If needed, create an advanced search dashboard.';
     }
 
     #[\Override]

@@ -115,6 +115,8 @@ final class Version20260919133300 extends AbstractMigration
             'minimum_should_match' => 1,
         ]];
         $defaultMinimumShouldMatch = 1;
+        
+        $configByContentTypeId = [];
         foreach ($searches as $search) {
             if ($search['default_search']) {
                 $defaultEnvironments = Json::decode($search['environments']);
@@ -123,34 +125,6 @@ final class Version20260919133300 extends AbstractMigration
                 $defaultSortOrder = $search['sort_order'];
                 $defaultFilters = $search['filters'];
                 $defaultMinimumShouldMatch = $search['minimum_should_match'];
-            }
-            if ($search['contentTypeId']) {
-                $contentType = $connection->fetchAssociative('SELECT name, pluralname, singularname FROM content_type WHERE id = :id', ['id' => $search['contentTypeId']]);
-                if (!$contentType) {
-                    continue;
-                }
-
-                $this->addSql(<<<'SQL'
-                    INSERT INTO view (
-                        id, content_type_id, created, modified, name, type, icon, label, role, public, options, order_key, definition
-                    ) VALUES (
-                        nextval('view_id_seq'), :contentTypeId, NOW(), NOW(), :name, 'ems.view.redirection', 'fa fa-search', :label,
-                        'ROLE_USER', FALSE, CAST(:options AS JSON), -1, NULL
-                    )
-                SQL, [
-                            'contentTypeId' => $search['contentTypeId'],
-                            'name' => \sprintf('search_in_%s', $contentType['name']),
-                            'label' => \sprintf('Search in %s', $contentType['pluralname']),
-                            'options' => Json::encode([
-                                'template' => \sprintf(<<<'TWIG'
-                                {%%- set data = {contentTypes:[view.contentType.name],environments:[view.contentType.environment.name],filters:%s,minimumShouldMatch:"%d",sortBy:"%s",sortOrder:"%s"} -%%}
-                                {%%- set uid = emsco_save_contents(data|json_encode, 'search_%s.json', 'application/json', 1).sha1 -%%}
-                                
-                                {{- path('emsco_dashboard', {uid:uid, name:'advanced_search'}) -}}
-                                TWIG, Json::encode($search['filters']), $search['minimum_should_match'], $search['sort_by'], $search['sort_order'], $contentType['name']),
-                            ]),
-                        ]);
-
             }
 
             $boolQuery = new BoolQuery();
@@ -232,6 +206,14 @@ final class Version20260919133300 extends AbstractMigration
             }
             
             if ($search['contentTypeId']) {
+                $configByContentTypeId[$search['contentTypeId']] = [
+                    'environments' => $search['environments'],
+                    'filters' => $search['filters'],
+                    'minimum_should_match' => $search['minimum_should_match'],
+                    'sort_by' => $search['sort_by'],
+                    'sort_order' => $search['sort_order'],
+                ];
+                
                 $this->addSql(<<<'SQL'
                     UPDATE content_type SET query_search_id = :query_search_id
                     WHERE id = :id
@@ -240,6 +222,42 @@ final class Version20260919133300 extends AbstractMigration
                     'query_search_id' => $id,
                 ]);
             }
+        }
+
+        foreach ($connection->fetchAllAssociative("SELECT id, name, pluralname, singularname, roles ->> 'show_link_search' AS show_link_search FROM content_type  WHERE roles IS NOT NULL AND COALESCE(roles::jsonb ->> 'show_link_search', 'not-defined') <> 'not-defined'") as $contentType) {
+            if (isset($configByContentTypeId[$contentType['id']])) {
+                $sortBy = $configByContentTypeId[$contentType['id']]['sort_by'];
+                $sortOrder = $configByContentTypeId[$contentType['id']]['sort_order'];
+                $filters = $configByContentTypeId[$contentType['id']]['filters'];
+                $minimumShouldMatch = $configByContentTypeId[$contentType['id']]['minimum_should_match'];
+            } else {
+                $sortBy = $defaultSortBy;
+                $sortOrder = $defaultSortOrder;
+                $filters = $defaultFilters;
+                $minimumShouldMatch = $defaultMinimumShouldMatch;
+            }
+
+            $this->addSql(<<<'SQL'
+                    INSERT INTO view (
+                        id, content_type_id, created, modified, name, type, icon, label, role, public, options, order_key, definition
+                    ) VALUES (
+                        nextval('view_id_seq'), :contentTypeId, NOW(), NOW(), :name, 'ems.view.redirection', 'fa fa-search', :label,
+                        :role, FALSE, CAST(:options AS JSON), -1, NULL
+                    )
+                SQL, [
+                'contentTypeId' => $contentType['id'],
+                'name' => \sprintf('search_in_%s', $contentType['name']),
+                'label' => \sprintf('Search in %s', $contentType['pluralname']),
+                'role' => $contentType['show_link_search'],
+                'options' => Json::encode([
+                    'template' => \sprintf(<<<'TWIG'
+                                {%%- set data = {contentTypes:[view.contentType.name],environments:[view.contentType.environment.name],filters:%s,minimumShouldMatch:"%d",sortBy:"%s",sortOrder:"%s"} -%%}
+                                {%%- set uid = emsco_save_contents(data|json_encode, 'search_%s.json', 'application/json', 1).sha1 -%%}
+                                
+                                {{- path('emsco_dashboard', {uid:uid, name:'advanced_search'}) -}}
+                                TWIG, Json::encode($filters), $minimumShouldMatch, $sortBy, $sortOrder, $contentType['name']),
+                ]),
+            ]);
         }
 
         $this->addSql(<<<'SQL'

@@ -11,9 +11,9 @@
         {{ include('@EMSAdminUI/bootstrap5/elements/pagination.html.twig', {
             lastPage: lastPage,
             currentPage: page,
-            currentFilters: app.request.query,
+            currentFilters: currentFilters,
             paginationPath: paginationPath,
-            showAlwaysFirstAndLast: false,
+            showAlwaysFirstAndLast: false
         }) }}
     {% endif %}
 {% endblock %}

@@ -73,8 +73,7 @@ start: ## start docker
 restart: ## restart docker and recreate
 	@docker compose up -d --force-recreate
 clean: ## delete docker volumes, generated assets and npm dependencies
-	@$(MAKE) -s stop
-	@docker volume rm elasticms_demo_${ELK_VERSION}_data01 elasticms_demo_${ELK_VERSION}_data02 elasticms_demo_${ELK_VERSION}_data03 elasticms_demo_postgres elasticms_demo_redis elasticms_demo_s3
+	@docker compose down --volumes
 	@rm -Rf dist/
 	@rm -Rf node_modules/
 	@rm -Rf .cache/

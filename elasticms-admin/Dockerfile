@@ -26,8 +26,7 @@ USER root
 COPY --from=builder --chmod=775 --chown=1001:0 /bootstrap/ /opt/
 COPY --from=builder --chmod=775 --chown=1001:0 /app/ /app/
 
-ENV PHP_BYPASS_INI_DEFAULT_VALUES=true \
-    PHP_OPENTELEMETRY_ENABLED=true \
+ENV PHP_OPENTELEMETRY_ENABLED=true \
     APP_DISABLE_DOTENV=true \
     EMS_METRIC_PORT="9099"
 
@@ -49,8 +48,7 @@ USER root
 COPY --from=builder --chmod=775 --chown=1001:0 /bootstrap/ /opt/
 COPY --from=builder --chmod=775 --chown=1001:0 /app/ /app/
 
-ENV PHP_BYPASS_INI_DEFAULT_VALUES=true \
-    PHP_OPENTELEMETRY_ENABLED=true \
+ENV PHP_OPENTELEMETRY_ENABLED=true \
     APP_DISABLE_DOTENV=true \
     EMS_METRIC_PORT="9099"
 

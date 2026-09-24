@@ -172,16 +172,10 @@ _db-dump:
 _db-migrate:
 	@$(RUN_ADMIN) doctrine:migrations:migrate --no-interaction
 _db-drop:
-	@$(RUN_POSTGRES) psql -c "DROP DATABASE IF EXISTS ${DB_NAME};"
+	@$(RUN_POSTGRES) psql -c "DROP DATABASE IF EXISTS ${DB_NAME} WITH (FORCE);"
 	@$(RUN_POSTGRES) psql -c "DROP USER IF EXISTS ${DB_USER};"
 _db-create:
-	@$(RUN_POSTGRES) psql -c "CREATE USER ${DB_USER} WITH ENCRYPTED PASSWORD '${DB_PASSWORD}';"
-	@$(RUN_POSTGRES) psql -c "CREATE DATABASE ${DB_NAME} WITH OWNER ${DB_USER};"
-	@$(RUN_POSTGRES) psql -c "GRANT ALL PRIVILEGES ON DATABASE ${DB_NAME} TO ${DB_USER};"
-	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "ALTER SCHEMA public OWNER TO ${DB_USER};"
-	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "ALTER SCHEMA public RENAME TO ${DB_SCHEMA}"
-	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "ALTER USER ${DB_USER} SET search_path TO ${DB_SCHEMA};"
-	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA ${DB_SCHEMA} TO ${DB_USER};"
+	@$(RUN_POSTGRES) bash /docker-entrypoint-initdb.d/10-demo-db.sh
 
 _init-create-managed-aliases:
 	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_preview preview

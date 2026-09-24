@@ -62,8 +62,20 @@ services:
         environment:
             - POSTGRES_PASSWORD=s3cr3t
             - TZ=Europe/Brussels
+            - DB_USER=${DB_USER:-demo}
+            - DB_PASSWORD=${DB_PASSWORD:-demo}
+            - DB_NAME=${DB_NAME:-demo}
+            - DB_SCHEMA=${DB_SCHEMA:-public}
         volumes:
             - postgres:/var/lib/postgresql/data
+            - ./configs/postgres:/docker-entrypoint-initdb.d:ro
+        # Over TCP: while the init scripts run, the server listens on its Unix
+        # socket only, so the admin waits for the demo database to exist.
+        healthcheck:
+            test: [ "CMD", "pg_isready", "--host=127.0.0.1", "--username=postgres" ]
+            interval: 5s
+            timeout: 5s
+            retries: 10
 
     tika:
         image: apache/tika
@@ -161,6 +173,9 @@ services:
         extends:
             file: docker-elasticms.yml
             service: admin
+        depends_on:
+            postgres:
+                condition: service_healthy
         networks:
             default:
                 aliases:
@@ -193,6 +208,12 @@ services:
         extends:
             file: docker-elasticms.yml
             service: admin
+        # It runs the admin image, so its startup runs the Doctrine migrations
+        # too: started alongside admin-local, both migrated the fresh database
+        # at once and one of them failed on a table the other had just created.
+        depends_on:
+            admin-local:
+                condition: service_healthy
         command: >
             bash -c '
               echo "Waiting for Elasticms Admin availability";

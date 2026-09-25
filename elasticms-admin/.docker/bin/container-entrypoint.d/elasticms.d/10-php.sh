@@ -8,6 +8,17 @@ while IFS= read -r line || [[ -n "$line" ]]; do
     key="${line%%=*}"
     value="${line#*=}"
 
+    # Every key becomes an env[] entry of the php-fpm pool, i.e. reaches the
+    # application. The instance configuration also carries the image's own
+    # settings -- per-instance infrastructure knobs, and with no configuration
+    # file the whole environment, base-php php.ini settings and AWS credentials
+    # included. base-php unsets those before php-fpm starts and hands the late
+    # hooks their names in CLEANUP_VAR_LIST; leave them out here too, or env[]
+    # brings back exactly what that cleanup removed. They are still sourced by
+    # 01-core.sh, so the templates keep seeing them. With an older base-php that
+    # does not provide the list, nothing is left out, as before.
+    [[ -n "${CLEANUP_VAR_LIST:-}" && ":${CLEANUP_VAR_LIST}:" == *":${key}:"* ]] && continue
+
     if [[ $value =~ ^\".*\"$ ]] || [[ $value =~ ^\'.*\'$ ]]; then
         value="${value:1:-1}"
     fi

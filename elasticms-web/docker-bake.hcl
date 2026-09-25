@@ -2,6 +2,10 @@ group "default" {
   targets = ["prd","dev"]
 }
 
+variable "ENABLE_ATTESTATIONS" {
+  default = "true"
+}
+
 variable "EMS_VERSION" {
   default = "7.x-dev"
 }
@@ -19,6 +23,48 @@ variable "DOCKER_IMAGE_LATEST" {
 }
 
 variable "GIT_HASH" {}
+
+variable "HTTP_PROXY" {
+  default = ""
+}
+
+variable "HTTPS_PROXY" {
+  default = ""
+}
+
+variable "NO_PROXY" {
+  default = ""
+}
+
+variable "http_proxy" {
+  default = HTTP_PROXY
+}
+
+variable "https_proxy" {
+  default = HTTPS_PROXY
+}
+
+variable "no_proxy" {
+  default = NO_PROXY
+}
+
+variable "CUSTOM_CA_BUNDLE" {
+  default = ""
+}
+
+# Checksum of the custom CA, read from the environment (the Makefile computes it).
+# It busts the ca-bundle stage cache when the CA changes -- a secret mount alone
+# does not, so a stale bundle without the CA would otherwise be reused.
+variable "CA_BUNDLE_SHA" {
+  default = ""
+}
+
+target "_ca" {
+  secret = CUSTOM_CA_BUNDLE != "" ? ["id=ca_bundle,src=${CUSTOM_CA_BUNDLE}"] : []
+  args = {
+    CA_BUNDLE_SHA = CA_BUNDLE_SHA != "" ? CA_BUNDLE_SHA : null
+  }
+}
 
 function "tag" {
   params = [version, tgt, githash]
@@ -51,7 +97,20 @@ function "__semver" {
     result = v == {} ? [clean_tag(DOCKER_IMAGE_TAG)] : v.prerelease == null ? [v.major, "${v.major}.${v.minor}", "${v.major}.${v.minor}.${v.patch}"] : ["${v.major}.${v.minor}.${v.patch}-${v.prerelease}"]
 }
 
+target "_proxy" {
+  args = {
+    HTTP_PROXY  = HTTP_PROXY  != "" ? HTTP_PROXY  : null
+    HTTPS_PROXY = HTTPS_PROXY != "" ? HTTPS_PROXY : null
+    NO_PROXY    = NO_PROXY    != "" ? NO_PROXY    : null
+    http_proxy  = http_proxy  != "" ? http_proxy  : null
+    https_proxy = https_proxy != "" ? https_proxy : null
+    no_proxy    = no_proxy    != "" ? no_proxy    : null
+  }
+}
+
 target "default" {
+  inherits = ["_proxy", "_ca"]
+
   name = "${tgt}"
 
   matrix = {
@@ -92,7 +151,7 @@ target "default" {
     ])
   )
 
-  attest = [
+  attest = ENABLE_ATTESTATIONS == "true" ? [
     {
       type = "provenance"
       mode = "max"
@@ -100,6 +159,6 @@ target "default" {
     {
       type = "sbom"
     }
-  ]
+  ] : []
 
 }

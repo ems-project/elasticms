@@ -5,4 +5,4 @@ set -o allexport
 source {{ .Env.APP_CONFIG_DIR }}/{{ .Env.ELASTICMS_INSTANCE_NAME }}
 set +o allexport
 
-php {{ .Env.APP_SRC_DIR }}/bin/console "$@"
+php -d memory_limit=${CLI_PHP_MEMORY_LIMIT:-512M} {{ .Env.APP_SRC_DIR }}/bin/console "$@"

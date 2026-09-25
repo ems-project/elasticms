@@ -76,6 +76,59 @@ outline: [2, 2]
 - Removed Core API methods `hashFile`, `initUpload`, `addChunk` (use file endpoint).
 - Removed `_type` fallback for `EMSLink` and document (use `_contenttype`).
 
+#### Routes
+
+### Removed deprecated route names
+
+Deprecated route aliases have been removed. Use the `emsco_*` route instead.
+
+| Removed route (6.x)                  | Replacement (7.x)                    | Remark                                                  |
+|--------------------------------------|--------------------------------------|---------------------------------------------------------|
+| `ems_data_default_search`            | `emsco_data_default_search`          |                                                         |
+| `data.root`                          | `emsco_data_default_search`          |                                                         |
+| `ems_search_in_my_circles`           | `emsco_data_search_in_my_circles`    |                                                         |
+| `data.view`                          | `emsco_data_view`                    |                                                         |
+| `data.revision_in_environment`       | `emsco_data_revision_in_environment` |                                                         |
+| `ems_content_revisions_view`         | `emsco_view_revisions`               |                                                         |
+| `data.revisions`                     | `emsco_view_revisions`               |                                                         |
+| `revision.copy`                      | `emsco_data_copy`                    |                                                         |
+| `revision.new-draft`                 | `emsco_data_new_draft`               |                                                         |
+| `object.delete`                      | `emsco_data_delete`                  |                                                         |
+| `revision.discard`                   | `emsco_discard_draft`                |                                                         |
+| `revision.cancel`                    | `emsco_data_cancel_modifications`    |                                                         |
+| `revision.reindex`                   | `emsco_data_reindex`                 |                                                         |
+| `data.customindexview`               | `emsco_data_private_view`            |                                                         |
+| `ems_custom_view_protected`          | `emsco_data_private_view`            |                                                         |
+| `data.customview`                    | `emsco_data_private_action`          | Path changed: `/data/custom-view/…` → `/data/action/…`  |
+| `ems_data_custom_template_protected` | `emsco_data_private_action`          | Path changed: `/data/template/…` → `/data/action/…`     |
+| `ems_job_custom_view`                | `emsco_job_custom_view`              |                                                         |
+| `revision.ajaxupdate`                | `emsco_data_ajax_update`             |                                                         |
+| `revision.finalize`                  | `emsco_data_finalize`                |                                                         |
+| `data.add`                           | `emsco_data_add`                     |                                                         |
+| `revision.revert`                    | `emsco_data_revert`                  |                                                         |
+| `data.link`                          | `emsco_data_link`                    |                                                         |
+| `ems_custom_view_public`             | `emsco_data_public_view`             |                                                         |
+| `ems_data_custom_template_public`    | `emsco_data_public_action`           | Path changed: `/public/template/…` → `/public/action/…` |
+| `ems_core_dashboard`                 | `emsco_dashboard_home`               |                                                         |
+| `ems_data_trash`                     | `emsco_data_trash`                   |                                                         |
+| `ems_data_put_back`                  | `emsco_data_put_back`                |                                                         |
+| `ems_data_empty_trash`               | `emsco_data_empty_trash`             |                                                         |
+| `ems_revision_edit`                  | `emsco_edit_revision`                |                                                         |
+| `revision.edit`                      | `emsco_edit_revision`                |                                                         |
+| `data.draft_in_progress`             | `emsco_draft_in_progress`            |                                                         |
+| `job.status`                         | `emsco_job_status`                   |                                                         |
+| `ems.user.index`                     | `emsco_user_index`                   |                                                         |
+| `user.add`                           | `emsco_user_add`                     |                                                         |
+| `user.edit`                          | `emsco_user_edit`                    | Parameter `id` → `user`                                 |
+| `user.delete`                        | `emsco_user_delete`                  | Parameter `id` → `user`                                 |
+| `user.enabling`                      | `emsco_user_enabling`                | Parameter `id` → `user`                                 |
+| `EMS_user_apikey`                    | `emsco_user_api_key`                 |                                                         |
+| `api.test`                           | `emsco_interface_test`               |                                                         |
+| `file.init-upload`                   | `emsco_file_data_init_upload`        | No `sha1`/`size` path parameters anymore                |
+| `file.uploadchunk`                   | `emsco_file_data_chunk_upload`       | Parameter `sha1` → `hash`                               |
+| `file.api.init-upload`               | `emsco_file_api_init_upload`         | No `sha1`/`size` path parameters anymore                |
+| `file.api.uploadchunk`               | `emsco_file_api_chunk_upload`        | Parameter `sha1` → `hash`                               |
+
 #### Twig
 
 Removed functions in favor of the following replacements:

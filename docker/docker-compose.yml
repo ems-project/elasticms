@@ -158,9 +158,10 @@ services:
 
     varnish:
         profiles: [ "all","ems" ]
-        image: varnish:7.7
+        image: varnish:8.0.1
         environment:
             - VARNISH_SIZE=256M
+            - VARNISH_BACKEND_HOST=${VARNISH_BACKEND_HOST:-http://host.docker.internal:8882}
         volumes:
             - ./varnish/default.vcl:/etc/varnish/default.vcl:ro
         extra_hosts:

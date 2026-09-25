@@ -1,4 +1,3 @@
-version: "2.4"
 
 services:
     traefik:
@@ -63,8 +62,20 @@ services:
         environment:
             - POSTGRES_PASSWORD=s3cr3t
             - TZ=Europe/Brussels
+            - DB_USER=${DB_USER:-demo}
+            - DB_PASSWORD=${DB_PASSWORD:-demo}
+            - DB_NAME=${DB_NAME:-demo}
+            - DB_SCHEMA=${DB_SCHEMA:-public}
         volumes:
             - postgres:/var/lib/postgresql/data
+            - ./configs/postgres:/docker-entrypoint-initdb.d:ro
+        # Over TCP: while the init scripts run, the server listens on its Unix
+        # socket only, so the admin waits for the demo database to exist.
+        healthcheck:
+            test: [ "CMD", "pg_isready", "--host=127.0.0.1", "--username=postgres" ]
+            interval: 5s
+            timeout: 5s
+            retries: 10
 
     tika:
         image: apache/tika
@@ -162,6 +173,9 @@ services:
         extends:
             file: docker-elasticms.yml
             service: admin
+        depends_on:
+            postgres:
+                condition: service_healthy
         networks:
             default:
                 aliases:
@@ -189,17 +203,20 @@ services:
             - traefik.http.routers.skeleton.service=skeleton
             - traefik.http.services.skeleton.loadbalancer.server.port=9000
 
-    setup_ems:
-        user: ${DOCKER_USER:-1001}:0
+    # The infra stack's Varnish, in front of the websites as it was before
+    # #1767 took it out of the web image: -web hostnames go through it,
+    # -web-nocache ones straight to web-local. !reset drops the profiles it
+    # carries there, which would keep it from starting here.
+    varnish:
         extends:
-            file: docker-elasticms.yml
-            service: admin
-        command: >
-            bash -c '
-              echo "Waiting for Elasticms Admin availability";
-              until curl -s -H "Host: local.ems-demo-admin.localhost" http://localhost:9000/status.json | grep  -q "green"; do sleep 30; done;
-              echo "All done!";
-            '
+            file: ../docker/docker-compose.yml
+            service: varnish
+        profiles: !reset []
+        environment:
+            - VARNISH_BACKEND_HOST=http://web-local:9000
+        labels:
+            - 'traefik.http.routers.varnish.rule=Host(`varnish.localhost`) || HostRegexp(`^local\.([a-z0-9\-_\.]+)\-web\.localhost$$`)'
+            - traefik.http.routers.varnish.entrypoints=web,websecure
 
 volumes:
     elk8_data1:

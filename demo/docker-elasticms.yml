@@ -50,7 +50,7 @@ services:
     web:
         image: elasticms/website-skeleton:${EMS_VERSION}
         environment:
-            - APP_ENV=dev
+            - APP_ENV=${WEB_APP_ENV:-dev}
             - APP_SECRET=ThisIsSecret
             - TZ=Europe/Brussels
             - PHP_FPM_PM_MAX_CHILDREN=8

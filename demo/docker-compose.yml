@@ -218,6 +218,43 @@ services:
             - 'traefik.http.routers.varnish.rule=Host(`varnish.localhost`) || HostRegexp(`^local\.([a-z0-9\-_\.]+)\-web\.localhost$$`)'
             - traefik.http.routers.varnish.entrypoints=web,websecure
 
+    # Load generation, profile "load": `make load` / `make load-ui`. The scraper
+    # crawls the website THROUGH Traefik (Host: LOAD_SITE_HOST) and writes the
+    # GET URLs it finds to configs/locust/urls.json; Locust replays them.
+    scraper:
+        profiles: [ "load" ]
+        image: docker.io/python:3.12-slim
+        environment:
+            - TARGET_HOST=http://traefik
+            - SITE_HOST=${LOAD_SITE_HOST:-local.preview-ems-demo-web-nocache.localhost}
+            - OUT=/data/urls.json
+        user: "${LOCUST_UID:-0}"
+        working_dir: /mnt/locust
+        entrypoint: ["python", "/mnt/locust/scrape.py"]
+        volumes:
+            - ./configs/locust:/mnt/locust:ro
+            - ./configs/locust:/data:rw
+        mem_limit: 256m
+
+    locust:
+        profiles: [ "load" ]
+        image: docker.io/locustio/locust:2.42.0
+        environment:
+            - LOCUST_LOCUSTFILE=/mnt/locust/locustfile.py
+            - LOCUST_HOST=http://traefik
+            - SITE_HOST=${LOAD_SITE_HOST:-local.preview-ems-demo-web-nocache.localhost}
+            - URLS_FILE=/mnt/locust/urls.json
+        volumes:
+            - ./configs/locust:/mnt/locust:ro
+        ports:
+            - "8089:8089"
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.locust.rule=Host(`locust.localhost`)
+            - traefik.http.routers.locust.entrypoints=web
+            - traefik.http.services.locust.loadbalancer.server.port=8089
+        mem_limit: 512m
+
 volumes:
     elk8_data1:
     kibana:

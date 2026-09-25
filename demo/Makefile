@@ -67,9 +67,10 @@ help: # Show help for each of the Makefile recipes.
 	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' Makefile | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
 ## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
-start: ## start docker
+start: ## start docker, and wait until the services are healthy
 	@mkdir -p dist
 	@docker compose up -d
+	@docker compose up -d --wait admin-local web-local
 restart: ## restart docker and recreate
 	@docker compose up -d --force-recreate
 clean: ## delete docker volumes, generated assets and npm dependencies

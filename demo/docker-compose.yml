@@ -203,24 +203,6 @@ services:
             - traefik.http.routers.skeleton.service=skeleton
             - traefik.http.services.skeleton.loadbalancer.server.port=9000
 
-    setup_ems:
-        user: ${DOCKER_USER:-1001}:0
-        extends:
-            file: docker-elasticms.yml
-            service: admin
-        # It runs the admin image, so its startup runs the Doctrine migrations
-        # too: started alongside admin-local, both migrated the fresh database
-        # at once and one of them failed on a table the other had just created.
-        depends_on:
-            admin-local:
-                condition: service_healthy
-        command: >
-            bash -c '
-              echo "Waiting for Elasticms Admin availability";
-              until curl -s -H "Host: local.ems-demo-admin.localhost" http://localhost:9000/status.json | grep  -q "green"; do sleep 30; done;
-              echo "All done!";
-            '
-
 volumes:
     elk8_data1:
     kibana:

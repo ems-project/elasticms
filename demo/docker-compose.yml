@@ -203,6 +203,21 @@ services:
             - traefik.http.routers.skeleton.service=skeleton
             - traefik.http.services.skeleton.loadbalancer.server.port=9000
 
+    # The infra stack's Varnish, in front of the websites as it was before
+    # #1767 took it out of the web image: -web hostnames go through it,
+    # -web-nocache ones straight to web-local. !reset drops the profiles it
+    # carries there, which would keep it from starting here.
+    varnish:
+        extends:
+            file: ../docker/docker-compose.yml
+            service: varnish
+        profiles: !reset []
+        environment:
+            - VARNISH_BACKEND_HOST=http://web-local:9000
+        labels:
+            - 'traefik.http.routers.varnish.rule=Host(`varnish.localhost`) || HostRegexp(`^local\.([a-z0-9\-_\.]+)\-web\.localhost$$`)'
+            - traefik.http.routers.varnish.entrypoints=web,websecure
+
 volumes:
     elk8_data1:
     kibana:

@@ -70,6 +70,7 @@ services:
             - TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR
             - TRUSTED_HOSTS=localhost,*.localhost
             - EMSCH_ASSET_LOCAL_FOLDER=skeleton
+            - 'EMS_HTTP_CACHES=[{"header":"x-varnish","url":"http://varnish/","headers":{"X-Invalidate-Token":"devsecret"}}]'
             - PHP_OPENTELEMETRY_ENABLED=true
             - METRICS_ENABLED=true
             - MESSENGER_ENABLED=false

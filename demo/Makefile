@@ -9,7 +9,41 @@ PWD				= $(shell pwd)
 RUN_ADMIN		= docker compose exec admin-${ENVIRONMENT} ems-demo
 RUN_WEB			= docker compose exec -u ${DOCKER_USER} web-${ENVIRONMENT} preview
 RUN_POSTGRES 	= docker compose exec -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres
-RUN_NPM			= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}:/app --workdir /app smalswebtech/base-php:8.5-cli-dev npm
+NPM_IMAGE		?= docker.io/smalswebtech/base-php:8.5-cli-dev
+RUN_NPM			= docker run -u ${DOCKER_USER}:0 --rm -it $(DOCKER_PROXY_ARGS) $(DOCKER_CA_ARGS) -v ${PWD}:/app --workdir /app $(NPM_IMAGE) npm
+
+# —— Corporate proxy / custom CA ——————————————————————————————————————————————————————————————————————————————————————
+#
+# The same contract as the image Makefiles: nothing here takes effect unless the
+# calling environment asks for it. npm is the only step of the demo that reaches
+# the internet from a container; image pulls go through the Docker daemon's own
+# proxy settings.
+#
+# Proxy: HTTP(S)_PROXY / NO_PROXY are passed to the npm container.
+#
+# CA: CUSTOM_CA_BUNDLE (an absolute path to a PEM file) is ADDED to the trust
+# store, never substituted for it: the npm container gets .cache/ca-bundle.pem --
+# the npm image's own bundle plus the custom CA -- mounted over the system
+# bundle, and NODE_EXTRA_CA_CERTS pointing Node at it too.
+
+DOCKER_PROXY_ARGS := \
+	--env HTTP_PROXY --env HTTPS_PROXY --env NO_PROXY \
+	--env http_proxy --env https_proxy --env no_proxy
+
+ifneq ($(strip $(CUSTOM_CA_BUNDLE)),)
+CA_RUNTIME_BUNDLE	:= $(CURDIR)/.cache/ca-bundle.pem
+CA_PREREQ			:= $(CA_RUNTIME_BUNDLE)
+DOCKER_CA_ARGS		:= --volume $(CA_RUNTIME_BUNDLE):/etc/ssl/certs/ca-certificates.crt:ro \
+					   --env NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
+
+# Rebuilt whenever the custom CA changes, since it is the prerequisite.
+$(CA_RUNTIME_BUNDLE): $(CUSTOM_CA_BUNDLE)
+	@mkdir -p $(@D)
+	@docker run --rm --entrypoint cat $(NPM_IMAGE) /etc/ssl/certs/ca-certificates.crt > $@.tmp
+	@cat $(CUSTOM_CA_BUNDLE) >> $@.tmp
+	@mv $@.tmp $@
+	@echo "CA bundle: $(CUSTOM_CA_BUNDLE) added to the image trust store -> $@"
+endif
 
 .DEFAULT_GOAL := help
 .PHONY: help npm
@@ -33,16 +67,17 @@ help: # Show help for each of the Makefile recipes.
 	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' Makefile | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
 ## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
-start: ## start docker
+start: ## start docker, and wait until the services are healthy
 	@mkdir -p dist
 	@docker compose up -d
+	@docker compose up -d --wait admin-local web-local
 restart: ## restart docker and recreate
 	@docker compose up -d --force-recreate
 clean: ## delete docker volumes, generated assets and npm dependencies
-	@$(MAKE) -s stop
-	@docker volume rm elasticms_demo_${ELK_VERSION}_data01 elasticms_demo_${ELK_VERSION}_data02 elasticms_demo_${ELK_VERSION}_data03 elasticms_demo_postgres elasticms_demo_redis elasticms_demo_s3
+	@docker compose down --volumes
 	@rm -Rf dist/
 	@rm -Rf node_modules/
+	@rm -Rf .cache/
 stop: ## stop docker
 	@docker compose down
 status: ## status docker
@@ -117,7 +152,7 @@ health-check: ## health check
 	@$(RUN_WEB) emsch:health-check -g --no-debug
 
 ## —— Npm ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
-npm/%:
+npm/%: $(CA_PREREQ)
 	@$(RUN_NPM) $*
 npm-install: ## npm install
 	@$(MAKE) npm/install
@@ -137,16 +172,10 @@ _db-dump:
 _db-migrate:
 	@$(RUN_ADMIN) doctrine:migrations:migrate --no-interaction
 _db-drop:
-	@$(RUN_POSTGRES) psql -c "DROP DATABASE IF EXISTS ${DB_NAME};"
+	@$(RUN_POSTGRES) psql -c "DROP DATABASE IF EXISTS ${DB_NAME} WITH (FORCE);"
 	@$(RUN_POSTGRES) psql -c "DROP USER IF EXISTS ${DB_USER};"
 _db-create:
-	@$(RUN_POSTGRES) psql -c "CREATE USER ${DB_USER} WITH ENCRYPTED PASSWORD '${DB_PASSWORD}';"
-	@$(RUN_POSTGRES) psql -c "CREATE DATABASE ${DB_NAME} WITH OWNER ${DB_USER};"
-	@$(RUN_POSTGRES) psql -c "GRANT ALL PRIVILEGES ON DATABASE ${DB_NAME} TO ${DB_USER};"
-	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "ALTER SCHEMA public OWNER TO ${DB_USER};"
-	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "ALTER SCHEMA public RENAME TO ${DB_SCHEMA}"
-	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "ALTER USER ${DB_USER} SET search_path TO ${DB_SCHEMA};"
-	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA ${DB_SCHEMA} TO ${DB_USER};"
+	@$(RUN_POSTGRES) bash /docker-entrypoint-initdb.d/10-demo-db.sh
 
 _init-create-managed-aliases:
 	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_preview preview

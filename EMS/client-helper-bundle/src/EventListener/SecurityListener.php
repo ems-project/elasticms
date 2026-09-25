@@ -79,13 +79,15 @@ readonly class SecurityListener implements EventSubscriberInterface
 
         $request = $event->getRequest();
 
-        if ($request->hasSession() && $request->getSession()->isStarted() && $this->authorizationChecker->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY)) {
+        if (!$this->isAuthenticatedRequest($request) && !$this->firewallMatch($request)) {
             return;
         }
 
-        if ($this->isAuthenticatedRequest($event->getRequest()) || $this->firewallMatch($request)) {
-            throw new AccessDeniedException();
+        if ($this->authorizationChecker->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY)) {
+            return;
         }
+
+        throw new AccessDeniedException();
     }
 
     private function firewallMatch(Request $request): bool

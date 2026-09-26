@@ -23,6 +23,60 @@ final class TranslationsType extends AbstractType
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event): void {
+            $translations = $event->getData();
+            if (!\is_array($translations) || \array_is_list($translations)) {
+                return;
+            }
+
+            $entries = [];
+            foreach ($translations as $locale => $label) {
+                $entries[] = [
+                    'locale' => (string) $locale,
+                    'label' => $label,
+                ];
+            }
+
+            $event->setData($entries);
+        }, 10);
+
+        $builder->addModelTransformer(new CallbackTransformer(
+            static function (mixed $translations): array {
+                if (!\is_array($translations)) {
+                    return [];
+                }
+
+                if (\array_is_list($translations)) {
+                    return $translations;
+                }
+
+                $entries = [];
+                foreach ($translations as $locale => $label) {
+                    $entries[] = [
+                        'locale' => (string) $locale,
+                        'label' => $label,
+                    ];
+                }
+
+                return $entries;
+            },
+            static function (mixed $translations): array {
+                if (!\is_array($translations)) {
+                    return [];
+                }
+
+                $result = [];
+                foreach ($translations as $translation) {
+                    if (!\is_array($translation) || !isset($translation['locale'])) {
+                        continue;
+                    }
+
+                    $result[(string) $translation['locale']] = $translation['label'] ?? '';
+                }
+
+                return $result;
+            },
+        ));
     }
 
     #[\Override]

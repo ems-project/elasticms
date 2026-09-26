@@ -563,6 +563,7 @@ key:
     channels: Channels
     ckeditor4: 'CK Editor 4'
     client: Client
+    cluster: Cluster
     cluster_uuid: 'Cluster UUID'
     compare_environments: 'Compare environments'
     completed: Completed

@@ -563,6 +563,7 @@ key:
     channels: Kanalen
     ckeditor4: 'CK Editor 4'
     client: Client
+    cluster: Cluster
     cluster_uuid: Cluster-UUID
     compare_environments: 'Omgevingen vergelijken'
     completed: Voltooid

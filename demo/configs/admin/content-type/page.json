@@ -6,7 +6,12 @@
         "pluralName": "Pages",
         "singularName": "Page",
         "pluralNameTranslations": null,
-        "singularNameTranslations": null,
+        "singularNameTranslations": {
+            "fr": {
+                "label": "Page",
+                "gender": "female"
+            }
+        },
         "icon": "fa fa-file-text-o",
         "description": null,
         "indexTwig": null,
@@ -217,8 +222,12 @@
                                                             "suffixText": null,
                                                             "placeholder": null,
                                                             "labelTranslations": {
-                                                                "fr": "Titre",
-                                                                "nl": "Titel"
+                                                                "fr": {
+                                                                    "label": "Titre"
+                                                                },
+                                                                "nl": {
+                                                                    "label": "Titel"
+                                                                }
                                                             },
                                                             "helptextTranslations": [],
                                                             "icon": null
@@ -309,12 +318,20 @@
                                                             "suffixText": null,
                                                             "placeholder": null,
                                                             "labelTranslations": {
-                                                                "fr": "Sous-titre",
-                                                                "nl": "Ondertitel"
+                                                                "fr": {
+                                                                    "label": "Sous-titre"
+                                                                },
+                                                                "nl": {
+                                                                    "label": "Ondertitel"
+                                                                }
                                                             },
                                                             "helptextTranslations": {
-                                                                "fr": "Utilis\u00e9 dans un bouton d'appel \u00e0 l'action",
-                                                                "nl": "Gebruikt in een call-to-action-knop"
+                                                                "fr": {
+                                                                    "label": "Utilis\u00e9 dans un bouton d'appel \u00e0 l'action"
+                                                                },
+                                                                "nl": {
+                                                                    "label": "Gebruikt in een call-to-action-knop"
+                                                                }
                                                             },
                                                             "icon": null
                                                         },
@@ -366,8 +383,12 @@
                                                             "language": null,
                                                             "styles_set_preview": true,
                                                             "labelTranslations": {
-                                                                "fr": "Corps",
-                                                                "af": "Lichaam"
+                                                                "fr": {
+                                                                    "label": "Corps"
+                                                                },
+                                                                "af": {
+                                                                    "label": "Lichaam"
+                                                                }
                                                             },
                                                             "helptextTranslations": []
                                                         },
@@ -415,8 +436,12 @@
                                                             "helptext": null,
                                                             "icon": "fa fa-sitemap",
                                                             "labelTranslations": {
-                                                                "fr": "Composants",
-                                                                "nl": "Onderdelen"
+                                                                "fr": {
+                                                                    "label": "Composants"
+                                                                },
+                                                                "nl": {
+                                                                    "label": "Onderdelen"
+                                                                }
                                                             },
                                                             "helptextTranslations": [],
                                                             "blocks_template": null
@@ -545,12 +570,12 @@
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
                                                                                     "helptextTranslations": [],
-                                                                                    "icon": null,
                                                                                     "prefixIcon": null,
                                                                                     "prefixText": null,
                                                                                     "suffixIcon": null,
                                                                                     "suffixText": null,
-                                                                                    "placeholder": null
+                                                                                    "placeholder": null,
+                                                                                    "icon": null
                                                                                 },
                                                                                 "restrictionOptions": {
                                                                                     "mandatory": false,
@@ -721,12 +746,12 @@
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
                                                                                     "helptextTranslations": [],
-                                                                                    "icon": null,
                                                                                     "prefixIcon": null,
                                                                                     "prefixText": null,
                                                                                     "suffixIcon": null,
                                                                                     "suffixText": null,
-                                                                                    "placeholder": null
+                                                                                    "placeholder": null,
+                                                                                    "icon": null
                                                                                 },
                                                                                 "restrictionOptions": {
                                                                                     "mandatory": false,
@@ -1037,12 +1062,12 @@
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
                                                                                     "helptextTranslations": [],
-                                                                                    "icon": null,
                                                                                     "prefixIcon": null,
                                                                                     "prefixText": null,
                                                                                     "suffixIcon": null,
                                                                                     "suffixText": null,
-                                                                                    "placeholder": null
+                                                                                    "placeholder": null,
+                                                                                    "icon": null
                                                                                 },
                                                                                 "restrictionOptions": {
                                                                                     "mandatory": false,
@@ -1171,12 +1196,12 @@
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
                                                                                     "helptextTranslations": [],
-                                                                                    "icon": null,
                                                                                     "prefixIcon": null,
                                                                                     "prefixText": null,
                                                                                     "suffixIcon": null,
                                                                                     "suffixText": null,
-                                                                                    "placeholder": null
+                                                                                    "placeholder": null,
+                                                                                    "icon": null
                                                                                 },
                                                                                 "restrictionOptions": {
                                                                                     "mandatory": false,
@@ -1304,12 +1329,12 @@
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
                                                                                     "helptextTranslations": [],
-                                                                                    "icon": null,
                                                                                     "prefixIcon": null,
                                                                                     "prefixText": null,
                                                                                     "suffixIcon": null,
                                                                                     "suffixText": null,
-                                                                                    "placeholder": null
+                                                                                    "placeholder": null,
+                                                                                    "icon": null
                                                                                 },
                                                                                 "restrictionOptions": {
                                                                                     "mandatory": false,

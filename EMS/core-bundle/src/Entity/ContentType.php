@@ -813,6 +813,11 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
         return TranslationsType::getTranslation($user, $this->singularName, $this->singularNameTranslations);
     }
 
+    public function getSingularGender(?UserInterface $user = null): ?string
+    {
+        return TranslationsType::getGender($user, $this->singularNameTranslations);
+    }
+
     public function setSortOrder(?string $sortOrder): ContentType
     {
         $this->sortOrder = $sortOrder;

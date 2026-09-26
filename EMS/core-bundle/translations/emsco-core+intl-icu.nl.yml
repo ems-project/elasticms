@@ -384,6 +384,7 @@ field:
     format: Formaat
     format_tags: Formaat-tags
     from_sender: 'Van {sender}'
+    gender: Gender
     group: Groep
     hash: Hash-handtekening
     header: Header
@@ -621,6 +622,10 @@ key:
     form_root: 'Wortel van het formulier'
     form_submissions: Formulierinzendingen
     forms: Formulieren
+    gender:
+        female: Vrouwelijk
+        male: Mannelijk
+        neutral: Neutraal
     groups: Groepen
     gt: 'Groter dan'
     gte: 'Groter dan of gelijk aan'

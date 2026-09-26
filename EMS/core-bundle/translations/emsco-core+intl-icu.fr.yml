@@ -81,7 +81,12 @@ action:
     init_upload: 'Initialiser l’upload'
     move: Déplacer
     move_item: 'Déplacer l’élément'
-    new_entity_name: 'Nouveau {name}'
+    new_entity_name: >-
+        {gender, select,
+            male {Nouveau {name}}
+            female {Nouvelle {name}}
+            other {Nouveau {name}}
+        }
     new_job: 'Nouveau job'
     next: Suivant
     paste: Coller
@@ -384,6 +389,7 @@ field:
     format: Format
     format_tags: 'Tags de format'
     from_sender: 'De {sender}'
+    gender: Genre
     group: Groupe
     hash: 'Signature du hash'
     header: En-tête
@@ -621,6 +627,10 @@ key:
     form_root: 'Racine du formulaire'
     form_submissions: 'Soumissions de formulaire'
     forms: Formulaires
+    gender:
+        female: Féminin
+        male: Masculin
+        neutral: Neutre
     groups: Groupes
     gt: 'Plus grand que'
     gte: 'Plus grand ou égal à'

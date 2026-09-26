@@ -27,15 +27,26 @@ final class TranslationType extends AbstractType
         $builder
             ->add('locale', ChoiceType::class, [
                 'label' => t('field.locale', [], 'emsco-core'),
-                'row_attr' => ['class' => 'col-md-2'],
+                'row_attr' => ['class' => 'col-md-3'],
                 'required' => true,
                 'choices' => \array_flip(Locales::getNames()),
                 'choice_translation_domain' => false,
             ])
-            ->add('label', TextType::class, [
+            ->add('label', $options['label_type'], [
                 'label' => t('field.label', [], 'emsco-core'),
-                'row_attr' => ['class' => 'col-md-10'],
+                'row_attr' => ['class' => 'col-md-6'],
                 'required' => true,
+            ])
+            ->add('gender', ChoiceType::class, [
+                'label' => t('field.gender', [], 'emsco-core'),
+                'row_attr' => ['class' => 'col-md-3'],
+                'required' => false,
+                'choices' => [
+                    t('key.gender.male', [], 'emsco-core')->getMessage() => 'male',
+                    t('key.gender.female', [], 'emsco-core')->getMessage() => 'female',
+                    t('key.gender.neutral', [], 'emsco-core')->getMessage() => 'neutral',
+                ],
+                'choice_translation_domain' => 'emsco-core',
             ]);
     }
 }

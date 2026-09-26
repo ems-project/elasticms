@@ -24,13 +24,33 @@ final class TranslationsType extends AbstractType
     /**
      * @param array<string,string>|null $translations
      */
-    public static function getTranslation(?UserInterface $user, string $defaultTranslation, ?array $translations): string
+    public static function getTranslation(?UserInterface $user, string $defaultTranslation, ?array $translations): ?string
     {
         if (null === $translations || !$user instanceof User) {
             return $defaultTranslation;
         }
+        $translations = $translations[$user->getLocalePreferred() ?? $user->getLocale()] ?? $translations[$user->getLocale()] ?? $defaultTranslation;
+        if (\is_array($translations)) {
+            return $translations['label'] ?? '';
+        }
 
-        return $translations[$user->getLocalePreferred() ?? $user->getLocale()] ?? $translations[$user->getLocale()] ?? $defaultTranslation;
+        return $translations;
+    }
+    /**
+     * @param array<string,string>|null $translations
+     */
+    public static function getGender(?UserInterface $user, ?array $translations): ?string
+    {
+        if ([] === $translations ?? [] || !$user instanceof User) {
+            return null;
+        }
+        
+        $translation = $translations[$user->getLocalePreferred() ?? $user->getLocale()] ?? $translations[$user->getLocale()] ?? null;
+        if (!\is_array($translation)) {
+            return null;
+        }
+
+        return $translation['gender'] ?? null;
     }
 
     /**
@@ -47,11 +67,17 @@ final class TranslationsType extends AbstractType
             }
 
             $entries = [];
-            foreach ($translations as $locale => $label) {
-                $entries[] = [
-                    'locale' => (string) $locale,
-                    'label' => $label,
-                ];
+            foreach ($translations as $locale => $value) {
+                if (\is_array($value)) {
+                    $entries[] = [...$value,
+                        'locale' => (string) $locale,
+                    ];
+                } else {
+                    $entries[] = [
+                        'locale' => (string) $locale,
+                        'label' => $value,
+                    ];
+                }
             }
 
             $event->setData($entries);
@@ -68,11 +94,17 @@ final class TranslationsType extends AbstractType
                 }
 
                 $entries = [];
-                foreach ($translations as $locale => $label) {
-                    $entries[] = [
-                        'locale' => (string) $locale,
-                        'label' => $label,
-                    ];
+                foreach ($translations as $locale => $value) {
+                    if (\is_array($value)) {
+                        $entries[] = [...$value,
+                            'locale' => (string) $locale,
+                        ];
+                    } else {
+                        $entries[] = [
+                            'locale' => (string) $locale,
+                            'label' => $value,
+                        ];
+                    }
                 }
 
                 return $entries;
@@ -88,7 +120,7 @@ final class TranslationsType extends AbstractType
                         continue;
                     }
 
-                    $result[(string) $translation['locale']] = $translation['label'] ?? '';
+                    $result[(string) $translation['locale']] = \array_filter($translation, fn ($key) => 'locale' !== $key, ARRAY_FILTER_USE_KEY);
                 }
 
                 return $result;

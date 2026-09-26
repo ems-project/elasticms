@@ -22,6 +22,7 @@ action:
             filter   {Add filter}
             search_field_option   {Add search field option}
             sort_option   {Add sort option}
+            translation   {Add translation}
             other   {Add}
         }
     apply_filters: 'Apply filters'
@@ -104,6 +105,7 @@ action:
             filter   {Remove this filter}
             search_field_option   {Remove this search field option}
             sort_option   {Remove this sort option}
+            translation   {Remove this translation}
             other   {Remove}
         }
     rename: Rename
@@ -444,6 +446,7 @@ field:
     permission: Permission
     plural: Plural
     plural_name: 'Plural name'
+    plural_name_translations: 'Plural name translations'
     postition_increment_gap: 'Position increment gap'
     public_access: 'Public Access'
     publish_to: 'Publish to'
@@ -480,6 +483,7 @@ field:
     severity: Severity
     singular: Singular
     singular_name: 'Singular name'
+    singular_name_translations: 'Singular name translations'
     sort: Sort
     sort_by: 'Sort by'
     sort_options: 'Sort options'

@@ -18,8 +18,10 @@ use EMS\CoreBundle\Core\ContentType\ViewDefinition;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Form\DataField\ContainerFieldType;
+use EMS\CoreBundle\Form\Form\TranslationsType;
 use EMS\CoreBundle\Roles;
 use EMS\Helpers\Standard\Json;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class ContentType extends JsonDeserializer implements \JsonSerializable, EntityInterface, \Stringable
 {
@@ -32,6 +34,10 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     protected $pluralName;
     /** @var string */
     protected $singularName;
+    /** @var array<string, string>|null */
+    protected ?array $pluralNameTranslations;
+    /** @var array<string, string>|null */
+    protected ?array $singularNameTranslations;
     /** @var string|null */
     protected $icon;
     /** @var string */
@@ -313,14 +319,41 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
         return $this;
     }
 
-    /**
-     * Get pluralName.
-     *
-     * @return string
-     */
-    public function getPluralName()
+    public function getPluralName(?UserInterface $user = null): string
     {
-        return $this->pluralName;
+        return TranslationsType::getTranslation($user, $this->pluralName, $this->pluralNameTranslations);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getPluralNameTranslations(): array
+    {
+        return $this->pluralNameTranslations ?? [];
+    }
+
+    /**
+     * @param array<string, string> $pluralNameTranslations
+     */
+    public function setPluralNameTranslations(array $pluralNameTranslations): void
+    {
+        $this->pluralNameTranslations = $pluralNameTranslations;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getSingularNameTranslations(): array
+    {
+        return $this->singularNameTranslations ?? [];
+    }
+
+    /**
+     * @param array<string, string> $singularNameTranslations
+     */
+    public function setSingularNameTranslations(array $singularNameTranslations): void
+    {
+        $this->singularNameTranslations = $singularNameTranslations;
     }
 
     /**
@@ -775,14 +808,9 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
         return $this;
     }
 
-    /**
-     * Get singularName.
-     *
-     * @return string
-     */
-    public function getSingularName()
+    public function getSingularName(?UserInterface $user = null): string
     {
-        return $this->singularName;
+        return TranslationsType::getTranslation($user, $this->singularName, $this->singularNameTranslations);
     }
 
     public function setSortOrder(?string $sortOrder): ContentType

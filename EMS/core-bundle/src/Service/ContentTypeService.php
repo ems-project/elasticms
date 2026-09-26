@@ -653,7 +653,7 @@ class ContentTypeService implements EntityServiceInterface
 
             [$routeOverview, $routeOverviewParams] = $this->getRedirectOverviewRoute($contentType);
             $menuEntry = new MenuEntry(
-                label: $contentType->getPluralName(),
+                label: $contentType->getPluralName($user),
                 icon: $contentType->getIcon() ?? 'fa fa-book',
                 route: $routeOverview,
                 routeParameters: $routeOverviewParams,
@@ -667,7 +667,7 @@ class ContentTypeService implements EntityServiceInterface
 
             if ($this->authorizationChecker->isGranted($roles[ContentTypeRoles::SHOW_LINK_CREATE])
                 && $this->authorizationChecker->isGranted($roles[ContentTypeRoles::CREATE])) {
-                $menuEntry->addChild(t('action.new_entity_name', ['{name}' => $contentType->getSingularName()], 'emsco-core'), 'fa fa-plus', Routes::DATA_ADD, ['contentType' => $contentType->getId()]);
+                $menuEntry->addChild(t('action.new_entity_name', ['{name}' => $contentType->getSingularName($user)], 'emsco-core'), 'fa fa-plus', Routes::DATA_ADD, ['contentType' => $contentType->getId()]);
             }
             if ($this->authorizationChecker->isGranted($roles[ContentTypeRoles::TRASH])) {
                 $trashLink = $menuEntry->addChild(t('key.trash', [], 'emsco-core'), 'fa fa-trash', Routes::DATA_TRASH, ['contentType' => $contentType->getId()]);

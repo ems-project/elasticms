@@ -26,6 +26,10 @@ class DisplayOptionsType extends AbstractType
             'required' => false,
             'icon' => 'fa fa-tag',
         ]);
+        $builder->add('labelTranslations', TranslationsType::class, [
+            'label' => t('field.label_translations', [], 'emsco-core'),
+            'required' => false,
+        ]);
         $builder->add('class', IconTextType::class, [
             'required' => false,
             'label' => 'Bootstrap class',
@@ -35,6 +39,9 @@ class DisplayOptionsType extends AbstractType
             'required' => false,
             'label' => 'Last item of the row',
         ])->add('helptext', TextareaType::class, [
+            'required' => false,
+        ])->add('helptextTranslations', TranslationsType::class, [
+            'label' => t('field.helptext_translations', [], 'emsco-core'),
             'required' => false,
         ]);
     }

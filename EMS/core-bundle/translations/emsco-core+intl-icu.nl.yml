@@ -525,6 +525,7 @@ field:
     version_tag: Versietag
     web_content: 'Webinhoud (beschikbaar in WYSIWYG-veld als interne link)'
     with_business_key: 'Met zakelijke sleutel'
+    with_environment: 'Met de omgeving'
     wysiwyg_profile: WYSIWYG-profiel
 help:
     add_first_aggregate_option: "Klik op 'Aggregatieoptie toevoegen' om een eerste aggregatieoptie te maken"

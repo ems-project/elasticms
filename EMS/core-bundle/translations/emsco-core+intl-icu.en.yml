@@ -525,6 +525,7 @@ field:
     version_tag: 'Version tag'
     web_content: 'Web content (available in WYSIWYG field as internal link)'
     with_business_key: 'With business key'
+    with_environment: 'With environment'
     wysiwyg_profile: 'WYSIWYG profile'
 help:
     add_first_aggregate_option: "Click on 'Add an aggregate option' to create a first Aggregate Option: Click on 'Add an aggregate option' to create a first Aggregate Option"

@@ -525,6 +525,7 @@ field:
     version_tag: 'Tag de version'
     web_content: 'Contenu web (disponible dans le champ WYSIWYG comme lien interne)'
     with_business_key: 'Avec clé métier'
+    with_environment: "Avec l'environnement"
     wysiwyg_profile: 'Profil WYSIWYG'
 help:
     add_first_aggregate_option: 'Cliquez sur « Ajouter une option d’agrégation » pour créer une première option d’agrégation'

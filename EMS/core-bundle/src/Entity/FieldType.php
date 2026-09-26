@@ -12,6 +12,7 @@ use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Form\DataField\DataFieldType;
 use EMS\CoreBundle\Form\DataField\JsonMenuNestedEditorFieldType;
+use EMS\CoreBundle\Form\Form\TranslationsType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FieldType extends JsonDeserializer implements \JsonSerializable
@@ -485,6 +486,24 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
                 throw new \RuntimeException(\sprintf('Field %d not found', $item['id']));
             }
         }
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function translateDisplayOptions(UserInterface $user): array
+    {
+        $options = $this->getDisplayOptions();
+        foreach ($options as $key => $value) {
+            if (!\str_ends_with($key, 'Translations') || !\is_array($value)) {
+                continue;
+            }
+            $labelKey = \substr($key, 0, -\strlen('Translations'));
+            $options[$labelKey] = TranslationsType::getTranslation($user, $options[$labelKey] ?? '', $value);
+            unset($options[$key]);
+        }
+
+        return $options;
     }
 
     public function addChild(FieldType $child, bool $prepend = false): self

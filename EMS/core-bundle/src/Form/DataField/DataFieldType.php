@@ -12,7 +12,6 @@ use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Form\DataField\Options\OptionsType;
 use EMS\CoreBundle\Form\DataTransformer\DataFieldModelTransformer;
 use EMS\CoreBundle\Form\DataTransformer\DataFieldViewTransformer;
-use EMS\CoreBundle\Form\Form\TranslationsType;
 use EMS\CoreBundle\Service\ElasticsearchService;
 use EMS\Helpers\Standard\Text;
 use Symfony\Component\Form\AbstractType;
@@ -526,7 +525,7 @@ abstract class DataFieldType extends AbstractType
                 'disabled_fields' => $options['disabled_fields'],
                 'referrer-ems-id' => $options['referrer-ems-id'],
                 'locale' => $options['locale'],
-            ], $this->translateOptions($fieldType));
+            ], $fieldType->translateDisplayOptions($this->getUser()));
 
             $builder->add($fieldType->getName(), $fieldType->getType(), $options);
 
@@ -607,23 +606,5 @@ abstract class DataFieldType extends AbstractType
         $this->user = $user;
 
         return $user;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    private function translateOptions(FieldType $fieldType): array
-    {
-        $options = $fieldType->getDisplayOptions();
-        foreach ($options as $key => $value) {
-            if (!\str_ends_with($key, 'Translations') || !\is_array($value)) {
-                continue;
-            }
-            $labelKey = \substr($key, 0, -\strlen('Translations'));
-            $options[$labelKey] = TranslationsType::getTranslation($this->getUser(), $options[$labelKey] ?? '', $value);
-            unset($options[$key]);
-        }
-
-        return $options;
     }
 }

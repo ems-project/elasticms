@@ -148,9 +148,11 @@ final class TranslationsType extends AbstractType
             'entry_type' => TranslationType::class,
             'label' => t('field.translations', [], 'emsco-core'),
             'entry_label_type' => TextType::class,
+            'entry_with_gender' => false,
         ]);
         $resolver->setNormalizer('entry_options', static function (Options $options, array $entryOptions): array {
             $entryOptions['label_type'] = $options['entry_label_type'];
+            $entryOptions['with_gender'] = $options['entry_with_gender'];
 
             return $entryOptions;
         });

@@ -35,10 +35,11 @@ final class TranslationType extends AbstractType
             ])
             ->add('label', $options['label_type'], [
                 'label' => t('field.label', [], 'emsco-core'),
-                'row_attr' => ['class' => 'col-md-6'],
+                'row_attr' => ['class' => $options['with_gender'] ? 'col-md-6' : 'col-md-9'],
                 'required' => true,
-            ])
-            ->add('gender', ChoiceType::class, [
+            ]);
+        if ($options['with_gender']) {
+            $builder->add('gender', ChoiceType::class, [
                 'label' => t('field.gender', [], 'emsco-core'),
                 'row_attr' => ['class' => 'col-md-3'],
                 'required' => false,
@@ -49,6 +50,7 @@ final class TranslationType extends AbstractType
                 ],
                 'choice_translation_domain' => 'emsco-core',
             ]);
+        }
     }
 
     #[\Override]
@@ -56,6 +58,7 @@ final class TranslationType extends AbstractType
     {
         $resolver->setDefaults([
             'label_type' => TextType::class,
+            'with_gender' => false,
         ]);
     }
 }

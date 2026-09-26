@@ -22,6 +22,7 @@ action:
             filter   {Een filter toevoegen}
             search_field_option   {Voeg een optie voor een zoekveld toe}
             sort_option   {Voeg een sorteeroptie toe}
+            translation   {Voeg een vertaling}
             other   {Toevoegen}
         }
     apply_filters: 'Filters toepassen'
@@ -104,6 +105,7 @@ action:
             filter   {Verwijder deze filter}
             search_field_option   {Verwijder deze optie voor het zoekveld}
             sort_option   {Verwijder deze sorteeroptie}
+            translation   {Verwijder deze vertaling}
             other   {Verwijderen}
         }
     rename: Hernoemen
@@ -444,6 +446,7 @@ field:
     permission: Toestemming
     plural: Meervoud
     plural_name: Meervoudsnaam
+    plural_name_translations: 'Vertalingen van namen in het meervoud'
     postition_increment_gap: 'Positie-increment gap'
     public_access: 'Publieke toegang'
     publish_to: 'Publiceren naar'
@@ -480,6 +483,7 @@ field:
     severity: Ernst
     singular: Enkelvoud
     singular_name: Enkelvoudsnaam
+    singular_name_translations: 'Vertalingen van enkelvoudige namen'
     sort: Sortering
     sort_by: 'Sorteren op'
     sort_options: Sorteeropties

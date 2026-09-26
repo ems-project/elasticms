@@ -34,6 +34,12 @@ final class TranslationsType extends AbstractType
             'entry_options' => [
                 'label' => false,
             ],
+            'attr' => [
+                'class' => 'a2lix_lib_sf_collection',
+                'data-lang-add' => t('action.add_type', ['type' => 'translation'], 'emsco-core'),
+                'data-lang-remove' => t('action.remove_type', ['type' => 'translation'], 'emsco-core'),
+                'data-entry-remove-class' => 'btn btn-sm btn-danger',
+            ],
             'entry_type' => TranslationType::class,
             'label' => t('field.translations', [], 'emsco-core'),
         ]);

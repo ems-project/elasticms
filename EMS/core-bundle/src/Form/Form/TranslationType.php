@@ -27,12 +27,14 @@ final class TranslationType extends AbstractType
         $builder
             ->add('locale', ChoiceType::class, [
                 'label' => t('field.locale', [], 'emsco-core'),
+                'row_attr' => ['class' => 'col-md-2'],
                 'required' => true,
                 'choices' => \array_flip(Locales::getNames()),
                 'choice_translation_domain' => false,
             ])
             ->add('label', TextType::class, [
                 'label' => t('field.label', [], 'emsco-core'),
+                'row_attr' => ['class' => 'col-md-10'],
                 'required' => true,
             ]);
     }

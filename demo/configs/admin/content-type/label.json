@@ -5,6 +5,8 @@
         "name": "label",
         "pluralName": "Translations",
         "singularName": "Translation",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": null,
         "icon": "fa fa-language",
         "description": null,
         "indexTwig": null,

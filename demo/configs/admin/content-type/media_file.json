@@ -5,6 +5,8 @@
         "name": "media_file",
         "pluralName": "Media library",
         "singularName": "Media",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": null,
         "icon": "fa fa-book",
         "description": null,
         "indexTwig": null,

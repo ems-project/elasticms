@@ -5,6 +5,8 @@
         "name": "template",
         "pluralName": "Templates",
         "singularName": "Template",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": null,
         "icon": "fa fa-crop",
         "description": null,
         "indexTwig": null,

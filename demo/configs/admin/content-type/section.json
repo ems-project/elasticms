@@ -5,6 +5,8 @@
         "name": "section",
         "pluralName": "Menus",
         "singularName": "Menu",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": null,
         "icon": "fa fa-sitemap",
         "description": null,
         "indexTwig": null,

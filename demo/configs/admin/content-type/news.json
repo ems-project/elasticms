@@ -5,6 +5,8 @@
         "name": "news",
         "pluralName": "News",
         "singularName": "News",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": null,
         "icon": "fa fa-bell",
         "description": null,
         "indexTwig": null,

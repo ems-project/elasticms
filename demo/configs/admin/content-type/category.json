@@ -5,6 +5,8 @@
         "name": "category",
         "pluralName": "Categories",
         "singularName": "Category",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": null,
         "icon": "fa fa-tags",
         "description": null,
         "indexTwig": null,

@@ -5,6 +5,8 @@
         "name": "route",
         "pluralName": "Routes",
         "singularName": "Route",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": null,
         "icon": "fa fa-map-signs",
         "description": null,
         "indexTwig": null,

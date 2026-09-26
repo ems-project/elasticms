@@ -5,6 +5,12 @@
         "name": "link",
         "pluralName": "Links",
         "singularName": "Link",
+        "pluralNameTranslations": {
+            "fr": "Liens"
+        },
+        "singularNameTranslations": {
+            "fr": "Lien"
+        },
         "icon": "fa fa-link",
         "description": null,
         "indexTwig": null,
@@ -331,7 +337,9 @@
         "settings": {
             "tasks_enabled": false,
             "tasks_titles": [],
-            "hide_revision_sidebar": false
+            "tasks_helptexts": [],
+            "hide_revision_sidebar": false,
+            "recompute_on_publish": false
         },
         "querySearch": null
     },

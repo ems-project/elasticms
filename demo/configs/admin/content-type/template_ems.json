@@ -5,6 +5,8 @@
         "name": "template_ems",
         "pluralName": "Templates EMS",
         "singularName": "Template EMS",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": null,
         "icon": "ems-icon-ball",
         "description": null,
         "indexTwig": null,

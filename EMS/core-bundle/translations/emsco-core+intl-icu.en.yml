@@ -22,6 +22,7 @@ action:
             filter   {Add filter}
             search_field_option   {Add search field option}
             sort_option   {Add sort option}
+            translation   {Add translation}
             other   {Add}
         }
     apply_filters: 'Apply filters'
@@ -104,6 +105,7 @@ action:
             filter   {Remove this filter}
             search_field_option   {Remove this search field option}
             sort_option   {Remove this sort option}
+            translation   {Remove translation}
             other   {Remove}
         }
     rename: Rename

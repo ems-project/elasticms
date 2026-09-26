@@ -506,6 +506,14 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         return $options;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
+    public function translate(string $key, UserInterface $user): string
+    {
+        return TranslationsType::getTranslation($user, $this->getDisplayOption($key, $this->getName()), $this->getDisplayOption(\sprintf('%sTranslations', $key), []));
+    }
+
     public function addChild(FieldType $child, bool $prepend = false): self
     {
         $child->setParent($this);

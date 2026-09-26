@@ -674,7 +674,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
 
         $filtered = \array_filter(
             $this->getDisplayOptions(),
-            fn ($value) => \in_array($value, $defineOptions),
+            fn ($value) => \in_array($value, $defineOptions) || (\str_ends_with($value, 'Translations') && \in_array(\substr($value, 0, -\strlen('Translations')), $defineOptions)),
             ARRAY_FILTER_USE_KEY
         );
         $this->options[self::DISPLAY_OPTIONS] = $filtered;

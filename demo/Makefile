@@ -57,7 +57,7 @@ help: # Show help for each of the Makefile recipes.
 	@echo "ADMIN DEV:	http://local.ems-demo-admin-dev.localhost"
 	@echo "WEB PREVIEW:	http://local.preview-ems-demo-web.localhost"
 	@echo "WEB LIVE:	http://local.live-ems-demo-web.localhost"
-	@echo "MINIO:		http://minio.localhost"
+	@echo "S3 (filer):	http://s3.localhost"
 	@echo "KIBANA:		http://kibana.localhost"
 	@echo "MAIL:		http://mailserver.localhost"
 	@echo "---------------------------"

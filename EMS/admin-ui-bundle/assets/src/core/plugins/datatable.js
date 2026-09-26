@@ -1,13 +1,24 @@
 import $ from 'jquery'
 import 'datatables.net'
 import 'datatables.net-bs'
+import frenchLanguage from 'datatables.net-plugins/i18n/fr-FR.mjs'
+import dutchLanguage from 'datatables.net-plugins/i18n/nl-NL.mjs'
 import Core from '../core'
+
+const languages = {
+    fr: frenchLanguage,
+    nl: dutchLanguage
+}
 
 class Datatable {
     load(target) {
         const datatables = target.querySelectorAll('[data-datatable]')
         ;[].forEach.call(datatables, function (element) {
-            const datatable = $(element).DataTable(JSON.parse(element.dataset.datatable))
+            const options = JSON.parse(element.dataset.datatable)
+            const language = document.documentElement.lang.toLowerCase().split('-')[0]
+            if (!options.language && languages[language]) options.language = languages[language]
+
+            const datatable = $(element).DataTable(options)
             datatable.on('draw', () => Core.load(element))
 
             document.querySelectorAll(`[data-datatable-target='${element.id}']`).forEach((btn) =>

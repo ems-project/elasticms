@@ -26,7 +26,7 @@ final class TranslationsType extends AbstractType
     /**
      * @param array<string,string>|null $translations
      */
-    public static function getTranslation(?UserInterface $user, string $defaultTranslation, ?array $translations): ?string
+    public static function getTranslation(?UserInterface $user, string $defaultTranslation, ?array $translations): string
     {
         if (null === $translations || !$user instanceof User) {
             return $defaultTranslation;
@@ -36,7 +36,7 @@ final class TranslationsType extends AbstractType
             return $translations['label'] ?? '';
         }
 
-        return $translations;
+        return $translations ?? '';
     }
     /**
      * @param array<string,string>|null $translations

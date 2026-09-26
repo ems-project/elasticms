@@ -43,10 +43,9 @@ final class TranslationsType extends AbstractType
      */
     public static function getGender(?UserInterface $user, ?array $translations): ?string
     {
-        if ([] === $translations ?? [] || !$user instanceof User) {
+        if ([] === ($translations ?? []) || !$user instanceof User) {
             return null;
         }
-        
         $translation = $translations[$user->getLocalePreferred() ?? $user->getLocale()] ?? $translations[$user->getLocale()] ?? null;
         if (!\is_array($translation)) {
             return null;

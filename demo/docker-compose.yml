@@ -86,41 +86,59 @@ services:
             - "traefik.http.routers.tika.service=tika"
             - "traefik.http.services.tika.loadbalancer.server.port=9998"
 
-    minio:
-        image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+    # ElasticMS's object store (S3 API on :8333). MinIO used to fill this role;
+    # its community edition is archived and its images are no longer published,
+    # so the demo moved to SeaweedFS -- a maintained S3 server (Apache-2.0). One
+    # `weed server` runs the master, a volume server, the filer and the S3
+    # gateway. The identity and the bucket are created by s3-init and kept in the
+    # filer, on the seaweedfs volume.
+    seaweedfs:
+        image: docker.io/chrislusf/seaweedfs:4.47
+        command: server -dir=/data -s3 -ip.bind=0.0.0.0
         volumes:
-            - s3:/data
-        environment:
-            MINIO_ACCESS_KEY: accesskey
-            MINIO_SECRET_KEY: secretkey
-            MINIO_ROOT_USER: accesskey
-            MINIO_ROOT_PASSWORD: secretkey
-        command: server /data --console-address ":9001"
+            - seaweedfs:/data
         healthcheck:
-            test: [ "CMD", "mc", "ready", "local" ]
+            # /status on the S3 port answers once the gateway serves requests. Not
+            # /healthz: the S3 handler reads it as a bucket name and answers 404.
+            test: [ "CMD", "curl", "-sf", "-o", "/dev/null", "http://localhost:8333/status" ]
             interval: 5s
             timeout: 5s
-            retries: 5
+            retries: 12
         labels:
+            # The filer's file browser. It reads and writes every bucket WITHOUT
+            # the S3 credentials, so it is published on the local Traefik only.
             - "traefik.enable=true"
-            - "traefik.http.routers.minio.rule=Host(`minio.localhost`)"
-            - "traefik.http.routers.minio.service=minio"
-            - "traefik.http.routers.minio.entrypoints=web"
-            - "traefik.http.services.minio.loadbalancer.server.port=9001"
+            - "traefik.http.routers.seaweedfs.rule=Host(`s3.localhost`)"
+            - "traefik.http.routers.seaweedfs.service=seaweedfs"
+            - "traefik.http.routers.seaweedfs.entrypoints=web"
+            - "traefik.http.services.seaweedfs.loadbalancer.server.port=8888"
 
-    setup_minio:
-        image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+    # Creates the bucket and the identity ElasticMS signs with (the keys of
+    # docker-elasticms.yml and of the .env.dist files), then exits. Admin, as the
+    # MinIO root user these keys used to be. Creating a bucket that exists is a
+    # no-op and s3.configure updates an identity in place, so a rerun on an
+    # existing volume is harmless. `weed shell` exits 0 when a command fails, so
+    # the last step checks the bucket is listed -- waiting for it: a bucket just
+    # created can take a few seconds to show (measured up to 6s), and a single
+    # check failed the init about half the time.
+    s3-init:
+        image: docker.io/chrislusf/seaweedfs:4.47
         depends_on:
-            minio:
+            seaweedfs:
                 condition: service_healthy
-        entrypoint: >
-            /bin/sh -c '
-              echo "Setup minio";
-              /usr/bin/mc alias set minio http://minio:9000 accesskey secretkey;
-              /usr/bin/mc mb --ignore-existing minio/demo;
-              echo "All done!";
-              exit 0;
-            '
+        entrypoint: [ "/bin/sh", "-ec" ]
+        command:
+            - |
+              weed_shell() { weed shell -master=seaweedfs:9333 -filer=seaweedfs:8888; }
+              echo 's3.bucket.create -name ${S3_BUCKET_NAME:-demo}' | weed_shell
+              echo 's3.configure -user elasticms -access_key accesskey -secret_key secretkey -actions Admin -apply' | weed_shell >/dev/null
+              tries=0
+              until echo 's3.bucket.list' | weed_shell | awk -v b='${S3_BUCKET_NAME:-demo}' '$$1 == b { found = 1 } END { exit !found }'; do
+                  tries=$$((tries + 1))
+                  [ "$$tries" -lt 60 ] || { echo 'bucket ${S3_BUCKET_NAME:-demo} still not listed after 60s' >&2; exit 1; }
+                  sleep 1
+              done
+              echo 'SeaweedFS bucket ${S3_BUCKET_NAME:-demo} ready'
 
     redis:
         image: redis:7
@@ -223,7 +241,7 @@ volumes:
     kibana:
     os2_data1:
     redis:
-    s3:
+    seaweedfs:
     postgres:
     mercure_data:
     mercure_config:

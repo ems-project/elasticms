@@ -8,9 +8,11 @@ use EMS\CoreBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -145,7 +147,13 @@ final class TranslationsType extends AbstractType
             ],
             'entry_type' => TranslationType::class,
             'label' => t('field.translations', [], 'emsco-core'),
+            'entry_label_type' => TextType::class,
         ]);
+        $resolver->setNormalizer('entry_options', static function (Options $options, array $entryOptions): array {
+            $entryOptions['label_type'] = $options['entry_label_type'];
+
+            return $entryOptions;
+        });
     }
 
     #[\Override]

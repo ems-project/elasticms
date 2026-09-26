@@ -47,6 +47,7 @@ class DisplayOptionsType extends AbstractType
             'required' => false,
         ])->add('helptextTranslations', TranslationsType::class, [
             'label' => t('field.helptext_translations', [], 'emsco-core'),
+            'entry_label_type' => TextareaType::class,
             'required' => false,
         ]);
     }

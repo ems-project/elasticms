@@ -23,8 +23,11 @@ final class Version20260926114852 extends AbstractMigration
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
         );
 
-        $this->addSql('ALTER TABLE content_type ADD pluralNameTranslations JSON DEFAULT NULL');
-        $this->addSql('ALTER TABLE content_type ADD singularNameTranslations JSON DEFAULT NULL');
+        $this->addSql('ALTER TABLE content_type ADD plural_name_translations JSON DEFAULT NULL');
+        $this->addSql('ALTER TABLE content_type ADD singular_name_translations JSON DEFAULT NULL');
+        $this->addSql('ALTER TABLE dashboard ADD label_translations JSON DEFAULT NULL');
+        $this->addSql('ALTER TABLE template ADD label_translations JSON DEFAULT NULL');
+        $this->addSql('ALTER TABLE view ADD label_translations JSON DEFAULT NULL');
     }
 
     #[\Override]
@@ -35,7 +38,10 @@ final class Version20260926114852 extends AbstractMigration
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
         );
 
-        $this->addSql('ALTER TABLE content_type DROP pluralNameTranslations');
-        $this->addSql('ALTER TABLE content_type DROP singularNameTranslations');
+        $this->addSql('ALTER TABLE content_type DROP plural_name_translations');
+        $this->addSql('ALTER TABLE content_type DROP singular_name_translations');
+        $this->addSql('ALTER TABLE dashboard DROP label_translations');
+        $this->addSql('ALTER TABLE template DROP label_translations');
+        $this->addSql('ALTER TABLE view DROP label_translations');
     }
 }

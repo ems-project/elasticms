@@ -10,6 +10,8 @@ use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
+use EMS\CoreBundle\Form\Form\TranslationsType;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class Template extends JsonDeserializer implements \JsonSerializable, EntityInterface, \Stringable
 {
@@ -18,6 +20,8 @@ class Template extends JsonDeserializer implements \JsonSerializable, EntityInte
 
     protected string $name = '';
     protected string $label = '';
+    /** @var array<string, array<string,string>>|null */
+    protected ?array $labelTranslations;
     protected ?string $icon = null;
     protected ?string $body = null;
     protected ?string $header = null;
@@ -426,9 +430,9 @@ class Template extends JsonDeserializer implements \JsonSerializable, EntityInte
         return $json;
     }
 
-    public function getLabel(): string
+    public function getLabel(?UserInterface $user = null): string
     {
-        return $this->label;
+        return TranslationsType::getTranslation($user, $this->label, $this->labelTranslations);
     }
 
     public function setLabel(string $label): void
@@ -470,5 +474,21 @@ class Template extends JsonDeserializer implements \JsonSerializable, EntityInte
     public function setAllowedRemoteHosts(?array $allowedRemoteHosts): void
     {
         $this->allowedRemoteHosts = $allowedRemoteHosts;
+    }
+
+    /**
+     * @return array<string,array<string,string>>
+     */
+    public function getLabelTranslations(): ?array
+    {
+        return $this->labelTranslations ?? [];
+    }
+
+    /**
+     * @param array<string,array<string,string>>|null $labelTranslations
+     */
+    public function setLabelTranslations(?array $labelTranslations): void
+    {
+        $this->labelTranslations = $labelTranslations ?? [];
     }
 }

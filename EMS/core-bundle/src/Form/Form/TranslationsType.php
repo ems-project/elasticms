@@ -24,7 +24,7 @@ use function Symfony\Component\Translation\t;
 final class TranslationsType extends AbstractType
 {
     /**
-     * @param array<string,string>|null $translations
+     * @param array<string, array<string,string>>|null $translations
      */
     public static function getTranslation(?UserInterface $user, string $defaultTranslation, ?array $translations): string
     {
@@ -36,10 +36,11 @@ final class TranslationsType extends AbstractType
             return $translations['label'] ?? '';
         }
 
-        return $translations ?? '';
+        return $translations;
     }
+
     /**
-     * @param array<string,string>|null $translations
+     * @param array<string, array<string,string>>|null $translations
      */
     public static function getGender(?UserInterface $user, ?array $translations): ?string
     {

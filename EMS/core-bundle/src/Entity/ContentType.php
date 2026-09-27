@@ -34,9 +34,9 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     protected $pluralName;
     /** @var string */
     protected $singularName;
-    /** @var array<string, string>|null */
+    /** @var array<string, array<string,string>>|null */
     protected ?array $pluralNameTranslations;
-    /** @var array<string, string>|null */
+    /** @var array<string, array<string,string>>|null */
     protected ?array $singularNameTranslations;
     /** @var string|null */
     protected $icon;
@@ -325,7 +325,7 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, array<string,string>>
      */
     public function getPluralNameTranslations(): array
     {
@@ -333,7 +333,7 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     }
 
     /**
-     * @param array<string, string> $pluralNameTranslations
+     * @param array<string, array<string,string>> $pluralNameTranslations
      */
     public function setPluralNameTranslations(array $pluralNameTranslations): void
     {
@@ -341,7 +341,7 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, array<string,string>>
      */
     public function getSingularNameTranslations(): array
     {
@@ -349,7 +349,7 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     }
 
     /**
-     * @param array<string, string> $singularNameTranslations
+     * @param array<string, array<string,string>> $singularNameTranslations
      */
     public function setSingularNameTranslations(array $singularNameTranslations): void
     {

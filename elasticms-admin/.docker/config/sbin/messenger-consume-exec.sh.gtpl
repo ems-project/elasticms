@@ -4,18 +4,41 @@ set -o allexport
 source {{ .Env.APP_CONFIG_DIR }}/{{ .Env.ELASTICMS_INSTANCE_NAME }}
 set +o allexport
 
-shutdown_handler() {
-    /opt/sbin/{{ .Env.ELASTICMS_INSTANCE_NAME }}-messenger-consume-shutdown || true
-    kill -TERM "$child_pid" 2>/dev/null
+# A stop is left to the worker. messenger:consume handles SIGTERM itself: it
+# finishes the message in hand, then exits. messenger:stop-workers, which ran
+# here, signals every worker that shares the cache, so stopping one container
+# restarted the workers of every replica.
+child_pid=
+stopping=
+stop() {
+    stopping=1
+    [ -n "$child_pid" ] && kill -TERM "$child_pid" 2>/dev/null
 }
-
-child_pid=0
-
-trap shutdown_handler SIGTERM SIGINT SIGQUIT
+trap stop SIGTERM SIGINT SIGQUIT
 
 export EMS_PROCESS_COMMAND={{ .Env.ELASTICMS_INSTANCE_NAME }}
 
-php {{ .Env.APP_SRC_DIR }}/bin/console messenger:consume async {{ .Env.MESSENGER_CONSUME_COMMAND_OPTS }} &
-
+# The console wrapper's memory limit, not php-fpm's per-request one.
+php -d memory_limit=${CLI_PHP_MEMORY_LIMIT:-512M} {{ .Env.APP_SRC_DIR }}/bin/console messenger:consume async {{ .Env.MESSENGER_CONSUME_COMMAND_OPTS }} &
 child_pid=$!
-wait "$child_pid"
+started=$SECONDS
+
+# wait returns early when a trapped signal arrives: wait again until the worker
+# is gone, for its real exit status.
+while kill -0 "$child_pid" 2>/dev/null; do
+    wait "$child_pid"
+    status=$?
+done
+
+# A worker that fails right after its start -- the transport or the database is
+# unreachable -- would be restarted by supervisor every second, a stack trace
+# each time. Wait before handing back, so it retries slowly until the service is
+# back, and is never given up on.
+if [ -z "$stopping" ] && [ "$status" -ne 0 ] && [ $((SECONDS - started)) -lt 10 ]; then
+    echo "messenger:consume for [ {{ .Env.ELASTICMS_INSTANCE_NAME }} ] failed at start (status $status), retrying in 30 s" >&2
+    sleep 30 &
+    child_pid=$!
+    wait "$child_pid"
+fi
+
+exit "$status"

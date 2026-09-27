@@ -9,4 +9,8 @@ startsecs=0
 autorestart=true
 startretries=10
 stopwaitsecs=20
+; The worker runs under a bash wrapper: signal both, and do not leave the worker
+; running when the wrapper is killed.
+stopasgroup=true
+killasgroup=true
 process_name=%(program_name)s_%(process_num)02d

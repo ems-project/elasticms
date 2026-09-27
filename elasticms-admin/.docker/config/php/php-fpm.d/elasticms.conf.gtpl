@@ -19,9 +19,15 @@ ping.path = /{{ $.Env.ELASTICMS_INSTANCE_NAME }}-ping
 catch_workers_output = {{ $.Env.PHP_FPM_CATCH_WORKERS_OUTPUT }}
 decorate_workers_output = {{ $.Env.PHP_FPM_DECORATE_WORKERS_OUTPUT }}
 
+{{- /*
+  env[] values are double-quoted ini strings, and php-fpm's ini parser expands a
+  ${NAME} inside them against its own environment: a value holding a literal
+  "${" -- a password -- reached PHP rewritten. Escape the three characters that
+  are special there, the backslash first.
+*/}}
 {{ range $key, $value := ds "variables" }}
 {{- if ne $value "" }}
-{{- $safe_value := $value | printf "%s" | strings.ReplaceAll "\"" "\\\"" }}
+{{- $safe_value := $value | printf "%s" | strings.ReplaceAll "\\" "\\\\" | strings.ReplaceAll "\"" "\\\"" | strings.ReplaceAll "$" "\\$" }}
 env[{{ $key }}] = "{{ $safe_value }}"
 {{- end }}
 {{- end }}

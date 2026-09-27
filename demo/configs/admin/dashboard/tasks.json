@@ -5,7 +5,14 @@
         "name": "tasks",
         "icon": "fa fa-check-square",
         "label": "Tasks",
-        "labelTranslations": null,
+        "labelTranslations": {
+            "fr": {
+                "label": "T\u00e2ches"
+            },
+            "nl": {
+                "label": "Taken"
+            }
+        },
         "sidebarMenu": true,
         "notificationMenu": false,
         "definition": null,

@@ -195,7 +195,7 @@ services:
             file: docker-elasticms.yml
             service: web
         environment:
-            - TRUSTED_HOSTS=localhost,.*\.localhost
+            - TRUSTED_HOSTS=^(.+\.)?localhost$$
         labels:
             - traefik.enable=true
             - 'traefik.http.routers.skeleton.rule=HostRegexp(`^local\.([a-z0-9\-_\.]+)\-web\-nocache\.localhost$$`)'

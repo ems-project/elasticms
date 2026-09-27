@@ -44,7 +44,7 @@ class EditEnvironmentType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,
-                'label' => 'environment.property.description',
+                'label' => t('field.description', [], 'emsco-core'),
             ])
             ->add('color', ColorPickerType::class, [
                 'required' => false,

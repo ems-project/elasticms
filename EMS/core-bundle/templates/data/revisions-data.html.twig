@@ -382,7 +382,7 @@
 							{% endif %}
 							<td>
 								{% for env in rev.environments %}
-									<span class="badge bg-{{ env.color|raw }}">{{ env.label }}</span>
+									<span class="badge bg-{{ env.color|raw }}">{{ env.label(app.user) }}</span>
 								{% endfor %}
 								{% if rev.draft %}
 									<span class="badge bg-red">Draft in progress</span>

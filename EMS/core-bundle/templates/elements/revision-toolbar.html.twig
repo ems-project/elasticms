@@ -215,7 +215,7 @@
 					  </button>
 					   <ul class="dropdown-menu">
 							{% for env in environmentsRevision.unpublish %}
-								<li><a href="{{ path('revision.unpublish', {'revisionId': revisionId, 'envId': env.id}) }}" data-testid="revision-action-unpublish-from-{{ env.label|lower }}">{{ env.label }}</a></li>
+								<li><a href="{{ path('revision.unpublish', {'revisionId': revisionId, 'envId': env.id}) }}" data-testid="revision-action-unpublish-from-{{ env.label|lower }}">{{ env.label(app.user) }}</a></li>
 							{% endfor %}
 					   </ul>
 				</div>

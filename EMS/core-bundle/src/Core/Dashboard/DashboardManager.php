@@ -121,12 +121,12 @@ class DashboardManager implements EntityServiceInterface
     public function getSidebarMenu(): Menu
     {
         $token = $this->tokenStorage->getToken();
-        if (null === $token) {
-            throw new \RuntimeException('Unexpected null token');
-        }
-        $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
-            throw new \RuntimeException('Unexpected user type');
+        $user = null;
+        if (null !== $token) {
+            $user = $token->getUser();
+            if (!$user instanceof UserInterface) {
+                $user = null;
+            }
         }
         $menu = new Menu(t('key.dashboards', [], 'emsco-core'));
         foreach ($this->dashboardRepository->getSidebarMenu() as $dashboard) {

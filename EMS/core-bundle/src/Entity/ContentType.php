@@ -325,6 +325,14 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     }
 
     /**
+     * @return string[]
+     */
+    public function getPluralTranslation(?UserInterface $user = null): array
+    {
+        return TranslationsType::getTranslationOptions($user, $this->pluralName, $this->pluralNameTranslations);
+    }
+
+    /**
      * @return array<string, array<string,string>>
      */
     public function getPluralNameTranslations(): array
@@ -811,6 +819,14 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     public function getSingularName(?UserInterface $user = null): string
     {
         return TranslationsType::getTranslation($user, $this->singularName, $this->singularNameTranslations);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getSingularNameTranslation(?UserInterface $user = null, string $labelFieldName = 'label'): array
+    {
+        return TranslationsType::getTranslationOptions($user, $this->singularName, $this->singularNameTranslations, $labelFieldName);
     }
 
     public function getSingularGender(?UserInterface $user = null): ?string

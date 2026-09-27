@@ -615,7 +615,7 @@ key:
     excel_export: 'Excel export'
     export_documents: 'Export documents'
     failed_jobs: 'Failed jobs'
-    'false': False
+    'false': 'False'
     filter: Filter
     filters: Filters
     finalize: Finalize
@@ -773,7 +773,7 @@ key:
     to_be_treated: 'To be treated'
     trash: Trash
     treat_selection: 'Treat selection'
-    'true': True
+    'true': 'True'
     unassigned_shards: 'Unassigned shards'
     unknown: Unknown
     unreferenced_aliases: 'Unreferenced aliases'

@@ -18,6 +18,16 @@ trap stop SIGTERM SIGINT SIGQUIT
 
 export EMS_PROCESS_COMMAND={{ .Env.ELASTICMS_INSTANCE_NAME }}
 
+# On Redis, every worker read the stream under the same consumer name,
+# "consumer", so each one also took the messages the others had in hand: a
+# message was handled twice, and the second ack failed. Name each worker after
+# its container and its supervisor process, unless the DSN names one.
+if [[ "$MESSENGER_TRANSPORT_DSN" =~ ^(redis|rediss|valkey|valkeys): ]] && [[ "$MESSENGER_TRANSPORT_DSN" != *consumer=* ]]; then
+    separator='?'
+    [[ "$MESSENGER_TRANSPORT_DSN" == *\?* ]] && separator='&'
+    export MESSENGER_TRANSPORT_DSN="${MESSENGER_TRANSPORT_DSN}${separator}consumer=${HOSTNAME}-${SUPERVISOR_PROCESS_NAME}"
+fi
+
 # The console wrapper's memory limit, not php-fpm's per-request one.
 php -d memory_limit=${CLI_PHP_MEMORY_LIMIT:-512M} {{ .Env.APP_SRC_DIR }}/bin/console messenger:consume async {{ .Env.MESSENGER_CONSUME_COMMAND_OPTS }} &
 child_pid=$!

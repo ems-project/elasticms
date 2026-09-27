@@ -42,6 +42,10 @@ class EditEnvironmentType extends AbstractType
                 'icon' => 'fa fa-header',
                 'label' => t('field.label', [], 'emsco-core'),
             ])
+            ->add('labelTranslations', TranslationsType::class, [
+                'label' => t('field.label_translations', [], 'emsco-core'),
+                'required' => false,
+            ])
             ->add('description', TextareaType::class, [
                 'required' => false,
                 'label' => t('field.description', [], 'emsco-core'),

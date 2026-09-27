@@ -23,6 +23,7 @@
                         <div class="col-md-4">
                             {{ form_row(form.name) }}
                             {{ form_row(form.label) }}
+                            {{ form_row(form.labelTranslations) }}
                             {{ form_row(form.color) }}
                             {{ form_row(form.rolePublish) }}
 
@@ -31,6 +32,7 @@
                             {% endif %}
                         </div>
                         <div class="col-md-8">
+                            {{ form_row(form.description) }}
                             {{ form_row(form.inDefaultSearch) }}
                             {{ form_row(form.updateReferrers) }}
                             {{ form_row(form.baseUrl) }}

@@ -19,6 +19,8 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
 
     protected string $name = '';
     protected ?string $label = null;
+    /** @var array<string, array<string,string>>|null */
+    protected ?array $labelTranslations;
     protected ?string $description = null;
     protected string $alias = '';
     /** @var array<string, Index> */
@@ -471,5 +473,21 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
     public function setRolePublish(?string $rolePublish): void
     {
         $this->rolePublish = $rolePublish;
+    }
+
+    /**
+     * @return array<string,array<string,string>>
+     */
+    public function getLabelTranslations(): ?array
+    {
+        return $this->labelTranslations ?? [];
+    }
+
+    /**
+     * @param array<string,array<string,string>>|null $labelTranslations
+     */
+    public function setLabelTranslations(?array $labelTranslations): void
+    {
+        $this->labelTranslations = $labelTranslations ?? [];
     }
 }

@@ -9,7 +9,9 @@
         "singularNameTranslations": {
             "fr": {
                 "label": "Page",
-                "gender": "female"
+                "gender": "female",
+                "number": "singular",
+                "elision": "false"
             }
         },
         "icon": "fa fa-file-text-o",
@@ -1763,8 +1765,8 @@
                     "active": false,
                     "role": "not-defined",
                     "environments": [
-                        "live",
-                        "preview"
+                        "preview",
+                        "live"
                     ],
                     "roleTo": "not-defined",
                     "roleCc": "not-defined",
@@ -1805,8 +1807,8 @@
                     "active": false,
                     "role": "not-defined",
                     "environments": [
-                        "live",
-                        "preview"
+                        "preview",
+                        "live"
                     ],
                     "roleTo": "not-defined",
                     "roleCc": "not-defined",

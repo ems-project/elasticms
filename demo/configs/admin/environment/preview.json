@@ -4,6 +4,14 @@
     "properties": {
         "name": "preview",
         "label": "Preview",
+        "labelTranslations": {
+            "fr": {
+                "label": "Aper\u00e7u"
+            },
+            "nl": {
+                "label": "Voorbeeld"
+            }
+        },
         "description": "Default environment for all content types but media_file",
         "color": "aqua",
         "baseUrl": null,

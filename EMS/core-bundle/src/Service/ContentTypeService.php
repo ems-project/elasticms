@@ -640,7 +640,6 @@ class ContentTypeService implements EntityServiceInterface
         foreach ($temp as $item) {
             $counters[$item['content_type_id']] = $item['counter'];
         }
-        $circleContentType = $this->getCircleContentType();
 
         foreach ($this->orderedContentTypes as $contentType) {
             $roles = $contentType->getRoles();
@@ -662,7 +661,7 @@ class ContentTypeService implements EntityServiceInterface
             if (isset($counters[$contentType->getId()])) {
                 $menuEntry->setBadge((string) $counters[$contentType->getId()]);
             }
-            $this->addMenuViewLinks($contentType, $menuEntry);
+            $this->addMenuViewLinks($contentType, $menuEntry, $user);
             $this->addDraftInProgressLink($contentType, $menuEntry);
 
             if ($this->authorizationChecker->isGranted($roles[ContentTypeRoles::SHOW_LINK_CREATE])
@@ -680,7 +679,7 @@ class ContentTypeService implements EntityServiceInterface
         return $menu;
     }
 
-    private function addMenuViewLinks(ContentType $contentType, MenuEntry $menuEntry): void
+    private function addMenuViewLinks(ContentType $contentType, MenuEntry $menuEntry, UserInterface $user): void
     {
         foreach ($contentType->getViews() as $view) {
             if (null !== $view->getRole() && !$this->authorizationChecker->isGranted($view->getRole())) {
@@ -689,7 +688,7 @@ class ContentTypeService implements EntityServiceInterface
             if ('ems.view.data_link' === $view->getType()) {
                 continue;
             }
-            $menuEntry->addChild($view->getLabel(), $view->getIcon() ?? '', $view->isPublic() ? Routes::DATA_PUBLIC_VIEW : Routes::DATA_PRIVATE_VIEW, ['viewId' => $view->getId()]);
+            $menuEntry->addChild($view->getLabel($user), $view->getIcon() ?? '', $view->isPublic() ? Routes::DATA_PUBLIC_VIEW : Routes::DATA_PRIVATE_VIEW, ['viewId' => $view->getId()]);
         }
     }
 

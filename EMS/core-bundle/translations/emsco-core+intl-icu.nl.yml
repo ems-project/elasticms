@@ -345,6 +345,7 @@ field:
     docs_count: '# Documenten'
     edit_twig_with_wysiwyg: 'Twig-template bewerken met een WYSIWYG-editor'
     editor: Editor
+    elision: Elisie
     email: E-mail
     email_content_type: 'Contenttype (bv. text/html)'
     enabled: Ingeschakeld
@@ -442,6 +443,7 @@ field:
     new_version: 'Nieuwe versie'
     node_name: 'Naam van het knooppunt'
     not_blank_new_version: 'Nieuwe versie niet leeg'
+    number: Getal
     operator: Operator
     operators: Exploitanten
     options: Opties
@@ -613,6 +615,7 @@ key:
     excel_export: Excel-export
     export_documents: 'Documenten exporteren'
     failed_jobs: 'Mislukte jobs'
+    'false': Onwaar
     filter: Filter
     filters: Filters
     finalize: Finaliseren
@@ -701,6 +704,7 @@ key:
     pending_jobs: 'Wachtende jobs'
     pendings: Wachtenden
     permission_overview_singular: 'Overzicht van rechten'
+    plural: Meervoud
     portrait: Portret
     prefix: Voorvoegsel
     prefix_instance_id: 'Alias voorafgaan met instance-ID'
@@ -742,6 +746,7 @@ key:
     should: 'Zou moeten'
     show_search_form: 'Zoekformulier tonen'
     simplified_ui: 'Vereenvoudigde UI'
+    singular: Enkelvoud
     sort_by: 'Sorteren op'
     sort_options: Sorteeropties
     sort_options_lowercase: Sorteeropties
@@ -768,6 +773,7 @@ key:
     to_be_treated: 'Te behandelen'
     trash: Prullenbak
     treat_selection: 'Selectie behandelen'
+    'true': Waar
     unassigned_shards: 'Niet-toegewezen shards'
     unknown: Onbekend
     unreferenced_aliases: 'Niet-gerefereerde aliassen'

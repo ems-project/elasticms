@@ -81,7 +81,7 @@ action:
     init_upload: 'Initialiser l’upload'
     move: Déplacer
     move_item: 'Déplacer l’élément'
-    new_entity_name: >-
+    new_entity_name: |-
         {gender, select,
             male {Nouveau {name}}
             female {Nouvelle {name}}
@@ -350,6 +350,7 @@ field:
     docs_count: '# Documents'
     edit_twig_with_wysiwyg: 'Modifier le template Twig avec un éditeur WYSIWYG'
     editor: Éditeur
+    elision: Élision
     email: Email
     email_content_type: 'Type de contenu (ex. : text/html)'
     enabled: Activé
@@ -447,6 +448,7 @@ field:
     new_version: 'Nouvelle version'
     node_name: 'Nom du nœud'
     not_blank_new_version: 'Nouvelle version non vide'
+    number: Nombre
     operator: Opérateur
     operators: Opérateurs
     options: Options
@@ -618,6 +620,7 @@ key:
     excel_export: 'Export Excel'
     export_documents: 'Exporter les documents'
     failed_jobs: 'Jobs échoués'
+    'false': Faux
     filter: Filtre
     filters: Filtres
     finalize: Finaliser
@@ -706,6 +709,7 @@ key:
     pending_jobs: 'Jobs en attente'
     pendings: 'En attente'
     permission_overview_singular: 'Vue d’ensemble des permissions'
+    plural: Pluriel
     portrait: Portrait
     prefix: Préfixe
     prefix_instance_id: 'Préfixer l’alias avec l’ID de l’instance'
@@ -747,6 +751,7 @@ key:
     should: Devrait
     show_search_form: 'Afficher le formulaire de recherche'
     simplified_ui: 'Interfaces simplifiées'
+    singular: Singulier
     sort_by: 'Trier par'
     sort_options: 'Options de tri'
     sort_options_lowercase: 'Options de tri'
@@ -773,6 +778,7 @@ key:
     to_be_treated: 'À traiter'
     trash: Corbeille
     treat_selection: 'Traiter la sélection'
+    'true': Vrai
     unassigned_shards: 'Shards non assignés'
     unknown: Inconnu
     unreferenced_aliases: 'Alias non référencés'

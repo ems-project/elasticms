@@ -345,6 +345,7 @@ field:
     docs_count: '# Documents'
     edit_twig_with_wysiwyg: 'Edit the Twig template with a WYSIWYG editor'
     editor: Editor
+    elision: Elision
     email: Email
     email_content_type: 'Content type (ie: text/html)'
     enabled: Enabled
@@ -442,6 +443,7 @@ field:
     new_version: 'New version'
     node_name: 'Node name'
     not_blank_new_version: 'Not blank new version'
+    number: Number
     operator: Operator
     operators: Operators
     options: Options
@@ -613,6 +615,7 @@ key:
     excel_export: 'Excel export'
     export_documents: 'Export documents'
     failed_jobs: 'Failed jobs'
+    'false': False
     filter: Filter
     filters: Filters
     finalize: Finalize
@@ -701,6 +704,7 @@ key:
     pending_jobs: 'Pending jobs'
     pendings: Pendings
     permission_overview_singular: 'Permission Overview'
+    plural: Plural
     portrait: Portrait
     prefix: Prefix
     prefix_instance_id: 'Prefix alias with instance ID'
@@ -742,6 +746,7 @@ key:
     should: Should
     show_search_form: 'Show search form'
     simplified_ui: 'Simplified UI'
+    singular: Singular
     sort_by: 'Sort by'
     sort_options: 'Sort Options'
     sort_options_lowercase: 'Sort options'
@@ -768,6 +773,7 @@ key:
     to_be_treated: 'To be treated'
     trash: Trash
     treat_selection: 'Treat selection'
+    'true': True
     unassigned_shards: 'Unassigned shards'
     unknown: Unknown
     unreferenced_aliases: 'Unreferenced aliases'

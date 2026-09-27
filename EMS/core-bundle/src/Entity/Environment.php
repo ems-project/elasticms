@@ -11,6 +11,8 @@ use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Core\Environment\Index;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
+use EMS\CoreBundle\Form\Form\TranslationsType;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class Environment extends JsonDeserializer implements \JsonSerializable, EntityInterface, \Stringable
 {
@@ -426,7 +428,7 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
         return $json;
     }
 
-    public function getLabel(): string
+    public function getLabel(?UserInterface $user = null): string
     {
         if (null === $this->label) {
             $replaced = \preg_replace(['/([A-Z])/', '/[_\s]+/'], ['_$1', ' '], $this->name);
@@ -434,10 +436,10 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
                 $replaced = $this->name;
             }
 
-            return \ucfirst(\strtolower(\trim($replaced)));
+            $this->label = \ucfirst(\strtolower(\trim($replaced)));
         }
 
-        return $this->label;
+        return TranslationsType::getTranslation($user, $this->label, $this->labelTranslations);
     }
 
     public function setLabel(?string $label): void

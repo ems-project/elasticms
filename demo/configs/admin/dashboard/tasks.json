@@ -5,6 +5,7 @@
         "name": "tasks",
         "icon": "fa fa-check-square",
         "label": "Tasks",
+        "labelTranslations": null,
         "sidebarMenu": true,
         "notificationMenu": false,
         "definition": null,

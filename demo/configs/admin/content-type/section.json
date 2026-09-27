@@ -461,6 +461,7 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
+                    "labelTranslations": null,
                     "icon": "fa fa-list-ul",
                     "options": {
                         "body": "{}",
@@ -483,6 +484,7 @@
                     "name": "reorder",
                     "type": "ems.view.sorter",
                     "label": "Reorder",
+                    "labelTranslations": null,
                     "icon": "fa fa-unsorted",
                     "options": {
                         "body": "{}",

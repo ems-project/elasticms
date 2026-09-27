@@ -2334,6 +2334,7 @@
                 "properties": {
                     "name": "debug",
                     "label": "Debug",
+                    "labelTranslations": null,
                     "icon": "fa fa-bug",
                     "body": "{{ block('form_instance_debug', '@EMSCH/template_ems/actions.twig') }}",
                     "header": null,
@@ -2375,6 +2376,7 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
+                    "labelTranslations": null,
                     "icon": "fa fa-list-ul",
                     "options": {
                         "body": "{}",

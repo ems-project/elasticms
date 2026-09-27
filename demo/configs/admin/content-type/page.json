@@ -1741,6 +1741,14 @@
                 "properties": {
                     "name": "show-fr",
                     "label": "Show FR",
+                    "labelTranslations": {
+                        "fr": {
+                            "label": "Afficher FR"
+                        },
+                        "nl": {
+                            "label": "Toon FR"
+                        }
+                    },
                     "icon": "fa fa-eye",
                     "body": "{{ block('show_page_fr', '@EMSCH/template_ems/actions.twig') }}",
                     "header": null,
@@ -1782,6 +1790,7 @@
                 "properties": {
                     "name": "show-nl",
                     "label": "Show NL",
+                    "labelTranslations": null,
                     "icon": "fa fa-eye",
                     "body": "{{ block('show_page_nl', '@EMSCH/template_ems/actions.twig') }}",
                     "header": null,
@@ -1823,6 +1832,7 @@
                 "properties": {
                     "name": "clear_cache",
                     "label": "Clear cache",
+                    "labelTranslations": null,
                     "icon": "glyphicon glyphicon-erase",
                     "body": "{{ block(\"clear_caches\", \"@EMSCH/template_ems/actions.twig\") }}",
                     "header": null,
@@ -1861,6 +1871,7 @@
                 "properties": {
                     "name": "clear_all_caches",
                     "label": "Clear all caches",
+                    "labelTranslations": null,
                     "icon": "fa fa-exclamation-triangle",
                     "body": "{{ block(\"clear_all_caches\", \"@EMSCH/template_ems/actions.twig\") }}",
                     "header": null,
@@ -1902,6 +1913,14 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
+                    "labelTranslations": {
+                        "fr": {
+                            "label": "Aper\u00e7u"
+                        },
+                        "nl": {
+                            "label": "Overzicht"
+                        }
+                    },
                     "icon": "fa fa-list-ul",
                     "options": {
                         "body": "{}",

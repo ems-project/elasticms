@@ -12,9 +12,9 @@ server {
 
     index index.php;
 
-{{- if ne $.Env.NGINX_BASIC_AUTH_ENABLED "false" }}
-    auth_basic "Restricted Area"
-    auth_basic_user_file {{ $.Env.NGINX_BASIC_AUTH_FILE_PATH }}
+{{- if eq (strings.ToLower $.Env.NGINX_BASIC_AUTH_ENABLED) "true" }}
+    auth_basic "Restricted Area";
+    auth_basic_user_file {{ $.Env.ELASTICMS_BASIC_AUTH_FILE }};
 {{- end }}
 
     include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.security-headers.conf;

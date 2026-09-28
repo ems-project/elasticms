@@ -3,7 +3,7 @@
 
 location ^~ /{{ $a }}/robots.txt {
 
-    alias /app/src/elasticms/public/;
+    alias {{ $.Env.NGINX_PUBLIC_DIR }}/;
 
     include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
 
@@ -17,7 +17,7 @@ location ^~ /{{ $a }}/robots.txt {
 
 location ^~ /{{ $a }}/favicon.ico {
 
-    alias /app/src/elasticms/public/;
+    alias {{ $.Env.NGINX_PUBLIC_DIR }}/;
 
     include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
 
@@ -31,7 +31,7 @@ location ^~ /{{ $a }}/favicon.ico {
 
 location ^~ /{{ $a }}/bundles/ {
 
-    alias /app/src/elasticms/public/bundles/;
+    alias {{ $.Env.NGINX_PUBLIC_DIR }}/bundles/;
 
     include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
 

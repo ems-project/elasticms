@@ -8,7 +8,9 @@
 dbcr() {
     if [[ "$DB_DRIVER" =~ ^.*pgsql$ ]] && [[ "$DB_USER" =~ ^.*_(chg)$ ]]; then
         log "INFO" "+ ${1^} DBCR() ..."
-        psql postgresql://${DB_USER}:$(urlencode.py $DB_PASSWORD)@${DB_HOST//,/:${DB_PORT},}:${DB_PORT}/${DB_NAME}?connect_timeout=${DB_CONNECTION_TIMEOUT:-30} -c "select * from ${1}_dbcr();"
+        # The password through PGPASSWORD, not the command line, where any process
+        # of the container read it.
+        PGUSER="$DB_USER" PGPASSWORD="$DB_PASSWORD" psql "postgresql://${DB_HOST//,/:${DB_PORT},}:${DB_PORT}/${DB_NAME}?connect_timeout=${DB_CONNECTION_TIMEOUT:-30}" -c "select * from ${1}_dbcr();"
     fi
 }
 

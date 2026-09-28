@@ -20,7 +20,12 @@ NGINX_ACCESS_CONTROL_ALLOW_ORIGIN_WCMTECH_DEFAULT=""
 NGINX_ACCESS_CONTROL_ALLOW_METHODS_WCMTECH_DEFAULT=""
 NGINX_ACCESS_CONTROL_ALLOW_HEADERS_WCMTECH_DEFAULT=""
 
-NGINX_CLIENT_MAX_BODY_SIZE_WCMTECH_DEFAULT="5m"
+# nginx refused a body PHP accepts: 5m against post_max_size 32M and
+# upload_max_filesize 10M, so a 6 MB form post was a 413 from nginx before PHP
+# had a say. The limit now follows post_max_size, the PHP limit on a whole
+# request body, including when an operator changes it (10-php.sh is sourced
+# first). nginx reads the same k/m/g suffixes, and 0 means no limit in both.
+NGINX_CLIENT_MAX_BODY_SIZE_WCMTECH_DEFAULT="${PHP_POST_MAX_SIZE:-${PHP_POST_MAX_SIZE_WCMTECH_DEFAULT}}"
 
 NGINX_BUNDLES_LOCATION_EXPIRES_WCMTECH_DEFAULT="off"
 NGINX_BUNDLES_LOCATION_ACCESS_LOG_WCMTECH_DEFAULT="off"

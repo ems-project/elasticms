@@ -12,6 +12,12 @@ server {
 
     index index.php;
 
+    # Redirects nginx builds itself -- a directory without its trailing slash --
+    # carried the internal host and port: /bundles answered
+    # "Location: http://<host>:9000/bundles/", which a browser behind the
+    # proxy cannot reach. A relative Location keeps the address it came in on.
+    absolute_redirect off;
+
     # base-php's soft throttling (NGINX_SOFT_THROTTLE_*). The zones are declared
     # for the whole of nginx but only act where a server includes this file; the
     # instance vhosts never did, so they were never throttled. Empty while

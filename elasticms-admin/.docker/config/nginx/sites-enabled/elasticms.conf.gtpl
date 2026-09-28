@@ -12,6 +12,12 @@ server {
 
     index index.php;
 
+    # base-php's soft throttling (NGINX_SOFT_THROTTLE_*). The zones are declared
+    # for the whole of nginx but only act where a server includes this file; the
+    # instance vhosts never did, so they were never throttled. Empty while
+    # throttling is off.
+    include /opt/etc/nginx/conf.d/throttling-server.conf;
+
     include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.security-headers.conf;
 
     # ============================================================

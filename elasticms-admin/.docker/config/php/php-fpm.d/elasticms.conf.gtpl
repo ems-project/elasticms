@@ -36,9 +36,19 @@ request_slowlog_trace_depth = {{ $.Env.PHP_FPM_REQUEST_SLOWLOG_TRACE_DEPTH }}
   "${" -- a password -- reached PHP rewritten. Escape the three characters that
   are special there, the backslash first.
 */}}
+{{- /*
+  An empty value must still reach PHP empty: an instance blanks a variable the
+  container sets (TRUSTED_PROXIES=) and, the pool running with clear_env = no,
+  skipping the entry let the container's value through. php-fpm refuses
+  env[NAME] = "" ("empty value") but resolves an unquoted $NAME when it starts a
+  worker, to the empty string when NAME is not set -- ELASTICMS_EMPTY_VALUE never
+  is.
+*/}}
 {{ range $key, $value := ds "variables" }}
 {{- if ne $value "" }}
 {{- $safe_value := $value | printf "%s" | strings.ReplaceAll "\\" "\\\\" | strings.ReplaceAll "\"" "\\\"" | strings.ReplaceAll "$" "\\$" }}
 env[{{ $key }}] = "{{ $safe_value }}"
+{{- else }}
+env[{{ $key }}] = $ELASTICMS_EMPTY_VALUE
 {{- end }}
 {{- end }}

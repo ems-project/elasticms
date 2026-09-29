@@ -9,8 +9,9 @@ use EMS\CoreBundle\Core\Dashboard\DashboardOptions;
 use EMS\CoreBundle\Core\Dashboard\DashboardType;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
-use EMS\CoreBundle\Form\Form\TranslationsType;
 use EMS\Helpers\Standard\Type;
+use EMS\Helpers\Translations\Translation;
+use EMS\Helpers\Translations\Translations;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -81,7 +82,16 @@ class Dashboard extends JsonDeserializer implements \JsonSerializable, EntityInt
 
     public function getLabel(?UserInterface $user = null): string
     {
-        return TranslationsType::getTranslation($user, $this->label, $this->labelTranslations);
+        return $this->getLabelTranslation($user)->getLabel();
+    }
+
+    public function getLabelTranslation(?UserInterface $user = null): Translation
+    {
+        if (!$user instanceof User) {
+            return new Translation($this->label);
+        }
+
+        return Translations::fromArray($this->getLabelTranslations())->getTranslation($user->getLocales(), $this->label);
     }
 
     public function setLabel(string $label): void
@@ -217,15 +227,15 @@ class Dashboard extends JsonDeserializer implements \JsonSerializable, EntityInt
     }
 
     /**
-     * @return array<string,array<string,string>>
+     * @return mixed[][]
      */
-    public function getLabelTranslations(): ?array
+    public function getLabelTranslations(): array
     {
         return $this->labelTranslations ?? [];
     }
 
     /**
-     * @param array<string,array<string,string>>|null $labelTranslations
+     * @param mixed[][]|null $labelTranslations
      */
     public function setLabelTranslations(?array $labelTranslations): void
     {

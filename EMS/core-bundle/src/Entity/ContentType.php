@@ -18,9 +18,10 @@ use EMS\CoreBundle\Core\ContentType\ViewDefinition;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Form\DataField\ContainerFieldType;
-use EMS\CoreBundle\Form\Form\TranslationsType;
 use EMS\CoreBundle\Roles;
 use EMS\Helpers\Standard\Json;
+use EMS\Helpers\Translations\Translation;
+use EMS\Helpers\Translations\Translations;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class ContentType extends JsonDeserializer implements \JsonSerializable, EntityInterface, \Stringable
@@ -321,15 +322,16 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
 
     public function getPluralName(?UserInterface $user = null): string
     {
-        return TranslationsType::getTranslation($user, $this->pluralName, $this->pluralNameTranslations);
+        return $this->getPluralTranslation($user)->getLabel();
     }
 
-    /**
-     * @return string[]
-     */
-    public function getPluralTranslation(?UserInterface $user = null): array
+    public function getPluralTranslation(?UserInterface $user = null): Translation
     {
-        return TranslationsType::getTranslationOptions($user, $this->pluralName, $this->pluralNameTranslations);
+        if (!$user instanceof User) {
+            return new Translation($this->pluralName);
+        }
+
+        return Translations::fromArray($this->getPluralNameTranslations())->getTranslation($user->getLocales(), $this->pluralName);
     }
 
     /**
@@ -818,20 +820,16 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
 
     public function getSingularName(?UserInterface $user = null): string
     {
-        return TranslationsType::getTranslation($user, $this->singularName, $this->singularNameTranslations);
+        return $this->getSingularNameTranslation($user)->getLabel();
     }
 
-    /**
-     * @return string[]
-     */
-    public function getSingularNameTranslation(?UserInterface $user = null, string $labelFieldName = 'label'): array
+    public function getSingularNameTranslation(?UserInterface $user = null): Translation
     {
-        return TranslationsType::getTranslationOptions($user, $this->singularName, $this->singularNameTranslations, $labelFieldName);
-    }
+        if (!$user instanceof User) {
+            return new Translation($this->singularName);
+        }
 
-    public function getSingularGender(?UserInterface $user = null): ?string
-    {
-        return TranslationsType::getGender($user, $this->singularNameTranslations);
+        return Translations::fromArray($this->getSingularNameTranslations())->getTranslation($user->getLocales(), $this->singularName);
     }
 
     public function setSortOrder(?string $sortOrder): ContentType

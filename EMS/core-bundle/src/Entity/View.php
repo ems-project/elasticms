@@ -9,7 +9,8 @@ use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Core\ContentType\ViewDefinition;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
-use EMS\CoreBundle\Form\Form\TranslationsType;
+use EMS\Helpers\Translations\Translation;
+use EMS\Helpers\Translations\Translations;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class View extends JsonDeserializer implements \JsonSerializable, EntityInterface
@@ -161,7 +162,16 @@ class View extends JsonDeserializer implements \JsonSerializable, EntityInterfac
 
     public function getLabel(?UserInterface $user = null): string
     {
-        return TranslationsType::getTranslation($user, $this->label, $this->labelTranslations);
+        return $this->getLabelTranslation($user)->getLabel();
+    }
+
+    public function getLabelTranslation(?UserInterface $user = null): Translation
+    {
+        if (!$user instanceof User) {
+            return new Translation($this->label);
+        }
+
+        return Translations::fromArray($this->getLabelTranslations())->getTranslation($user->getLocales(), $this->label);
     }
 
     public function setLabel(string $label): void
@@ -180,15 +190,15 @@ class View extends JsonDeserializer implements \JsonSerializable, EntityInterfac
     }
 
     /**
-     * @return array<string,array<string,string>>
+     * @return mixed[][]
      */
-    public function getLabelTranslations(): ?array
+    public function getLabelTranslations(): array
     {
         return $this->labelTranslations ?? [];
     }
 
     /**
-     * @param array<string,array<string,string>>|null $labelTranslations
+     * @param mixed[][]|null $labelTranslations
      */
     public function setLabelTranslations(?array $labelTranslations): void
     {

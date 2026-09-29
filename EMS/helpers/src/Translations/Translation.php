@@ -30,18 +30,19 @@ class Translation
                 'number' => null,
                 'elision' => null,
             ])
-            ->setRequired(['label', 'string'])
+            ->setRequired(['label'])
+            ->setAllowedTypes('label', ['string'])
             ->setAllowedTypes('gender', ['null', 'string'])
             ->setAllowedTypes('number', ['null', 'string'])
             ->setAllowedTypes('elision', ['null', 'string'])
             ->setNormalizer('gender', function (Options $options, $value) {
-                return Gender::from($value);
+                return null === $value ? null : Gender::from($value);
             })
             ->setNormalizer('number', function (Options $options, $value) {
-                return Number::from($value);
+                return null === $value ? null : Number::from($value);
             })
-            ->setNormalizer('number', function (Options $options, $value) {
-                return Number::from($value);
+            ->setNormalizer('elision', function (Options $options, $value) {
+                return null === $value ? null : Elision::from($value);
             });
         /** @var array{label: string, number: ?Number, gender: ?Gender, elision: ?Elision} $resolvedOptions */
         $resolvedOptions = $optionResolver->resolve($options);

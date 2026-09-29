@@ -5,3 +5,4 @@
 /skeleton/template/asset_hash.twig
 /tmp/
 /.cache/
+/configs/locust/urls.json

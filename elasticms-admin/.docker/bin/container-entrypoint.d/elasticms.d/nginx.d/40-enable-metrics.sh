@@ -9,9 +9,6 @@ if [[ ! -z ${METRICS_ENABLED} ]] && [[ ${METRICS_ENABLED,,} = true ]]; then
 
     if [ ! -f ${TMPDIR}/default-metrics-is-configured ] ; then
 
-        gomplate -f /opt/config/nginx/conf.d/include.metrics-permissions.conf.gtpl \
-                 -o /opt/etc/nginx/conf.d/default.metrics-permissions.conf
-
         gomplate -f /opt/config/nginx/sites-enabled/default-metrics.conf.gtpl \
                  -o /opt/etc/nginx/sites-enabled/default.metrics.conf
 

@@ -1,3 +1,5 @@
+# Versioned assets -- bundles, emsch_assets -- whose file name changes with
+# their content: cached for a year and immutable (NGINX_BUNDLES_LOCATION_*).
 include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.security-headers.conf;
 
 expires {{ $.Env.NGINX_BUNDLES_LOCATION_EXPIRES }};

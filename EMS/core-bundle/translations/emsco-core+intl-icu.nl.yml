@@ -81,7 +81,7 @@ action:
     init_upload: 'Upload initialiseren'
     move: Verplaatsen
     move_item: 'Item verplaatsen'
-    new_entity_name: 'Nieuwe {name}'
+    new_entity_name: 'Nieuwe {label}'
     new_job: 'Nieuwe job'
     next: Volgende
     paste: Plakken

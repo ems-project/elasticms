@@ -81,7 +81,7 @@ action:
     init_upload: 'Initialize upload'
     move: Move
     move_item: 'Move item'
-    new_entity_name: 'New {name}'
+    new_entity_name: 'New {label}'
     new_job: 'New job'
     next: Next
     paste: Paste

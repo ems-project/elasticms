@@ -104,18 +104,20 @@ services:
     ports:
       - "9998:9998"
 
-  minio:
+  seaweedfs:
     extends:
       file: ../demo/docker-compose.yml
-      service: minio
-    container_name: ems-mono-minio
+      service: seaweedfs
+    container_name: ems-mono-seaweedfs
+    # Host port 9000 is where the admin and web .env.dist expect S3, as they
+    # did with MinIO; SeaweedFS serves it on 8333.
     ports:
-      - 9000:9000
+        - "9000:8333"
 
-  setup_minio:
+  s3-init:
       extends:
           file: ../demo/docker-compose.yml
-          service: setup_minio
+          service: s3-init
 
   redis:
     extends:
@@ -219,7 +221,7 @@ volumes:
   os2_data02:
   os2_data03:
   redis:
-  s3:
+  seaweedfs:
   mariadb:
   postgres:
       name: ${POSTGRES_VOLUME-postgres}

@@ -543,7 +543,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     public function getLocales(): array
     {
         return \array_unique(\array_filter([
-            $this->getLocale(),
+            $this->locale,
             $this->localePreferred,
         ]));
     }

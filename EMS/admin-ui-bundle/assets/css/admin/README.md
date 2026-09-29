@@ -11,7 +11,7 @@ variables/_app.scss   Sass variables (compile-time): Bootstrap overrides,
 mixins/                small reusable Sass mixins
 components/            grouped by UI area - see conventions below
 utilities/             small utility classes (cursors, sizing)
-vendor/                overrides for 3rd-party CSS (flatpickr, simplebar)
+vendor/                overrides for 3rd-party CSS (flatpickr)
 ```
 
 `components/_dark-mode.scss` and `components/_theme-color.scss` are

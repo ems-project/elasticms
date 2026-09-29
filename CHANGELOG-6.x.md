@@ -1,5 +1,10 @@
 # Changelog 6.x
 
+## 6.9.38 (2026-09-29)
+### Bug Fixes
+* fix(docker): move the object from MinIO to SeaweedFS by @Davidmattei in https://github.com/ems-project/elasticms/pull/1883
+* fix(web/security): forceAuthenticated not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/1861
+
 ## 6.9.37 (2026-09-22)
 ### Bug Fixes
 * fix(admin): correct catch Storage exceptions and admin only switch user by @theus77 in https://github.com/ems-project/elasticms/pull/1858

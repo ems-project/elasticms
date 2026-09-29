@@ -5,8 +5,6 @@ export DEBUG=${DEBUG:-false}
 [[ "${DEBUG}" == "true" ]] && set -x
 
 source /usr/local/bin/container-entrypoint.d/entrypoint.d/00-functions.sh
-source /usr/local/bin/container-entrypoint.d/entrypoint.d/00-php.default.values.sh
-source /usr/local/bin/container-entrypoint.d/entrypoint.d/00-php.ini.values.sh
 source /usr/local/bin/container-entrypoint.d/entrypoint.d/01-php.sh
 source /usr/local/bin/container-entrypoint.d/entrypoint.d/10-supervisor.sh
 source /usr/local/bin/container-entrypoint.d/entrypoint.d/90-app.sh

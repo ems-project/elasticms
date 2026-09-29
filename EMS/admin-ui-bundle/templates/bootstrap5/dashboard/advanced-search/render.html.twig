@@ -1,0 +1,265 @@
+{% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
+{% trans_default_domain 'emsco-core' %}
+
+{%- set paginationPath = app.request.get('_route') -%}
+{%- set currentFilters = app.request.query|merge({name: dashboard.name}) -%}
+
+{% block title %}{{ title }} : {{ 'message.search_result_count'|trans({ total: response.formattedTotal|default(-1), count: response.total|default(-1) }) }} {% endblock %}
+
+{% block pagination %}
+    {% if lastPage > 1 %}
+        {{ include('@EMSAdminUI/bootstrap5/elements/pagination.html.twig', {
+            lastPage: lastPage,
+            currentPage: page,
+            currentFilters: currentFilters,
+            paginationPath: paginationPath,
+            showAlwaysFirstAndLast: false
+        }) }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% for result in response.documents %}
+        <div class="card card-light">
+            <div class="card-header">
+                {% if attribute(types, result.contentType) is defined %}
+                    <span class="text-{{ attribute(types, result.contentType).color }}">
+                    <i class="{{ attribute(types, result.contentType).icon }}"></i>
+                    {% if searchForm.vars.data.environments|length != 1 %}
+                        {{ attribute(types, result.contentType).singularName }} |
+                    {% endif %}
+
+                        {% set resultLabel = result|emsco_display %}
+                        {{ resultLabel }}
+                        {% if resultLabel != result.id or emsco_is_super() %}<small>({{ result.id }})</small>{% endif %}
+                </span>
+                {% else %}
+                    <i class="fa fa-question"></i>
+                    {{ result.contentType|humanize }} | {{ result.id }}
+                {% endif %}
+
+            </div>
+            {% if result.highlight is defined and result.highlight %}
+                <div class="card-body">
+                    <div class="col-12">
+                        {{ result.highlight._all.0|e|replace({'&lt;em&gt;': '<em>', '&lt;/em&gt;': '</em>'})|raw }}
+                    </div>
+                </div>
+            {% endif %}
+            {% if attribute(types, result.contentType) is defined and attribute(types, result.contentType).indexTwig %}
+                <div class="card-body">
+                    <div class="col-12">
+                        {{ attribute(types, result.contentType).indexTwig|emsco_generate_from_template({
+                            environment: attribute(indexes, result.index),
+                            contentType: attribute(types, result.contentType),
+                            object: result,
+                            source: result.source,
+                        })|raw }}
+                    </div>
+                </div>
+            {% endif %}
+            <div class="card-footer">
+                {% if attribute(types, result.contentType) is defined %}
+                    {{ include('@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig', {
+                        environment: attribute(indexes, result.index),
+                        contentType: attribute(types, result.contentType),
+                        object: result.raw,
+                    }) }}
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}
+
+{% block sort_option %}
+    {% if options.sortOptions|default([])|length %}
+        {% set header %}
+            <i class="fa fa-sort-alpha-asc"></i> {{ 'key.sort_by'|trans }}
+        {% endset %}
+        {% set content %}
+            <div class="d-grid gap-1">
+                {% for option in options.sortOptions %}
+                    {% set active = option.field == search.sortBy %}
+                    {% set order = active ? search.sortOrder : option.inverted ? 'desc' : 'asc' %}
+                    <a href="{{ path(paginationPath, currentFilters|merge({sortBy: option.field})) }}" class="btn btn-primary d-flex align-items-center{% if active %} active{% endif %}">
+                        <i class="{% if option.icon %}{{ option.icon }}{% else %}fa fa-sort-alpha-asc{% endif %} me-2"></i>
+                        {{ option.name }}
+                        {% if active %}
+                            <i class="fa fa-sort-{{ order }} ms-auto"></i>
+                        {% endif %}
+                    </a>
+                {% endfor %}
+                {% if search.sortBy %}
+                    <a href="{{ path(paginationPath, currentFilters|merge({ clearSort: true })) }}" class="btn btn-primary d-flex align-items-center">
+                        <i class="fa fa-remove me-2"></i>
+                        {{ 'action.clear_sort_options'|trans }}
+                    </a>
+                {% endif %}
+            </div>
+        {% endset %}
+        {% with {
+            form: null,
+            header: header,
+            footer: null,
+            content: content,
+        } %}
+            {{ block('card', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
+        {% endwith %}
+    {% endif %}
+{% endblock %}
+
+{% block content_types_facet %}
+    {% if options.sortOptions|default([])|length %}
+        {% set header %}
+            <i class="fa fa-sitemap"></i> {{ 'key.content_types'|trans }}
+        {% endset %}
+        {% set content %}
+            <div class="d-grid gap-1">
+                {% for index in response.getAggregation('types').buckets %}
+                    {% if types.(index.key) is defined %}
+                        {% set icon = types.(index.key).icon|default('fa fa-book') %}
+                        {% set color = types.(index.key).color|default('gray') %}
+                        {% set label = index.count > 1 ? types.(index.key).pluralName : types.(index.key).singularName %}
+                    {% else %}
+                        {% set icon = 'fa fa-question' %}
+                        {% set color = 'gray' %}
+                        {% set label = index.key|humanize %}
+                    {% endif %}
+                    <a href="{{ path(paginationPath, currentFilters|merge({ contentType: index.key })) }}" class="btn btn-primary d-flex align-items-center bg-{{ color }}">
+                        <i class="{{ icon }} me-2"></i>
+                        {{ label }}
+                        <span class="badge bg-secondary ms-auto">{{ index.count }}</span>
+                    </a>
+                {% endfor %}
+                {% if response.getAggregation('types').raw.sum_other_doc_count > 0 %}
+                    <a href="#" class="disabled btn btn-primary d-flex align-items-center btn-gray">
+                        <i class="fa fa-question me-2"></i>
+                        {{ 'key.other'|trans }}
+                        <span class="badge bg-secondary ms-auto">{{ response.getAggregation('types').raw.sum_other_doc_count }}</span>
+                    </a>
+                {% endif %}
+            </div>
+        {% endset %}
+        {% with {
+            form: null,
+            header: header,
+            footer: null,
+            content: content,
+        } %}
+            {{ block('card', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
+        {% endwith %}
+    {% endif %}
+{% endblock %}
+
+{% block environments_facet %}
+    {% if response %}
+        {% set header %}
+            <h3 class="box-title"><i class="fa fa-database"></i> {{ 'key.environments'|trans }}</h3>
+        {% endset %}
+        {% set content %}
+            <div class="d-grid gap-1">
+                {% for index in response.getAggregation('indexes').buckets %}
+                    <a href="{{ path(paginationPath, currentFilters|merge({ environment: indexes.(index.key).name })) }}" class="btn btn-primary d-flex align-items-center bg-{{ indexes.(index.key).color|default('gray') }}">
+                        <i class="fa fa-eye me-2"></i>
+                        {{ indexes.(index.key).label }}
+                        <span class="badge bg-secondary ms-auto">{{ index.count }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endset %}
+        {% with {
+            form: null,
+            header: header,
+            footer: null,
+            content: content,
+        } %}
+            {{ block('card', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
+        {% endwith %}
+    {% endif %}
+{% endblock %}
+
+{% block aggregations_facets %}
+    {% for id, option in aggregateOptions %}
+        {% set aggregation = response.getAggregation(id) %}
+        {% if aggregation and (aggregation.buckets|length > 0 or aggregation.count > 0) %}
+            {% set header %}
+                <h3 class="box-title"><i class="fa fa-filter"></i> {{ option.name }}</h3>
+            {% endset %}
+            {% set content %}
+                {{ option.template|emsco_generate_from_template({
+                    'option': option,
+                    'id': id,
+                    'aggregation': aggregation.raw,
+                    'currentFilters': currentFilters,
+                    'paginationPath': paginationPath,
+                    'search': search
+                })|raw }}
+            {% endset %}
+            {% with {
+                form: null,
+                header: header,
+                footer: null,
+                content: content,
+            } %}
+                {{ block('card', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
+            {% endwith %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block footer %}
+    {% set footer %}
+        {{ block('publish') }}
+        {{ footer }}
+    {% endset %}
+    {{ parent() }}
+{% endblock %}
+
+{% block publish %}
+    {% if response and uid and searchForm.environments.vars.value|length == 1  and searchForm.contentTypes.vars.value|length == 1  and is_granted(searchForm.contentTypes.vars.value.0|emsco_get_content_type.roles.publish) and searchForm.environments.vars.value|first|emsco_get_environment.managed and response.total > 1 %}
+            {% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
+                'url':  path('search.publish', {uid: uid} ),
+                'label': 'action.publish_content_type'|trans({ count: response.total, total: response.formattedTotal, pluralName: searchForm.contentTypes.vars.value.0|emsco_get_content_type.pluralName }),
+                'icon': 'glyphicon glyphicon-open'
+            }%}
+    {% endif %}
+{% endblock %}
+
+{% block searchFacets %}
+    {{ block('sort_option') }}
+    {{ block('aggregations_facets') }}
+    {{ block('content_types_facet') }}
+    {{ block('environments_facet') }}
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div id="search-page-form" class="col-md-12">
+            {% include "@EMSAdminUI/bootstrap5/elasticsearch/search-form-filter.html.twig" %}
+        </div>
+
+        {% if not response or response.totalDocuments <= 0 %}
+            <div>
+                <h4>{{ 'message.notification_no_results'|trans }}</h4>
+                <p>{{ 'message.notification_no_results_for_filter_combo'|trans }}</p>
+            </div>
+        {% else %}
+            <div id="search-page" class="col-md-9">
+                {% set pagination %}
+                    {{ block('pagination') }}
+                {% endset %}
+                {% with {
+                    form: null,
+                    searchForm: form,
+                    header: pagination,
+                    footer: pagination,
+                } %}
+                    {{ parent() }}
+                {% endwith %}
+            </div>
+            <div id="search-facets" class="col-md-3" data-testid="search-facets">
+                {{ block('searchFacets') }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock body %}

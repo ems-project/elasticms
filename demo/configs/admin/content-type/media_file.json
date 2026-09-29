@@ -602,8 +602,7 @@
             "delete": "ROLE_PUBLISHER",
             "trash": "ROLE_PUBLISHER",
             "archive": "not-defined",
-            "show_link_create": "ROLE_PUBLISHER",
-            "show_link_search": "not-defined"
+            "show_link_create": "ROLE_PUBLISHER"
         },
         "fields": {
             "display": null,
@@ -620,7 +619,10 @@
             "tasks_enabled": false,
             "tasks_titles": [],
             "hide_revision_sidebar": false
-        }
+        },
+        "querySearch": null
     },
-    "replaced": []
+    "replaced": [
+        "querySearch"
+    ]
 }

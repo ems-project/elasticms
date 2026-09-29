@@ -4,9 +4,9 @@
 
 location ^~ /{{ $a }}/apple-touch-icon.png {
 
-    alias /app/src/elasticms/public/;
+    alias {{ $.Env.NGINX_PUBLIC_DIR }}/;
 
-    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
+    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.static-files.conf;
 
 {{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_uri "$uri";
@@ -18,9 +18,9 @@ location ^~ /{{ $a }}/apple-touch-icon.png {
 
 location ^~ /{{ $a }}/robots.txt {
 
-    alias /app/src/elasticms/public/;
+    alias {{ $.Env.NGINX_PUBLIC_DIR }}/;
 
-    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
+    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.static-files.conf;
 
 {{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_uri "$uri";
@@ -32,9 +32,9 @@ location ^~ /{{ $a }}/robots.txt {
 
 location ^~ /{{ $a }}/favicon.ico {
 
-    alias /app/src/elasticms/public/;
+    alias {{ $.Env.NGINX_PUBLIC_DIR }}/;
 
-    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
+    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.static-files.conf;
 
 {{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_uri "$uri";
@@ -45,9 +45,9 @@ location ^~ /{{ $a }}/favicon.ico {
 }
 
 location ~ ^/{{ $a }}/{{ $.Env.NGINX_CUSTOM_ASSETS_RC }}/ {
-    alias /app/src/elasticms/public/$1/;
+    alias {{ $.Env.NGINX_PUBLIC_DIR }}/$1/;
 
-    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
+    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.bundles.conf;
 
 {{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_uri "$uri";
@@ -59,9 +59,9 @@ location ~ ^/{{ $a }}/{{ $.Env.NGINX_CUSTOM_ASSETS_RC }}/ {
 
 location ^~ /{{ $a }}/bundles/emsch_assets {
 
-    alias /app/src/elasticms/public/bundles/{{ $e }}/;
+    alias {{ $.Env.NGINX_PUBLIC_DIR }}/bundles/{{ $e }}/;
 
-    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
+    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.bundles.conf;
 
 {{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_uri "$uri";
@@ -78,7 +78,7 @@ location ^~ /{{ $a }}/bundles/emsch_assets {
 #
 
 location ^~ /apple-touch-icon.png {
-    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
+    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.static-files.conf;
 
 {{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_uri "$uri";
@@ -89,7 +89,7 @@ location ^~ /apple-touch-icon.png {
 }
 
 location ^~ /robots.txt {
-    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
+    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.static-files.conf;
 
 {{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_uri "$uri";
@@ -100,7 +100,7 @@ location ^~ /robots.txt {
 }
 
 location ^~ /favicon.ico {
-    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
+    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.static-files.conf;
 
 {{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_uri "$uri";
@@ -111,7 +111,7 @@ location ^~ /favicon.ico {
 }
 
 location ~ ^/{{ $.Env.NGINX_CUSTOM_ASSETS_RC }}/ {
-    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
+    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.bundles.conf;
 
 {{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_uri "$uri";

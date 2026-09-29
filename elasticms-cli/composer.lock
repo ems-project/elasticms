@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73e571ace11f0e5f490154a2d2f084ea",
+    "content-hash": "01920d10c9385dc648a7fd28cbb4b0c7",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.395.1",
+            "version": "3.394.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "f5eda89b1f2ecd4aea56eb04d58874bad12ef02e"
+                "reference": "23b24609e38ba51f872c01385f85a8bd12e917d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f5eda89b1f2ecd4aea56eb04d58874bad12ef02e",
-                "reference": "f5eda89b1f2ecd4aea56eb04d58874bad12ef02e",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/23b24609e38ba51f872c01385f85a8bd12e917d7",
+                "reference": "23b24609e38ba51f872c01385f85a8bd12e917d7",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.395.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.394.12"
             },
-            "time": "2026-09-13T18:43:19+00:00"
+            "time": "2026-09-10T18:07:33+00:00"
         },
         {
             "name": "brick/math",
@@ -1315,16 +1315,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "3.7.1",
+            "version": "3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "037807a39697890dcede8b766c5efe8a1b4855fe"
+                "reference": "f25c5e5385d3a0bca2dc364d556d3b83a06559ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/037807a39697890dcede8b766c5efe8a1b4855fe",
-                "reference": "037807a39697890dcede8b766c5efe8a1b4855fe",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/f25c5e5385d3a0bca2dc364d556d3b83a06559ed",
+                "reference": "f25c5e5385d3a0bca2dc364d556d3b83a06559ed",
                 "shasum": ""
             },
             "require": {
@@ -1399,9 +1399,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/orm/issues",
-                "source": "https://github.com/doctrine/orm/tree/3.7.1"
+                "source": "https://github.com/doctrine/orm/tree/3.7.0"
             },
-            "time": "2026-09-14T05:45:59+00:00"
+            "time": "2026-09-07T19:35:17+00:00"
         },
         {
             "name": "doctrine/persistence",
@@ -1767,16 +1767,16 @@
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "7.3.8",
+            "version": "7.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "eee0f63ec1323a74f82d004afd5bcb34967430e3"
+                "reference": "e34a1f44cb9e1a2673ba0e0159cfb0b0dfeb687c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/eee0f63ec1323a74f82d004afd5bcb34967430e3",
-                "reference": "eee0f63ec1323a74f82d004afd5bcb34967430e3",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/e34a1f44cb9e1a2673ba0e0159cfb0b0dfeb687c",
+                "reference": "e34a1f44cb9e1a2673ba0e0159cfb0b0dfeb687c",
                 "shasum": ""
             },
             "require": {
@@ -1785,7 +1785,7 @@
                 "doctrine/doctrine-bundle": "^3.2",
                 "doctrine/orm": "^3.3",
                 "dompdf/dompdf": "^v3.1",
-                "elasticms/helpers": "7.3.*",
+                "elasticms/helpers": "7.x-dev",
                 "ext-curl": "*",
                 "ext-dom": "*",
                 "ext-exif": "*",
@@ -1828,6 +1828,7 @@
                 "twig/string-extra": "^3.8",
                 "twig/twig": "^3.8"
             },
+            "default-branch": true,
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
@@ -1849,13 +1850,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/7.3.8"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/7.x"
             },
-            "time": "2026-09-07T11:22:38+00:00"
+            "time": "2026-09-10T13:30:48+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "7.3.8",
+            "version": "7.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
@@ -1876,6 +1877,7 @@
                 "symfony/options-resolver": "7.4.*",
                 "symfony/string": "7.4.*"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1899,7 +1901,7 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/7.3.8"
+                "source": "https://github.com/ems-project/helpers/tree/7.3"
             },
             "time": "2026-09-05T10:49:45+00:00"
         },
@@ -10098,7 +10100,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+        "elasticms/common-bundle": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

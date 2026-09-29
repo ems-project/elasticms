@@ -12,8 +12,10 @@ use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\Number;
 use EMS\Helpers\Standard\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 use Twig\Attribute\AsTwigFilter;
 use Twig\Attribute\AsTwigFunction;
+use Twig\Attribute\AsTwigTest;
 use Twig\Extension\AbstractExtension;
 
 class CommonExtension extends AbstractExtension
@@ -173,5 +175,11 @@ class CommonExtension extends AbstractExtension
         $color = new Color($rgb);
 
         return $color->relativeLuminance();
+    }
+
+    #[AsTwigTest(name: 'ems_translatable_message')]
+    public function isTranslatableMessage(mixed $value): bool
+    {
+        return $value instanceof TranslatableMessage;
     }
 }

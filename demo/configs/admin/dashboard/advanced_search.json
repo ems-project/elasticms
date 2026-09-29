@@ -1,0 +1,58 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Dashboard",
+    "arguments": [],
+    "properties": {
+        "name": "advanced_search",
+        "icon": "fa fa-search-plus",
+        "label": "Advanced search",
+        "sidebarMenu": true,
+        "notificationMenu": false,
+        "definition": null,
+        "type": "ems_core.dashboard.advanced_search",
+        "role": "ROLE_ADMIN",
+        "color": null,
+        "options": {
+            "environments": [
+                "preview"
+            ],
+            "contentTypes": [
+                "page",
+                "news",
+                "link",
+                "media_file",
+                "category",
+                "form_instance"
+            ],
+            "sortBy": "_finalized_datetime",
+            "sortOrder": "desc",
+            "minimumShouldMatch": 1,
+            "sortOptions": [
+                {
+                    "name": "Finalized datetime",
+                    "field": "_finalized_by",
+                    "inverted": true,
+                    "icon": "fa fa-sort"
+                }
+            ],
+            "aggregateOptions": [
+                {
+                    "name": "Authors",
+                    "icon": "fa fa-users",
+                    "config": "{\r\n    \"terms\": {\"field\": \"_finalized_by\"}\r\n}",
+                    "template": "{% set fieldName = '_finalized_by' %}\r\n\r\n{% if aggregation.buckets|default([])|length > 0 %}\r\n    <div class=\"d-grid gap-2 text-start\">\r\n        {% if aggregation.buckets|length == 1 and search.filters|filter(p => p.operator == 'term' and p.booleanClause == 'must' and p.field == fieldName)|length == 1 %}\r\n            <div class=\"d-grid gap-2 text-start\">\r\n                {% for key, filter in search.filters|filter(p => p.operator == 'term' and p.booleanClause == 'must' and p.field == fieldName) %}\r\n                    <a href=\"{{ path(paginationPath, currentFilters|merge({ removeFilter: key })) }}\" class=\"btn btn-block btn-social btn-default d-flex align-items-center\">\r\n                        <i class=\"fa fa-remove me-2\"></i>\r\n                        Remove facet \"{{ aggregation.buckets[0].key|emsco_display_name }}\"\r\n                    </a>\r\n                {% endfor %}\r\n        {% else %}\r\n            {% for index in aggregation.buckets %}\r\n                <a href=\"{{ path(paginationPath, currentFilters|merge({ operator: 'term', clause: 'must', field: fieldName, pattern: index.key, boost: 0.5 })) }}\" class=\"btn btn-block btn-social btn-default d-flex align-items-center\">\r\n                    <i class=\"fa fa-user me-2\"></i>\r\n                    {{ index.key|emsco_display_name }}\r\n                    <span class=\"badge bg-secondary ms-auto pull-right\">{{ index.doc_count }}</span>\r\n                </a>\r\n            {% endfor %}\r\n        {% endif %}\r\n    </div>\r\n{% endif %}"
+                }
+            ],
+            "searchFieldOptions": [
+                {
+                    "name": "Author",
+                    "field": "_finalized_by",
+                    "icon": "fa fa-user",
+                    "operators": [],
+                    "contentTypes": []
+                }
+            ]
+        },
+        "orderKey": 8
+    },
+    "replaced": []
+}

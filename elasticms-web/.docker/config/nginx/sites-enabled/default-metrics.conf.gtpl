@@ -6,11 +6,15 @@ server {
 
     server_name {{ $.Env.METRICS_VHOST_SERVER_NAME }} _;
 
+    # The monitoring ACL of base-php: MONITORING_ALLOW, the local socket, and a
+    # 403 for anyone else. The allow list this replaces had no final deny, so
+    # nginx let every other network through.
+    if ($monitoring_forbidden) { return 403; }
+
     location /metrics {
       access_log off;
       vhost_traffic_status_bypass_stats on;
 
-      include conf.d/default.metrics-permissions.conf;
 
       vhost_traffic_status_display;
       vhost_traffic_status_display_format prometheus;
@@ -20,7 +24,6 @@ server {
       access_log off;
       vhost_traffic_status_bypass_stats on;
 
-      include conf.d/default.metrics-permissions.conf;
 
       vhost_traffic_status_display;
       vhost_traffic_status_display_format html;
@@ -30,7 +33,6 @@ server {
       access_log off;
       vhost_traffic_status_bypass_stats on;
 
-      include conf.d/default.metrics-permissions.conf;
 
       stub_status;
     }
@@ -38,7 +40,6 @@ server {
     location ~ ^/(status|ping)$ {
       access_log off;
 
-      include conf.d/default.metrics-permissions.conf;
 
       include fastcgi_params;
       fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -47,5 +48,11 @@ server {
     }
 
     include conf.d/metrics/*.conf;
+
+    # This server exposes monitoring endpoints and nothing else.
+    location / {
+      access_log off;
+      return 404;
+    }
 
 }

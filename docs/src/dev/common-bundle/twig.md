@@ -689,3 +689,15 @@ The `template/admin/clear-cache.html.twig` twig:
 {%- endif -%}
 {{- { success: success|default(false) }|json_encode|raw -}}
 ```
+
+## Twig tests
+
+### ems_translatable_message
+
+Test that an object is a translatable message. Example:
+
+```twig
+{%- if object is ems_translatable_message -%}
+    {%- set object = object|trans -%}
+{%- endif -%}
+```

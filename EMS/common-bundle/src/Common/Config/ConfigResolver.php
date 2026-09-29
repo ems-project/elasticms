@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\Config;
 
 use EMS\CommonBundle\Common\Admin\AdminHelper;
+use EMS\CommonBundle\Exception\StorageServicesUnavailableException;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CommonBundle\Storage\StorageManager;
@@ -30,7 +31,7 @@ final readonly class ConfigResolver
     {
         try {
             return $this->storageManager->getFile($fileIdentifier);
-        } catch (NotFoundException) {
+        } catch (NotFoundException|StorageServicesUnavailableException) {
             return $this->adminHelper->getCoreApi()->file()->getFile($fileIdentifier);
         }
     }

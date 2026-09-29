@@ -265,7 +265,8 @@
         "versionTags": [],
         "versionOptions": {
             "dates_read_only": true,
-            "dates_interval_one_day": false
+            "dates_interval_one_day": false,
+            "not_blank_new_version": false
         },
         "versionFields": {
             "date_from": null,
@@ -280,8 +281,7 @@
             "delete": "ROLE_PUBLISHER",
             "trash": "ROLE_WEBMASTER",
             "archive": "not-defined",
-            "show_link_create": "ROLE_AUTHOR",
-            "show_link_search": "not-defined"
+            "show_link_create": "ROLE_AUTHOR"
         },
         "fields": {
             "display": null,
@@ -296,8 +296,14 @@
         },
         "settings": {
             "tasks_enabled": false,
-            "hide_revision_sidebar": false
-        }
+            "tasks_titles": [],
+            "tasks_helptexts": [],
+            "hide_revision_sidebar": false,
+            "recompute_on_publish": false
+        },
+        "querySearch": "categories"
     },
-    "replaced": []
+    "replaced": [
+        "querySearch"
+    ]
 }

@@ -70,9 +70,7 @@ Available Blocks:
         {% endblock %}
 
         {% block content %}
-            {% if content is defined %}
-                <p class="card-text">{{ content }}</p>
-            {% endif %}
+            {{ content|default('') }}
         {% endblock %}
 
         {% block form %}

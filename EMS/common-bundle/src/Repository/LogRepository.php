@@ -85,7 +85,7 @@ class LogRepository extends ServiceEntityRepository
         if ([] !== $channels) {
             $qb
                 ->andWhere($qb->expr()->in('log.channel', ':channels'))
-                ->setParameter(':channels', $channels, Types::SIMPLE_ARRAY);
+                ->setParameter(':channels', $channels, Types::JSON);
         }
 
         $logsDeleted = $qb->getQuery()->execute();

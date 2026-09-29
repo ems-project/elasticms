@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\Helpers\Translations;
 
 class Translattions
 {
-
     /**
      * @param Translation[] $translations
      */
@@ -14,7 +15,6 @@ class Translattions
 
     /**
      * @param mixed[][] $options
-     * @return self
      */
     public static function fromArray(array $options): self
     {
@@ -22,7 +22,7 @@ class Translattions
         foreach ($options as $key => $value) {
             $translations[$key] = Translation::fromArray($value);
         }
-        
+
         return new self($translations);
     }
 
@@ -36,8 +36,6 @@ class Translattions
 
     /**
      * @param string[] $locales
-     * @param string $defaultLabel
-     * @return Translation
      */
     public function getTranslation(array $locales, string $defaultLabel): Translation
     {
@@ -46,8 +44,7 @@ class Translattions
                 return $this->translations[$locale];
             }
         }
-        
+
         return new Translation($defaultLabel);
     }
-    
 }

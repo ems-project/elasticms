@@ -8,7 +8,7 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\ContentType\DataFieldFormOptions;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
-use EMS\CoreBundle\Entity\UserInterface;
+use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Form\DataField\Options\OptionsType;
 use EMS\CoreBundle\Form\DataTransformer\DataFieldModelTransformer;
 use EMS\CoreBundle\Form\DataTransformer\DataFieldViewTransformer;
@@ -30,7 +30,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 abstract class DataFieldType extends AbstractType
 {
     private ?DataFieldFormOptions $formOptions = null;
-    private ?UserInterface $user = null;
+    private ?User $user = null;
 
     public function __construct(
         protected AuthorizationCheckerInterface $authorizationChecker,
@@ -590,7 +590,7 @@ abstract class DataFieldType extends AbstractType
         return $assetSchema;
     }
 
-    private function getUser(): UserInterface
+    private function getUser(): User
     {
         if (null !== $this->user) {
             return $this->user;
@@ -600,7 +600,7 @@ abstract class DataFieldType extends AbstractType
             throw new \RuntimeException('Unexpected null token');
         }
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof User) {
             throw new \RuntimeException('Unexpected user type');
         }
         $this->user = $user;

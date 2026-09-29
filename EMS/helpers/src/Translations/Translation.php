@@ -71,7 +71,7 @@ class Translation
     }
 
     /**
-     * @return string[]
+     * @return array<string, string|null>
      */
     public function getParameters(): array
     {

@@ -5,19 +5,32 @@ set -o allexport
 source {{ .Env.APP_CONFIG_DIR }}/{{ .Env.ELASTICMS_INSTANCE_NAME }}
 set +o allexport
 
-if [ ${1:-list} = sql ] ; then
+if [ "${1:-list}" = sql ] ; then
 
-  if [ ${DB_DRIVER:-mysql} = mysql ] ; then
-    if [ ${1:-list} = sql ] ; then
-      mysql --port=$DB_PORT --host=$DB_HOST --user=$DB_USER --password=$(urlencode.py $DB_PASSWORD) $DB_NAME
-    fi;
-  elif [ ${DB_DRIVER:-mysql} = pgsql ] ; then
-    if [ ${1:-list} = sql ] ; then
-      psql postgresql://${DB_USER}:$(urlencode.py $DB_PASSWORD)@${DB_HOST//,/:${DB_PORT},}:${DB_PORT}/${DB_NAME}?connect_timeout=${DB_CONNECTION_TIMEOUT:-30} ${@:2}
-    fi;
-  else
-    echo Driver $DB_DRIVER not supported
-  fi;
+  # The password goes to the client through its environment or an option file,
+  # not the command line, where any process of the container read it (ps,
+  # /proc/<pid>/cmdline). mysql got it URL-encoded, which is right for a URI and
+  # wrong for mysql: a password with a special character was refused. The extra
+  # arguments are quoted, so `sql -c "select 1"` passes one query, not three words.
+  case "${DB_DRIVER:-mysql}" in
+    mysql)
+      # An option file on a pipe rather than MYSQL_PWD: the MariaDB client takes a
+      # login through MYSQL_PWD for a passwordless one and stops verifying the
+      # server's certificate. The value is quoted, so # and spaces are kept.
+      password=${DB_PASSWORD//\\/\\\\}
+      password=${password//\"/\\\"}
+      exec mysql --defaults-extra-file=<(printf '[client]\npassword="%s"\n' "$password") \
+        --port="$DB_PORT" --host="$DB_HOST" --user="$DB_USER" "$DB_NAME" "${@:2}"
+      ;;
+    pgsql)
+      PGUSER="$DB_USER" PGPASSWORD="$DB_PASSWORD" exec psql "postgresql://${DB_HOST//,/:${DB_PORT},}:${DB_PORT}/${DB_NAME}?connect_timeout=${DB_CONNECTION_TIMEOUT:-30}" "${@:2}"
+      ;;
+    *)
+      echo "Driver $DB_DRIVER not supported" >&2
+      exit 1
+      ;;
+  esac
+
 else
   export EMS_PROCESS_COMMAND={{ .Env.ELASTICMS_INSTANCE_NAME }}
   php -d memory_limit=${CLI_PHP_MEMORY_LIMIT:-512M} {{ .Env.APP_SRC_DIR }}/bin/console "$@"

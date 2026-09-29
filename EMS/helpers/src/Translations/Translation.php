@@ -13,6 +13,11 @@ class Translation
     {
     }
 
+    public function __toString(): string
+    {
+        return $this->label;
+    }
+
     /**
      * @param mixed[] $options
      */

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Form;
 
-use EMS\CoreBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -14,7 +13,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 use function Symfony\Component\Translation\t;
 
@@ -23,60 +21,6 @@ use function Symfony\Component\Translation\t;
  */
 final class TranslationsType extends AbstractType
 {
-    /**
-     * @param array<string, array<string,string>>|null $translations
-     */
-    public static function getTranslation(?UserInterface $user, string $defaultTranslation, ?array $translations): string
-    {
-        if (null === $translations || !$user instanceof User) {
-            return $defaultTranslation;
-        }
-        $translations = $translations[$user->getLocalePreferred() ?? $user->getLocale()] ?? $translations[$user->getLocale()] ?? $defaultTranslation;
-        if (\is_array($translations)) {
-            return $translations['label'] ?? '';
-        }
-
-        return $translations;
-    }
-
-    /**
-     * @param  array<string, array<string,string>>|null $translations
-     * @return string[]
-     */
-    public static function getTranslationOptions(?UserInterface $user, string $defaultTranslation, ?array $translations, string $labelFieldName = 'label'): array
-    {
-        if (null === $translations || !$user instanceof User) {
-            return [$labelFieldName => $defaultTranslation];
-        }
-        $translations = $translations[$user->getLocalePreferred() ?? $user->getLocale()] ?? $translations[$user->getLocale()] ?? $defaultTranslation;
-        if (\is_array($translations)) {
-            if ('label' !== $labelFieldName) {
-                $translations[$labelFieldName] = $translations['label'];
-                unset($translations['label']);
-            }
-
-            return $translations;
-        }
-
-        return [$labelFieldName => $translations];
-    }
-
-    /**
-     * @param array<string, array<string,string>>|null $translations
-     */
-    public static function getGender(?UserInterface $user, ?array $translations): ?string
-    {
-        if ([] === ($translations ?? []) || !$user instanceof User) {
-            return null;
-        }
-        $translation = $translations[$user->getLocalePreferred() ?? $user->getLocale()] ?? $translations[$user->getLocale()] ?? null;
-        if (!\is_array($translation)) {
-            return null;
-        }
-
-        return $translation['gender'] ?? null;
-    }
-
     /**
      * @param FormBuilderInterface<mixed> $builder
      * @param array<string, mixed>        $options

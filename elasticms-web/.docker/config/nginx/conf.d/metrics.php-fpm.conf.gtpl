@@ -1,8 +1,8 @@
+# Included in the metrics server, whose ACL guards every location.
+
 location = /{{ $.Env.ELASTICMS_INSTANCE_NAME }}-status {
 
     access_log off;
-
-    include conf.d/default.metrics-permissions.conf;
 
     include fastcgi_params;
 
@@ -16,8 +16,6 @@ location = /{{ $.Env.ELASTICMS_INSTANCE_NAME }}-status {
 location = /{{ $.Env.ELASTICMS_INSTANCE_NAME }}-ping {
 
     access_log off;
-
-    include conf.d/default.metrics-permissions.conf;
 
     include fastcgi_params;
 

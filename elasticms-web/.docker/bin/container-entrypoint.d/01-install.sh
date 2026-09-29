@@ -64,12 +64,21 @@ else
     # boot failed with exit 127. ${NAME} references in a value are still expanded.
     : > ${APP_CONFIG_DIR}/default
 
+    # The whole environment went into this file, and the sbin wrappers -- the
+    # console, jobs, messenger -- source it: every console process got base-php's
+    # php.ini and pool settings and the AWS credentials back, after base-php had
+    # removed them from the application's environment. Leave out what base-php
+    # cleans (CLEANUP_VAR_LIST), except the settings this image declares itself
+    # (entrypoint.d), which the wrappers read at runtime (CLI_PHP_MEMORY_LIMIT).
+    IMAGE_VARS=" $(sed -nE 's/^[[:space:]]*([A-Za-z_][A-Za-z0-9_]*)_WCMTECH_DEFAULT=.*/\1/p' /opt/bin/container-entrypoint.d/entrypoint.d/*.sh | tr '\n' ' ')"
+
     while IFS= read -r -d '' VAR; do
 
         NAME="${VAR%%=*}"
         VALUE="$(printf '%s' "${VAR#*=}" | expand_references)"
 
         [[ "${NAME}" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] || continue
+        [[ ":${CLEANUP_VAR_LIST:-}:" == *":${NAME}:"* && "${IMAGE_VARS}" != *" ${NAME} "* ]] && continue
 
         if [[ "${VALUE}" != *$'\n'* && "${VALUE}" != *\'* ]]; then
             printf "%s='%s'\n" "${NAME}" "${VALUE}" >> ${APP_CONFIG_DIR}/default

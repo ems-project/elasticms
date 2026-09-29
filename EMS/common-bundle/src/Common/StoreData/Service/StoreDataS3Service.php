@@ -29,7 +29,7 @@ class StoreDataS3Service implements StoreDataServiceInterface
         ];
         if (null !== $this->ttl) {
             $expires = new \DateTimeImmutable(\sprintf('%d seconds', $this->ttl));
-            $args['Expires'] = $expires->getTimestamp();
+            $args['Expires'] = (string) $expires->getTimestamp();
         }
         $this->getS3Client()->putObject($args);
     }

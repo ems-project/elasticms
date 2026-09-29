@@ -2,6 +2,15 @@
 {{- $a := strings.TrimSuffix "/" .alias | strings.TrimPrefix "/" }}
 {{- $e := strings.TrimSuffix "/" .env | strings.TrimPrefix "/" }}
 
+{{- if ne $a "" }}
+
+# The alias root without its trailing slash matched no location and answered
+# 404 (/ems, /preview/demo). Send it to the alias.
+location = /{{ $a }} {
+    return 301 /{{ $a }}/$is_args$args;
+}
+{{- end }}
+
 location /{{ $a }}/ {
     alias {{ $.Env.NGINX_PUBLIC_DIR }}/;
 

@@ -10,6 +10,10 @@ server {
     server_name {{ $.Env.NGINX_SERVER_NAME }};
 {{- end }}
 
+    # The monitoring ACL of base-php: MONITORING_ALLOW, the local socket, and a
+    # 403 for anyone else. This server had no ACL at all.
+    if ($monitoring_forbidden) { return 403; }
+
     root {{ $.Env.NGINX_PUBLIC_DIR }};
 
     index index.php;
@@ -49,6 +53,12 @@ server {
         add_header X-Debug-Nginx-Symfony-Location "$debug_nginx_location" always;
 {{- end }}
 
+        return 404;
+    }
+
+    # Only /metrics is served here; anything else was served from the public
+    # directory as static files.
+    location / {
         return 404;
     }
 

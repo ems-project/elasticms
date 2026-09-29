@@ -97,23 +97,25 @@ services:
         ports:
             - "9998:9998"
 
-    minio:
+    seaweedfs:
         profiles: [ "all","ems" ]
         labels:
             - "elasticMS"
         extends:
             file: ../demo/docker-compose.yml
-            service: minio
+            service: seaweedfs
+        # Host port 9000 is where the admin and web .env.dist expect S3, as they
+        # did with MinIO; SeaweedFS serves it on 8333.
         ports:
-            - "9000:9000"
+            - "9000:8333"
 
-    setup_minio:
+    s3-init:
         profiles: [ "all","ems" ]
         labels:
             - "elasticMS"
         extends:
             file: ../demo/docker-compose.yml
-            service: setup_minio
+            service: s3-init
 
     redis:
         profiles: [ "all","ems" ]
@@ -138,13 +140,13 @@ services:
             - "traefik.http.routers.redis-commander.entrypoints=web"
             - "traefik.http.services.redis-commander.loadbalancer.server.port=8081"
 
-    mailhog:
+    mailserver:
         profiles: [ "all","ems" ]
         labels:
             - "elasticMS"
         extends:
             file: ../demo/docker-compose.yml
-            service: mailhog
+            service: mailserver
         ports:
             - "1025:1025"
 
@@ -316,7 +318,7 @@ volumes:
     os2_data1:
     kibana:
     redis:
-    s3:
+    seaweedfs:
     mariadb:
     postgres:
     mercure_data:

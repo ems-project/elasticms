@@ -75,11 +75,11 @@ class Translation
      */
     public function getParameters(): array
     {
-        return \array_filter([
+        return [
             'label' => $this->label,
             'gender' => $this->gender?->value,
             'number' => $this->number?->value,
             'elision' => $this->elision?->value,
-        ]);
+        ];
     }
 }

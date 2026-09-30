@@ -2,7 +2,6 @@
 
 import Theme from './theme.ts'
 import Sidebar from './sidebar.ts'
-import DevPanel from './devPanel.ts'
 import DebugToolbar from './debugToolbar.ts'
 
 function initHeaderScroll() {
@@ -18,10 +17,15 @@ function initHeaderScroll() {
     update()
 }
 
-function init() {
+async function init() {
     const theme = new Theme()
     const sidebar = new Sidebar()
-    new DevPanel(theme, sidebar)
+
+    if (document.getElementById('dev-panel')) {
+        const { default: DevPanel } = await import('./devPanel.ts')
+        new DevPanel(theme, sidebar)
+    }
+
     new DebugToolbar()
     initHeaderScroll()
 }

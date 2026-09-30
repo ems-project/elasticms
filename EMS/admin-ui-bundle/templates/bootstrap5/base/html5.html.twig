@@ -1,5 +1,6 @@
+{%- import '@EMSAdminUI/bootstrap5/base/helpers.html.twig' as helpers -%}
 <!doctype html>
-<html lang="{{ app.request.locale }}" data-theme="{{ theme_color }}">
+<html{{ helpers.attributes({ lang: app.request.locale}, html_attr|default({})) }}>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -8,23 +9,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="title" content="{{ block('title') }}" />
         <meta name="author" content="https://github.com/ems-project" />
-        <script>
-            try {
-                if (localStorage.getItem('ems.sidebar.collapsed') === '1') {
-                    document.documentElement.setAttribute('data-sidebar-collapsed', '')
-                }
-                var mode = localStorage.getItem('ems.theme.mode')
-                if (mode === 'light' || mode === 'dark') {
-                    document.documentElement.setAttribute('data-bs-theme', mode)
-                } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    document.documentElement.setAttribute('data-bs-theme', 'dark')
-                }
-                var themeColorOverride = localStorage.getItem('ems.dev.themeColor')
-                if (themeColorOverride) {
-                    document.documentElement.setAttribute('data-theme', themeColorOverride)
-                }
-            } catch (e) {}
-        </script>
         {%- if vite.isDevServerRunning is same as(false) -%}
             <link rel="stylesheet" href="{{ asset('src/app.js.css', 'emsadminui') }}">
         {%- endif -%}
@@ -37,7 +21,7 @@
         <link rel="manifest" href="{{ path('core-site-webmanifest') }}" />
         {%- block extraheader %}{% endblock %}
     </head>
-    <body{% with {attr: body_attr|default([])} %}{{ block('attributes', '@EMSAdminUI/bootstrap5/base/helpers.html.twig') }}{% endwith %}>
+    <body{{ helpers.attributes({}, body_attr|default({})) }}>
         {% block wrapper %}
             <h1>{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% endblock %}</h1>
             {% block body %}{% endblock %}

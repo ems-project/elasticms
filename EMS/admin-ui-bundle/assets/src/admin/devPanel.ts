@@ -3,29 +3,75 @@
 import Theme, { ThemeMode } from './theme.ts'
 import Sidebar, { SIDEBAR_COLLAPSED_CHANGE_EVENT } from './sidebar.ts'
 
-const DEV_BADGE_STORAGE_KEY = 'ems.dev.badge'
+const STORAGE = {
+    mode: 'ems.dev.mode',
+    color: 'ems.dev.themeColor',
+    collapsed: 'ems.dev.sidebarCollapsed',
+    badge: 'ems.dev.badge',
+}
+
+const read = (key: string): string | null => {
+    try {
+        return localStorage.getItem(key)
+    } catch {
+        return null
+    }
+}
+
+const write = (key: string, value: string) => {
+    try {
+        localStorage.setItem(key, value)
+    } catch {
+        return
+    }
+}
+
+const clear = () => {
+    try {
+        Object.values(STORAGE).forEach((key) => localStorage.removeItem(key))
+    } catch {
+        return
+    }
+}
 
 export default class DevPanel {
     constructor(private theme: Theme, private sidebarComponent: Sidebar) {
+        this.applyOverrides()
         this.initModeButtons()
         this.initColorSwatches()
         this.initCollapseCheckbox()
         this.initBadgeToggle()
+        this.initResetButton()
+    }
+
+    applyOverrides() {
+        const mode = read(STORAGE.mode)
+        if (mode === 'light' || mode === 'dark') {
+            this.theme.setMode(mode)
+        }
+
+        const color = read(STORAGE.color)
+        if (color) {
+            this.theme.setColor(color)
+        }
+
+        const collapsed = read(STORAGE.collapsed)
+        if (collapsed !== null) {
+            this.sidebarComponent.sidebar?.classList.toggle('collapsed', collapsed === '1')
+            this.sidebarComponent.setCollapsed(collapsed === '1')
+        }
     }
 
     initModeButtons() {
         const buttons = document.querySelectorAll<HTMLButtonElement>('.mode-btn')
-        if (buttons.length === 0) {
-            return
-        }
-        const effective = (document.documentElement.getAttribute('data-bs-theme') as ThemeMode | null) ?? 'light'
-        this.updateModeButtons(effective)
+        this.updateModeButtons(this.theme.mode)
 
         buttons.forEach((button) => {
             button.addEventListener('click', () => {
                 const mode = button.dataset.mode
                 if (mode === 'light' || mode === 'dark') {
                     this.theme.setMode(mode)
+                    write(STORAGE.mode, mode)
                     this.updateModeButtons(mode)
                 }
             })
@@ -40,10 +86,7 @@ export default class DevPanel {
 
     initColorSwatches() {
         const swatches = document.querySelectorAll<HTMLButtonElement>('.skin-swatch')
-        if (swatches.length === 0) {
-            return
-        }
-        const current = this.theme.readColorOverride()
+        const current = this.theme.color
         if (current) {
             this.updateColorSwatches(current)
         }
@@ -52,11 +95,10 @@ export default class DevPanel {
             swatch.addEventListener('click', () => {
                 const color = swatch.dataset.skin
                 if (color) {
-                    this.theme.setColorOverride(color)
+                    this.theme.setColor(color)
+                    write(STORAGE.color, color)
                     this.updateColorSwatches(color)
                 }
-                // Avoid the browser's default focus ring lingering on the
-                // clicked swatch, which can look like a second "active" mark.
                 swatch.blur()
             })
         })
@@ -82,7 +124,9 @@ export default class DevPanel {
         })
 
         document.addEventListener(SIDEBAR_COLLAPSED_CHANGE_EVENT, (event) => {
-            checkbox.checked = (event as CustomEvent<{ collapsed: boolean }>).detail.collapsed
+            const collapsed = (event as CustomEvent<{ collapsed: boolean }>).detail.collapsed
+            checkbox.checked = collapsed
+            write(STORAGE.collapsed, collapsed ? '1' : '0')
         })
     }
 
@@ -93,25 +137,20 @@ export default class DevPanel {
             return
         }
 
-        const enabled = this.readBadgeEnabled()
+        const enabled = read(STORAGE.badge) === '1'
         checkbox.checked = enabled
         badge.style.display = enabled ? '' : 'none'
 
         checkbox.addEventListener('change', () => {
             badge.style.display = checkbox.checked ? '' : 'none'
-            try {
-                localStorage.setItem(DEV_BADGE_STORAGE_KEY, checkbox.checked ? '1' : '0')
-            } catch {
-                return
-            }
+            write(STORAGE.badge, checkbox.checked ? '1' : '0')
         })
     }
 
-    readBadgeEnabled(): boolean {
-        try {
-            return localStorage.getItem(DEV_BADGE_STORAGE_KEY) === '1'
-        } catch {
-            return false
-        }
+    initResetButton() {
+        document.getElementById('devReset')?.addEventListener('click', () => {
+            clear()
+            window.location.reload()
+        })
     }
 }

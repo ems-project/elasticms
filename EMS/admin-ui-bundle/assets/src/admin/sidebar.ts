@@ -1,6 +1,5 @@
 'use strict'
 
-const SIDEBAR_COLLAPSED_STORAGE_KEY = 'ems.sidebar.collapsed'
 const SIDEBAR_TEMPORARY_OPEN_CLASS = 'sidebar-temporary-open'
 const MOBILE_QUERY = '(max-width: 991.98px)'
 
@@ -36,12 +35,7 @@ export default class Sidebar {
     }
 
     setCollapsed(collapsed: boolean) {
-        if (collapsed) {
-            document.documentElement.setAttribute('data-sidebar-collapsed', '')
-        } else {
-            document.documentElement.removeAttribute('data-sidebar-collapsed')
-        }
-        this.saveCollapsedState(collapsed)
+        document.documentElement.toggleAttribute('data-sidebar-collapsed', collapsed)
         document.dispatchEvent(new CustomEvent(SIDEBAR_COLLAPSED_CHANGE_EVENT, { detail: { collapsed } }))
     }
 
@@ -89,14 +83,6 @@ export default class Sidebar {
 
     closeTemporarySidebar() {
         document.documentElement.classList.remove(SIDEBAR_TEMPORARY_OPEN_CLASS)
-    }
-
-    saveCollapsedState(collapsed: boolean) {
-        try {
-            localStorage.setItem(SIDEBAR_COLLAPSED_STORAGE_KEY, collapsed ? '1' : '0')
-        } catch {
-            return
-        }
     }
 
     activateMenu() {

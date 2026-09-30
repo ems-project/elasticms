@@ -83,7 +83,7 @@ class Core {
         this.initStatusRefresh()
         this.initCtrlSaveEvent()
         initIcons(document.body)
-        this.components = [theme, sidebar, new DevPanel(theme, sidebar), new RevisionTask(), new Modal()]
+        this.components = [new RevisionTask(), new Modal()]
     }
 
     initStatusRefresh() {

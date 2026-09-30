@@ -1,5 +1,30 @@
 # Changelog 7.x
 
+## 7.3.9 (2026-09-30)
+### Bug Fixes
+* fix(admin): correct catch Storage exceptions and admin only switch user by @theus77 in https://github.com/ems-project/elasticms/pull/1858
+* fix(common/storage): streamedResponse may rewrite the Content-Length by @theus77 in https://github.com/ems-project/elasticms/pull/1853
+* fix(demo): boot from fresh volumes and run the branch's images by @zebby76 in https://github.com/ems-project/elasticms/pull/1867
+* fix(demo): move the object store from MinIO to SeaweedFS by @zebby76 in https://github.com/ems-project/elasticms/pull/1872
+* fix(docker): admin and web do not boot without a configuration file by @zebby76 in https://github.com/ems-project/elasticms/pull/1864
+* fix(docker): build behind a corporate proxy and custom CA by @zebby76 in https://github.com/ems-project/elasticms/pull/1863
+* fix(docker): cli image does not boot on the current base-php by @zebby76 in https://github.com/ems-project/elasticms/pull/1862
+* fix(docker): configure each instance from the image defaults by @zebby76 in https://github.com/ems-project/elasticms/pull/1873
+* fix(docker): database helpers, default instance file and shared-cache warning by @zebby76 in https://github.com/ems-project/elasticms/pull/1882
+* fix(docker): keep a literal $ in instance configuration values by @zebby76 in https://github.com/ems-project/elasticms/pull/1875
+* fix(docker): keep the image's own settings out of the php-fpm environment by @zebby76 in https://github.com/ems-project/elasticms/pull/1865
+* fix(docker): minio image switch to quay.io by @Davidmattei in https://github.com/ems-project/elasticms/pull/1855
+* fix(docker): move the object from MinIO to SeaweedFS by @Davidmattei in https://github.com/ems-project/elasticms/pull/1883
+* fix(docker): nginx hardening for the admin and web images by @zebby76 in https://github.com/ems-project/elasticms/pull/1880
+* fix(docker): php-fpm pools and OPcache for the admin and web images by @zebby76 in https://github.com/ems-project/elasticms/pull/1881
+* fix(docker): web console memory limit and deliberate startup failures by @zebby76 in https://github.com/ems-project/elasticms/pull/1866
+* fix(docker/admin): jobs listener and messenger workers by @zebby76 in https://github.com/ems-project/elasticms/pull/1876
+* fix(docker/web): protect a website with basic auth on nginx by @zebby76 in https://github.com/ems-project/elasticms/pull/1874
+* fix(doctrine): resolve deprecations by @Davidmattei in https://github.com/ems-project/elasticms/pull/1884
+* fix(web/security): forceAuthenticated not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/1861
+### Chores
+* chore(admin/translations): remove duplicates and restructure by @Davidmattei in https://github.com/ems-project/elasticms/pull/1852
+
 ## 7.3.8 (2026-09-14)
 ### Bug Fixes
 * fix(admin/inline-editor): buttons not working and media library by @Davidmattei in https://github.com/ems-project/elasticms/pull/1850

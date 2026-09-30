@@ -5,6 +5,18 @@
         "name": "link",
         "pluralName": "Links",
         "singularName": "Link",
+        "pluralNameTranslations": {
+            "fr": {
+                "label": "Liens",
+                "gender": null
+            }
+        },
+        "singularNameTranslations": {
+            "fr": {
+                "label": "Lien",
+                "gender": null
+            }
+        },
         "icon": "fa fa-link",
         "description": null,
         "indexTwig": null,
@@ -28,7 +40,9 @@
                         "lastOfRow": false,
                         "helptext": null,
                         "icon": null,
-                        "language": null
+                        "language": null,
+                        "labelTranslations": [],
+                        "helptextTranslations": []
                     },
                     "restrictionOptions": {
                         "minimum_role": null
@@ -36,7 +50,8 @@
                     "extraOptions": {
                         "extra": null,
                         "clear_on_copy": false,
-                        "postProcessing": null
+                        "postProcessing": null,
+                        "description": null
                     }
                 },
                 "orderKey": 0,
@@ -61,7 +76,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "description": null
                                 },
                                 "raw_data": []
                             },
@@ -93,7 +109,9 @@
                                     "query": "{\r\n  \"_source\": [\"structure\", \"label\"], \r\n  \"query\": {\r\n    \"bool\": {\r\n      \"must\": [\r\n        {\r\n          \"term\": {\r\n            \"_contenttype\": {\r\n              \"value\": \"section\"\r\n            }\r\n          }\r\n        }\r\n      ]\r\n    }\r\n  },\r\n  \"sort\": [ { \"order\": { \"order\": \"asc\" } }]\r\n}",
                                     "environment": null,
                                     "choices_template": "{{ block('menu_choice_template', '@EMSCH/template_ems/content_type/link.twig') }}",
-                                    "display_template": "{{ block('menu_choice_display', '@EMSCH/template_ems/content_type/link.twig') }}"
+                                    "display_template": "{{ block('menu_choice_display', '@EMSCH/template_ems/content_type/link.twig') }}",
+                                    "labelTranslations": [],
+                                    "helptextTranslations": []
                                 },
                                 "mappingOptions": {
                                     "analyzer": "keyword",
@@ -107,7 +125,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "description": null
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {
@@ -134,7 +153,9 @@
                                     "class": "col-md-12",
                                     "lastOfRow": false,
                                     "helptext": null,
-                                    "localePreferredFirst": false
+                                    "localePreferredFirst": false,
+                                    "labelTranslations": [],
+                                    "helptextTranslations": []
                                 },
                                 "mappingOptions": [],
                                 "restrictionOptions": {
@@ -143,7 +164,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "description": null
                                 },
                                 "raw_data": []
                             },
@@ -168,14 +190,17 @@
                                                 "labels": null,
                                                 "localePreferredFirst": true,
                                                 "icon": "fa fa-language",
-                                                "withLocalesVariable": true
+                                                "withLocalesVariable": true,
+                                                "labelTranslations": [],
+                                                "helptextTranslations": []
                                             },
                                             "mappingOptions": [],
                                             "restrictionOptions": [],
                                             "extraOptions": {
                                                 "extra": null,
                                                 "clear_on_copy": false,
-                                                "postProcessing": null
+                                                "postProcessing": null,
+                                                "description": null
                                             },
                                             "raw_data": []
                                         },
@@ -201,6 +226,8 @@
                                                             "suffixIcon": null,
                                                             "suffixText": null,
                                                             "placeholder": null,
+                                                            "labelTranslations": [],
+                                                            "helptextTranslations": [],
                                                             "icon": null
                                                         },
                                                         "mappingOptions": {
@@ -215,7 +242,8 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -247,6 +275,8 @@
                                                             "suffixIcon": null,
                                                             "suffixText": null,
                                                             "placeholder": null,
+                                                            "labelTranslations": [],
+                                                            "helptextTranslations": [],
                                                             "icon": null
                                                         },
                                                         "mappingOptions": {
@@ -261,7 +291,8 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -331,7 +362,9 @@
         "settings": {
             "tasks_enabled": false,
             "tasks_titles": [],
-            "hide_revision_sidebar": false
+            "tasks_helptexts": [],
+            "hide_revision_sidebar": false,
+            "recompute_on_publish": false
         },
         "querySearch": null
     },

@@ -4,6 +4,14 @@
     "properties": {
         "name": "default",
         "label": null,
+        "labelTranslations": {
+            "fr": {
+                "label": "D\u00e9faut"
+            },
+            "nl": {
+                "label": "Standaard"
+            }
+        },
         "description": "Default, and unique, environment for the media_file documents",
         "color": "blue",
         "baseUrl": null,

@@ -4,6 +4,11 @@
     "properties": {
         "name": "live",
         "label": "Live",
+        "labelTranslations": {
+            "fr": {
+                "label": "En direct"
+            }
+        },
         "description": "Publication environment for all content types but media_file",
         "color": "green",
         "baseUrl": null,

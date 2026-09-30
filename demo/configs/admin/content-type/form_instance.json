@@ -5,6 +5,8 @@
         "name": "form_instance",
         "pluralName": "Forms",
         "singularName": "Form",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": null,
         "icon": "fa fa-paper-plane",
         "description": null,
         "indexTwig": null,
@@ -2332,6 +2334,7 @@
                 "properties": {
                     "name": "debug",
                     "label": "Debug",
+                    "labelTranslations": null,
                     "icon": "fa fa-bug",
                     "body": "{{ block('form_instance_debug', '@EMSCH/template_ems/actions.twig') }}",
                     "header": null,
@@ -2373,6 +2376,7 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
+                    "labelTranslations": null,
                     "icon": "fa fa-list-ul",
                     "options": {
                         "body": "{}",

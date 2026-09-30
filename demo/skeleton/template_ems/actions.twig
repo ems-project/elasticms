@@ -51,7 +51,7 @@
 
     {% if slug is defined %}
         <a href="{{ "/channel/#{environment.name}/#{locale}/#{slug}" }}" target="_blank">
-            <i class="fa fa-eye"></i> {{ "Show #{locale|upper}" }}
+            <i class="fa fa-eye"></i> {{ template.label(app.user) }}
             <i class="fa fa-external-link pull-right"></i>
         </a>
     {% endif %}

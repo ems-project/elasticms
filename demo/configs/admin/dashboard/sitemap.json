@@ -5,6 +5,14 @@
         "name": "sitemap",
         "icon": "fa fa-sitemap",
         "label": "Site structure",
+        "labelTranslations": {
+            "fr": {
+                "label": "Structure du site"
+            },
+            "nl": {
+                "label": "Sitestructuur"
+            }
+        },
         "sidebarMenu": true,
         "notificationMenu": false,
         "definition": "landing_page",
@@ -13,8 +21,8 @@
         "color": null,
         "options": {
             "body": "{{ block('ems_body', '@EMSCH/template_ems/dashboard/sitemap.twig') }}",
-            "footer": "{{ block('ems_footer', '@EMSCH/template_ems/dashboard/sitemap.twig') }}",
-            "header": "{{ block('ems_header', '@EMSCH/template_ems/dashboard/sitemap.twig') }}"
+            "header": "{{ block('ems_header', '@EMSCH/template_ems/dashboard/sitemap.twig') }}",
+            "footer": "{{ block('ems_footer', '@EMSCH/template_ems/dashboard/sitemap.twig') }}"
         },
         "orderKey": 2
     },

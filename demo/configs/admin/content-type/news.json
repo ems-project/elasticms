@@ -5,6 +5,13 @@
         "name": "news",
         "pluralName": "News",
         "singularName": "News",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": {
+            "fr": {
+                "label": "News",
+                "gender": "female"
+            }
+        },
         "icon": "fa fa-bell",
         "description": null,
         "indexTwig": null,
@@ -27,7 +34,10 @@
                         "class": null,
                         "lastOfRow": false,
                         "helptext": null,
-                        "icon": null
+                        "icon": null,
+                        "labelTranslations": [],
+                        "helptextTranslations": [],
+                        "language": null
                     },
                     "restrictionOptions": {
                         "minimum_role": null
@@ -35,7 +45,8 @@
                     "extraOptions": {
                         "extra": null,
                         "clear_on_copy": false,
-                        "postProcessing": null
+                        "postProcessing": null,
+                        "description": null
                     }
                 },
                 "orderKey": 0,
@@ -60,11 +71,12 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "description": null
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 1,
+                            "orderKey": 0,
                             "children": []
                         },
                         "replaced": []
@@ -83,7 +95,10 @@
                                     "label": "Tabs",
                                     "class": "col-md-12",
                                     "lastOfRow": false,
-                                    "helptext": null
+                                    "helptext": null,
+                                    "labelTranslations": [],
+                                    "helptextTranslations": [],
+                                    "localePreferredFirst": false
                                 },
                                 "mappingOptions": [],
                                 "restrictionOptions": {
@@ -92,11 +107,12 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "description": null
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 2,
+                            "orderKey": 1,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -113,21 +129,25 @@
                                                 "class": "col-md-12",
                                                 "lastOfRow": false,
                                                 "helptext": null,
-                                                "values": "nl\r\nfr",
-                                                "labels": "Nederlands\r\nFran\u00e7ais",
+                                                "values": "nl\nfr",
+                                                "labels": "Nederlands\nFran\u00e7ais",
                                                 "localePreferredFirst": false,
-                                                "icon": "fa fa-language"
+                                                "icon": "fa fa-language",
+                                                "labelTranslations": [],
+                                                "helptextTranslations": [],
+                                                "withLocalesVariable": false
                                             },
                                             "mappingOptions": [],
                                             "restrictionOptions": [],
                                             "extraOptions": {
                                                 "extra": null,
                                                 "clear_on_copy": false,
-                                                "postProcessing": null
+                                                "postProcessing": null,
+                                                "description": null
                                             },
                                             "raw_data": []
                                         },
-                                        "orderKey": 1,
+                                        "orderKey": 0,
                                         "children": [
                                             {
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -149,6 +169,8 @@
                                                             "suffixIcon": null,
                                                             "suffixText": null,
                                                             "placeholder": null,
+                                                            "labelTranslations": [],
+                                                            "helptextTranslations": [],
                                                             "icon": null
                                                         },
                                                         "mappingOptions": {
@@ -164,14 +186,15 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 1,
+                                                    "orderKey": 0,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -196,7 +219,9 @@
                                                             "lastOfRow": false,
                                                             "helptext": "Summary text used in news list",
                                                             "language": null,
-                                                            "styles_set_preview": true
+                                                            "styles_set_preview": true,
+                                                            "labelTranslations": [],
+                                                            "helptextTranslations": []
                                                         },
                                                         "mappingOptions": {
                                                             "index": null,
@@ -211,7 +236,8 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -219,7 +245,7 @@
                                                             "transformers": []
                                                         }
                                                     },
-                                                    "orderKey": 2,
+                                                    "orderKey": 1,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -244,7 +270,9 @@
                                                             "lastOfRow": false,
                                                             "helptext": null,
                                                             "language": null,
-                                                            "styles_set_preview": true
+                                                            "styles_set_preview": true,
+                                                            "labelTranslations": [],
+                                                            "helptextTranslations": []
                                                         },
                                                         "mappingOptions": {
                                                             "index": null,
@@ -259,7 +287,8 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -267,7 +296,7 @@
                                                             "transformers": []
                                                         }
                                                     },
-                                                    "orderKey": 3,
+                                                    "orderKey": 2,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -289,7 +318,9 @@
                                                             "helptext": null,
                                                             "multiple": false,
                                                             "icon": null,
-                                                            "imageAssetConfigIdentifier": null
+                                                            "imageAssetConfigIdentifier": null,
+                                                            "labelTranslations": [],
+                                                            "helptextTranslations": []
                                                         },
                                                         "mappingOptions": [],
                                                         "restrictionOptions": {
@@ -300,14 +331,15 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 4,
+                                                    "orderKey": 3,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -332,6 +364,8 @@
                                                             "suffixIcon": null,
                                                             "suffixText": null,
                                                             "placeholder": null,
+                                                            "labelTranslations": [],
+                                                            "helptextTranslations": [],
                                                             "icon": null
                                                         },
                                                         "mappingOptions": {
@@ -347,14 +381,15 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": "{{ block('news_slug', '@EMSCH/template_ems/content_type/post_processing.twig') }}"
+                                                            "postProcessing": "{{ block('news_slug', '@EMSCH/template_ems/content_type/post_processing.twig') }}",
+                                                            "description": null
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 5,
+                                                    "orderKey": 4,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -374,7 +409,10 @@
                                                             "class": "col-md-12",
                                                             "lastOfRow": false,
                                                             "helptext": null,
-                                                            "icon": null
+                                                            "icon": null,
+                                                            "labelTranslations": [],
+                                                            "helptextTranslations": [],
+                                                            "language": null
                                                         },
                                                         "mappingOptions": [],
                                                         "restrictionOptions": {
@@ -383,11 +421,12 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": []
                                                     },
-                                                    "orderKey": 6,
+                                                    "orderKey": 5,
                                                     "children": [
                                                         {
                                                             "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -409,6 +448,8 @@
                                                                         "suffixIcon": null,
                                                                         "suffixText": null,
                                                                         "placeholder": null,
+                                                                        "labelTranslations": [],
+                                                                        "helptextTranslations": [],
                                                                         "icon": null
                                                                     },
                                                                     "mappingOptions": {
@@ -424,14 +465,15 @@
                                                                     "extraOptions": {
                                                                         "extra": null,
                                                                         "clear_on_copy": false,
-                                                                        "postProcessing": null
+                                                                        "postProcessing": null,
+                                                                        "description": null
                                                                     },
                                                                     "raw_data": [],
                                                                     "migrationOptions": {
                                                                         "protected": false
                                                                     }
                                                                 },
-                                                                "orderKey": 1,
+                                                                "orderKey": 0,
                                                                 "children": []
                                                             },
                                                             "replaced": []
@@ -456,7 +498,9 @@
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
                                                                         "language": null,
-                                                                        "styles_set_preview": false
+                                                                        "styles_set_preview": false,
+                                                                        "labelTranslations": [],
+                                                                        "helptextTranslations": []
                                                                     },
                                                                     "mappingOptions": {
                                                                         "index": null,
@@ -471,7 +515,8 @@
                                                                     "extraOptions": {
                                                                         "extra": null,
                                                                         "clear_on_copy": false,
-                                                                        "postProcessing": null
+                                                                        "postProcessing": null,
+                                                                        "description": null
                                                                     },
                                                                     "raw_data": [],
                                                                     "migrationOptions": {
@@ -479,7 +524,7 @@
                                                                         "transformers": []
                                                                     }
                                                                 },
-                                                                "orderKey": 2,
+                                                                "orderKey": 1,
                                                                 "children": []
                                                             },
                                                             "replaced": []
@@ -499,7 +544,9 @@
                                                                         "class": "col-md-12",
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
-                                                                        "question_label": null
+                                                                        "question_label": null,
+                                                                        "labelTranslations": [],
+                                                                        "helptextTranslations": []
                                                                     },
                                                                     "mappingOptions": {
                                                                         "index": null
@@ -510,14 +557,15 @@
                                                                     "extraOptions": {
                                                                         "extra": null,
                                                                         "clear_on_copy": false,
-                                                                        "postProcessing": null
+                                                                        "postProcessing": null,
+                                                                        "description": null
                                                                     },
                                                                     "raw_data": [],
                                                                     "migrationOptions": {
                                                                         "protected": false
                                                                     }
                                                                 },
-                                                                "orderKey": 3,
+                                                                "orderKey": 2,
                                                                 "children": []
                                                             },
                                                             "replaced": []
@@ -545,7 +593,10 @@
                                                 "class": "col-md-12",
                                                 "lastOfRow": false,
                                                 "helptext": null,
-                                                "icon": "fa fa-gears"
+                                                "icon": "fa fa-gears",
+                                                "labelTranslations": [],
+                                                "helptextTranslations": [],
+                                                "language": null
                                             },
                                             "mappingOptions": [],
                                             "restrictionOptions": {
@@ -554,11 +605,12 @@
                                             "extraOptions": {
                                                 "extra": null,
                                                 "clear_on_copy": false,
-                                                "postProcessing": null
+                                                "postProcessing": null,
+                                                "description": null
                                             },
                                             "raw_data": []
                                         },
-                                        "orderKey": 2,
+                                        "orderKey": 1,
                                         "children": [
                                             {
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -580,7 +632,9 @@
                                                             "multiple": true,
                                                             "sortable": false,
                                                             "type": null,
-                                                            "searchId": null
+                                                            "searchId": null,
+                                                            "labelTranslations": [],
+                                                            "helptextTranslations": []
                                                         },
                                                         "mappingOptions": {
                                                             "analyzer": "keyword",
@@ -595,14 +649,15 @@
                                                             "extra": null,
                                                             "clear_on_copy": false,
                                                             "postProcessing": null,
-                                                            "updateReferersField": null
+                                                            "updateReferersField": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 1,
+                                                    "orderKey": 0,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -627,7 +682,9 @@
                                                             "todayHighlight": true,
                                                             "multidate": false,
                                                             "daysOfWeekDisabled": null,
-                                                            "daysOfWeekHighlighted": "0,6"
+                                                            "daysOfWeekHighlighted": "0,6",
+                                                            "labelTranslations": [],
+                                                            "helptextTranslations": []
                                                         },
                                                         "mappingOptions": {
                                                             "index": null,
@@ -642,14 +699,15 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 2,
+                                                    "orderKey": 1,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -674,11 +732,12 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": []
                                                     },
-                                                    "orderKey": 3,
+                                                    "orderKey": 2,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -712,6 +771,7 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
+                    "labelTranslations": null,
                     "icon": "fa fa-list-ul",
                     "options": {
                         "body": "{}",

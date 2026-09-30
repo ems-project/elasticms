@@ -92,10 +92,6 @@ html.header-compact #control-sidebar {
 
 .offcanvas-backdrop {
   z-index: $zindex-fixed - 5;
-
-  @include media-breakpoint-up(lg) {
-    display: none;
-  }
 }
 
 // ===== Navbar =====

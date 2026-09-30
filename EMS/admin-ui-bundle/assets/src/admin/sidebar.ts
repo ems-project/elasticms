@@ -24,12 +24,11 @@ export default class Sidebar {
 
         const isCollapsed = document.documentElement.hasAttribute('data-sidebar-collapsed')
         sidebar.classList.toggle('collapsed', isCollapsed)
-        this.initTemporaryAccess(sidebar, toggle.getAttribute('aria-label') ?? 'Sidebar menu')
+        this.initBackdrop(sidebar, toggle.getAttribute('aria-label') ?? 'Sidebar menu')
 
         toggle.addEventListener('click', (event) => {
             event.preventDefault()
             event.stopPropagation()
-            this.closeTemporarySidebar()
             this.setCollapsed(sidebar.classList.toggle('collapsed'))
         })
     }
@@ -39,25 +38,14 @@ export default class Sidebar {
         document.dispatchEvent(new CustomEvent(SIDEBAR_COLLAPSED_CHANGE_EVENT, { detail: { collapsed } }))
     }
 
-    initTemporaryAccess(sidebar: HTMLElement, label: string) {
-        const trigger = document.createElement('button')
-        trigger.type = 'button'
-        trigger.className = 'sidebar-temporary-toggle'
-        trigger.setAttribute('aria-label', label)
-
+    initBackdrop(sidebar: HTMLElement, label: string) {
         const backdrop = document.createElement('button')
         backdrop.type = 'button'
         backdrop.className = 'sidebar-temporary-backdrop'
         backdrop.setAttribute('aria-label', label)
+        document.body.append(backdrop)
 
-        document.body.append(trigger, backdrop)
-
-        trigger.addEventListener('click', () => {
-            this.openTemporarySidebar(sidebar)
-        })
-        backdrop.addEventListener('click', () => {
-            this.closeOverlay(sidebar)
-        })
+        backdrop.addEventListener('click', () => this.closeOverlay(sidebar))
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 this.closeOverlay(sidebar)
@@ -66,23 +54,10 @@ export default class Sidebar {
     }
 
     closeOverlay(sidebar: HTMLElement) {
-        this.closeTemporarySidebar()
         if (window.matchMedia(MOBILE_QUERY).matches && sidebar.classList.contains('collapsed')) {
             sidebar.classList.remove('collapsed')
             this.setCollapsed(false)
         }
-    }
-
-    openTemporarySidebar(sidebar: HTMLElement) {
-        if (!sidebar.classList.contains('collapsed')) {
-            return
-        }
-
-        document.documentElement.classList.add(SIDEBAR_TEMPORARY_OPEN_CLASS)
-    }
-
-    closeTemporarySidebar() {
-        document.documentElement.classList.remove(SIDEBAR_TEMPORARY_OPEN_CLASS)
     }
 
     activateMenu() {

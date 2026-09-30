@@ -343,16 +343,6 @@ html.header-compact #control-sidebar {
   transition: $sidebar-transition;
   direction: ltr;
   background: $sidebar-bg;
-
-  html.sidebar-temporary-open & {
-    position: fixed;
-    top: $navbar-row-height;
-    bottom: 0;
-    left: 0;
-    z-index: $zindex-fixed - 2;
-    margin-left: 0;
-    box-shadow: 0 0.5rem 2rem rgba($black, 0.35);
-  }
 }
 
 .sidebar-content {
@@ -379,10 +369,6 @@ html.header-compact #control-sidebar {
 @include media-breakpoint-up(lg) {
   html[data-sidebar-collapsed] .sidebar-content {
     transform: translateX(-100%);
-  }
-
-  html.sidebar-temporary-open .sidebar-content {
-    transform: none;
   }
 }
 
@@ -474,10 +460,6 @@ a.sidebar-link {
     margin-left: -$sidebar-width;
   }
 
-  html.sidebar-temporary-open & {
-    margin-left: 0;
-  }
-
   @media (min-width: 1px) and (max-width: #{map-get($grid-breakpoints, 'lg') - .02px}) {
     position: fixed;
     top: $navbar-row-height + $navbar-brand-row-height;
@@ -488,8 +470,7 @@ a.sidebar-link {
     box-shadow: 0 0.5rem 2rem rgba($black, 0.35);
 
     &.collapsed,
-    html[data-sidebar-collapsed] &,
-    html.sidebar-temporary-open & {
+    html[data-sidebar-collapsed] & {
       margin-left: 0;
     }
 
@@ -502,55 +483,6 @@ a.sidebar-link {
 @media (max-width: #{map-get($grid-breakpoints, 'lg') - .02px}) {
   html[data-sidebar-collapsed] body {
     overflow: hidden;
-  }
-}
-
-html.sidebar-temporary-open body {
-  overflow: hidden;
-}
-
-.sidebar-temporary-toggle {
-  position: fixed;
-  top: 50%;
-  left: 0;
-  z-index: $zindex-fixed;
-  display: none;
-  width: 10px;
-  height: 64px;
-  padding: 0;
-  border: 0;
-  border-radius: 0 4px 4px 0;
-  background-color: $primary;
-  transform: translateY(-50%);
-
-  @media (min-width: #{map-get($grid-breakpoints, 'lg')}) {
-    html[data-sidebar-collapsed] & {
-      display: block;
-    }
-  }
-
-  html.sidebar-temporary-open & {
-    display: none;
-  }
-}
-
-.sidebar-temporary-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: $zindex-fixed - 5;
-  display: none;
-  padding: 0;
-  border: 0;
-  background: rgba($black, .5);
-
-  html.sidebar-temporary-open & {
-    display: block;
-  }
-
-  @media (max-width: #{map-get($grid-breakpoints, 'lg') - .02px}) {
-    html[data-sidebar-collapsed] & {
-      display: block;
-    }
   }
 }
 

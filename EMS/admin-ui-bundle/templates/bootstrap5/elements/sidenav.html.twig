@@ -1,5 +1,5 @@
 <nav id="sidebar" class="sidebar">
-    <div class="sidebar-content js-simplebar">
+    <div class="sidebar-content">
         {% if app.user %}
             {{ render(controller('EMS\\CoreBundle\\Controller\\TwigElementsController::sideMenu')) }}
         {% else %}

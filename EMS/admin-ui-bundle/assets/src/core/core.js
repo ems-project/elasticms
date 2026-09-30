@@ -24,9 +24,6 @@ import WYSIWYG from './plugins/wysiwyg.ts'
 
 import RevisionTask from './components/revisionTask'
 import Modal from './components/modal'
-import Sidebar from './components/sidebar.ts'
-import Theme from './components/theme.ts'
-import DevPanel from './components/devPanel.ts'
 import Action from './components/action'
 
 import { EMS_ADDED_DOM_EVENT } from './events/addedDomEvent'
@@ -85,24 +82,8 @@ class Core {
         }
         this.initStatusRefresh()
         this.initCtrlSaveEvent()
-        this.initHeaderScroll()
         initIcons(document.body)
-        const theme = new Theme()
-        const sidebar = new Sidebar()
         this.components = [theme, sidebar, new DevPanel(theme, sidebar), new RevisionTask(), new Modal()]
-    }
-
-    initHeaderScroll() {
-        let compact = null
-        const update = () => {
-            const next = window.scrollY > 10
-            if (next !== compact) {
-                document.documentElement.classList.toggle('header-compact', next)
-                compact = next
-            }
-        }
-        window.addEventListener('scroll', update, { passive: true })
-        update()
     }
 
     initStatusRefresh() {

@@ -5,6 +5,7 @@
         "name": "advanced_search",
         "icon": "fa fa-search-plus",
         "label": "Advanced search",
+        "labelTranslations": null,
         "sidebarMenu": true,
         "notificationMenu": false,
         "definition": null,

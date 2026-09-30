@@ -1,0 +1,50 @@
+<?php
+
+declare(strict_types=1);
+
+namespace EMS\Helpers\Translations;
+
+class Translations
+{
+    /**
+     * @param Translation[] $translations
+     */
+    public function __construct(private readonly array $translations = [])
+    {
+    }
+
+    /**
+     * @param mixed[][] $options
+     */
+    public static function fromArray(array $options): self
+    {
+        $translations = [];
+        foreach ($options as $key => $value) {
+            $translations[$key] = Translation::fromArray($value);
+        }
+
+        return new self($translations);
+    }
+
+    /**
+     * @return Translation[]
+     */
+    public function getTranslations(): array
+    {
+        return $this->translations;
+    }
+
+    /**
+     * @param string[] $locales
+     */
+    public function getTranslation(array $locales, string $defaultLabel): Translation
+    {
+        foreach ($locales as $locale) {
+            if (isset($this->translations[$locale])) {
+                return $this->translations[$locale];
+            }
+        }
+
+        return new Translation($defaultLabel);
+    }
+}

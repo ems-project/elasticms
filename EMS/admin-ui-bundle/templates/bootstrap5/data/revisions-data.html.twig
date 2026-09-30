@@ -263,7 +263,7 @@
 
 {% block revisionFooterTabs %}
     <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item active"><a href="#tab_referrers" data-bs-target="#tab_referrers" data-bs-toggle="pill" class="nav-link active" role="tab" aria-controls="true">{{ 'message.linked_documents_in'|trans({'environment': revision.contentType.environment.label, 'length': referrerResponse.documents|length, 'total': referrerResponse.formattedTotal}) }}</a></li>
+        <li class="nav-item active"><a href="#tab_referrers" data-bs-target="#tab_referrers" data-bs-toggle="pill" class="nav-link active" role="tab" aria-controls="true">{{ 'message.linked_documents_in'|trans({'environment': revision.contentType.environment.label(app.user), 'length': referrerResponse.documents|length, 'total': referrerResponse.formattedTotal}) }}</a></li>
         <li class="nav-item"><a href="#tab_revisions" data-bs-target="#tab_revisions" data-bs-toggle="pill" class="nav-link" role="tab" aria-controls="false">{{ 'key.revisions'|trans }} <small>{{ revisionsSummary|length }}/{{ counter }}</small></a></li>
         {% if auditTable|default(false) %}
             <li class="nav-item"><a href="#tab_audit" data-bs-target="#tab_audit" data-bs-toggle="pill" class="nav-link" role="tab" aria-controls="false">{{ 'key.audit'|trans }} <small>({{ auditCount }})</small></a></li>
@@ -355,7 +355,7 @@
                             {% endif %}
                             <td>
                                 {% for env in rev.environments %}
-                                    <span class="badge bg-{{ env.color|raw }}">{{ env.label }}</span>
+                                    <span class="badge bg-{{ env.color|raw }}">{{ env.label(app.user) }}</span>
                                 {% endfor %}
                                 {% if rev.draft %}
                                     <span class="badge bg-red">{{ 'key.draft_in_progress'|trans }}</span>

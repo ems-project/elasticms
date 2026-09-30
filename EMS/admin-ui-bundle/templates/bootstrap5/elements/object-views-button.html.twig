@@ -19,7 +19,7 @@
                         link: link,
                         link_attributes: [{name: 'target', value: '_blank'}],
                         icon: template.icon,
-                        label: template.label,
+                        label: template.label(app.user),
                         suffix_icon: 'fa fa-external-link pull-right',
                     } %}
                     {% if not link %}
@@ -33,6 +33,7 @@
                             contentType: contentType,
                             object: object,
                             source: source,
+                            template: template,
                         }) -%}
                         {%- if rawHTML != '' -%}
                             {% set contentTypeActions = contentTypeActions|merge([{label: rawHTML|raw}]) %}
@@ -48,7 +49,7 @@
                                 {name: 'data-url', value: path('notification.ajaxnotification', {objectId: ouuid})},
                             ],
                             icon: template.icon,
-                            label: template.label,
+                            label: template.label(app.user),
                         } %}
                         {% set contentTypeActions = contentTypeActions|merge([action]) %}
                     {% endif %}
@@ -61,7 +62,7 @@
                                 {name: 'data-url', value: path('emsco_job_custom_view', {environmentName: environment.name, templateId: template.id, ouuid: ouuid})},
                             ],
                             icon: template.icon,
-                            label: template.label,
+                            label: template.label(app.user),
                         } %}
                         {% set contentTypeActions = contentTypeActions|merge([action]) %}
                     {% endif %}
@@ -75,7 +76,7 @@
                                 {name: 'data-ajax-modal-size', value: 'md'},
                             ],
                             icon: template.icon,
-                            label: template.label,
+                            label: template.label(app.user),
                         } %}
                         {% set contentTypeActions = contentTypeActions|merge([action]) %}
                     {%- endif -%}
@@ -87,7 +88,7 @@
                             templateId: template.id,
                         }),
                         icon: template.icon,
-                        label: template.label,
+                        label: template.label(app.user),
                     } %}
                     {% set contentTypeActions = contentTypeActions|merge([action]) %}
                 {% endif %}
@@ -123,9 +124,9 @@
         {% if contentTypeActions|default([])|length > 0 %}
             <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa fa-eye"></i>
-                {{ 'field.action_dropdown_label'|trans({'environment': environment.label}) }}
+                {{ 'field.action_dropdown_label'|trans({'environment': environment.label(app.user)}) }}
                 <span class="caret"></span>
-                <span class="sr-only">{{ 'field.action_dropdown_sr_only'|trans({'environment': environment.label}) }}</span>
+                <span class="sr-only">{{ 'field.action_dropdown_sr_only'|trans({'environment': environment.label(app.user)}) }}</span>
             </button>
             <ul class="dropdown-menu" role="menu">
                 {% for a in contentTypeActions %}
@@ -154,7 +155,7 @@
         {% else %}
             <button type="button" class="btn btn-light btn-sm" style="cursor: default">
                 <i class="fa fa-eye"></i>
-                {{ 'field.published_label'|trans({'environment': environment.label}) }}
+                {{ 'field.published_label'|trans({'environment': environment.label(app.user)}) }}
             </button>
         {% endif %}
     </div>

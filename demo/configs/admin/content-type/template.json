@@ -5,6 +5,8 @@
         "name": "template",
         "pluralName": "Templates",
         "singularName": "Template",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": null,
         "icon": "fa fa-crop",
         "description": null,
         "indexTwig": null,
@@ -180,6 +182,7 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
+                    "labelTranslations": null,
                     "icon": "fa fa-list-ul",
                     "options": {
                         "body": "{}",

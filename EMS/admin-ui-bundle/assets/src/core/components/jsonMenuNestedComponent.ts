@@ -319,7 +319,8 @@ export default class JsonMenuNestedComponent {
                 data: json,
                 ajaxModal: ajaxModal
             })
-            if (eventCanceled) ajaxModal?.modal.removeEventListener('ajax-modal-close', handlerClose)
+            if (eventCanceled)
+                ajaxModal?.modal.removeEventListener('ajax-modal-close', handlerClose)
 
             if (eventType === 'jmn-add' || eventType === 'jmn-edit') {
                 if (!Object.hasOwn(json, 'success') || !json.success) return

@@ -7,7 +7,7 @@ const STORAGE = {
     mode: 'ems.dev.mode',
     color: 'ems.dev.themeColor',
     collapsed: 'ems.dev.sidebarCollapsed',
-    badge: 'ems.dev.badge',
+    badge: 'ems.dev.badge'
 }
 
 const read = (key: string): string | null => {
@@ -35,7 +35,10 @@ const clear = () => {
 }
 
 export default class DevPanel {
-    constructor(private theme: Theme, private sidebarComponent: Sidebar) {
+    constructor(
+        private theme: Theme,
+        private sidebarComponent: Sidebar
+    ) {
         this.applyOverrides()
         this.initModeButtons()
         this.initColorSwatches()
@@ -121,12 +124,11 @@ export default class DevPanel {
         checkbox.addEventListener('change', () => {
             sidebar.classList.toggle('collapsed', checkbox.checked)
             this.sidebarComponent.setCollapsed(checkbox.checked)
+            write(STORAGE.collapsed, checkbox.checked ? '1' : '0')
         })
 
         document.addEventListener(SIDEBAR_COLLAPSED_CHANGE_EVENT, (event) => {
-            const collapsed = (event as CustomEvent<{ collapsed: boolean }>).detail.collapsed
-            checkbox.checked = collapsed
-            write(STORAGE.collapsed, collapsed ? '1' : '0')
+            checkbox.checked = (event as CustomEvent<{ collapsed: boolean }>).detail.collapsed
         })
     }
 

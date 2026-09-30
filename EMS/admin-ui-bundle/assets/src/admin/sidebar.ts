@@ -1,6 +1,5 @@
 'use strict'
 
-const SIDEBAR_TEMPORARY_OPEN_CLASS = 'sidebar-temporary-open'
 const MOBILE_QUERY = '(max-width: 991.98px)'
 
 export const SIDEBAR_COLLAPSED_CHANGE_EVENT = 'ems:sidebar-collapsed-change'
@@ -35,7 +34,9 @@ export default class Sidebar {
 
     setCollapsed(collapsed: boolean) {
         document.documentElement.toggleAttribute('data-sidebar-collapsed', collapsed)
-        document.dispatchEvent(new CustomEvent(SIDEBAR_COLLAPSED_CHANGE_EVENT, { detail: { collapsed } }))
+        document.dispatchEvent(
+            new CustomEvent(SIDEBAR_COLLAPSED_CHANGE_EVENT, { detail: { collapsed } })
+        )
     }
 
     initBackdrop(sidebar: HTMLElement, label: string) {
@@ -68,7 +69,12 @@ export default class Sidebar {
 
         for (let i = 0; i < menuLinks.length; ++i) {
             const href = menuLinks[i].getAttribute('href')
-            if (href && href !== '#' && pathname.startsWith(href) && href.length > bestMatchHrefLength) {
+            if (
+                href &&
+                href !== '#' &&
+                pathname.startsWith(href) &&
+                href.length > bestMatchHrefLength
+            ) {
                 bestMatch = menuLinks[i]
                 bestMatchHrefLength = href.length
             }

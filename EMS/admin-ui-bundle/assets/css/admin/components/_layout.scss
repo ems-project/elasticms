@@ -447,6 +447,22 @@ a.sidebar-link {
   border-bottom: 1px solid rgba($white, .12);
 }
 
+.sidebar-temporary-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: $zindex-fixed - 5;
+  display: none;
+  padding: 0;
+  border: 0;
+  background: rgba($black, .5);
+
+  @media (max-width: #{map-get($grid-breakpoints, 'lg') - .02px}) {
+    html[data-sidebar-collapsed] & {
+      display: block;
+    }
+  }
+}
+
 .sidebar {
   &.collapsed {
     margin-left: -$sidebar-width;

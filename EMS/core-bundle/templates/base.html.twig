@@ -116,12 +116,7 @@
       </div>
     </nav>
   </header>
-
-		{% if app.user %}
-		  	{{ render(controller('EMS\\CoreBundle\\Controller\\LayoutController::sideMenu')) }}
-		{% else %}
-            {% include '@EMSCore/elements/side-menu.html.twig' %}
-        {% endif %}
+  {{ render(controller('EMS\\CoreBundle\\Controller\\LayoutController::sideMenu')) }}
   <div class="content-wrapper">
     <section class="content-header">
       <h1>

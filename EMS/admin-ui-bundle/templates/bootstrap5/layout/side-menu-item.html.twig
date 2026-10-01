@@ -1,4 +1,4 @@
-{% block sidebarMenu %}
+{% block sidebarMenuItem %}
     {# @var menu \EMS\CoreBundle\Core\UI\MenuEntry #}
     {% trans_default_domain 'emsco-core' %}
     <li class="sidebar-item">
@@ -14,9 +14,9 @@
         {% if menu.hasChildren %}
             <ul id="nav-{{ menu.label|ems_slug }}" class="sidebar-dropdown list-unstyled collapse">
                 {% for menu in menu.children %}
-                    {{ block('sidebarMenu') }}
+                    {{ block('sidebarMenuItem') }}
                 {% endfor %}
             </ul>
         {% endif %}
     </li>
-{% endblock sidebarMenu %}
+{% endblock sidebarMenuItem %}

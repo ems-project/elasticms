@@ -14,6 +14,7 @@ use EMS\CoreBundle\Service\JobService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 use function Symfony\Component\Translation\t;
 
 class LayoutController extends AbstractController
@@ -29,26 +30,30 @@ class LayoutController extends AbstractController
     ) {
     }
 
-    public function sideMenu(): Response
+    public function sideMenu(?UserInterface $user = null): Response
     {
         $status = $this->elasticaService->getHealthStatus();
         if ('green' === $status) {
             $status = $this->assetExtractorService->getStatus();
         }
 
+        if ($user) {
+            $menu = [
+                $this->dashboardManager->getSidebarMenu(),
+                $this->contentTypeService->getContentTypeMenu(),
+                $this->getPublisherMenu(),
+                $this->getCrmMenu(),
+                $this->getUserAdminMenu(),
+                $this->getAdminMenu(),
+                $this->getOtherMenu(),
+            ];
+        }
+
         return $this->render(
-            \sprintf('@%s/elements/side-menu.html.twig', $this->templateNamespace),
+            \sprintf('@%s/layout/side-menu.html.twig', $this->templateNamespace),
             [
                 'status' => $status,
-                'menu' => [
-                    $this->dashboardManager->getSidebarMenu(),
-                    $this->contentTypeService->getContentTypeMenu(),
-                    $this->getPublisherMenu(),
-                    $this->getCrmMenu(),
-                    $this->getUserAdminMenu(),
-                    $this->getAdminMenu(),
-                    $this->getOtherMenu(),
-                ],
+                'menu' => $menu ?? [],
             ]
         );
     }
@@ -56,7 +61,7 @@ class LayoutController extends AbstractController
     public function jobs(string $username): Response
     {
         return $this->render(
-            \sprintf('@%s/elements/jobs-list.html.twig', $this->templateNamespace),
+            \sprintf('@%s/layout/jobs-list.html.twig', $this->templateNamespace),
             [
                 'jobs' => $this->jobService->findByUser($username),
             ]

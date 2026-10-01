@@ -27,7 +27,7 @@
                     <h3 class="control-sidebar-heading h4">{{ 'key.last_commands'|trans }}</h3>
                     <ul class="control-sidebar-menu" id="commands-log">
                         {% if app.user %}
-                            {{ render(controller('EMS\\CoreBundle\\Controller\\TwigElementsController::jobs', {
+                            {{ render(controller('EMS\\CoreBundle\\Controller\\LayoutController::jobs', {
                                 username: app.user.username,
                             })) }}
                         {% endif %}

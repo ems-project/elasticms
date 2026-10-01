@@ -100,10 +100,15 @@ class FileController extends AbstractController
 
     /**
      * @param array<string, string|string[]> $extraHeaders
+     * @param array<string, string>          $basePathByHost
      */
-    public function assetInArchive(Request $request, string $hash, string $path, int $maxAge = 604800, bool $extract = true, ?string $indexResource = null, ?string $notFoundTemplate = null, array $extraHeaders = []): Response
+    public function assetInArchive(Request $request, string $hash, string $path, int $maxAge = 604800, bool $extract = true, ?string $indexResource = null, ?string $notFoundTemplate = null, array $extraHeaders = [], array $basePathByHost = []): Response
     {
         $this->closeSession($request);
+        $host = $request->getHost();
+        if (isset($basePathByHost[$host])) {
+            $path = $basePathByHost[$host].$path;
+        }
 
         try {
             $response = $this->processor->getResponseFromArchive($request, $hash, $path, $maxAge, $extract, $indexResource);

@@ -456,6 +456,7 @@ return static function (ContainerConfigurator $container) {
     $services->set('emsco.ui.layout', LayoutService::class)
         ->args([
             service('ems.dashboard.manager'),
+            service('ems.service.contenttype'),
             service('security.authorization_checker'),
         ]);
 
@@ -649,10 +650,8 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.environment'),
             service('security.authorization_checker'),
             service(RevisionRepository::class),
-            service('security.token_storage'),
             service('translator'),
             service('router.default'),
-            '%ems_core.circles_object%',
         ])
         ->tag('emsco.entity.service', ['priority' => 60]);
 

@@ -881,7 +881,6 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.asset_extractor'),
             service('ems_common.service.elastica'),
             service('ems.service.job'),
-            service('ems.service.contenttype'),
             '%ems_core.template_namespace%',
             '%ems_core.group_feature%',
         ])

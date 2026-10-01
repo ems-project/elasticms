@@ -9,7 +9,6 @@ use EMS\CoreBundle\Core\UI\LayoutService;
 use EMS\CoreBundle\Core\UI\Menu;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\AssetExtractorService;
-use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\JobService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +23,6 @@ class LayoutController extends AbstractController
         private readonly AssetExtractorService $assetExtractorService,
         private readonly ElasticaService $elasticaService,
         private readonly JobService $jobService,
-        private readonly ContentTypeService $contentTypeService,
         private readonly string $templateNamespace,
         private readonly bool $groupFeature,
     ) {
@@ -40,7 +38,6 @@ class LayoutController extends AbstractController
         if ($user) {
             $menu = [
                 ...$this->layoutService->getSidebarMenus($user),
-                $this->contentTypeService->getContentTypeMenu(),
                 $this->getPublisherMenu(),
                 $this->getCrmMenu(),
                 $this->getUserAdminMenu(),

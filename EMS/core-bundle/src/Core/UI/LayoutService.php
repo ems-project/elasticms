@@ -145,9 +145,9 @@ class LayoutService
         }
 
         $menu = new Menu(t('key.publishers', [], 'emsco-core'));
-        $menu->addChild(t('key.releases', [], 'emsco-core'), 'fa fa-cube', 'emsco_release_index')->setTranslation([]);
-        $menu->addChild(t('key.compare_environments', [], 'emsco-core'), 'fa fa-align-center', 'environment.align')->setTranslation([]);
-        $menu->addChild(t('key.uploaded_files', [], 'emsco-core'), 'fa fa-upload', Routes::UPLOAD_ASSET_PUBLISHER_OVERVIEW)->setTranslation([]);
+        $menu->addChild(t('key.releases', [], 'emsco-core'), 'fa fa-cube', 'emsco_release_index');
+        $menu->addChild(t('key.compare_environments', [], 'emsco-core'), 'fa fa-align-center', 'environment.align');
+        $menu->addChild(t('key.uploaded_files', [], 'emsco-core'), 'fa fa-upload', Routes::UPLOAD_ASSET_PUBLISHER_OVERVIEW);
 
         return $menu;
     }
@@ -159,7 +159,7 @@ class LayoutService
         }
 
         $menu = new Menu(t('key.form_submissions', [], 'emsco-core'));
-        $menu->addChild(t('key.overview', [], 'emsco-core'), 'fa fa-list-alt', 'form.submissions')->setTranslation([]);
+        $menu->addChild(t('key.overview', [], 'emsco-core'), 'fa fa-list-alt', 'form.submissions');
 
         return $menu;
     }
@@ -188,9 +188,9 @@ class LayoutService
         $menu = new Menu(t('key.admin', [], 'emsco-core'));
 
         $contentMenu = $menu->addChild(t('key.content', [], 'emsco-core'), 'fa fa-pencil', 'job.index');
-        $contentMenu->addChild(t('key.content_types', [], 'emsco-core'), 'fa fa-sitemap', Routes::ADMIN_CONTENT_TYPE_INDEX)->setTranslation([]);
+        $contentMenu->addChild(t('key.content_types', [], 'emsco-core'), 'fa fa-sitemap', Routes::ADMIN_CONTENT_TYPE_INDEX);
         $contentMenu->addChild(t('key.dashboards', [], 'emsco-core'), 'fa fa-dashboard', Routes::DASHBOARD_ADMIN_INDEX);
-        $contentMenu->addChild(t('key.forms', [], 'emsco-core'), 'fa fa-keyboard-o', Routes::FORM_ADMIN_INDEX)->setTranslation([]);
+        $contentMenu->addChild(t('key.forms', [], 'emsco-core'), 'fa fa-keyboard-o', Routes::FORM_ADMIN_INDEX);
         $contentMenu->addChild(t('key.query_searches', [], 'emsco-core'), 'fa fa-search', 'ems_core_query_search_index');
         $contentMenu->addChild(t('key.wysiwyg', [], 'emsco-core'), 'fa fa-edit', Routes::WYSIWYG_INDEX);
         $contentMenu->addChild(t('key.i18n', [], 'emsco-core'), 'fa fa-language', Routes::I18N_INDEX);
@@ -205,9 +205,8 @@ class LayoutService
         $environmentMenu->addChild(t('key.unreferenced_aliases', [], 'emsco-core'), 'fa fa-chain', Routes::ADMIN_ELASTIC_UNREFERENCED_ALIASES);
         $environmentMenu->addChild(t('key.orphan_indexes', [], 'emsco-core'), 'fa fa-chain-broken', Routes::ADMIN_ELASTIC_ORPHAN);
 
-        $jobMenu = $menu->addChild(t('key.jobs', [], 'emsco-core'), 'fa fa-terminal', 'job.index');
-        $jobMenu->setTranslation([]);
-        $jobMenu->addChild(t('action.new_job', [], 'emsco-core'), 'fa fa-plus', 'job.add')->setTranslation([]);
+        $jobMenu = $menu->addChild(t('key.jobs', [], 'emsco-core'), 'fa fa-terminal', 'job.index');;
+        $jobMenu->addChild(t('action.new_job', [], 'emsco-core'), 'fa fa-plus', 'job.add');
         $jobMenu->addChild(t('key.job_logs', [], 'emsco-core'), 'fa fa-file-text-o', 'job.index');
         $jobMenu->addChild(t('key.schedule', [], 'emsco-core'), 'fa fa-calendar-o', Routes::SCHEDULE_INDEX);
 
@@ -241,7 +240,7 @@ class LayoutService
             label: t('key.documentation', [], 'emsco-core'),
             icon: 'fa fa-book',
             route: 'documentation'
-        )->setTranslation([]);
+        );
 
         return $menu;
     }

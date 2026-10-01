@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use function Symfony\Component\Translation\t;
 
-class TwigElementsController extends AbstractController
+class LayoutController extends AbstractController
 {
     final public const string ASSET_EXTRACTOR_STATUS_CACHE_ID = 'status.asset_extractor.result';
 

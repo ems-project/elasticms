@@ -49,6 +49,7 @@ use EMS\CoreBundle\Controller\ElasticsearchController;
 use EMS\CoreBundle\Controller\Form\FormController;
 use EMS\CoreBundle\Controller\Form\SubmissionController;
 use EMS\CoreBundle\Controller\InlineEditorController;
+use EMS\CoreBundle\Controller\LayoutController;
 use EMS\CoreBundle\Controller\Log\LogController;
 use EMS\CoreBundle\Controller\MercureController;
 use EMS\CoreBundle\Controller\NotificationController;
@@ -57,7 +58,6 @@ use EMS\CoreBundle\Controller\Revision\DetailController;
 use EMS\CoreBundle\Controller\Revision\EditController;
 use EMS\CoreBundle\Controller\Revision\TaskController;
 use EMS\CoreBundle\Controller\Revision\TrashController;
-use EMS\CoreBundle\Controller\TwigElementsController;
 use EMS\CoreBundle\Controller\UploadedFileController;
 use EMS\CoreBundle\Controller\UploadedFileWysiwygController;
 use EMS\CoreBundle\Controller\User\GroupController;
@@ -874,7 +874,7 @@ return static function (ContainerConfigurator $container) {
         ->tag('container.service_subscriber')
         ->tag('controller.service_arguments');
 
-    $services->set(TwigElementsController::class)
+    $services->set(LayoutController::class)
         ->public()
         ->args([
             service('ems.service.asset_extractor'),

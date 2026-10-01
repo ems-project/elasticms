@@ -30,17 +30,11 @@ class LayoutController extends AbstractController
             $status = $this->assetExtractorService->getStatus();
         }
 
-        if ($user) {
-            $menu = [
-                ...$this->layoutService->getSidebarMenus($user),
-            ];
-        }
-
         return $this->render(
             \sprintf('@%s/layout/side-menu.html.twig', $this->templateNamespace),
             [
                 'status' => $status,
-                'menu' => $menu ?? [],
+                'menu' => $user ? $this->layoutService->getSidebarMenus($user) : [],
             ]
         );
     }

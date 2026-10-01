@@ -458,6 +458,7 @@ return static function (ContainerConfigurator $container) {
             service('ems.dashboard.manager'),
             service('ems.service.contenttype'),
             service('security.authorization_checker'),
+            '%ems_core.group_feature%',
         ]);
 
     $services->set('ems_core.core_ui.flash_message_logger', FlashMessageLogger::class)

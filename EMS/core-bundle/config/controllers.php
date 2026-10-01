@@ -882,7 +882,6 @@ return static function (ContainerConfigurator $container) {
             service('ems_common.service.elastica'),
             service('ems.service.job'),
             '%ems_core.template_namespace%',
-            '%ems_core.group_feature%',
         ])
         ->call('setContainer')
         ->tag('container.service_subscriber')

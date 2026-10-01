@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Controller;
 
 use EMS\CommonBundle\Service\ElasticaService;
-use EMS\CoreBundle\Core\Dashboard\DashboardManager;
+use EMS\CoreBundle\Core\UI\LayoutService;
 use EMS\CoreBundle\Core\UI\Menu;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\AssetExtractorService;
@@ -13,17 +13,17 @@ use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\JobService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-
 use Symfony\Component\Security\Core\User\UserInterface;
+
 use function Symfony\Component\Translation\t;
 
 class LayoutController extends AbstractController
 {
     public function __construct(
+        private readonly LayoutService $layoutService,
         private readonly AssetExtractorService $assetExtractorService,
         private readonly ElasticaService $elasticaService,
         private readonly JobService $jobService,
-        private readonly DashboardManager $dashboardManager,
         private readonly ContentTypeService $contentTypeService,
         private readonly string $templateNamespace,
         private readonly bool $groupFeature,
@@ -39,7 +39,7 @@ class LayoutController extends AbstractController
 
         if ($user) {
             $menu = [
-                $this->dashboardManager->getSidebarMenu(),
+                ...$this->layoutService->getSidebarMenus($user),
                 $this->contentTypeService->getContentTypeMenu(),
                 $this->getPublisherMenu(),
                 $this->getCrmMenu(),

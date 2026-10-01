@@ -877,10 +877,10 @@ return static function (ContainerConfigurator $container) {
     $services->set(LayoutController::class)
         ->public()
         ->args([
+            service('emsco.ui.layout'),
             service('ems.service.asset_extractor'),
             service('ems_common.service.elastica'),
             service('ems.service.job'),
-            service('ems.dashboard.manager'),
             service('ems.service.contenttype'),
             '%ems_core.template_namespace%',
             '%ems_core.group_feature%',

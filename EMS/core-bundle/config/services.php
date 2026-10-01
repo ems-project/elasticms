@@ -51,6 +51,7 @@ use EMS\CoreBundle\Core\Revision\Task\TaskManager;
 use EMS\CoreBundle\Core\Submission\SubmissionExporter;
 use EMS\CoreBundle\Core\UI\AjaxService;
 use EMS\CoreBundle\Core\UI\FlashMessageLogger;
+use EMS\CoreBundle\Core\UI\LayoutService;
 use EMS\CoreBundle\Core\User\GroupManager;
 use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\Core\View\ViewManager;
@@ -216,7 +217,6 @@ return static function (ContainerConfigurator $container) {
             service('ems.repository.dashboard'),
             service('emsco.logger'),
             service('security.authorization_checker'),
-            service('security.token_storage'),
         ])
         ->tag('emsco.entity.service', ['priority' => 50]);
 
@@ -452,6 +452,12 @@ return static function (ContainerConfigurator $container) {
         ]);
 
     $services->alias('ems_core.service.uploaded-file', DatatableService::class);
+
+    $services->set('emsco.ui.layout', LayoutService::class)
+        ->args([
+            service('ems.dashboard.manager'),
+            service('security.authorization_checker'),
+        ]);
 
     $services->set('ems_core.core_ui.flash_message_logger', FlashMessageLogger::class)
         ->args([

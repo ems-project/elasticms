@@ -12,15 +12,12 @@ use EMS\CoreBundle\Service\AssetExtractorService;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\JobService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Response;
 
 use function Symfony\Component\Translation\t;
 
 class LayoutController extends AbstractController
 {
-    final public const string ASSET_EXTRACTOR_STATUS_CACHE_ID = 'status.asset_extractor.result';
-
     public function __construct(
         private readonly AssetExtractorService $assetExtractorService,
         private readonly ElasticaService $elasticaService,
@@ -36,7 +33,7 @@ class LayoutController extends AbstractController
     {
         $status = $this->elasticaService->getHealthStatus();
         if ('green' === $status) {
-            $status = $this->getAssetExtractorStatus();
+            $status = $this->assetExtractorService->getStatus();
         }
 
         return $this->render(
@@ -64,25 +61,6 @@ class LayoutController extends AbstractController
                 'jobs' => $this->jobService->findByUser($username),
             ]
         );
-    }
-
-    private function getAssetExtractorStatus(): string
-    {
-        $cache = new FilesystemAdapter('', 60);
-        $cachedStatus = $cache->getItem(self::ASSET_EXTRACTOR_STATUS_CACHE_ID);
-        if ($cachedStatus->isHit()) {
-            return $cachedStatus->get();
-        }
-
-        try {
-            $status = 200 === $this->assetExtractorService->hello()['code'] ? 'green' : 'yellow';
-        } catch (\Throwable) {
-            $status = 'yellow';
-        }
-        $cachedStatus->set($status);
-        $cache->save($cachedStatus);
-
-        return $status;
     }
 
     private function getOtherMenu(): Menu

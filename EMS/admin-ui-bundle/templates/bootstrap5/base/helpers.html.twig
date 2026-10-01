@@ -1,12 +1,19 @@
-{% block attributes -%}
-    {%- for attrname, attrvalue in attr -%}
-        {{- ' ' -}}
-        {%- if attrname in ['placeholder', 'title'] -%}
-            {{- attrname }}="{{ translation_domain is same as(false) or attrvalue is null ? attrvalue : attrvalue|trans(attr_translation_parameters, translation_domain) }}"
-        {%- elseif attrvalue is same as(true) -%}
-            {{- attrname }}="{{ attrname }}"
-        {%- elseif attrvalue is not same as(false) -%}
-            {{- attrname }}="{{ attrvalue|e('html_attr') }}"
+{% macro attributes(attr, extra = {}) -%}
+    {%- set classes = [] -%}
+    {%- for source in [attr, extra] -%}
+        {%- set value = source.class|default([]) -%}
+        {%- set classes = classes|merge(value is iterable ? value : value|split(' ')) -%}
+    {%- endfor -%}
+    {%- set attr = attr|merge(extra) -%}
+    {%- set classes = classes|filter(c => c is not empty)|join(' ') -%}
+    {%- if classes is not empty -%}
+        {%- set attr = attr|merge({class: classes}) -%}
+    {%- endif -%}
+    {%- for name, value in attr -%}
+        {%- if value is same as(true) -%}
+            {{- ' ' ~ name }}
+        {%- elseif value is not same as(false) and value is not null -%}
+            {{- ' ' ~ name }}="{{ value|e('html_attr') }}"
         {%- endif -%}
     {%- endfor -%}
-{%- endblock attributes -%}
+{%- endmacro %}

@@ -3,14 +3,7 @@ body, html, #root {
 }
 
 body {
-  overflow-y: scroll;
   opacity: 1 !important;
-}
-
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-  html {
-    overflow-x: hidden;
-  }
 }
 
 html {

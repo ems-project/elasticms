@@ -1,0 +1,25 @@
+@each $name, $color in $theme-colors-supported {
+  html[data-theme='#{$name}'] {
+    .navbar,
+    .user-header,
+    .sidebar-temporary-toggle {
+      background-color: $color !important;
+    }
+
+    .navbar-brand {
+      background-color: color-mix(in srgb, #{$color} 90%, black) !important;
+
+      &:hover {
+        background-color: $color !important;
+      }
+    }
+
+    .sidebar-item.active > .sidebar-link {
+      border-left-color: $color !important;
+    }
+  }
+}
+
+html[data-theme='yellow'] .navbar-badge {
+  background: map-get($theme-colors-supported, 'red') !important;
+}

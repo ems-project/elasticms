@@ -4,7 +4,7 @@
             <i class="fa fa-eye"></i>
             <span class="visually-hidden">{{ 'key.channels'|trans({}, 'emsco-core') }}</span>
         </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+        <div class="dropdown-menu dropdown-menu-end">
             {% set homepage = path('homepage') %}
             {% for channel in channels %}
                 <a href="{{ channel.getEntryPath(homepage) }}" target="_blank" class="dropdown-item">

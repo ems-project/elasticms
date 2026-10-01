@@ -2,9 +2,13 @@
 {%- trans_default_domain 'emsco-core' -%}
 
 {%- set wysiwygInfo = emsco_wysiwyg_info() -%}
-{% set body_attr = {
-    class: 'hold-transition sidebar-mini sidebar-mini-md layout-fixed layout-navbar-fixed',
-    'data-theme-color': theme_color,
+{%- set html_attr = {
+    'data-theme': theme_color,
+    'data-bs-theme': 'light',
+    'data-sidebar-collapsed': app.user?.sidebarCollapse|default(false),
+} -%}
+
+{%- set body_attr = {
     'data-hash-algo': ems_hash_algo,
     'data-status-url': path('elasticsearch.status', {_format: 'json'}),
     'data-search-api': path('elasticsearch.api.search'),
@@ -19,8 +23,7 @@
     'data-wysiwyg-type-filters': wysiwygInfo.linkTypes|json_encode,
     'data-wysiwyg-info': wysiwygInfo|json_encode,
     'data-asset-path': asset(''),
-} %}
-{% set theme_color_contrast = theme_color in ['yellow', 'lime', 'white', 'cyan'] ? 'light' : 'dark' %}
+} -%}
 
 {% block breadcrumb %}
     {% if breadcrumb is defined %}

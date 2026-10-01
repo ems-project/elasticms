@@ -1,9 +1,8 @@
 import '../css/app.scss'
-// import '../css/adminlte.scss'
 
 import '@popperjs/core'
 import * as bootstrap from 'bootstrap'
-import './admin-lte/AdminLTE'
+import './admin/admin.ts'
 import './core/core'
 
 window.bootstrap = bootstrap

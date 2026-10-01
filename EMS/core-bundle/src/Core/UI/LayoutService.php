@@ -205,7 +205,7 @@ class LayoutService
         $environmentMenu->addChild(t('key.unreferenced_aliases', [], 'emsco-core'), 'fa fa-chain', Routes::ADMIN_ELASTIC_UNREFERENCED_ALIASES);
         $environmentMenu->addChild(t('key.orphan_indexes', [], 'emsco-core'), 'fa fa-chain-broken', Routes::ADMIN_ELASTIC_ORPHAN);
 
-        $jobMenu = $menu->addChild(t('key.jobs', [], 'emsco-core'), 'fa fa-terminal', 'job.index');;
+        $jobMenu = $menu->addChild(t('key.jobs', [], 'emsco-core'), 'fa fa-terminal', 'job.index');
         $jobMenu->addChild(t('action.new_job', [], 'emsco-core'), 'fa fa-plus', 'job.add');
         $jobMenu->addChild(t('key.job_logs', [], 'emsco-core'), 'fa fa-file-text-o', 'job.index');
         $jobMenu->addChild(t('key.schedule', [], 'emsco-core'), 'fa fa-calendar-o', Routes::SCHEDULE_INDEX);

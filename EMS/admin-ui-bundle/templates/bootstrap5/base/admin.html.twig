@@ -48,7 +48,7 @@
 
 {% block wrapper %}
     <div class="wrapper">
-        {{ render(controller('EMS\\CoreBundle\\Controller\\LayoutController::sideMenu')) }}
+        <twig:ems_layout_sidebar />
         <div class="main">
             {{ include('@EMSAdminUI/bootstrap5/elements/topbar.html.twig') }}
             {{ include('@EMSAdminUI/bootstrap5/elements/toasts.html.twig') }}

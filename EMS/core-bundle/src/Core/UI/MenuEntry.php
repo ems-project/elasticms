@@ -6,8 +6,6 @@ namespace EMS\CoreBundle\Core\UI;
 
 use Symfony\Component\Translation\TranslatableMessage;
 
-use function Symfony\Component\Translation\t;
-
 class MenuEntry
 {
     private ?string $badge = null;
@@ -23,7 +21,7 @@ class MenuEntry
         public readonly string $icon,
         public string $route,
         public array $routeParameters = [],
-        public  readonly ?string $color = null,
+        public readonly ?string $color = null,
     ) {
     }
 

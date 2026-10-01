@@ -28,7 +28,6 @@ use EMS\CoreBundle\Controller\Api\McpController;
 use EMS\CoreBundle\Controller\Api\Search\SearchController;
 use EMS\CoreBundle\Controller\Api\WebhookSubscriptionController;
 use EMS\CoreBundle\Controller\BrowseController;
-use EMS\CoreBundle\Controller\ChannelController;
 use EMS\CoreBundle\Controller\Component\JsonMenuNestedController;
 use EMS\CoreBundle\Controller\Component\MediaLibraryController;
 use EMS\CoreBundle\Controller\ContentManagement\AssetController;
@@ -801,15 +800,6 @@ return static function (ContainerConfigurator $container) {
         ->call('setContainer')
         ->tag('container.service_subscriber')
         ->tag('controller.service_arguments');
-
-    $services->set(ChannelController::class)
-        ->public()
-        ->args([
-            service('ems.service.channel'),
-            '%ems_core.template_namespace%',
-        ])
-        ->call('setContainer')
-        ->tag('container.service_subscriber');
 
     $services->set(DashboardController::class)
         ->public()

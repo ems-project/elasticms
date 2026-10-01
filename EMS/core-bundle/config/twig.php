@@ -10,6 +10,7 @@ use EMS\CoreBundle\Service\JobService;
 use EMS\CoreBundle\Twig\Components\JsonMenuNestedComponent;
 use EMS\CoreBundle\Twig\Components\Layout\ControlSidebarComponent;
 use EMS\CoreBundle\Twig\Components\Layout\SidebarComponent;
+use EMS\CoreBundle\Twig\Components\Layout\TopbarComponent;
 use EMS\CoreBundle\Twig\Components\MediaLibraryComponent;
 use EMS\CoreBundle\Twig\ContentTypeExtension;
 use EMS\CoreBundle\Twig\CoreExtension;
@@ -146,6 +147,13 @@ return static function (ContainerConfigurator $container) {
             service('security.helper'),
         ])
         ->tag('twig.component', ['key' => 'ems_layout_sidebar', 'template' => '@%ems_core.template_namespace%/components/layout/sidebar.html.twig']);
+
+    $services->set('emsco.twig_components.topbar', TopbarComponent::class)
+        ->autoconfigure()
+        ->args([
+            service('ems.service.channel'),
+        ])
+        ->tag('twig.component', ['key' => 'ems_layout_topbar', 'template' => '@%ems_core.template_namespace%/components/layout/topbar.html.twig']);
 
     $services->set('emsco.twig_components.json_menu_nested', JsonMenuNestedComponent::class)
         ->args([

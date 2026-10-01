@@ -31,7 +31,21 @@
                             </ul>
                         </li>
                     {%- endif -%}
-                    {{ render(controller('EMS\\CoreBundle\\Controller\\NotificationController::menuNotification')) }}
+                    {%- for dashboard in this.dashboards.children|default([]) -%}
+                        <li class="notifications-menu">
+                            <a href="{{ path(dashboard.route, dashboard.routeParameters) }}"{% if dashboard.color %} class="text-{{ dashboard.color }}"{% endif %} data-testid="notification-menu-{{ dashboard.label|slug|lower }}">
+                                <i class="{{ dashboard.icon }}"></i>
+                            </a>
+                        </li>
+                    {%- endfor -%}
+                    <li class="notifications-menu">
+                        <a href="{{ path('notifications.inbox') }}" data-testid="notification-menu">
+                            <i class="fa fa-envelope-o"></i>
+                            {%- if this.countNotifications > 0 -%}
+                                <span class="label label-warning">{{ this.countNotifications }}</span>
+                            {%- endif -%}
+                        </a>
+                    </li>
                     <li class="dropdown tasks-menu" id="system-messages">
                         <a href="#" class="dropdown-toggle" data-toggle="control-sidebar" data-testid="tasks-menu">
                             <i id="ajax-activity" class="fa fa-refresh"></i>

@@ -7,6 +7,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface;
 use EMS\CoreBundle\Controller\ActionController;
 use EMS\CoreBundle\Controller\Admin\AnalyzerController;
+use EMS\CoreBundle\Controller\Admin\ChannelController;
 use EMS\CoreBundle\Controller\Admin\EnvironmentController;
 use EMS\CoreBundle\Controller\Admin\FilterController;
 use EMS\CoreBundle\Controller\Admin\I18nController;
@@ -113,7 +114,7 @@ return static function (ContainerConfigurator $container) {
         ->tag('container.service_subscriber')
         ->tag('controller.service_arguments');
 
-    $services->set(\EMS\CoreBundle\Controller\Admin\ChannelController::class)
+    $services->set(ChannelController::class)
         ->public()
         ->args([
             service('emsco.logger'),
@@ -853,7 +854,6 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.environment'),
             service('doctrine'),
             service('ems.service.notification'),
-            service('ems.dashboard.manager'),
             service(NotificationRepository::class),
             service('ems_core.core_ui.flash_message_logger'),
             '%ems_core.paging_size%',

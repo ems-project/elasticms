@@ -151,7 +151,9 @@ return static function (ContainerConfigurator $container) {
     $services->set('emsco.twig_components.topbar', TopbarComponent::class)
         ->autoconfigure()
         ->args([
+            service('emsco.ui.layout'),
             service('ems.service.channel'),
+            service('ems.service.notification'),
         ])
         ->tag('twig.component', ['key' => 'ems_layout_topbar', 'template' => '@%ems_core.template_namespace%/components/layout/topbar.html.twig']);
 

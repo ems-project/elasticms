@@ -216,7 +216,6 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('ems.repository.dashboard'),
             service('emsco.logger'),
-            service('security.authorization_checker'),
         ])
         ->tag('emsco.entity.service', ['priority' => 50]);
 

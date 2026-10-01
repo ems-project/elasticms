@@ -34,18 +34,6 @@ final class DashboardRepository extends ServiceEntityRepository
         return $this->findBy([], ['orderKey' => 'ASC']);
     }
 
-    /**
-     * @return Dashboard[]
-     */
-    public function getNotificationMenu(): array
-    {
-        return $this->findBy([
-            'notificationMenu' => true,
-        ], [
-            'orderKey' => 'ASC',
-        ]);
-    }
-
     public function counter(string $searchValue = ''): int
     {
         $qb = $this->createQueryBuilder('c');

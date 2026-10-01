@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Core\UI;
 
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\Dashboard\DashboardManager;
+use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\ContentTypeService;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -21,6 +22,25 @@ class LayoutService
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly bool $groupFeature,
     ) {
+    }
+
+    public function getTopbarDashboardMenu(): Menu
+    {
+        $menu = new Menu(t('key.dashboards', [], 'emsco-core'));
+        foreach ($this->dashboardManager->getVisibleTopbarDashboards() as $dashboard) {
+            if (!$this->isGranted($dashboard->getRole())) {
+                continue;
+            }
+            $menu->addChild(
+                label: $dashboard->getLabel(),
+                icon: $dashboard->getIcon(),
+                route: Routes::DASHBOARD,
+                routeParameters: ['name' => $dashboard->getName()],
+                color: $dashboard->getColor()
+            );
+        }
+
+        return $menu;
     }
 
     /**
@@ -140,7 +160,7 @@ class LayoutService
 
     private function sidebarPublisher(): ?Menu
     {
-        if (!$this->isGranted('ROLE_PUBLISHER')) {
+        if (!$this->isGranted(Roles::ROLE_PUBLISHER)) {
             return null;
         }
 
@@ -154,7 +174,7 @@ class LayoutService
 
     private function sidebarCrm(): ?Menu
     {
-        if (!$this->isGranted('ROLE_FORM_CRM')) {
+        if (!$this->isGranted(Roles::ROLE_FORM_CRM)) {
             return null;
         }
 
@@ -166,7 +186,7 @@ class LayoutService
 
     private function sidebarUserAdmin(): ?Menu
     {
-        if (!$this->isGranted('ROLE_USER_MANAGEMENT')) {
+        if (!$this->isGranted(Roles::ROLE_USER_MANAGEMENT)) {
             return null;
         }
 
@@ -181,7 +201,7 @@ class LayoutService
 
     private function sidebarAdmin(): ?Menu
     {
-        if (!$this->isGranted('ROLE_ADMIN')) {
+        if (!$this->isGranted(Roles::ROLE_ADMIN)) {
             return null;
         }
 

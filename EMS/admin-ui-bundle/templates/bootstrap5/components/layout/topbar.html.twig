@@ -29,7 +29,24 @@
                             </div>
                         </li>
                     {%- endif -%}
-                    {{ render(controller('EMS\\CoreBundle\\Controller\\NotificationController::menuNotification')) }}
+
+                    {%- for dashboard in this.dashboards.children|default([]) -%}
+                        <li class="nav-item">
+                            <a href="{{ path(dashboard.route, dashboard.routeParameters) }}" class="nav-link{% if dashboard.color %} text-{{ dashboard.color }}{% endif %}">
+                                <i class="{{ dashboard.icon }}"></i>
+                            </a>
+                        </li>
+                    {%- endfor -%}
+
+                    <li class="nav-item">
+                        <a href="{{ path('notifications.inbox') }}" class="nav-link" title="{{ 'key.notifications'|trans({}, 'emsco-core') }}">
+                            <i class="fa fa-envelope"></i>
+                            {%- if this.countNotifications > 0 -%}
+                                <span class="navbar-badge badge text-bg-warning">{{ this.countNotifications }}</span>
+                            {%- endif -%}
+                        </a>
+                    </li>
+
                 {% endif %}
 
                 <li class="nav-item" id="system-messages">

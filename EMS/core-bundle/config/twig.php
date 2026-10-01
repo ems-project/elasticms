@@ -8,7 +8,8 @@ use EMS\CoreBundle\Core\Revision\Json\JsonMenuRenderer;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\JobService;
 use EMS\CoreBundle\Twig\Components\JsonMenuNestedComponent;
-use EMS\CoreBundle\Twig\Components\LayoutSidebarComponent;
+use EMS\CoreBundle\Twig\Components\Layout\ControlSidebarComponent;
+use EMS\CoreBundle\Twig\Components\Layout\SidebarComponent;
 use EMS\CoreBundle\Twig\Components\MediaLibraryComponent;
 use EMS\CoreBundle\Twig\ContentTypeExtension;
 use EMS\CoreBundle\Twig\CoreExtension;
@@ -128,7 +129,15 @@ return static function (ContainerConfigurator $container) {
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
-    $services->set('emsco.twig_components.side_menu', LayoutSidebarComponent::class)
+    $services->set('emsco.twig_components.control_sidebar', ControlSidebarComponent::class)
+        ->autoconfigure()
+        ->args([
+            service('ems.service.job'),
+            service('security.helper'),
+        ])
+        ->tag('twig.component', ['key' => 'ems_layout_control_sidebar', 'template' => '@%ems_core.template_namespace%/components/layout/control_sidebar.html.twig']);
+
+    $services->set('emsco.twig_components.layout.sidebar', SidebarComponent::class)
         ->autoconfigure()
         ->args([
             service('emsco.ui.layout'),

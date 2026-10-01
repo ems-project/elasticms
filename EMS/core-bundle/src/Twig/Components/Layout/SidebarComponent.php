@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\Twig\Components;
+namespace EMS\CoreBundle\Twig\Components\Layout;
 
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\UI\LayoutService;
@@ -11,7 +11,7 @@ use EMS\CoreBundle\Service\AssetExtractorService;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class LayoutSidebarComponent
+class SidebarComponent
 {
     public function __construct(
         private readonly LayoutService $layoutService,

@@ -49,7 +49,6 @@ use EMS\CoreBundle\Controller\ElasticsearchController;
 use EMS\CoreBundle\Controller\Form\FormController;
 use EMS\CoreBundle\Controller\Form\SubmissionController;
 use EMS\CoreBundle\Controller\InlineEditorController;
-use EMS\CoreBundle\Controller\LayoutController;
 use EMS\CoreBundle\Controller\Log\LogController;
 use EMS\CoreBundle\Controller\MercureController;
 use EMS\CoreBundle\Controller\NotificationController;
@@ -868,16 +867,6 @@ return static function (ContainerConfigurator $container) {
             service(NotificationRepository::class),
             service('ems_core.core_ui.flash_message_logger'),
             '%ems_core.paging_size%',
-            '%ems_core.template_namespace%',
-        ])
-        ->call('setContainer')
-        ->tag('container.service_subscriber')
-        ->tag('controller.service_arguments');
-
-    $services->set(LayoutController::class)
-        ->public()
-        ->args([
-            service('ems.service.job'),
             '%ems_core.template_namespace%',
         ])
         ->call('setContainer')

@@ -48,9 +48,6 @@
 
 {% block wrapper %}
     <div class="wrapper">
-        {% if preloader|default(false) %}
-            {{ include('@EMSAdminUI/bootstrap5/elements/preloader.html.twig') }}
-        {% endif %}
         {{ include('@EMSAdminUI/bootstrap5/elements/sidenav.html.twig') }}
         <div class="main">
             {{ include('@EMSAdminUI/bootstrap5/elements/topbar.html.twig') }}

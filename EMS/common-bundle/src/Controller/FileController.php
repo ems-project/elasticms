@@ -98,12 +98,20 @@ class FileController extends AbstractController
         return $response;
     }
 
-    public function assetInArchive(Request $request, string $hash, string $path, int $maxAge = 604800, bool $extract = true, ?string $indexResource = null, ?string $notFoundTemplate = null): Response
+    /**
+     * @param array<string, string|string[]> $extraHeaders
+     */
+    public function assetInArchive(Request $request, string $hash, string $path, int $maxAge = 604800, bool $extract = true, ?string $indexResource = null, ?string $notFoundTemplate = null, array $extraHeaders = []): Response
     {
         $this->closeSession($request);
 
         try {
-            return $this->processor->getResponseFromArchive($request, $hash, $path, $maxAge, $extract, $indexResource);
+            $response = $this->processor->getResponseFromArchive($request, $hash, $path, $maxAge, $extract, $indexResource);
+            foreach ($extraHeaders as $key => $header) {
+                $response->headers->set($key, $header);
+            }
+
+            return $response;
         } catch (NotFoundHttpException $e) {
             if (null === $notFoundTemplate) {
                 throw $e;
@@ -122,6 +130,9 @@ class FileController extends AbstractController
                 'indexResource' => $indexResource,
             ]);
             $response->setStatusCode(404);
+            foreach ($extraHeaders as $key => $header) {
+                $response->headers->set($key, $header);
+            }
 
             return $response;
         } catch (\Throwable $e) {

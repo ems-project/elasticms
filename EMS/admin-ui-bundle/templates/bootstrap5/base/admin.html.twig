@@ -48,12 +48,9 @@
 
 {% block wrapper %}
     <div class="wrapper">
-        {% if preloader|default(false) %}
-            {{ include('@EMSAdminUI/bootstrap5/elements/preloader.html.twig') }}
-        {% endif %}
-        {{ include('@EMSAdminUI/bootstrap5/elements/sidenav.html.twig') }}
+        <twig:ems_layout_sidebar />
         <div class="main">
-            {{ include('@EMSAdminUI/bootstrap5/elements/topbar.html.twig') }}
+            <twig:ems_layout_topbar />
             {{ include('@EMSAdminUI/bootstrap5/elements/toasts.html.twig') }}
             <main class="content">
                 <div class="container-fluid p-0">
@@ -71,7 +68,6 @@
             </main>
             {{ include('@EMSAdminUI/bootstrap5/elements/footer.html.twig') }}
         </div>
-
-        {{ include('@EMSAdminUI/bootstrap5/elements/control-sidebar.html.twig') }}
+        <twig:ems_layout_control_sidebar />
     </div>
 {% endblock wrapper %}

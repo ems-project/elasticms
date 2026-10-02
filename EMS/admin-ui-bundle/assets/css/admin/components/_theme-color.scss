@@ -1,4 +1,4 @@
-@each $name, $color in $theme-colors-supported {
+@each $name, $color in $ems-interface-colors {
   html[data-theme='#{$name}'] {
     .navbar,
     .user-header,
@@ -21,5 +21,5 @@
 }
 
 html[data-theme='yellow'] .navbar-badge {
-  background: map-get($theme-colors-supported, 'red') !important;
+  background: map-get($ems-interface-colors, 'red') !important;
 }

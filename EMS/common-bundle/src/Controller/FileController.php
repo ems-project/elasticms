@@ -78,12 +78,25 @@ class FileController extends AbstractController
         return $response;
     }
 
-    public function assetInArchive(Request $request, string $hash, string $path, int $maxAge = 604800, bool $extract = true, ?string $indexResource = null, ?string $notFoundTemplate = null): Response
+    /**
+     * @param array<string, string|string[]> $extraHeaders
+     * @param array<string, string>          $basePathByHost
+     */
+    public function assetInArchive(Request $request, string $hash, string $path, int $maxAge = 604800, bool $extract = true, ?string $indexResource = null, ?string $notFoundTemplate = null, array $extraHeaders = [], array $basePathByHost = []): Response
     {
         $this->closeSession($request);
+        $host = $request->getHost();
+        if (isset($basePathByHost[$host])) {
+            $path = $basePathByHost[$host].$path;
+        }
 
         try {
-            return $this->processor->getResponseFromArchive($request, $hash, $path, $maxAge, $extract, $indexResource);
+            $response = $this->processor->getResponseFromArchive($request, $hash, $path, $maxAge, $extract, $indexResource);
+            foreach ($extraHeaders as $key => $header) {
+                $response->headers->set($key, $header);
+            }
+
+            return $response;
         } catch (NotFoundHttpException $notFoundHttpException) {
             if (null === $notFoundTemplate) {
                 throw $notFoundHttpException;
@@ -102,6 +115,9 @@ class FileController extends AbstractController
                 'indexResource' => $indexResource,
             ]);
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
+            foreach ($extraHeaders as $key => $header) {
+                $response->headers->set($key, $header);
+            }
 
             return $response;
         } catch (\Throwable $throwable) {

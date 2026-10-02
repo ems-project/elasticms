@@ -1,4 +1,4 @@
-import { ChangeEvent } from '../events/changeEvent'
+import { ChangeEvent } from '../events/ChangeEvent'
 
 const modules: Record<string, () => Promise<{ default: string }>> = {
     'ace/ext/beautify': () => import('ace-builds/src-noconflict/ext-beautify.js?url'),

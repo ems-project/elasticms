@@ -1,5 +1,5 @@
 import { TempusDominus } from '@eonasdan/tempus-dominus'
-import ChangeEvent from '../events/changeEvent'
+import ChangeEvent from '../events/ChangeEvent'
 
 class Datetime {
     load(target) {

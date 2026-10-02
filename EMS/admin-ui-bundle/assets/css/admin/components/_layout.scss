@@ -295,7 +295,7 @@ html.header-compact #control-sidebar {
   height: 15px;
   padding: 0 3px;
   border-radius: 999px;
-  background: map-get($theme-colors-supported, 'yellow');
+  background: map-get($ems-interface-colors, 'yellow');
   color: $white;
   font-size: .625rem;
   font-weight: 700;

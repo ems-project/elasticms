@@ -19,6 +19,11 @@ class TopbarComponent
     ) {
     }
 
+    public function getStatus(): string
+    {
+        return $this->layoutService->getStatus();
+    }
+
     public function getDashboards(): Menu
     {
         return $this->layoutService->getTopbarDashboardMenu();

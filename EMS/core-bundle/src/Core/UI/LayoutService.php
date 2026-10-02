@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\UI;
 
+use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\Dashboard\DashboardManager;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
+use EMS\CoreBundle\Service\AssetExtractorService;
 use EMS\CoreBundle\Service\ContentTypeService;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -20,8 +22,17 @@ class LayoutService
         private readonly DashboardManager $dashboardManager,
         private readonly ContentTypeService $contentTypeService,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
+        private readonly ElasticaService $elasticaService,
+        private readonly AssetExtractorService $assetExtractorService,
         private readonly bool $groupFeature,
     ) {
+    }
+
+    public function getStatus(): string
+    {
+        $status = $this->elasticaService->getHealthStatus();
+
+        return 'green' === $status ? $this->assetExtractorService->getStatus() : $status;
     }
 
     public function getTopbarDashboardMenu(): Menu

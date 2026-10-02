@@ -289,18 +289,28 @@ html.header-compact #control-sidebar {
 
 .navbar-badge {
   position: absolute;
-  top: 6px;
-  right: 3px;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 4px;
+  top: 9px;
+  right: 4px;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 3px;
   border-radius: 999px;
   background: map-get($theme-colors-supported, 'yellow');
   color: $white;
-  font-size: .7rem;
+  font-size: .625rem;
   font-weight: 700;
-  line-height: 18px;
+  line-height: 15px;
   text-align: center;
+}
+
+.navbar-status-dot {
+  position: absolute;
+  bottom: -2px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid $navbar-bg;
 }
 
 .user-menu .dropdown-toggle::after {

@@ -457,6 +457,8 @@ return static function (ContainerConfigurator $container) {
             service('ems.dashboard.manager'),
             service('ems.service.contenttype'),
             service('security.authorization_checker'),
+            service('ems_common.service.elastica'),
+            service('ems.service.asset_extractor'),
             '%ems_core.group_feature%',
         ]);
 

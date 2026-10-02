@@ -16,18 +16,6 @@
         {%- endif -%}
 
         <ul class="sidebar-nav">
-            {% set statusTitle = 'cluster.status'|trans({color: status}, 'emsco-core') %}
-            <li>
-                <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="sidebar-status" title="{{ statusTitle }}">
-                    {%- with {
-                        title: statusTitle,
-                        status: status,
-                    } -%}
-                        {{ block('status', '@EMSAdminUI/bootstrap5/elasticsearch/status.html.twig') }}
-                    {%- endwith -%}
-                </a>
-            </li>
-
             {% for item in this.menus|filter(p => p.hasChildren) %}
                 <li class="sidebar-header">{{ item.title|trans }}</li>
                 {% for menu in item.children %}

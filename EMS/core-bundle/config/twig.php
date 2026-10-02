@@ -142,8 +142,6 @@ return static function (ContainerConfigurator $container) {
         ->autoconfigure()
         ->args([
             service('emsco.ui.layout'),
-            service('ems_common.service.elastica'),
-            service('ems.service.asset_extractor'),
             service('security.helper'),
         ])
         ->tag('twig.component', ['key' => 'ems_layout_sidebar', 'template' => '@%ems_core.template_namespace%/components/layout/sidebar.html.twig']);

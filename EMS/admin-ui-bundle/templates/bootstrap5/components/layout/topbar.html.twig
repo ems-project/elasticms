@@ -59,6 +59,20 @@
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                     {{ include('@EMSAdminUI/bootstrap5/elements/dev-panel.html.twig') }}
                 {% endif %}
+
+                {%- set statusTitle = 'cluster.status'|trans({color: this.status}, 'emsco-core') -%}
+                {%- set statusColor = {green: 'success', yellow: 'warning', red: 'danger'}[this.status|default('red')]|default('secondary') -%}
+
+                <li class="nav-item">
+                    <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="nav-link" title="{{ statusTitle }}">
+                        <span class="position-relative d-inline-flex">
+                            <i class="fa fa-heartbeat"></i>
+                            <span class="navbar-status-dot bg-{{ statusColor }}"></span>
+                        </span>
+                        <span class="visually-hidden">{{ statusTitle }}</span>
+                    </a>
+                </li>
+
                 {% if app.user %}
                     <li class="nav-item dropdown user-menu" data-testid="user-menu">
                         <a class="nav-link dropdown-toggle justify-content-center" href="#" data-bs-toggle="dropdown">

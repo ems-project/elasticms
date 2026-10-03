@@ -64,6 +64,7 @@ class CopyToFieldType extends DataFieldType
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')->add('analyzer', AnalyzerPickerType::class);
             $optionsForm->get('mappingOptions')->add('store', CheckboxType::class, [
+                'label' => t('field.store', [], 'emsco-core'),
                 'required' => false,
             ]);
         }

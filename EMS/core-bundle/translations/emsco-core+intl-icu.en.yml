@@ -527,6 +527,7 @@ field:
     spreadsheet: Spreadsheet
     status: Status
     stopwords: Stopwords
+    store: Store
     styles_set: 'Styles set'
     subfield_name: 'Subfield name'
     suffix_icon: 'Suffix icon'

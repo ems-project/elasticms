@@ -532,6 +532,7 @@ field:
     spreadsheet: 'Feuille de calcul'
     status: Statut
     stopwords: 'Mots vides'
+    store: Stocker
     styles_set: 'Jeu de styles'
     subfield_name: 'Nom du sous-champ'
     suffix_icon: 'Icône de suffixe'

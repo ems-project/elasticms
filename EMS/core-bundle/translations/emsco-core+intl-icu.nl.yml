@@ -527,6 +527,7 @@ field:
     spreadsheet: Spreadsheet
     status: Status
     stopwords: Stopwoorden
+    store: Opslaan
     styles_set: Stijlenset
     subfield_name: Subveldnaam
     suffix_icon: 'Pictogram achtervoegsel'

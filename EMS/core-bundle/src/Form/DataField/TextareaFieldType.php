@@ -94,12 +94,19 @@ class TextareaFieldType extends DataFieldType
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')
-                ->add('analyzer', AnalyzerPickerType::class)
-                ->add('copy_to', TextType::class, ['required' => false]);
+                ->add('analyzer', AnalyzerPickerType::class, [
+                    'label' => t('field.analyzer', [], 'emsco-core'),
+                ])
+                ->add('copy_to', TextType::class, [
+                    'required' => false,
+                    'label' => t('field.copy_to', [], 'emsco-core'),
+                ]);
         }
         $optionsForm->get('displayOptions')->add('rows', IntegerType::class, [
+            'label' => t('field.rows', [], 'emsco-core'),
             'required' => false,
         ])->add('placeholder', TextareaType::class, [
+            'label' => t('field.placeholder', [], 'emsco-core'),
             'required' => false,
         ]);
     }

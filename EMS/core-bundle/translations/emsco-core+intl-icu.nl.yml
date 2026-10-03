@@ -531,6 +531,7 @@ field:
     role_view: Zien
     roles: Rollen
     root_content_type: Hoofdcontenttype
+    rows: Rijen
     search_config: Zoekconfiguratie
     search_field_options: 'Opties voor het zoekveld'
     search_id: Zoek-ID

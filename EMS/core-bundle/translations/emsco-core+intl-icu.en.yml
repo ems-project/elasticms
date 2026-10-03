@@ -531,6 +531,7 @@ field:
     role_view: View
     roles: Roles
     root_content_type: 'Root content type'
+    rows: Rows
     search_config: 'Search config'
     search_field_options: 'Search field options'
     search_id: 'Search ID'

@@ -536,6 +536,7 @@ field:
     role_view: Voir
     roles: Rôles
     root_content_type: 'Type de contenu racine'
+    rows: Rangées
     search_config: 'Configuration de recherche'
     search_field_options: 'Options du champ de recherche'
     search_id: 'ID de recherche'

@@ -128,15 +128,10 @@ class CheckboxFieldType extends DataFieldType
         parent::buildOptionsForm($builder, $options);
         $optionsForm = $builder->get('options');
 
-        // String specific display options
         $optionsForm->get('displayOptions')->add('question_label', TextType::class, [
             'required' => false,
-            //         ] )->add ( 'labels', TextareaType::class, [
-            //                 'required' => false,
         ]);
 
-        //         // String specific mapping options
-        //         $optionsForm->get ( 'mappingOptions' )->add ( 'analyzer', AnalyzerPickerType::class);
         $optionsForm->get('restrictionOptions')->remove('mandatory');
         $optionsForm->get('restrictionOptions')->remove('mandatory_if');
     }

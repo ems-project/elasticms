@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use function Symfony\Component\Translation\t;
+
 /**
  * @extends AbstractType<mixed>
  */
@@ -30,9 +32,18 @@ class RestrictionOptionsType extends AbstractType
         $fieldType = $options['field_type'];
 
         $builder
-            ->add('mandatory', CheckboxType::class, ['required' => false])
-            ->add('mandatory_if', TextType::class, ['required' => false])
-            ->add('minimum_role', RolePickerType::class, ['required' => false])
+            ->add('mandatory', CheckboxType::class, [
+                'label' => t('field.mandatory', [], 'emsco-core'),
+                'required' => false,
+            ])
+            ->add('mandatory_if', TextType::class, [
+                'label' => t('field.mandatory_if', [], 'emsco-core'),
+                'required' => false,
+            ])
+            ->add('minimum_role', RolePickerType::class, [
+                'label' => t('field.minimum_role', [], 'emsco-core'),
+                'required' => false,
+            ])
         ;
 
         $this->addJsonMenuNestedRestrictionFields($builder, $fieldType);
@@ -61,6 +72,7 @@ class RestrictionOptionsType extends AbstractType
                 $choices[$child->getName()] = $child->getName();
             }
             $builder->add('json_nested_deny', ChoiceType::class, [
+                'label' => t('field.json_nested_deny', [], 'emsco-core'),
                 'multiple' => true,
                 'required' => false,
                 'choices' => $choices,
@@ -69,11 +81,17 @@ class RestrictionOptionsType extends AbstractType
         }
 
         if ($fieldType->isJsonMenuNestedEditor()) {
-            $builder->add('json_nested_max_depth', IntegerType::class, ['required' => false]);
+            $builder->add('json_nested_max_depth', IntegerType::class, [
+                'label' => t('field.json_nested_max_depth', [], 'emsco-core'),
+                'required' => false,
+            ]);
         }
 
         if ($fieldType->isJsonMenuNestedEditorNode()) {
-            $builder->add('json_nested_is_leaf', CheckboxType::class, ['required' => false]);
+            $builder->add('json_nested_is_leaf', CheckboxType::class, [
+                'label' => t('field.json_nested_is_leaf', [], 'emsco-core'),
+                'required' => false,
+            ]);
         }
     }
 }

@@ -101,12 +101,14 @@ class ComputedFieldType extends DataFieldType
         $optionsForm = $builder->get('options');
 
         $optionsForm->get('displayOptions')->add('valueTemplate', CodeEditorType::class, [
+            'label' => t('field.value_template', [], 'emsco-core'),
             'required' => false,
             'language' => 'ace/mode/twig',
         ])->add('json', CheckboxType::class, [
+            'label' => t('field.json_decode', [], 'emsco-core'),
             'required' => false,
-            'label' => 'Try to JSON decode',
         ])->add('displayTemplate', CodeEditorType::class, [
+            'label' => t('field.display_template', [], 'emsco-core'),
             'required' => false,
             'language' => 'ace/mode/twig',
         ]);
@@ -118,6 +120,7 @@ class ComputedFieldType extends DataFieldType
                     'language' => 'ace/mode/json',
                 ])
             ->add('copy_to', TextType::class, [
+                'label' => t('field.copy_to', [], 'emsco-core'),
                 'required' => false,
             ]);
         }

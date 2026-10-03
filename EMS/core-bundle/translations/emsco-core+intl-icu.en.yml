@@ -264,6 +264,7 @@ core:
     version: 'Version {core} with Symfony {symfony}'
 field:
     accumulate_file: 'Accumulate in one file'
+    action_config: 'Action config'
     action_dropdown_label: 'Actions in {environment}'
     action_dropdown_sr_only: "Toggle dropdown of {environment}'s actions"
     aggregate_options: 'Aggregate options'
@@ -301,6 +302,8 @@ field:
     char_filter: 'Char filter'
     circles: Circles
     circles_to: 'Circles to'
+    class: 'HTML class'
+    clear_on_copy: 'Clear on copy'
     color: Color
     command: Command
     comment: Comment
@@ -343,6 +346,7 @@ field:
     description: Description
     display: Display
     display_name: 'Display name'
+    display_template: 'Display template'
     docs_count: '# Documents'
     edit_twig_with_wysiwyg: 'Edit the Twig template with a WYSIWYG editor'
     editor: Editor
@@ -366,6 +370,7 @@ field:
     extra_roles: 'Extra roles'
     field: Field
     field_type: "Field's type"
+    fielddata: 'Field data'
     file:
         disposition: 'File disposition'
         disposition_attachment: 'Attachment (force download)'
@@ -400,6 +405,7 @@ field:
     hidden: Hidden
     icon: Icon
     id: ID
+    image_asset_config_identifier: 'Image asset config identifier'
     index: Index
     index_twig: 'Index template (Twig)'
     indexes: Indexes
@@ -415,7 +421,11 @@ field:
     is_preview: Preview
     is_public: Public
     is_styles_set_preview: 'Styles set preview'
+    json_decode: 'Try to JSON decode'
     json_file: 'JSON file'
+    json_nested_deny: 'JSON nested deny'
+    json_nested_is_leaf: 'JSON nested is leaf'
+    json_nested_max_depth: 'JSON nested max depth'
     key: Key
     label: Label
     label_translations: 'Label translations'
@@ -432,6 +442,8 @@ field:
     locked_until: 'Locked until'
     lowercase: Lowercase
     machine_name: 'Machine name'
+    mandatory: Mandatory
+    mandatory_if: 'Mandatory if'
     mapping: Mapping
     max_lines: 'Max lines'
     max_output_size: 'Max output size'
@@ -443,7 +455,9 @@ field:
     mcp_response: 'MCP response template (JSON)'
     message: Message
     mime_type: 'MIME type'
+    minimum_role: 'Minimum role'
     minimum_should_match: 'Minimum should match'
+    multiple: Multiple
     name: Name
     new_version: 'New version'
     node_name: 'Node name'
@@ -459,10 +473,15 @@ field:
     pattern: Pattern
     pdf_size: 'PDF Size'
     permission: Permission
+    placeholder: Placeholder
     plural: Plural
     plural_name: 'Plural name'
     plural_name_translations: 'Plural name translations'
+    post_processing: 'Post processing'
     postition_increment_gap: 'Position increment gap'
+    prefix_icon: 'Prefix icon'
+    prefix_text: 'Prefix text'
+    protected: Protected
     public_access: 'Public Access'
     publish_to: 'Publish to'
     published_label: 'Published in {environment}'
@@ -510,6 +529,8 @@ field:
     stopwords: Stopwords
     styles_set: 'Styles set'
     subfield_name: 'Subfield name'
+    suffix_icon: 'Suffix icon'
+    suffix_text: 'Suffix text'
     table_default_css: 'Default Table class attribute'
     tag: Tag
     tags: Tags
@@ -543,6 +564,7 @@ field:
     user_uploaded: 'Uploaded by'
     username: Username
     username_or_email: 'Username or email address'
+    value_template: 'Value template'
     version_tag: 'Version tag'
     web_content: 'Web content (available in WYSIWYG field as internal link)'
     with_business_key: 'With business key'

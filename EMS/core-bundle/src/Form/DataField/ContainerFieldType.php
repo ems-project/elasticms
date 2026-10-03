@@ -123,8 +123,12 @@ class ContainerFieldType extends DataFieldType
         $optionsForm->get('restrictionOptions')->remove('mandatory');
         $optionsForm->get('restrictionOptions')->remove('mandatory_if');
         $optionsForm->get('displayOptions')
-            ->add('icon', IconPickerType::class, ['required' => false])
+            ->add('icon', IconPickerType::class, [
+                'required' => false,
+                'label' => t('field.icon', [], 'emsco-core'),
+            ])
             ->add('language', ChoiceType::class, [
+                'label' => t('field.language', [], 'emsco-core'),
                 'required' => false,
                 'choices' => \array_flip(Locales::getNames()),
                 'choice_translation_domain' => false,

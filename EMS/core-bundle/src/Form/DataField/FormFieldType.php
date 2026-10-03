@@ -139,6 +139,7 @@ class FormFieldType extends DataFieldType
         $optionsForm->get('displayOptions')->remove('helptextTranslations');
         $optionsForm->get('displayOptions')->remove('lastOfRow');
         $optionsForm->get('displayOptions')->add('form', FormPickerType::class, [
+            'label' => t('field.form', [], 'emsco-core'),
             'required' => false,
         ]);
     }

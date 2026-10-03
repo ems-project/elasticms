@@ -50,8 +50,11 @@ class SubfieldType extends DataFieldType
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')
-                ->add('analyzer', AnalyzerPickerType::class)
-                ->add('fielddata', CheckboxType::class, ['required' => false]);
+                ->add('analyzer', AnalyzerPickerType::class, [
+                    'label' => t('field.analyzer', [], 'emsco-core'),
+                ])
+                ->add('fielddata', CheckboxType::class, [
+                    'label' => t('field.fielddata', [], 'emsco-core'), 'required' => false]);
         }
     }
 

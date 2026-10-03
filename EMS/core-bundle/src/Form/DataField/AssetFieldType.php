@@ -127,12 +127,15 @@ class AssetFieldType extends DataFieldType
         // an optional icon can't be specified ritgh to the container label
         $optionsForm->get('displayOptions')
         ->add('multiple', CheckboxType::class, [
+            'label' => t('field.multiple', [], 'emsco-core'),
             'required' => false,
         ])
         ->add('icon', IconPickerType::class, [
+            'label' => t('field.icon', [], 'emsco-core'),
             'required' => false,
         ])
         ->add('imageAssetConfigIdentifier', TextType::class, [
+            'label' => t('field.image_asset_config_identifier', [], 'emsco-core'),
             'required' => false,
         ]);
     }

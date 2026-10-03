@@ -264,6 +264,7 @@ core:
     version: 'Versie {core} met Symfony {symfony}'
 field:
     accumulate_file: 'In één bestand verzamelen'
+    action_config: Actieconfiguratie
     action_dropdown_label: 'Acties in {environment}'
     action_dropdown_sr_only: 'Dropdown met acties van {environment} omschakelen'
     aggregate_options: Aggregatieopties
@@ -301,6 +302,8 @@ field:
     char_filter: 'Char filter'
     circles: Kringen
     circles_to: 'Kringen naar'
+    class: HTML-klasse
+    clear_on_copy: 'Ruim op met een kopie'
     color: Kleur
     command: Commando
     comment: Commentaar
@@ -343,6 +346,7 @@ field:
     description: Beschrijving
     display: Weergave
     display_name: Weergavenaam
+    display_template: field.display_template
     docs_count: '# Documenten'
     edit_twig_with_wysiwyg: 'Twig-template bewerken met een WYSIWYG-editor'
     editor: Editor
@@ -366,6 +370,7 @@ field:
     extra_roles: 'Extra rollen'
     field: Veld
     field_type: 'Type van het veld'
+    fielddata: 'Field data'
     file:
         disposition: Bestandsdispositie
         disposition_attachment: 'Bijlage (download forceren)'
@@ -400,6 +405,7 @@ field:
     hidden: Verborgen
     icon: Icoon
     id: ID
+    image_asset_config_identifier: 'Identificatiecode voor de configuratie van het afbeeldingsbestand'
     index: Index
     index_twig: 'Indextemplate (Twig)'
     indexes: Indexen
@@ -415,7 +421,11 @@ field:
     is_preview: Voorbeeld
     is_public: Publiek
     is_styles_set_preview: 'Voorbeeld stijlenset'
+    json_decode: 'Probeer JSON te decoderen'
     json_file: JSON-bestand
+    json_nested_deny: 'JSON genest weigeren'
+    json_nested_is_leaf: 'Geneste JSON is blad'
+    json_nested_max_depth: 'JSON geneste maximale diepte'
     key: Sleutel
     label: Label
     label_translations: 'Vertalingen van labels'
@@ -432,6 +442,8 @@ field:
     locked_until: 'Vergrendeld tot'
     lowercase: 'Kleine letters'
     machine_name: Machinenaam
+    mandatory: Verplicht
+    mandatory_if: 'Verplicht indien'
     mapping: Mapping
     max_lines: 'Maximum aantal regels'
     max_output_size: 'Max. outputgrootte'
@@ -443,7 +455,9 @@ field:
     mcp_response: 'MCP uitvoerschema-template (JSON)'
     message: Bericht
     mime_type: MIME-type
+    minimum_role: 'Minimale rol'
     minimum_should_match: 'Minimum aantal overeenkomsten'
+    multiple: Meerdere
     name: Naam
     new_version: 'Nieuwe versie'
     node_name: 'Naam van het knooppunt'
@@ -459,10 +473,15 @@ field:
     pattern: Patroon
     pdf_size: PDF-formaat
     permission: Toestemming
+    placeholder: Plaatshouder
     plural: Meervoud
     plural_name: Meervoudsnaam
     plural_name_translations: 'Vertalingen van namen in het meervoud'
+    post_processing: Nabewerking
     postition_increment_gap: 'Positie-increment gap'
+    prefix_icon: 'Voorvoegsel pictogram'
+    prefix_text: Voorvoegseltekst
+    protected: Beschermd
     public_access: 'Publieke toegang'
     publish_to: 'Publiceren naar'
     published_label: 'Gepubliceerd in {environment}'
@@ -510,6 +529,8 @@ field:
     stopwords: Stopwoorden
     styles_set: Stijlenset
     subfield_name: Subveldnaam
+    suffix_icon: 'Pictogram achtervoegsel'
+    suffix_text: Achtervoegseltekst
     table_default_css: 'Standaard class-attribuut van tabel'
     tag: Tag
     tags: Tags
@@ -543,6 +564,7 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     username_or_email: 'Gebruikersnaam of e-mailadres'
+    value_template: Waardesjabloon
     version_tag: Versietag
     web_content: 'Webinhoud (beschikbaar in WYSIWYG-veld als interne link)'
     with_business_key: 'Met zakelijke sleutel'

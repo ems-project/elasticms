@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use function Symfony\Component\Translation\t;
+
 /**
  * @extends AbstractType<mixed>
  */
@@ -28,7 +30,10 @@ class MigrationOptionsType extends AbstractType
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('protected', CheckboxType::class, ['required' => false]);
+        $builder->add('protected', CheckboxType::class, [
+            'label' => t('field.protected', [], 'emsco-core'),
+            'required' => false,
+        ]);
 
         /** @var FieldType $fieldType */
         $fieldType = $options['field_type'];
@@ -36,11 +41,11 @@ class MigrationOptionsType extends AbstractType
 
         if ([] !== $transformers) {
             $builder->add('transformers', CollectionType::class, [
+                'label' => false,
                 'entry_type' => MigrationOptionsTransformerType::class,
                 'entry_options' => [
                     'transformers' => [...['Select a transformer' => ''], ...$transformers],
                 ],
-                'label' => false,
                 'attr' => [
                     'class' => 'a2lix_lib_sf_collection',
                     'data-lang-add' => 'Add transformer',

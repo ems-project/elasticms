@@ -30,7 +30,10 @@ class ActionFieldType extends DataFieldType
             ->remove('migrationOptions');
 
         $displayOptions = $optionsForm->get('displayOptions');
-        $displayOptions->add('icon', IconPickerType::class, ['required' => false]);
+        $displayOptions->add('icon', IconPickerType::class, [
+            'label' => t('field.label', [], 'emsco-core'),
+            'required' => false,
+        ]);
 
         $restrictionOptions = $optionsForm->get('restrictionOptions');
         $restrictionOptions->remove('mandatory')->remove('mandatory_if');

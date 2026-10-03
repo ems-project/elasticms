@@ -269,6 +269,7 @@ core:
     version: 'Version {core} avec Symfony {symfony}'
 field:
     accumulate_file: 'Accumuler dans un seul fichier'
+    action_config: "Configurer l'action"
     action_dropdown_label: 'Actions dans {environment}'
     action_dropdown_sr_only: 'Basculer le menu déroulant des actions de {environment}'
     aggregate_options: "Options d'agrégation"
@@ -306,6 +307,8 @@ field:
     char_filter: 'Filtre de caractères'
     circles: Cercles
     circles_to: 'Cercles destinataires'
+    class: 'Classe HTML'
+    clear_on_copy: 'Nettoyer à la copie'
     color: Couleur
     command: Commande
     comment: Commentaire
@@ -348,6 +351,7 @@ field:
     description: Description
     display: Affichage
     display_name: 'Nom d’affichage'
+    display_template: field.display_template
     docs_count: '# Documents'
     edit_twig_with_wysiwyg: 'Modifier le template Twig avec un éditeur WYSIWYG'
     editor: Éditeur
@@ -371,6 +375,7 @@ field:
     extra_roles: 'Rôles supplémentaires'
     field: Champ
     field_type: 'Type de champ'
+    fielddata: 'Field data'
     file:
         disposition: 'Disposition du fichier'
         disposition_attachment: 'Pièce jointe (forcer le téléchargement)'
@@ -405,6 +410,7 @@ field:
     hidden: Masqué
     icon: Icône
     id: ID
+    image_asset_config_identifier: "Identifiant de configuration de l'élément image"
     index: Index
     index_twig: 'Template d’index (Twig)'
     indexes: Indexes
@@ -420,7 +426,11 @@ field:
     is_preview: Prévisualisation
     is_public: Public
     is_styles_set_preview: 'Aperçu du jeu de styles'
+    json_decode: 'Essayez de décoder le JSON'
     json_file: 'Fichier JSON'
+    json_nested_deny: 'JSON imbriqué refuser'
+    json_nested_is_leaf: 'JSON imbriqué est une feuille'
+    json_nested_max_depth: "Profondeur maximale d'imbrication JSON"
     key: Clé
     label: Libellé
     label_translations: Traductions
@@ -437,6 +447,8 @@ field:
     locked_until: 'Verrouillé jusqu’à'
     lowercase: Minuscules
     machine_name: 'Nom machine'
+    mandatory: Obligatoire
+    mandatory_if: 'Obligatoire si'
     mapping: Mapping
     max_lines: 'Nombre maximal de lignes'
     max_output_size: 'Taille de sortie max.'
@@ -448,7 +460,9 @@ field:
     mcp_response: 'Template de réponse MCP (JSON)'
     message: Message
     mime_type: 'Type MIME'
+    minimum_role: 'Rôle minimum'
     minimum_should_match: 'Le nombre minimal de correspondances doit être respecté'
+    multiple: Multiple
     name: Nom
     new_version: 'Nouvelle version'
     node_name: 'Nom du nœud'
@@ -464,10 +478,15 @@ field:
     pattern: Motif
     pdf_size: 'Format PDF'
     permission: Permission
+    placeholder: 'Espace réservé'
     plural: Pluriel
     plural_name: 'Nom pluriel'
     plural_name_translations: 'Traductions de noms au pluriel'
+    post_processing: Post-traitement
     postition_increment_gap: "Écart d'incrément de position"
+    prefix_icon: 'Icône de préfixe'
+    prefix_text: 'Texte préfixé'
+    protected: Protégé
     public_access: 'Accès public'
     publish_to: 'Publier vers'
     published_label: 'Publié dans {environment}'
@@ -515,6 +534,8 @@ field:
     stopwords: 'Mots vides'
     styles_set: 'Jeu de styles'
     subfield_name: 'Nom du sous-champ'
+    suffix_icon: 'Icône de suffixe'
+    suffix_text: 'Texte de suffixe'
     table_default_css: 'Attribut class par défaut du tableau'
     tag: Tag
     tags: Tags
@@ -548,6 +569,7 @@ field:
     user_uploaded: 'Uploadé par'
     username: "Nom d'utilisateur"
     username_or_email: 'Nom d’utilisateur ou adresse e-mail'
+    value_template: 'Modèle de valeur'
     version_tag: 'Tag de version'
     web_content: 'Contenu web (disponible dans le champ WYSIWYG comme lien interne)'
     with_business_key: 'Avec clé métier'

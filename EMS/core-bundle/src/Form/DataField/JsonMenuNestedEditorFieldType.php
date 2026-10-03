@@ -133,12 +133,16 @@ class JsonMenuNestedEditorFieldType extends DataFieldType
         $optionsForm = $builder->get('options');
 
         if ($optionsForm->has('mappingOptions')) {
-            $optionsForm->get('mappingOptions')->add('analyzer', AnalyzerPickerType::class);
+            $optionsForm->get('mappingOptions')->add('analyzer', AnalyzerPickerType::class, [
+                'label' => t('field.analyzer', [], 'emsco-core'),
+            ]);
         }
 
         $optionsForm->get('displayOptions')->add('icon', IconPickerType::class, [
+            'label' => t('field.icon', [], 'emsco-core'),
             'required' => false,
         ])->add('blocks_template', IconTextType::class, [
+            'label' => t('field.blocks_template', [], 'emsco-core'),
             'required' => false,
             'icon' => 'fa fa-html5',
         ]);

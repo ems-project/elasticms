@@ -293,6 +293,7 @@ field:
     auto_publish: 'Concept stilzwijgend publiceren en automatisch opslaan in de standaardomgeving'
     available: Beschikbaar
     base_url: Basis-URL
+    blocks_template: Blokkensjabloon
     boolean_clause: 'Booleaanse clausule'
     boost: Boost
     bootstrap_class: Bootstrap-klasse

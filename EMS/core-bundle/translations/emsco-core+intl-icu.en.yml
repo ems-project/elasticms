@@ -293,6 +293,7 @@ field:
     auto_publish: 'Silently publish draft and auto-save into the default environment'
     available: Available
     base_url: 'Base URL'
+    blocks_template: 'Blocks template'
     boolean_clause: 'Boolean clause'
     boost: Boost
     bootstrap_class: 'Bootstrap class'

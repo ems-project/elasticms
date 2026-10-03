@@ -298,6 +298,7 @@ field:
     auto_publish: 'Publier silencieusement le brouillon et l’enregistrer automatiquement dans l’environnement par défaut'
     available: Disponible
     base_url: 'URL de base'
+    blocks_template: 'Modèle de blocs'
     boolean_clause: 'Clause booléenne'
     boost: Boost
     bootstrap_class: 'Classe Bootstrap'

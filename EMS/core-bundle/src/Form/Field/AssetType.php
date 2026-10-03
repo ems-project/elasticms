@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function Symfony\Component\Translation\t;
 
 /**
  * @extends AbstractType<mixed>
@@ -47,18 +48,21 @@ class AssetType extends AbstractType
                 'required' => false,
             ])
             ->add('mimetype', TextType::class, [
+                'label' => t('field.mime_type', [], 'emsco-core'),
                 'attr' => [
                     'class' => 'type',
                 ],
                 'required' => $options['required'],
             ])
             ->add('filename', TextType::class, [
+                'label' => t('field.filename', [], 'emsco-core'),
                 'attr' => [
                     'class' => 'name',
                 ],
                 'required' => $options['required'],
             ])
             ->add(EmsFields::CONTENT_FILE_TITLE, TextType::class, [
+                'label' => t('field.title', [], 'emsco-core'),
                 'required' => $options['required'],
             ]);
         }

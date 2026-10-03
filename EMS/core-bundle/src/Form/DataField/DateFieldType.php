@@ -256,17 +256,20 @@ class DateFieldType extends DataFieldType
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')->add('format', TextType::class, [
+                'label' => t('field.format', [], 'emsco-core'),
                 'required' => false,
                 'empty_data' => 'yyyy/MM/dd',
                 'attr' => ['placeholder' => 'i.e. yyyy/MM/dd'],
             ])
             ->add('copy_to', TextType::class, [
+                'label' => t('field.copy_to', [], 'emsco-core'),
                 'required' => false,
             ]);
         }
 
         // String specific display options
         $optionsForm->get('displayOptions')->add('displayFormat', TextType::class, [
+            'label' => t('field.display_format', [], 'emsco-core'),
             'required' => false,
             'empty_data' => 'dd/MM/yyyy',
             'attr' => [
@@ -274,6 +277,7 @@ class DateFieldType extends DataFieldType
             ],
         ]);
         $optionsForm->get('displayOptions')->add('weekStart', IntegerType::class, [
+            'label' => t('field.week_start', [], 'emsco-core'),
             'required' => false,
             'empty_data' => 0,
             'attr' => [
@@ -281,21 +285,23 @@ class DateFieldType extends DataFieldType
             ],
         ]);
         $optionsForm->get('displayOptions')->add('todayHighlight', CheckboxType::class, [
+            'label' => t('field.today_highlight', [], 'emsco-core'),
             'required' => false,
-            'label' => 'Today highlight',
         ]);
         $optionsForm->get('displayOptions')->add('multidate', CheckboxType::class, [
+            'label' => t('field.multiple', [], 'emsco-core'),
             'required' => false,
         ]);
         $optionsForm->get('displayOptions')->add('daysOfWeekDisabled', TextType::class, [
+            'label' => t('field.days_of_week_disabled', [], 'emsco-core'),
             'required' => false,
             'attr' => [
                 'placeholder' => 'e.g. [0,6]',
             ],
         ]);
         $optionsForm->get('displayOptions')->add('daysOfWeekHighlighted', TextType::class, [
+            'label' => t('field.days_of_week_highlighted', [], 'emsco-core'),
             'required' => false,
-            'label' => 'Days of week highlighted',
             'attr' => [
                 'placeholder' => 'i.e. 0,6',
             ],

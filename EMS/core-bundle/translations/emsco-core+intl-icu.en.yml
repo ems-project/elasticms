@@ -338,6 +338,8 @@ field:
     date_upload: 'Date upload'
     dates_interval_one_day: 'Dates interval one day'
     dates_read_only: 'Dates read only'
+    days_of_week_disabled: 'Days of week disabled'
+    days_of_week_highlighted: 'Days of week highlighted'
     deadline: Deadline
     default_sort_order: 'Default sort order'
     default_time: 'Default time'
@@ -346,6 +348,7 @@ field:
     delay: 'Delay (in days)'
     description: Description
     display: Display
+    display_format: 'Display format'
     display_name: 'Display name'
     display_template: 'Display template'
     docs_count: '# Documents'
@@ -558,6 +561,7 @@ field:
     theme: Theme
     title: Task
     titles: Titles
+    today_highlight: 'Highlight today'
     tokenizer: Tokenizer
     tooltip: Tooltip
     total: Total
@@ -582,6 +586,7 @@ field:
     value_template: 'Value template'
     version_tag: 'Version tag'
     web_content: 'Web content (available in WYSIWYG field as internal link)'
+    week_start: 'Week start'
     with_business_key: 'With business key'
     with_environment: 'With environment'
     wysiwyg_profile: 'WYSIWYG profile'

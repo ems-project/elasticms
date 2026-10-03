@@ -338,6 +338,8 @@ field:
     date_upload: Uploaddatum
     dates_interval_one_day: 'Datumbereik van één dag'
     dates_read_only: 'Datums alleen-lezen'
+    days_of_week_disabled: 'Dagen van de week uitgeschakeld'
+    days_of_week_highlighted: 'Dagen van de week gemarkeerd'
     deadline: Deadline
     default_sort_order: 'Standaard sorteervolgorde'
     default_time: Standaardtijd
@@ -346,6 +348,7 @@ field:
     delay: 'Vertraging (in dagen)'
     description: Beschrijving
     display: Weergave
+    display_format: Weergaveformaat
     display_name: Weergavenaam
     display_template: field.display_template
     docs_count: '# Documenten'
@@ -558,6 +561,7 @@ field:
     theme: Thema
     title: Taak
     titles: Titels
+    today_highlight: 'Hoogtepunt van vandaag'
     tokenizer: Tokenizer
     tooltip: Tooltip
     total: Totaal
@@ -582,6 +586,7 @@ field:
     value_template: Waardesjabloon
     version_tag: Versietag
     web_content: 'Webinhoud (beschikbaar in WYSIWYG-veld als interne link)'
+    week_start: 'Begin van de week'
     with_business_key: 'Met zakelijke sleutel'
     with_environment: 'Met de omgeving'
     wysiwyg_profile: WYSIWYG-profiel

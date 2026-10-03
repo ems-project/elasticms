@@ -343,6 +343,8 @@ field:
     date_upload: 'Date d’upload'
     dates_interval_one_day: 'Intervalle de dates d’un jour'
     dates_read_only: 'Dates en lecture seule'
+    days_of_week_disabled: 'Jours de la semaine désactivés'
+    days_of_week_highlighted: 'Jours de la semaine mis en évidence'
     deadline: Échéance
     default_sort_order: 'Ordre de tri par défaut'
     default_time: 'Temps par défaut'
@@ -351,6 +353,7 @@ field:
     delay: 'Délai (en jours)'
     description: Description
     display: Affichage
+    display_format: "Format d'affichage"
     display_name: 'Nom d’affichage'
     display_template: field.display_template
     docs_count: '# Documents'
@@ -563,6 +566,7 @@ field:
     theme: Thème
     title: Tâche
     titles: Titres
+    today_highlight: "Mettre aujourd'hui en évidence"
     tokenizer: Tokenizer
     tooltip: Infobulle
     total: Total
@@ -587,6 +591,7 @@ field:
     value_template: 'Modèle de valeur'
     version_tag: 'Tag de version'
     web_content: 'Contenu web (disponible dans le champ WYSIWYG comme lien interne)'
+    week_start: 'Début de la semaine'
     with_business_key: 'Avec clé métier'
     with_environment: "Avec l'environnement"
     wysiwyg_profile: 'Profil WYSIWYG'

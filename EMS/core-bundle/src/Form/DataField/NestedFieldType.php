@@ -78,7 +78,6 @@ class NestedFieldType extends DataFieldType
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /* get the metadata associate */
         /** @var FieldType $fieldType */
         $fieldType = $builder->getOptions()['metadata'];
 
@@ -101,7 +100,6 @@ class NestedFieldType extends DataFieldType
     #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
-        /* give options for twig context */
         parent::buildView($view, $form, $options);
         $view->vars['icon'] = $options['icon'];
         $view->vars['multiple'] = $options['multiple'];
@@ -110,9 +108,7 @@ class NestedFieldType extends DataFieldType
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
-        /* set the default option value for this kind of compound field */
         parent::configureOptions($resolver);
-        /* an optional icon can't be specified ritgh to the container label */
         $resolver->setDefault('icon', null);
         $resolver->setDefault('multiple', false);
     }
@@ -124,8 +120,6 @@ class NestedFieldType extends DataFieldType
             $tmp = [];
             /** @var DataField $child */
             foreach ($data->getChildren() as $child) {
-                //                 $className = $child->getFieldType()->getType();
-                //                 $class = new $className;
                 $class = $this->formRegistry->getType($child->giveFieldType()->getType());
 
                 if (\method_exists($class, 'buildObjectArray')) {
@@ -156,10 +150,9 @@ class NestedFieldType extends DataFieldType
     {
         parent::buildOptionsForm($builder, $options);
         $optionsForm = $builder->get('options');
-        // nested doesn't not have that much options in elasticsearch
         $optionsForm->remove('mappingOptions');
-        // an optional icon can't be specified ritgh to the container label
         $optionsForm->get('displayOptions')->add('icon', IconPickerType::class, [
+            'label' => t('field.icon', [], 'emsco-core'),
             'required' => false,
         ]);
     }

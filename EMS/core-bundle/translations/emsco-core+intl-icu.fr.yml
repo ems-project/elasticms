@@ -274,6 +274,7 @@ field:
     action_dropdown_sr_only: 'Basculer le menu déroulant des actions de {environment}'
     aggregate_options: "Options d'agrégation"
     alias: Alias
+    allow_link_to_root: 'Autoriser le lien vers la racine'
     allowed_remote_hosts: 'Hôtes distants autorisés'
     analyzer: Analyzer
     ask_for_ouuid: 'Demander l’OUUID'
@@ -375,6 +376,7 @@ field:
     environments: Environnements
     error: 'Message d’erreur'
     events: Événements
+    expanded: Étendu
     expiration_date: 'Date d’expiration'
     explicit_mode: 'Explicit mode'
     extra: Extra
@@ -437,6 +439,8 @@ field:
     item_bootstrap_class: "Classe Bootstrap de l'élément"
     json_decode: 'Essayez de décoder le JSON'
     json_file: 'Fichier JSON'
+    json_menu_content_type: 'Type de contenu de menu JSON'
+    json_menu_field: 'Champ de menu JSON'
     json_nested_deny: 'JSON imbriqué refuser'
     json_nested_is_leaf: 'JSON imbriqué est une feuille'
     json_nested_max_depth: "Profondeur maximale d'imbrication JSON"

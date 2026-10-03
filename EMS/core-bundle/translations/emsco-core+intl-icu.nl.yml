@@ -269,6 +269,7 @@ field:
     action_dropdown_sr_only: 'Dropdown met acties van {environment} omschakelen'
     aggregate_options: Aggregatieopties
     alias: Alias
+    allow_link_to_root: 'Link naar de root toestaan'
     allowed_remote_hosts: 'Toegestane externe hosts'
     analyzer: Analyzer
     ask_for_ouuid: 'Om OUUID vragen'
@@ -370,6 +371,7 @@ field:
     environments: Omgevingen
     error: Foutmelding
     events: Events
+    expanded: Uitgebreid
     expiration_date: Vervaldatum
     explicit_mode: 'Expliciete modus'
     extra: Extra
@@ -432,6 +434,8 @@ field:
     item_bootstrap_class: 'Bootstrap-klasse voor het item'
     json_decode: 'Probeer JSON te decoderen'
     json_file: JSON-bestand
+    json_menu_content_type: JSON-menu-inhoudstype
+    json_menu_field: JSON-menuveld
     json_nested_deny: 'JSON genest weigeren'
     json_nested_is_leaf: 'Geneste JSON is blad'
     json_nested_max_depth: 'JSON geneste maximale diepte'

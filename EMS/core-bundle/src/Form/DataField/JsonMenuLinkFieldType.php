@@ -160,12 +160,16 @@ class JsonMenuLinkFieldType extends DataFieldType
         $optionsForm = $builder->get('options');
 
         $optionsForm->get('displayOptions')->add('expanded', CheckboxType::class, [
+            'label' => t('field.expanded', [], 'emsco-core'),
             'required' => false,
         ])->add('allow_link_to_root', CheckboxType::class, [
+            'label' => t('field.allow_link_to_root', [], 'emsco-core'),
             'required' => false,
         ])->add('json_menu_content_type', ContentTypePickerType::class, [
+            'label' => t('field.json_menu_content_type', [], 'emsco-core'),
             'required' => false,
         ])->add('json_menu_field', TextType::class, [
+            'label' => t('field.json_menu_field', [], 'emsco-core'),
             'required' => false,
         ])->add('query', CodeEditorType::class, [
             'label' => t('field.query', [], 'emsco-core'),
@@ -175,8 +179,11 @@ class JsonMenuLinkFieldType extends DataFieldType
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')
-                ->add('analyzer', AnalyzerPickerType::class)
+                ->add('analyzer', AnalyzerPickerType::class, [
+                    'label' => t('field.analyzer', [], 'emsco-core'),
+                ])
                 ->add('copy_to', TextType::class, [
+                    'label' => t('field.copy_to', [], 'emsco-core'),
                     'required' => false,
                 ]);
         }

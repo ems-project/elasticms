@@ -269,6 +269,7 @@ field:
     action_dropdown_sr_only: "Toggle dropdown of {environment}'s actions"
     aggregate_options: 'Aggregate options'
     alias: Alias
+    allow_link_to_root: 'Allow link to root'
     allowed_remote_hosts: 'Allowed remote hosts'
     analyzer: Analyzer
     ask_for_ouuid: 'Ask for OUUID'
@@ -370,6 +371,7 @@ field:
     environments: Environments
     error: 'Error message'
     events: Events
+    expanded: Expanded
     expiration_date: 'Expiration Date'
     explicit_mode: 'Explicit mode'
     extra: Extra
@@ -432,6 +434,8 @@ field:
     item_bootstrap_class: 'Item Bootstrap class'
     json_decode: 'Try to JSON decode'
     json_file: 'JSON file'
+    json_menu_content_type: 'JSON menu content type'
+    json_menu_field: 'JSON menu field'
     json_nested_deny: 'JSON nested deny'
     json_nested_is_leaf: 'JSON nested is leaf'
     json_nested_max_depth: 'JSON nested max depth'

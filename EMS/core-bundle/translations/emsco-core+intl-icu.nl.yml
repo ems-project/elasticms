@@ -287,6 +287,7 @@ field:
     assigned_to: 'Toegewezen aan '
     assignee: Toegewezene
     attributes: 'Extra request-attributen'
+    author: Auteur
     auto_publish: 'Concept stilzwijgend publiceren en automatisch opslaan in de standaardomgeving'
     available: Beschikbaar
     base_url: Basis-URL
@@ -305,6 +306,7 @@ field:
     comment: Commentaar
     compare: Vergelijken
     config: Configuratie
+    content: Inhoud
     content_css: Content-CSS
     content_js: Content-JS
     content_type: Contenttype
@@ -377,6 +379,7 @@ field:
     file_hash_apostrophe: 'Hash van het bestand'
     file_info: Bestandsinformatie
     file_info_apostrophe: Bestandsinformatie
+    filename: Bestandsnaam
     filter: Filter
     filters: Filters
     flags: Vlaggen

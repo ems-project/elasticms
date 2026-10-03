@@ -292,6 +292,7 @@ field:
     assigned_to: 'Assignée à '
     assignee: Assigné
     attributes: 'Attributs supplémentaires de la requête'
+    author: Auteur
     auto_publish: 'Publier silencieusement le brouillon et l’enregistrer automatiquement dans l’environnement par défaut'
     available: Disponible
     base_url: 'URL de base'
@@ -310,6 +311,7 @@ field:
     comment: Commentaire
     compare: Comparer
     config: Configuration
+    content: Contenu
     content_css: 'CSS du contenu'
     content_js: 'JS du contenu'
     content_type: 'Type de contenu'
@@ -382,6 +384,7 @@ field:
     file_hash_apostrophe: 'Hash du fichier'
     file_info: 'Informations du fichier'
     file_info_apostrophe: 'Informations du fichier'
+    filename: 'Nom de fichier'
     filter: Filtre
     filters: Filtres
     flags: Indicateurs

@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function Symfony\Component\Translation\t;
 
 /**
  * @extends AbstractType<mixed>
@@ -39,12 +40,14 @@ class FileType extends AbstractType
             'required' => false,
         ])
         ->add('mimetype', TextType::class, [
+            t('field.mime_type', [], 'emsco-core'),
             'attr' => [
                 'class' => 'type',
             ],
             'required' => $options['required'],
         ])
         ->add('filename', TextType::class, [
+            t('field.filename', [], 'emsco-core'),
             'attr' => [
                 'class' => 'name',
             ],
@@ -53,30 +56,35 @@ class FileType extends AbstractType
 
         if ($options['meta_fields']) {
             $builder->add('_title', TextType::class, [
+                t('field.title', [], 'emsco-core'),
                 'attr' => [
                     'class' => 'title',
                 ],
                 'required' => false,
             ])
             ->add('_date', TextType::class, [
+                t('field.date', [], 'emsco-core'),
                 'attr' => [
                     'class' => 'date',
                 ],
                 'required' => false,
             ])
             ->add('_author', TextType::class, [
+                t('field.author', [], 'emsco-core'),
                 'attr' => [
                     'class' => 'author',
                 ],
                 'required' => false,
             ])
             ->add('_language', TextType::class, [
+                t('field.language', [], 'emsco-core'),
                 'attr' => [
                     'class' => 'language',
                 ],
                 'required' => false,
             ])
             ->add('_content', TextareaType::class, [
+                t('field.content', [], 'emsco-core'),
                 'attr' => [
                     'class' => 'content',
                     'rows' => 6,

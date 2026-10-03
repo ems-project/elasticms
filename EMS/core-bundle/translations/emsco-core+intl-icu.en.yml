@@ -287,6 +287,7 @@ field:
     assigned_to: 'Assigned to '
     assignee: Assignee
     attributes: 'Request extra attributes'
+    author: Author
     auto_publish: 'Silently publish draft and auto-save into the default environment'
     available: Available
     base_url: 'Base URL'
@@ -305,6 +306,7 @@ field:
     comment: Comment
     compare: Compare
     config: Config
+    content: Content
     content_css: 'Content css'
     content_js: 'Content js'
     content_type: 'Content Type'
@@ -377,6 +379,7 @@ field:
     file_hash_apostrophe: "File's hash"
     file_info: 'File information'
     file_info_apostrophe: "File's information"
+    filename: Filename
     filter: Filter
     filters: Filters
     flags: Flags

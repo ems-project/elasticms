@@ -193,12 +193,11 @@ class AdvancedSearch implements DashboardInterface
     }
 
     /**
-     * @param  array<string, string> $environments
-     * @return array<string, string>
+     * @param  array<string, \EMS\CoreBundle\Entity\Environment> $environments
+     * @return array<string, \EMS\CoreBundle\Entity\Environment>
      */
     private function getMapIndexes(CommonResponse $response, array $environments): array
     {
-        dump($environments);
         $indexes = $response->getAggregation(self::INDEXES_AGGREGATION);
         if (null === $indexes) {
             return [];

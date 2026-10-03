@@ -309,6 +309,7 @@ field:
     circles_to: 'Cercles destinataires'
     class: 'Classe HTML'
     clear_on_copy: 'Nettoyer à la copie'
+    collapsible: Pliant
     color: Couleur
     command: Commande
     comment: Commentaire
@@ -426,6 +427,7 @@ field:
     is_preview: Prévisualisation
     is_public: Public
     is_styles_set_preview: 'Aperçu du jeu de styles'
+    item_bootstrap_class: "Classe Bootstrap de l'élément"
     json_decode: 'Essayez de décoder le JSON'
     json_file: 'Fichier JSON'
     json_nested_deny: 'JSON imbriqué refuser'
@@ -433,6 +435,7 @@ field:
     json_nested_max_depth: "Profondeur maximale d'imbrication JSON"
     key: Clé
     label: Libellé
+    label_field: "Champ d'étiquette"
     label_translations: Traductions
     language: Langue
     language_preferred: 'Langue préférée'
@@ -450,6 +453,7 @@ field:
     mandatory: Obligatoire
     mandatory_if: 'Obligatoire si'
     mapping: Mapping
+    max: Max
     max_lines: 'Nombre maximal de lignes'
     max_output_size: 'Taille de sortie max.'
     max_token_length: 'Longueur max. du token'
@@ -460,6 +464,7 @@ field:
     mcp_response: 'Template de réponse MCP (JSON)'
     message: Message
     mime_type: 'Type MIME'
+    min: Min
     minimum_role: 'Rôle minimum'
     minimum_should_match: 'Le nombre minimal de correspondances doit être respecté'
     multiple: Multiple
@@ -499,6 +504,7 @@ field:
     release_environment_source: 'Environnement source pour la publication'
     release_environment_target: 'Environnement pour la (dé)publication'
     render_option: 'Option de rendu'
+    renumbering: 'Les éléments seront renumérotés'
     requester: Demandeur
     revision: Révision
     revision_version_tag: 'Oui comme {version_tag}'
@@ -530,6 +536,7 @@ field:
     sort_by: 'Trier par'
     sort_options: 'Options de tri'
     sort_order: 'Ordre de tri'
+    sortable: Triable
     spreadsheet: 'Feuille de calcul'
     status: Statut
     stopwords: 'Mots vides'

@@ -304,6 +304,7 @@ field:
     circles_to: 'Kringen naar'
     class: HTML-klasse
     clear_on_copy: 'Ruim op met een kopie'
+    collapsible: Inklapbaar
     color: Kleur
     command: Commando
     comment: Commentaar
@@ -421,6 +422,7 @@ field:
     is_preview: Voorbeeld
     is_public: Publiek
     is_styles_set_preview: 'Voorbeeld stijlenset'
+    item_bootstrap_class: 'Bootstrap-klasse voor het item'
     json_decode: 'Probeer JSON te decoderen'
     json_file: JSON-bestand
     json_nested_deny: 'JSON genest weigeren'
@@ -428,6 +430,7 @@ field:
     json_nested_max_depth: 'JSON geneste maximale diepte'
     key: Sleutel
     label: Label
+    label_field: Labelveld
     label_translations: 'Vertalingen van labels'
     language: Taal
     language_preferred: Voorkeurstaal
@@ -445,6 +448,7 @@ field:
     mandatory: Verplicht
     mandatory_if: 'Verplicht indien'
     mapping: Mapping
+    max: Max
     max_lines: 'Maximum aantal regels'
     max_output_size: 'Max. outputgrootte'
     max_token_length: 'Max. tokenlengte'
@@ -455,6 +459,7 @@ field:
     mcp_response: 'MCP uitvoerschema-template (JSON)'
     message: Bericht
     mime_type: MIME-type
+    min: Min
     minimum_role: 'Minimale rol'
     minimum_should_match: 'Minimum aantal overeenkomsten'
     multiple: Meerdere
@@ -494,6 +499,7 @@ field:
     release_environment_source: 'Bronomgeving voor publicatie'
     release_environment_target: 'Omgeving voor (de)publicatie'
     render_option: Renderoptie
+    renumbering: 'De items worden opnieuw genummerd'
     requester: Aanvrager
     revision: Revisie
     revision_version_tag: 'Ja als {version_tag}'
@@ -525,6 +531,7 @@ field:
     sort_by: 'Sorteren op'
     sort_options: Sorteeropties
     sort_order: Sorteervolgorde
+    sortable: Sorteerbaar
     spreadsheet: Spreadsheet
     status: Status
     stopwords: Stopwoorden

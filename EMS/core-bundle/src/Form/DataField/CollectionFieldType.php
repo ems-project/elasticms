@@ -193,30 +193,38 @@ class CollectionFieldType extends DataFieldType
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')
                 ->add('renumbering', CheckboxType::class, [
+                    'label' => t('field.renumbering', [], 'emsco-core'),
                     'required' => false,
-                    'label' => 'Items will be renumbered',
                 ]);
         }
 
         // an optional icon can't be specified ritgh to the container label
         $optionsForm->get('displayOptions')->add('singularLabel', TextType::class, [
+            'label' => t('field.renumbering', [], 'emsco-core'),
             'required' => false,
         ])->add('itemBootstrapClass', TextType::class, [
+            'label' => t('field.item_bootstrap_class', [], 'emsco-core'),
             'required' => false,
         ])->add('labelField', TextType::class, [
+            'label' => t('field.label_field', [], 'emsco-core'),
             'required' => false,
         ])->add('icon', IconPickerType::class, [
+            'label' => t('field.icon', [], 'emsco-core'),
             'required' => false,
         ])->add('collapsible', CheckboxType::class, [
+            'label' => t('field.collapsible', [], 'emsco-core'),
             'required' => false,
         ])->add('sortable', CheckboxType::class, [
+            'label' => t('field.sortable', [], 'emsco-core'),
             'required' => false,
         ]);
 
         $optionsForm->get('restrictionOptions')
         ->add('min', IntegerType::class, [
+            'label' => t('field.min', [], 'emsco-core'),
             'required' => false,
         ])->add('max', IntegerType::class, [
+            'label' => t('field.max', [], 'emsco-core'),
             'required' => false,
         ]);
         $optionsForm->get('restrictionOptions')->remove('mandatory');

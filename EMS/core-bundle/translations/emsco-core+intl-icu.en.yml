@@ -304,6 +304,7 @@ field:
     circles_to: 'Circles to'
     class: 'HTML class'
     clear_on_copy: 'Clear on copy'
+    collapsible: Collapsible
     color: Color
     command: Command
     comment: Comment
@@ -421,6 +422,7 @@ field:
     is_preview: Preview
     is_public: Public
     is_styles_set_preview: 'Styles set preview'
+    item_bootstrap_class: 'Item Bootstrap class'
     json_decode: 'Try to JSON decode'
     json_file: 'JSON file'
     json_nested_deny: 'JSON nested deny'
@@ -428,6 +430,7 @@ field:
     json_nested_max_depth: 'JSON nested max depth'
     key: Key
     label: Label
+    label_field: 'Label field'
     label_translations: 'Label translations'
     language: Language
     language_preferred: 'Language preferred'
@@ -445,6 +448,7 @@ field:
     mandatory: Mandatory
     mandatory_if: 'Mandatory if'
     mapping: Mapping
+    max: Max
     max_lines: 'Max lines'
     max_output_size: 'Max output size'
     max_token_length: 'Max token lenght'
@@ -455,6 +459,7 @@ field:
     mcp_response: 'MCP response template (JSON)'
     message: Message
     mime_type: 'MIME type'
+    min: Min
     minimum_role: 'Minimum role'
     minimum_should_match: 'Minimum should match'
     multiple: Multiple
@@ -494,6 +499,7 @@ field:
     release_environment_source: 'Source Environment for publication'
     release_environment_target: 'Environment for (un)publication'
     render_option: 'Render option'
+    renumbering: 'Items will be renumbered'
     requester: Requester
     revision: Revision
     revision_version_tag: 'Yes as {version_tag}'
@@ -525,6 +531,7 @@ field:
     sort_by: 'Sort by'
     sort_options: 'Sort options'
     sort_order: 'Sort order'
+    sortable: Sortable
     spreadsheet: Spreadsheet
     status: Status
     stopwords: Stopwords

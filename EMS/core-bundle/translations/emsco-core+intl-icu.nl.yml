@@ -449,6 +449,7 @@ field:
     label: Label
     label_field: Labelveld
     label_translations: 'Vertalingen van labels'
+    labels: Labels
     language: Taal
     language_preferred: Voorkeurstaal
     language_ui: Interfacetaal
@@ -458,6 +459,7 @@ field:
     last_seen: 'Laatst gezien'
     locale: Locale
     locale_preferred: Voorkeurstaal
+    locale_preferred_first: 'Voorkeurslandinstelling eerst'
     locked_by: 'Vergrendeld door'
     locked_until: 'Vergrendeld tot'
     lowercase: 'Kleine letters'
@@ -608,11 +610,13 @@ field:
     username: Gebruikersnaam
     username_or_email: 'Gebruikersnaam of e-mailadres'
     value_template: Waardesjabloon
+    values: Waarden
     version_tag: Versietag
     web_content: 'Webinhoud (beschikbaar in WYSIWYG-veld als interne link)'
     week_start: 'Begin van de week'
     with_business_key: 'Met zakelijke sleutel'
     with_environment: 'Met de omgeving'
+    with_locales_variable: 'Met locales uit de variabele EMSCH_LOCALES'
     wysiwyg_profile: WYSIWYG-profiel
 field_type:
     action: Actieveld

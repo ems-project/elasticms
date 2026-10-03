@@ -449,6 +449,7 @@ field:
     label: Label
     label_field: 'Label field'
     label_translations: 'Label translations'
+    labels: Labels
     language: Language
     language_preferred: 'Language preferred'
     language_ui: 'Language UI'
@@ -458,6 +459,7 @@ field:
     last_seen: 'Last seen'
     locale: Locale
     locale_preferred: 'Locale preferred'
+    locale_preferred_first: 'Preferred locale first'
     locked_by: 'Locked by'
     locked_until: 'Locked until'
     lowercase: Lowercase
@@ -608,11 +610,13 @@ field:
     username: Username
     username_or_email: 'Username or email address'
     value_template: 'Value template'
+    values: Values
     version_tag: 'Version tag'
     web_content: 'Web content (available in WYSIWYG field as internal link)'
     week_start: 'Week start'
     with_business_key: 'With business key'
     with_environment: 'With environment'
+    with_locales_variable: 'With locales from EMSCH_LOCALES variable'
     wysiwyg_profile: 'WYSIWYG profile'
 field_type:
     action: 'Action field'

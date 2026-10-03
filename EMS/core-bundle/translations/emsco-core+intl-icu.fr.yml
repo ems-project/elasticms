@@ -454,6 +454,7 @@ field:
     label: Libellé
     label_field: "Champ d'étiquette"
     label_translations: Traductions
+    labels: Étiquettes
     language: Langue
     language_preferred: 'Langue préférée'
     language_ui: "Langue de l'interface"
@@ -463,6 +464,7 @@ field:
     last_seen: 'Vu pour la dernière fois'
     locale: Locale
     locale_preferred: 'Langue préférée'
+    locale_preferred_first: 'Locale préférée en premier'
     locked_by: 'Verrouillé par'
     locked_until: 'Verrouillé jusqu’à'
     lowercase: Minuscules
@@ -613,11 +615,13 @@ field:
     username: "Nom d'utilisateur"
     username_or_email: 'Nom d’utilisateur ou adresse e-mail'
     value_template: 'Modèle de valeur'
+    values: Valeurs
     version_tag: 'Tag de version'
     web_content: 'Contenu web (disponible dans le champ WYSIWYG comme lien interne)'
     week_start: 'Début de la semaine'
     with_business_key: 'Avec clé métier'
     with_environment: "Avec l'environnement"
+    with_locales_variable: 'Avec les paramètres régionaux issus de la variable EMSCH_LOCALES'
     wysiwyg_profile: 'Profil WYSIWYG'
 field_type:
     action: 'Champ d’action'

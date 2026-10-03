@@ -119,6 +119,7 @@ class TabsFieldType extends DataFieldType
 
         $optionsForm->get('displayOptions')
             ->add(self::LOCALE_PREFERRED_FIRST_DISPLAY_OPTION, CheckboxType::class, [
+                'label' => t('field.locale_preferred_first', [], 'emsco-core'),
                 'required' => false,
             ]);
 

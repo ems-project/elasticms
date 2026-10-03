@@ -94,6 +94,7 @@ class IntegerFieldType extends DataFieldType
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')->add('copy_to', TextType::class, [
+                'label' => t('field.copy_to', [], 'emsco-core'),
                 'required' => false,
             ]);
         }

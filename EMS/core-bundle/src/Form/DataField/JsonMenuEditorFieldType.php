@@ -14,6 +14,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class JsonMenuEditorFieldType extends DataFieldType
 {
@@ -24,9 +27,9 @@ class JsonMenuEditorFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function getLabel(): TranslatableMessage
     {
-        return 'JSON menu editor field';
+        return t('field_type.json_menu_editor', [], 'emsco-core');
     }
 
     #[\Override]

@@ -9,6 +9,9 @@ use EMS\CoreBundle\Entity\FieldType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class DateTimeFieldType extends DataFieldType
 {
@@ -22,9 +25,9 @@ class DateTimeFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function getLabel(): TranslatableMessage
     {
-        return 'Date Time Field';
+        return t('field_type.date_time', [], 'emsco-core');
     }
 
     #[\Override]

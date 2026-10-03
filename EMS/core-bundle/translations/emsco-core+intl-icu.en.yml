@@ -365,6 +365,7 @@ field:
     extra: Extra
     extra_roles: 'Extra roles'
     field: Field
+    field_type: "Field's type"
     file:
         disposition: 'File disposition'
         disposition_attachment: 'Attachment (force download)'
@@ -430,6 +431,7 @@ field:
     locked_by: 'Locked by'
     locked_until: 'Locked until'
     lowercase: Lowercase
+    machine_name: 'Machine name'
     mapping: Mapping
     max_lines: 'Max lines'
     max_output_size: 'Max output size'
@@ -507,6 +509,7 @@ field:
     status: Status
     stopwords: Stopwords
     styles_set: 'Styles set'
+    subfield_name: 'Subfield name'
     table_default_css: 'Default Table class attribute'
     tag: Tag
     tags: Tags
@@ -517,6 +520,7 @@ field:
     template_publication: 'Publication template'
     template_response: 'Template response'
     text: Text
+    theme: Theme
     title: Task
     titles: Titles
     tokenizer: Tokenizer
@@ -544,6 +548,44 @@ field:
     with_business_key: 'With business key'
     with_environment: 'With environment'
     wysiwyg_profile: 'WYSIWYG profile'
+field_type:
+    action: 'Action field'
+    asset: 'Asset field'
+    checkbox: 'Checkbox field'
+    choice: 'Choice field'
+    code: 'Code editor field'
+    collection: 'Collection (manage array of children types)'
+    collection_item: 'Collection item object (this message should neve seen anywhere)'
+    color_picker: 'Color picker field'
+    computed: 'Computed from the raw-data'
+    container: 'Visual container (invisible in Elasticsearch)'
+    copy_to: 'Elasticsearch copy_to field'
+    data_link: 'Link to data object(s)'
+    date: 'Date field'
+    date_time: 'Date Time Field'
+    email: 'Email field'
+    form: 'Refers to a form entity'
+    holder: 'Invisible container (Holder)'
+    icon: 'Icon field'
+    indexed_asset: 'Indexed file field'
+    integer: 'Integer field'
+    json_menu_editor: 'JSON menu editor field'
+    json_menu_link: 'JSON menu link field'
+    json_menu_nested_editor: 'JSON menu nested editor field'
+    json_menu_nested_link: 'JSON menu nested link field'
+    multiplex_tab: 'Multiplexed Tab Container'
+    nested: 'Nested object'
+    number: 'Number field'
+    ouuid: 'Copy of the object identifier'
+    password: 'Password field'
+    sect_user_property: 'Select User property field'
+    subfield: 'Virtual subfield (used to define alternatives analyzers)'
+    tabs: 'Visual tab container (invisible in Elasticsearch)'
+    text: 'Text field'
+    textarea: 'Textarea field'
+    time: 'Time field'
+    version_tag: 'Select version tag'
+    wysiwyg: 'WYSIWYG field'
 help:
     add_first_aggregate_option: "Click on 'Add an aggregate option' to create a first Aggregate Option: Click on 'Add an aggregate option' to create a first Aggregate Option"
     add_first_search_field_option: "'Add an search field option' to create a first Search Field Option: Click on 'Add an search field option' to create a first Search Field Option"

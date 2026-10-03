@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 use Twig\Environment;
 
 use function Symfony\Component\Translation\t;
@@ -58,9 +59,9 @@ class ComputedFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function getLabel(): TranslatableMessage
     {
-        return 'Computed from the raw-data';
+        return t('field_type.computed', [], 'emsco-core');
     }
 
     #[\Override]

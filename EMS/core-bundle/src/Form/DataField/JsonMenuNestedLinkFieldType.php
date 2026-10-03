@@ -27,6 +27,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 use Twig\Environment;
 
 use function Symfony\Component\Translation\t;
@@ -60,9 +61,9 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function getLabel(): TranslatableMessage
     {
-        return 'JSON menu nested link field';
+        return t('field_type.json_menu_nested_link', [], 'emsco-core');
     }
 
     #[\Override]

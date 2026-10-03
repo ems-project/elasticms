@@ -14,6 +14,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
 use function Symfony\Component\Translation\t;
 
 class CodeFieldType extends DataFieldType
@@ -25,9 +27,9 @@ class CodeFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function getLabel(): TranslatableMessage
     {
-        return 'Code editor field';
+        return t('field_type.code', [], 'emsco-core');
     }
 
     #[\Override]

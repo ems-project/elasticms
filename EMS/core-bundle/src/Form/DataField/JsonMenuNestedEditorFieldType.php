@@ -16,6 +16,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class JsonMenuNestedEditorFieldType extends DataFieldType
 {
@@ -32,9 +35,9 @@ class JsonMenuNestedEditorFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function getLabel(): TranslatableMessage
     {
-        return 'JSON menu nested editor field';
+        return t('field_type.json_menu_nested_editor', [], 'emsco-core');
     }
 
     #[\Override]

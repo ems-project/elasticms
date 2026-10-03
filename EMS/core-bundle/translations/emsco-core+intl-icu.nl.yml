@@ -544,6 +544,44 @@ field:
     with_business_key: 'Met zakelijke sleutel'
     with_environment: 'Met de omgeving'
     wysiwyg_profile: WYSIWYG-profiel
+field_type:
+    action: Actieveld
+    asset: Bestandsveld
+    checkbox: Selectievakje
+    choice: Keuzeveld
+    code: Code-editor
+    collection: 'Collectie (beheer van een array van onderliggende types)'
+    collection_item: 'Collectie-itemobject (dit bericht zou nooit mogen worden weergegeven)'
+    color_picker: Kleurkiezer
+    computed: 'Veld berekend op basis van de ruwe gegevens'
+    container: 'Visuele container (onzichtbaar in Elasticsearch)'
+    copy_to: 'Elasticsearch copy_to-veld'
+    data_link: 'Koppeling naar een of meer gegevensobjecten'
+    date: Datumveld
+    date_time: 'Datum- en tijdveld'
+    email: E-mailadresveld
+    form: 'Verwijzing naar een formulierentiteit'
+    holder: 'Onzichtbare container (Holder)'
+    icon: Pictogramveld
+    indexed_asset: 'Geïndexeerd bestandsveld'
+    integer: 'Veld voor gehele getallen'
+    json_menu_editor: JSON-menu-editor
+    json_menu_link: JSON-menulinkveld
+    json_menu_nested_editor: 'Editor voor geneste JSON-menu’s'
+    json_menu_nested_link: 'Linkveld voor geneste JSON-menu’s'
+    multiplex_tab: 'Container voor gemultiplexte tabbladen'
+    nested: 'Genest object'
+    number: 'Numeriek veld'
+    ouuid: 'Kopie van de objectidentificatie'
+    password: Wachtwoordveld
+    sect_user_property: 'Selectieveld voor een gebruikerseigenschap'
+    subfield: 'Virtueel subveld (definitie van alternatieve analyzers)'
+    tabs: 'Visuele tabbladcontainer (onzichtbaar in Elasticsearch)'
+    text: Tekstveld
+    textarea: Tekstgebied
+    time: Tijdveld
+    version_tag: 'Selectie van een versielabel'
+    wysiwyg: 'Editor voor opgemaakte tekst (WYSIWYG)'
 help:
     add_first_aggregate_option: "Klik op 'Aggregatieoptie toevoegen' om een eerste aggregatieoptie te maken"
     add_first_search_field_option: "Klik op 'Zoekveldoptie toevoegen' om een eerste zoekveldoptie te maken"

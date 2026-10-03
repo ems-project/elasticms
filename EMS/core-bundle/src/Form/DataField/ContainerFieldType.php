@@ -13,6 +13,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Intl\Locales;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class ContainerFieldType extends DataFieldType
 {
@@ -23,9 +26,9 @@ class ContainerFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function getLabel(): TranslatableMessage
     {
-        return 'Visual container (invisible in Elasticsearch)';
+        return t('field_type.container', [], 'emsco-core');
     }
 
     #[\Override]

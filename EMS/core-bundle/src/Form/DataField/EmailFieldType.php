@@ -10,6 +10,9 @@ use EMS\CoreBundle\Form\Field\AnalyzerPickerType;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * Defined a Container content type.
@@ -38,9 +41,9 @@ class EmailFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function getLabel(): TranslatableMessage
     {
-        return 'Email field';
+        return t('field_type.email', [], 'emsco-core');
     }
 
     #[\Override]

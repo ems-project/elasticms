@@ -140,7 +140,6 @@ action:
     status: Status
     switch_user: 'Van gebruiker wisselen'
     test: Testen
-    toggle_navigation: 'Navigatie omschakelen'
     toggle_sidebar: 'Zijbalk omschakelen'
     toggle_visibility: 'Zichtbaarheid omschakelen'
     toggle_visibility_selected: 'Zichtbaarheid van selectie omschakelen'
@@ -968,7 +967,6 @@ message:
     job_initialized: 'De taak "{label}" is geïnitialiseerd in de omgeving {environment}'
     json_menu_out_of_sync: 'Niet gesynchroniseerd, vernieuw en probeer opnieuw!'
     linked_documents_in: 'Gekoppelde documenten in {environment} ({length}/{total})'
-    loading_information: 'Informatie laden...'
     loading_more_files: 'Meer bestanden laden...'
     log_content_type_add_unreferenced: 'Onverwachte fout bij het ophalen van niet-gerefereerde contenttype(s) uit externe omgeving {environment}: {error}'
     logged_in_as: 'Ingelogd als {username}'

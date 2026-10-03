@@ -140,7 +140,6 @@ action:
     status: Status
     switch_user: 'Switch user'
     test: Test
-    toggle_navigation: 'Toggle navigation'
     toggle_sidebar: 'Toggle sidebar'
     toggle_visibility: 'Toggle visibility'
     toggle_visibility_selected: 'Toggle visibility selected'
@@ -968,7 +967,6 @@ message:
     job_initialized: 'The job "{label}" has been initialized in the environment {environment}'
     json_menu_out_of_sync: 'Out of sync, please refresh and retry!'
     linked_documents_in: 'Linked documents in {environment} ({length}/{total})'
-    loading_information: 'Loading information...'
     loading_more_files: 'Loading more files ...'
     log_content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
     logged_in_as: 'Logged in as {username}'

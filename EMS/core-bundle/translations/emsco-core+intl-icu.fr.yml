@@ -145,7 +145,6 @@ action:
     status: Statut
     switch_user: 'Changer d’utilisateur'
     test: Tester
-    toggle_navigation: 'Basculer la navigation'
     toggle_sidebar: 'Basculer la barre latérale'
     toggle_visibility: 'Basculer la visibilité'
     toggle_visibility_selected: 'Basculer la visibilité de la sélection'
@@ -973,7 +972,6 @@ message:
     job_initialized: 'La tâche "{label}" a été initialisée dans l''environnement {environment}'
     json_menu_out_of_sync: 'Désynchronisé, veuillez rafraîchir et réessayer !'
     linked_documents_in: 'Documents liés dans {environment} ({length}/{total})'
-    loading_information: 'Chargement des informations...'
     loading_more_files: 'Chargement de fichiers supplémentaires...'
     log_content_type_add_unreferenced: 'Erreur inattendue lors de la récupération des types de contenu non référencés depuis l’environnement externe {environment} : {error}'
     logged_in_as: 'Connecté en tant que {username}'

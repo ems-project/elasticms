@@ -296,14 +296,14 @@ class DateFieldType extends DataFieldType
             'label' => t('field.days_of_week_disabled', [], 'emsco-core'),
             'required' => false,
             'attr' => [
-                'placeholder' => t('placeholder.for_example', ['example' => '[0,6]'], 'emsco-core'),
+                'placeholder' => t('placeholder.for_example', ['example' => '0,6'], 'emsco-core'),
             ],
         ]);
         $optionsForm->get('displayOptions')->add('daysOfWeekHighlighted', TextType::class, [
             'label' => t('field.days_of_week_highlighted', [], 'emsco-core'),
             'required' => false,
             'attr' => [
-                'placeholder' => 'i.e. 0,6',
+                'placeholder' => t('placeholder.for_example', ['example' => '0,6'], 'emsco-core'),
             ],
         ]);
     }

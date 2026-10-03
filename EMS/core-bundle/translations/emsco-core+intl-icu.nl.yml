@@ -432,6 +432,7 @@ field:
     is_public: Publiek
     is_styles_set_preview: 'Voorbeeld stijlenset'
     item_bootstrap_class: 'Bootstrap-klasse voor het item'
+    item_types: Itemtypes
     json_decode: 'Probeer JSON te decoderen'
     json_file: JSON-bestand
     json_menu_content_type: JSON-menu-inhoudstype
@@ -461,6 +462,7 @@ field:
     mapping: Mapping
     mapping_options: Toewijzingsopties
     max: Max
+    max_depth: field.max_depth
     max_lines: 'Maximum aantal regels'
     max_output_size: 'Max. outputgrootte'
     max_token_length: 'Max. tokenlengte'
@@ -480,6 +482,7 @@ field:
     nested: Genest
     new_version: 'Nieuwe versie'
     node_name: 'Naam van het knooppunt'
+    node_types: field.node_types
     not_blank_new_version: 'Nieuwe versie niet leeg'
     number: Getal
     operator: Operator

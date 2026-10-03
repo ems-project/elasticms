@@ -437,6 +437,7 @@ field:
     is_public: Public
     is_styles_set_preview: 'Aperçu du jeu de styles'
     item_bootstrap_class: "Classe Bootstrap de l'élément"
+    item_types: "Types d'éléments"
     json_decode: 'Essayez de décoder le JSON'
     json_file: 'Fichier JSON'
     json_menu_content_type: 'Type de contenu de menu JSON'
@@ -466,6 +467,7 @@ field:
     mapping: Mapping
     mapping_options: 'Options de mappage'
     max: Max
+    max_depth: field.max_depth
     max_lines: 'Nombre maximal de lignes'
     max_output_size: 'Taille de sortie max.'
     max_token_length: 'Longueur max. du token'
@@ -485,6 +487,7 @@ field:
     nested: Imbriqué
     new_version: 'Nouvelle version'
     node_name: 'Nom du nœud'
+    node_types: field.node_types
     not_blank_new_version: 'Nouvelle version non vide'
     number: Nombre
     operator: Opérateur

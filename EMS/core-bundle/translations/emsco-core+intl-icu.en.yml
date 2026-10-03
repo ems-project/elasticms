@@ -432,6 +432,7 @@ field:
     is_public: Public
     is_styles_set_preview: 'Styles set preview'
     item_bootstrap_class: 'Item Bootstrap class'
+    item_types: 'Item types'
     json_decode: 'Try to JSON decode'
     json_file: 'JSON file'
     json_menu_content_type: 'JSON menu content type'
@@ -461,6 +462,7 @@ field:
     mapping: Mapping
     mapping_options: 'Mapping options'
     max: Max
+    max_depth: field.max_depth
     max_lines: 'Max lines'
     max_output_size: 'Max output size'
     max_token_length: 'Max token lenght'
@@ -480,6 +482,7 @@ field:
     nested: Nested
     new_version: 'New version'
     node_name: 'Node name'
+    node_types: field.node_types
     not_blank_new_version: 'Not blank new version'
     number: Number
     operator: Operator

@@ -101,16 +101,22 @@ class JsonMenuEditorFieldType extends DataFieldType
         $optionsForm = $builder->get('options');
 
         if ($optionsForm->has('mappingOptions')) {
-            $optionsForm->get('mappingOptions')->add('analyzer', AnalyzerPickerType::class);
+            $optionsForm->get('mappingOptions')->add('analyzer', AnalyzerPickerType::class, [
+                'label' => t('field.analyzer', [], 'emsco-core'),
+            ]);
         }
 
         $optionsForm->get('displayOptions')->add('icon', IconPickerType::class, [
+            'label' => t('field.icon', [], 'emsco-core'),
             'required' => false,
         ])->add('maxDepth', IntegerType::class, [
+            'label' => t('field.max_depth', [], 'emsco-core'),
             'required' => false,
         ])->add('nodeTypes', TextType::class, [
+            'label' => t('field.node_types', [], 'emsco-core'),
             'required' => false,
         ])->add('itemTypes', TextType::class, [
+            'label' => t('field.item_types', [], 'emsco-core'),
             'required' => false,
         ]);
     }

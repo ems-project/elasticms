@@ -112,7 +112,7 @@ class EmailFieldType extends DataFieldType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('value', TextType::class, [
-            'label' => (null != $options['label'] ? $options['label'] : 'Email field type'),
+            'label' => (null != $options['label'] ? $options['label'] : t('field.email', [], 'emsco-core')),
             'disabled' => $this->isDisabled($options),
             'required' => false,
         ]);
@@ -126,8 +126,13 @@ class EmailFieldType extends DataFieldType
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')
-                ->add('analyzer', AnalyzerPickerType::class)
-                ->add('copy_to', TextType::class, ['required' => false]);
+                ->add('analyzer', AnalyzerPickerType::class, [
+                    'label' => (null != $options['label'] ? $options['label'] : t('field.analyzer', [], 'emsco-core')),
+                ])
+                ->add('copy_to', TextType::class, [
+                    'label' => (null != $options['label'] ? $options['label'] : t('field.copy_to', [], 'emsco-core')),
+                    'required' => false,
+                ]);
         }
     }
 }

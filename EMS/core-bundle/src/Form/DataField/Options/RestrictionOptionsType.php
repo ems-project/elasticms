@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\DataField\Options;
 
 use EMS\CoreBundle\Entity\FieldType;
+use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Form\Field\RolePickerType;
+use EMS\Helpers\Translations\Translations;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -13,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 use function Symfony\Component\Translation\t;
 
@@ -21,6 +24,11 @@ use function Symfony\Component\Translation\t;
  */
 class RestrictionOptionsType extends AbstractType
 {
+    public function __construct(
+        protected TokenStorageInterface $tokenStorage,
+    ) {
+    }
+
     /**
      * @param FormBuilderInterface<mixed> $builder
      * @param array<string, mixed>        $options
@@ -63,13 +71,20 @@ class RestrictionOptionsType extends AbstractType
      */
     private function addJsonMenuNestedRestrictionFields(FormBuilderInterface $builder, FieldType $fieldType): void
     {
+        $user = $this->tokenStorage->getToken()?->getUser();
+        if (!$user instanceof User) {
+            throw new \RuntimeException('User must be logged in');
+        }
+
         if (($fieldType->isJsonMenuNestedEditor() || $fieldType->isJsonMenuNestedEditorNode()) && ($jsonMenuNestedEditor = $fieldType->getJsonMenuNestedEditor()) instanceof FieldType) {
             $choices = [];
             foreach ($jsonMenuNestedEditor->getChildren() as $child) {
                 if ($child->getDeleted()) {
                     continue;
                 }
-                $choices[$child->getName()] = $child->getName();
+
+                $label = Translations::fromArray($child->getDisplayOption('labelTranslations', []))->getTranslation($user->getLocales(), $child->getDisplayOption('label', $child->getName()))->getLabel();
+                $choices[$label] = $child->getName();
             }
             $builder->add('json_nested_deny', ChoiceType::class, [
                 'label' => t('field.json_nested_deny', [], 'emsco-core'),
@@ -77,6 +92,7 @@ class RestrictionOptionsType extends AbstractType
                 'required' => false,
                 'choices' => $choices,
                 'block_prefix' => 'select2',
+                'choice_translation_domain' => false,
             ]);
         }
 

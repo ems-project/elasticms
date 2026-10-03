@@ -448,6 +448,7 @@ field:
     mandatory: Verplicht
     mandatory_if: 'Verplicht indien'
     mapping: Mapping
+    mapping_options: Toewijzingsopties
     max: Max
     max_lines: 'Maximum aantal regels'
     max_output_size: 'Max. outputgrootte'

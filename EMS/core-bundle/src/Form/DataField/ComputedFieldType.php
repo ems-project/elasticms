@@ -116,6 +116,7 @@ class ComputedFieldType extends DataFieldType
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm
                 ->get('mappingOptions')->remove('analyzer')->add('mappingOptions', CodeEditorType::class, [
+                    'label' => t('field.mapping_options', [], 'emsco-core'),
                     'required' => false,
                     'language' => 'ace/mode/json',
                 ])

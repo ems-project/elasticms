@@ -453,6 +453,7 @@ field:
     mandatory: Obligatoire
     mandatory_if: 'Obligatoire si'
     mapping: Mapping
+    mapping_options: 'Options de mappage'
     max: Max
     max_lines: 'Nombre maximal de lignes'
     max_output_size: 'Taille de sortie max.'

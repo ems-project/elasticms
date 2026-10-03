@@ -448,6 +448,7 @@ field:
     mandatory: Mandatory
     mandatory_if: 'Mandatory if'
     mapping: Mapping
+    mapping_options: 'Mapping options'
     max: Max
     max_lines: 'Max lines'
     max_output_size: 'Max output size'

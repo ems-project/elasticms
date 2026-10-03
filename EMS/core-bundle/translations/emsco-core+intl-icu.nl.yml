@@ -431,6 +431,7 @@ field:
     locked_by: 'Vergrendeld door'
     locked_until: 'Vergrendeld tot'
     lowercase: 'Kleine letters'
+    machine_name: Machinenaam
     mapping: Mapping
     max_lines: 'Maximum aantal regels'
     max_output_size: 'Max. outputgrootte'
@@ -508,6 +509,7 @@ field:
     status: Status
     stopwords: Stopwoorden
     styles_set: Stijlenset
+    subfield_name: Subveldnaam
     table_default_css: 'Standaard class-attribuut van tabel'
     tag: Tag
     tags: Tags
@@ -518,6 +520,7 @@ field:
     template_publication: Publicatiesjabloon
     template_response: 'Template response'
     text: Tekst
+    theme: Thema
     title: Taak
     titles: Titels
     tokenizer: Tokenizer

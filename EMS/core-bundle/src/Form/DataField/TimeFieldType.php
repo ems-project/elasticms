@@ -192,7 +192,7 @@ class TimeFieldType extends DataFieldType
                 'required' => false,
                 'empty_data' => 'HH:mm:ss',
                 'attr' => [
-                    'placeholder' => 'i.e. HH:mm:ss',
+                    'placeholder' => t('placeholder.for_example', ['example' => 'HH:mm:ss'], 'emsco-core'),
                 ],
             ]);
         }

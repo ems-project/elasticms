@@ -259,7 +259,7 @@ class DateFieldType extends DataFieldType
                 'label' => t('field.format', [], 'emsco-core'),
                 'required' => false,
                 'empty_data' => 'yyyy/MM/dd',
-                'attr' => ['placeholder' => 'i.e. yyyy/MM/dd'],
+                'attr' => ['placeholder' => t('placeholder.for_example', ['example' => 'yyyy/MM/dd'], 'emsco-core')],
             ])
             ->add('copy_to', TextType::class, [
                 'label' => t('field.copy_to', [], 'emsco-core'),
@@ -273,7 +273,7 @@ class DateFieldType extends DataFieldType
             'required' => false,
             'empty_data' => 'dd/MM/yyyy',
             'attr' => [
-                'placeholder' => 'e.g. dd/MM/yyyy',
+                'placeholder' => t('placeholder.for_example', ['example' => 'dd/MM/yyyy'], 'emsco-core'),
             ],
         ]);
         $optionsForm->get('displayOptions')->add('weekStart', IntegerType::class, [
@@ -281,7 +281,7 @@ class DateFieldType extends DataFieldType
             'required' => false,
             'empty_data' => 0,
             'attr' => [
-                'placeholder' => '0',
+                'placeholder' => t('placeholder.for_example', ['example' => '0'], 'emsco-core'),
             ],
         ]);
         $optionsForm->get('displayOptions')->add('todayHighlight', CheckboxType::class, [
@@ -296,7 +296,7 @@ class DateFieldType extends DataFieldType
             'label' => t('field.days_of_week_disabled', [], 'emsco-core'),
             'required' => false,
             'attr' => [
-                'placeholder' => 'e.g. [0,6]',
+                'placeholder' => t('placeholder.for_example', ['example' => '[0,6]'], 'emsco-core'),
             ],
         ]);
         $optionsForm->get('displayOptions')->add('daysOfWeekHighlighted', TextType::class, [

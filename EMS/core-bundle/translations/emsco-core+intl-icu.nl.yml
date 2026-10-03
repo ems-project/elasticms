@@ -1325,6 +1325,8 @@ option:
     recompute_on_publish: 'Documenten herberekenen bij publicatie'
     restriction: Beperking
     update_referrers: 'Verwijzers bijwerken'
+placeholder:
+    for_example: 'bijv. {example}'
 role:
     admin:
         label: Beheerder

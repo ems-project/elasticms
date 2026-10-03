@@ -343,13 +343,13 @@ class DateRangeFieldType extends DataFieldType
             'label' => t('field.format', [], 'emsco-core'),
             'required' => false,
             'attr' => [
-                'placeholder' => 'i.e. dd/MM/yyyy HH:mm',
+                'placeholder' => t('placeholder.for_example', ['example' => 'dd/MM/yyyy HH:mm'], 'emsco-core'),
             ],
         ]);
         $optionsForm->get('displayOptions')->get('locale')->add('parseFormat', TextType::class, [
             'label' => t('field.parse_format', [], 'emsco-core'),
             'required' => false,
-            'attr' => ['placeholder' => '(PHP) d/m/Y H:i'],
+            'attr' => ['placeholder' => t('placeholder.for_example', ['example' => 'd/m/Y H:i (PHP)'], 'emsco-core')],
         ]);
         $optionsForm->get('displayOptions')->get('locale')->add('firstDay', IntegerType::class, [
             'label' => t('field.week_start', [], 'emsco-core'),
@@ -377,7 +377,7 @@ class DateRangeFieldType extends DataFieldType
             'required' => false,
             'empty_data' => 5,
             'attr' => [
-                'placeholder' => '5',
+                'placeholder' => t('placeholder.for_example', ['example' => '5'], 'emsco-core'),
             ],
         ]);
     }

@@ -1325,6 +1325,8 @@ option:
     recompute_on_publish: 'Recompute documents on publication'
     restriction: Restriction
     update_referrers: 'Update referrers'
+placeholder:
+    for_example: 'e.g. {example}'
 role:
     admin:
         label: Administrator

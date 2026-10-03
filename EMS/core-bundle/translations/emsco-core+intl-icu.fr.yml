@@ -1330,6 +1330,8 @@ option:
     recompute_on_publish: 'Recalculer les documents lors de la publication'
     restriction: Restriction
     update_referrers: 'Mettre à jour les référents'
+placeholder:
+    for_example: 'p. ex. {example}'
 role:
     admin:
         label: Administrateur

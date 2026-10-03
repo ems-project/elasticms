@@ -436,6 +436,7 @@ field:
     locked_until: 'Verrouillé jusqu’à'
     lowercase: Minuscules
     mapping: Mapping
+    max_lines: 'Nombre maximal de lignes'
     max_output_size: 'Taille de sortie max.'
     max_token_length: 'Longueur max. du token'
     mcp_arguments: 'Template des arguments MCP (JSON)'

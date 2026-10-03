@@ -431,6 +431,7 @@ field:
     locked_until: 'Vergrendeld tot'
     lowercase: 'Kleine letters'
     mapping: Mapping
+    max_lines: 'Maximum aantal regels'
     max_output_size: 'Max. outputgrootte'
     max_token_length: 'Max. tokenlengte'
     mcp_arguments: 'MCP argumenten-template (JSON)'

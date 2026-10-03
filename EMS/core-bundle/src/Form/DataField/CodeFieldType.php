@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function Symfony\Component\Translation\t;
 
 class CodeFieldType extends DataFieldType
 {
@@ -95,15 +96,22 @@ class CodeFieldType extends DataFieldType
         $optionsForm = $builder->get('options');
 
         if ($optionsForm->has('mappingOptions')) {
-            $optionsForm->get('mappingOptions')->add('analyzer', AnalyzerPickerType::class);
+            $optionsForm->get('mappingOptions')->add('analyzer', AnalyzerPickerType::class, [
+                'label' => t('field.analyzer', [], 'emsco-core'),
+            ]);
         }
         $optionsForm->get('displayOptions')->add('icon', IconPickerType::class, [
+            'label' => t('field.icon', [], 'emsco-core'),
             'required' => false,
         ])->add('maxLines', IntegerType::class, [
+            'label' => t('field.max_lines', [], 'emsco-core'),
             'required' => false,
         ])->add('height', IntegerType::class, [
+            'label' => t('field.height', [], 'emsco-core'),
             'required' => false,
         ])->add('language', ChoiceType::class, [
+            'label' => t('field.language', [], 'emsco-core'),
+            'choice_translation_domain' => false,
             'required' => false,
             'attr' => [
                 'class' => 'select2',
@@ -299,6 +307,8 @@ class CodeFieldType extends DataFieldType
                 'Zeek' => 'ace/mode/zeek',
             ],
         ])->add('theme', ChoiceType::class, [
+            'label' => t('field.theme', [], 'emsco-core'),
+            'choice_translation_domain' => false,
             'required' => false,
             'attr' => [
                 'class' => 'select2',

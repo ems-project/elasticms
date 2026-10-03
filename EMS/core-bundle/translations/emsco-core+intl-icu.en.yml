@@ -431,6 +431,7 @@ field:
     locked_until: 'Locked until'
     lowercase: Lowercase
     mapping: Mapping
+    max_lines: 'Max lines'
     max_output_size: 'Max output size'
     max_token_length: 'Max token lenght'
     mcp_arguments: 'MCP arguments template (JSON)'

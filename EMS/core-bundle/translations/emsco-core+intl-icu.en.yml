@@ -1473,6 +1473,11 @@ title:
     view_file: 'View file'
     view_file_modal: 'View file: {name}'
     view_recursive: 'Recursive view'
+transformer:
+    html_attribute: 'HTML Attribute'
+    html_empty: 'HTML Empty'
+    html_remove_node: 'HTML Remove node'
+    html_unwrap: 'HTML Unwrap'
 type:
     confirm: |-
         {type, select,

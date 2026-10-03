@@ -1478,6 +1478,11 @@ title:
     view_file: 'Voir le fichier'
     view_file_modal: 'Voir le fichier : {name}'
     view_recursive: 'Vue récursive'
+transformer:
+    html_attribute: 'HTML Attribute'
+    html_empty: 'HTML Empty'
+    html_remove_node: 'HTML Remove node'
+    html_unwrap: 'HTML Unwrap'
 type:
     confirm: |-
         {type, select,

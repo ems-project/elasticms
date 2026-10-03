@@ -1473,6 +1473,11 @@ title:
     view_file: 'Bestand bekijken'
     view_file_modal: 'Bestand bekijken: {name}'
     view_recursive: 'Recursieve weergave'
+transformer:
+    html_attribute: 'HTML Attribute'
+    html_empty: 'HTML Empty'
+    html_remove_node: 'HTML Remove node'
+    html_unwrap: 'HTML Unwrap'
 type:
     confirm: |-
         {type, select,

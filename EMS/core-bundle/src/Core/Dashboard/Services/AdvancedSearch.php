@@ -113,7 +113,7 @@ class AdvancedSearch implements DashboardInterface
 
         $form->submit($data);
         $types = $this->contentTypeRepository->findAllAsAssociativeArray();
-        $environments = $this->environmentRepository->findAllAsAssociativeArray('alias');
+        $environments = $this->environmentRepository->associativeArrayByAlias();
         $esSearch = $this->buildQuery($search, $page);
         $aggregateOptions = $this->addAggregations($esSearch, $options);
         $searchBody = \array_filter(['query' => $esSearch->getQueryArray(), 'sort' => $esSearch->getSort()]);
@@ -198,6 +198,7 @@ class AdvancedSearch implements DashboardInterface
      */
     private function getMapIndexes(CommonResponse $response, array $environments): array
     {
+        dump($environments);
         $indexes = $response->getAggregation(self::INDEXES_AGGREGATION);
         if (null === $indexes) {
             return [];

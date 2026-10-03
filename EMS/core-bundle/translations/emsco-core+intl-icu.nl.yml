@@ -410,6 +410,7 @@ field:
     helptext_translations: 'Vertalingen van helpteksten'
     helptexts: Helpteksten
     hidden: Verborgen
+    hours_disabled: 'Uren uitgeschakeld'
     icon: Icoon
     id: ID
     image_asset_config_identifier: 'Identificatiecode voor de configuratie van het afbeeldingsbestand'

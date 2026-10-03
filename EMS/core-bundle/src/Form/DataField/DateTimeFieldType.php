@@ -106,18 +106,22 @@ class DateTimeFieldType extends DataFieldType
 
         $optionsForm->get('displayOptions')
             ->add('displayFormat', TextType::class, [
+                'label' => t('field.display_format', [], 'emsco-core'),
                 'required' => false,
                 'attr' => ['placeholder' => self::DEFAULT_DISPLAY_FORMAT],
             ])
             ->add('parseFormat', TextType::class, [
+                'label' => t('field.parse_format', [], 'emsco-core'),
                 'required' => false,
                 'attr' => ['placeholder' => \sprintf('(PHP) %s', self::DEFAULT_PARSE_FORMAT)],
             ])
             ->add('daysOfWeekDisabled', TextType::class, [
+                'label' => t('field.days_of_week_disabled', [], 'emsco-core'),
                 'required' => false,
                 'attr' => ['placeholder' => 'e.g. 0,6'],
             ])
             ->add('hoursDisabled', TextType::class, [
+                'label' => t('field.hours_disabled', [], 'emsco-core'),
                 'required' => false,
                 'attr' => ['placeholder' => 'e.g. 0,23'],
             ])

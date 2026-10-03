@@ -415,6 +415,7 @@ field:
     helptext_translations: "Traductions des textes d'aide"
     helptexts: 'Textes d’aide'
     hidden: Masqué
+    hours_disabled: 'Heures désactivées'
     icon: Icône
     id: ID
     image_asset_config_identifier: "Identifiant de configuration de l'élément image"

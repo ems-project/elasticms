@@ -410,6 +410,7 @@ field:
     helptext_translations: 'Helptext translations'
     helptexts: Helptexts
     hidden: Hidden
+    hours_disabled: 'Hours disabled'
     icon: Icon
     id: ID
     image_asset_config_identifier: 'Image asset config identifier'

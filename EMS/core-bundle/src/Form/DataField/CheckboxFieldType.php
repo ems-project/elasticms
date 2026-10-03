@@ -129,6 +129,7 @@ class CheckboxFieldType extends DataFieldType
         $optionsForm = $builder->get('options');
 
         $optionsForm->get('displayOptions')->add('question_label', TextType::class, [
+            'label' => t('field.question_label', [], 'emsco-core'),
             'required' => false,
         ]);
 

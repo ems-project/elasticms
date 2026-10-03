@@ -486,6 +486,7 @@ field:
     publish_to: 'Publish to'
     published_label: 'Published in {environment}'
     query: Query
+    question_label: 'Question label'
     quick_search: 'Quick search'
     referer_field_name: 'Referer field name'
     rejected_by: 'Rejected by'

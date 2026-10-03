@@ -491,6 +491,7 @@ field:
     publish_to: 'Publier vers'
     published_label: 'Publié dans {environment}'
     query: Requête
+    question_label: 'Libellé de la question'
     quick_search: 'Recherche rapide'
     referer_field_name: 'Nom du champ référent'
     rejected_by: 'Rejetée par'

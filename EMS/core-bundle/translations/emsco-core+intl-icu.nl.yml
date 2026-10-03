@@ -486,6 +486,7 @@ field:
     publish_to: 'Publiceren naar'
     published_label: 'Gepubliceerd in {environment}'
     query: Query
+    question_label: Vraaglabel
     quick_search: 'Snel zoeken'
     referer_field_name: 'Naam van refererveld'
     rejected_by: 'Geweigerd door'

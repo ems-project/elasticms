@@ -321,9 +321,18 @@ class DateRangeFieldType extends DataFieldType
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm
                 ->get('mappingOptions')
-                ->add('fromDateMachineName', TextType::class, ['required' => false])
-                ->add('toDateMachineName', TextType::class, ['required' => false])
-                ->add('nested', CheckboxType::class, ['required' => false]);
+                ->add('fromDateMachineName', TextType::class, [
+                    'label' => t('field.from_date_machine_name', [], 'emsco-core'),
+                    'required' => false,
+                ])
+                ->add('toDateMachineName', TextType::class, [
+                    'label' => t('field.to_date_machine_name', [], 'emsco-core'),
+                    'required' => false,
+                ])
+                ->add('nested', CheckboxType::class, [
+                    'label' => t('field.nested', [], 'emsco-core'),
+                    'required' => false,
+                ]);
         }
 
         $optionsForm->get('displayOptions')->add('locale', SubOptionsType::class, [
@@ -331,32 +340,40 @@ class DateRangeFieldType extends DataFieldType
             'label' => false,
         ]);
         $optionsForm->get('displayOptions')->get('locale')->add('format', TextType::class, [
+            'label' => t('field.format', [], 'emsco-core'),
             'required' => false,
             'attr' => [
                 'placeholder' => 'i.e. dd/MM/yyyy HH:mm',
             ],
         ]);
         $optionsForm->get('displayOptions')->get('locale')->add('parseFormat', TextType::class, [
+            'label' => t('field.parse_format', [], 'emsco-core'),
             'required' => false,
             'attr' => ['placeholder' => '(PHP) d/m/Y H:i'],
         ]);
         $optionsForm->get('displayOptions')->get('locale')->add('firstDay', IntegerType::class, [
+            'label' => t('field.week_start', [], 'emsco-core'),
             'required' => false,
         ]);
         $optionsForm->get('displayOptions')->add('icon', IconPickerType::class, [
+            'label' => t('field.icon', [], 'emsco-core'),
             'required' => false,
         ]);
         $optionsForm->get('displayOptions')->add('showWeekNumbers', CheckboxType::class, [
+            'label' => t('field.show_week_numbers', [], 'emsco-core'),
             'required' => false,
         ]);
         $optionsForm->get('displayOptions')->add('timePicker', CheckboxType::class, [
+            'label' => t('field.time_picker', [], 'emsco-core'),
             'required' => false,
         ]);
         $optionsForm->get('displayOptions')->add('timePicker24Hour', CheckboxType::class, [
+            'label' => t('field.time_picker_24_hour', [], 'emsco-core'),
             'required' => false,
         ]);
 
         $optionsForm->get('displayOptions')->add('timePickerIncrement', IntegerType::class, [
+            'label' => t('field.time_picker_increment', [], 'emsco-core'),
             'required' => false,
             'empty_data' => 5,
             'attr' => [

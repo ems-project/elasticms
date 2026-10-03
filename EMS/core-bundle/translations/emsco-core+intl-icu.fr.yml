@@ -403,6 +403,7 @@ field:
     form: Formulaire
     format: Format
     format_tags: 'Tags de format'
+    from_date_machine_name: 'Nom machine du champ de date de début'
     from_sender: 'De {sender}'
     gender: Genre
     group: Groupe
@@ -476,6 +477,7 @@ field:
     minute_step: 'Étape infime'
     multiple: Multiple
     name: Nom
+    nested: Imbriqué
     new_version: 'Nouvelle version'
     node_name: 'Nom du nœud'
     not_blank_new_version: 'Nouvelle version non vide'
@@ -485,6 +487,7 @@ field:
     options: Options
     orientation: Orientation
     ouuid: OUUID
+    parse_format: "Format d'analyse"
     password: 'Mot de passe'
     password_repeat: 'Répéter le mot de passe'
     pattern: Motif
@@ -539,6 +542,7 @@ field:
     severity: Sévérité
     show_meridian: 'Afficher le méridien (vrai : 12 h, faux : 24 h)'
     show_seconds: 'Afficher les secondes'
+    show_week_numbers: 'Afficher les numéros de semaine'
     singular: Singulier
     singular_name: 'Nom singulier'
     singular_name_translations: 'Traductions des noms au singulier'
@@ -566,8 +570,12 @@ field:
     template_response: 'Réponse du template'
     text: Texte
     theme: Thème
+    time_picker: "Sélecteur d'heure"
+    time_picker_24_hour: "Sélecteur d'heure (format 24 heures)"
+    time_picker_increment: "Incrément du sélecteur d'heure"
     title: Tâche
     titles: Titres
+    to_date_machine_name: 'Nom machine du champ de date de fin'
     today_highlight: "Mettre aujourd'hui en évidence"
     tokenizer: Tokenizer
     tooltip: Infobulle

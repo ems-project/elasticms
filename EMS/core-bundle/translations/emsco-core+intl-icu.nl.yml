@@ -398,6 +398,7 @@ field:
     form: Formulier
     format: Formaat
     format_tags: Formaat-tags
+    from_date_machine_name: "Machinenaam van 'vanaf-datum'"
     from_sender: 'Van {sender}'
     gender: Gender
     group: Groep
@@ -471,6 +472,7 @@ field:
     minute_step: 'Minieme stap'
     multiple: Meerdere
     name: Naam
+    nested: Genest
     new_version: 'Nieuwe versie'
     node_name: 'Naam van het knooppunt'
     not_blank_new_version: 'Nieuwe versie niet leeg'
@@ -480,6 +482,7 @@ field:
     options: Opties
     orientation: Oriëntatie
     ouuid: OUUID
+    parse_format: Parseerformaat
     password: Wachtwoord
     password_repeat: 'Herhaal wachtwoord'
     pattern: Patroon
@@ -534,6 +537,7 @@ field:
     severity: Ernst
     show_meridian: 'Toon meridiaan (waar: 12 uur, onwaar: 24 uur)'
     show_seconds: 'Seconden weergeven'
+    show_week_numbers: 'Weeknummers weergeven'
     singular: Enkelvoud
     singular_name: Enkelvoudsnaam
     singular_name_translations: 'Vertalingen van enkelvoudige namen'
@@ -561,8 +565,12 @@ field:
     template_response: 'Template response'
     text: Tekst
     theme: Thema
+    time_picker: Tijdskiezer
+    time_picker_24_hour: 'Tijdskiezer (24-uurs)'
+    time_picker_increment: 'Stapgrootte tijdkeuzescherm'
     title: Taak
     titles: Titels
+    to_date_machine_name: 'Einddatum veld machinenaam'
     today_highlight: 'Hoogtepunt van vandaag'
     tokenizer: Tokenizer
     tooltip: Tooltip

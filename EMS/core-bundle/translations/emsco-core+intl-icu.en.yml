@@ -398,6 +398,7 @@ field:
     form: Form
     format: Format
     format_tags: 'Format tags'
+    from_date_machine_name: 'From date machine name'
     from_sender: 'From {sender}'
     gender: Gender
     group: Group
@@ -471,6 +472,7 @@ field:
     minute_step: 'Minute step'
     multiple: Multiple
     name: Name
+    nested: Nested
     new_version: 'New version'
     node_name: 'Node name'
     not_blank_new_version: 'Not blank new version'
@@ -480,6 +482,7 @@ field:
     options: Options
     orientation: Orientation
     ouuid: OUUID
+    parse_format: 'Parse format'
     password: Password
     password_repeat: 'Repeat password'
     pattern: Pattern
@@ -534,6 +537,7 @@ field:
     severity: Severity
     show_meridian: 'Show meridian (true: 12hr, false: 24hr)'
     show_seconds: 'Show seconds'
+    show_week_numbers: 'Show week numbers'
     singular: Singular
     singular_name: 'Singular name'
     singular_name_translations: 'Singular name translations'
@@ -561,8 +565,12 @@ field:
     template_response: 'Template response'
     text: Text
     theme: Theme
+    time_picker: 'Time picker'
+    time_picker_24_hour: 'Time picker 24 hour'
+    time_picker_increment: 'Time picker increment'
     title: Task
     titles: Titles
+    to_date_machine_name: 'To date machine name'
     today_highlight: 'Highlight today'
     tokenizer: Tokenizer
     tooltip: Tooltip

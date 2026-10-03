@@ -449,7 +449,7 @@ field:
     json_menu_nested_field: 'Champ imbriqué de menu JSON'
     json_menu_nested_types: 'Types imbriqués de menu JSON'
     json_menu_nested_unique: 'Menu JSON imbriqué à éléments uniques'
-    json_nested_deny: 'JSON imbriqué refuser'
+    json_nested_deny: 'JSON imbriqué refusés'
     json_nested_is_leaf: 'JSON imbriqué est une feuille'
     json_nested_max_depth: "Profondeur maximale d'imbrication JSON"
     key: Clé

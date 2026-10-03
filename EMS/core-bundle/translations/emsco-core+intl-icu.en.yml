@@ -359,6 +359,7 @@ field:
     email: Email
     email_content_type: 'Content type (ie: text/html)'
     enabled: Enabled
+    encryption: Encryption
     endpoint_url: Endpoint
     entry_path: 'Default entry path'
     environment: Environment
@@ -508,6 +509,7 @@ field:
     render_option: 'Render option'
     renumbering: 'Items will be renumbered'
     requester: Requester
+    reset_password: 'Reset the password'
     revision: Revision
     revision_version_tag: 'Yes as {version_tag}'
     revision_version_tag_empty: 'No (Silent publish)'

@@ -364,6 +364,7 @@ field:
     email: Email
     email_content_type: 'Type de contenu (ex. : text/html)'
     enabled: Activé
+    encryption: Chiffrement
     endpoint_url: Endpoint
     entry_path: 'Chemin d’entrée par défaut'
     environment: Environnement
@@ -513,6 +514,7 @@ field:
     render_option: 'Option de rendu'
     renumbering: 'Les éléments seront renumérotés'
     requester: Demandeur
+    reset_password: 'Réinitialiser le mot de passe'
     revision: Révision
     revision_version_tag: 'Oui comme {version_tag}'
     revision_version_tag_empty: 'Non (publication silencieuse)'

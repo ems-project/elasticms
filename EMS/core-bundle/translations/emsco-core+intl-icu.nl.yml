@@ -359,6 +359,7 @@ field:
     email: E-mail
     email_content_type: 'Contenttype (bv. text/html)'
     enabled: Ingeschakeld
+    encryption: Versleuteling
     endpoint_url: Endpoint
     entry_path: 'Standaard toegangspad'
     environment: Omgeving
@@ -508,6 +509,7 @@ field:
     render_option: Renderoptie
     renumbering: 'De items worden opnieuw genummerd'
     requester: Aanvrager
+    reset_password: 'Het wachtwoord opnieuw instellen'
     revision: Revisie
     revision_version_tag: 'Ja als {version_tag}'
     revision_version_tag_empty: 'Nee (stille publicatie)'

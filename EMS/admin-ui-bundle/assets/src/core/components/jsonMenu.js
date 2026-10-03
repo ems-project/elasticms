@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import { ChangeEvent } from '../events/changeEvent'
+import { ChangeEvent } from '../events/ChangeEvent'
 import { v4 } from 'uuid'
 
 import '../librairies/nestedSortable'

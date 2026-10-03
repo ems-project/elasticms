@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import ajaxRequest from '../components/ajaxRequest'
-import ChangeEvent from '../events/changeEvent'
+import ChangeEvent from '../events/ChangeEvent'
 import DynamicForm from '../helpers/dynamic-form'
 import { EMS_CTRL_SAVE_EVENT } from '../events/ctrlSaveEvent'
 import { FormResponseEvent } from '../events/formResponseEvent'

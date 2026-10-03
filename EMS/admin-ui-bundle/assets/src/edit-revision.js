@@ -2,7 +2,7 @@
 import $ from 'jquery'
 import ajaxRequest from './core/components/ajaxRequest'
 
-import { EMS_CHANGE_EVENT } from './core/events/changeEvent'
+import { EMS_CHANGE_EVENT } from './core/events/ChangeEvent'
 import { EMS_CTRL_SAVE_EVENT } from './core/events/ctrlSaveEvent'
 
 let waitingResponse = false

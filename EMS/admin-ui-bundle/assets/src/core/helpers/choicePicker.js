@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import Choices from 'choices.js'
-import { ChangeEvent } from '../events/changeEvent'
+import { ChangeEvent } from '../events/ChangeEvent'
 import { luma } from './color'
 import { stripHtmlTags } from './text'
 

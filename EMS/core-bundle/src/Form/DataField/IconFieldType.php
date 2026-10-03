@@ -46,7 +46,7 @@ class IconFieldType extends DataFieldType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('value', IconPickerType::class, [
-            'label' => (null != $options['label'] ? $options['label'] : 'Icon field type'),
+            'label' => (null != $options['label'] ? $options['label'] : t('field.icon', [], 'emsco-core')),
             'disabled' => $this->isDisabled($options),
             'required' => false,
         ]);

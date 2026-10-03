@@ -370,6 +370,7 @@ field:
     extra: Extra
     extra_roles: 'Rôles supplémentaires'
     field: Champ
+    field_type: 'Type de champ'
     file:
         disposition: 'Disposition du fichier'
         disposition_attachment: 'Pièce jointe (forcer le téléchargement)'

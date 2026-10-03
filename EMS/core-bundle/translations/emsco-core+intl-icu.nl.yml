@@ -365,6 +365,7 @@ field:
     extra: Extra
     extra_roles: 'Extra rollen'
     field: Veld
+    field_type: 'Type van het veld'
     file:
         disposition: Bestandsdispositie
         disposition_attachment: 'Bijlage (download forceren)'

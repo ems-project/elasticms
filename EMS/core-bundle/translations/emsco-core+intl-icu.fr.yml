@@ -468,6 +468,7 @@ field:
     min: Min
     minimum_role: 'Rôle minimum'
     minimum_should_match: 'Le nombre minimal de correspondances doit être respecté'
+    minute_step: 'Étape infime'
     multiple: Multiple
     name: Nom
     new_version: 'Nouvelle version'

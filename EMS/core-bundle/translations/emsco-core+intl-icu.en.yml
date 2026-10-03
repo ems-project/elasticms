@@ -463,6 +463,7 @@ field:
     min: Min
     minimum_role: 'Minimum role'
     minimum_should_match: 'Minimum should match'
+    minute_step: 'Minute step'
     multiple: Multiple
     name: Name
     new_version: 'New version'

@@ -463,6 +463,7 @@ field:
     min: Min
     minimum_role: 'Minimale rol'
     minimum_should_match: 'Minimum aantal overeenkomsten'
+    minute_step: 'Minieme stap'
     multiple: Meerdere
     name: Naam
     new_version: 'Nieuwe versie'

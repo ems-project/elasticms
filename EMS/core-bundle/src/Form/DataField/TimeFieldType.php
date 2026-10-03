@@ -188,6 +188,7 @@ class TimeFieldType extends DataFieldType
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')->add('format', TextType::class, [
+                'label' => t('field.format', [], 'emsco-core'),
                 'required' => false,
                 'empty_data' => 'HH:mm:ss',
                 'attr' => [
@@ -197,6 +198,7 @@ class TimeFieldType extends DataFieldType
         }
 
         $optionsForm->get('displayOptions')->add('minuteStep', IntegerType::class, [
+            'label' => t('field.minute_step', [], 'emsco-core'),
             'required' => false,
             'empty_data' => 15,
         ]);

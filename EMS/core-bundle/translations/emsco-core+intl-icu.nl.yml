@@ -302,6 +302,7 @@ field:
     category: Categorie
     channel: Kanaal
     char_filter: 'Char filter'
+    choices_template: Keuzesjabloon
     circles: Kringen
     circles_to: 'Kringen naar'
     class: HTML-klasse
@@ -438,6 +439,9 @@ field:
     json_file: JSON-bestand
     json_menu_content_type: JSON-menu-inhoudstype
     json_menu_field: JSON-menuveld
+    json_menu_nested_field: 'Genest veld in JSON-menu'
+    json_menu_nested_types: "Geneste typen in JSON-menu's"
+    json_menu_nested_unique: 'Genest, uniek JSON-menu'
     json_nested_deny: 'JSON genest weigeren'
     json_nested_is_leaf: 'Geneste JSON is blad'
     json_nested_max_depth: 'JSON geneste maximale diepte'

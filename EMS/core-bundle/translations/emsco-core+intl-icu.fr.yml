@@ -307,6 +307,7 @@ field:
     category: Catégorie
     channel: Canal
     char_filter: 'Filtre de caractères'
+    choices_template: 'Modèle de choix'
     circles: Cercles
     circles_to: 'Cercles destinataires'
     class: 'Classe HTML'
@@ -443,6 +444,9 @@ field:
     json_file: 'Fichier JSON'
     json_menu_content_type: 'Type de contenu de menu JSON'
     json_menu_field: 'Champ de menu JSON'
+    json_menu_nested_field: 'Champ imbriqué de menu JSON'
+    json_menu_nested_types: 'Types imbriqués de menu JSON'
+    json_menu_nested_unique: 'Menu JSON imbriqué à éléments uniques'
     json_nested_deny: 'JSON imbriqué refuser'
     json_nested_is_leaf: 'JSON imbriqué est une feuille'
     json_nested_max_depth: "Profondeur maximale d'imbrication JSON"

@@ -302,6 +302,7 @@ field:
     category: Category
     channel: Channel
     char_filter: 'Char filter'
+    choices_template: 'Choices template'
     circles: Circles
     circles_to: 'Circles to'
     class: 'HTML class'
@@ -438,6 +439,9 @@ field:
     json_file: 'JSON file'
     json_menu_content_type: 'JSON menu content type'
     json_menu_field: 'JSON menu field'
+    json_menu_nested_field: 'JSON menu nested field'
+    json_menu_nested_types: 'JSON menu nested types'
+    json_menu_nested_unique: 'JSON menu nested unique'
     json_nested_deny: 'JSON nested deny'
     json_nested_is_leaf: 'JSON nested is leaf'
     json_nested_max_depth: 'JSON nested max depth'

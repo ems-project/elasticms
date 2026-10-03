@@ -349,6 +349,7 @@ field:
     display_name: 'Display name'
     display_template: 'Display template'
     docs_count: '# Documents'
+    dynamic_loading: 'Dynamic loading'
     edit_twig_with_wysiwyg: 'Edit the Twig template with a WYSIWYG editor'
     editor: Editor
     elision: Elision
@@ -493,6 +494,7 @@ field:
     publish_to: 'Publish to'
     published_label: 'Published in {environment}'
     query: Query
+    query_search: 'Query search'
     question_label: 'Question label'
     quick_search: 'Quick search'
     referer_field_name: 'Referer field name'
@@ -522,6 +524,7 @@ field:
     root_content_type: 'Root content type'
     search_config: 'Search config'
     search_field_options: 'Search field options'
+    search_id: 'Search ID'
     separator: Separator
     severity: Severity
     show_meridian: 'Show meridian (true: 12hr, false: 24hr)'
@@ -565,6 +568,7 @@ field:
     type: Type
     unpublish_from: 'Unpublish from'
     unpublish_in: 'Unpublish in {env}'
+    update_referers_field: 'Update referers field'
     uri: URI
     user: User
     user_deleted: 'Deleted by'

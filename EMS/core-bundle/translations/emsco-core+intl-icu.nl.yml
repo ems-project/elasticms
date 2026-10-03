@@ -349,6 +349,7 @@ field:
     display_name: Weergavenaam
     display_template: field.display_template
     docs_count: '# Documenten'
+    dynamic_loading: 'Dynamisch laden'
     edit_twig_with_wysiwyg: 'Twig-template bewerken met een WYSIWYG-editor'
     editor: Editor
     elision: Elisie
@@ -493,6 +494,7 @@ field:
     publish_to: 'Publiceren naar'
     published_label: 'Gepubliceerd in {environment}'
     query: Query
+    query_search: Zoekopdracht
     question_label: Vraaglabel
     quick_search: 'Snel zoeken'
     referer_field_name: 'Naam van refererveld'
@@ -522,6 +524,7 @@ field:
     root_content_type: Hoofdcontenttype
     search_config: Zoekconfiguratie
     search_field_options: 'Opties voor het zoekveld'
+    search_id: Zoek-ID
     separator: Scheidingsteken
     severity: Ernst
     show_meridian: 'Toon meridiaan (waar: 12 uur, onwaar: 24 uur)'
@@ -565,6 +568,7 @@ field:
     type: Type
     unpublish_from: 'Depubliceren van'
     unpublish_in: 'Depubliceren in {env}'
+    update_referers_field: "Veld 'verwijzers' bijwerken"
     uri: URI
     user: Gebruiker
     user_deleted: 'Verwijderd door'

@@ -244,27 +244,39 @@ class DataLinkFieldType extends DataFieldType
 
         // String specific display options
         $optionsForm->get('displayOptions')->add('multiple', CheckboxType::class, [
+            'label' => t('field.multiple', [], 'emsco-core'),
             'required' => false,
         ])->add('dynamicLoading', CheckboxType::class, [
+            'label' => t('field.dynamic_loading', [], 'emsco-core'),
             'required' => false,
         ])->add('sortable', CheckboxType::class, [
+            'label' => t('field.sortable', [], 'emsco-core'),
             'required' => false,
         ])->add('querySearch', QuerySearchPickerType::class, [
+            'label' => t('field.query_search', [], 'emsco-core'),
             'required' => false,
         ])->add('type', TextType::class, [
+            'label' => t('field.type', [], 'emsco-core'),
             'required' => false,
         ])->add('searchId', TextType::class, [
+            'label' => t('field.search_id', [], 'emsco-core'),
             'required' => false,
         ]);
 
         $optionsForm->get('extraOptions')->add('updateReferersField', TextType::class, [
+            'label' => t('field.update_referers_field', [], 'emsco-core'),
             'required' => false,
         ]);
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')
-                ->add('analyzer', AnalyzerPickerType::class)
-                ->add('copy_to', TextType::class, ['required' => false]);
+                ->add('analyzer', AnalyzerPickerType::class, [
+                    'label' => t('field.analyzer', [], 'emsco-core'),
+                ])
+                ->add('copy_to', TextType::class, [
+                    'label' => t('field.copy_to', [], 'emsco-core'),
+                    'required' => false,
+                ]);
         }
     }
 

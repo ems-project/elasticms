@@ -354,6 +354,7 @@ field:
     display_name: 'Nom d’affichage'
     display_template: field.display_template
     docs_count: '# Documents'
+    dynamic_loading: 'Chargement dynamique'
     edit_twig_with_wysiwyg: 'Modifier le template Twig avec un éditeur WYSIWYG'
     editor: Éditeur
     elision: Élision
@@ -498,6 +499,7 @@ field:
     publish_to: 'Publier vers'
     published_label: 'Publié dans {environment}'
     query: Requête
+    query_search: 'Recherche par requête'
     question_label: 'Libellé de la question'
     quick_search: 'Recherche rapide'
     referer_field_name: 'Nom du champ référent'
@@ -527,6 +529,7 @@ field:
     root_content_type: 'Type de contenu racine'
     search_config: 'Configuration de recherche'
     search_field_options: 'Options du champ de recherche'
+    search_id: 'ID de recherche'
     separator: Séparateur
     severity: Sévérité
     show_meridian: 'Afficher le méridien (vrai : 12 h, faux : 24 h)'
@@ -570,6 +573,7 @@ field:
     type: Type
     unpublish_from: 'Dépublier de'
     unpublish_in: 'Dépublier dans {env}'
+    update_referers_field: 'Mettre à jour le champ des référents'
     uri: URI
     user: Utilisateur
     user_deleted: 'Supprimé par'

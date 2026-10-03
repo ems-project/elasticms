@@ -42,14 +42,15 @@ class MigrationOptionsType extends AbstractType
         if ([] !== $transformers) {
             $builder->add('transformers', CollectionType::class, [
                 'label' => false,
+                'translation_domain' => 'emsco-core',
                 'entry_type' => MigrationOptionsTransformerType::class,
                 'entry_options' => [
-                    'transformers' => [...['Select a transformer' => ''], ...$transformers],
+                    'transformers' => [...[t('field.transformers', [], 'emsco-core')->getMessage() => ''], ...$transformers],
                 ],
                 'attr' => [
                     'class' => 'a2lix_lib_sf_collection',
-                    'data-lang-add' => 'Add transformer',
-                    'data-lang-remove' => 'Delete transformer',
+                    'data-lang-add' => t('action.add_type', ['type' => 'transformer'], 'emsco-core'),
+                    'data-lang-remove' => t('action.remove_type', ['type' => 'transformer'], 'emsco-core'),
                     'data-entry-remove-class' => 'btn btn-sm btn-default',
                 ],
                 'allow_add' => true,

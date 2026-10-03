@@ -23,6 +23,7 @@ action:
             search_field_option   {Add search field option}
             sort_option   {Add sort option}
             translation   {Add translation}
+            transformer   {Add transformer}
             other   {Add}
         }
     apply_filters: 'Apply filters'
@@ -106,6 +107,7 @@ action:
             search_field_option   {Remove this search field option}
             sort_option   {Remove this sort option}
             translation   {Remove this translation}
+            transformer   {Remove this transformer}
             other   {Remove}
         }
     rename: Rename
@@ -594,6 +596,7 @@ field:
     total_deleted: 'Total deleted'
     total_elastic: 'Total in ES'
     total_ems: 'Total in EMS'
+    transformers: 'Select a transformer'
     translations: Translations
     type: Type
     unpublish_from: 'Unpublish from'

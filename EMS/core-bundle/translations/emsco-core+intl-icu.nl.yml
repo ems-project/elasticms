@@ -23,6 +23,7 @@ action:
             search_field_option   {Voeg een optie voor een zoekveld toe}
             sort_option   {Voeg een sorteeroptie toe}
             translation   {Voeg een vertaling}
+            transformer   {Voeg een transformator}
             other   {Toevoegen}
         }
     apply_filters: 'Filters toepassen'
@@ -106,6 +107,7 @@ action:
             search_field_option   {Verwijder deze optie voor het zoekveld}
             sort_option   {Verwijder deze sorteeroptie}
             translation   {Verwijder deze vertaling}
+            transformer   {Verwijder deze transformator}
             other   {Verwijderen}
         }
     rename: Hernoemen
@@ -594,6 +596,7 @@ field:
     total_deleted: 'Totaal verwijderd'
     total_elastic: 'Totaal in ES'
     total_ems: 'Totaal in EMS'
+    transformers: 'Selecteer een transformator'
     translations: Vertalingen
     type: Type
     unpublish_from: 'Depubliceren van'

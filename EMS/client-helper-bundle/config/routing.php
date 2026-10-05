@@ -71,6 +71,7 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('emsch.routing.handler'),
             service('form.factory'),
+            service('emsch.helper_cache'),
         ])
         ->tag('controller.service_arguments');
 

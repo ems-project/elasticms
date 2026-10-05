@@ -55,27 +55,24 @@ $enable-dark-mode: true !default;
 // Transitions
 $transition-base: all .35s ease-in-out !default;
 
-// ElasticMS colors
-$elasticms-pink: #EF79AC;
-$elasticms-yellow: #D5B90B;
-$elasticms-light-blue: #00A7E2;
-$elasticms-dark-blue: #117bbb;
-$elasticms-lagoon: #00BCB1;
-$elasticms-green: #A5D13C;
-
-// Theme colors
-$blue:        #0072ed !default;
+// Colors
+$blue:        #0073b7 !default;
 $light-blue:  #3c8dbc !default;
 $indigo:      #6610f2 !default;
-$purple:      #6f42c1 !default;
-$pink:        #e83e8c !default;
-$red:         #dc3545 !default;
-$orange:      #fd7e14 !default;
-$yellow:      #ffc107 !default;
-$green:       #28a745 !default;
-$teal:        #20c997 !default;
-$cyan:        #17a2b8 !default;
+$purple:      #605ca8 !default;
+$pink:        #d63384 !default;
+$red:         #dd4b39 !default;
+$maroon:      #d81b60 !default;
+$fuchsia:     #f012be !default;
+$orange:      #ff851b !default;
+$yellow:      #f39c12 !default;
+$olive:       #3d9970 !default;
+$green:       #00a65a !default;
+$lime:        #01ff70 !default;
+$teal:        #39cccc !default;
+$cyan:        #0dcaf0 !default;
 $aqua:        #00c0ef !default;
+$navy:        #001f3f !default;
 
 $white:    #fff !default;
 $gray-100: #f8f9fa !default;
@@ -95,55 +92,48 @@ $success:       $green !default;
 $info:          $cyan !default;
 $warning:       $yellow !default;
 $danger:        $red !default;
-$light:         #f5f7fb !default;
+$light:         $gray-100 !default;
 $dark:          $gray-900 !default;
 
-$theme-colors: (
-  "primary": $primary,
-  "secondary": $secondary,
-  "success": $success,
-  "info": $info,
-  "warning": $warning,
-  "danger": $danger,
-  "light": $light,
-  "dark": $dark,
-  "white": $white,
-  "blue": $blue,
-  "light-blue": $light-blue,
-  "indigo": $indigo,
-  "purple": $purple,
-  "pink": $pink,
-  "red": $red,
-  "orange": $orange,
-  "yellow": $yellow,
-  "green": $green,
-  "teal": $teal,
-  "cyan": $cyan,
-  "aqua": $aqua
+$ems-interface-colors: (
+  'blue': $light-blue,
+  'purple': $purple,
+  'green': $green,
+  'red': $red,
+  'yellow': $yellow
 ) !default;
 
-// Supported theme colors
-$theme-colors-supported: (
-  'blue': #3c8dbc,
-  'purple': #605ca8,
-  'green': #00a65a,
-  'red': #dd4b39,
-  'yellow': #f39c12
+$ems-colors: (
+  'red': $red,
+  'maroon': $maroon,
+  'fuchsia': $fuchsia,
+  'orange': $orange,
+  'yellow': $yellow,
+  'olive': $olive,
+  'green': $green,
+  'lime': $lime,
+  'teal': $teal,
+  'aqua': $aqua,
+  'light-blue': $light-blue,
+  'blue': $blue,
+  'purple': $purple,
+  'navy': $navy,
+  'black': #111111,
+  'gray': #d2d6de
 ) !default;
 
-// Social colors
-$social-colors: (
-  "facebook": #3b5998,
-  "twitter": #1da1f2,
-  "google": #dc4e41,
-  "youtube": #f00,
-  "vimeo": #1ab7ea,
-  "dribbble": #ea4c89,
-  "github": #181717,
-  "instagram": #e4405f,
-  "pinterest": #bd081c,
-  "flickr": #0063dc,
-  "bitbucket": #0052cc
+$theme-colors: map-merge(
+(
+  'primary': $primary,
+  'secondary': $secondary,
+  'success': $success,
+  'info': $info,
+  'warning': $warning,
+  'danger': $danger,
+  'light': $light,
+  'dark': $dark
+),
+$ems-colors
 ) !default;
 
 // Body

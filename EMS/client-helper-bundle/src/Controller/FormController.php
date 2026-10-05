@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Controller;
 
+use EMS\ClientHelperBundle\Helper\Cache\CacheHelper;
 use EMS\ClientHelperBundle\Helper\Form\EmschFormBlock;
 use EMS\ClientHelperBundle\Helper\Form\EmschFormType;
 use EMS\ClientHelperBundle\Helper\Request\Handler;
@@ -17,6 +18,7 @@ readonly class FormController
     public function __construct(
         private Handler $handler,
         private FormFactoryInterface $formFactory,
+        private CacheHelper $cacheHelper
     ) {
     }
 
@@ -24,8 +26,12 @@ readonly class FormController
     {
         $template = $this->handler->handle($request);
         $data = $template->jsonBlock(EmschFormBlock::DATA->value);
+        $options = $template->jsonBlock(EmschFormBlock::OPTIONS->value);
 
-        $form = $this->formFactory->create(EmschFormType::class, $data, ['template' => $template]);
+        $form = $this->formFactory->create(EmschFormType::class, $data, [
+            ...$options,
+            'template' => $template,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()
@@ -36,6 +42,9 @@ readonly class FormController
 
         $template->context()->append(['emschForm' => $form->createView()]);
 
-        return new Response($template->render());
+        $response = new Response($template->render());
+        $this->cacheHelper->makeResponseCacheable($request, $response);
+
+        return $response;
     }
 }

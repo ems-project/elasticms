@@ -1,5 +1,13 @@
 # Changelog 6.x
 
+## 6.9.40 (2026-10-05)
+### Features
+* feat(common/asset): allows extra options in FileController::assetInArchive responses by @theus77 in https://github.com/ems-project/elasticms/pull/1886
+### Bug Fixes
+* fix(admin/export): natural order for collection export (environments) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1890
+* fix(doctrine): resolve deprecations by @Davidmattei in https://github.com/ems-project/elasticms/pull/1884
+* fix(web/emsch-form): disable csrf and cacheable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1891
+
 ## 6.9.38 (2026-09-29)
 ### Bug Fixes
 * fix(docker): move the object from MinIO to SeaweedFS by @Davidmattei in https://github.com/ems-project/elasticms/pull/1883

@@ -1450,7 +1450,7 @@
 {%- endblock action_row -%}
 
 {% block attributes -%}
-    {%- for attrname, attrvalue in attr|filter(p => p is ems_translatable_message) -%}
+    {%- for attrname, attrvalue in attr|filter((v, k) => v is ems_translatable_message and k != 'placeholder') -%}
         {%- set attr = attr|merge({(attrname): attrvalue|trans}) -%}
     {%- endfor -%}
     {{- parent() -}}

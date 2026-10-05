@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import { AddedDomEvent } from '../events/addedDomEvent'
-import { ChangeEvent } from '../events/changeEvent'
+import { ChangeEvent } from '../events/ChangeEvent'
 import 'jquery-ui-bundle/jquery-ui.js'
 
 class Collection {

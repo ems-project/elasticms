@@ -11,4 +11,5 @@ enum EmschFormBlock: string
     case CONFIG = 'emschFormConfig';
     case VALIDATE = 'emschFormValidate';
     case VIEW = 'emschFormView';
+    case OPTIONS = 'emschFormOptions';
 }

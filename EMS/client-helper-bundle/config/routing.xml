@@ -52,6 +52,7 @@
         <service id="emsch.controller.form" class="EMS\ClientHelperBundle\Controller\FormController">
             <argument type="service" id="emsch.routing.handler" />
             <argument type="service" id="form.factory" />
+            <argument type="service" id="emsch.helper_cache"/>
             <tag name="controller.service_arguments"/>
         </service>
 

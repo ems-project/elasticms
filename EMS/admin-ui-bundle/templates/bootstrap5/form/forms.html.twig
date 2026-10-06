@@ -337,8 +337,8 @@
             <tr role="row">
                 {% if table.supportsTableActions %}
                     <th class="fit" data-orderable="false" data-name="_checkbox">
-                        <div class="icheck-primary">
-                            <input type="checkbox" id="select-all" class="form-check-input" value="" aria-label="{{ 'action.select_all'|trans }}" data-grouped-checkbox-target=".{{ table.attributeName|e('html_attr') }}-to-select">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="select-all" value="" aria-label="{{ 'action.select_all'|trans }}" data-grouped-checkbox-target=".{{ table.attributeName|e('html_attr') }}-to-select">
                             <label class="form-check-label" for="select-all"></label>
                         </div>
                     </th>

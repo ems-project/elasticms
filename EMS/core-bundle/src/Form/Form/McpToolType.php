@@ -67,11 +67,7 @@ final class McpToolType extends AbstractType
             ])
             ->add('save', SubmitEmsType::class, [
                 'label' => t('action.save', [], 'emsco-core'),
-                'attr' => [
-                    'class' => 'btn btn-primary btn-sm ',
-                    'data-testid' => 'btn-action-save',
-                ],
-                'icon' => 'fa fa-save',
+                'attr' => ['data-testid' => 'btn-action-save'],
             ]);
     }
 

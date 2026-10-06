@@ -88,26 +88,19 @@ class ViewType extends AbstractType
 
         if (null !== $options['ajax-save-url']) {
             $builder->add('save', SubmitEmsType::class, [
-                'label' => t('action.save', [], 'emsco-core'),
                 'attr' => [
-                    'class' => 'btn btn-primary btn-sm',
                     'data-ajax-save-url' => $options['ajax-save-url'],
                     'data-testid' => 'btn-action-save',
                 ],
-                'icon' => 'fa fa-save',
+                'label' => t('action.save', [], 'emsco-core'),
             ])->add('save_close', SubmitEmsType::class, [
                 'label' => t('action.save_close', [], 'emsco-core'),
-                'attr' => [
-                    'class' => 'btn btn-primary btn-sm',
-                    'data-testid' => 'btn-action-save-close',
-                ],
-                'icon' => 'fa fa-save',
+                'attr' => ['data-testid' => 'btn-action-save-close'],
             ]);
         } else {
             $builder->add('save', SubmitEmsType::class, [
+                'attr' => ['data-testid' => 'btn-action-save'],
                 'label' => t('action.save', [], 'emsco-core'),
-                'attr' => ['class' => 'btn btn-primary btn-sm', 'data-testid' => 'btn-action-save'],
-                'icon' => 'fa fa-save',
             ]);
         }
     }

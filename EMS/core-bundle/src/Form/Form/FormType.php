@@ -46,11 +46,7 @@ final class FormType extends AbstractType
             $builder
                 ->add('create', SubmitEmsType::class, [
                     'label' => t('action.create', [], 'emsco-core'),
-                    'attr' => [
-                        'class' => 'btn btn-primary btn-sm ',
-                        'data-testid' => 'btn-action-create',
-                    ],
-                    'icon' => 'fa fa-save',
+                    'attr' => ['data-testid' => 'btn-action-create'],
                 ]);
         } else {
             $builder
@@ -58,12 +54,8 @@ final class FormType extends AbstractType
                     'data' => $form->getFieldType(),
                 ])
                 ->add('save', SubmitEmsType::class, [
+                    'attr' => ['data-testid' => 'btn-action-save'],
                     'label' => t('action.save', [], 'emsco-core'),
-                    'attr' => [
-                        'class' => 'btn btn-primary btn-sm ',
-                        'data-testid' => 'btn-action-save',
-                    ],
-                    'icon' => 'fa fa-save',
                 ]);
         }
     }

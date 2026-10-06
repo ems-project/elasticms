@@ -39,9 +39,8 @@ class AnalyzerType extends AbstractType
                 'label' => false,
             ])
             ->add('save', SubmitEmsType::class, [
-                'attr' => ['class' => 'btn btn-primary', 'data-testid' => 'btn-action-save'],
+                'attr' => ['data-testid' => 'btn-action-save'],
                 'label' => t('action.save', [], 'emsco-core'),
-                'icon' => 'fa fa-save',
             ]);
     }
 

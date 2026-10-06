@@ -144,7 +144,9 @@
     {{ block('choice_widget') }}
 {%- endblock objectpicker_widget %}
 
-{%- block submitems_widget -%}
+{%- block submit_ems_widget -%}
+    {%- set icon = icon|default(icons[name]|default('fa fa-save')) -%}
+    {%- set attr = attr|merge({class: attr.class|default('btn btn-primary btn-sm')}) -%}
     {%- if label is not defined or label is null -%}
         {%- if label_format is not empty -%}
             {% set label = label_format|replace({
@@ -156,8 +158,9 @@
         {%- endif -%}
     {%- endif -%}
     {% if confirm is defined and confirm != null %}
+        {% set testId = attr|filter((a,k) => 'data-testid' is same as(k)) %}
         <div class="btn-group">
-            <button type="button" class="{{ confirm_class|default('btn btn-outline-danger') }} dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="{{ confirm_class|default('btn btn-outline-danger') }} dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"{% if testId|length > 0 %} data-testid="{{ testId|first }}"{% endif %}>
                 {%- if icon -%}
                     <span class="{{ icon }}"></span>&nbsp;
                 {% endif %}
@@ -165,6 +168,9 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
+                {% if  testId|length > 0 %}
+                    {% set attr = attr|merge({ 'data-testid' : (testId|first ~ '-message')}) %}
+                {% endif %}
                 <li>
                     <button type="{{ type|default('submit') }}" {{ block('button_attributes') }}>{{ confirm|trans }}</button>
                 </li>
@@ -178,7 +184,7 @@
             {{ translation_domain is same as(false) ? label : label|trans(label_translation_parameters|default({}), translation_domain) }}
         </button>
     {% endif %}
-{%- endblock submitems_widget -%}
+{%- endblock submit_ems_widget -%}
 
 {%- block data_field_options_widget -%}
 

@@ -133,18 +133,19 @@
 	{{ block('choice_widget') }}
 {%- endblock selectpicker_widget %}
 
-{%- block submitems_widget -%}
-
-    {%- if label is not defined or label is null -%}
-        {%- if label_format is not empty -%}
-            {% set label = label_format|replace({
-                '%name%': name,
-                '%id%': id,
-            }) %}
-        {%- else -%}
-            {% set label = name|humanize %}
-        {%- endif -%}
-    {%- endif -%}
+{%- block submit_ems_widget -%}
+	{%- set icon = icon|default(icons[name]|default('fa fa-save')) -%}
+	{%- set attr = attr|merge({class: attr.class|default('btn btn-primary btn-sm')}) -%}
+	{%- if label is not defined or label is null -%}
+		{%- if label_format is not empty -%}
+			{% set label = label_format|replace({
+				'%name%': name,
+				'%id%': id,
+			}) %}
+		{%- else -%}
+			{% set label = name|humanize %}
+		{%- endif -%}
+	{%- endif -%}
 	{% if confirm is defined and confirm != null %}
         {% set testId = attr|filter((a,k) => 'data-testid' is same as(k)) %}
 		<div class="btn-group">
@@ -172,7 +173,7 @@
 			{{ translation_domain is same as(false) ? label : label|trans(label_translation_parameters|default({}), translation_domain) }}
 		</button>
 	{% endif %}
-{%- endblock submitems_widget -%}
+{%- endblock submit_ems_widget -%}
 
 
 {%- block data_field_options_widget -%}

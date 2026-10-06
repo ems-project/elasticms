@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function Symfony\Component\Translation\t;
 
 /**
  * @extends AbstractType<mixed>
@@ -57,8 +58,8 @@ class ManagedAliasType extends AbstractType
             ])
             ->add('align_indexes', AlignIndexesType::class)
             ->add('save', SubmitEmsType::class, [
-                'attr' => ['class' => 'btn btn-primary btn-sm ', 'data-testid' => 'btn-action-save'],
-                'icon' => 'fa fa-save',
+                'attr' => ['data-testid' => 'btn-action-save'],
+                'label' => t('action.save', [], 'emsco-core'),
             ]);
     }
 

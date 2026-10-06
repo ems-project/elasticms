@@ -92,12 +92,8 @@ final class DashboardType extends AbstractType
         }
 
         $builder->add('save', SubmitEmsType::class, [
+            'attr' => ['data-testid' => 'btn-action-save'],
             'label' => t('action.save', [], 'emsco-core'),
-            'attr' => [
-                'class' => 'btn btn-primary btn-sm ',
-                'data-testid' => 'btn-action-save',
-            ],
-            'icon' => 'fa fa-save',
         ]);
     }
 

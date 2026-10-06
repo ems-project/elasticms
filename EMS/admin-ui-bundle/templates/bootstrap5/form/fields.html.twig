@@ -1,6 +1,13 @@
 {% use 'bootstrap_5_layout.html.twig' %}
 {% trans_default_domain 'emsco-core' %}
 
+{%- block form_row -%}
+    {%- if col -%}
+        {%- set row_attr = row_attr|merge({class: (row_attr.class|default('') ~ ' col-md-' ~ col)|trim}) -%}
+    {%- endif -%}
+    {{- parent() -}}
+{%- endblock form_row -%}
+
 {# Widgets #}
 {%- block checkbox_widget -%}
     {%- set attr_class = attr_class|default(attr.class|default('')) -%}
@@ -333,13 +340,8 @@
 {%- endblock code_editor_label -%}
 
 {% block code_editor_row -%}
-    <div class="form-group ems-code-editor {{ row_attr.class|default('') }}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
-        {{- form_label(form) -}}
-        <div class="">
-            {{- form_widget(form) -}}
-            {{- form_errors(form) -}}
-        </div>
-{##}</div>
+    {%- set row_attr = row_attr|merge({class: ('ems-code-editor ' ~ row_attr.class|default(''))|trim}) -%}
+    {{- block('form_row') -}}
 {%- endblock code_editor_row %}
 
 {% block code_editor_widget %}

@@ -1,6 +1,6 @@
 {% trans_default_domain 'emsco-core' %}
 
-{% set status = this.status %}
+{%- set status = this.status -%}
 
 <nav id="sidebar" class="sidebar">
     <div class="sidebar-content">
@@ -19,28 +19,40 @@
             {% for item in this.menus|filter(p => p.hasChildren) %}
                 <li class="sidebar-header">{{ item.title|trans }}</li>
                 {% for menu in item.children %}
-                    {{ _self.item(menu) }}
+                    {{ _self.item(this, menu) }}
                 {% endfor %}
             {% endfor %}
         </ul>
     </div>
 </nav>
 
-{% macro item(menu) %}
-    <li class="sidebar-item">
-        <a href="{{ menu.hasChildren ? '#' : path(menu.route, menu.routeParameters) }}" class="sidebar-link{% if menu.color %} text-{{ menu.color }}{% endif %}{% if menu.hasChildren %} collapsed{% endif %}" {% if menu.hasChildren %}data-bs-target="#nav-{{ menu.label|ems_slug }}" data-bs-toggle="collapse"{% endif %}>
+{% macro item(component, menu, parentSlug = '') %}
+    {% set menuLabel = menu.label is ems_translatable_message ? menu.label|trans : menu.label %}
+    {% set menuColor = menu.color|default('') %}
+    {% set slug = menuLabel|ems_slug %}
+    {% set path = menu.route is not null ? path(menu.route, menu.routeParameters) : null %}
+    {% set active = component.isPathActive(path) %}
+    <li class="{{ html_classes({'sidebar-item': true, 'active': active}) }}">
+        <a href="{{ menu.hasChildren ? '#' : path|default('#') }}"
+           class="{{ html_classes('sidebar-link', { ("text-#{menuColor}"): menuColor != '', 'collapsed': menu.hasChildren and not active}) }}"
+           {% if menu.hasChildren %}
+               data-bs-target="#nav-{{ parentSlug }}{{ slug }}"
+               data-bs-toggle="collapse"
+               aria-expanded="{{ active ? 'true' : 'false' }}"
+           {% endif %}
+           data-testid="menu-item-{{ parentSlug }}{{ slug }}">
             <i class="align-middle {{ menu.icon }}"></i>
             <span class="align-middle">
-                {{ menu.label is ems_translatable_message ? menu.label|trans : menu.label }}
+                {{ menuLabel }}
                 {% if menu.hasBadge %}
                     <span class="sidebar-badge badge {{ menu.badgeColor ? 'bg-' ~ menu.badgeColor : 'bg-primary' }}">{{ menu.badge }}</span>
                 {% endif %}
             </span>
         </a>
         {% if menu.hasChildren %}
-            <ul id="nav-{{ menu.label|ems_slug }}" class="sidebar-dropdown list-unstyled collapse">
+            <ul id="nav-{{ parentSlug }}{{ slug }}" class="sidebar-dropdown list-unstyled collapse{% if active %} show{% endif %}">
                 {% for child in menu.children %}
-                    {{ _self.item(child) }}
+                    {{ _self.item(component, child, parentSlug ~ slug ~ '-') }}
                 {% endfor %}
             </ul>
         {% endif %}

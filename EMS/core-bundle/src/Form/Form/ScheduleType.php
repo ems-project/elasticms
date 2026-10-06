@@ -28,29 +28,21 @@ class ScheduleType extends AbstractType
         $builder->add('name', IconTextType::class, [
             'label' => t('field.name', [], 'emsco-core'),
             'icon' => 'fa fa-tag',
-            'row_attr' => [
-                'class' => 'col-md-8',
-            ],
+            'col' => 8,
         ])->add('cron', IconTextType::class, [
             'label' => t('field.cron', [], 'emsco-core'),
             'icon' => 'fa fa-clock-o',
-            'row_attr' => [
-                'class' => 'col-md-8',
-            ],
+            'col' => 8,
             'help' => t('key.schedule_cron', [], 'emsco-core'),
         ])->add('command', IconTextType::class, [
             'label' => t('field.command', [], 'emsco-core'),
             'icon' => 'fa fa-terminal',
-            'row_attr' => [
-                'class' => 'col-md-8',
-            ],
+            'col' => 8,
         ])->add('tag', IconTextType::class, [
             'label' => t('field.tag', [], 'emsco-core'),
             'required' => false,
             'icon' => 'fa fa-tags',
-            'row_attr' => [
-                'class' => 'col-md-8',
-            ],
+            'col' => 8,
             'help' => t('key.schedule_tag', [], 'emsco-core'),
         ]);
 

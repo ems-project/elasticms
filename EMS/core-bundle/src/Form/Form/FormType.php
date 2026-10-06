@@ -34,16 +34,12 @@ final class FormType extends AbstractType
             ->add('name', null, [
                 'label' => t('field.name', [], 'emsco-core'),
                 'required' => true,
-                'row_attr' => [
-                    'class' => 'col-md-4',
-                ],
+                'col' => 4,
             ])
             ->add('label', null, [
                 'label' => t('field.label', [], 'emsco-core'),
                 'required' => true,
-                'row_attr' => [
-                    'class' => 'col-md-4',
-                ],
+                'col' => 4,
             ]);
 
         if ($options['create'] ?? false) {

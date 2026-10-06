@@ -1765,8 +1765,8 @@
                     "active": false,
                     "role": "not-defined",
                     "environments": [
-                        "preview",
-                        "live"
+                        "live",
+                        "preview"
                     ],
                     "roleTo": "not-defined",
                     "roleCc": "not-defined",
@@ -1807,13 +1807,54 @@
                     "active": false,
                     "role": "not-defined",
                     "environments": [
-                        "preview",
-                        "live"
+                        "live",
+                        "preview"
                     ],
                     "roleTo": "not-defined",
                     "roleCc": "not-defined",
                     "circlesTo": null,
                     "responseTemplate": null,
+                    "emailContentType": null,
+                    "allowOrigin": null,
+                    "disposition": null,
+                    "orientation": null,
+                    "size": null,
+                    "public": false,
+                    "spreadsheet": false,
+                    "tag": null,
+                    "allowedRemoteHosts": []
+                },
+                "replaced": [
+                    "environments"
+                ]
+            },
+            {
+                "class": "EMS\\CoreBundle\\Entity\\Template",
+                "arguments": [],
+                "properties": {
+                    "name": "ask_for_validation",
+                    "label": "Ask for validation",
+                    "labelTranslations": null,
+                    "icon": "fa fa-paper-plane",
+                    "body": "{{ block('body', '@EMSCH/template_ems/content_type/notification.twig') }}",
+                    "header": null,
+                    "editWithWysiwyg": false,
+                    "renderOption": "notification",
+                    "orderKey": 3,
+                    "accumulateInOneFile": false,
+                    "preview": false,
+                    "mimeType": null,
+                    "filename": null,
+                    "extension": null,
+                    "active": true,
+                    "role": "ROLE_USER",
+                    "environments": [
+                        "preview"
+                    ],
+                    "roleTo": "ROLE_USER",
+                    "roleCc": "ROLE_REVIEWER",
+                    "circlesTo": null,
+                    "responseTemplate": "{{ block('reponse', '@EMSCH/template_ems/content_type/notification.twig') }}",
                     "emailContentType": null,
                     "allowOrigin": null,
                     "disposition": null,
@@ -1840,7 +1881,7 @@
                     "header": null,
                     "editWithWysiwyg": false,
                     "renderOption": "job",
-                    "orderKey": 3,
+                    "orderKey": 4,
                     "accumulateInOneFile": false,
                     "preview": false,
                     "mimeType": null,
@@ -1879,7 +1920,7 @@
                     "header": null,
                     "editWithWysiwyg": false,
                     "renderOption": "job",
-                    "orderKey": 4,
+                    "orderKey": 5,
                     "accumulateInOneFile": false,
                     "preview": false,
                     "mimeType": null,

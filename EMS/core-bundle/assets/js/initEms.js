@@ -324,7 +324,6 @@ import JsonMenuNestedComponent from "./component/jsonMenuNestedComponent";
 
 
     $(document).ready(function() {
-        activeMenu();
         loadLazyImages();
         matchHeight();
         closeModalNotification();

@@ -1,8 +1,8 @@
 {% use "bootstrap_3_layout.html.twig" %}{% trans_default_domain 'emsco-core' %}
 
 {%- block form_row -%}
-	{%- if 'col-' not in row_attr.class|default('') -%}
-		{%- set row_attr = row_attr|merge({class: (row_attr.class|default('') ~ ' col-md-' ~ (col|default(12)))|trim}) -%}
+	{%- if col -%}
+		{%- set row_attr = row_attr|merge({class: (row_attr.class|default('') ~ ' col-md-' ~ col)|trim}) -%}
 	{%- endif -%}
 	{{- parent() -}}
 {%- endblock form_row -%}

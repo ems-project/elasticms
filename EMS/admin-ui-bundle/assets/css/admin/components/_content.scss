@@ -1,0 +1,4 @@
+//checkboxes
+.form-check-input:hover:not(:disabled) {
+  border-color: var(--bs-primary);
+}

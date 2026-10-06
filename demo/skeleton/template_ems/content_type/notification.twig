@@ -1,0 +1,32 @@
+{% block body %}
+    {%- set baseUrl = app.request.schemeAndHttpHost -%}
+    {%- set revision = notification.revision -%}
+    {%- set contentType = revision.contentType -%}
+    {%- set emsId = contentType.name ~ ':' ~ revision.ouuid -%}
+    {%- set documentUrl = "#{baseUrl}/data/revisions/#{emsId}" -%}
+    <h2>New request: {{ notification.template.name }}</h2>
+    <p>You have received a request for the following {{ contentType.singularName|lower }}:</p>
+    <p><a href="{{ documentUrl }}" target="_blank"><strong>{{ source.title_en|default(source.title_nl|default(source.title_fr|default(emsId))) }}</strong></a></p>
+    <p><a href="{{ baseUrl }}/login" target="_blank">Log in</a> to approve or reject this request.</p>
+    <p>Kind regards,<br>{{ notification.username|emsco_get_user.displayname }}</p>
+{% endblock %}
+
+{% block response %}
+    {%- set baseUrl = app.request.schemeAndHttpHost -%}
+    {%- set revision = notification.revision -%}
+    {%- set contentType = revision.contentType -%}
+    {%- set emsId = contentType.name ~ ':' ~ revision.ouuid -%}
+    {%- set documentUrl = "#{baseUrl}/data/revisions/#{emsId}" -%}
+    {%- set accepted = status == 'accepted' -%}
+    <h2>Request {{ accepted ? 'approved' : 'rejected' }}</h2>
+    <p>Hi <strong>{{ notification.username|emsco_get_user.displayname }}</strong>,</p>
+    <p>Your request for <strong>{{ notification.template.name }}</strong> has been <strong>{{ accepted ? 'approved' : 'rejected' }}</strong>:</p>
+    <p><a href="{{ documentUrl }}" target="_blank"><strong>{{ source.title_en|default(source.title_nl|default(source.title_fr|default(emsId))) }}</strong></a></p>
+    {% if not accepted %}
+        <p>Please review and update the document.</p>
+    {% endif %}
+    {% if notification.responseText|raw %}
+        <hr>
+        <p><strong>Comment:</strong> {{ notification.responseText|raw }}</p>
+    {% endif %}
+{% endblock %}

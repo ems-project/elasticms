@@ -1,13 +1,20 @@
 {% use 'bootstrap_5_layout.html.twig' %}
 {% trans_default_domain 'emsco-core' %}
 
+{%- block form_row -%}
+    {%- if col -%}
+        {%- set row_attr = row_attr|merge({class: (row_attr.class|default('') ~ ' col-md-' ~ col)|trim}) -%}
+    {%- endif -%}
+    {{- parent() -}}
+{%- endblock form_row -%}
+
 {# Widgets #}
 {%- block checkbox_widget -%}
     {%- set attr_class = attr_class|default(attr.class|default('')) -%}
     {%- set row_class = '' -%}
     {%- if 'btn-check' not in attr_class -%}
         {%- set attr_class = attr_class ~ ' form-check-input' -%}
-        {%- set row_class = 'form-check icheck-primary' -%}
+        {%- set row_class = 'form-check' -%}
     {%- endif -%}
     {%- set attr = attr|merge({class: attr_class|trim}) -%}
     {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
@@ -137,7 +144,9 @@
     {{ block('choice_widget') }}
 {%- endblock objectpicker_widget %}
 
-{%- block submitems_widget -%}
+{%- block submit_ems_widget -%}
+    {%- set icon = icon|default(icons[name]|default('fa fa-save')) -%}
+    {%- set attr = attr|merge({class: attr.class|default('btn btn-primary btn-sm')}) -%}
     {%- if label is not defined or label is null -%}
         {%- if label_format is not empty -%}
             {% set label = label_format|replace({
@@ -149,8 +158,9 @@
         {%- endif -%}
     {%- endif -%}
     {% if confirm is defined and confirm != null %}
+        {% set testId = attr|filter((a,k) => 'data-testid' is same as(k)) %}
         <div class="btn-group">
-            <button type="button" class="{{ confirm_class|default('btn btn-outline-danger') }} dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="{{ confirm_class|default('btn btn-outline-danger') }} dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"{% if testId|length > 0 %} data-testid="{{ testId|first }}"{% endif %}>
                 {%- if icon -%}
                     <span class="{{ icon }}"></span>&nbsp;
                 {% endif %}
@@ -158,6 +168,9 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
+                {% if  testId|length > 0 %}
+                    {% set attr = attr|merge({ 'data-testid' : (testId|first ~ '-message')}) %}
+                {% endif %}
                 <li>
                     <button type="{{ type|default('submit') }}" {{ block('button_attributes') }}>{{ confirm|trans }}</button>
                 </li>
@@ -171,7 +184,7 @@
             {{ translation_domain is same as(false) ? label : label|trans(label_translation_parameters|default({}), translation_domain) }}
         </button>
     {% endif %}
-{%- endblock submitems_widget -%}
+{%- endblock submit_ems_widget -%}
 
 {%- block data_field_options_widget -%}
 
@@ -333,13 +346,8 @@
 {%- endblock code_editor_label -%}
 
 {% block code_editor_row -%}
-    <div class="form-group ems-code-editor {{ row_attr.class|default('') }}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
-        {{- form_label(form) -}}
-        <div class="">
-            {{- form_widget(form) -}}
-            {{- form_errors(form) -}}
-        </div>
-{##}</div>
+    {%- set row_attr = row_attr|merge({class: ('ems-code-editor ' ~ row_attr.class|default(''))|trim}) -%}
+    {{- block('form_row') -}}
 {%- endblock code_editor_row %}
 
 {% block code_editor_widget %}

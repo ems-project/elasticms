@@ -74,26 +74,26 @@ $cyan:        #0dcaf0 !default;
 $aqua:        #00c0ef !default;
 $navy:        #001f3f !default;
 
-$white:    #fff !default;
-$gray-100: #f8f9fa !default;
-$gray-200: #e9ecef !default;
-$gray-300: #dee2e6 !default;
-$gray-400: #ced4da !default;
-$gray-500: #adb5bd !default;
-$gray-600: #6c757d !default;
-$gray-700: #495057 !default;
-$gray-800: #343a40 !default;
-$gray-900: #212529 !default;
-$black: #000 !default;
+$white:       #fff !default;
+$gray-100:    #f8f9fa !default;
+$gray-200:    #e9ecef !default;
+$gray-300:    #dee2e6 !default;
+$gray-400:    #ced4da !default;
+$gray-500:    #adb5bd !default;
+$gray-600:    #6c757d !default;
+$gray-700:    #495057 !default;
+$gray-800:    #343a40 !default;
+$gray-900:    #212529 !default;
+$black:       #000 !default;
 
-$primary:       $light-blue !default;
-$secondary:     $gray-600 !default;
-$success:       $green !default;
-$info:          $cyan !default;
-$warning:       $yellow !default;
-$danger:        $red !default;
-$light:         $gray-100 !default;
-$dark:          $gray-900 !default;
+$primary: $light-blue !default;
+$secondary: $gray-600 !default;
+$success: $green !default;
+$info: $cyan !default;
+$warning: $yellow !default;
+$danger: $red !default;
+$light: $gray-100 !default;
+$dark: $gray-900 !default;
 
 $ems-interface-colors: (
   'blue': $light-blue,
@@ -124,14 +124,14 @@ $ems-colors: (
 
 $theme-colors: map-merge(
 (
-  'primary': $primary,
-  'secondary': $secondary,
-  'success': $success,
-  'info': $info,
-  'warning': $warning,
-  'danger': $danger,
-  'light': $light,
-  'dark': $dark
+    'primary': $primary,
+    'secondary': $secondary,
+    'success': $success,
+    'info': $info,
+    'warning': $warning,
+    'danger': $danger,
+    'light': $light,
+    'dark': $dark
 ),
 $ems-colors
 ) !default;
@@ -143,8 +143,10 @@ $body-bg-dark: #1a1d21 !default;
 $body-color-dark: #e7e9eb !default;
 $border-color-dark: #40464d !default;
 
+$ems-surface: var(--ems-surface) !default;
+
 // Links
-$link-color:      $body-color;
+$link-color: $body-color;
 $link-decoration: none !default;
 $link-hover-decoration: underline !default;
 
@@ -163,30 +165,30 @@ $h3-font-size: $font-size-base * 1.5 !default;
 $h4-font-size: $font-size-base * 1.25 !default;
 $h5-font-size: $font-size-base !default;
 $h6-font-size: $font-size-base !default;
-$headings-color: $black !default;
+$headings-color: var(--bs-emphasis-color) !default;
 $headings-font-weight: 400 !default;
 
 // Displays
 $display-font-sizes: (
-	1: 6rem,
+  1: 6rem,
   2: 5.5rem,
   3: 4.5rem,
   4: 3.5rem,
   5: 3rem,
   6: 2.5rem
-  ) !default;
+) !default;
 
 // Shadows
-$box-shadow-sm:    0 0.05rem 0.2rem rgba($black, .05) !default;
-$box-shadow:       0 0.1rem 0.2rem rgba($black, .05) !default;
-$box-shadow-lg:    0 0.2rem 0.2rem rgba($black, .05) !default;
+$box-shadow-sm: 0 0.05rem 0.2rem rgba($black, .05) !default;
+$box-shadow: 0 0.1rem 0.2rem rgba($black, .05) !default;
+$box-shadow-lg: 0 0.2rem 0.2rem rgba($black, .05) !default;
 
 // Navbar input
 $navbar-input-bg: darken($body-bg, 0.5%) !default;
 
 // Border radius
 $border-radius-sm: .1rem !default;
-$border-radius:    .2rem !default;
+$border-radius: .2rem !default;
 $border-radius-lg: .3rem !default;
 
 // Navbar
@@ -206,15 +208,13 @@ $navbar-brand-font-weight: $font-weight-normal !default;
 $navbar-brand-font-size: 1.4rem !default;
 $navbar-brand-icon-color: $primary !default;
 
-$navbar-bg: $white !default;
-
-// Footer
-$footer-bg: $white !default;
+$navbar-bg: $ems-surface !default;
+$footer-bg: $ems-surface !default;
 
 // Forms
-$input-bg: $white !default;
-$input-disabled-bg: $gray-200 !default;
-$input-color: $gray-700 !default;
+$input-bg: $ems-surface !default;
+$input-disabled-bg: var(--bs-secondary-bg) !default;
+$input-color: var(--bs-body-color) !default;
 $input-btn-border-width: $border-width !default;
 $input-btn-line-height: $line-height-base !default;
 $input-btn-line-height-sm: $line-height-sm !default;
@@ -233,17 +233,26 @@ $input-height-sm: calc(#{$input-height-inner-sm} + #{$input-height-border}) !def
 $input-height-inner-lg: ($font-size-lg * $input-btn-line-height-lg) + ($input-btn-padding-y-lg * 2) !default;
 $input-height-lg: calc(#{$input-height-inner-lg} + #{$input-height-border}) !default;
 
+$form-select-bg: $ems-surface !default;
+
+$form-check-input-width: 1.6em;
+$form-check-input-bg: $ems-surface;
+$form-check-input-border: 2px solid var(--bs-border-color);
+$form-check-input-border-radius: 0.2rem;
+$form-check-input-checked-bg-color: $primary;
+$form-check-input-checked-border-color: $primary;
+
 // Cards
-$card-bg: $white !default;
+$card-bg: $ems-surface !default;
 $card-border-radius: .25rem !default;
 $card-inner-border-radius: $card-border-radius !default;
 $card-border-width: 0 !default;
 $card-border-color: transparent !default;
-$card-cap-bg: $white !default;
+$card-cap-bg: $ems-surface !default;
 $card-shadow: 0 0 .875rem 0 rgba($dark, 0.05) !default;
 $card-title-font-size: $font-size-lg !default;
 $card-title-font-weight: $font-weight-bold !default;
-$card-title-color: lighten($body-color, 15%) !default;
+$card-title-color: var(--bs-secondary-color);
 $card-spacer-y: .75rem !default;
 $card-spacer-x: .75rem !default;
 $card-cap-padding-y: 1rem !default;
@@ -255,8 +264,8 @@ $table-cell-padding-x: .75rem !default;
 $table-cell-padding-y-sm: .3rem !default;
 $table-cell-padding-x-sm: .3rem !default;
 $table-bg: transparent !default;
-$table-striped-bg: $gray-100 !default;
-$table-hover-bg: rgba($black, .0375) !default;
+$table-striped-bg: rgba(var(--bs-emphasis-color-rgb), .04) !default;
+$table-hover-bg: rgba(var(--bs-emphasis-color-rgb), .04) !default;
 
 // Sidebar general
 $sidebar-width: 260px !default;
@@ -314,6 +323,7 @@ $modal-lg: 900px !default;
 $modal-md: 600px !default;
 $modal-sm: 400px !default;
 $modal-transition: transform .25s ease-out !default;
+$modal-content-bg: $ems-surface !default;
 
 // Badges
 $badge-font-size: 80% !default;
@@ -322,10 +332,12 @@ $badge-padding-x: .45em !default;
 
 // Breadcrumb
 $breadcrumb-margin-bottom: 0;
-$breadcrumb-item-active-color: $body-color;
+$breadcrumb-item-active-color: var(--bs-body-color);
 
 // Dropdowns
-$dropdown-bg: $white !default;
+$dropdown-bg: $ems-surface !default;
+
+$pagination-bg: $ems-surface !default;
 
 // Main
 $main-box-shadow: inset .75rem 0px 1.5rem 0px rgba($black, 0.075);
@@ -338,17 +350,17 @@ $content-padding-mobile: .75rem;
 $bs-datetimepicker-active-bg: $primary !default;
 
 // Stats
-$stat-bg: lighten($primary, 35%) !default;
+$stat-bg: var(--bs-primary-bg-subtle) !default;
 $stat-icon-color: $primary !default;
 $stat-padding: $spacer * 0.75 !default;
 
 // Tabs
-$nav-tabs-link-color:               $body-color;
-$nav-tabs-border-width:             0;
-$nav-tabs-link-active-color:        $nav-tabs-link-color;
-$nav-tabs-link-active-bg:           #fff;
-$nav-tabs-link-padding:             .75rem 1rem;
-$tab-content-padding-x:             .75rem;
-$tab-content-padding-y:             .75rem;
-$tab-content-background-color:      #fff;
-$tab-content-box-shadow:            $box-shadow;
+$nav-tabs-link-color: var(--bs-body-color);
+$nav-tabs-border-width: 0;
+$nav-tabs-link-active-color: var(--bs-body-color);
+$nav-tabs-link-active-bg: $ems-surface;
+$nav-tabs-link-padding: .75rem 1rem;
+$tab-content-padding-x: .75rem;
+$tab-content-padding-y: .75rem;
+$tab-content-background-color: $ems-surface;
+$tab-content-box-shadow: $box-shadow;

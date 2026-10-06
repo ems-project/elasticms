@@ -64,7 +64,7 @@
                     <td>
                         <div class="btn-group">
                             {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
-                                url: path('action.acknowledge', {notification: notification.id}),
+                                url: path('notification.acknowledge', {notification: notification.id}),
                                 label: 'action.acknowledge'|trans,
                                 icon: 'check',
                                 message: 'action.confirmation'|trans,

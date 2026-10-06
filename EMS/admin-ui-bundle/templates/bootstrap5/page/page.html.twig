@@ -47,10 +47,11 @@
                     {{ form_start(form) }}
                     <div class="card-body">
                         {{ form_errors(form) }}
-                        <div class="row">
+                        <div class="d-flex flex-column gap-3">
                             {% for child in form|filter(c => not (c.vars.name in ['save', 'save_close'])) %}
-                                {{ form_row(child) }}
-                                <div class="clearfix"></div>
+                                <div class="row">
+                                    {{ form_row(child) }}
+                                </div>
                             {% endfor %}
                         </div>
                     </div>

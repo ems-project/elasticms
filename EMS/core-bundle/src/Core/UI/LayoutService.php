@@ -7,10 +7,12 @@ namespace EMS\CoreBundle\Core\UI;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\Dashboard\DashboardManager;
+use EMS\CoreBundle\Core\UI\Page\Page;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\AssetExtractorService;
 use EMS\CoreBundle\Service\ContentTypeService;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -18,12 +20,18 @@ use function Symfony\Component\Translation\t;
 
 class LayoutService
 {
+    /**
+     * @var string[]
+     */
+    private array $activePaths = [];
+
     public function __construct(
         private readonly DashboardManager $dashboardManager,
         private readonly ContentTypeService $contentTypeService,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly ElasticaService $elasticaService,
         private readonly AssetExtractorService $assetExtractorService,
+        private readonly RouterInterface $router,
         private readonly bool $groupFeature,
     ) {
     }
@@ -68,6 +76,22 @@ class LayoutService
             $this->sidebarAdmin(),
             $this->sidebarOther(),
         ]);
+    }
+
+    public function isPathActive(string $path): bool
+    {
+        return \in_array($path, $this->activePaths, true);
+    }
+
+    public function setCurrentPage(Page $page): void
+    {
+        foreach ($page->getBreadcrumb()->items ?? [] as $item) {
+            if (!$item->route) {
+                continue;
+            }
+
+            $this->activePaths[] = $this->router->generate($item->route, $item->routeParams);
+        }
     }
 
     private function sidebarDashboards(UserInterface $user): ?Menu

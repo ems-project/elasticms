@@ -6,7 +6,9 @@ namespace EMS\CoreBundle\Twig\Components\Layout;
 
 use EMS\CoreBundle\Core\UI\LayoutService;
 use EMS\CoreBundle\Core\UI\Menu;
+use EMS\CoreBundle\Core\UI\MenuEntry;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class SidebarComponent
@@ -14,12 +16,26 @@ class SidebarComponent
     public function __construct(
         private readonly LayoutService $layoutService,
         private readonly Security $security,
+        private readonly RequestStack $requestStack,
     ) {
     }
 
     public function getStatus(): string
     {
         return $this->layoutService->getStatus();
+    }
+
+    public function isActiveSidebar(string $path, MenuEntry $menuEntry): bool
+    {
+        if (null === $request = $this->requestStack->getCurrentRequest()) {
+            return false;
+        }
+
+        if ($request->getPathInfo() === $path) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

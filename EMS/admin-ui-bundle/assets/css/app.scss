@@ -34,11 +34,7 @@
 @import "bootstrap/scss/helpers";
 @import "bootstrap/scss/utilities/api";
 
-// Theme mixins
-@import "admin/mixins/button";
-
 // Theme components
-@import "admin/components/buttons";
 @import "admin/components/card";
 @import "admin/components/chart";
 @import "admin/components/content";

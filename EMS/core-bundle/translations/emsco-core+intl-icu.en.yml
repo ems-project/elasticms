@@ -465,7 +465,7 @@ field:
     mapping: Mapping
     mapping_options: 'Mapping options'
     max: Max
-    max_depth: field.max_depth
+    max_depth: 'Max depth'
     max_lines: 'Max lines'
     max_output_size: 'Max output size'
     max_token_length: 'Max token lenght'
@@ -485,7 +485,7 @@ field:
     nested: Nested
     new_version: 'New version'
     node_name: 'Node name'
-    node_types: field.node_types
+    node_types: 'Node types'
     not_blank_new_version: 'Not blank new version'
     number: Number
     operator: Operator

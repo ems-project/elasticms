@@ -354,7 +354,7 @@ field:
     display: Affichage
     display_format: "Format d'affichage"
     display_name: 'Nom d’affichage'
-    display_template: field.display_template
+    display_template: "Modèle d'affichage"
     docs_count: '# Documents'
     dynamic_loading: 'Chargement dynamique'
     edit_twig_with_wysiwyg: 'Modifier le template Twig avec un éditeur WYSIWYG'
@@ -470,7 +470,7 @@ field:
     mapping: Mapping
     mapping_options: 'Options de mappage'
     max: Max
-    max_depth: field.max_depth
+    max_depth: 'Profondeur maximale'
     max_lines: 'Nombre maximal de lignes'
     max_output_size: 'Taille de sortie max.'
     max_token_length: 'Longueur max. du token'
@@ -490,7 +490,7 @@ field:
     nested: Imbriqué
     new_version: 'Nouvelle version'
     node_name: 'Nom du nœud'
-    node_types: field.node_types
+    node_types: 'Types de nœuds'
     not_blank_new_version: 'Nouvelle version non vide'
     number: Nombre
     operator: Opérateur

@@ -349,7 +349,7 @@ field:
     display: Weergave
     display_format: Weergaveformaat
     display_name: Weergavenaam
-    display_template: field.display_template
+    display_template: Weergavesjabloon
     docs_count: '# Documenten'
     dynamic_loading: 'Dynamisch laden'
     edit_twig_with_wysiwyg: 'Twig-template bewerken met een WYSIWYG-editor'
@@ -465,7 +465,7 @@ field:
     mapping: Mapping
     mapping_options: Toewijzingsopties
     max: Max
-    max_depth: field.max_depth
+    max_depth: 'Maximale diepte'
     max_lines: 'Maximum aantal regels'
     max_output_size: 'Max. outputgrootte'
     max_token_length: 'Max. tokenlengte'
@@ -485,7 +485,7 @@ field:
     nested: Genest
     new_version: 'Nieuwe versie'
     node_name: 'Naam van het knooppunt'
-    node_types: field.node_types
+    node_types: Knooppunttypes
     not_blank_new_version: 'Nieuwe versie niet leeg'
     number: Getal
     operator: Operator

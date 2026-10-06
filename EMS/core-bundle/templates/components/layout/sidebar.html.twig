@@ -54,8 +54,8 @@
     {% set menuLabel = menu.label is ems_translatable_message ? menu.label|trans : menu.label %}
     {% set menuColor = menu.color|default('') %}
     {% set slug = menuLabel|ems_slug %}
-    {% set path = path(menu.route, menu.routeParameters) %}
-    {% set active = component.isActiveSidebar(path, menu) %}
+    {% set path = menu.route is not null ? path(menu.route, menu.routeParameters) : '#' %}
+    {% set active = component.isActiveSidebar(menu, path) %}
 
     <li class="{{ html_classes({'treeview': menu.hasChildren, 'active': active }) }}">
         <a href="{{ menu.hasChildren ? '#' : path }}"

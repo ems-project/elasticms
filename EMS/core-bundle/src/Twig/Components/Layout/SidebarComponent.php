@@ -25,7 +25,7 @@ class SidebarComponent
         return $this->layoutService->getStatus();
     }
 
-    public function isActiveSidebar(string $path, MenuEntry $menuEntry): bool
+    public function isActiveSidebar(MenuEntry $menuEntry, ?string $path): bool
     {
         if (null === $request = $this->requestStack->getCurrentRequest()) {
             return false;

@@ -9,7 +9,11 @@ use EMS\Helpers\Html\Headers;
 final class ResponseHeaderContext
 {
     /** @var array<string, string> */
-    private array $headers = [];
+    private array $headers = [
+        Headers::X_CONTENT_TYPE_OPTIONS => Headers::X_CONTENT_TYPE_OPTIONS_NOSNIFF,
+        Headers::REFERRER_POLICY => Headers::REFERRER_POLICY_STRICT_ORIGIN_WHEN_CROSS_ORIGIN,
+        Headers::PERMISSIONS_POLICY => 'camera=(), microphone=(), geolocation=()',
+    ];
 
     /** @var array<string, list<string>> */
     private array $cspSources = [];

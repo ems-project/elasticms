@@ -8,6 +8,7 @@ use EMS\CoreBundle\Form\Field\SubmitEmsType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+
 use function Symfony\Component\Translation\t;
 
 /**
@@ -25,16 +26,16 @@ class JobType extends AbstractType
         $builder
             ->add('command', TextType::class, [
                 'label' => t('field.command', [], 'emsco-core'),
-                'required' => false
+                'required' => false,
             ])
             ->add('tag', TextType::class, [
                 'label' => t('field.tag', [], 'emsco-core'),
                 'col' => 3,
-                'required' => false
+                'required' => false,
             ])
             ->add('save', SubmitEmsType::class, [
                 'attr' => ['data-testid' => 'btn-action-launch'],
-                'label' => t('action.launch', [], 'emsco-core')
+                'label' => t('action.launch', [], 'emsco-core'),
             ]);
     }
 }

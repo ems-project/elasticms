@@ -74,7 +74,7 @@ action:
     import: Import
     info: Info
     init_upload: 'Initialize upload'
-    launch: 'Launch'
+    launch: Launch
     move: Move
     move_item: 'Move item'
     new_entity_name: 'New {label}'

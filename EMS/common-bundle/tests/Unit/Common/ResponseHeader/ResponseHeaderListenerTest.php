@@ -26,7 +26,7 @@ final class ResponseHeaderListenerTest extends TestCase
         $this->createListener($requestStack)->onKernelResponse($this->createResponseEvent($response));
 
         self::assertSame('request-123', $response->headers->get('X-Request-Id'));
-        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'", $response->headers->get('Content-Security-Policy'));
+        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'", $response->headers->get('Content-Security-Policy'));
     }
 
     public function testOnKernelResponseAddsGeneratedCspHeaderToResponse(): void
@@ -36,13 +36,13 @@ final class ResponseHeaderListenerTest extends TestCase
         $context = new ResponseHeaderManager($requestStack)->getContext();
         $context->addCspSource('default-src', "'self'");
         $context->addCspSource('script-src', 'https://cdn.example.com');
-        $context->addCspSource('frame-ancestors', "'self'");
+        $context->addCspSource('frame-ancestors', "'none'");
 
         $response = new Response();
         $this->createListener($requestStack)->onKernelResponse($this->createResponseEvent($response));
 
         self::assertSame(
-            "default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; script-src https://cdn.example.com",
+            "default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; script-src https://cdn.example.com",
             $response->headers->get('Content-Security-Policy'),
         );
     }
@@ -55,7 +55,7 @@ final class ResponseHeaderListenerTest extends TestCase
         $response = new Response();
         $this->createListener($requestStack, true)->onKernelResponse($this->createResponseEvent($response));
 
-        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; style-src 'self' 'unsafe-inline'", $response->headers->get('Content-Security-Policy'));
+        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; style-src 'self' 'unsafe-inline'", $response->headers->get('Content-Security-Policy'));
     }
 
     private function createListener(RequestStack $requestStack, bool $debug = false): ResponseHeaderListener

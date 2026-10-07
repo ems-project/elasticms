@@ -31,7 +31,7 @@ final class ResponseHeaderContext
         'default-src' => ["'self'"],
         'object-src' => ["'none'"],
         'base-uri' => ["'self'"],
-        'frame-ancestors' => ["'none'"],
+        'frame-ancestors' => ["'self'"],
     ];
 
     public function setHeader(string $name, string $value): void

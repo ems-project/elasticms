@@ -15,8 +15,8 @@ The legacy search (`/search`) has been removed, along with the `Search`, `SortOp
 If needed, for PostgreSQL databases, a Doctrine migration script creates an `advanced_search`
 dashboard based on the existing `Search`, `SortOption`, `SearchFieldOption`, and `AggregateOption`
 entities. However, the migration script cannot migrate the templates of the `AggregateOption`
-entities. You must review these templates. Here is an example (compatible with eMS Bootstrap theme 3 and 5) of a template for a user aggregation
-facet:
+entities. You must review these templates. Here is an example (compatible with eMS Bootstrap theme 3
+and 5) of a template for a user aggregation facet:
 
 ```twig
 {% set fieldName = '_finalized_by' %}
@@ -43,8 +43,6 @@ facet:
     </div>
 {% endif %}
 ```
-
-
 
 Search entities have been removed. For each search entity defined as the default search for a
 content type, the PostgreSQL migration adds a redirect view to the `advanced_search` dashboard to
@@ -146,7 +144,7 @@ However:
 Deprecated route aliases have been removed. Use the `emsco_*` route instead.
 
 | Removed route (6.x)                  | Replacement (7.x)                    | Remark                                                  |
-|--------------------------------------|--------------------------------------|---------------------------------------------------------|
+| ------------------------------------ | ------------------------------------ | ------------------------------------------------------- |
 | `ems_data_default_search`            | `emsco_data_default_search`          |                                                         |
 | `data.root`                          | `emsco_data_default_search`          |                                                         |
 | `ems_search_in_my_circles`           | `emsco_data_search_in_my_circles`    |                                                         |

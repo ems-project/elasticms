@@ -290,7 +290,16 @@ Add a source to a Content-Security-Policy directive. The default policy contains
 default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'
 ```
 
-Adding a source replaces only the matching default directive; unrelated directives remain enabled.
+> **Note:** Adding a source for a directive replaces that directive's default value. Remember to
+> include the default sources you still need. For example, adding `script-src` with only
+> `https://cdn.example.com` removes the default `'self'` source:
+>
+> ```twig
+> {%- do ems_csp_source('script-src', "'self'")  -%}
+> {%- do ems_csp_source('script-src', 'https://cdn.example.com')  -%}
+> ```
+>
+> Adding a source replaces only the matching default directive; unrelated directives remain enabled.
 
 ```twig
 {% do ems_csp_source('script-src', 'https://cdn.example.com') %}

@@ -25,6 +25,10 @@ class EMSCommonExtension extends Extension implements PrependExtensionInterface
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        if (!$config['response_headers']['enabled']) {
+            $container->removeDefinition('ems_common.event_listener.response_header');
+        }
+
         $loader->load('storage.php');
         $loader->load('store_data.php');
         $loader->load('runner.php');

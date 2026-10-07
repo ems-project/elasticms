@@ -53,6 +53,9 @@ ems_common:
     request:
         trusted_ips: '%env(json:EMS_TRUSTED_IPS)%'
 
+    response_headers:
+        enabled: false
+
 when@dev:
     ems_common:
         profiler: true

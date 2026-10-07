@@ -12,7 +12,6 @@ use EMS\CoreBundle\Entity\Job;
 use EMS\CoreBundle\Helper\EmsCoreResponse;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\JobService;
-use EMS\Helpers\Standard\Json;
 use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 use SensioLabs\AnsiConverter\Theme\Theme;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +19,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 use function Symfony\Component\Translation\t;
@@ -100,74 +98,6 @@ class JobController extends AbstractController
             'message' => 'job started',
             'job_id' => $job->getId(),
         ]);
-    }
-
-    public function startNextJob(Request $request, UserInterface $user, string $tag): Response
-    {
-        $jobId = $request->query->get('job_id');
-        if (null !== $jobId) {
-            $job = $this->jobService->getById((int) $jobId);
-            if (null === $job) {
-                throw new NotFoundHttpException(\sprintf('job with id %s not found', $jobId));
-            }
-            if ($job->getTag() !== $tag) {
-                throw new \RuntimeException(\sprintf('job tag mismatched %s', $job->getTag()));
-            }
-            if ($job->getStarted()) {
-                throw new \RuntimeException('job already started');
-            }
-        } else {
-            $job = $this->jobService->nextJob($tag);
-        }
-        if (null === $job) {
-            $job = $this->jobService->nextJobScheduled($user->getUserIdentifier(), $tag);
-        }
-
-        if (null === $job) {
-            return EmsCoreResponse::createJsonResponse($request, true, ['message' => 'no next job']);
-        }
-
-        $this->jobService->start($job);
-
-        return EmsCoreResponse::createJsonResponse($request, true, [
-            'message' => \sprintf('job %d flagged has started', $job->getId()),
-            'job_id' => (string) $job->getId(),
-            'command' => $job->getCommand(),
-            'output' => $job->getOutput(),
-        ]);
-    }
-
-    public function jobCompleted(Request $request, int $job): Response
-    {
-        $this->jobService->finish($job);
-
-        return EmsCoreResponse::createJsonResponse($request, true);
-    }
-
-    public function jobFailed(Request $request, int $job): Response
-    {
-        $content = $request->getContent();
-        if (!\is_string($content)) {
-            throw new \RuntimeException('Unexpected non string content');
-        }
-        $data = Json::decode($content);
-        $this->jobService->finish($job, $data['message'] ?? 'job failed');
-
-        return EmsCoreResponse::createJsonResponse($request, true);
-    }
-
-    public function jobWrite(Request $request, int $job): Response
-    {
-        $content = $request->getContent();
-        if (!\is_string($content)) {
-            throw new \RuntimeException('Unexpected non string content');
-        }
-        $data = Json::decode($content);
-        $message = (string) ($data['message'] ?? '');
-        $newLine = (bool) ($data['new-line'] ?? false);
-        $this->jobService->write($job, $message, $newLine);
-
-        return EmsCoreResponse::createJsonResponse($request, true);
     }
 
     private function breadcrumb(): Navigation

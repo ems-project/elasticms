@@ -53,14 +53,14 @@ final class ResponseHeaderContextTest extends TestCase
         $context->addCspSource('script-src', 'https://cdn.example.com');
 
         self::assertSame(['script-src' => ["'self'", 'https://cdn.example.com']], $context->getCspSources());
-        self::assertSame("script-src 'self' https://cdn.example.com", $context->getCspHeader());
+        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; script-src 'self' https://cdn.example.com", $context->getCspHeader());
     }
 
-    public function testCspHeaderIsNullWhenNoSourceWasAdded(): void
+    public function testCspHeaderUsesSecureDefaultsWhenNoSourceWasAdded(): void
     {
         $context = new ResponseHeaderContext();
 
-        self::assertNull($context->getCspHeader());
+        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'", $context->getCspHeader());
     }
 
     public function testNoneCannotBeCombinedWithOtherSources(): void

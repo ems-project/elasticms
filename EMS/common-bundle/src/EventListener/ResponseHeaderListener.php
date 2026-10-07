@@ -33,11 +33,7 @@ readonly class ResponseHeaderListener implements EventSubscriberInterface
     {
         $response = $event->getResponse();
         $context = $this->responseHeaderManager->getContext();
-
         $response->headers->add($context->getHeaders());
-
-        if (null !== ($cspHeader = $context->getCspHeader())) {
-            $response->headers->set(Headers::CONTENT_SECURITY_POLICY, $cspHeader);
-        }
+        $response->headers->set(Headers::CONTENT_SECURITY_POLICY, $context->getCspHeader());
     }
 }

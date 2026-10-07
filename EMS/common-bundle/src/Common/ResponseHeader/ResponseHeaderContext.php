@@ -20,6 +20,16 @@ final class ResponseHeaderContext
 
     private ?string $nonce = null;
 
+    /**
+     * @var array<string, list<string>>
+     */
+    private const array DEFAULT_CSP_SOURCES = [
+        'default-src' => ["'self'"],
+        'object-src' => ["'none'"],
+        'base-uri' => ["'self'"],
+        'frame-ancestors' => ["'none'"],
+    ];
+
     public function setHeader(string $name, string $value): void
     {
         $name = Headers::normalizeName($name);
@@ -83,16 +93,18 @@ final class ResponseHeaderContext
         return $this->cspSources;
     }
 
-    public function getCspHeader(): ?string
+    public function getCspHeader(): string
     {
-        if ([] === $this->cspSources) {
-            return null;
+        $sources = self::DEFAULT_CSP_SOURCES;
+
+        foreach ($this->cspSources as $directive => $directiveSources) {
+            $sources[$directive] = $directiveSources;
         }
 
         $directives = [];
 
-        foreach ($this->cspSources as $directive => $sources) {
-            $directives[] = $directive.' '.\implode(' ', $sources);
+        foreach ($sources as $directive => $directiveSources) {
+            $directives[] = $directive.' '.\implode(' ', $directiveSources);
         }
 
         return \implode('; ', $directives);

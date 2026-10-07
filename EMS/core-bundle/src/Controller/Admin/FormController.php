@@ -36,7 +36,6 @@ class FormController extends AbstractController
         private readonly FormManager $formManager,
         private readonly FieldTypeManager $fieldTypeManager,
         private readonly DataTableFactory $dataTableFactory,
-        private readonly string $templateNamespace,
     ) {
     }
 
@@ -126,7 +125,7 @@ class FormController extends AbstractController
         ]);
     }
 
-    public function reorder(Request $request, Form $form): Response
+    public function reorder(Request $request, Form $form): Page|RedirectResponse
     {
         $formType = $this->createForm(ReorderType::class, []);
 
@@ -139,15 +138,18 @@ class FormController extends AbstractController
             return $this->redirectToRoute(Routes::ADMIN_FORM_INDEX);
         }
 
-        return $this->render(\sprintf('@%s/admin-form/reorder.html.twig', $this->templateNamespace), [
-            'form' => $formType->createView(),
-            'entity' => $form,
-            'title' => t('title.reorder_form_fields', ['label' => $form->getLabel()], 'emsco-core'),
-            'subTitle' => t('type.title_sub', ['type' => 'form'], 'emsco-core'),
-            'breadcrumb' => $this->breadcrumb()->add(
-                t('title.reorder_form_fields', ['label' => $form->getLabel()], 'emsco-core')
-            ),
-        ]);
+        return new Page(
+            context: [
+                'form' => $formType->createView(),
+                'entity' => $form,
+                'title' => t('title.reorder_form_fields', ['label' => $form->getLabel()], 'emsco-core'),
+                'subTitle' => t('type.title_sub', ['type' => 'form'], 'emsco-core'),
+                'breadcrumb' => $this->breadcrumb()->add(
+                    t('title.reorder_form_fields', ['label' => $form->getLabel()], 'emsco-core')
+                ),
+            ],
+            template: 'page/page_reorder.html.twig',
+        );
     }
 
     public function delete(Form $form): Response

@@ -183,7 +183,6 @@ return static function (ContainerConfigurator $container) {
             service('ems.form.manager'),
             service('ems.form.field-type.manager'),
             service('emsco.data_table.factory'),
-            '%ems_core.template_namespace%',
         ])
         ->call('setContainer')
         ->tag('container.service_subscriber')

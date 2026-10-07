@@ -13,6 +13,7 @@ use EMS\CommonBundle\Twig\HttpExtension;
 use EMS\CommonBundle\Twig\InfoExtension;
 use EMS\CommonBundle\Twig\ManifestExtension;
 use EMS\CommonBundle\Twig\RequestExtension;
+use EMS\CommonBundle\Twig\ResponseHeaderExtension;
 use EMS\CommonBundle\Twig\SearchExtension;
 use EMS\CommonBundle\Twig\StoreDataExtension;
 use EMS\CommonBundle\Twig\TemplateExtension;
@@ -92,6 +93,13 @@ return static function (ContainerConfigurator $container) {
             service('ems_common.json.decoder'),
             service('validator'),
             service('logger'),
+        ])
+        ->tag('twig.attribute_extension')
+        ->tag('twig.runtime');
+
+    $services->set('ems.twig_extension.response_header', ResponseHeaderExtension::class)
+        ->args([
+            service('ems_common.manager.response_header'),
         ])
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');

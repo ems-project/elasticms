@@ -9,6 +9,16 @@ outline: [2, 2]
 
 ## 7.4
 
+> **Security headers:** Starting with 7.4, EMS defines security headers by default. Review your Twig
+> templates and use the new response-header functions when a template must add, override, or remove a
+> header. See the [ResponseHeaderExtension documentation](./dev/common-bundle/twig.md#response-headers)
+> for `ems_http_header`, `ems_remove_http_header`, `ems_clear_http_headers`, `ems_csp_source`, and
+> `ems_nonce`.
+>
+> Before upgrading, disable any equivalent security headers configured in the web server or reverse
+> proxy. Defining the same headers at both levels can produce conflicting values, especially for
+> `Content-Security-Policy`.
+
 The legacy search (`/search`) has been removed, along with the `Search`, `SortOption`,
 `SearchFieldOption`, and `AggregateOption` entities.
 

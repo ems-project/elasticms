@@ -12,6 +12,7 @@ final readonly class ResponseHeaderManager
 
     public function __construct(
         private RequestStack $requestStack,
+        private bool $debug = false,
     ) {
     }
 
@@ -23,7 +24,7 @@ final readonly class ResponseHeaderManager
         $context = $request->attributes->get(self::EMS_RESPONSE_HEADERS);
 
         if (!$context instanceof ResponseHeaderContext) {
-            $context = new ResponseHeaderContext();
+            $context = new ResponseHeaderContext($this->debug);
             $request->attributes->set(self::EMS_RESPONSE_HEADERS, $context);
         }
 

@@ -232,5 +232,6 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems_common.manager.response_header', ResponseHeaderManager::class)
         ->args([
             service('request_stack'),
+            '%kernel.debug%',
         ]);
 };

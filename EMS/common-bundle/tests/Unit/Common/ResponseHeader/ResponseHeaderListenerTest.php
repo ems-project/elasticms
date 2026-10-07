@@ -47,9 +47,20 @@ final class ResponseHeaderListenerTest extends TestCase
         );
     }
 
-    private function createListener(RequestStack $requestStack): ResponseHeaderListener
+    public function testDebugModeDoesNotAddNonceToStyleSource(): void
     {
-        return new ResponseHeaderListener(new ResponseHeaderManager($requestStack));
+        $requestStack = new RequestStack();
+        $requestStack->push(Request::create('/'));
+
+        $response = new Response();
+        $this->createListener($requestStack, true)->onKernelResponse($this->createResponseEvent($response));
+
+        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; style-src 'self' 'unsafe-inline'", $response->headers->get('Content-Security-Policy'));
+    }
+
+    private function createListener(RequestStack $requestStack, bool $debug = false): ResponseHeaderListener
+    {
+        return new ResponseHeaderListener(new ResponseHeaderManager($requestStack, $debug));
     }
 
     private function createResponseEvent(Response $response): ResponseEvent

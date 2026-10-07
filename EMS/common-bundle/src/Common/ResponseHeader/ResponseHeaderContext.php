@@ -8,6 +8,10 @@ use EMS\Helpers\Html\Headers;
 
 final class ResponseHeaderContext
 {
+    public function __construct(private readonly bool $debug = false)
+    {
+    }
+
     /** @var array<string, string> */
     private array $headers = [
         Headers::X_CONTENT_TYPE_OPTIONS => Headers::X_CONTENT_TYPE_OPTIONS_NOSNIFF,
@@ -96,6 +100,10 @@ final class ResponseHeaderContext
     public function getCspHeader(): string
     {
         $sources = self::DEFAULT_CSP_SOURCES;
+
+        if ($this->debug) {
+            $sources['style-src'] = ["'self'", "'unsafe-inline'"];
+        }
 
         foreach ($this->cspSources as $directive => $directiveSources) {
             $sources[$directive] = $directiveSources;

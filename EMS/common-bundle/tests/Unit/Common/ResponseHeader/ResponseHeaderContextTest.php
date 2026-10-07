@@ -63,6 +63,13 @@ final class ResponseHeaderContextTest extends TestCase
         self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'", $context->getCspHeader());
     }
 
+    public function testDebugModeAllowsInlineStylesWithoutANonce(): void
+    {
+        $context = new ResponseHeaderContext(true);
+
+        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; style-src 'self' 'unsafe-inline'", $context->getCspHeader());
+    }
+
     public function testNoneCannotBeCombinedWithOtherSources(): void
     {
         $context = new ResponseHeaderContext();

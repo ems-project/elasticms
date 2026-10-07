@@ -14,7 +14,9 @@ use EMS\SubmissionBundle\Entity\FormSubmissionFile;
 /**
  * @extends ServiceEntityRepository<FormSubmissionFile>
  *
+ * @method FormSubmissionFile|null find($id, $lockMode = null, $lockVersion = null)
  * @method FormSubmissionFile|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method FormSubmissionFile[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class FormSubmissionFileRepository extends ServiceEntityRepository
 {

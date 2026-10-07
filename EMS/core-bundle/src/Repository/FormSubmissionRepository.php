@@ -12,7 +12,9 @@ use EMS\SubmissionBundle\Entity\FormSubmission;
 /**
  * @extends ServiceEntityRepository<FormSubmission>
  *
+ * @method FormSubmission|null find($id, $lockMode = null, $lockVersion = null)
  * @method FormSubmission|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method FormSubmission[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class FormSubmissionRepository extends ServiceEntityRepository
 {

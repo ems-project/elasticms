@@ -12,6 +12,10 @@ use EMS\CoreBundle\Entity\FormVerification;
 
 /**
  * @extends ServiceEntityRepository<FormVerification>
+ *
+ * @method FormVerification|null find($id, $lockMode = null, $lockVersion = null)
+ * @method FormVerification|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method FormVerification[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class FormVerificationRepository extends ServiceEntityRepository
 {

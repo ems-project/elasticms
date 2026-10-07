@@ -15,9 +15,11 @@ use EMS\CoreBundle\Entity\Release;
 /**
  * @extends ServiceEntityRepository<Release>
  *
- * @method Release[] findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
+ * @method Release|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Release|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method Release[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
-final class ReleaseRepository extends ServiceEntityRepository
+class ReleaseRepository extends ServiceEntityRepository
 {
     public function __construct(Registry $registry)
     {

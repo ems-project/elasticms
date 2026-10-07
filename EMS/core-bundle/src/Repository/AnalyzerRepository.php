@@ -13,7 +13,9 @@ use EMS\CoreBundle\Entity\Analyzer;
 /**
  * @extends ServiceEntityRepository<Analyzer>
  *
+ * @method Analyzer|null find($id, $lockMode = null, $lockVersion = null)
  * @method Analyzer|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method Analyzer[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class AnalyzerRepository extends ServiceEntityRepository
 {

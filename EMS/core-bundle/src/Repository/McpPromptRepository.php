@@ -17,7 +17,7 @@ use EMS\CoreBundle\Entity\McpPrompt;
  * @method McpPrompt|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
  * @method McpPrompt[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
-final class McpPromptRepository extends ServiceEntityRepository
+class McpPromptRepository extends ServiceEntityRepository
 {
     public function __construct(Registry $registry)
     {

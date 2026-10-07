@@ -14,8 +14,9 @@ use EMS\CoreBundle\Entity\View;
 /**
  * @extends ServiceEntityRepository<View>
  *
- * @method View|null find($id)
+ * @method View|null find($id, $lockMode = null, $lockVersion = null)
  * @method View|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method View[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class ViewRepository extends ServiceEntityRepository
 {

@@ -17,7 +17,7 @@ use EMS\CoreBundle\Entity\McpResource;
  * @method McpResource|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
  * @method McpResource[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
-final class McpResourceRepository extends ServiceEntityRepository
+class McpResourceRepository extends ServiceEntityRepository
 {
     public function __construct(Registry $registry)
     {

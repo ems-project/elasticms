@@ -13,7 +13,9 @@ use EMS\CoreBundle\Entity\I18n;
 /**
  * @extends ServiceEntityRepository<I18n>
  *
+ * @method I18n|null find($id, $lockMode = null, $lockVersion = null)
  * @method I18n|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method I18n[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class I18nRepository extends ServiceEntityRepository
 {

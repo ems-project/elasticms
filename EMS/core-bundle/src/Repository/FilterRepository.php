@@ -13,7 +13,9 @@ use EMS\CoreBundle\Entity\Filter;
 /**
  * @extends ServiceEntityRepository<Filter>
  *
+ * @method Filter|null find($id, $lockMode = null, $lockVersion = null)
  * @method Filter|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method Filter[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class FilterRepository extends ServiceEntityRepository
 {

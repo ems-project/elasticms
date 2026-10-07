@@ -23,11 +23,15 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  * @extends ServiceEntityRepository<Notification>
  *
  * @method Notification|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Notification|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method Notification[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class NotificationRepository extends ServiceEntityRepository
 {
-    public function __construct(Registry $registry, private readonly AuthorizationCheckerInterface $authorizationChecker)
-    {
+    public function __construct(
+        Registry $registry,
+        private readonly AuthorizationCheckerInterface $authorizationChecker
+    ) {
         parent::__construct($registry, Notification::class);
     }
 

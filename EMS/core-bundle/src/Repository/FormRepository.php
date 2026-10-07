@@ -17,7 +17,7 @@ use EMS\CoreBundle\Entity\Form;
  * @method Form|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
  * @method Form[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
-final class FormRepository extends ServiceEntityRepository
+class FormRepository extends ServiceEntityRepository
 {
     public function __construct(Registry $registry)
     {

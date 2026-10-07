@@ -14,9 +14,10 @@ use EMS\CoreBundle\Entity\QuerySearch;
  * @extends ServiceEntityRepository<QuerySearch>
  *
  * @method QuerySearch|null find($id, $lockMode = null, $lockVersion = null)
+ * @method QuerySearch|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
  * @method QuerySearch[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
-final class QuerySearchRepository extends ServiceEntityRepository
+class QuerySearchRepository extends ServiceEntityRepository
 {
     public function __construct(Registry $registry)
     {

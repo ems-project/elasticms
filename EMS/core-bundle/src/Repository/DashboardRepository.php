@@ -19,7 +19,7 @@ use EMS\CoreBundle\Entity\Dashboard;
  * @method Dashboard|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
  * @method Dashboard[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
-final class DashboardRepository extends ServiceEntityRepository
+class DashboardRepository extends ServiceEntityRepository
 {
     public function __construct(Registry $registry)
     {

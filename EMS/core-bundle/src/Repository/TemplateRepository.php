@@ -17,7 +17,9 @@ use EMS\CoreBundle\Entity\Template;
 /**
  * @extends ServiceEntityRepository<Template>
  *
- * @method Template[] findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
+ * @method Template|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Template|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method Template[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class TemplateRepository extends ServiceEntityRepository
 {

@@ -17,6 +17,8 @@ use EMS\CoreBundle\Core\Log\LogEntityTableContext;
  * @extends ServiceEntityRepository<Log>
  *
  * @method Log|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Log|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method Log[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class LogRepository extends ServiceEntityRepository
 {

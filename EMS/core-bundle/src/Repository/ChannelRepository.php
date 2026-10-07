@@ -19,7 +19,7 @@ use EMS\CoreBundle\Exception\NotFoundException;
  * @method Channel|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
  * @method Channel[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
-final class ChannelRepository extends ServiceEntityRepository
+class ChannelRepository extends ServiceEntityRepository
 {
     public function __construct(Registry $registry)
     {

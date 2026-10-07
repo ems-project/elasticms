@@ -13,6 +13,10 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * @extends ServiceEntityRepository<Group>
+ *
+ * @method Group|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Group|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method Group[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class GroupRepository extends ServiceEntityRepository
 {

@@ -14,8 +14,12 @@ use EMS\CoreBundle\Entity\Task;
 
 /**
  * @extends ServiceEntityRepository<Task>
+ *
+ * @method Task|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Task|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method Task[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
-final class TaskRepository extends ServiceEntityRepository
+class TaskRepository extends ServiceEntityRepository
 {
     public function __construct(Registry $registry)
     {

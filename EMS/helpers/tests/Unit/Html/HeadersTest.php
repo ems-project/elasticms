@@ -27,6 +27,32 @@ class HeadersTest extends TestCase
         self::assertSame('X-Custom-Header', Headers::normalizeName('x-custom-header'));
     }
 
+    public function testValidHeaderValues(): void
+    {
+        foreach ([
+            'text/plain; charset=utf-8',
+            'value with spaces',
+            "value\twith\ttabs",
+            "ümlaut",
+            '',
+        ] as $value) {
+            self::assertTrue(Headers::validateValue($value));
+        }
+    }
+
+    public function testInvalidHeaderValues(): void
+    {
+        foreach ([
+            "value\r",
+            "value\n",
+            "value\r\nInjected: value",
+            "value\x00",
+            "value\x1F",
+        ] as $value) {
+            self::assertFalse(Headers::validateValue($value));
+        }
+    }
+
     public function testInvalidHeaderNames(): void
     {
         foreach ([

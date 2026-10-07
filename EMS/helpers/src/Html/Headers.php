@@ -33,6 +33,11 @@ class Headers
         return ucwords(strtolower($name), '-');
     }
 
+    public static function validateValue(string $value): bool
+    {
+        return 1 === preg_match('~\A[\x09\x20-\x7E\x80-\xFF]*\z~', $value);
+    }
+
     public static function validateName(string $name): bool
     {
         return 1 === preg_match("~\\A[!#$%&'*+\\-.^_`|\\~0-9A-Za-z]+\\z~", $name);

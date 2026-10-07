@@ -23,6 +23,22 @@ final readonly class ResponseHeaderExtension implements RuntimeExtensionInterfac
             ->setHeader($name, $value);
     }
 
+    #[AsTwigFunction(name: 'ems_remove_http_header')]
+    public function removeHttpHeader(string $name): void
+    {
+        $this->responseHeaderManager
+            ->getContext()
+            ->removeHeader($name);
+    }
+
+    #[AsTwigFunction(name: 'ems_clear_http_headers')]
+    public function clearHttpHeaders(): void
+    {
+        $this->responseHeaderManager
+            ->getContext()
+            ->clearHeaders();
+    }
+
     #[AsTwigFunction(name: 'ems_csp_source')]
     public function cspSource(string $directive, string $source): void
     {

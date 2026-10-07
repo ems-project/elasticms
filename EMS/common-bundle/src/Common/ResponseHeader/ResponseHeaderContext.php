@@ -34,6 +34,16 @@ final class ResponseHeaderContext
         'frame-ancestors' => ["'self'"],
     ];
 
+    public function removeHeader(string $name): void
+    {
+        unset($this->headers[Headers::normalizeName($name)]);
+    }
+
+    public function clearHeaders(): void
+    {
+        $this->headers = [];
+    }
+
     public function setHeader(string $name, string $value): void
     {
         $name = Headers::normalizeName($name);

@@ -58,7 +58,7 @@ class FormController extends AbstractController
                 default => $this->logger->messageError(t('message.invalid_table_action', [], 'emsco-core')),
             };
 
-            return $this->redirectToRoute(Routes::FORM_ADMIN_INDEX);
+            return $this->redirectToRoute(Routes::ADMIN_FORM_INDEX);
         }
 
         return new Page([
@@ -70,61 +70,54 @@ class FormController extends AbstractController
         ]);
     }
 
-    public function add(Request $request): Response
+    public function add(Request $request): Page|RedirectResponse
     {
         $form = new Form();
-
-        return $this->edit($request, $form, true);
-    }
-
-    public function edit(Request $request, Form $form, bool $create = false): Response
-    {
-        $inputFieldType = $request->request->all('form')['fieldType'] ?? [];
-        $formType = $this->createForm(FormType::class, $form, [
-            'create' => $create,
-        ]);
+        $formType = $this->createForm(FormType::class, $form, ['create' => true]);
         $formType->handleRequest($request);
 
         if ($formType->isSubmitted() && $formType->isValid()) {
-            if ($create) {
-                $this->formManager->update($form);
+            $this->formManager->update($form);
 
-                return $this->redirectToRoute(Routes::FORM_ADMIN_EDIT, ['form' => $form->getId()]);
-            }
+            return $this->redirectToRoute(Routes::ADMIN_FORM_EDIT, ['form' => $form->getId()]);
+        }
+
+        return new Page([
+            'form' => $formType->createView(),
+            'title' => t('type.title_create', ['type' => 'form'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'form'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb()->add(
+                t('type.title_create', ['type' => 'form'], 'emsco-core')
+            ),
+        ]);
+    }
+
+    public function edit(Request $request, Form $form): Page|RedirectResponse
+    {
+        $inputFieldType = $request->request->all('form')['fieldType'] ?? [];
+        $formType = $this->createForm(FormType::class, $form);
+        $formType->handleRequest($request);
+
+        if ($formType->isSubmitted() && $formType->isValid()) {
             // TODO: mark related content types as dirty. An event maybe?
             $openFiledForm = $this->fieldTypeManager->handleRequest($form->getFieldType(), $inputFieldType);
             $form->getFieldType()->updateOrderKeys();
 
             $this->formManager->update($form);
+            /** @var SubmitButton $saveButton */
             $saveButton = $formType->get('save');
-            if (!$saveButton instanceof SubmitButton) {
-                throw new \RuntimeException('Unexpected submit button type');
-            }
             if ($saveButton->isClicked()) {
-                return $this->redirectToRoute(Routes::FORM_ADMIN_INDEX);
+                return $this->redirectToRoute(Routes::ADMIN_FORM_INDEX);
             }
 
-            return $this->redirectToRoute(Routes::FORM_ADMIN_EDIT, \array_filter([
+            return $this->redirectToRoute(Routes::ADMIN_FORM_EDIT, \array_filter([
                 'form' => $form->getId(),
                 'open' => $openFiledForm,
             ]));
         }
 
-        if ($create) {
-            return $this->render(\sprintf('@%s/admin-form/add.html.twig', $this->templateNamespace), [
-                'form' => $formType->createView(),
-                'entity' => $form,
-                'title' => t('type.title_create', ['type' => 'form'], 'emsco-core'),
-                'subTitle' => t('type.title_sub', ['type' => 'form'], 'emsco-core'),
-                'breadcrumb' => $this->breadcrumb()->add(
-                    t('type.title_create', ['type' => 'form'], 'emsco-core')
-                ),
-            ]);
-        }
-
-        return $this->render(\sprintf('@%s/admin-form/edit.html.twig', $this->templateNamespace), [
+        return new Page([
             'form' => $formType->createView(),
-            'entity' => $form,
             'title' => t('type.title_edit', ['type' => 'form', 'label' => $form->getLabel()], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'form'], 'emsco-core'),
             'breadcrumb' => $this->breadcrumb()->add(
@@ -143,7 +136,7 @@ class FormController extends AbstractController
             $structure = Json::decode((string) $data['items']);
             $this->formManager->reorderFields($form, $structure);
 
-            return $this->redirectToRoute(Routes::FORM_ADMIN_INDEX);
+            return $this->redirectToRoute(Routes::ADMIN_FORM_INDEX);
         }
 
         return $this->render(\sprintf('@%s/admin-form/reorder.html.twig', $this->templateNamespace), [
@@ -161,7 +154,7 @@ class FormController extends AbstractController
     {
         $this->formManager->delete($form);
 
-        return $this->redirectToRoute(Routes::FORM_ADMIN_INDEX);
+        return $this->redirectToRoute(Routes::ADMIN_FORM_INDEX);
     }
 
     private function breadcrumb(): Navigation
@@ -169,7 +162,7 @@ class FormController extends AbstractController
         return Navigation::admin()->add(
             label: t('key.forms', [], 'emsco-core'),
             icon: 'fa fa-keyboard-o',
-            route: 'emsco_form_admin_index',
+            route: Routes::ADMIN_FORM_INDEX,
         );
     }
 }

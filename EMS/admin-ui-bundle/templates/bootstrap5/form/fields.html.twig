@@ -8,6 +8,18 @@
     {{- parent() -}}
 {%- endblock form_row -%}
 
+{% block ems_row_attributes -%}
+    {%- set row_classes = [
+        row_attr.class|default(''),
+        col|default(null) ? 'col-md-' ~ col,
+        'form-group',
+        (not compound or force_error|default(false)) and not valid ? 'has-error',
+    ]|filter(class => class)|join(' ')|trim -%}
+    {%- with {attr: row_attr|merge({class: row_classes})} -%}
+        {{- block('attributes') -}}
+    {%- endwith -%}
+{%- endblock ems_row_attributes %}
+
 {# Widgets #}
 {%- block checkbox_widget -%}
     {%- set attr_class = attr_class|default(attr.class|default('')) -%}
@@ -1222,7 +1234,7 @@
 {% endblock filetype_row %}
 
 {% block fieldTypeType_row -%}
-<div class="col-12 mt-4">
+<div{{ block('ems_row_attributes') }}>
     <li class="list-group-item" id="{{ form.vars.id }}_item">
         <div class="d-flex justify-content-between">
             <h4>

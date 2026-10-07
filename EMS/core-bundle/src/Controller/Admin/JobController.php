@@ -34,31 +34,6 @@ class JobController extends AbstractController
     ) {
     }
 
-    public function index(Request $request): Page|RedirectResponse
-    {
-        $table = $this->dataTableFactory->create(JobDataTableType::class);
-        $form = $this->createForm(TableType::class, $table);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            match ($this->getClickedButtonName($form)) {
-                TableAbstract::DELETE_ACTION => $this->jobService->deleteByIds(...$table->getSelected()),
-                JobDataTableType::ACTION_DELETE_ALL => $this->jobService->clean(skipFailed: false),
-                default => $this->logger->messageError(t('message.invalid_table_action', [], 'emsco-core')),
-            };
-
-            return $this->redirectToRoute(Routes::ADMIN_JOB_INDEX);
-        }
-
-        return new Page([
-            'datatable' => ['form' => $form->createView(), 'table_id' => 'jobs'],
-            'icon' => 'fa fa-file-text-o',
-            'title' => t('type.title_overview', ['type' => 'job'], 'emsco-core'),
-            'subTitle' => t('type.title_sub', ['type' => 'job'], 'emsco-core'),
-            'breadcrumb' => $this->breadcrumb(),
-        ]);
-    }
-
     public function add(Request $request, UserInterface $user): Page|RedirectResponse
     {
         $job = $this->jobService->newJob($user);
@@ -86,6 +61,31 @@ class JobController extends AbstractController
         $this->jobService->delete($job);
 
         return $this->redirectToRoute(Routes::ADMIN_JOB_INDEX);
+    }
+
+    public function index(Request $request): Page|RedirectResponse
+    {
+        $table = $this->dataTableFactory->create(JobDataTableType::class);
+        $form = $this->createForm(TableType::class, $table);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            match ($this->getClickedButtonName($form)) {
+                TableAbstract::DELETE_ACTION => $this->jobService->deleteByIds(...$table->getSelected()),
+                JobDataTableType::ACTION_DELETE_ALL => $this->jobService->clean(skipFailed: false),
+                default => $this->logger->messageError(t('message.invalid_table_action', [], 'emsco-core')),
+            };
+
+            return $this->redirectToRoute(Routes::ADMIN_JOB_INDEX);
+        }
+
+        return new Page([
+            'datatable' => ['form' => $form->createView(), 'table_id' => 'jobs'],
+            'icon' => 'fa fa-file-text-o',
+            'title' => t('type.title_overview', ['type' => 'job'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'job'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb(),
+        ]);
     }
 
     public function relaunch(Job $job, UserInterface $user): RedirectResponse

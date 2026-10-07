@@ -15,5 +15,5 @@ return static function (ContainerConfigurator $container) {
 
     $services->load('EMS\\CoreBundle\\Repository\\', '../src/Repository/');
 
-    $services->set(UploadedAssetRepository::class)->lazy();
+    $services->set(UploadedAssetRepository::class)->lazy(); // used in cache warmup
 };

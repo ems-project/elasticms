@@ -224,6 +224,12 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems_common.event_listener.response_header', ResponseHeaderListener::class)
         ->args([
+            service('ems_common.manager.response_header'),
         ])
         ->tag('kernel.event_subscriber');
+
+    $services->set('ems_common.manager.response_header', ResponseHeaderManager::class)
+        ->args([
+            service('request_stack'),
+        ]);
 };

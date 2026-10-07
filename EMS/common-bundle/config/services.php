@@ -30,6 +30,7 @@ use EMS\CommonBundle\Elasticsearch\ElasticaLogger;
 use EMS\CommonBundle\Elasticsearch\Mapping;
 use EMS\CommonBundle\EventListener\CommandListener;
 use EMS\CommonBundle\EventListener\IpAddressListener;
+use EMS\CommonBundle\EventListener\ResponseHeaderListener;
 use EMS\CommonBundle\EventListener\TagResponseSubscriber;
 use EMS\CommonBundle\Helper\Cache;
 use EMS\CommonBundle\Helper\Text\Encoder;
@@ -220,4 +221,9 @@ return static function (ContainerConfigurator $container) {
             service('logger'),
             service('ems_common.cache.tag_collector'),
         ]);
+
+    $services->set('ems_common.event_listener.response_header', ResponseHeaderListener::class)
+        ->args([
+        ])
+        ->tag('kernel.event_subscriber');
 };

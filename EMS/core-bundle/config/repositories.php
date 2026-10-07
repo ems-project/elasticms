@@ -13,7 +13,7 @@ return static function (ContainerConfigurator $container) {
         ->autowire()
         ->autoconfigure();
 
-    $services->load('EMS\\CoreBundle\\Repository\\', '../../Repository/');
+    $services->load('EMS\\CoreBundle\\Repository\\', '../src/Repository/');
 
     $services->set(UploadedAssetRepository::class)->lazy();
 };

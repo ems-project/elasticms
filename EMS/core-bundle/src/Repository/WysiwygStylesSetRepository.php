@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use EMS\CoreBundle\Entity\WysiwygStylesSet;
 
 /**
@@ -19,7 +19,7 @@ use EMS\CoreBundle\Entity\WysiwygStylesSet;
  */
 class WysiwygStylesSetRepository extends ServiceEntityRepository
 {
-    public function __construct(Registry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, WysiwygStylesSet::class);
     }

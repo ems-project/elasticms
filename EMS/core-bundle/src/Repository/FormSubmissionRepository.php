@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use EMS\SubmissionBundle\Entity\FormSubmission;
 
 /**
@@ -18,7 +18,7 @@ use EMS\SubmissionBundle\Entity\FormSubmission;
  */
 class FormSubmissionRepository extends ServiceEntityRepository
 {
-    public function __construct(Registry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, FormSubmission::class);
     }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\Persistence\ManagerRegistry;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\Task;
@@ -21,7 +21,7 @@ use EMS\CoreBundle\Entity\Task;
  */
 class TaskRepository extends ServiceEntityRepository
 {
-    public function __construct(Registry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Task::class);
     }

@@ -12,6 +12,7 @@ use EMS\CoreBundle\Controller\Admin\EnvironmentController;
 use EMS\CoreBundle\Controller\Admin\FilterController;
 use EMS\CoreBundle\Controller\Admin\FormController;
 use EMS\CoreBundle\Controller\Admin\I18nController;
+use EMS\CoreBundle\Controller\Admin\JobController as AdminJobController;
 use EMS\CoreBundle\Controller\Admin\McpPromptController;
 use EMS\CoreBundle\Controller\Admin\McpResourceController;
 use EMS\CoreBundle\Controller\Admin\McpToolController;
@@ -195,6 +196,17 @@ return static function (ContainerConfigurator $container) {
         ->public()
         ->args([
             service('ems.service.i18n'),
+            service('emsco.data_table.factory'),
+            service('emsco.logger'),
+        ])
+        ->call('setContainer')
+        ->tag('container.service_subscriber')
+        ->tag('controller.service_arguments');
+
+    $services->set(AdminJobController::class)
+        ->public()
+        ->args([
+            service('ems.service.job'),
             service('emsco.data_table.factory'),
             service('emsco.logger'),
         ])
@@ -498,7 +510,6 @@ return static function (ContainerConfigurator $container) {
         ->public()
         ->args([
             service('ems.service.job'),
-            service('emsco.data_table.factory'),
             service('emsco.logger'),
             '%ems_core.trigger_job_from_web%',
             '%ems_core.template_namespace%',

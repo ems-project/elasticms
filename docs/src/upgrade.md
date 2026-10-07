@@ -9,6 +9,15 @@ outline: [2, 2]
 
 ## 7.4
 
+### Legacy routes name removed
+
+- job.start -> emsco_job_start 
+- job.add -> emsco_admin_job_add 
+- job.index -> emsco_admin_job_index
+- job.delete -> emsco_admin_job_delete
+
+### Legacy Search
+
 The legacy search (`/search`) has been removed, along with the `Search`, `SortOption`,
 `SearchFieldOption`, and `AggregateOption` entities.
 
@@ -43,8 +52,6 @@ facet:
     </div>
 {% endif %}
 ```
-
-
 
 Search entities have been removed. For each search entity defined as the default search for a
 content type, the PostgreSQL migration adds a redirect view to the `advanced_search` dashboard to

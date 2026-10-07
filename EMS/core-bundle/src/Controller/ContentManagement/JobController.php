@@ -7,22 +7,16 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
-use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\UI\Page\Navigation;
-use EMS\CoreBundle\Core\UI\Page\Page;
-use EMS\CoreBundle\DataTable\Type\Job\JobDataTableType;
 use EMS\CoreBundle\Entity\Job;
-use EMS\CoreBundle\Form\Data\TableAbstract;
-use EMS\CoreBundle\Form\Form\JobType;
-use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Helper\EmsCoreResponse;
+use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\JobService;
 use EMS\Helpers\Standard\Json;
 use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 use SensioLabs\AnsiConverter\Theme\Theme;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -37,36 +31,10 @@ class JobController extends AbstractController
 
     public function __construct(
         private readonly JobService $jobService,
-        private readonly DataTableFactory $dataTableFactory,
         private readonly LocalizedLoggerInterface $logger,
         private readonly bool $triggerJobFromWeb,
         private readonly string $templateNamespace,
     ) {
-    }
-
-    public function index(Request $request): Page|RedirectResponse
-    {
-        $table = $this->dataTableFactory->create(JobDataTableType::class);
-        $form = $this->createForm(TableType::class, $table);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            match ($this->getClickedButtonName($form)) {
-                TableAbstract::DELETE_ACTION => $this->jobService->deleteByIds(...$table->getSelected()),
-                JobDataTableType::ACTION_DELETE_ALL => $this->jobService->clean(skipFailed: false),
-                default => $this->logger->messageError(t('message.invalid_table_action', [], 'emsco-core')),
-            };
-
-            return $this->redirectToRoute('job.index');
-        }
-
-        return new Page([
-            'datatable' => ['form' => $form->createView(), 'table_id' => 'jobs'],
-            'icon' => 'fa fa-file-text-o',
-            'title' => t('type.title_overview', ['type' => 'job'], 'emsco-core'),
-            'subTitle' => t('type.title_sub', ['type' => 'job'], 'emsco-core'),
-            'breadcrumb' => $this->breadcrumb(),
-        ]);
     }
 
     public function jobStatus(Request $request, Job $job): Response
@@ -98,46 +66,6 @@ class JobController extends AbstractController
                 t('type.title_status', ['type' => 'job', 'job_id' => $job->getId()], 'emsco-core'),
             ),
         ]);
-    }
-
-    public function create(Request $request, UserInterface $user): Response
-    {
-        $job = $this->jobService->newJob($user);
-        $form = $this->createForm(JobType::class, $job);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->jobService->save($job);
-
-            return $this->redirectToRoute('emsco_job_status', ['job' => $job->getId()]);
-        }
-
-        return $this->render(\sprintf('@%s/job/add.html.twig', $this->templateNamespace), [
-            'form' => $form->createView(),
-            'title' => t('type.title_create', ['type' => 'job'], 'emsco-core'),
-            'subTitle' => t('type.title_sub', ['type' => 'job'], 'emsco-core'),
-            'breadcrumb' => $this->breadcrumb()->add(
-                t('type.title_create', ['type' => 'job'], 'emsco-core'),
-            ),
-        ]);
-    }
-
-    public function delete(Job $job): RedirectResponse
-    {
-        $this->jobService->delete($job);
-
-        return $this->redirectToRoute('job.index');
-    }
-
-    public function relaunch(Job $job, UserInterface $user): RedirectResponse
-    {
-        $newJob = $this->jobService->newJob($user);
-        $newJob->setCommand($job->getCommand());
-        $newJob->setTag($job->getTag());
-
-        $this->jobService->save($newJob);
-
-        return $this->redirectToRoute('emsco_job_status', ['job' => $newJob->getId()]);
     }
 
     public function startJob(Job $job, Request $request, UserInterface $user): Response
@@ -247,7 +175,7 @@ class JobController extends AbstractController
         return Navigation::admin()->add(
             label: t('key.jobs', [], 'emsco-core'),
             icon: 'fa fa-terminal',
-            route: 'emsco_job_index',
+            route: Routes::ADMIN_JOB_INDEX,
         );
     }
 }

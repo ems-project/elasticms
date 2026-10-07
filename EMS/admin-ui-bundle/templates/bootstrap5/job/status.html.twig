@@ -86,12 +86,12 @@
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
                 {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
-                    url: path('emsco_job_index'),
+                    url: path('emsco_admin_job_index'),
                     label: 'title.job_list'|trans,
                     icon: 'chevron-circle-right',
                 }) }}
                 {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
-                    url: path('emsco_job_delete', {job: job.id}),
+                    url: path('emsco_admin_job_relaunch', {job: job.id}),
                     message: 'action.confirmation'|trans,
                     label: 'action.delete'|trans,
                     icon: 'trash',

@@ -74,6 +74,7 @@ action:
     import: Import
     info: Info
     init_upload: 'Initialize upload'
+    launch: 'Launch'
     move: Move
     move_item: 'Move item'
     new_entity_name: 'New {label}'
@@ -1374,7 +1375,6 @@ title:
     add_content_type: 'Add a new {content_type}'
     add_environment: 'Add a new Environment'
     add_folder: 'Add folder'
-    add_form: 'Add a form'
     add_new_task: 'Add a new task'
     add_release: 'Add a Release'
     align_environments: 'Align Environments'
@@ -1395,7 +1395,6 @@ title:
     edit_display_name: 'Edit {display_name}'
     edit_environment: 'Edit the environment "{name}"'
     edit_environment_short: 'Edit environment'
-    edit_form: 'Edit a form'
     edit_release: 'Edit a Release'
     edit_revision_content_type: 'Edit the {contentType}: {revision} '
     edit_task: 'Edit task : {title}'

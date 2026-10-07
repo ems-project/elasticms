@@ -74,6 +74,7 @@ action:
     import: Importer
     info: Info
     init_upload: 'Initialiser l’upload'
+    launch: Lancer
     move: Déplacer
     move_item: 'Déplacer l’élément'
     new_entity_name: |-
@@ -1379,7 +1380,6 @@ title:
     add_content_type: 'Ajouter un nouveau {content_type}'
     add_environment: 'Ajouter un nouvel environnement'
     add_folder: 'Ajouter un dossier'
-    add_form: 'Ajouter un formulaire'
     add_new_task: 'Ajouter une nouvelle tâche'
     add_release: 'Ajouter une release'
     align_environments: 'Aligner les environnements'
@@ -1400,7 +1400,6 @@ title:
     edit_display_name: 'Modifier {display_name}'
     edit_environment: 'Modifier l’environnement « {name} »'
     edit_environment_short: 'Modifier l’environnement'
-    edit_form: 'Modifier un formulaire'
     edit_release: 'Modifier une release'
     edit_revision_content_type: 'Modifier {contentType} : {revision} '
     edit_task: 'Modifier la tâche : {title}'

@@ -26,7 +26,7 @@ final class ResponseHeaderListenerTest extends TestCase
         $this->createListener($requestStack)->onKernelResponse($this->createResponseEvent($response));
 
         self::assertSame('request-123', $response->headers->get('X-Request-Id'));
-        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'", $response->headers->get('Content-Security-Policy'));
+        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; img-src 'self' data:", $response->headers->get('Content-Security-Policy'));
     }
 
     public function testOnKernelResponseAddsGeneratedCspHeaderToResponse(): void
@@ -42,7 +42,7 @@ final class ResponseHeaderListenerTest extends TestCase
         $this->createListener($requestStack)->onKernelResponse($this->createResponseEvent($response));
 
         self::assertSame(
-            "default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; script-src https://cdn.example.com",
+            "default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; img-src 'self' data:; script-src https://cdn.example.com",
             $response->headers->get('Content-Security-Policy'),
         );
     }
@@ -55,7 +55,7 @@ final class ResponseHeaderListenerTest extends TestCase
         $response = new Response();
         $this->createListener($requestStack, true)->onKernelResponse($this->createResponseEvent($response));
 
-        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; style-src 'self' 'unsafe-inline'", $response->headers->get('Content-Security-Policy'));
+        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'", $response->headers->get('Content-Security-Policy'));
     }
 
     private function createListener(RequestStack $requestStack, bool $debug = false): ResponseHeaderListener

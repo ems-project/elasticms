@@ -32,6 +32,7 @@ final class ResponseHeaderContext
         'object-src' => ["'none'"],
         'base-uri' => ["'self'"],
         'frame-ancestors' => ["'self'"],
+        'img-src' => ["'self'", 'data:'],
     ];
 
     public function removeHeader(string $name): void

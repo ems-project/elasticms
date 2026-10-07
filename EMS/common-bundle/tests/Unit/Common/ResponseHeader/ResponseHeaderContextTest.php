@@ -53,21 +53,21 @@ final class ResponseHeaderContextTest extends TestCase
         $context->addCspSource('script-src', 'https://cdn.example.com');
 
         self::assertSame(['script-src' => ["'self'", 'https://cdn.example.com']], $context->getCspSources());
-        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; script-src 'self' https://cdn.example.com", $context->getCspHeader());
+        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; img-src 'self' data:; script-src 'self' https://cdn.example.com", $context->getCspHeader());
     }
 
     public function testCspHeaderUsesSecureDefaultsWhenNoSourceWasAdded(): void
     {
         $context = new ResponseHeaderContext();
 
-        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'", $context->getCspHeader());
+        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; img-src 'self' data:", $context->getCspHeader());
     }
 
     public function testDebugModeAllowsInlineStylesWithoutANonce(): void
     {
         $context = new ResponseHeaderContext(true);
 
-        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; style-src 'self' 'unsafe-inline'", $context->getCspHeader());
+        self::assertSame("default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'", $context->getCspHeader());
     }
 
     public function testNoneCannotBeCombinedWithOtherSources(): void

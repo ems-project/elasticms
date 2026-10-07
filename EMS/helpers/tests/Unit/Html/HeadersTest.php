@@ -33,7 +33,7 @@ class HeadersTest extends TestCase
             'text/plain; charset=utf-8',
             'value with spaces',
             "value\twith\ttabs",
-            "ümlaut",
+            'ümlaut',
             '',
         ] as $value) {
             self::assertTrue(Headers::validateValue($value));
@@ -62,7 +62,7 @@ class HeadersTest extends TestCase
             "Content\rType",
             "Content\nType",
             "Content\r\nInjected: value",
-            "é",
+            'é',
         ] as $name) {
             self::assertFalse(Headers::validateName($name));
         }

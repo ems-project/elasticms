@@ -9,6 +9,8 @@ class Headers
     final public const string AUTHORIZATION = 'Authorization';
     final public const string CONTENT_DISPOSITION = 'Content-Disposition';
     final public const string CONTENT_LENGTH = 'Content-Length';
+    final public const string CONTENT_SECURITY_POLICY = 'Content-Security-Policy';
+    final public const string CONTENT_SECURITY_POLICY_REPORT_ONLY = 'Content-Security-Policy-Report-Only';
     final public const string CONTENT_TYPE = 'Content-Type';
     final public const string X_ROBOTS_TAG = 'X-Robots-Tag';
     final public const string X_ROBOTS_TAG_NOINDEX = 'noindex';
@@ -30,16 +32,16 @@ class Headers
             throw new \InvalidArgumentException('Invalid header name');
         }
 
-        return ucwords(strtolower($name), '-');
+        return \ucwords(\strtolower($name), '-');
     }
 
     public static function validateValue(string $value): bool
     {
-        return 1 === preg_match('~\A[\x09\x20-\x7E\x80-\xFF]*\z~', $value);
+        return 1 === \preg_match('~\A[\x09\x20-\x7E\x80-\xFF]*\z~', $value);
     }
 
     public static function validateName(string $name): bool
     {
-        return 1 === preg_match("~\\A[!#$%&'*+\\-.^_`|\\~0-9A-Za-z]+\\z~", $name);
+        return 1 === \preg_match("~\\A[!#$%&'*+\\-.^_`|\\~0-9A-Za-z]+\\z~", $name);
     }
 }

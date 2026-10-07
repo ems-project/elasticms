@@ -20,6 +20,13 @@ class HeadersTest extends TestCase
         }
     }
 
+    public function testNormalizeHeaderNames(): void
+    {
+        self::assertSame('Content-Length', Headers::normalize('content-length'));
+        self::assertSame('Content-Length', Headers::normalize('CONTENT-LENGTH'));
+        self::assertSame('X-Custom-Header', Headers::normalize('x-custom-header'));
+    }
+
     public function testInvalidHeaderNames(): void
     {
         foreach ([

@@ -24,6 +24,15 @@ class Headers
     final public const string X_WEBHOOK_SIGNATURE = 'X-Webhook-Signature';
     final public const string X_WEBHOOK_SUBSCRIPTION_ID = 'X-Webhook-Subscription-Id';
 
+    public static function normalize(string $name): string
+    {
+        if (!self::validate($name)) {
+            throw new \InvalidArgumentException('Invalid header name');
+        }
+
+        return ucwords(strtolower($name), '-');
+    }
+
     public static function validate(string $name): bool
     {
         return 1 === preg_match("~\\A[!#$%&'*+\\-.^_`|\\~0-9A-Za-z]+\\z~", $name);

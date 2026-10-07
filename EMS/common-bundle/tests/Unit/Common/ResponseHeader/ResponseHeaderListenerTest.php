@@ -19,7 +19,7 @@ final class ResponseHeaderListenerTest extends TestCase
     {
         $requestStack = new RequestStack();
         $requestStack->push(Request::create('/'));
-        $context = (new ResponseHeaderManager($requestStack))->getContext();
+        $context = new ResponseHeaderManager($requestStack)->getContext();
         $context->setHeader('x-request-id', 'request-123');
 
         $response = new Response();
@@ -33,7 +33,7 @@ final class ResponseHeaderListenerTest extends TestCase
     {
         $requestStack = new RequestStack();
         $requestStack->push(Request::create('/'));
-        $context = (new ResponseHeaderManager($requestStack))->getContext();
+        $context = new ResponseHeaderManager($requestStack)->getContext();
         $context->addCspSource('default-src', "'self'");
         $context->addCspSource('script-src', 'https://cdn.example.com');
 

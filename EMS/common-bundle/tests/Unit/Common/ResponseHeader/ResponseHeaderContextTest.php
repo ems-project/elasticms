@@ -16,7 +16,12 @@ final class ResponseHeaderContextTest extends TestCase
         $context->setHeader('content-type', 'text/plain');
         $context->setHeader('CONTENT-TYPE', 'text/html');
 
-        self::assertSame(['Content-Type' => 'text/html'], $context->getHeaders());
+        self::assertSame([
+            'X-Content-Type-Options' => 'nosniff',
+            'Referrer-Policy' => 'strict-origin-when-cross-origin',
+            'Permissions-Policy' => 'camera=(), microphone=(), geolocation=()',
+            'Content-Type' => 'text/html',
+        ], $context->getHeaders());
     }
 
     public function testSetHeaderRejectsInvalidValue(): void

@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\EventListener;
 
 use EMS\CommonBundle\Common\ResponseHeader\ResponseHeaderManager;
+use EMS\Helpers\Html\Headers;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class ResponseHeaderListener implements EventSubscriberInterface
+readonly class ResponseHeaderListener implements EventSubscriberInterface
 {
-    public function __construct(private readonly ResponseHeaderManager $responseHeaderManager)
+    public function __construct(private ResponseHeaderManager $responseHeaderManager)
     {
     }
 
@@ -32,5 +33,11 @@ class ResponseHeaderListener implements EventSubscriberInterface
     {
         $response = $event->getResponse();
         $context = $this->responseHeaderManager->getContext();
+
+        $response->headers->add($context->getHeaders());
+
+        if (null !== ($cspHeader = $context->getCspHeader())) {
+            $response->headers->set(Headers::CONTENT_SECURITY_POLICY, $cspHeader);
+        }
     }
 }

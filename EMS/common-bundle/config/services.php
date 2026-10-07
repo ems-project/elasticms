@@ -18,6 +18,7 @@ use EMS\CommonBundle\Common\HttpCache\HttpCacheManager;
 use EMS\CommonBundle\Common\HttpCache\TagCollector;
 use EMS\CommonBundle\Common\Job\JobManager;
 use EMS\CommonBundle\Common\KeyStore;
+use EMS\CommonBundle\Common\ResponseHeader\ResponseHeaderManager;
 use EMS\CommonBundle\Common\Route\Loader;
 use EMS\CommonBundle\Common\Session\StoreDataSessionHandler;
 use EMS\CommonBundle\Common\Spreadsheet\SpreadsheetGeneratorService;

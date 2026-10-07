@@ -57,7 +57,7 @@ return static function (ContainerConfigurator $container) {
         ->autowire(false)
         ->autoconfigure(false);
 
-    $services->set('ems.repository.auth_token', AuthTokenRepository::class)
+    $services->set(AuthTokenRepository::class)
         ->args([service('doctrine')]);
 
     $services->set('ems.repository.cache_action', CacheActionRepository::class)
@@ -148,7 +148,8 @@ return static function (ContainerConfigurator $container) {
         ->factory([service('doctrine.orm.default_entity_manager'), 'getRepository']);
 
     $services->set(JobRepository::class)
-        ->args([service('doctrine')]);
+        ->args([ManagedAlias::class])
+        ->factory([service('doctrine.orm.default_entity_manager'), 'getRepository']);
 
     $services->set(ManagedAliasRepository::class)
         ->args([ManagedAlias::class])

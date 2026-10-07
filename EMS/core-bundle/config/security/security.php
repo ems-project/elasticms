@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use EMS\CoreBundle\Repository\AuthTokenRepository;
 use EMS\CoreBundle\Security\Authenticator\Authenticator;
 use EMS\CoreBundle\Security\Authenticator\AuthTokenAuthenticator;
 use EMS\CoreBundle\Security\Authenticator\AuthTokenLoginAuthenticator;
@@ -23,13 +24,13 @@ return static function (ContainerConfigurator $container) {
         ]);
 
     $services->set('emsco.security.provider.user_api', UserApiProvider::class)
-        ->args([service('ems.repository.auth_token')]);
+        ->args([service(AuthTokenRepository::class)]);
 
     $services->set('emsco.security.authenticator.auth_token', AuthTokenAuthenticator::class);
 
     $services->set('emsco.security.authenticator.auth_token_login', AuthTokenLoginAuthenticator::class)
         ->args([
-            service('ems.repository.auth_token'),
+            service(AuthTokenRepository::class),
             '%ems_core.security.ldap.enabled%',
         ]);
 

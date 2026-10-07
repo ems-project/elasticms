@@ -85,6 +85,7 @@ use EMS\CoreBundle\Mcp\ElasticmsMcpToolAssetService;
 use EMS\CoreBundle\Mcp\ElasticmsMcpToolCustomService;
 use EMS\CoreBundle\Mcp\ElasticmsMcpToolDataService;
 use EMS\CoreBundle\Mcp\ElasticmsMcpToolUserService;
+use EMS\CoreBundle\Repository\AuthTokenRepository;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\JobRepository;
@@ -516,7 +517,7 @@ return static function (ContainerConfigurator $container) {
             service('ems.repository.user'),
             service('security.user_password_hasher'),
             service('security.authorization_checker'),
-            service('ems.repository.auth_token'),
+            service(AuthTokenRepository::class),
             service('ems.service.wysiwyg_profile'),
             '%ems_core.template_namespace%',
         ]);

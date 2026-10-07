@@ -71,6 +71,7 @@ use EMS\CoreBundle\Controller\Webhook\WebhookController;
 use EMS\CoreBundle\Controller\Wysiwyg\AjaxPasteController;
 use EMS\CoreBundle\Controller\Wysiwyg\StylesetController;
 use EMS\CoreBundle\Core\Revision\Json\JsonMenuRenderer;
+use EMS\CoreBundle\Repository\AuthTokenRepository;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\ManagedAliasRepository;
@@ -893,7 +894,7 @@ return static function (ContainerConfigurator $container) {
             service('ems.group.manager'),
             service(SpreadsheetGeneratorServiceInterface::class),
             service('emsco.data_table.factory'),
-            service('ems.repository.auth_token'),
+            service(AuthTokenRepository::class),
             service('ems_core.core_ui.flash_message_logger'),
             '%ems_core.template_namespace%',
             service('emsco.core.content_type.field_type.service'),

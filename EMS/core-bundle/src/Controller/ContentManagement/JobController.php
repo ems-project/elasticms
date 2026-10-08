@@ -32,7 +32,6 @@ class JobController extends AbstractController
         private readonly JobService $jobService,
         private readonly LocalizedLoggerInterface $logger,
         private readonly bool $triggerJobFromWeb,
-        private readonly string $templateNamespace,
     ) {
     }
 

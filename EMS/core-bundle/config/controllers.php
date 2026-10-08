@@ -13,11 +13,11 @@ use EMS\CoreBundle\Controller\Admin\FilterController;
 use EMS\CoreBundle\Controller\Admin\FormController;
 use EMS\CoreBundle\Controller\Admin\I18nController;
 use EMS\CoreBundle\Controller\Admin\JobController as AdminJobController;
+use EMS\CoreBundle\Controller\Admin\JobScheduleController;
 use EMS\CoreBundle\Controller\Admin\McpPromptController;
 use EMS\CoreBundle\Controller\Admin\McpResourceController;
 use EMS\CoreBundle\Controller\Admin\McpToolController;
 use EMS\CoreBundle\Controller\Admin\QuerySearchController;
-use EMS\CoreBundle\Controller\Admin\JobScheduleController;
 use EMS\CoreBundle\Controller\Admin\WysiwygController;
 use EMS\CoreBundle\Controller\Api\Admin\DocumentationController;
 use EMS\CoreBundle\Controller\Api\Admin\EntitiesController;
@@ -511,8 +511,7 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('ems.service.job'),
             service('emsco.logger'),
-            '%ems_core.trigger_job_from_web%',
-            '%ems_core.template_namespace%',
+            '%ems_core.trigger_job_from_web%'
         ])
         ->call('setContainer')
         ->tag('container.service_subscriber')

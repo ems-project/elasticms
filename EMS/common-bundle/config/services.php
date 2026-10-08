@@ -18,6 +18,7 @@ use EMS\CommonBundle\Common\HttpCache\HttpCacheManager;
 use EMS\CommonBundle\Common\HttpCache\TagCollector;
 use EMS\CommonBundle\Common\Job\JobManager;
 use EMS\CommonBundle\Common\KeyStore;
+use EMS\CommonBundle\Common\ResponseHeader\ResponseHeaderManager;
 use EMS\CommonBundle\Common\Route\Loader;
 use EMS\CommonBundle\Common\Session\StoreDataSessionHandler;
 use EMS\CommonBundle\Common\Spreadsheet\SpreadsheetGeneratorService;
@@ -30,6 +31,7 @@ use EMS\CommonBundle\Elasticsearch\ElasticaLogger;
 use EMS\CommonBundle\Elasticsearch\Mapping;
 use EMS\CommonBundle\EventListener\CommandListener;
 use EMS\CommonBundle\EventListener\IpAddressListener;
+use EMS\CommonBundle\EventListener\ResponseHeaderListener;
 use EMS\CommonBundle\EventListener\TagResponseSubscriber;
 use EMS\CommonBundle\Helper\Cache;
 use EMS\CommonBundle\Helper\Text\Encoder;
@@ -219,5 +221,17 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('logger'),
             service('ems_common.cache.tag_collector'),
+        ]);
+
+    $services->set('ems_common.event_listener.response_header', ResponseHeaderListener::class)
+        ->args([
+            service('ems_common.manager.response_header'),
+        ])
+        ->tag('kernel.event_subscriber');
+
+    $services->set('ems_common.manager.response_header', ResponseHeaderManager::class)
+        ->args([
+            service('request_stack'),
+            '%kernel.debug%',
         ]);
 };

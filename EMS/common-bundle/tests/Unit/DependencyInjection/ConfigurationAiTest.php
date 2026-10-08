@@ -57,6 +57,9 @@ final class ConfigurationAiTest extends TestCase
             'runners' => [],
             'key_store' => [],
             'http_caches' => [],
+            'response_headers' => [
+                'enabled' => true,
+            ],
         ];
 
         $this->assertEquals($expected, $config);

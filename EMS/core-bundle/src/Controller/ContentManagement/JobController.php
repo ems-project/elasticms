@@ -66,7 +66,7 @@ class JobController extends AbstractController
                     t('type.title_status', ['type' => 'job', 'job_id' => $job->getId()], 'emsco-core'),
                 ),
             ],
-            template: 'page/page_job_status.html.twig',
+            template: 'page/job_status.html.twig',
         );
     }
 

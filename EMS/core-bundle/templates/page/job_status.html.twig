@@ -1,4 +1,4 @@
-{% extends '@EMSCore/page/page.html.twig' %}
+{% extends '@EMSCore/page/default.html.twig' %}
 
 {% block body %}
     <div class="row" {% if launchJob %}data-start-job-url="{{ path('emsco_job_start', {job: job.id}) }}"{% endif %}>

@@ -2,3 +2,14 @@
 .form-check-input:hover:not(:disabled) {
   border-color: var(--bs-primary);
 }
+
+//cards
+.card-outline {
+  border-top: 3px solid var(--bs-card-border-color);
+}
+
+@each $name, $color in $theme-colors {
+  .card-#{$name}.card-outline {
+    border-top-color: $color;
+  }
+}

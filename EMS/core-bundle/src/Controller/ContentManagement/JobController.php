@@ -8,6 +8,7 @@ use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\UI\Page\Navigation;
+use EMS\CoreBundle\Core\UI\Page\Page;
 use EMS\CoreBundle\Entity\Job;
 use EMS\CoreBundle\Helper\EmsCoreResponse;
 use EMS\CoreBundle\Routes;
@@ -35,7 +36,7 @@ class JobController extends AbstractController
     ) {
     }
 
-    public function jobStatus(Request $request, Job $job): Response
+    public function jobStatus(Request $request, Job $job): JsonResponse|Page
     {
         $encoder = new Encoder();
         $converter = new AnsiToHtmlConverter(new Theme());
@@ -53,17 +54,20 @@ class JobController extends AbstractController
             ]);
         }
 
-        return $this->render(\sprintf('@%s/job/status.html.twig', $this->templateNamespace), [
-            'title' => t('type.title_status', ['type' => 'job', 'job_id' => $job->getId()], 'emsco-core'),
-            'subTitle' => t('type.title_sub', ['type' => 'job'], 'emsco-core'),
-            'job' => $job,
-            'status' => $encoder->encodeUrl($job->getStatus()),
-            'output' => $jobOutput ? $encoder->encodeUrl($converter->convert($jobOutput)) : null,
-            'launchJob' => $this->triggerJobFromWeb && false === $job->getStarted() && !$job->hasTag(),
-            'breadcrumb' => $this->breadcrumb()->add(
-                t('type.title_status', ['type' => 'job', 'job_id' => $job->getId()], 'emsco-core'),
-            ),
-        ]);
+        return new Page(
+            context: [
+                'title' => t('type.title_status', ['type' => 'job', 'job_id' => $job->getId()], 'emsco-core'),
+                'subTitle' => t('type.title_sub', ['type' => 'job'], 'emsco-core'),
+                'job' => $job,
+                'status' => $encoder->encodeUrl($job->getStatus()),
+                'output' => $jobOutput ? $encoder->encodeUrl($converter->convert($jobOutput)) : null,
+                'launchJob' => $this->triggerJobFromWeb && false === $job->getStarted() && !$job->hasTag(),
+                'breadcrumb' => $this->breadcrumb()->add(
+                    t('type.title_status', ['type' => 'job', 'job_id' => $job->getId()], 'emsco-core'),
+                ),
+            ],
+            template: 'page/page_job_status.html.twig',
+        );
     }
 
     public function startJob(Job $job, Request $request, UserInterface $user): Response

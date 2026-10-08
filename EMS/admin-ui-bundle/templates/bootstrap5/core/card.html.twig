@@ -1,0 +1,29 @@
+<div class="card card-outline {{ class|default('') }}"{% for name, value in attributes|default({}) %} {{ name }}="{{ value }}"{% endfor %}>
+    {% block card_header %}
+        {% if header|default(null) %}
+            <div class="card-header">
+                {% if headerIcon|default(null) %}<i class="{{ headerIcon }}"></i>{% endif %}
+                {{ header }}
+            </div>
+        {% endif %}
+    {% endblock %}
+    {% block card_body %}
+        <div class="card-body">
+            {% block card_title %}
+                {% if title|default(null) %}
+                    <h5 class="card-title">
+                        {% if titleIcon|default(null) %}<i class="{{ titleIcon }}"></i>{% endif %}
+                        {{ title }}
+                    </h5>
+                {% endif %}
+            {% endblock %}
+            {% block card_content %}{{ content|default('') }}{% endblock %}
+        </div>
+    {% endblock %}
+    {% set footerContent %}{% block card_footer %}{{ footer|default('') }}{% endblock %}{% endset %}
+    {% if footerContent|trim is not empty %}
+        <div class="card-footer">
+            {{ footerContent }}
+        </div>
+    {% endif %}
+</div>

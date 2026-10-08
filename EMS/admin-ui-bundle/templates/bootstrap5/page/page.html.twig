@@ -1,5 +1,7 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
 
+{% trans_default_domain 'emsco-core' %}
+
 {% block title %}{{ title|trans }}{% endblock %}
 {% block pagetitle %}{{ pageTitle|default(title)|trans }}{% endblock %}
 
@@ -37,44 +39,39 @@
 {% endblock render_datatables %}
 
 {%- block render_form -%}
-    <div class="container-fluid">
-        <div class="row">
-            {%- if notice is defined -%}
-                <div class="col-md-3">{{ block('render_notice') }}</div>
-            {%- endif -%}
-            <div class="{{ notice is defined ? 'col-md-9' : 'col-md-12' }}">
-                <div class="card card-outline card-yellow mb-4 shadow">
-                    {{ form_start(form) }}
-                    <div class="card-body">
-                        {{ form_errors(form) }}
-                        <div class="d-flex flex-column gap-3">
-                            {% for child in form|filter(c => not (c.vars.name in ['save', 'save_close'])) %}
-                                <div class="row">
-                                    {{ form_row(child) }}
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        {%- for button in form|filter(c => c.vars.name in ['save', 'save_close']) -%}
-                            {{ form_widget(button) }}
-                        {%- endfor -%}
-                    </div>
-                    {{ form_end(form) }}
-                </div>
+    <div class="row">
+        {%- if notice is defined -%}
+            <div class="col-md-3">
+                {{ include('@EMSAdminUI/bootstrap5/core/card.html.twig', {
+                    header: 'key.notice'|trans({}, 'emsco-core'),
+                    headerIcon: 'fa fa-warning',
+                    content: notice|trans ,
+                }, with_context: false) }}
             </div>
+        {%- endif -%}
+        <div class="{{ notice is defined ? 'col-md-9' : 'col-md-12' }}">
+            {{ form_start(form) }}
+            {% embed '@EMSAdminUI/bootstrap5/core/card.html.twig' with {
+                class: 'card-primary',
+                form: form,
+            } only %}
+                {% block card_content %}
+                    {{ form_errors(form) }}
+                    <div class="d-flex flex-column gap-3">
+                        {% for child in form|filter(c => c.vars.name not in ['save', 'save_close']) %}
+                            <div class="row">
+                                {{ form_row(child) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endblock %}
+                {% block card_footer %}
+                    {%- for button in form|filter(c => c.vars.name in ['save', 'save_close']) -%}
+                        {{ form_widget(button) }}
+                    {%- endfor -%}
+                {% endblock %}
+            {% endembed %}
+            {{ form_end(form) }}
         </div>
     </div>
 {%- endblock render_form -%}
-
-{%- block render_notice -%}
-    <div class="card card-outline card-yellow mb-4 shadow">
-        <div class="card-body">
-            <h2 class="card-title mb-2">
-                <i class="fa fa-warning"></i>
-                {{ 'key.notice'|trans({}, 'emsco-core') }}
-            </h2>
-            <p class="card-text">{{ notice|trans }}</p>
-        </div>
-    </div>
-{%- endblock render_notice -%}

@@ -707,6 +707,7 @@ key:
     dashboards: Dashboards
     delayed_unassigned_shards: 'Vertraagde niet-toegewezen shards'
     descending: Dalend
+    details: Details
     discard_modifications: 'Niet-opgeslagen wijzigingen verwerpen'
     document: Document
     documentation: Documentatie
@@ -1412,7 +1413,6 @@ title:
     list_environments: 'Omgevingen weergeven'
     list_releases: 'Lijst van releases'
     log_of: 'Log van {created}'
-    log_tagline: 'Wie deed wat'
     logs_of: 'Logs van {created}'
     messages_in_bus: 'Berichten in de bus'
     move_files: |-

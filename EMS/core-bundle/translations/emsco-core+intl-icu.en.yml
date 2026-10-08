@@ -707,6 +707,7 @@ key:
     dashboards: Dashboards
     delayed_unassigned_shards: 'Delayed unassigned shards'
     descending: Descending
+    details: Details
     discard_modifications: 'Discard non-saved modifications'
     document: Document
     documentation: Documentation
@@ -1412,7 +1413,6 @@ title:
     list_environments: 'List Environments'
     list_releases: 'List of Releases'
     log_of: 'Log of the {created}'
-    log_tagline: 'Who did what'
     logs_of: 'Logs of {created}'
     messages_in_bus: 'Messages in the bus'
     move_files: |-

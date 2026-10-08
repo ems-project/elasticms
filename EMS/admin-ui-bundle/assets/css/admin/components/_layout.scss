@@ -313,6 +313,23 @@ html.header-compact #control-sidebar {
   border: 1.5px solid $navbar-bg;
 }
 
+// ===== User menu =====
+.user-menu .dropdown-menu {
+  min-width: 20rem;
+  max-width: 24rem;
+  padding: 0;
+  overflow: hidden;
+}
+
+.user-menu .user-roles .badge {
+  padding: .35em .65em;
+  font-size: .75rem;
+}
+
+.user-menu .user-header img {
+  box-shadow: 0 .25rem .75rem rgba($black, .35);
+}
+
 .user-menu .dropdown-toggle::after {
   content: none;
 }

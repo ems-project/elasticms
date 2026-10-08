@@ -83,37 +83,32 @@
                             }) }}
                             <span class="d-none d-sm-inline ms-2">{{ app.user.username }}</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end pt-0">
-                            <li class="user-header p-2">
-                                <div class="text-center">
-                                    {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
-                                        class: 'rounded-circle',
-                                        width: 60,
-                                        height: 60,
-                                    }) }}
+                        <ul class="dropdown-menu dropdown-menu-end p-0">
+                            <li class="user-header p-3 text-white text-center">
+                                {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
+                                    class: 'rounded-circle border border-2 border-white border-opacity-50',
+                                    width: 72,
+                                    height: 72,
+                                }) }}
+                                <div class="fs-5 fw-semibold mt-2">{{ app.user.username }}</div>
+                                <div class="small opacity-75">{{ 'message.member_since'|trans({date: app.user.created|date(date_time_format)}, 'emsco-core') }}</div>
+                                <div class="user-roles d-flex flex-wrap justify-content-center gap-1 mt-3">
+                                    {% for role in app.user.roles %}
+                                        <span class="badge bg-white bg-opacity-25 fw-normal">{{ (role|replace({ROLE_: 'ROLE.'}) ~ '.label')|lower|trans([], 'emsco-core') }}</span>
+                                    {% endfor %}
                                 </div>
-
-                                <p class="text-white text-center mt-2 mb-0">
-                                    {{ 'message.logged_in_as'|trans({username: app.user.username}, 'emsco-core') }}
-                                    <small>{{ 'message.member_since'|trans({date: app.user.created|date(date_time_format)}, 'emsco-core') }}</small>
-
-                                    <small class="d-block">
-                                        {% for role in app.user.roles %}
-                                            {{ (role|replace({ROLE_: 'ROLE.'}) ~ '.label')|lower|trans([], 'emsco-core') }}{% if not loop.last %},{% endif %}
-                                        {% endfor %}
-                                    </small>
-                                </p>
                             </li>
-                            <li class="pt-2">
-                                <a href="{{ path(routes.USER_PROFILE) }}" class="dropdown-item"><i class="fa fa-user"></i> {{ 'title.profile'|trans({}, 'emsco-core') }}</a>
+                            <li>
+                                <a href="{{ path(routes.USER_PROFILE) }}" class="dropdown-item py-2"><i class="fa fa-user fa-fw"></i> {{ 'title.profile'|trans({}, 'emsco-core') }}</a>
                             </li>
+                            <li><hr class="dropdown-divider my-0"></li>
                             {% if is_granted('IS_IMPERSONATOR') %}
                                 <li>
-                                    <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="dropdown-item" data-testid="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> {{ 'action.exit'|trans({}, 'emsco-core') }}</a>
+                                    <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="dropdown-item py-2" data-testid="logout"><i class="fa fa-sign-out fa-fw" aria-hidden="true"></i> {{ 'action.exit'|trans({}, 'emsco-core') }}</a>
                                 </li>
                             {% else %}
                                 <li>
-                                    <a href="{{ path(routes.USER_LOGOUT) }}" class="dropdown-item" data-testid="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> {{ 'action.sign_out'|trans({}, 'emsco-core') }}</a>
+                                    <a href="{{ path(routes.USER_LOGOUT) }}" class="dropdown-item py-2" data-testid="logout"><i class="fa fa-sign-out fa-fw" aria-hidden="true"></i> {{ 'action.sign_out'|trans({}, 'emsco-core') }}</a>
                                 </li>
                             {% endif %}
                         </ul>

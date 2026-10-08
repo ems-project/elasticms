@@ -415,6 +415,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     store_data_services?: mixed, // Default: []
  *     key_store?: mixed, // Default: []
  *     profiler?: bool|Param, // Default: false
+ *     response_headers?: array{
+ *         enabled?: bool|Param, // Default: true
+ *     },
  *     hash_algo?: scalar|Param|null, // Default: "sha1"
  *     backend_url?: scalar|Param|null, // Default: null
  *     backend_api_key?: scalar|Param|null, // Default: null

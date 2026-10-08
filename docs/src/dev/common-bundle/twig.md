@@ -247,6 +247,85 @@ avoid HTTP cache issues, this function must be called in a non-safe request (i.e
 {% endif %}
 ```
 
+## Response headers
+
+`ResponseHeaderExtension` exposes functions for configuring HTTP response headers from Twig. The
+headers are stored in the current request context and are added to the response when it is sent.
+
+### ems_http_header
+
+Add or replace a response header. Header names are normalized automatically.
+
+```twig
+{% do ems_http_header('Cache-Control', 'no-store') %}
+{% do ems_http_header('X-Robots-Tag', 'noindex') %}
+```
+
+The header value must be valid for an HTTP header. Values containing control characters, including
+carriage returns and line feeds, are rejected.
+
+### ems_remove_http_header
+
+Remove one response header from the context. This can remove both a default header and a header
+previously added with `ems_http_header`.
+
+```twig
+{% do ems_remove_http_header('Permissions-Policy') %}
+{% do ems_remove_http_header('X-Robots-Tag') %}
+```
+
+### ems_clear_http_headers
+
+Remove all regular response headers from the context. This does not clear the CSP configuration.
+
+```twig
+{% do ems_clear_http_headers() %}
+```
+
+### ems_csp_source
+
+Add a source to a Content-Security-Policy directive. The default policy contains:
+
+```text
+default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'
+```
+
+> **Note:** Adding a source for a directive replaces that directive's default value. Remember to
+> include the default sources you still need. For example, adding `script-src` with only
+> `https://cdn.example.com` removes the default `'self'` source:
+>
+> ```twig
+> {%- do ems_csp_source('script-src', "'self'")  -%}
+> {%- do ems_csp_source('script-src', 'https://cdn.example.com')  -%}
+> ```
+>
+> Adding a source replaces only the matching default directive; unrelated directives remain enabled.
+
+```twig
+{% do ems_csp_source('script-src', 'https://cdn.example.com') %}
+{% do ems_csp_source('img-src', 'https://images.example.com') %}
+```
+
+In debug mode, `style-src 'self' 'unsafe-inline'` is added to allow inline styles used by the
+Symfony Web Debug Toolbar.
+
+### ems_nonce
+
+Generate a nonce and add it to the selected CSP directive. The nonce is stable for the current
+request and must be added to the corresponding inline element.
+
+Supported directives are `script-src`, `script-src-elem`, `style-src`, and `style-src-elem`.
+
+```twig
+{% set scriptNonce = ems_nonce('script-src') %}
+<script nonce="{{ scriptNonce }}">
+    // Inline JavaScript
+</script>
+```
+
+Do not combine a nonce with `unsafe-inline` when strict inline protection is required: browsers
+ignore `unsafe-inline` when a nonce or hash is present in the same directive.
+
 ## Twig filters
 
 ### ems_anti_spam

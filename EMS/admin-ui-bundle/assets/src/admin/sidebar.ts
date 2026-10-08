@@ -62,39 +62,35 @@ export default class Sidebar {
     }
 
     activateMenu() {
-        let bestMatch: Element | null = null
-        let bestMatchHrefLength = 0
-        const menuLinks = document.querySelectorAll('#sidebar a.sidebar-link')
+        const menuLinks = document.querySelectorAll<HTMLAnchorElement>('#sidebar a.sidebar-link')
         const pathname = window.location.pathname
 
-        for (let i = 0; i < menuLinks.length; ++i) {
-            const href = menuLinks[i].getAttribute('href')
-            if (
-                href &&
-                href !== '#' &&
-                pathname.startsWith(href) &&
-                href.length > bestMatchHrefLength
-            ) {
-                bestMatch = menuLinks[i]
+        let bestMatch: Element | null = null
+        let bestMatchHrefLength = 0
+
+        for (const link of menuLinks) {
+            const href = link.getAttribute('href')
+            if (!href || href === '#') {
+                continue
+            }
+            const matches = pathname === href || pathname.startsWith(href.endsWith('/') ? href : href + '/')
+            if (matches && href.length > bestMatchHrefLength) {
+                bestMatch = link
                 bestMatchHrefLength = href.length
             }
         }
 
-        if (bestMatch === null) {
-            return
-        }
+        const start =
+            bestMatch?.closest('.sidebar-item') ??
+            document.querySelector('#sidebar .sidebar-item.active')
 
-        let el = bestMatch.closest('.sidebar-item')
+        let el: Element | null = start ?? null
         while (el) {
             el.classList.add('active')
-            const collapse = el.querySelector(':scope > .sidebar-dropdown.collapse')
-            if (collapse) {
-                collapse.classList.add('show')
-            }
-            const link = el.querySelector(':scope > a.sidebar-link.collapsed')
-            if (link) {
-                link.classList.remove('collapsed')
-            }
+            el.querySelector(':scope > .sidebar-dropdown.collapse')?.classList.add('show')
+            el.querySelector(':scope > a.sidebar-link.collapsed')?.classList.remove('collapsed')
+            const parentDropdown = el.parentElement?.closest('.sidebar-dropdown')
+            parentDropdown?.classList.add('show')
             el = el.parentElement?.closest('.sidebar-item') ?? null
         }
     }

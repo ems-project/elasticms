@@ -511,7 +511,7 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('ems.service.job'),
             service('emsco.logger'),
-            '%ems_core.trigger_job_from_web%'
+            '%ems_core.trigger_job_from_web%',
         ])
         ->call('setContainer')
         ->tag('container.service_subscriber')

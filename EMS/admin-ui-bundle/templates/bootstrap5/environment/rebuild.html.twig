@@ -1,7 +1,7 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'emsco-core' %}
 
-{% block title %}{{ 'title.rebuild_environment'|trans({'name': environment.name}) }}{% endblock %}
-{% block pagetitle %}{{ 'title.rebuild_environment'|trans({'name': environment.name}) }}{% endblock %}
+{% block title %}{{ 'title.rebuild_environment'|trans({name: environment.name}) }}{% endblock %}
+{% block pagetitle %}{{ 'title.rebuild_environment'|trans({name: environment.name}) }}{% endblock %}
 {% block breadcrumb %}
     <ol class="breadcrumb float-sm-end">
         <li class="breadcrumb-item"><i class="fa fa-database"></i> {{ 'field.environments'|trans }}</li>

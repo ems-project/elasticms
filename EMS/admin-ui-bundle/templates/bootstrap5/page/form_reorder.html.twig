@@ -11,7 +11,7 @@
                     {% if contentType %}
                         <a class="btn btn-xs btn-primary" href="{{ path('emsco_admin_content_type_edit_field', {contentType: contentType.id, field: child.id}) }}">
                             <i class="fa fa-edit"></i>
-                            {{ 'message.edit_field_name'|trans({'name': child.name}) }}
+                            {{ 'message.edit_field_name'|trans({name: child.name}) }}
                         </a>
                     {% endif %}
                 </div>
@@ -44,5 +44,5 @@
         class: 'card-primary',
         content: items,
         footer: footer,
-    }, with_context = false) }}
+    }, with_context: false) }}
 {% endblock %}

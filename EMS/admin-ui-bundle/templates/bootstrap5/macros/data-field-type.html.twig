@@ -247,9 +247,9 @@
             </h3>
             {% if compare %}
                 {% if diffCount < 0 %}
-                    <del class="text-red">{{ 'message.collection_removed_items'|trans({'count': -diffCount}) }}</del>
+                    <del class="text-red">{{ 'message.collection_removed_items'|trans({count: -diffCount}) }}</del>
                 {% elseif diffCount > 0 %}
-                    <ins class="text-green">{{ 'message.collection_added_items'|trans({'count': diffCount}) }}</ins>
+                    <ins class="text-green">{{ 'message.collection_added_items'|trans({count: diffCount}) }}</ins>
                 {% endif %}
             {% endif %}
         </div>

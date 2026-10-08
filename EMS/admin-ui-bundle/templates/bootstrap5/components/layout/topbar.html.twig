@@ -94,12 +94,12 @@
                                 </div>
 
                                 <p class="text-white text-center mt-2 mb-0">
-                                    {{ 'message.logged_in_as'|trans({'username': app.user.username}, 'emsco-core') }}
-                                    <small>{{ 'message.member_since'|trans({'date': app.user.created|date(date_time_format)}, 'emsco-core') }}</small>
+                                    {{ 'message.logged_in_as'|trans({username: app.user.username}, 'emsco-core') }}
+                                    <small>{{ 'message.member_since'|trans({date: app.user.created|date(date_time_format)}, 'emsco-core') }}</small>
 
                                     <small class="d-block">
                                         {% for role in app.user.roles %}
-                                            {{ (role|replace({'ROLE_': 'ROLE.'}) ~ '.label')|lower|trans([], 'emsco-core') }}{% if not loop.last %},{% endif %}
+                                            {{ (role|replace({ROLE_: 'ROLE.'}) ~ '.label')|lower|trans([], 'emsco-core') }}{% if not loop.last %},{% endif %}
                                         {% endfor %}
                                     </small>
                                 </p>

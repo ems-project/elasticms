@@ -32,9 +32,9 @@
     {% set slug = menuLabel|ems_slug %}
     {% set path = menu.route is not null ? path(menu.route, menu.routeParameters) : null %}
     {% set active = component.isPathActive(path) %}
-    <li class="{{ html_classes({'sidebar-item': true, 'active': active}) }}">
+    <li class="{{ html_classes({'sidebar-item': true, active: active}) }}">
         <a href="{{ menu.hasChildren ? '#' : path|default('#') }}"
-           class="{{ html_classes('sidebar-link', { ("text-#{menuColor}"): menuColor != '', 'collapsed': menu.hasChildren and not active}) }}"
+           class="{{ html_classes('sidebar-link', {("text-#{menuColor}"): menuColor != '', collapsed: menu.hasChildren and not active}) }}"
            {% if menu.hasChildren %}
                data-bs-target="#nav-{{ parentSlug }}{{ slug }}"
                data-bs-toggle="collapse"

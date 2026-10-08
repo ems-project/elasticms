@@ -81,7 +81,7 @@
             <div class="card-footer">
                 <div class="form-group">
                     <div class="btn-group float-end">
-                        <a class="btn btn-primary" href="#" id="add-search-filter-button"><i class="fa fa-plus"></i> {{ 'action.add_type'|trans({'type': 'filter'}) }}</a>
+                        <a class="btn btn-primary" href="#" id="add-search-filter-button"><i class="fa fa-plus"></i> {{ 'action.add_type'|trans({type: 'filter'}) }}</a>
                         {% if form.search is defined %}
                             {{ form_widget(form.search) }}
                         {% endif %}
@@ -108,8 +108,8 @@
                                                 search: app.request.query,
                                                 contentType: form.contentTypes.vars.value|first,
                                             }),
-                                            message: 'action.confirmation'|trans({'content_type': contentType.singularName}),
-                                            label: 'action.default_search_for_content_type'|trans({'content_type': contentType.singularName}),
+                                            message: 'action.confirmation'|trans({content_type: contentType.singularName}),
+                                            label: 'action.default_search_for_content_type'|trans({content_type: contentType.singularName}),
                                             icon: contentType.icon|default('check-square'),
                                             icon: 'check-square',
                                             class: 'btn',

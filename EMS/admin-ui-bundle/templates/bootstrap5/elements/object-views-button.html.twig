@@ -124,9 +124,9 @@
         {% if contentTypeActions|default([])|length > 0 %}
             <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa fa-eye"></i>
-                {{ 'field.action_dropdown_label'|trans({'environment': environment.label(app.user)}) }}
+                {{ 'field.action_dropdown_label'|trans({environment: environment.label(app.user)}) }}
                 <span class="caret"></span>
-                <span class="sr-only">{{ 'field.action_dropdown_sr_only'|trans({'environment': environment.label(app.user)}) }}</span>
+                <span class="sr-only">{{ 'field.action_dropdown_sr_only'|trans({environment: environment.label(app.user)}) }}</span>
             </button>
             <ul class="dropdown-menu" role="menu">
                 {% for a in contentTypeActions %}
@@ -155,7 +155,7 @@
         {% else %}
             <button type="button" class="btn btn-light btn-sm" style="cursor: default">
                 <i class="fa fa-eye"></i>
-                {{ 'field.published_label'|trans({'environment': environment.label(app.user)}) }}
+                {{ 'field.published_label'|trans({environment: environment.label(app.user)}) }}
             </button>
         {% endif %}
     </div>

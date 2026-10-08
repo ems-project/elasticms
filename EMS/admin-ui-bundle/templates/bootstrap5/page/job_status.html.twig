@@ -1,0 +1,103 @@
+{% extends '@EMSAdminUI/bootstrap5/page/default.html.twig' %}
+
+{% trans_default_domain 'emsco-core' %}
+
+{% block body %}
+    <div class="row" {% if launchJob %}data-start-job-url="{{ path('emsco_job_start', {job: job.id}) }}"{% endif %}>
+        <div class="col-md-3">
+            {{ block('job_info') }}
+        </div>
+        <div class="col-md-9">
+            {{ block('job_status') }}
+            {{ block('job') }}
+        </div>
+    </div>
+{% endblock %}
+
+{%- block job_status -%}
+    {% set state = job.status == 'failed' ? 'failed' : (job.done ? 'done' : (job.started|default(false) ? 'running' : 'waiting')) %}
+    {% set states = {
+        waiting: {color: 'secondary', icon: 'fa-hourglass-half fa-fade', label: 'key.waiting_to_start'|trans },
+        running: {color: 'primary', icon: 'fa-gear fa-spin', label: 'key.running'|trans},
+        done: {color: 'success', icon: 'fa-circle-check', label: 'key.completed'|trans },
+        failed: {color: 'danger', icon: 'fa-circle-xmark', label: 'key.failed'|trans },
+    } %}
+    {% set current = states[state] %}
+    {% set progress = state == 'done' ? 100 : job.progress %}
+
+    <div class="d-flex align-items-center gap-3 p-3 mb-4 rounded text-bg-{{ current.color }}" data-testid="job-state-{{ state }}">
+        <i class="fa {{ current.icon }} fa-3x"></i>
+        <div class="d-flex flex-column flex-grow-1 gap-1">
+            <div class="fs-3 fw-bold lh-1">{{ current.label }}</div>
+            <div class="d-flex align-items-center gap-2">
+                <div class="progress flex-grow-1 bg-black bg-opacity-25" style="height: 1rem" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar bg-white bg-opacity-75{% if state == 'running' %} progress-bar-striped  progress-bar-animated{% endif %}" style="width: {{ progress }}%"></div>
+                </div>
+                <span class="fs-5 fw-bold">{{ progress }}%</span>
+            </div>
+            <div class="small">{{ 'message.started_on_date'|trans({'{date}': job.created|date(date_time_format) }) }}</div>
+        </div>
+    </div>
+{%- endblock job_status -%}
+
+{%- block job -%}
+    {% embed '@EMSAdminUI/bootstrap5/core/card.html.twig' with {
+        class: 'card-primary mb-4',
+        header: 'key.console_output'|trans,
+        headerIcon: 'fa fa-terminal',
+        job: job,
+        output: output
+    } only %}
+        {% block card_body %}
+            {%- if output|length > 0 -%}
+                <div class="console job-output">{{ output|raw }}</div>
+            {%- endif -%}
+        {% endblock %}
+
+        {% block card_footer %}
+            {% if not job.done %}
+                {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
+                    url: path('emsco_job_status', {job: job.id}),
+                    label: 'action.reload_page'|trans({}, 'emsco-core'),
+                    icon: 'refresh',
+                }) }}
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
+                    url: path('emsco_admin_job_index'),
+                    label: 'title.job_list'|trans({}, 'emsco-core'),
+                    icon: 'chevron-circle-right',
+                }) }}
+                {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
+                    url: path('emsco_admin_job_relaunch', {job: job.id}),
+                    'message': 'type.confirm'|trans({'type': 'relaunch_job'}, 'emsco-core'),
+                    'label': 'action.relaunch'|trans({}, 'emsco-core'),
+                    icon: 'recycle',
+                }) }}
+                {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
+                    url: path('emsco_admin_job_delete', {job: job.id}),
+                    message: 'action.confirmation'|trans({}, 'emsco-core'),
+                    label: 'action.delete'|trans({}, 'emsco-core'),
+                    icon: 'trash',
+                }) }}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{%- endblock job -%}
+
+{%- block job_info -%}
+    {% set list = [
+        {icon: 'fa fa-user', label: 'field.user'|trans, value: job.user|emsco_display_name},
+        {icon: 'fa fa-terminal', label: 'field.command'|trans, content: job.command|default('list')},
+        {icon: 'fa fa-clock', label: 'field.date_execution'|trans, value: job.created|date(date_time_format)},
+        {icon: 'fa fa-hourglass', label: 'field.date_modified'|trans, value: job.modified|date(date_time_format)},
+        {icon: 'fa fa-percent', label: 'key.progress'|trans, value: job.done ? 'key.completed'|trans : "#{job.progress}%"},
+    ]|merge(job.tag ? [{icon: 'fa fa-tag', label: 'field.tag'|trans, value: job.tag}] : []) %}
+
+    {{ include('@EMSAdminUI/bootstrap5/core/card-list.html.twig', {
+        class: 'mb-4',
+        header: 'message.job_info'|trans,
+        headerIcon: 'fa fa-info',
+        list: list,
+    }) }}
+{%- endblock job_info -%}

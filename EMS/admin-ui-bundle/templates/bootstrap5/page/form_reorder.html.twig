@@ -1,4 +1,4 @@
-{% extends '@EMSAdminUI/bootstrap5/page/page.html.twig' %}
+{% extends '@EMSAdminUI/bootstrap5/page/default.html.twig' %}
 
 {% trans_default_domain 'emsco-core' %}
 
@@ -28,22 +28,21 @@
 {% endmacro %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-outline card-yellow mb-4 shadow">
-                    {{ form_start(form) }}
-                    <div class="card-body">
-                        <ol class="nested-sortable vertical" id="root-list" data-nested-max-level="15" data-nested-is-tree="true">
-                            {{ _self.reorder_items(entity.fieldType, contentType|default(null)) }}
-                        </ol>
-                    </div>
-                    <div class="card-footer">
-                        {{ form_widget(form.reorder) }}
-                    </div>
-                    {{ form_end(form) }}
-                </div>
-            </div>
-        </div>
-    </div>
+    {% import _self as macros %}
+
+    {% set items %}
+        <ol class="nested-sortable vertical" id="root-list" data-nested-max-level="15" data-nested-is-tree="true">
+            {{ macros.reorder_items(entity.fieldType, contentType|default(null)) }}
+        </ol>
+    {% endset %}
+
+    {% set footer %}
+        {{ form_widget(form.reorder) }}
+    {% endset %}
+
+    {{ include('@EMSAdminUI/bootstrap5/core/card.html.twig', {
+        class: 'card-primary',
+        content: items,
+        footer: footer,
+    }, with_context = false) }}
 {% endblock %}

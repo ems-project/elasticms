@@ -558,4 +558,16 @@ a.sidebar-link {
   font-weight: 400;
   background: transparent;
   padding: $sidebar-link-padding-y $sidebar-link-padding-x $sidebar-link-padding-y calc($sidebar-link-padding-x * 2);
+  border-left-width: 3px;
+  border-left-color: transparent;
+}
+
+.sidebar-dropdown .sidebar-link:hover {
+  border-left-color: transparent;
+}
+
+.sidebar-dropdown .sidebar-item.active > .sidebar-link {
+  background: transparent;
+  color: $sidebar-link-active-color;
+  border-left-color: $sidebar-link-active-border-left-color;
 }

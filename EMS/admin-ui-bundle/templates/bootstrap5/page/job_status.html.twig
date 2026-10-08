@@ -17,10 +17,10 @@
 {%- block job_status -%}
     {% set state = job.status == 'failed' ? 'failed' : (job.done ? 'done' : (job.started|default(false) ? 'running' : 'waiting')) %}
     {% set states = {
-        waiting: {color: 'secondary', icon: 'fa-hourglass-half fa-fade', label: 'Waiting to start'},
-        running: {color: 'primary', icon: 'fa-gear fa-spin', label: 'Running'},
-        done: {color: 'success', icon: 'fa-circle-check', label: 'Completed'},
-        failed: {color: 'danger', icon: 'fa-circle-xmark', label: 'Failed'},
+        waiting: {color: 'secondary', icon: 'fa-hourglass-half fa-fade', label: 'key.waiting_to_start'|trans },
+        running: {color: 'primary', icon: 'fa-gear fa-spin', label: 'key.running'|trans},
+        done: {color: 'success', icon: 'fa-circle-check', label: 'key.completed'|trans },
+        failed: {color: 'danger', icon: 'fa-circle-xmark', label: 'key.failed'|trans },
     } %}
     {% set current = states[state] %}
     {% set progress = state == 'done' ? 100 : job.progress %}
@@ -35,7 +35,7 @@
                 </div>
                 <span class="fs-5 fw-bold">{{ progress }}%</span>
             </div>
-            <div class="small">Started on {{ job.created|date(date_time_format) }}</div>
+            <div class="small">{{ 'message.started_on_date'|trans({'{date}': job.created|date(date_time_format) }) }}</div>
         </div>
     </div>
 {%- endblock job_status -%}
@@ -43,7 +43,7 @@
 {%- block job -%}
     {% embed '@EMSAdminUI/bootstrap5/core/card.html.twig' with {
         class: 'card-primary mb-4',
-        header: 'Console output',
+        header: 'key.console_output'|trans,
         headerIcon: 'fa fa-terminal',
         job: job,
         output: output
@@ -84,7 +84,6 @@
         {% endblock %}
     {% endembed %}
 {%- endblock job -%}
-
 
 {%- block job_info -%}
     {% set list = [

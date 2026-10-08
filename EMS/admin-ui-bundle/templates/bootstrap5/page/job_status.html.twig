@@ -48,9 +48,9 @@
         job: job,
         output: output
     } only %}
-        {% block card_content %}
+        {% block card_body %}
             {%- if output|length > 0 -%}
-                <div class="console">{{ output|raw|nl2br }}</div>
+                <div class="console job-output">{{ output|raw }}</div>
             {%- endif -%}
         {% endblock %}
 

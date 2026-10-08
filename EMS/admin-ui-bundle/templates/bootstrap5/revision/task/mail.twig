@@ -2,26 +2,26 @@
 
 {% block task_event_mail_subject %}
     {%- if type == 'approved' -%}
-        {{ 'message.mail_approved_subject'|trans({ 'title': task.title, 'document': revision|emsco_display })|raw }}
+        {{ 'message.mail_approved_subject'|trans({title: task.title, document: revision|emsco_display})|raw }}
     {%- elseif type == 'assignee_changed' -%}
-        {{ 'message.mail_assignee_changed_subject'|trans({ 'title': task.title, 'document': revision|emsco_display })|raw }}
+        {{ 'message.mail_assignee_changed_subject'|trans({title: task.title, document: revision|emsco_display})|raw }}
     {%- elseif type == 'completed' -%}
-        {{ 'message.mail_completed_subject'|trans({ 'title': task.title, 'document': revision|emsco_display })|raw }}
+        {{ 'message.mail_completed_subject'|trans({title: task.title, document: revision|emsco_display})|raw }}
     {%- elseif type == 'created' -%}
-        {{ 'message.mail_created_subject'|trans({ 'title': task.title, 'document': revision|emsco_display })|raw }}
+        {{ 'message.mail_created_subject'|trans({title: task.title, document: revision|emsco_display})|raw }}
     {%- elseif type == 'deleted' -%}
-        {{ 'message.mail_deleted_subject'|trans({ 'title': task.title, 'document': revision|emsco_display })|raw }}
+        {{ 'message.mail_deleted_subject'|trans({title: task.title, document: revision|emsco_display})|raw }}
     {%- elseif type == 'rejected' -%}
-        {{ 'message.mail_rejected_subject'|trans({ 'title': task.title, 'document': revision|emsco_display })|raw }}
+        {{ 'message.mail_rejected_subject'|trans({title: task.title, document: revision|emsco_display})|raw }}
     {%- elseif type == 'updated' -%}
-        {{ 'message.mail_updated_subject'|trans({ 'title': task.title, 'document': revision|emsco_display })|raw }}
+        {{ 'message.mail_updated_subject'|trans({title: task.title, document: revision|emsco_display})|raw }}
     {%- endif -%}
 {% endblock task_event_mail_subject %}
 
 {% block task_event_mail_body %}
-    <p>{{ 'field.from_sender'|trans({'sender': senderUsername|emsco_display_name}) }}</p>
-    <p>{{ 'message.mail_greetings'|trans({'receiver': receiver.displayname}) }}</p>
-    <p>{{ 'message.mail_task_has_been'|trans({'action': action, 'role': senderRole ? 'field.by_role'|trans({'role': senderRole}) : ''}) }}</p>
+    <p>{{ 'field.from_sender'|trans({sender: senderUsername|emsco_display_name}) }}</p>
+    <p>{{ 'message.mail_greetings'|trans({receiver: receiver.displayname}) }}</p>
+    <p>{{ 'message.mail_task_has_been'|trans({action: action, role: senderRole ? 'field.by_role'|trans({role: senderRole}) : ''}) }}</p>
     <p>
         {% if task.hasDeadline %}<strong>{{ 'field.deadline'|trans }}:</strong>{{ task.deadline.format(date_format) }}<br/>{% endif %}
         <strong>{{ 'field.title'|trans }}:</strong> {{ task.title }}<br/>
@@ -39,7 +39,7 @@
 {% endblock task_notification_mail_subject %}
 
 {% block task_notification_mail_body %}
-    <p>{{ 'message.mail_greetings'|trans({'receiver': receiver.displayname}) }}</p>
+    <p>{{ 'message.mail_greetings'|trans({receiver: receiver.displayname}) }}</p>
 
     <p>{{ 'message.mail_overdue_or_active_list'|trans }}</p>
 

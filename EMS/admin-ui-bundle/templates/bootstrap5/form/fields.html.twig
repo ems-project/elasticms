@@ -170,7 +170,7 @@
         {%- endif -%}
     {%- endif -%}
     {% if confirm is defined and confirm != null %}
-        {% set testId = attr|filter((a,k) => 'data-testid' is same as(k)) %}
+        {% set testId = attr|filter((a, k) => 'data-testid' is same as(k)) %}
         <div class="btn-group">
             <button type="button" class="{{ confirm_class|default('btn btn-outline-danger') }} dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"{% if testId|length > 0 %} data-testid="{{ testId|first }}"{% endif %}>
                 {%- if icon -%}
@@ -180,8 +180,8 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                {% if  testId|length > 0 %}
-                    {% set attr = attr|merge({ 'data-testid' : (testId|first ~ '-message')}) %}
+                {% if testId|length > 0 %}
+                    {% set attr = attr|merge({'data-testid': (testId|first ~ '-message')}) %}
                 {% endif %}
                 <li>
                     <button type="{{ type|default('submit') }}" {{ block('button_attributes') }}>{{ confirm|trans }}</button>
@@ -883,7 +883,7 @@
                     <li>
                         <a type="button" class="json_menu_sortable_add_item_button" data-label="" data-content-type="{{ type|e('html_attr') }}" data-icon="{{ contentTypeIcon|e('html_attr') }}">
                             <i class="{{ contentTypeIcon }}"></i>
-                            {{ 'action.add_new_type'|trans({'type': contentType.singularName}) }}
+                            {{ 'action.add_new_type'|trans({type: contentType.singularName}) }}
                         </a>
                     </li>
                 {% endif %}
@@ -895,7 +895,7 @@
                     <li>
                         <a type="button" class="json_menu_sortable_add_node_button" data-label="" data-content-type="{{ type|e('html_attr') }}" data-icon="{{ contentTypeIcon|e('html_attr') }}">
                             <i class="{{ contentTypeIcon }}"></i>
-                            {{ 'action.add_new_type'|trans({'type': contentType.singularName}) }}
+                            {{ 'action.add_new_type'|trans({type: contentType.singularName}) }}
                         </a>
                     </li>
                 {% endif %}
@@ -1104,7 +1104,7 @@
                     {% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}
                         src="{{ emsco_asset_path(form.vars.value, form.vars.data.fieldType.getDisplayOption('imageAssetConfigIdentifier', 'preview')) }}"
                     {% endif %}
-                    class="img-fluid" alt="{{ 'message.file_preview_of_field'|trans({'label': form_label(form)|striptags}) }}"
+                    class="img-fluid" alt="{{ 'message.file_preview_of_field'|trans({label: form_label(form)|striptags}) }}"
                 >
             </div>
         </div>
@@ -1207,7 +1207,7 @@
                     {% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}
                         src="{{ path('ems_asset_processor', {hash: form.vars.value._image_resized_hash ?? form.vars.value.sha1, processor: 'preview', type: form.vars.value.mimetype, name: form.vars.value.filename}) }}"
                     {% endif %}
-                    class="img-responsive center-block" alt="{{ 'message.preview_alt'|trans({'field': form_label(form)|striptags}) }}"
+                    class="img-responsive center-block" alt="{{ 'message.preview_alt'|trans({field: form_label(form)|striptags}) }}"
                 >
             </div>
         </div>
@@ -1255,7 +1255,7 @@
                         <div class="modal-content">
                           <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel">
-                                {{ 'message.add_field_to'|trans({'name': form.vars.data.name})|raw }}
+                                {{ 'message.add_field_to'|trans({name: form.vars.data.name})|raw }}
                             </h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                           </div>
@@ -1283,7 +1283,7 @@
                         <div class="modal-content">
                           <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel">
-                                {{ 'message.add_subfield_to'|trans({'name': form.vars.data.name})|raw }}
+                                {{ 'message.add_subfield_to'|trans({name: form.vars.data.name})|raw }}
                             </h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                           </div>
@@ -1304,7 +1304,7 @@
                         <div class="modal-content">
                           <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel">
-                                {{ 'message.duplicate_field'|trans({'name': form.vars.data.name})|raw }}
+                                {{ 'message.duplicate_field'|trans({name: form.vars.data.name})|raw }}
                             </h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                           </div>

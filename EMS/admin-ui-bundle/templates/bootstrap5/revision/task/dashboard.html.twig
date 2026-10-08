@@ -35,7 +35,7 @@
         <div class="tab-pane fade active show" id="{{ currentTab }}" role="tabpanel">
             {{ block('filters') }}
             {% if table.count > loadMaxRows %}
-                <div class="alert alert-warning" role="alert">{{ 'message.task_search_warning'|trans({'count': loadMaxRows}) }}</div>
+                <div class="alert alert-warning" role="alert">{{ 'message.task_search_warning'|trans({count: loadMaxRows}) }}</div>
             {% endif %}
 
             {% form_theme formTable '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}

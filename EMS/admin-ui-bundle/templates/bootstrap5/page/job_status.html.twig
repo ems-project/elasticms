@@ -17,10 +17,10 @@
 {%- block job_status -%}
     {% set state = job.status == 'failed' ? 'failed' : (job.done ? 'done' : (job.started|default(false) ? 'running' : 'waiting')) %}
     {% set states = {
-        waiting: {color: 'secondary', icon: 'fa-hourglass-half fa-fade', label: 'key.waiting_to_start'|trans },
+        waiting: {color: 'secondary', icon: 'fa-hourglass-half fa-fade', label: 'key.waiting_to_start'|trans},
         running: {color: 'primary', icon: 'fa-gear fa-spin', label: 'key.running'|trans},
-        done: {color: 'success', icon: 'fa-circle-check', label: 'key.completed'|trans },
-        failed: {color: 'danger', icon: 'fa-circle-xmark', label: 'key.failed'|trans },
+        done: {color: 'success', icon: 'fa-circle-check', label: 'key.completed'|trans},
+        failed: {color: 'danger', icon: 'fa-circle-xmark', label: 'key.failed'|trans},
     } %}
     {% set current = states[state] %}
     {% set progress = state == 'done' ? 100 : job.progress %}
@@ -35,7 +35,7 @@
                 </div>
                 <span class="fs-5 fw-bold">{{ progress }}%</span>
             </div>
-            <div class="small">{{ 'message.started_on_date'|trans({'{date}': job.created|date(date_time_format) }) }}</div>
+            <div class="small">{{ 'message.started_on_date'|trans({'{date}': job.created|date(date_time_format)}) }}</div>
         </div>
     </div>
 {%- endblock job_status -%}
@@ -46,7 +46,7 @@
         header: 'key.console_output'|trans,
         headerIcon: 'fa fa-terminal',
         job: job,
-        output: output
+        output: output,
     } only %}
         {% block card_body %}
             {%- if output|length > 0 -%}
@@ -70,8 +70,8 @@
                 }) }}
                 {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                     url: path('emsco_admin_job_relaunch', {job: job.id}),
-                    'message': 'type.confirm'|trans({'type': 'relaunch_job'}, 'emsco-core'),
-                    'label': 'action.relaunch'|trans({}, 'emsco-core'),
+                    message: 'type.confirm'|trans({type: 'relaunch_job'}, 'emsco-core'),
+                    label: 'action.relaunch'|trans({}, 'emsco-core'),
                     icon: 'recycle',
                 }) }}
                 {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {

@@ -17,7 +17,7 @@ use EMS\CoreBundle\Controller\Admin\McpPromptController;
 use EMS\CoreBundle\Controller\Admin\McpResourceController;
 use EMS\CoreBundle\Controller\Admin\McpToolController;
 use EMS\CoreBundle\Controller\Admin\QuerySearchController;
-use EMS\CoreBundle\Controller\Admin\ScheduleController;
+use EMS\CoreBundle\Controller\Admin\JobScheduleController;
 use EMS\CoreBundle\Controller\Admin\WysiwygController;
 use EMS\CoreBundle\Controller\Api\Admin\DocumentationController;
 use EMS\CoreBundle\Controller\Api\Admin\EntitiesController;
@@ -258,7 +258,7 @@ return static function (ContainerConfigurator $container) {
         ->tag('container.service_subscriber')
         ->tag('controller.service_arguments');
 
-    $services->set(ScheduleController::class)
+    $services->set(JobScheduleController::class)
         ->public()
         ->args([
             service('ems.schedule.manager'),

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use EMS\CoreBundle\Controller\Admin\JobController;
-use EMS\CoreBundle\Controller\Admin\ScheduleController;
+use EMS\CoreBundle\Controller\Admin\JobScheduleController;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return function (RoutingConfigurator $routes) {
@@ -28,24 +28,24 @@ return function (RoutingConfigurator $routes) {
         ->methods(['POST']);
 
     $routes->add('emsco_schedule_index', '/schedule')
-        ->controller([ScheduleController::class, 'index'])
+        ->controller([JobScheduleController::class, 'index'])
         ->defaults(['_format' => 'html'])
         ->methods(['GET', 'POST']);
 
     $routes->add('emsco_schedule_add', '/schedule/add')
-        ->controller([ScheduleController::class, 'add'])
+        ->controller([JobScheduleController::class, 'add'])
         ->methods(['GET', 'POST']);
 
     $routes->add('emsco_schedule_edit', '/schedule/edit/{schedule}.{_format}')
-        ->controller([ScheduleController::class, 'edit'])
+        ->controller([JobScheduleController::class, 'edit'])
         ->defaults(['_format' => 'html'])
         ->methods(['GET', 'POST']);
 
     $routes->add('emsco_schedule_duplicate', '/schedule/duplicate/{schedule}')
-        ->controller([ScheduleController::class, 'duplicate'])
+        ->controller([JobScheduleController::class, 'duplicate'])
         ->methods(['POST']);
 
     $routes->add('emsco_schedule_delete', '/schedule/delete/{schedule}')
-        ->controller([ScheduleController::class, 'delete'])
+        ->controller([JobScheduleController::class, 'delete'])
         ->methods(['POST']);
 };

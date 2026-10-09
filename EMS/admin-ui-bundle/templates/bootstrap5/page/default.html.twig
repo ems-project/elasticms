@@ -73,18 +73,6 @@
                     <div class="d-flex flex-column gap-3">
                         {% for child in form|filter(c => c.vars.name not in ['save', 'cancel', 'save_close']) %}
                             {{ form_row(child) }}
-
-{# {% if 'repeated' in child.vars.block_prefixes %} #}
-{# {% for sub in child %} #}
-{# <div class="row"> #}
-{# {{ form_row(sub) }} #}
-{# </div> #}
-{# {% endfor %} #}
-{# {% else %} #}
-{# <div class="row"> #}
-{# {{ form_row(child) }} #}
-{# </div> #}
-{# {% endif %} #}
                         {% endfor %}
                     </div>
                 {% endblock %}

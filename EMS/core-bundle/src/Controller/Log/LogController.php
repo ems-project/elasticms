@@ -65,7 +65,7 @@ class LogController extends AbstractController
             context: [
                 'log' => $log,
                 'icon' => 'fa fa-file-text',
-                'title' => t('title.logs_of', ['created' => $log->getCreated()->format($this->datetimeFormat)], 'emsco-core'),
+                'title' => t('title.log_of', ['created' => $log->getCreated()->format($this->datetimeFormat)], 'emsco-core'),
                 'subTitle' => t('type.title_sub', ['type' => 'log'], 'emsco-core'),
                 'breadcrumb' => $this->breadcrumb()->add(
                     t('key.details', [], 'emsco-core'),

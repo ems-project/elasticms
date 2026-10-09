@@ -54,7 +54,7 @@ class ProfileController extends AbstractController
 
         return new Page([
             'form' => $form->createView(),
-            'title' => t('title.profile', [], 'emsco-core'),
+            'title' => t('title.edit_your_profile', [], 'emsco-core'),
             'subTitle' => t('title.profile_tagline', [], 'emsco-core'),
             'breadcrumb' => $this->breadcrumb()->add(t('action.edit', [], 'emsco-core')),
         ]);

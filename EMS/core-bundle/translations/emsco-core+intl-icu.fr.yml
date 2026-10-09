@@ -379,7 +379,6 @@ field:
     expiration_date: 'Date d’expiration'
     explicit_mode: 'Explicit mode'
     extra: Extra
-    extra_roles: 'Rôles supplémentaires'
     field: Champ
     field_type: 'Type de champ'
     fielddata: 'Field data'
@@ -754,7 +753,6 @@ key:
     history: Historique
     home: Accueil
     i18n: I18N
-    impersonator: Impersonnateur
     inbox: 'Boîte de réception'
     information: Information
     initializing_shards: 'Shards en initialisation'
@@ -1418,7 +1416,6 @@ title:
     list_environments: 'Liste des environnements'
     list_releases: 'Liste des releases'
     log_of: 'Log du {created}'
-    logs_of: 'Logs de {created}'
     messages_in_bus: 'Messages dans le bus'
     move_files: |-
         {count, plural,

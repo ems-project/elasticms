@@ -736,7 +736,6 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('emsco.manager.user'),
             service('emsco.logger'),
-            '%ems_core.template_namespace%',
         ])
         ->call('setContainer')
         ->tag('container.service_subscriber');

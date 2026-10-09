@@ -1,6 +1,6 @@
 {% extends '@EMSAdminUI/bootstrap5/page/default.html.twig' %}
 
-{% block body %}
+{% block page_content %}
     {% embed '@EMSAdminUI/bootstrap5/core/card.html.twig' with {
         class: 'card-primary',
         log: log,
@@ -63,4 +63,4 @@
             }) }}
         {% endblock %}
     {% endembed %}
-{% endblock body %}
+{% endblock page_content %}

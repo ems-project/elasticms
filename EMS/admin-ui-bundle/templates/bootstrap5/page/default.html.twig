@@ -6,6 +6,19 @@
 {% block pagetitle %}{{ pageTitle|default(title)|trans }}{% endblock %}
 
 {% block body %}
+    {% set widths = {
+        narrow: 'col-12 col-md-8 col-lg-6 col-xl-5',
+        medium: 'col-12 col-lg-8 col-xl-6',
+        full: 'col-12',
+    } %}
+    <div class="row justify-content-center">
+        <div class="{{ widths[width|default('full')] }}">
+            {{ block('page_content') }}
+        </div>
+    </div>
+{% endblock %}
+
+{%- block page_content -%}
     {%- if datatable is defined -%}
         {{ block('render_datatable') }}
     {%- elseif datatables is defined -%}
@@ -13,7 +26,7 @@
     {%- elseif form is defined -%}
         {{ block('render_form') }}
     {%- endif -%}
-{% endblock %}
+{%- endblock page_content -%}
 
 {%- block render_datatable -%}
     {% set tableOptions = {} %}
@@ -58,15 +71,25 @@
                 {% block card_content %}
                     {{ form_errors(form) }}
                     <div class="d-flex flex-column gap-3">
-                        {% for child in form|filter(c => c.vars.name not in ['save', 'save_close']) %}
-                            <div class="row">
-                                {{ form_row(child) }}
-                            </div>
+                        {% for child in form|filter(c => c.vars.name not in ['save', 'cancel', 'save_close']) %}
+                            {{ form_row(child) }}
+
+{# {% if 'repeated' in child.vars.block_prefixes %} #}
+{# {% for sub in child %} #}
+{# <div class="row"> #}
+{# {{ form_row(sub) }} #}
+{# </div> #}
+{# {% endfor %} #}
+{# {% else %} #}
+{# <div class="row"> #}
+{# {{ form_row(child) }} #}
+{# </div> #}
+{# {% endif %} #}
                         {% endfor %}
                     </div>
                 {% endblock %}
                 {% block card_footer %}
-                    {%- for button in form|filter(c => c.vars.name in ['save', 'save_close']) -%}
+                    {%- for button in form|filter(c => c.vars.name in ['save', 'cancel', 'save_close']) -%}
                         {{ form_widget(button) }}
                     {%- endfor -%}
                 {% endblock %}

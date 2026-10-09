@@ -1,11 +1,8 @@
-{%- trans_default_domain 'emsco-core' -%}
-{% extends '@EMSCore/layout.html.twig' %}
+{% extends '@EMSCore/page/default.html.twig' %}
 
-{% block title %}{{ 'title.profile'|trans }}{% endblock %}
-{% block pagetitle %}{{ 'title.profile'|trans }}{% endblock %}
-{% block subtitle %}{% endblock %}
+{% trans_default_domain 'emsco-core' %}
 
-{% block content %}
+{% block body %}
     <div class="row">
         <div class="col-md-5 col-md-offset-4">
             <div class="box box-primary">
@@ -72,4 +69,4 @@
             </div>
         </div>
     </div>
-{% endblock content %}
+{% endblock %}

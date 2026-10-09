@@ -2,8 +2,8 @@
 {% trans_default_domain 'emsco-core' %}
 
 {%- block form_row -%}
-    {%- if col -%}
-        {%- set row_attr = row_attr|merge({class: (row_attr.class|default('') ~ ' col-md-' ~ col)|trim}) -%}
+    {%- if 'col-' not in row_attr.class|default('') -%}
+        {%- set row_attr = row_attr|merge({class: (row_attr.class|default('') ~ ' col-md-' ~ col|default(12))|trim}) -%}
     {%- endif -%}
     {{- parent() -}}
 {%- endblock form_row -%}
@@ -19,6 +19,23 @@
         {{- block('attributes') -}}
     {%- endwith -%}
 {%- endblock ems_row_attributes %}
+
+{%- block link_widget -%}
+    <a href="{{ path(route, route_params) }}" {%- for name, value in attr %} {{ name }}="{{ value }}"{% endfor -%}>
+    {{ label|trans }}
+    </a>
+{%- endblock link_widget -%}
+
+{%- block cancel_widget -%}
+    {%- set attr = attr|merge({class: ('btn btn-sm btn-default ' ~ attr.class|default(''))|trim}) -%}
+    {{- block('link_widget') -}}
+{%- endblock cancel_widget -%}
+
+{%- block user_options_row -%}
+    {%- if form.children|length > 0 -%}
+        {{ parent() }}
+    {%- endif -%}
+{%- endblock user_options_row -%}
 
 {# Widgets #}
 {%- block checkbox_widget -%}

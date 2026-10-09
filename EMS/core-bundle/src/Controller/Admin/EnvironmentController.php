@@ -17,10 +17,7 @@ use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Form\RebuildIndex;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Form\Data\TableAbstract;
-use EMS\CoreBundle\Form\Field\ColorPickerType;
-use EMS\CoreBundle\Form\Field\IconTextType;
-use EMS\CoreBundle\Form\Field\SubmitEmsType;
-use EMS\CoreBundle\Form\Form\EditEnvironmentType;
+use EMS\CoreBundle\Form\Form\EnvironmentType;
 use EMS\CoreBundle\Form\Form\RebuildIndexType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Routes;
@@ -30,7 +27,6 @@ use EMS\CoreBundle\Service\IndexService;
 use EMS\CoreBundle\Service\JobService;
 use EMS\CoreBundle\Service\Mapping;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -43,6 +39,8 @@ class EnvironmentController extends AbstractController
 {
     use CoreControllerTrait;
 
+    private Navigation $breadcrumb;
+
     public function __construct(
         private readonly LocalizedLoggerInterface $logger,
         private readonly EnvironmentService $environmentService,
@@ -52,84 +50,51 @@ class EnvironmentController extends AbstractController
         private readonly JobService $jobService,
         private readonly DataTableFactory $dataTableFactory,
         private readonly FormFactory $formFactory,
-        private readonly ?string $circlesObject,
         private readonly string $templateNamespace,
     ) {
+        $this->breadcrumb = Navigation::admin()->environments();
     }
 
-    public function remove(Environment $environment): Response
+    public function add(Request $request): Page|RedirectResponse
+    {
+        $environment = new Environment();
+        $form = $this->createForm(EnvironmentType::class, $environment, ['create' => true]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->environmentService->create($environment);
+            $indexName = $environment->getNewIndexName();
+            $this->mapping->createIndex($indexName, $this->environmentService->getIndexAnalysisConfiguration());
+
+            foreach ($this->contentTypeService->getAll() as $contentType) {
+                $this->contentTypeService->updateMapping($contentType, $indexName);
+            }
+
+            $this->indexService->updateAlias($environment->getAlias(), [], [$indexName]);
+
+            return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
+        }
+
+        return new Page([
+            'form' => $form->createView(),
+            'title' => t('type.title_create', ['type' => 'environment'], 'emsco-core'),
+            'notice' => t('message.environment_add_notice', [], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb->add(
+                t('type.title_create', ['type' => 'environment'], 'emsco-core')
+            ),
+        ]);
+    }
+
+    public function delete(Environment $environment): Response
     {
         $this->environmentService->delete($environment);
 
         return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
     }
 
-    public static function isValidName(string $name): bool
+    public function edit(Environment $environment, Request $request): Page|RedirectResponse
     {
-        return \preg_match('/^[a-z][a-z0-9\-_]*$/', $name) && \strlen($name) <= 100;
-    }
-
-    public function add(Request $request): Response
-    {
-        $form = $this->createFormBuilder([])->add('name', IconTextType::class, [
-            'icon' => 'fa fa-database',
-            'required' => false,
-        ])->add('color', ColorPickerType::class, [
-            'required' => false,
-        ])->add('save', SubmitEmsType::class, [
-            'label' => 'Create',
-            'icon' => 'fa fa-plus',
-            'attr' => [
-                'class' => 'btn btn-primary pull-right',
-                'data-testid' => 'btn-action-save',
-            ],
-        ])->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            $environmentName = $form->get('name')->getData();
-
-            if (!static::isValidName($environmentName)) {
-                $form->get('name')->addError(new FormError('Must respects the following regex /^[a-z][a-z0-9\-_]*$/'));
-            }
-
-            if ($form->isValid()) {
-                $anotherObject = $this->environmentService->getByName($environmentName);
-
-                if ($anotherObject) {
-                    // TODO: test name format
-                    $form->get('name')->addError(new FormError('Another environment named '.$environmentName.' already exists'));
-                } else {
-                    $environment = $this->environmentService->createEnvironment(
-                        name: $environmentName,
-                        color: $form->get('color')->getData()
-                    );
-
-                    $indexName = $environment->getNewIndexName();
-                    $this->mapping->createIndex($indexName, $this->environmentService->getIndexAnalysisConfiguration());
-
-                    foreach ($this->contentTypeService->getAll() as $contentType) {
-                        $this->contentTypeService->updateMapping($contentType, $indexName);
-                    }
-
-                    $this->indexService->updateAlias($environment->getAlias(), [], [$indexName]);
-
-                    return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
-                }
-            }
-        }
-
-        return $this->render(\sprintf('@%s/environment/add.html.twig', $this->templateNamespace), [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    public function edit(Environment $environment, Request $request): Response
-    {
-        $form = $this->createForm(EditEnvironmentType::class, $environment, [
-            'type' => (null !== $this->circlesObject && '' !== $this->circlesObject ? $this->circlesObject : null),
-        ]);
+        $form = $this->createForm(EnvironmentType::class, $environment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -142,30 +107,51 @@ class EnvironmentController extends AbstractController
             return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
         }
 
-        return $this->render(\sprintf('@%s/environment/edit.html.twig', $this->templateNamespace), [
-            'environment' => $environment,
+        return new Page([
             'form' => $form->createView(),
+            'title' => t('type.title_edit', ['type' => 'environment', 'label' => $environment->getLabel()], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb->add(
+                t('type.title_edit', ['type' => 'environment', 'label' => $environment->getLabel()], 'emsco-core')
+            ),
         ]);
     }
 
-    public function view(Environment $environment): Response
+    public function index(Request $request): Page|RedirectResponse
     {
-        try {
-            $info = $this->mapping->getMapping($environment);
-        } catch (NotFoundException $notFoundException) {
-            $this->logger->messageError(t('message.environment_alias_missing', [
-                'environment' => $environment->getLabel(),
-            ], 'emsco-core'), [
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $notFoundException->getMessage(),
-                EmsFields::LOG_EXCEPTION_FIELD => $notFoundException,
-            ]);
-            $info = false;
-        }
+        $datatableEnvironment = $this->dataTableEnvironment($request);
 
-        return $this->render(\sprintf('@%s/environment/view.html.twig', $this->templateNamespace), [
-            'environment' => $environment,
-            'info' => $info,
-        ]);
+        return match (true) {
+            $datatableEnvironment instanceof RedirectResponse => $datatableEnvironment,
+            default => new Page([
+                'icon' => 'fa fa-list-ul',
+                'title' => t('type.title_overview', ['type' => 'environment'], 'emsco-core'),
+                'datatables' => [
+                    [
+                        'title' => t('key.environments_local', [], 'emsco-core'),
+                        'icon' => 'fa fa-database',
+                        'form' => $datatableEnvironment->createView(),
+                        'table_id' => 'environments-local',
+                    ],
+                    [
+                        'title' => t('key.environments_external', [], 'emsco-core'),
+                        'icon' => 'fa fa-plug',
+                        'form' => $this->dataTableExternalEnvironment()->createView(),
+                        'table_id' => 'environments-external',
+                    ],
+                    [
+                        'title' => t('key.managed_aliases', [], 'emsco-core'),
+                        'icon' => 'fa fa-code-fork',
+                        'form' => $this->dataTableManagedAlias()->createView(),
+                        'table_id' => 'environments-managed-alias',
+                    ],
+                ],
+                'breadcrumb' => Navigation::admin()->environments()->add(
+                    label: t('type.title_overview', ['type' => 'environment'], 'emsco-core'),
+                    icon: 'fa fa-list-ul',
+                    route: Routes::ADMIN_ENVIRONMENT_INDEX
+                ),
+            ]),
+        };
     }
 
     public function rebuild(Environment $environment, Request $request): Response
@@ -211,42 +197,24 @@ class EnvironmentController extends AbstractController
         ]);
     }
 
-    public function index(Request $request): Page|RedirectResponse
+    public function view(Environment $environment): Response
     {
-        $datatableEnvironment = $this->dataTableEnvironment($request);
+        try {
+            $info = $this->mapping->getMapping($environment);
+        } catch (NotFoundException $notFoundException) {
+            $this->logger->messageError(t('message.environment_alias_missing', [
+                'environment' => $environment->getLabel(),
+            ], 'emsco-core'), [
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $notFoundException->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $notFoundException,
+            ]);
+            $info = false;
+        }
 
-        return match (true) {
-            $datatableEnvironment instanceof RedirectResponse => $datatableEnvironment,
-            default => new Page([
-                'icon' => 'fa fa-list-ul',
-                'title' => t('type.title_overview', ['type' => 'environment'], 'emsco-core'),
-                'datatables' => [
-                    [
-                        'title' => t('key.environments_local', [], 'emsco-core'),
-                        'icon' => 'fa fa-database',
-                        'form' => $datatableEnvironment->createView(),
-                        'table_id' => 'environments-local',
-                    ],
-                    [
-                        'title' => t('key.environments_external', [], 'emsco-core'),
-                        'icon' => 'fa fa-plug',
-                        'form' => $this->dataTableExternalEnvironment()->createView(),
-                        'table_id' => 'environments-external',
-                    ],
-                    [
-                        'title' => t('key.managed_aliases', [], 'emsco-core'),
-                        'icon' => 'fa fa-code-fork',
-                        'form' => $this->dataTableManagedAlias()->createView(),
-                        'table_id' => 'environments-managed-alias',
-                    ],
-                ],
-                'breadcrumb' => Navigation::admin()->environments()->add(
-                    label: t('type.title_overview', ['type' => 'environment'], 'emsco-core'),
-                    icon: 'fa fa-list-ul',
-                    route: Routes::ADMIN_ENVIRONMENT_INDEX
-                ),
-            ]),
-        };
+        return $this->render(\sprintf('@%s/environment/view.html.twig', $this->templateNamespace), [
+            'environment' => $environment,
+            'info' => $info,
+        ]);
     }
 
     /**

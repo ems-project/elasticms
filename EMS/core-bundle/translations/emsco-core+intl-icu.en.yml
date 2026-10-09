@@ -1378,7 +1378,6 @@ role:
         label: Webmaster
 title:
     add_content_type: 'Add a new {content_type}'
-    add_environment: 'Add a new Environment'
     add_folder: 'Add folder'
     add_new_task: 'Add a new task'
     add_release: 'Add a Release'
@@ -1398,8 +1397,6 @@ title:
     deleted_task: 'Deleted task : {title}'
     drafts_in_progress: '{pluralName} drafts in progress'
     edit_display_name: 'Edit {display_name}'
-    edit_environment: 'Edit the environment "{name}"'
-    edit_environment_short: 'Edit environment'
     edit_release: 'Edit a Release'
     edit_revision_content_type: 'Edit the {contentType}: {revision} '
     edit_task: 'Edit task : {title}'
@@ -1423,7 +1420,6 @@ title:
     name_of_plural: '{name} of {plural}'
     new_content_type: 'New {content_type}'
     new_draft: '{contentType}: new draft'
-    new_environment_short: 'New Environment'
     new_label: 'New {label}'
     notifications_none_pending: 'No pending notifications'
     out_of_sync: 'Out of sync'

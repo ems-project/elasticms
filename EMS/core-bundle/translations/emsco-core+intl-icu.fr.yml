@@ -1383,7 +1383,6 @@ role:
         label: Webmaster
 title:
     add_content_type: 'Ajouter un nouveau {content_type}'
-    add_environment: 'Ajouter un nouvel environnement'
     add_folder: 'Ajouter un dossier'
     add_new_task: 'Ajouter une nouvelle tâche'
     add_release: 'Ajouter une release'
@@ -1403,8 +1402,6 @@ title:
     deleted_task: "Tâche supprimée\_: {title}"
     drafts_in_progress: 'Brouillons en cours de {pluralName}'
     edit_display_name: 'Modifier {display_name}'
-    edit_environment: 'Modifier l’environnement « {name} »'
-    edit_environment_short: 'Modifier l’environnement'
     edit_release: 'Modifier une release'
     edit_revision_content_type: 'Modifier {contentType} : {revision} '
     edit_task: 'Modifier la tâche : {title}'
@@ -1428,7 +1425,6 @@ title:
     name_of_plural: '{name} de {plural}'
     new_content_type: 'Nouveau {content_type}'
     new_draft: '{contentType} : nouveau brouillon'
-    new_environment_short: 'Nouvel environnement'
     new_label: 'Nouveau {label}'
     notifications_none_pending: 'Aucune notification en attente'
     out_of_sync: Désynchronisé

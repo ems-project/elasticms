@@ -1378,7 +1378,6 @@ role:
         label: Webmaster
 title:
     add_content_type: 'Een nieuwe {content_type} toevoegen'
-    add_environment: 'Een nieuwe omgeving toevoegen'
     add_folder: 'Map toevoegen'
     add_new_task: 'Nieuwe taak toevoegen'
     add_release: 'Release toevoegen'
@@ -1398,8 +1397,6 @@ title:
     deleted_task: 'Verwijderde taak: {title}'
     drafts_in_progress: '{pluralName} concepten in uitvoering'
     edit_display_name: '{display_name} bewerken'
-    edit_environment: 'Omgeving "{name}" bewerken'
-    edit_environment_short: 'Omgeving bewerken'
     edit_release: 'Release bewerken'
     edit_revision_content_type: '{contentType} bewerken: {revision} '
     edit_task: 'Taak bewerken: {title}'
@@ -1423,7 +1420,6 @@ title:
     name_of_plural: '{name} van {plural}'
     new_content_type: 'Nieuwe {content_type}'
     new_draft: '{contentType}: nieuw concept'
-    new_environment_short: 'Nieuwe omgeving'
     new_label: 'Nieuwe {label}'
     notifications_none_pending: 'Geen wachtende notificaties'
     out_of_sync: 'Niet gesynchroniseerd'

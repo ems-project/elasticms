@@ -107,7 +107,6 @@ gantt
 
 Remarks:
 
-- 5.25 LTS has been available since December 2024 and is supported until June 2026.
 - 7.10 LTS is supported until December 2029.
 
 ## Key Principles

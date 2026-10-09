@@ -151,7 +151,6 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.job'),
             service('emsco.data_table.factory'),
             service('form.factory'),
-            '%ems_core.circles_object%',
             '%ems_core.template_namespace%',
         ])
         ->call('setContainer')

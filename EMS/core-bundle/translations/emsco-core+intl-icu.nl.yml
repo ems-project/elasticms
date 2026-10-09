@@ -714,7 +714,6 @@ key:
     draft_in_progress: 'Concept in uitvoering'
     edit_revision_json: 'Ruwe JSON-bewerking'
     elasticms_logo_alt: 'Logo van elasticMS'
-    elasticsearch_information: Elasticsearch-informatie
     elements: Elementen
     email_lowercase: e-mail
     email_notification_lowercase: e-mailmelding
@@ -1002,7 +1001,6 @@ message:
     duplicate_environment: 'Omgeving "{name}" bestaat al!'
     duplicate_field: 'Dupliceren <strong>{name}</strong>'
     edit_field_name: '{name} bewerken'
-    elasticsearch_index_missing: 'Elasticsearch-index ontbreekt!'
     email_crm_export: 'In bijlage vindt u de export van de gevraagde CRM-inzendingen.'
     email_greeting: 'Met vriendelijke groeten.'
     email_hello: 'Hallo,'
@@ -1378,7 +1376,6 @@ role:
         label: Webmaster
 title:
     add_content_type: 'Een nieuwe {content_type} toevoegen'
-    add_environment: 'Een nieuwe omgeving toevoegen'
     add_folder: 'Map toevoegen'
     add_new_task: 'Nieuwe taak toevoegen'
     add_release: 'Release toevoegen'
@@ -1398,8 +1395,6 @@ title:
     deleted_task: 'Verwijderde taak: {title}'
     drafts_in_progress: '{pluralName} concepten in uitvoering'
     edit_display_name: '{display_name} bewerken'
-    edit_environment: 'Omgeving "{name}" bewerken'
-    edit_environment_short: 'Omgeving bewerken'
     edit_release: 'Release bewerken'
     edit_revision_content_type: '{contentType} bewerken: {revision} '
     edit_task: 'Taak bewerken: {title}'
@@ -1423,7 +1418,6 @@ title:
     name_of_plural: '{name} van {plural}'
     new_content_type: 'Nieuwe {content_type}'
     new_draft: '{contentType}: nieuw concept'
-    new_environment_short: 'Nieuwe omgeving'
     new_label: 'Nieuwe {label}'
     notifications_none_pending: 'Geen wachtende notificaties'
     out_of_sync: 'Niet gesynchroniseerd'
@@ -1454,7 +1448,7 @@ title:
     users_in_group: 'Gebruikers in groep'
     view_custom: 'Weergave {name} van {contentType} "{label}" zoals geïndexeerd in {environment}'
     view_ems_id: '{content_type}:{id} bekijken'
-    view_environment: 'Omgeving {name} bekijken'
+    view_environment: 'Omgeving {label} bekijken'
     view_environment_short: 'Omgeving bekijken'
     view_file: 'Bestand bekijken'
     view_file_modal: 'Bestand bekijken: {name}'

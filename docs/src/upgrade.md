@@ -11,17 +11,18 @@ outline: [2, 2]
 
 ### Legacy routes name removed
 
-- job.start -> emsco_job_start 
-- job.add -> emsco_admin_job_add 
+- job.start -> emsco_job_start
+- job.add -> emsco_admin_job_add
 - job.index -> emsco_admin_job_index
 - job.delete -> emsco_admin_job_delete
 
 ### Security headers
 
 > **Security headers:** Starting with 7.4, EMS defines security headers by default. Review your Twig
-> templates and use the new response-header functions when a template must add, override, or remove a
-> header. See the [ResponseHeaderExtension documentation](./dev/common-bundle/twig.md#response-headers)
-> for `ems_http_header`, `ems_remove_http_header`, `ems_clear_http_headers`, `ems_csp_source`, and
+> templates and use the new response-header functions when a template must add, override, or remove
+> a header. See the
+> [ResponseHeaderExtension documentation](./dev/common-bundle/twig.md#response-headers) for
+> `ems_http_header`, `ems_remove_http_header`, `ems_clear_http_headers`, `ems_csp_source`, and
 > `ems_nonce`.
 >
 > Before upgrading, disable any equivalent security headers configured in the web server or reverse

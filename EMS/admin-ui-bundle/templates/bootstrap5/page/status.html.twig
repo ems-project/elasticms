@@ -11,14 +11,15 @@
                     header: cluster.title,
                     headerIcon: 'fa fa-cubes',
                     headerColor: status,
+                    layout: 'inline',
                     list: [
-                        {label: 'key.cluster'|trans({}, 'emsco-core'), badge: cluster.cluster_name, badgeColor: status},
-                        {label: 'key.cluster_uuid'|trans({}, 'emsco-core'), badge: cluster.cluster_uuid, badgeColor: status},
-                        {label: 'key.tagline'|trans({}, 'emsco-core'), badge: cluster.tagline, badgeColor: status},
-                        {label: 'field.node_name'|trans({}, 'emsco-core'), badge: cluster.name, badgeColor: status},
+                        {label: 'key.cluster'|trans({}, 'emsco-core'), value: cluster.cluster_name},
+                        {label: 'key.cluster_uuid'|trans({}, 'emsco-core'), value: cluster.cluster_uuid},
+                        {label: 'key.tagline'|trans({}, 'emsco-core'), value: cluster.tagline},
+                        {label: 'field.node_name'|trans({}, 'emsco-core'), value: cluster.name},
+                        {label: 'key.build_date'|trans({}, 'emsco-core'), value: cluster.version.build_date|split('.')|first|date(date_time_format)},
                         {label: 'key.version'|trans({}, 'emsco-core'), badge: cluster.version.number, badgeColor: status},
                         {label: 'key.lucene_version'|trans({}, 'emsco-core'), badge: cluster.version.lucene_version, badgeColor: status},
-                        {label: 'key.build_date'|trans({}, 'emsco-core'), badge: cluster.version.build_date|split('.')|first|date(date_time_format), badgeColor: status},
                         {label: 'key.number_of_nodes'|trans({}, 'emsco-core'), badge: cluster.number_of_nodes, badgeColor: status},
                         {label: 'key.number_of_data_nodes'|trans({}, 'emsco-core'), badge: cluster.number_of_data_nodes, badgeColor: status},
                         {label: 'key.active_primary_shards'|trans({}, 'emsco-core'), badge: cluster.active_primary_shards, badgeColor: status},
@@ -29,8 +30,8 @@
                         {label: 'key.delayed_unassigned_shards'|trans({}, 'emsco-core'), badge: cluster.delayed_unassigned_shards, badgeColor: status},
                         {label: 'key.number_of_pending_tasks'|trans({}, 'emsco-core'), badge: cluster.number_of_pending_tasks, badgeColor: status},
                         {label: 'key.number_of_in_flight_fetch'|trans({}, 'emsco-core'), badge: cluster.number_of_in_flight_fetch, badgeColor: status},
-                        {label: 'key.task_max_waiting_in_queue_millis'|trans({}, 'emsco-core'), badge: cluster.task_max_waiting_in_queue_millis ~ ' ms', badgeColor: status},
                         {label: 'key.active_shards_percent_as_number'|trans({}, 'emsco-core'), badge: cluster.active_shards_percent_as_number, badgeColor: status},
+                        {label: 'key.task_max_waiting_in_queue_millis'|trans({}, 'emsco-core'), value: cluster.task_max_waiting_in_queue_millis ~ ' ms'},
                     ],
                 }, with_context: false) }}
             {% endif %}
@@ -57,6 +58,7 @@
                     headerIcon: 'fa fa-key',
                     headerColor: status,
                     list: items,
+                    layout: 'inline',
                 }, with_context: false) }}
             {% endif %}
 
@@ -89,6 +91,7 @@
                     headerIcon: 'fa fa-external-link',
                     headerColor: status,
                     list: list,
+                    layout: 'inline',
                 }, with_context: false) }}
             {% endif %}
 
@@ -98,6 +101,7 @@
                     header: jobs.status|capitalize ~ ': ' ~ 'key.jobs'|trans({}, 'emsco-core'),
                     headerIcon: 'fa fa-terminal',
                     headerColor: status,
+                    layout: 'inline',
                     list: [
                         {label: 'key.pending_jobs'|trans({}, 'emsco-core'), badge: jobs.pending|default(0), badgeColor: jobs.pending|default(0) > 0 ? status : 'success'},
                         {label: 'key.failed_jobs'|trans({}, 'emsco-core'), badge: jobs.failed|default(0), badgeColor: jobs.failed|default(0) > 0 ? status : 'success'},
@@ -112,6 +116,7 @@
                     header: bus.status|capitalize ~ ': ' ~ 'title.messages_in_bus'|trans({}, 'emsco-core'),
                     headerIcon: 'fa fa-bus',
                     headerColor: status,
+                    layout: 'inline',
                     list: [
                         {label: 'message.messages_in_queue'|trans({}, 'emsco-core'), badge: bus.queue|default(0), badgeColor: bus.queue|default(0) > 0 ? status : 'success'},
                         {label: 'message.messages_in_error'|trans({}, 'emsco-core'), badge: bus.failed|default(0), badgeColor: bus.failed|default(0) > 0 ? status : 'success'},

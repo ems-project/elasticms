@@ -1,5 +1,9 @@
 {% extends '@EMSAdminUI/bootstrap5/core/card.html.twig' %}
 
 {% block card_body %}
-    {{ include('@EMSAdminUI/bootstrap5/core/list-group.html.twig', {list: list, class: 'list-group-flush'}) }}
+    {{ include('@EMSAdminUI/bootstrap5/core/list-group.html.twig', {
+        list: list,
+        class: 'list-group-flush',
+        layout: layout|default(null),
+    }) }}
 {% endblock %}

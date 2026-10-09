@@ -56,6 +56,7 @@ export default defineConfig({
         extensions: ['.js', '.ts'],
         alias: {
             '@fonts': resolve('./public/fonts'),
+            '@images': resolve('./public/images'),
             '@tabler-icons': resolve('./node_modules/@tabler/icons/icons'),
             '@css': resolve('./css')
         }

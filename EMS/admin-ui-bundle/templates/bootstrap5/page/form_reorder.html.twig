@@ -27,7 +27,7 @@
     {% endfor %}
 {% endmacro %}
 
-{% block body %}
+{% block page_content %}
     {% import _self as macros %}
 
     {% set items %}
@@ -45,4 +45,4 @@
         content: items,
         footer: footer,
     }, with_context: false) }}
-{% endblock %}
+{% endblock page_content %}

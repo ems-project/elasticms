@@ -2,7 +2,7 @@
 
 {% trans_default_domain 'emsco-core' %}
 
-{% block body %}
+{% block page_content %}
     <div class="row" {% if launchJob %}data-start-job-url="{{ path('emsco_job_start', {job: job.id}) }}"{% endif %}>
         <div class="col-md-3">
             {{ block('job_info') }}
@@ -12,7 +12,7 @@
             {{ block('job') }}
         </div>
     </div>
-{% endblock %}
+{% endblock page_content %}
 
 {%- block job_status -%}
     {% set state = job.status == 'failed' ? 'failed' : (job.done ? 'done' : (job.started|default(false) ? 'running' : 'waiting')) %}

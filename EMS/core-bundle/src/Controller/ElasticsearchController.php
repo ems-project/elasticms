@@ -120,7 +120,7 @@ class ElasticsearchController extends AbstractController
                         label: t('title.systems_status', [], 'emsco-core'),
                         icon: 'fa fa-cubes',
                     ),
-                    ...$status['context']
+                    ...$status['context'],
                 ],
                 template: 'page/status.html.twig',
                 response: new Response(status: $status['code'])
@@ -159,7 +159,7 @@ class ElasticsearchController extends AbstractController
     }
 
     /**
-     * @return array{code: string, context: array<string, mixed>}
+     * @return array{code: int, context: array<string, mixed>}
      */
     private function buildStatus(Request $request, bool $detailed = true): array
     {

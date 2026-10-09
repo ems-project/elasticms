@@ -20,7 +20,7 @@ readonly class Page
      *     datatables?: array<int, array{ form: FormView, icon?: string, title?: TranslatableMessage, table_id?: string }>,
      *     form?: FormView,
      *     notice?: TranslatableMessage
-     * } $context
+     * }|array<string, mixed> $context
      */
     public function __construct(
         public array $context,

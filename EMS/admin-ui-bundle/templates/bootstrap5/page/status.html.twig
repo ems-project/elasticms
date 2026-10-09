@@ -1,0 +1,128 @@
+{% extends '@EMSAdminUI/bootstrap5/page/default.html.twig' %}
+
+{% block body %}
+    {% set colors = {green: 'success', yellow: 'warning', red: 'danger'} %}
+    <div class="row g-3">
+        <div class="col-md-6 col-lg-4">
+            {% if cluster|default and app.user %}
+                {% set status = colors[cluster.status]|default(cluster.status) %}
+                {{ include('@EMSAdminUI/bootstrap5/core/card-list.html.twig', {
+                    class: 'card-' ~ status,
+                    header: cluster.title,
+                    headerIcon: 'fa fa-cubes',
+                    headerColor: status,
+                    layout: 'inline',
+                    list: [
+                        {label: 'key.cluster'|trans({}, 'emsco-core'), value: cluster.cluster_name},
+                        {label: 'key.cluster_uuid'|trans({}, 'emsco-core'), value: cluster.cluster_uuid},
+                        {label: 'key.tagline'|trans({}, 'emsco-core'), value: cluster.tagline},
+                        {label: 'field.node_name'|trans({}, 'emsco-core'), value: cluster.name},
+                        {label: 'key.build_date'|trans({}, 'emsco-core'), value: cluster.version.build_date|split('.')|first|date(date_time_format)},
+                        {label: 'key.version'|trans({}, 'emsco-core'), badge: cluster.version.number, badgeColor: status},
+                        {label: 'key.lucene_version'|trans({}, 'emsco-core'), badge: cluster.version.lucene_version, badgeColor: status},
+                        {label: 'key.number_of_nodes'|trans({}, 'emsco-core'), badge: cluster.number_of_nodes, badgeColor: status},
+                        {label: 'key.number_of_data_nodes'|trans({}, 'emsco-core'), badge: cluster.number_of_data_nodes, badgeColor: status},
+                        {label: 'key.active_primary_shards'|trans({}, 'emsco-core'), badge: cluster.active_primary_shards, badgeColor: status},
+                        {label: 'key.active_shards'|trans({}, 'emsco-core'), badge: cluster.active_shards, badgeColor: status},
+                        {label: 'key.relocating_shards'|trans({}, 'emsco-core'), badge: cluster.relocating_shards, badgeColor: status},
+                        {label: 'key.initializing_shards'|trans({}, 'emsco-core'), badge: cluster.initializing_shards, badgeColor: status},
+                        {label: 'key.unassigned_shards'|trans({}, 'emsco-core'), badge: cluster.unassigned_shards, badgeColor: status},
+                        {label: 'key.delayed_unassigned_shards'|trans({}, 'emsco-core'), badge: cluster.delayed_unassigned_shards, badgeColor: status},
+                        {label: 'key.number_of_pending_tasks'|trans({}, 'emsco-core'), badge: cluster.number_of_pending_tasks, badgeColor: status},
+                        {label: 'key.number_of_in_flight_fetch'|trans({}, 'emsco-core'), badge: cluster.number_of_in_flight_fetch, badgeColor: status},
+                        {label: 'key.active_shards_percent_as_number'|trans({}, 'emsco-core'), badge: cluster.active_shards_percent_as_number, badgeColor: status},
+                        {label: 'key.task_max_waiting_in_queue_millis'|trans({}, 'emsco-core'), value: cluster.task_max_waiting_in_queue_millis ~ ' ms'},
+                    ],
+                }, with_context: false) }}
+            {% endif %}
+        </div>
+
+        <div class="col-md-6 col-lg-8 d-flex flex-column gap-3">
+            {% if certificate|default and app.user %}
+                {% set status = colors[certificate.status]|default(certificate.status) %}
+                {% set items = [] %}
+                {% if certificate.bits|default %}
+                    {% set items = items|merge([{label: 'key.bits'|trans({}, 'emsco-core'), badge: certificate.bits, badgeColor: 'success'}]) %}
+                {% endif %}
+                {% if certificate.key|default %}
+                    {% set items = items|merge([{
+                        label: 'key.public_key'|trans({}, 'emsco-core'),
+                        link: path('ems_get_public_key'),
+                        content: certificate.key,
+                        contentTag: 'pre',
+                    }]) %}
+                {% endif %}
+                {{ include('@EMSAdminUI/bootstrap5/core/card-list.html.twig', {
+                    class: 'card-' ~ status,
+                    header: certificate.title,
+                    headerIcon: 'fa fa-key',
+                    headerColor: status,
+                    list: items,
+                    layout: 'inline',
+                }, with_context: false) }}
+            {% endif %}
+
+            {% if asset_extractor|default and app.user %}
+                {% set status = colors[asset_extractor.status]|default(asset_extractor.status) %}
+                {% set list = [{
+                    label: 'field.status'|trans({}, 'emsco-core'),
+                    badge: asset_extractor.status|humanize,
+                    badgeColor: status,
+                }] %}
+                {% if asset_extractor.client|default %}
+                    {% set list = list|merge([{
+                        label: 'key.client'|trans({}, 'emsco-core'),
+                        value: asset_extractor.client,
+                    }]) %}
+                {% endif %}
+                {% if asset_extractor.content|default %}
+                    {% set list = list|merge([{
+                        label: 'key.content'|trans({}, 'emsco-core'),
+                        value: asset_extractor.content,
+                    }]) %}
+                {% else %}
+                    {% set list = list|merge([{
+                        label: 'key.content'|trans({}, 'emsco-core'),
+                        value: 'message.tika_server_not_configured'|trans,
+                    }]) %}
+                {% endif %}
+                {{ include('@EMSAdminUI/bootstrap5/core/card-list.html.twig', {
+                    header: asset_extractor.title,
+                    headerIcon: 'fa fa-external-link',
+                    headerColor: status,
+                    list: list,
+                    layout: 'inline',
+                }, with_context: false) }}
+            {% endif %}
+
+            {% if jobs|default %}
+                {% set status = colors[jobs.status]|default(jobs.status) %}
+                {{ include('@EMSAdminUI/bootstrap5/core/card-list.html.twig', {
+                    header: jobs.status|capitalize ~ ': ' ~ 'key.jobs'|trans({}, 'emsco-core'),
+                    headerIcon: 'fa fa-terminal',
+                    headerColor: status,
+                    layout: 'inline',
+                    list: [
+                        {label: 'key.pending_jobs'|trans({}, 'emsco-core'), badge: jobs.pending|default(0), badgeColor: jobs.pending|default(0) > 0 ? status : 'success'},
+                        {label: 'key.failed_jobs'|trans({}, 'emsco-core'), badge: jobs.failed|default(0), badgeColor: jobs.failed|default(0) > 0 ? status : 'success'},
+                    ],
+                }, with_context: false) }}
+            {% endif %}
+
+            {% if bus|default %}
+                {% set status = colors[bus.status]|default(bus.status) %}
+                {{ include('@EMSAdminUI/bootstrap5/core/card-list.html.twig', {
+                    class: 'card-' ~ status,
+                    header: bus.status|capitalize ~ ': ' ~ 'title.messages_in_bus'|trans({}, 'emsco-core'),
+                    headerIcon: 'fa fa-bus',
+                    headerColor: status,
+                    layout: 'inline',
+                    list: [
+                        {label: 'message.messages_in_queue'|trans({}, 'emsco-core'), badge: bus.queue|default(0), badgeColor: bus.queue|default(0) > 0 ? status : 'success'},
+                        {label: 'message.messages_in_error'|trans({}, 'emsco-core'), badge: bus.failed|default(0), badgeColor: bus.failed|default(0) > 0 ? status : 'success'},
+                    ],
+                }, with_context: false) }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

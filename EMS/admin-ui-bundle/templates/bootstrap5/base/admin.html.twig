@@ -66,8 +66,19 @@
                     {% block body %}{% endblock body %}
                 </div>
             </main>
-            {{ include('@EMSAdminUI/bootstrap5/elements/footer.html.twig') }}
+            {{ block('footer') }}
         </div>
         <twig:ems_layout_control_sidebar />
     </div>
 {% endblock wrapper %}
+
+{%- block footer -%}
+    <footer class="footer no-print">
+        {% if app.user %}
+            <a href="https://elasticms.fgov.be/" target="_blank">elastic<strong>MS</strong></a>
+            <div class="float-end d-none d-sm-inline-block">
+                {{ 'core.version'|trans({core: ems_version('core'), symfony: ems_version('symfony')}) }}
+            </div>
+        {% endif %}
+    </footer>
+{%- endblock footer -%}

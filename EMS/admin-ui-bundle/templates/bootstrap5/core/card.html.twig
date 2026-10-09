@@ -1,7 +1,7 @@
-<div class="card card-outline {{ class|default('') }}"{% for name, value in attributes|default({}) %} {{ name }}="{{ value }}"{% endfor %}>
+<div class="card{{ not headerColor|default(null) and outline|default(true) ? ' card-outline' : '' }} {{ class|default('') }}"{% for name, value in attributes|default({}) %} {{ name }}="{{ value }}"{% endfor %}>
     {% block card_header %}
         {% if header|default(null) %}
-            <div class="card-header">
+            <div class="card-header{{ headerColor|default(null) ? ' bg-' ~ headerColor ~ ' text-white' : '' }}">
                 {% if headerIcon|default(null) %}<i class="{{ headerIcon }}"></i>{% endif %}
                 {{ header }}
             </div>

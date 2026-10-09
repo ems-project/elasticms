@@ -1,17 +1,34 @@
 <ul class="list-group {{ class|default('') }}">
-{% for item in list %}
-    <li class="list-group-item">
-        <div class="mb-2">
-            {% if item.link|default %}<a href="{{ item.link }}">{% endif %}
+    {% for item in list %}
+        {% set hasValue = item.badge is defined or item.value is defined %}
+        {% set itemLayout = item.layout|default(layout|default(item.badge is defined ? 'inline' : 'stacked')) %}
+        {% set valueHtml %}
+            {%- if item.badge is defined -%}
+                <span class="badge text-bg-{{ item.badgeColor|default('secondary') }}">{{ item.badge }}</span>
+            {%- else -%}
+                <span class="text-muted">{{ item.value|default('') }}</span>
+            {%- endif -%}
+        {% endset %}
+        {% set labelHtml %}
+            {%- if item.link|default %}<a href="{{ item.link }}">{% endif -%}
             <b>{% if item.icon|default %}<i class="{{ item.icon }}"></i> {% endif %}{{ item.label }}</b>
-            {% if item.link|default %}</a>{% endif %}
-        </div>
-        {% if item.value is defined %}<div class="text-muted">{{ item.value }}</div>{% endif %}
+            {%- if item.link|default %}</a>{% endif -%}
+        {% endset %}
+        <li class="list-group-item">
+        {% if hasValue and itemLayout == 'inline' %}
+            <div class="d-flex justify-content-between align-items-center gap-3">
+                <span>{{ labelHtml }}</span>
+                <span class="text-end">{{ valueHtml }}</span>
+            </div>
+        {% else %}
+            <div class="{{ hasValue or item.content is defined ? 'mb-2' : '' }}">{{ labelHtml }}</div>
+            {% if hasValue %}<div>{{ valueHtml }}</div>{% endif %}
+        {% endif %}
         {% if item.content is defined %}
             <{{ item.contentTag|default('p') }} class="mt-1 mb-0 {{ item.contentClass|default('') }}">
-                {{- item.content -}}
+            {{- item.content -}}
             </{{ item.contentTag|default('p') }}>
         {% endif %}
-    </li>
-{% endfor %}
+        </li>
+    {% endfor %}
 </ul>

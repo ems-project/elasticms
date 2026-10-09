@@ -1,0 +1,108 @@
+{% extends '@EMSAdminUI/bootstrap5/page/default.html.twig' %}
+
+{% trans_default_domain 'emsco-core' %}
+
+{% block body %}
+    {% set colors = {green: 'success', yellow: 'warning', red: 'danger'} %}
+    <div class="row g-3">
+        <div class="col-md-6 col-lg-4">
+            {% if cluster|default and app.user %}
+                {% set status = colors[cluster.status]|default(cluster.status) %}
+                {{ include('@EMSAdminUI/bootstrap5/core/card-list.html.twig', {
+                    class: 'card-' ~ status,
+                    header: cluster.title,
+                    headerIcon: 'fa fa-cubes',
+                    headerColor: status,
+                    list: [
+                        {label: 'Cluster name', badge: cluster.cluster_name, badgeColor: status},
+                        {label: 'key.cluster_uuid'|trans, badge: cluster.cluster_uuid, badgeColor: status},
+                        {label: 'key.tagline'|trans, badge: cluster.tagline, badgeColor: status},
+                        {label: 'field.node_name'|trans, badge: cluster.name, badgeColor: status},
+                        {label: 'key.version'|trans, badge: cluster.version.number, badgeColor: status},
+                        {label: 'key.lucene_version'|trans, badge: cluster.version.lucene_version, badgeColor: status},
+                        {label: 'field.date_build'|trans, badge: cluster.version.build_date|split('.')|first|date(date_time_format), badgeColor: status},
+                        {label: 'Number of nodes', badge: cluster.number_of_nodes, badgeColor: status},
+                        {label: 'Number of data nodes', badge: cluster.number_of_data_nodes, badgeColor: status},
+                        {label: 'Active primary shards', badge: cluster.active_primary_shards, badgeColor: status},
+                        {label: 'Active shards', badge: cluster.active_shards, badgeColor: status},
+                        {label: 'Relocating shards', badge: cluster.relocating_shards, badgeColor: status},
+                        {label: 'Initializing shards', badge: cluster.initializing_shards, badgeColor: status},
+                        {label: 'Unassigned shards', badge: cluster.unassigned_shards, badgeColor: status},
+                        {label: 'Delayed unassigned shards', badge: cluster.delayed_unassigned_shards, badgeColor: status},
+                        {label: 'Number of pending tasks', badge: cluster.number_of_pending_tasks, badgeColor: status},
+                        {label: 'Number of in flight fetch', badge: cluster.number_of_in_flight_fetch, badgeColor: status},
+                        {label: 'Task max waiting in queue', badge: cluster.task_max_waiting_in_queue_millis ~ ' ms', badgeColor: status},
+                        {label: 'Active shards percent as number', badge: cluster.active_shards_percent_as_number, badgeColor: status},
+                    ],
+                }, with_context: false) }}
+            {% endif %}
+        </div>
+
+        <div class="col-md-6 col-lg-8 d-flex flex-column gap-3">
+            {% if certificate|default and app.user %}
+                {% set status = colors[certificate.status]|default(certificate.status) %}
+                {% set items = [] %}
+                {% if certificate.bits|default %}
+                    {% set items = items|merge([{label: 'key.bits'|trans, badge: certificate.bits, badgeColor: 'success'}]) %}
+                {% endif %}
+                {% if certificate.key|default %}
+                    {% set items = items|merge([{
+                        label: 'key.public_key'|trans,
+                        link: path('ems_get_public_key'),
+                        content: certificate.key,
+                        contentTag: 'pre',
+                    }]) %}
+                {% endif %}
+                {{ include('@EMSAdminUI/bootstrap5/core/card-list.html.twig', {
+                    class: 'card-' ~ status,
+                    header: certificate.title,
+                    headerIcon: 'fa fa-key',
+                    headerColor: status,
+                    list: items,
+                }, with_context: false) }}
+            {% endif %}
+
+            {% if asset_extractor|default and app.user %}
+                {% set status = colors[asset_extractor.status]|default(asset_extractor.status) %}
+                {{ include('@EMSAdminUI/bootstrap5/core/card-list.html.twig', {
+                    class: 'card-' ~ status,
+                    header: asset_extractor.title,
+                    headerIcon: 'fa fa-external-link',
+                    headerColor: status,
+                    list: [{
+                        label: asset_extractor.title,
+                        content: asset_extractor.content|default('message.tika_server_not_configured'|trans),
+                    }],
+                }, with_context: false) }}
+            {% endif %}
+
+            {% if jobs|default %}
+                {% set status = colors[jobs.status]|default(jobs.status) %}
+                {{ include('@EMSAdminUI/bootstrap5/core/card-list.html.twig', {
+                    class: 'card-' ~ status,
+                    header: jobs.status|capitalize ~ ': ' ~ 'key.jobs'|trans,
+                    headerIcon: 'fa fa-terminal',
+                    headerColor: status,
+                    list: [
+                        {label: 'key.pending_jobs'|trans, badge: jobs.pending|default(0), badgeColor: jobs.pending|default(0) > 0 ? status : 'success'},
+                        {label: 'key.failed_jobs'|trans, badge: jobs.failed|default(0), badgeColor: jobs.failed|default(0) > 0 ? status : 'success'},
+                    ],
+                }, with_context: false) }}
+            {% endif %}
+
+            {% if bus|default %}
+                {% set status = colors[bus.status]|default(bus.status) %}
+                {{ include('@EMSAdminUI/bootstrap5/core/card-list.html.twig', {
+                    class: 'card-' ~ status,
+                    header: bus.status|capitalize ~ ': ' ~ 'title.messages_in_bus'|trans,
+                    headerIcon: 'fa fa-bus',
+                    headerColor: status,
+                    list: [
+                        {label: 'message.messages_in_queue'|trans, badge: bus.queue|default(0), badgeColor: bus.queue|default(0) > 0 ? status : 'success'},
+                        {label: 'message.messages_in_error'|trans, badge: bus.failed|default(0), badgeColor: bus.failed|default(0) > 0 ? status : 'success'},
+                    ],
+                }, with_context: false) }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

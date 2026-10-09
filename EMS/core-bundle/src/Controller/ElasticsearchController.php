@@ -8,6 +8,7 @@ use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\UI\Page\Navigation;
+use EMS\CoreBundle\Core\UI\Page\Page;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Form\ExportDocuments;
 use EMS\CoreBundle\Entity\UserInterface;
@@ -90,7 +91,77 @@ class ElasticsearchController extends AbstractController
         ]);
     }
 
-    public function status(Request $request, string $_format, bool $detailed = true): Response
+    public function status(Request $request, string $_format, bool $detailed = true): Page|Response
+    {
+        $status = $this->buildStatus($request, $detailed);
+        $headers = [];
+
+        $allowOrigin = $this->healthCheckAllowOrigin;
+        if (\is_string($allowOrigin) && '' !== $allowOrigin) {
+            $headers['Access-Control-Allow-Origin'] = $allowOrigin;
+        }
+
+        return match ($_format) {
+            'json' => new JsonResponse(
+                data: \array_filter($status['context']),
+                status: $status['code'],
+                headers: $headers
+            ),
+            'xml' => new Response(
+                content: $this->serializer->serialize($status['context'], 'xml'),
+                status: $status['code'],
+                headers: [...$headers, 'Content-Type' => 'application/xml']
+            ),
+            default => new Page(
+                context: [
+                    'title' => t('title.systems_status', [], 'emsco-core'),
+                    'subTitle' => t('title.systems_status_tagline', [], 'emsco-core'),
+                    'breadcrumb' => new Navigation()->add(
+                        label: t('title.systems_status', [], 'emsco-core'),
+                        icon: 'fa fa-cubes',
+                    ),
+                    ...$status['context']
+                ],
+                template: 'page/status.html.twig',
+                response: new Response(status: $status['code'])
+            )
+        };
+    }
+
+    public function export(Request $request, ContentType $contentType): Response
+    {
+        $exportDocuments = new ExportDocuments($contentType, $this->generateUrl('emsco_search_export', ['contentType' => $contentType]), '{}');
+        $form = $this->createForm(ExportDocumentsType::class, $exportDocuments);
+        $form->handleRequest($request);
+
+        /** @var ExportDocuments */
+        $exportDocuments = $form->getData();
+        $command = \sprintf(
+            "%s %s %s '%s'%s --environment=%s --baseUrl=%s",
+            Commands::CONTENT_TYPE_EXPORT,
+            $contentType->getName(),
+            $exportDocuments->getFormat(),
+            $exportDocuments->getQuery(),
+            $exportDocuments->isWithBusinessKey() ? ' --withBusinessId' : '',
+            $exportDocuments->getEnvironment(),
+            '//'.$request->getHttpHost()
+        );
+        $user = $this->getUser();
+        if (!$user instanceof UserInterface) {
+            throw new \RuntimeException('Unexpected user object');
+        }
+
+        $job = $this->jobService->createCommand($user, $command);
+
+        return $this->redirectToRoute('emsco_job_status', [
+            'job' => $job->getId(),
+        ]);
+    }
+
+    /**
+     * @return array{code: string, context: array<string, mixed>}
+     */
+    private function buildStatus(Request $request, bool $detailed = true): array
     {
         if ($detailed && !$this->authorizationChecker->isGranted('ROLE_USER')) {
             $detailed = false;
@@ -172,58 +243,6 @@ class ElasticsearchController extends AbstractController
             }
         }
 
-        $htmlTemplate = \sprintf('@%s/elasticsearch/status.html.twig', $this->templateNamespace);
-        $response = match ($_format) {
-            'json' => new JsonResponse(\array_filter(\array_merge($context, [
-                'body' => $this->renderBlock($htmlTemplate, 'status', $context)->getContent(),
-            ]))),
-            'xml' => new Response($this->serializer->serialize($context, 'xml'), Response::HTTP_OK, ['Content-Type' => 'application/xml']),
-            default => $this->render($htmlTemplate, \array_filter(\array_merge($context, [
-                'title' => t('title.systems_status', [], 'emsco-core'),
-                'subTitle' => t('title.systems_status_tagline', [], 'emsco-core'),
-                'breadcrumb' => new Navigation()->add(
-                    label: t('title.systems_status', [], 'emsco-core'),
-                    icon: 'fa-solid fa-stethoscope',
-                ),
-            ]))),
-        };
-        $response->setStatusCode($statusCode);
-
-        $allowOrigin = $this->healthCheckAllowOrigin;
-        if (\is_string($allowOrigin) && '' !== $allowOrigin) {
-            $response->headers->set('Access-Control-Allow-Origin', $allowOrigin);
-        }
-
-        return $response;
-    }
-
-    public function export(Request $request, ContentType $contentType): Response
-    {
-        $exportDocuments = new ExportDocuments($contentType, $this->generateUrl('emsco_search_export', ['contentType' => $contentType]), '{}');
-        $form = $this->createForm(ExportDocumentsType::class, $exportDocuments);
-        $form->handleRequest($request);
-
-        /** @var ExportDocuments */
-        $exportDocuments = $form->getData();
-        $command = \sprintf(
-            "%s %s %s '%s'%s --environment=%s --baseUrl=%s",
-            Commands::CONTENT_TYPE_EXPORT,
-            $contentType->getName(),
-            $exportDocuments->getFormat(),
-            $exportDocuments->getQuery(),
-            $exportDocuments->isWithBusinessKey() ? ' --withBusinessId' : '',
-            $exportDocuments->getEnvironment(),
-            '//'.$request->getHttpHost()
-        );
-        $user = $this->getUser();
-        if (!$user instanceof UserInterface) {
-            throw new \RuntimeException('Unexpected user object');
-        }
-
-        $job = $this->jobService->createCommand($user, $command);
-
-        return $this->redirectToRoute('emsco_job_status', [
-            'job' => $job->getId(),
-        ]);
+        return ['code' => $statusCode, 'context' => $context];
     }
 }

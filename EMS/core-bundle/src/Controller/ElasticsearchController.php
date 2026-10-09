@@ -12,8 +12,7 @@ use EMS\CoreBundle\Core\UI\Page\Page;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Form\ExportDocuments;
 use EMS\CoreBundle\Entity\UserInterface;
-use EMS\CoreBundle\Form\Field\IconTextType;
-use EMS\CoreBundle\Form\Field\SubmitEmsType;
+use EMS\CoreBundle\Form\Form\AliasType;
 use EMS\CoreBundle\Form\Form\ExportDocumentsType;
 use EMS\CoreBundle\Repository\MessengerMessagesRepository;
 use EMS\CoreBundle\Routes;
@@ -23,6 +22,7 @@ use EMS\CoreBundle\Service\IndexService;
 use EMS\CoreBundle\Service\JobService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -44,25 +44,13 @@ class ElasticsearchController extends AbstractController
         private readonly TranslatorInterface $translator,
         private readonly SerializerInterface $serializer,
         private readonly MessengerMessagesRepository $messengerMessagesRepository,
-        private readonly ?string $healthCheckAllowOrigin,
-        private readonly string $templateNamespace
+        private readonly ?string $healthCheckAllowOrigin
     ) {
     }
 
-    public function addAlias(string $name, Request $request): Response
+    public function addAlias(string $name, Request $request): Page|RedirectResponse
     {
-        $form = $this->createFormBuilder([])->add('name', IconTextType::class, [
-            'icon' => 'fa fa-key',
-            'required' => true,
-        ])->add('save', SubmitEmsType::class, [
-            'label' => 'Add',
-            'icon' => 'fa fa-plus',
-            'attr' => [
-                'class' => 'btn btn-primary pull-right',
-                'data-testid' => 'btn-action-save',
-            ],
-        ])->getForm();
-
+        $form = $this->createForm(AliasType::class, []);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -77,16 +65,15 @@ class ElasticsearchController extends AbstractController
             return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
         }
 
-        return $this->render(\sprintf('@%s/elasticsearch/add-alias.html.twig', $this->templateNamespace), [
+        return new Page([
             'form' => $form->createView(),
-            'name' => $name,
             'title' => t('type.title_create', ['type' => 'alias', 'label' => $name], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'alias'], 'emsco-core'),
             'breadcrumb' => Navigation::admin()->environments()->add(
                 label: t('key.orphan_indexes', [], 'emsco-core'),
                 icon: 'fa fa-chain-broken',
                 route: Routes::ADMIN_ELASTIC_ORPHAN
-            )->add(t('type.title_create', ['type' => 'alias', 'label' => $name], 'emsco-core')),
+            )->add(t('action.add_alias', [], 'emsco-core')),
             'notice' => t('type.notice_message', ['type' => 'alias'], 'emsco-core'),
         ]);
     }

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Controller\Admin;
 
 use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
-use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
-use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\UI\Page\Navigation;
@@ -15,9 +13,9 @@ use EMS\CoreBundle\DataTable\Type\Environment\EnvironmentDataTableType;
 use EMS\CoreBundle\DataTable\Type\Environment\EnvironmentManagedAliasDataTableType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Form\RebuildIndex;
-use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Form\Data\TableAbstract;
-use EMS\CoreBundle\Form\Form\EnvironmentType;
+use EMS\CoreBundle\Form\Form\Environment\EnvironmentType;
+use EMS\CoreBundle\Form\Form\Environment\ViewEnvironmentType;
 use EMS\CoreBundle\Form\Form\RebuildIndexType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Routes;
@@ -32,6 +30,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 use function Symfony\Component\Translation\t;
 
@@ -92,7 +91,7 @@ class EnvironmentController extends AbstractController
         return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
     }
 
-    public function edit(Environment $environment, Request $request): Page|RedirectResponse
+    public function edit(UserInterface $user, Environment $environment, Request $request): Page|RedirectResponse
     {
         $form = $this->createForm(EnvironmentType::class, $environment);
         $form->handleRequest($request);
@@ -109,9 +108,9 @@ class EnvironmentController extends AbstractController
 
         return new Page([
             'form' => $form->createView(),
-            'title' => t('type.title_edit', ['type' => 'environment', 'label' => $environment->getLabel()], 'emsco-core'),
+            'title' => t('type.title_edit', ['type' => 'environment', 'label' => $environment->getLabel($user)], 'emsco-core'),
             'breadcrumb' => $this->breadcrumb->add(
-                t('type.title_edit', ['type' => 'environment', 'label' => $environment->getLabel()], 'emsco-core')
+                t('type.title_edit', ['type' => 'environment', 'label' => $environment->getLabel($user)], 'emsco-core')
             ),
         ]);
     }
@@ -197,23 +196,15 @@ class EnvironmentController extends AbstractController
         ]);
     }
 
-    public function view(Environment $environment): Response
+    public function view(UserInterface $user, Environment $environment): Page
     {
-        try {
-            $info = $this->mapping->getMapping($environment);
-        } catch (NotFoundException $notFoundException) {
-            $this->logger->messageError(t('message.environment_alias_missing', [
-                'environment' => $environment->getLabel(),
-            ], 'emsco-core'), [
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $notFoundException->getMessage(),
-                EmsFields::LOG_EXCEPTION_FIELD => $notFoundException,
-            ]);
-            $info = false;
-        }
-
-        return $this->render(\sprintf('@%s/environment/view.html.twig', $this->templateNamespace), [
-            'environment' => $environment,
-            'info' => $info,
+        return new Page([
+            'form' => $this->createForm(ViewEnvironmentType::class, $environment)->createView(),
+            'title' => t('title.view_environment', ['label' => $environment->getLabel($user)], 'emsco-core'),
+            'subTitle' => t('title.view_environment_short', [], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb->add(
+                t('title.view_environment', ['label' => $environment->getLabel($user)], 'emsco-core')
+            ),
         ]);
     }
 

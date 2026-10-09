@@ -719,7 +719,6 @@ key:
     draft_in_progress: 'Brouillon en cours'
     edit_revision_json: 'Édition JSON brute'
     elasticms_logo_alt: 'Logo d’elasticMS'
-    elasticsearch_information: 'Informations Elasticsearch'
     elements: Éléments
     email_lowercase: e-mail
     email_notification_lowercase: 'notification par e-mail'
@@ -1007,7 +1006,6 @@ message:
     duplicate_environment: 'L’environnement « {name} » existe déjà !'
     duplicate_field: 'Dupliquer <strong>{name}</strong>'
     edit_field_name: 'Modifier {name}'
-    elasticsearch_index_missing: 'L’index Elasticsearch est manquant !'
     email_crm_export: "Vous trouverez ci-joint l'export des soumissions CRM demandées."
     email_greeting: Cordialement.
     email_hello: 'Bonjour,'
@@ -1455,7 +1453,7 @@ title:
     users_in_group: 'Utilisateurs dans le groupe'
     view_custom: 'Vue {name} de {contentType} « {label} » telle qu’indexée dans {environment}'
     view_ems_id: 'Voir {content_type}:{id}'
-    view_environment: 'Voir l’environnement {name}'
+    view_environment: 'Voir l’environnement {label}'
     view_environment_short: 'Voir l’environnement'
     view_file: 'Voir le fichier'
     view_file_modal: 'Voir le fichier : {name}'

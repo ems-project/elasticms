@@ -714,7 +714,6 @@ key:
     draft_in_progress: 'Concept in uitvoering'
     edit_revision_json: 'Ruwe JSON-bewerking'
     elasticms_logo_alt: 'Logo van elasticMS'
-    elasticsearch_information: Elasticsearch-informatie
     elements: Elementen
     email_lowercase: e-mail
     email_notification_lowercase: e-mailmelding
@@ -1002,7 +1001,6 @@ message:
     duplicate_environment: 'Omgeving "{name}" bestaat al!'
     duplicate_field: 'Dupliceren <strong>{name}</strong>'
     edit_field_name: '{name} bewerken'
-    elasticsearch_index_missing: 'Elasticsearch-index ontbreekt!'
     email_crm_export: 'In bijlage vindt u de export van de gevraagde CRM-inzendingen.'
     email_greeting: 'Met vriendelijke groeten.'
     email_hello: 'Hallo,'
@@ -1450,7 +1448,7 @@ title:
     users_in_group: 'Gebruikers in groep'
     view_custom: 'Weergave {name} van {contentType} "{label}" zoals geïndexeerd in {environment}'
     view_ems_id: '{content_type}:{id} bekijken'
-    view_environment: 'Omgeving {name} bekijken'
+    view_environment: 'Omgeving {label} bekijken'
     view_environment_short: 'Omgeving bekijken'
     view_file: 'Bestand bekijken'
     view_file_modal: 'Bestand bekijken: {name}'

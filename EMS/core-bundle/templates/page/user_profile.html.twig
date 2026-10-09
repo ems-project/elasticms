@@ -44,14 +44,16 @@
                                 </i>
                             </li>
                         {% endif %}
-                        <li class="list-group-item" data-testid="profile-roles">
-                            <b>Roles : </b>
-                            <i class="">
-                                {% for role in user.roles  -%}
-                                    <span class="badge text-nowrap">{{- (role|replace({'ROLE_': 'ROLE.'}) ~ '.label')|lower|trans([], 'emsco-core') -}}</span>&nbsp;
-                                {%- endfor %}
-                            </i>
-                        </li>
+                        {%- if user.userRoles|length > 0 -%}
+                            <li class="list-group-item" data-testid="profile-roles">
+                                <b>Roles : </b>
+                                <i class="">
+                                    {% for role in user.userRoles  -%}
+                                        <span class="badge text-nowrap">{{- (role|replace({'ROLE_': 'ROLE.'}) ~ '.label')|lower|trans([], 'emsco-core') -}}</span>&nbsp;
+                                    {%- endfor %}
+                                </i>
+                            </li>
+                        {%- endif -%}
                         {%- if user.group -%}
                             <li class="list-group-item" data-testid="profile-group">
                                 <b>{{ 'field.group'|trans }}</b> <i class="pull-right">{{ user.group.label }}</i>

@@ -47,14 +47,16 @@
                         </div>
                     </li>
                 {% endif %}
-                <li class="list-group-item" data-testid="profile-roles">
-                    <div class="fw-bold mb-2">{{ 'field.roles'|trans({}, 'emsco-core') }}</div>
-                    <div class="d-flex flex-wrap gap-1">
-                        {% for role in user.roles %}
-                            <span class="badge text-bg-light border">{{ (role|replace({ROLE_: 'ROLE.'}) ~ '.label')|lower|trans([], 'emsco-core') }}</span>
-                        {% endfor %}
-                    </div>
-                </li>
+                {%- if user.userRoles|length > 0 -%}
+                    <li class="list-group-item" data-testid="profile-roles">
+                        <div class="fw-bold mb-2">{{ 'field.roles'|trans({}, 'emsco-core') }}</div>
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for role in user.userRoles %}
+                                <span class="badge text-bg-light border">{{ (role|replace({ROLE_: 'ROLE.'}) ~ '.label')|lower|trans([], 'emsco-core') }}</span>
+                            {% endfor %}
+                        </div>
+                    </li>
+                {%- endif -%}
                 {%- if user.group -%}
                     <li class="list-group-item d-flex justify-content-between align-items-center" data-testid="profile-group">
                         <b>{{ 'field.group'|trans({}, 'emsco-core') }}</b> <i>{{ user.group.label }}</i>

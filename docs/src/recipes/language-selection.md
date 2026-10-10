@@ -70,7 +70,6 @@ It might be useful to disable the redirection within a eMS channel context:
 {%- endif -%}
 ```
 
-
 ## Display a language chooser
 
 When there is no matching cookie or Accept-Language value, render links for all supported locales:

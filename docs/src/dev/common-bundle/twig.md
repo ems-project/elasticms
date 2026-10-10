@@ -326,6 +326,39 @@ Supported directives are `script-src`, `script-src-elem`, `style-src`, and `styl
 Do not combine a nonce with `unsafe-inline` when strict inline protection is required: browsers
 ignore `unsafe-inline` when a nonce or hash is present in the same directive.
 
+### ems_csp_script and ems_csp_style
+
+These filters render an inline `<script>` or `<style>` element and add its SHA-256 hash to the
+corresponding CSP directive. They are useful for inline code that can be cached and reused, while
+`ems_nonce` is useful when the content changes for every response.
+
+**Note:** these filters add a hash to script-src or style-src, so they also replace that directive's
+default value. Add the self source explicitly when it is needed, using the examples above.
+
+The filter returns safe HTML, so it must be used directly as output. The optional second argument is
+an array of HTML attributes. Boolean `true` renders a valueless attribute; `false` and `null` are
+omitted, and other values are HTML-escaped.
+
+```twig
+{% set imageStyle -%}
+    img.landing-logo {
+        border-width: 0;
+    }
+{%- endset %}
+{{ imageStyle|ems_csp_style }}
+
+{% set helloScript -%}
+    console.log('Hello elasticMS');
+{%- endset %}
+{{ helloScript|ems_csp_script({'type': 'application/javascript'}) }}
+```
+
+The hash is calculated from the content after `CRLF` and `CR` line endings have been normalized to
+`LF`. The generated tag must therefore not be modified after applying the filter. The content must
+not contain a closing `</script>` or `</style>` tag. For safety, event-handler attributes (`on*`),
+`src`, `nonce`, and `integrity` are not accepted; external resources and nonces should be configured
+explicitly with the appropriate CSP function.
+
 ## Twig filters
 
 ### ems_anti_spam

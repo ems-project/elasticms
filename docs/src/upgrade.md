@@ -23,7 +23,10 @@ outline: [2, 2]
 > a header. See the
 > [ResponseHeaderExtension documentation](./dev/common-bundle/twig.md#response-headers) for
 > `ems_http_header`, `ems_remove_http_header`, `ems_clear_http_headers`, `ems_csp_source`, and
-> `ems_nonce`.
+> `ems_nonce`. **Important:** Adding a source to a CSP directive replaces its default value. If the
+> self source is required, declare it explicitly, for example:
+> `{%- do ems_csp_source('style-src', "'self'") -%}` and
+> `{%- do ems_csp_source('script-src', "'self'") -%}`.
 >
 > Before upgrading, disable any equivalent security headers configured in the web server or reverse
 > proxy. Defining the same headers at both levels can produce conflicting values, especially for

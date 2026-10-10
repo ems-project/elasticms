@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Twig;
 
 use EMS\CommonBundle\Common\ResponseHeader\ResponseHeaderManager;
+use Twig\Attribute\AsTwigFilter;
 use Twig\Attribute\AsTwigFunction;
 use Twig\Extension\RuntimeExtensionInterface;
 
@@ -65,5 +66,92 @@ final readonly class ResponseHeaderExtension implements RuntimeExtensionInterfac
         $context->addCspSource($directive, \sprintf("'nonce-%s'", $nonce));
 
         return $nonce;
+    }
+
+    /**
+     * @param array<string, string|bool|null> $attributes
+     */
+    #[AsTwigFilter(name: 'ems_csp_script', isSafe: ['html'])]
+    public function cspScriptHash(string $content, array $attributes = []): string
+    {
+        return $this->renderCspTag('script', 'script-src', $content, $attributes);
+    }
+
+    /**
+     * @param array<string, string|bool|null> $attributes
+     */
+    #[AsTwigFilter(name: 'ems_csp_style', isSafe: ['html'])]
+    public function cspStyleHash(string $content, array $attributes = []): string
+    {
+        return $this->renderCspTag('style', 'style-src', $content, $attributes);
+    }
+
+    /**
+     * @param array<string, string|bool|null> $attributes
+     */
+    private function renderCspTag(
+        string $tag,
+        string $directive,
+        string $content,
+        array $attributes,
+    ): string {
+        $content = \str_replace(["\r\n", "\r"], "\n", $content);
+
+        if (false !== \stripos($content, '</'.$tag)) {
+            throw new \InvalidArgumentException(\sprintf('The content must not contain a closing "%s" tag.', $tag));
+        }
+
+        $htmlAttributes = '';
+
+        foreach ($attributes as $name => $value) {
+            if (!\is_string($name)
+                || 1 !== \preg_match('/^[a-zA-Z][a-zA-Z0-9_-]*$/D', $name)
+            ) {
+                throw new \InvalidArgumentException('Invalid HTML attribute name.');
+            }
+
+            $normalizedName = \strtolower($name);
+
+            if (\str_starts_with($normalizedName, 'on')
+                || \in_array($normalizedName, ['src', 'nonce', 'integrity'], true)
+            ) {
+                throw new \InvalidArgumentException(\sprintf('Attribute "%s" is not supported by this filter.', $name));
+            }
+
+            if (null === $value || false === $value) {
+                continue;
+            }
+
+            if (true === $value) {
+                $htmlAttributes .= ' '.$name;
+
+                continue;
+            }
+
+            $htmlAttributes .= \sprintf(
+                ' %s="%s"',
+                $name,
+                \htmlspecialchars(
+                    $value,
+                    ENT_QUOTES | ENT_SUBSTITUTE,
+                    'UTF-8',
+                ),
+            );
+        }
+
+        $source = "'sha256-"
+            .\base64_encode(\hash('sha256', $content, true))
+            ."'";
+
+        $this->responseHeaderManager
+            ->getContext()
+            ->addCspSource($directive, $source);
+
+        return \sprintf(
+            '<%1$s%2$s>%3$s</%1$s>',
+            $tag,
+            $htmlAttributes,
+            $content,
+        );
     }
 }

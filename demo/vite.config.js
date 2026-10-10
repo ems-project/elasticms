@@ -13,6 +13,7 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 index: 'src/index.js',
+                'site-language': 'src/site-language.js',
                 admin: 'src/admin.js'
             },
             output: {

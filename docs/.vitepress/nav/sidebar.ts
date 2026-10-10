@@ -215,6 +215,7 @@ const sidebar: DefaultTheme.SidebarMulti = {
                 { text: 'File structure', link: '/recipes/websites/file-structure' },
                 { text: 'Hierarchy to JSON Netsed', link: '/recipes/hierarchy-to-json-netsed' },
                 { text: 'Store Data', link: '/recipes/store-data' },
+                { text: 'Language selection', link: '/recipes/language-selection' },
                 { text: 'Postprocessing', link: '/recipes/postprocessing' },
             ]
         },

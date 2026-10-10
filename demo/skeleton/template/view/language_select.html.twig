@@ -10,7 +10,7 @@
         <div class="container">
             <div class="brand text-center">
                 <div class="d-block brand-logo mb-5">
-                    <img src="{{- asset("img/logos/full-logo.svg", 'emsch') -}}" width="280" class="d-inline-block align-middle" alt="{{- 'site.short_name'|trans -}}">
+                    <img src="{{- asset("img/logos/full-logo.svg", 'emsch') -}}" width="280" class="d-inline-block align-middle landing-logo" alt="{{- 'site.short_name'|trans -}}">
                 </div>
                 {%- block main -%}{%- endblock main -%}
                 <div class="choice-btn">
@@ -23,7 +23,31 @@
             </div>
         </div>
     </div>
+{%- endblock -%}
+
+
+{% block head %}
+    {{- parent() -}}
+    {%- set imageStyle -%}
+        img.landing-logo {
+            border-width: 0;
+        }
+    {%- endset -%}
+    <style nonce="{{ ems_nonce('style-src') }}">
+        {{ imageStyle }}
+    </style>
+    {#- safer and cacheable alternative -#}
+    {{ imageStyle|ems_csp_style }}
+{% endblock %}
+
+{% block javascript -%}
+    {{ parent() }}
     <script nonce="{{ ems_nonce() }}">
         console.log('Hello elasticMS');
     </script>
-{%- endblock -%}
+    {#- safer and cacheable alterbnative -#}
+    {%- set helloScript -%}
+        console.log('Hello elasticMS, again');
+    {%- endset -%}
+    {{ helloScript|ems_csp_script({'type': 'application/javascript'}) }}
+{%- endblock %}

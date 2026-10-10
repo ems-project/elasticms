@@ -332,6 +332,9 @@ These filters render an inline `<script>` or `<style>` element and add its SHA-2
 corresponding CSP directive. They are useful for inline code that can be cached and reused, while
 `ems_nonce` is useful when the content changes for every response.
 
+**Note:** these filters add a hash to script-src or style-src, so they also replace that directive's
+default value. Add the self source explicitly when it is needed, using the examples above.
+
 The filter returns safe HTML, so it must be used directly as output. The optional second argument is
 an array of HTML attributes. Boolean `true` renders a valueless attribute; `false` and `null` are
 omitted, and other values are HTML-escaped.

@@ -65,7 +65,7 @@ It might be useful to disable the redirection within a eMS channel context:
 ```twig
 {%- if user and preferredLocale in supportedLocales -%}
     {%- do emsch_http_error(302, headers: {
-        'Location': path('emsch_path', {_locale: app.request.locale, path: 'home'}),
+        'Location': path('emsch_path', {_locale: preferredLocale, path: 'home'}),
     }) -%}
 {%- endif -%}
 ```

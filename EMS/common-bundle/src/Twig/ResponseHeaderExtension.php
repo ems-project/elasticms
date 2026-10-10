@@ -80,7 +80,7 @@ final readonly class ResponseHeaderExtension implements RuntimeExtensionInterfac
     /**
      * @param array<string, string|bool|null> $attributes
      */
-    #[AsTwigFilter(name: 'ems_csp_script', isSafe: ['html'])]
+    #[AsTwigFilter(name: 'ems_csp_style', isSafe: ['html'])]
     public function cspStyleHash(string $content, array $attributes = []): string
     {
         return $this->renderCspTag('style', 'style-src', $content, $attributes);

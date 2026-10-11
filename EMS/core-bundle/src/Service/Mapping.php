@@ -194,17 +194,6 @@ class Mapping
         return true;
     }
 
-    /**
-     * @param array<mixed> $mappings
-     */
-    public function updateMapping(string $name, array $mappings): void
-    {
-        $mapping = new \Elastica\Mapping($mappings['properties']);
-        $mapping->setMeta($mappings['_meta']);
-
-        $this->elasticaClient->getIndex($name)->setMapping($mapping);
-    }
-
     /** @param array<string, array<string, mixed>> $properties */
     private function addCopyToAllField(array &$properties): void
     {

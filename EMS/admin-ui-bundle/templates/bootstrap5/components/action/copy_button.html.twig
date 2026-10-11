@@ -3,7 +3,9 @@
 {% if not this.empty %}
     <button
         {{ attributes.defaults({
-            class: 'btn btn-sm border-0 text-secondary p-1'
+            class: 'btn btn-sm border-0 text-secondary p-1',
+            'data-copy-success-message': 'action.copy_success'|trans|e('html_attr'),
+            'data-copy-error-message': 'action.copy_error'|trans|e('html_attr'),
         }) }}
         type="button"
         aria-label="{{ this.label|trans|e('html_attr') }}"
@@ -15,5 +17,6 @@
         {% endif %}
     >
         <i class="{{ this.icon|e('html_attr') }}" aria-hidden="true"></i>
+        <span class="visually-hidden" role="status" aria-atomic="true"></span>
     </button>
 {% endif %}

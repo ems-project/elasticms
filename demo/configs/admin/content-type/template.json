@@ -73,7 +73,7 @@
                                 "mappingOptions": {
                                     "index": null,
                                     "analyzer": "keyword",
-                                    "copy_to": null
+                                    "copy_to": "live_search"
                                 },
                                 "restrictionOptions": {
                                     "mandatory": true,

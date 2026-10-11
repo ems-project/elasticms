@@ -178,7 +178,7 @@
                                                         "mappingOptions": {
                                                             "index": null,
                                                             "analyzer": null,
-                                                            "copy_to": null
+                                                            "copy_to": "live_search"
                                                         },
                                                         "restrictionOptions": {
                                                             "mandatory": true,

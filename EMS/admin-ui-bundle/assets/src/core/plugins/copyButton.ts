@@ -1,3 +1,5 @@
+import notifications from '../components/notifications'
+
 export default class CopyButton {
     private readonly selector =
         'button[data-copy-text], button[data-copy-target]';
@@ -57,28 +59,20 @@ export default class CopyButton {
             const text = this.getText(button);
 
             if (!navigator.clipboard?.writeText) {
-                throw new Error('Clipboard API is unavailable.');
+                notifications.addErrorMessages(['Clipboard API is unavailable.']);
             }
 
             await navigator.clipboard.writeText(text);
 
             this.showSuccess(button);
-
-            button.dispatchEvent(new CustomEvent('cms:copy-success', {
-                bubbles: true,
-            }));
-        } catch (error: unknown) {
+        } catch {
             this.resetFeedback(button);
 
             this.setStatus(
                 button,
                 button.dataset.copyErrorMessage ?? 'Copy failed.',
             );
-
-            button.dispatchEvent(new CustomEvent('cms:copy-error', {
-                bubbles: true,
-                detail: { error },
-            }));
+            notifications.addErrorMessages([button.dataset.copyErrorMessage ?? 'Copy failed.']);
         } finally {
             this.pending.delete(button);
         }

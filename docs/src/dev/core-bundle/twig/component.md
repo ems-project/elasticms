@@ -10,6 +10,46 @@ The following components can be used in views/actions and dashboards.
 `EMSCH_ENVS`. Using `emsch_add_environment` twig function, will not work. see
 [Upgrade 5.3.x](/upgrade.md#version-53x)
 
+## Action components
+
+### Copy button
+
+The `ems_copy_button` component adds a button that copies text to the user's clipboard. It can copy
+either a static text value or the content of an HTML element.
+
+#### Copy static text
+
+Pass the text to copy with the `text` property:
+
+```twig
+{{ component('ems_copy_button', {
+    text: 'Text to copy',
+}) }}
+```
+
+#### Copy the content of an HTML element
+
+Pass the target element's HTML `id` with the `target` property:
+
+```twig
+<p id="copy-source">Content to copy</p>
+
+{{ component('ems_copy_button', {
+    target: 'copy-source',
+}) }}
+```
+
+When the target is an `input` or `textarea`, its `value` is copied. For other elements, the
+element's `textContent` is copied.
+
+The `text` and `target` properties are mutually exclusive. The component throws an exception when
+both are provided, and renders no button when neither is provided. The `target` value must be a
+non-empty HTML element ID.
+
+The button displays success or error feedback and exposes an accessible status element. It requires
+the browser Clipboard API, so copying can fail when `navigator.clipboard.writeText` is unavailable
+or when the browser does not allow clipboard access.
+
 ## Json Menu Nested
 
 The json menu nested component for working with a

@@ -246,7 +246,6 @@ class Mapping
                     'environments' => $indexes,
                     'fieldPath' => $fieldPath,
                 ], 'emsco-core');
-                //                $incompatibilities[] = \sprintf('Field "%s" has a non-compatible definition.', $fieldPath);
                 continue;
             }
 
@@ -272,7 +271,6 @@ class Mapping
                         'existing' => $this->formatMappingValue($existingValue),
                         'generated' => $this->formatMappingValue($generated[$field][$option]),
                     ], 'emsco-core');
-                    //                    $incompatibilities[] = \sprintf('Field "%s" has a different "%s": existing=%s, generated=%s.', $fieldPath, $option, $this->formatMappingValue($existingValue), $this->formatMappingValue($generated[$field][$option]));
                 }
             }
         }

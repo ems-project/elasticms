@@ -12,7 +12,6 @@ use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Form\FieldType\FieldTypeType;
 use EMS\Helpers\Standard\Json;
-use Symfony\Component\Translation\TranslatableMessage;
 
 use function Symfony\Component\Translation\t;
 
@@ -178,13 +177,7 @@ class Mapping
         $body = $this->generateMapping($contentType);
         foreach (\array_filter(\array_map('trim', \explode(',', $indexes))) as $indexName) {
             $existingMapping = $this->extractProperties($this->elasticaClient->getIndex($indexName)->getMapping());
-            $incompatibilities = $this->findIncompatibilities($contentType->getName(), $indexes, $existingMapping, $body->getProperties());
-
-            if ([] !== $incompatibilities) {
-                foreach ($incompatibilities as $incompatibility) {
-                    $this->logger->messageWarning($incompatibility);
-                }
-
+            if ($this->hasIncompatibilities($contentType->getName(), $indexes, $existingMapping, $body->getProperties())) {
                 return false;
             }
         }
@@ -229,23 +222,22 @@ class Mapping
      *
      * @param array<string, mixed> $existing
      * @param array<string, mixed> $generated
-     *
-     * @return list<TranslatableMessage>
      */
-    private function findIncompatibilities(string $contentTypeName, string $indexes, array $existing, array $generated, string $path = ''): array
+    private function hasIncompatibilities(string $contentTypeName, string $indexes, array $existing, array $generated, string $path = ''): bool
     {
-        $incompatibilities = [];
+        $hasIncompatibilities = false;
         foreach ($existing as $field => $existingDefinition) {
             $fieldPath = '' === $path ? (string) $field : $path.'.'.$field;
             if (!\array_key_exists($field, $generated)) {
                 continue;
             }
             if (!\is_array($existingDefinition) || !\is_array($generated[$field])) {
-                $incompatibilities[] = t('message.contenttype_mappings_non_compatible_definition', [
+                $hasIncompatibilities = true;
+                $this->logger->messageWarning(t('message.contenttype_mappings_non_compatible_definition', [
                     'content_type' => $contentTypeName,
                     'environments' => $indexes,
                     'fieldPath' => $fieldPath,
-                ], 'emsco-core');
+                ], 'emsco-core'));
                 continue;
             }
 
@@ -255,7 +247,7 @@ class Mapping
                         continue;
                     }
 
-                    $incompatibilities = [...$incompatibilities, ...$this->findIncompatibilities($contentTypeName, $indexes, $existingValue, $generated[$field][$option], $fieldPath)];
+                    $hasIncompatibilities = $hasIncompatibilities || $this->hasIncompatibilities($contentTypeName, $indexes, $existingValue, $generated[$field][$option], $fieldPath);
                     continue;
                 }
 
@@ -263,19 +255,20 @@ class Mapping
                     continue;
                 }
                 if ($existingValue !== $generated[$field][$option]) {
-                    $incompatibilities[] = t('message.contenttype_mappings_incompatible_definition', [
+                    $hasIncompatibilities = true;
+                    $this->logger->messageWarning(t('message.contenttype_mappings_incompatible_definition', [
                         'content_type' => $contentTypeName,
                         'environments' => $indexes,
                         'fieldPath' => $fieldPath,
                         'option' => $option,
                         'existing' => $this->formatMappingValue($existingValue),
                         'generated' => $this->formatMappingValue($generated[$field][$option]),
-                    ], 'emsco-core');
+                    ], 'emsco-core'));
                 }
             }
         }
 
-        return $incompatibilities;
+        return $hasIncompatibilities;
     }
 
     private function formatMappingValue(mixed $value): string

@@ -1,0 +1,19 @@
+{% trans_default_domain 'emsco-core' %}
+
+{% if not this.empty %}
+    <button
+        {{ attributes.defaults({
+            class: 'btn btn-sm border-0 text-secondary p-1'
+        }) }}
+        type="button"
+        aria-label="{{ this.label|trans|e('html_attr') }}"
+        title="{{ this.label|trans|e('html_attr') }}"
+        {% if this.text is not null %}
+            data-copy-text="{{ this.text|e('html_attr') }}"
+        {% else %}
+            data-copy-target="{{ this.target|e('html_attr') }}"
+        {% endif %}
+    >
+        <i class="{{ this.icon|e('html_attr') }}" aria-hidden="true"></i>
+    </button>
+{% endif %}

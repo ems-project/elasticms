@@ -443,9 +443,6 @@ field:
     json_nested_max_depth: 'JSON nested max depth'
     key: Key
     label: Label
-    matomo_url: 'Matomo URL'
-    matomo_site_id: 'Matomo site ID'
-    matomo_token_auth: 'Matomo view-only authentication token'
     label_field: 'Label field'
     label_translations: 'Label translations'
     labels: Labels
@@ -467,6 +464,9 @@ field:
     mandatory_if: 'Mandatory if'
     mapping: Mapping
     mapping_options: 'Mapping options'
+    matomo_site_id: 'Matomo site ID'
+    matomo_token_auth: 'Matomo view-only authentication token'
+    matomo_url: 'Matomo URL'
     max: Max
     max_depth: 'Max depth'
     max_lines: 'Max lines'
@@ -668,7 +668,6 @@ key:
     add_user: 'Add user'
     admin: Admin
     advanced_search: 'Advanced search'
-    matomo: Matomo
     align_with: 'Align with'
     all_content_types: 'All Content Types'
     all_linked_documents: 'All linked documents'
@@ -785,6 +784,7 @@ key:
     match_or: 'Match (or)'
     match_phrase: 'Match phrase'
     match_phrase_prefix: 'Match phrase prefix'
+    matomo: Matomo
     mcp: MCP
     mcp_prompts: 'MCP prompts'
     mcp_resources: 'MCP resources'

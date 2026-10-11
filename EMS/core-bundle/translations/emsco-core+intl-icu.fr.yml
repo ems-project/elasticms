@@ -448,9 +448,6 @@ field:
     json_nested_max_depth: "Profondeur maximale d'imbrication JSON"
     key: Clé
     label: Libellé
-    matomo_url: 'URL Matomo'
-    matomo_site_id: 'Identifiant du site Matomo'
-    matomo_token_auth: 'Jeton d’authentification Matomo avec accès en lecture seule'
     label_field: "Champ d'étiquette"
     label_translations: Traductions
     labels: Étiquettes
@@ -472,6 +469,9 @@ field:
     mandatory_if: 'Obligatoire si'
     mapping: Mapping
     mapping_options: 'Options de mappage'
+    matomo_site_id: 'Identifiant du site Matomo'
+    matomo_token_auth: 'Jeton d’authentification Matomo avec accès en lecture seule'
+    matomo_url: 'URL Matomo'
     max: Max
     max_depth: 'Profondeur maximale'
     max_lines: 'Nombre maximal de lignes'
@@ -673,7 +673,6 @@ key:
     add_user: 'Ajouter un utilisateur'
     admin: Admin
     advanced_search: 'Recherche avancée'
-    matomo: Matomo
     align_with: 'Aligner avec'
     all_content_types: 'Tous les types de contenu'
     all_linked_documents: 'Tous les documents liés'
@@ -790,6 +789,7 @@ key:
     match_or: 'Correspondance (ou)'
     match_phrase: 'Correspondance exacte'
     match_phrase_prefix: 'Correspondance de préfixe de phrase'
+    matomo: Matomo
     mcp: MCP
     mcp_prompts: 'Prompts MCP'
     mcp_resources: 'Ressources MCP'

@@ -443,9 +443,6 @@ field:
     json_nested_max_depth: 'JSON geneste maximale diepte'
     key: Sleutel
     label: Label
-    matomo_url: 'Matomo-URL'
-    matomo_site_id: 'Matomo-site-ID'
-    matomo_token_auth: 'Matomo-authenticatietoken met alleen-lezen toegang'
     label_field: Labelveld
     label_translations: 'Vertalingen van labels'
     labels: Labels
@@ -467,6 +464,9 @@ field:
     mandatory_if: 'Verplicht indien'
     mapping: Mapping
     mapping_options: Toewijzingsopties
+    matomo_site_id: Matomo-site-ID
+    matomo_token_auth: 'Matomo-authenticatietoken met alleen-lezen toegang'
+    matomo_url: Matomo-URL
     max: Max
     max_depth: 'Maximale diepte'
     max_lines: 'Maximum aantal regels'
@@ -668,7 +668,6 @@ key:
     add_user: 'Gebruiker toevoegen'
     admin: Admin
     advanced_search: 'Geavanceerd zoeken'
-    matomo: Matomo
     align_with: 'Uitlijnen met'
     all_content_types: 'Alle contenttypes'
     all_linked_documents: 'Alle gekoppelde documenten'
@@ -785,6 +784,7 @@ key:
     match_or: 'Match (of)'
     match_phrase: 'Match frase'
     match_phrase_prefix: 'Match met zinsdeelprefix'
+    matomo: Matomo
     mcp: MCP
     mcp_prompts: MCP-prompts
     mcp_resources: MCP-resources

@@ -443,6 +443,9 @@ field:
     json_nested_max_depth: 'JSON nested max depth'
     key: Key
     label: Label
+    matomo_url: 'Matomo URL'
+    matomo_site_id: 'Matomo site ID'
+    matomo_token_auth: 'Matomo view-only authentication token'
     label_field: 'Label field'
     label_translations: 'Label translations'
     labels: Labels
@@ -665,6 +668,7 @@ key:
     add_user: 'Add user'
     admin: Admin
     advanced_search: 'Advanced search'
+    matomo: Matomo
     align_with: 'Align with'
     all_content_types: 'All Content Types'
     all_linked_documents: 'All linked documents'

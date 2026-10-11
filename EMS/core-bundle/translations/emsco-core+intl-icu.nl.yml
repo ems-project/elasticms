@@ -443,6 +443,9 @@ field:
     json_nested_max_depth: 'JSON geneste maximale diepte'
     key: Sleutel
     label: Label
+    matomo_url: 'Matomo-URL'
+    matomo_site_id: 'Matomo-site-ID'
+    matomo_token_auth: 'Matomo-authenticatietoken met alleen-lezen toegang'
     label_field: Labelveld
     label_translations: 'Vertalingen van labels'
     labels: Labels
@@ -665,6 +668,7 @@ key:
     add_user: 'Gebruiker toevoegen'
     admin: Admin
     advanced_search: 'Geavanceerd zoeken'
+    matomo: Matomo
     align_with: 'Uitlijnen met'
     all_content_types: 'Alle contenttypes'
     all_linked_documents: 'Alle gekoppelde documenten'

@@ -258,7 +258,13 @@
                                                 "lastOfRow": false,
                                                 "helptext": null,
                                                 "icon": "fa fa-link",
-                                                "language": null
+                                                "language": null,
+                                                "labelTranslations": {
+                                                    "fr": {
+                                                        "label": "Lien"
+                                                    }
+                                                },
+                                                "helptextTranslations": []
                                             },
                                             "mappingOptions": [],
                                             "restrictionOptions": {

@@ -30,7 +30,9 @@
                         "lastOfRow": false,
                         "helptext": null,
                         "icon": null,
-                        "language": null
+                        "language": null,
+                        "labelTranslations": [],
+                        "helptextTranslations": []
                     },
                     "restrictionOptions": {
                         "minimum_role": null
@@ -38,7 +40,8 @@
                     "extraOptions": {
                         "extra": null,
                         "clear_on_copy": false,
-                        "postProcessing": null
+                        "postProcessing": null,
+                        "description": null
                     }
                 },
                 "orderKey": 0,
@@ -95,7 +98,9 @@
                                     "query": null,
                                     "environment": null,
                                     "choices_template": null,
-                                    "display_template": null
+                                    "display_template": null,
+                                    "labelTranslations": [],
+                                    "helptextTranslations": []
                                 },
                                 "mappingOptions": {
                                     "analyzer": "keyword",
@@ -109,7 +114,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": "{{ block('section_menu', '@EMSCH/template_ems/content_type/post_processing.twig') }}"
+                                    "postProcessing": "{{ block('section_menu', '@EMSCH/template_ems/content_type/post_processing.twig') }}",
+                                    "description": null
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {
@@ -136,7 +142,10 @@
                                     "class": "col-md-12",
                                     "lastOfRow": false,
                                     "helptext": null,
-                                    "icon": "fa fa-sitemap"
+                                    "icon": "fa fa-sitemap",
+                                    "labelTranslations": [],
+                                    "helptextTranslations": [],
+                                    "blocks_template": null
                                 },
                                 "mappingOptions": {
                                     "index": null,
@@ -152,7 +161,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "description": null
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {
@@ -177,7 +187,9 @@
                                                 "lastOfRow": false,
                                                 "helptext": null,
                                                 "icon": "fa fa-file-text-o",
-                                                "language": null
+                                                "language": null,
+                                                "labelTranslations": [],
+                                                "helptextTranslations": []
                                             },
                                             "mappingOptions": [],
                                             "restrictionOptions": {
@@ -188,7 +200,8 @@
                                             "extraOptions": {
                                                 "extra": null,
                                                 "clear_on_copy": false,
-                                                "postProcessing": null
+                                                "postProcessing": null,
+                                                "description": null
                                             },
                                             "raw_data": []
                                         },
@@ -214,11 +227,12 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": []
                                                     },
-                                                    "orderKey": 1,
+                                                    "orderKey": 0,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -254,7 +268,8 @@
                                             "extraOptions": {
                                                 "extra": null,
                                                 "clear_on_copy": false,
-                                                "postProcessing": null
+                                                "postProcessing": null,
+                                                "description": null
                                             },
                                             "raw_data": []
                                         },
@@ -280,7 +295,8 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": []
                                                     },
@@ -312,7 +328,9 @@
                                     "class": "col-md-12",
                                     "lastOfRow": false,
                                     "helptext": null,
-                                    "question_label": null
+                                    "question_label": null,
+                                    "labelTranslations": [],
+                                    "helptextTranslations": []
                                 },
                                 "mappingOptions": {
                                     "index": null
@@ -323,7 +341,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "description": null
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {
@@ -352,7 +371,9 @@
                                     "helptext": "Computed field, will contains all generated path for this section",
                                     "valueTemplate": "{{- block('ems_value', '@EMSCH/template_ems/content_type/compute_paths.twig') -}}",
                                     "json": true,
-                                    "displayTemplate": "{{- block('ems_display', '@EMSCH/template_ems/content_type/compute_paths.twig') -}}"
+                                    "displayTemplate": "{{- block('ems_display', '@EMSCH/template_ems/content_type/compute_paths.twig') -}}",
+                                    "labelTranslations": [],
+                                    "helptextTranslations": []
                                 },
                                 "mappingOptions": {
                                     "mappingOptions": "{\r\n  \"type\": \"nested\",\r\n  \"properties\": {\r\n    \"uid\": {\r\n      \"type\": \"keyword\"\r\n    },\r\n    \"path\": {\r\n      \"type\": \"keyword\"\r\n    },\r\n    \"locale\": {\r\n      \"type\": \"keyword\"\r\n    }\r\n  }\r\n}",
@@ -362,7 +383,9 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": "{{- block('ems_post_processing', '@EMSCH/template_ems/content_type/compute_paths.twig') -}}"
+                                    "postProcessing": "{{- block('ems_post_processing', '@EMSCH/template_ems/content_type/compute_paths.twig') -}}",
+                                    "description": null,
+                                    "mcpOutputSchema": null
                                 },
                                 "raw_data": []
                             },
@@ -391,7 +414,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "description": null
                                 },
                                 "raw_data": []
                             },
@@ -414,7 +438,9 @@
                                     "label": "Order",
                                     "class": "hidden d-none",
                                     "lastOfRow": false,
-                                    "helptext": null
+                                    "helptext": null,
+                                    "labelTranslations": [],
+                                    "helptextTranslations": []
                                 },
                                 "mappingOptions": {
                                     "index": null,
@@ -428,7 +454,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "description": null
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {

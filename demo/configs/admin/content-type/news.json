@@ -9,7 +9,9 @@
         "singularNameTranslations": {
             "fr": {
                 "label": "News",
-                "gender": "female"
+                "gender": "female",
+                "number": null,
+                "elision": null
             }
         },
         "icon": "fa fa-bell",

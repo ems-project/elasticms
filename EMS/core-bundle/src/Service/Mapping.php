@@ -11,6 +11,8 @@ use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Form\FieldType\FieldTypeType;
+use EMS\Helpers\Standard\Json;
+use Symfony\Component\Translation\TranslatableMessage;
 
 use function Symfony\Component\Translation\t;
 
@@ -174,6 +176,19 @@ class Mapping
     public function putMapping(ContentType $contentType, string $indexes): bool
     {
         $body = $this->generateMapping($contentType);
+        foreach (\array_filter(\array_map('trim', \explode(',', $indexes))) as $indexName) {
+            $existingMapping = $this->extractProperties($this->elasticaClient->getIndex($indexName)->getMapping());
+            $incompatibilities = $this->findIncompatibilities($contentType->getName(), $indexes, $existingMapping, $body->getProperties());
+
+            if ([] !== $incompatibilities) {
+                foreach ($incompatibilities as $incompatibility) {
+                    $this->logger->messageWarning($incompatibility);
+                }
+
+                return false;
+            }
+        }
+
         $response = $this->elasticaClient->getIndex($indexes)->setMapping($body);
 
         if (!$response->isOk()) {
@@ -192,6 +207,82 @@ class Mapping
         ], 'emsco-core'));
 
         return true;
+    }
+
+    /**
+     * @param array<mixed> $mapping
+     *
+     * @return array<string, mixed>
+     */
+    private function extractProperties(array $mapping): array
+    {
+        if (isset($mapping['properties']) && \is_array($mapping['properties'])) {
+            return $mapping['properties'];
+        }
+
+        return [];
+    }
+
+    /**
+     * Only fields present in both mappings are compared. This allows mappings to
+     * contain different fields while preventing changes to shared field definitions.
+     *
+     * @param array<string, mixed> $existing
+     * @param array<string, mixed> $generated
+     *
+     * @return list<TranslatableMessage>
+     */
+    private function findIncompatibilities(string $contentTypeName, string $indexes, array $existing, array $generated, string $path = ''): array
+    {
+        $incompatibilities = [];
+        foreach ($existing as $field => $existingDefinition) {
+            $fieldPath = '' === $path ? (string) $field : $path.'.'.$field;
+            if (!\array_key_exists($field, $generated)) {
+                continue;
+            }
+            if (!\is_array($existingDefinition) || !\is_array($generated[$field])) {
+                $incompatibilities[] = t('message.contenttype_mappings_non_compatible_definition', [
+                    'content_type' => $contentTypeName,
+                    'environments' => $indexes,
+                    'fieldPath' => $fieldPath,
+                ], 'emsco-core');
+                //                $incompatibilities[] = \sprintf('Field "%s" has a non-compatible definition.', $fieldPath);
+                continue;
+            }
+
+            foreach ($existingDefinition as $option => $existingValue) {
+                if ('properties' === $option || 'fields' === $option) {
+                    if (!\is_array($existingValue) || !\is_array($generated[$field][$option] ?? null)) {
+                        continue;
+                    }
+
+                    $incompatibilities = [...$incompatibilities, ...$this->findIncompatibilities($contentTypeName, $indexes, $existingValue, $generated[$field][$option], $fieldPath)];
+                    continue;
+                }
+
+                if (!\array_key_exists($option, $generated[$field])) {
+                    continue;
+                }
+                if ($existingValue !== $generated[$field][$option]) {
+                    $incompatibilities[] = t('message.contenttype_mappings_incompatible_definition', [
+                        'content_type' => $contentTypeName,
+                        'environments' => $indexes,
+                        'fieldPath' => $fieldPath,
+                        'option' => $option,
+                        'existing' => $this->formatMappingValue($existingValue),
+                        'generated' => $this->formatMappingValue($generated[$field][$option]),
+                    ], 'emsco-core');
+                    //                    $incompatibilities[] = \sprintf('Field "%s" has a different "%s": existing=%s, generated=%s.', $fieldPath, $option, $this->formatMappingValue($existingValue), $this->formatMappingValue($generated[$field][$option]));
+                }
+            }
+        }
+
+        return $incompatibilities;
+    }
+
+    private function formatMappingValue(mixed $value): string
+    {
+        return Json::encode($value, unescapeUnicode: true);
     }
 
     /** @param array<string, array<string, mixed>> $properties */

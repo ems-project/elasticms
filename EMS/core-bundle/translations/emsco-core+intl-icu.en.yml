@@ -1325,6 +1325,8 @@ option:
     layout_sidebar_mini: 'Sidebar mini'
     migration: Migration
     multiple: Multiple
+    rebuild_new_index: 'A new index will be created and all objects will be reindexed with the revision defined for this environment. Once it''s done the environment alias will be updated. Nothing will be removed from the current search index.'
+    rebuild_same_index: 'All objects in eMS will be just reindexed into the existing index.'
     recompute_on_publish: 'Recompute documents on publication'
     restriction: Restriction
     update_referrers: 'Update referrers'

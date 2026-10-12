@@ -15,8 +15,8 @@ use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Form\RebuildIndex;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Form\Environment\EnvironmentType;
+use EMS\CoreBundle\Form\Form\Environment\RebuildType;
 use EMS\CoreBundle\Form\Form\Environment\ViewEnvironmentType;
-use EMS\CoreBundle\Form\Form\RebuildIndexType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\ContentTypeService;
@@ -31,7 +31,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
-
 use function Symfony\Component\Translation\t;
 
 class EnvironmentController extends AbstractController
@@ -157,8 +156,7 @@ class EnvironmentController extends AbstractController
     {
         $rebuildIndex = new RebuildIndex();
 
-        $form = $this->createForm(RebuildIndexType::class, $rebuildIndex);
-
+        $form = $this->createForm(RebuildType::class, $rebuildIndex);
         $form->handleRequest($request);
 
         $user = $this->getUser();

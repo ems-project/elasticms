@@ -1330,6 +1330,8 @@ option:
     layout_sidebar_mini: 'Barre latérale mini'
     migration: Migration
     multiple: Multiple
+    rebuild_new_index: 'Un nouvel index sera créé et tous les objets seront réindexés avec la révision définie pour cet environnement. Ensuite, l''alias de l''environnement sera mis à jour. Rien ne sera supprimé de l''index de recherche actuel.'
+    rebuild_same_index: 'Tous les objets d''eMS seront simplement réindexés dans l''index existant.'
     recompute_on_publish: 'Recalculer les documents lors de la publication'
     restriction: Restriction
     update_referrers: 'Mettre à jour les référents'

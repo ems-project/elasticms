@@ -1325,6 +1325,8 @@ option:
     layout_sidebar_mini: 'Zijbalk mini'
     migration: Migratie
     multiple: Meerdere
+    rebuild_new_index: 'Er wordt een nieuwe index aangemaakt en alle objecten worden opnieuw geïndexeerd met de revisie van deze omgeving. Daarna wordt de alias van de omgeving bijgewerkt. Er wordt niets verwijderd uit de huidige zoekindex.'
+    rebuild_same_index: 'Alle objecten in eMS worden opnieuw geïndexeerd in de bestaande index.'
     recompute_on_publish: 'Documenten herberekenen bij publicatie'
     restriction: Beperking
     update_referrers: 'Verwijzers bijwerken'

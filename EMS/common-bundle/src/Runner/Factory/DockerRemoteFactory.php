@@ -16,6 +16,7 @@ class DockerRemoteFactory extends AbstractFactory
     final public const string RUNNER_REMOTE_DOCKER_IMAGE = 'image';
     final public const string RUNNER_REMOTE_DOCKER_IMAGE_TAG = 'image-tag';
     final public const string RUNNER_REMOTE_DOCKER_ENV = 'env';
+    final public const string RUNNER_REMOTE_DOCKER_HOST_CONFIG = 'host-config';
     final public const string RUNNER_REMOTE_DOCKER_SOCKET_PATH = 'socket-path';
 
     public function __construct(LoggerInterface $logger, ComposerInfo $composerInfo)
@@ -35,6 +36,7 @@ class DockerRemoteFactory extends AbstractFactory
             self::RUNNER_REMOTE_DOCKER_BASE_URL => 'http://localhost:2375',
             self::RUNNER_REMOTE_DOCKER_IMAGE_TAG => null,
             self::RUNNER_REMOTE_DOCKER_ENV => [],
+            self::RUNNER_REMOTE_DOCKER_HOST_CONFIG => [],
             self::RUNNER_REMOTE_DOCKER_SOCKET_PATH => null,
         ])
             ->setRequired([
@@ -44,6 +46,7 @@ class DockerRemoteFactory extends AbstractFactory
             ->setAllowedTypes(self::RUNNER_REMOTE_DOCKER_IMAGE, ['string'])
             ->setAllowedTypes(self::RUNNER_REMOTE_DOCKER_IMAGE_TAG, ['string', 'null'])
             ->setAllowedTypes(self::RUNNER_REMOTE_DOCKER_ENV, ['array'])
+            ->setAllowedTypes(self::RUNNER_REMOTE_DOCKER_HOST_CONFIG, ['array'])
             ->setAllowedTypes(self::RUNNER_REMOTE_DOCKER_SOCKET_PATH, ['string', 'null'])
         ;
         /** @var array{
@@ -54,6 +57,7 @@ class DockerRemoteFactory extends AbstractFactory
          *     image: string,
          *     image-tag: string|null,
          *     env: string[],
+         *     host-config: mixed[],
          *     socket-path: string|null,
          *  } $resolvedConfig */
         $resolvedConfig = $resolver->resolve($runnerConfig);
@@ -69,6 +73,7 @@ class DockerRemoteFactory extends AbstractFactory
             $resolvedConfig[self::RUNNER_REMOTE_DOCKER_IMAGE],
             $resolvedConfig[self::RUNNER_REMOTE_DOCKER_IMAGE_TAG],
             $resolvedConfig[self::RUNNER_REMOTE_DOCKER_ENV],
+            $resolvedConfig[self::RUNNER_REMOTE_DOCKER_HOST_CONFIG],
             $resolvedConfig[self::RUNNER_REMOTE_DOCKER_SOCKET_PATH],
         );
     }

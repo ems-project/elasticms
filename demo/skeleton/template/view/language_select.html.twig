@@ -1,3 +1,18 @@
+{#- Trick to make the response private: / must be revalidated on every request. -#}
+{%- set user = app.user -%}
+
+{%- set supportedLanguages = ['fr', 'nl'] -%}
+{%- set preferredlanguage = app.request.cookies.get('site_language') -%}
+{%- if preferredlanguage not in supportedLanguages  -%}
+    {#- If no match is found in the Accept-Language header, the first value is returned. -#}
+    {%- set preferredlanguage = app.request.getPreferredLanguage(['']|merge(supportedLanguages)) -%}
+{%- endif -%}
+{%- if not user and preferredlanguage in supportedLanguages -%}
+    {%- do emsch_http_error(302, headers: {
+        'Location': path("emsch_path", {_locale: preferredlanguage, path: 'home'}),
+    }) -%}
+{%- endif -%}
+
 {%- extends '@EMSCH/template/base/base.html.twig' -%}
 {%- trans_default_domain trans_default_domain -%}
 

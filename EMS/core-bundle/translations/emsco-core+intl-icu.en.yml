@@ -1030,7 +1030,6 @@ message:
     environment_not_empty: 'The environment {environment} is not empty'
     environment_publish_permission_denied: 'You do not have enough privileges to publish "{content_type}" documents'
     environment_rebuild_notice: 'Be cautious, depending of the option selected some content in the search index may be lost.'
-    environment_rebuild_unknown_option: 'Impossible to rebuild the environment {environment} due to unknown option "{option}"'
     environment_updated: 'The environment {environment} has been updated'
     environment_wrong_ouuid: 'Malformed OUUID {ouuid}'
     error_status: 'With the message "{status}"'
@@ -1325,7 +1324,7 @@ option:
     layout_sidebar_mini: 'Sidebar mini'
     migration: Migration
     multiple: Multiple
-    rebuild_new_index: 'A new index will be created and all objects will be reindexed with the revision defined for this environment. Once it''s done the environment alias will be updated. Nothing will be removed from the current search index.'
+    rebuild_new_index: "A new index will be created and all objects will be reindexed with the revision defined for this environment. Once it's done the environment alias will be updated. Nothing will be removed from the current search index."
     rebuild_same_index: 'All objects in eMS will be just reindexed into the existing index.'
     recompute_on_publish: 'Recompute documents on publication'
     restriction: Restriction
@@ -1415,7 +1414,6 @@ title:
     filtering_tasks: 'Filtering the tasks'
     items_in_trash: '{pluralName} in trash'
     job_list: "Job's list"
-    list_environments: 'List Environments'
     list_releases: 'List of Releases'
     log_of: 'Log of the {created}'
     messages_in_bus: 'Messages in the bus'
@@ -1448,7 +1446,6 @@ title:
     reset_password: 'Reset password'
     revisions_of_content_type: 'Revisions of {contentType}: {title}'
     select_environments_to_compare: 'Select Environments to compare'
-    select_your_options: 'Select your options'
     specific_permissions_for: 'Permission for {content_type_singular_name}'
     systems_status: "Systems' status"
     systems_status_tagline: 'Is everything working as expected?'

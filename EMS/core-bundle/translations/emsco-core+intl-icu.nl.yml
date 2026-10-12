@@ -1030,7 +1030,6 @@ message:
     environment_not_empty: 'De omgeving {environment} is niet leeg'
     environment_publish_permission_denied: 'U heeft onvoldoende rechten om "{content_type}" documenten te publiceren'
     environment_rebuild_notice: 'Wees voorzichtig: afhankelijk van de geselecteerde optie kan bepaalde inhoud in de zoekindex verloren gaan.'
-    environment_rebuild_unknown_option: 'Onmogelijk om de omgeving {environment} te herbouwen door onbekende optie "{option}"'
     environment_updated: 'De omgeving {environment} is bijgewerkt'
     environment_wrong_ouuid: 'Onjuist gevormde OUUID {ouuid}'
     error_status: 'Met de melding "{status}"'
@@ -1415,7 +1414,6 @@ title:
     filtering_tasks: 'Taken filteren'
     items_in_trash: '{pluralName} in prullenbak'
     job_list: Joblijst
-    list_environments: 'Omgevingen weergeven'
     list_releases: 'Lijst van releases'
     log_of: 'Log van {created}'
     messages_in_bus: 'Berichten in de bus'
@@ -1448,7 +1446,6 @@ title:
     reset_password: 'Wachtwoord resetten'
     revisions_of_content_type: 'Revisies van {contentType}: {title}'
     select_environments_to_compare: 'Selecteer omgevingen om te vergelijken'
-    select_your_options: 'Selecteer uw opties'
     specific_permissions_for: 'Recht voor {content_type_singular_name}'
     systems_status: Systeemstatus
     systems_status_tagline: 'Werkt alles zoals verwacht?'

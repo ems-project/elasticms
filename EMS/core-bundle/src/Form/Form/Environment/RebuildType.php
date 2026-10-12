@@ -33,7 +33,7 @@ class RebuildType extends AbstractType
                 'choice_translation_domain' => 'emsco-core',
                 'expanded' => true,
             ])
-             ->add('rebuild', SubmitEmsType::class, [
+             ->add('save', SubmitEmsType::class, [
                  'attr' => ['data-testid' => 'btn-action-rebuild'],
                  'label' => t('action.rebuild', [], 'emsco-core'),
                  'icon' => 'fa fa-recycle',

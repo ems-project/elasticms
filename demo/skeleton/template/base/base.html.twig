@@ -47,6 +47,24 @@
             <script type="application/javascript" src="{{ path('emsch_js_translations') }}"></script>
             <script type="application/javascript" src="{{ asset('form.js', 'emsform') }}"></script>
             <script type="module" src="{{ asset('src/index.js', 'emsch') }}"></script>
+            {% if matomo_server_domain|default and matomo_site_id|default %}
+                {% set matomoScript %}
+                  var _paq = window._paq = window._paq || [];
+                  _paq.push(['trackPageView']);
+                  _paq.push(['enableLinkTracking']);
+                  (function() {
+                    var u="//{{ matomo_server_domain }}/";
+                    _paq.push(['setTrackerUrl', u+'matomo.php']);
+                    _paq.push(['setSiteId', '{{ matomo_site_id }}']);
+                    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+                  })();
+                {% endset %}
+                {% do ems_csp_source('connect-src', "'self'") %}
+                {% do ems_csp_source('connect-src', "#{app.request.scheme}://#{matomo_server_domain}/") %}
+                {% do ems_csp_source('script-src', "#{app.request.scheme}://#{matomo_server_domain}/") %}
+                <script nonce="{{ ems_nonce() }}">{{ matomoScript|raw }}</script>
+            {% endif %}
     {%- endblock %}
     </body>
     </html>

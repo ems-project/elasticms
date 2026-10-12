@@ -346,36 +346,19 @@
 
 {%- endblock data_field_options_widget -%}
 
-{%- block code_editor_label -%}
-    {% if label is not same as(false) -%}
-        {% if not compound -%}
-            {% set label_attr = label_attr|merge({for: id}) %}
-        {%- endif -%}
-        {% if required -%}
-            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) %}
-        {%- endif -%}
-        {%- if label is not defined or label is null -%}
-            {%- if label_format is not empty -%}
-                {% set label = label_format|replace({
-                    '%name%': name,
-                    '%id%': id,
-                }) %}
-            {%- else -%}
-                {% set label = name|humanize %}
-            {%- endif -%}
-        {%- endif -%}
-        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
-    {%- endif -%}
-{%- endblock code_editor_label -%}
-
 {% block code_editor_row -%}
-    {%- set row_attr = row_attr|merge({class: ('ems-code-editor ' ~ row_attr.class|default(''))|trim}) -%}
+    {%- set row_attr = row_attr|merge({
+        class: ('ems-code-editor ' ~ row_attr.class|default(''))|trim,
+        'data-language': language,
+        'data-min-lines': min_lines,
+        'data-max-lines': max_lines,
+    }) -%}
     {{- block('form_row') -}}
 {%- endblock code_editor_row %}
 
 {% block code_editor_widget %}
-    <pre>{{ form.vars.data }}</pre>
-    <input type="hidden" id="{{ form.vars.id }}" class="{{ attr.class|default('') }}"  name="{{ form.vars.full_name }}" data-language="{{ form.vars.language }}" data-disabled="{{ form.vars.disabled }}" data-min-lines="{{ form.vars.min_lines }}" data-max-lines="{{ form.vars.max_lines }}" value="{{ form.vars.value }}">
+    <pre>{{ data }}</pre>
+    <input type="hidden" id="{{ id }}" class="{{ attr.class|default('') }}" name="{{ full_name }}" value="{{ value }}"{% if disabled %} disabled{% endif %}>
 {% endblock code_editor_widget %}
 
 {% block datafieldtype_label %}

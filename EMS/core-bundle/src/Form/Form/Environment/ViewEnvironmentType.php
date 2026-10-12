@@ -41,8 +41,8 @@ class ViewEnvironmentType extends AbstractType
                     'label' => t('field.mapping', [], 'emsco-core'),
                     'mapped' => false,
                     'language' => 'ace/mode/json',
-                    'max-lines' => 50,
-                    'min-lines' => 50,
+                    'max-lines' => 40,
+                    'min-lines' => 40,
                 ])
                 ->add('cancel', CancelType::class, [
                     'attr' => ['data-testid' => 'environment-close'],

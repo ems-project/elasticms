@@ -38,13 +38,13 @@ export default class CodeEditor implements EmsModule {
         const minLines = container.dataset.minLines
 
         const editor = ace.edit(pre, {
-                mode: container.dataset.language ?? 'ace/mode/twig',
-                theme: container.dataset.theme ?? 'ace/theme/chrome',
-                readOnly: input === null,
-                maxLines,
-                ...(minLines ? { minLines: Number.parseInt(minLines) } : {}),
-                useWorker: false,
-            })
+            mode: container.dataset.language ?? 'ace/mode/twig',
+            theme: container.dataset.theme ?? 'ace/theme/chrome',
+            readOnly: input === null || input.disabled,
+            maxLines,
+            ...(minLines ? { minLines: Number.parseInt(minLines) } : {}),
+            useWorker: false,
+        })
 
         ;(pre as any)._aceEditor = editor
 

@@ -31,12 +31,6 @@
     {{- block('link_widget') -}}
 {%- endblock cancel_widget -%}
 
-{%- block user_options_row -%}
-    {%- if form.children|length > 0 -%}
-        {{ parent() }}
-    {%- endif -%}
-{%- endblock user_options_row -%}
-
 {# Widgets #}
 {%- block checkbox_widget -%}
     {%- set attr_class = attr_class|default(attr.class|default('')) -%}

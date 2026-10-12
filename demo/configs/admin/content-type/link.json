@@ -8,13 +8,17 @@
         "pluralNameTranslations": {
             "fr": {
                 "label": "Liens",
-                "gender": null
+                "gender": null,
+                "number": null,
+                "elision": null
             }
         },
         "singularNameTranslations": {
             "fr": {
                 "label": "Lien",
-                "gender": null
+                "gender": null,
+                "number": null,
+                "elision": null
             }
         },
         "icon": "fa fa-link",

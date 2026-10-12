@@ -70,9 +70,9 @@
                 <div id="ems-message-{{ newsLetterForm.id  }}"></div>
                 <iframe id="ems-form-iframe-{{ newsLetterForm.id }}"
                         src="{{ absolute_url(path('emsf_iframe', { ouuid: newsLetterFormOuuid, _locale: locale })) }}"
-                        style="display:none;" 
-                        title="{{ 'ems_form.ignore_iframe'|trans }}" 
-                        data-form-id="ems-form-{{ newsLetterForm.id }}" 
+                        style="display:none;"
+                        title="{{ 'ems_form.ignore_iframe'|trans }}"
+                        data-form-id="ems-form-{{ newsLetterForm.id }}"
                         data-message-id="ems-message-{{ newsLetterForm.id }}"></iframe>
             {%- endif -%}
 
@@ -88,3 +88,10 @@
     </footer>
     <a id="back2top" href="#logo" title="{{ 'aria.back-to-top'|trans|e('html_attr') }}"><i class="fas fa-arrow-up"></i><span>{{ 'aria.back-to-top'|trans }}</span></a>
 {%- endblock %}
+
+{%- block javascript -%}
+    {{ parent() }}
+    <script type="application/javascript" src="{{ asset('src/site-language.js', 'emsch') }}"></script>
+    {#- Alternative with an orejime opt-in -#}
+    {# <script type="opt-in" data-type="application/javascript" data-name="language" data-src="{{ asset('src/site-language.js', 'emsch') }}"></script>#}
+{%- endblock javascript -%}

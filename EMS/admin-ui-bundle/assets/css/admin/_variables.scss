@@ -334,6 +334,10 @@ $dropdown-item-padding-y: .25rem !default;
 $dropdown-item-padding-x: .75rem !default;
 
 $pagination-bg: $ems-surface !default;
+$pagination-disabled-bg: $ems-surface !default;
+$pagination-font-size: $font-size-sm !default;
+$pagination-padding-y: .2rem !default;
+$pagination-padding-x: .6rem !default;
 
 // Main
 $main-box-shadow: inset .75rem 0px 1.5rem 0px rgba($black, 0.075);

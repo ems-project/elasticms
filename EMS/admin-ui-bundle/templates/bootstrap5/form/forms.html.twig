@@ -346,7 +346,7 @@
                     </th>
                 {% endif %}
                 {% for column in table.columns %}
-                    <th class="nowrap" data-orderable="{{ column.orderable ? 'true' : 'false' }}" data-name="{{ column.attribute }}">
+                    <th class="text-nowrap" data-orderable="{{ column.orderable ? 'true' : 'false' }}" data-name="{{ column.attribute }}">
                         {% set columnTitle = column.titleKey|trans %}
                         {% if column.iconClass %}
                             <i class="{{ column.iconClass }}" aria-hidden="true" title="{{ columnTitle|e('html_attr') }}"></i>
@@ -357,7 +357,7 @@
                     </th>
                 {% endfor %}
                 {% if table.itemActions|length > 0 %}
-                    <th class="nowrap" data-orderable="false">{{ 'key.actions'|trans({}, 'emsco-core') }}</th>
+                    <th class="text-nowrap" data-orderable="false">{{ 'key.actions'|trans({}, 'emsco-core') }}</th>
                 {% endif %}
             </tr>
             </thead>

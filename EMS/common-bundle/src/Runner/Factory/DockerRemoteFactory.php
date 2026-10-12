@@ -50,7 +50,7 @@ class DockerRemoteFactory extends AbstractFactory
          *     image: string,
          *     image-tag: string|null,
          *     env: string[],
-         *      host-config: mixed[],
+         *     host-config: mixed[],
          *     socket-path: string|null,
          *  } $resolvedConfig */
         $resolvedConfig = $resolver->resolve($runnerConfig);

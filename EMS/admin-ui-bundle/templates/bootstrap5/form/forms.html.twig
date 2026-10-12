@@ -309,30 +309,32 @@
     {% set table = form.vars.data %}
     {{ form_start(form) }}
     {% if table_title is defined or form.vars.title_label|default(false) or toolbar is defined or (table.sortable and table.supportsTableActions) or table.toolbarActions|length > 0 %}
-        {% if table_title is defined or form.vars.title_label|default(false) %}
-            <h2>
-                {% if table_title_icon is defined %}<i class="{{ table_title_icon }}"></i>&nbsp;{% endif %}
-                {{ table_title|default(form.vars.title_label|trans) }}
-            </h2>
-        {% endif %}
-        <div class="btn-group float-end mb-2">
-            {% if toolbar is defined %}
-                {{ toolbar }}
-            {% endif %}
-            {% for toolbarAction in table.toolbarActions %}
-                <a class="{{ toolbarAction.cssClass }}" href="{{ path(toolbarAction.routeName, toolbarAction.routeParams) }}">
-                    <i class="{{ toolbarAction.icon }}"></i>&nbsp;{{ toolbarAction.labelKey|trans }}
-                </a>
-            {% endfor %}
-            {% if attribute(form, 'reorderAction') is defined %}
-                <button type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#{{ table.attributeName|e('html_attr') }}_modal_reorder">
-                    <i class="fa fa-reorder"></i>&nbsp;{{ form.reorderAction.vars.label|trans }}
-                </button>
-            {% endif %}
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="mb-0">
+                {% if table_title is defined or form.vars.title_label|default(false) %}
+                    {% if table_title_icon is defined %}<i class="{{ table_title_icon }}"></i>&nbsp;{% endif %}
+                    {{ table_title|default(form.vars.title_label|trans) }}
+                {% endif %}
+            </h4>
+            <div class="btn-group">
+                {% if toolbar is defined %}
+                    {{ toolbar }}
+                {% endif %}
+                {% for toolbarAction in table.toolbarActions %}
+                    <a class="{{ toolbarAction.cssClass }}" href="{{ path(toolbarAction.routeName, toolbarAction.routeParams) }}">
+                        <i class="{{ toolbarAction.icon }}"></i>&nbsp;{{ toolbarAction.labelKey|trans }}
+                    </a>
+                {% endfor %}
+                {% if attribute(form, 'reorderAction') is defined %}
+                    <button type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#{{ table.attributeName|e('html_attr') }}_modal_reorder">
+                        <i class="fa fa-reorder"></i>&nbsp;{{ form.reorderAction.vars.label|trans }}
+                    </button>
+                {% endif %}
+            </div>
         </div>
     {% endif %}
-    <div class="table-responsive mt-2">
-        <table class="table table-condensed table-striped" style="width:100%;" data-datatable="{{ table.frontendOptions|json_encode|e('html_attr') }}">
+    <div class="table-responsive">
+        <table class="table table-striped align-middle" style="width:100%;" data-datatable="{{ table.frontendOptions|json_encode|e('html_attr') }}">
             <thead>
             <tr role="row">
                 {% if table.supportsTableActions %}
@@ -344,7 +346,7 @@
                     </th>
                 {% endif %}
                 {% for column in table.columns %}
-                    <th class="nowrap text-center" data-orderable="{{ column.orderable ? 'true' : 'false' }}" data-name="{{ column.attribute }}">
+                    <th class="nowrap" data-orderable="{{ column.orderable ? 'true' : 'false' }}" data-name="{{ column.attribute }}">
                         {% set columnTitle = column.titleKey|trans %}
                         {% if column.iconClass %}
                             <i class="{{ column.iconClass }}" aria-hidden="true" title="{{ columnTitle|e('html_attr') }}"></i>

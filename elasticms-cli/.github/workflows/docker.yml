@@ -79,6 +79,52 @@ jobs:
           DOCKER_IMAGE_TAG: ${{ (github.ref_type == 'tag' && github.ref_name) || steps.check.outputs.ref || 'snapshot' }}
           EMS_VERSION: ${{ (github.ref_type == 'tag' && github.ref_name) || steps.check.outputs.ref || '7.x-snapshot' }}
 
+  # Builds the prd image as the runner's own Docker loads it, and starts it in
+  # every mode (tests/docker/smoke.sh) before anything is built for publishing.
+  # 7.3.8 was published without such a check and did not start at all.
+  test:
+    runs-on: ubuntu-24.04
+
+    if: ${{ !fromJson(needs.prepare.outputs.skip) }}
+
+    needs:
+      - prepare
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.ref }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Configure Composer Cache Dir and Public Keys
+        run: |
+          mkdir -p $HOME/.composer/cache
+          curl -sSL https://composer.github.io/snapshots.pub -o $HOME/.composer/keys.dev.pub
+          curl -sSL https://composer.github.io/releases.pub -o $HOME/.composer/keys.tags.pub
+
+      - name: Composer and NPM
+        run: |
+          make build-app
+
+      - name: Build the prd image
+        run: docker buildx build --target prd --load -t elasticms/cli:test .
+
+      - name: Smoke test
+        run: tests/docker/smoke.sh elasticms/cli:test
+
   build:
     runs-on: ${{ startsWith(matrix.platform, 'linux/arm') && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
 
@@ -86,6 +132,7 @@ jobs:
 
     needs:
       - prepare
+      - test
 
     strategy:
       fail-fast: false

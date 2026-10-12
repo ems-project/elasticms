@@ -1,31 +1,11 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-export DEBUG=${DEBUG:-false}
-[[ "${DEBUG}" == "true" ]] && set -x
-
-source /usr/local/bin/container-entrypoint.d/entrypoint.d/00-functions.sh
-source /usr/local/bin/container-entrypoint.d/entrypoint.d/01-php.sh
-source /usr/local/bin/container-entrypoint.d/entrypoint.d/10-supervisor.sh
-source /usr/local/bin/container-entrypoint.d/entrypoint.d/90-app.sh
-source /usr/local/bin/container-entrypoint.d/entrypoint.d/99-export-vars.sh
-
-log "INFO" " ███████╗██╗      █████╗ ███████╗████████╗██╗ ██████╗███╗   ███╗███████╗ "
-log "INFO" " ██╔════╝██║     ██╔══██╗██╔════╝╚══██╔══╝██║██╔════╝████╗ ████║██╔════╝ "
-log "INFO" " █████╗  ██║     ███████║███████╗   ██║   ██║██║     ██╔████╔██║███████╗ "
-log "INFO" " ██╔══╝  ██║     ██╔══██║╚════██║   ██║   ██║██║     ██║╚██╔╝██║╚════██║ "
-log "INFO" " ███████╗███████╗██║  ██║███████║   ██║   ██║╚██████╗██║ ╚═╝ ██║███████║ "
-log "INFO" " ╚══════╝╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝ ╚═════╝╚═╝     ╚═╝╚══════╝ "
-log "INFO" "                                                                         "
-log "INFO" "                    ( ElasticMS CLI Image )                              "
-log "INFO" "                                                                         "
-log "INFO" "+---- Configure PHP Container -----"
-
-source /usr/local/bin/container-entrypoint.d/base.d/01-php.sh
-source /usr/local/bin/container-entrypoint.d/base.d/10-supervisor.sh
-source /usr/local/bin/container-entrypoint.d/base.d/99-cleanup-vars.sh
-
-log "INFO" "+---- PHP Container configured succesfully -----"
+# The image's own commands, picked from the first argument. Everything else --
+# PHP configuration, AWS settings, the cleanup of the variables the application
+# must not see, the banner -- is base-php's cli entrypoint, which runs the
+# chosen command once it is done. Sourcing base-php's internal scripts instead
+# is what made 7.3.8 exit 1 at start when base-php removed two of them.
 
 # first arg is a symfony cmd (fe. `ems:version`)
 if [[ $1 =~ ^([A-z0-9\-]+:){1,}([A-z0-9\-]+)$ ]]; then
@@ -38,4 +18,4 @@ elif [[ $1 = cronjob ]]; then
     set -- elasticms-cronjob "$@"
 fi
 
-exec "$@"
+exec container-entrypoint-cli "$@"

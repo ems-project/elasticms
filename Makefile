@@ -31,6 +31,7 @@ help: # Show help for each of the Makefile recipes.
 	@echo "ADMIN:         http://localhost:8881"
 	@echo "WEB:           http://localhost:8882"
 	@echo "KIBANA:        http://kibana.localhost"
+	@echo "MATOMO:        http://matomo.localhost"
 	@echo "MINIO:         http://minio.localhost"
 	@echo "MAIL:          http://mailserver.localhost"
 	@echo "---------------------------"
@@ -53,7 +54,7 @@ start: ## start docker, admin server, web server
 	@$(MAKE) -s server-start/admin
 	@$(MAKE) -s server-start/web
 	cd elasticms-admin && symfony local:run -d php bin/console messenger:consume async -vvv
-start/%: ## start/(mariadb|keycloak|grafana|redis-commander)
+start/%: ## start/(mariadb|matomo|keycloak|grafana|redis-commander)
 	@$(DOCKER_COMPOSE) --profile=${*} up -d --force-recreate
 start/sandbox: docker/sandbox.passwd ## start/sandbox
 	@$(DOCKER_COMPOSE) --profile=sandbox up -d --force-recreate
@@ -63,7 +64,7 @@ stop: ## stop docker, admin server, web server
 	@$(MAKE) -s server-stop/admin
 	@$(MAKE) -s server-stop/web
 	@$(DOCKER_COMPOSE) --profile=all down
-stop/%: ## stop/(mariadb|keycloak|grafana|redis-commander)
+stop/%: ## stop/(mariadb|matomo|keycloak|grafana|redis-commander)
 	@$(DOCKER_COMPOSE) --profile=${*} down
 check: ## run all checks
 	@composer monorepo-validate

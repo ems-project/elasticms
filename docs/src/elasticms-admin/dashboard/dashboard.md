@@ -45,18 +45,33 @@ Create a full customized dashboard.
 | header   | Twig template, inject at the end of the header tag (css)        |
 | footer   | Twig template, inject at the end of the footer tag (javascript) |
 
+### Type Matomo
+
+Embed a Matomo dashboard in ElasticMS. Configure the following properties:
+
+| Property        | Description                                                         |
+| --------------- | ------------------------------------------------------------------- |
+| matomoUrl       | Matomo base URL, for example `https://analytics.example.com/matomo` |
+| matomoSiteId    | Matomo site identifier                                              |
+| matomoTokenAuth | Matomo view-only authentication token                               |
+
+The generated URL embeds the Matomo dashboard for the previous day. A view-only Matomo token is
+required. The token is included in the iframe URL and is therefore visible to the browser.
+
+Create a dedicated Matomo user with `View` access to the site, then generate its token in
+**Administration > Personal > Security**. A token with write or administrator permissions is not
+suitable for this embed.
+
 ## Upcoming dashboards
 
 Here a list of dashboard types that we may develop in the future:
 
 - logs: a tools to have access to logs (filtered fir the current user or severity or not)
-- analytics: integration with analytics tools such Google Analytics, Matomo, ...
 - structure: A structure tools that organise documents in a structure (i.e. linked to a path_en
   field)
 - calendar
 - maps
 - gantt
-- advance search
 - notification
 - tasks
 - jobs

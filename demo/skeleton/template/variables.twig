@@ -1,6 +1,7 @@
 {%- trans_default_domain trans_default_domain -%}
 
 {%- do ems_http_header('X-Test', 'Example of customized header')  -%}
+{%- do ems_csp_source('style-src', "'self'")  -%}
 {%- do ems_csp_source('script-src', "'self'")  -%}
 {%- do ems_csp_source('script-src', 'https://cdn.example.com')  -%}
 
@@ -19,6 +20,9 @@
 {%- set header_menu = 'section:1e617cf9-6b19-4c33-90ba-5a4c8feff062' -%}
 
 {%- set news_page = 'page:af70fcc8-e4b3-4e20-97fc-fd91fad751d9' -%}
+
+{%- set matomo_site_id = '1' -%}
+{%- set matomo_server_domain = 'matomo.localhost' -%}
 
 {%- set monthsTrans = {
     '%January%': 'month.January'|trans,

@@ -40,6 +40,8 @@ action:
     copy: Copier
     copy_all: 'Tout copier'
     copy_data: 'Copier les données'
+    copy_error: 'La copie a échoué.'
+    copy_success: 'Copié dans le presse-papiers.'
     create: Créer
     create_draft: 'Créer un brouillon {content_type}'
     create_task: 'Créer la tâche'
@@ -469,6 +471,9 @@ field:
     mandatory_if: 'Obligatoire si'
     mapping: Mapping
     mapping_options: 'Options de mappage'
+    matomo_site_id: 'Identifiant du site Matomo'
+    matomo_token_auth: 'Jeton d’authentification Matomo avec accès en lecture seule'
+    matomo_url: 'URL Matomo'
     max: Max
     max_depth: 'Profondeur maximale'
     max_lines: 'Nombre maximal de lignes'
@@ -785,6 +790,7 @@ key:
     match_or: 'Correspondance (ou)'
     match_phrase: 'Correspondance exacte'
     match_phrase_prefix: 'Correspondance de préfixe de phrase'
+    matomo: Matomo
     mcp: MCP
     mcp_prompts: 'Prompts MCP'
     mcp_resources: 'Ressources MCP'
@@ -961,6 +967,8 @@ message:
     content_type_update_mapping_error: "Erreur lors de la mise à jour du mapping de {environments}\_: {elasticsearch_error}"
     content_type_view_deleted: 'La vue « {view} » a été supprimée'
     contenttype_mappings_error: 'La mise à jour des mappings pour {content_type} dans {environments} a échoué : {elasticsearch_dump}'
+    contenttype_mappings_incompatible_definition: 'Incompatibilité de mappage pour le type de contenu {content_type} dans {environments} : le champ "{fieldPath}" a une "{option}" différente : existing={existing}, generated={generated}.'
+    contenttype_mappings_non_compatible_definition: 'Incompatibilité de mappage pour le type de contenu {content_type} dans {environments} : le champ « {fieldPath} » présente une définition incompatible.'
     contenttype_mappings_updated: 'Mappings mis à jour avec succès pour le type de contenu {content_type} dans {environments}'
     current_location: 'Emplacement actuel : "{path}"'
     dashboard_deleted: 'Le tableau de bord "{label}" a été supprimé'

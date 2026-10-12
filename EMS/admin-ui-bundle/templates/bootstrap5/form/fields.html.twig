@@ -806,6 +806,9 @@
             {%- endif -%}
         {%- endif -%}
         <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{% if form.vars.icon is defined and form.vars.icon %}<i class="{{ form.vars.icon }}"></i> {% endif %}{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
+        {%- if label_attr.for|default -%}
+            {{- component('ems_copy_button', { target: label_attr.for }) -}}
+        {%- endif -%}
     {%- endif -%}
 {%- endblock form_label -%}
 

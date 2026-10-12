@@ -2,6 +2,7 @@ import Button from './plugins/button'
 import Choice from './plugins/choice'
 import CodeEditor from './plugins/codeEditor.ts'
 import Collection from './plugins/collection'
+import CopyButton from './plugins/copyButton.ts'
 import Datatable from './plugins/datatable'
 import Datetime from './plugins/datetime'
 import File from './plugins/file'
@@ -40,6 +41,7 @@ class Core {
             new Choice(),
             new CodeEditor(),
             new Collection(),
+            new CopyButton(),
             new Datatable(),
             new Datetime(),
             new File(),

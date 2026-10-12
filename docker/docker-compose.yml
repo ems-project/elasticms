@@ -285,6 +285,51 @@ services:
             - "traefik.http.routers.grafana.service=grafana"
             - "traefik.http.services.grafana.loadbalancer.server.port=3000"
 
+    matomo-db:
+        profiles: [ "all","matomo" ]
+        image: mariadb:${MATOMO_MARIADB_VERSION-11.4}
+        environment:
+            MARIADB_DATABASE: matomo
+            MARIADB_USER: matomo
+            MARIADB_PASSWORD: matomo
+            MARIADB_ROOT_PASSWORD: matomo-root
+            TZ: Europe/Brussels
+        volumes:
+            - matomo_db:/var/lib/mysql
+        healthcheck:
+            test: [ "CMD-SHELL", "healthcheck.sh --connect --innodb_initialized" ]
+            interval: 10s
+            timeout: 5s
+            retries: 10
+        labels:
+            - "elasticMS"
+
+    matomo:
+        profiles: [ "all","matomo" ]
+        image: matomo:${MATOMO_VERSION-5-apache}
+        depends_on:
+            matomo-db:
+                condition: service_healthy
+        environment:
+            MATOMO_DATABASE_HOST: matomo-db
+            MATOMO_DATABASE_ADAPTER: mysql
+            MATOMO_DATABASE_TABLES_PREFIX: matomo_
+            MATOMO_DATABASE_USERNAME: matomo
+            MATOMO_DATABASE_PASSWORD: matomo
+            MATOMO_DATABASE_DBNAME: matomo
+            MATOMO_DATABASE_PORT: 3306
+            TZ: Europe/Brussels
+        volumes:
+            - matomo_data:/var/www/html
+        restart: unless-stopped
+        labels:
+            - "elasticMS"
+            - "traefik.enable=true"
+            - "traefik.http.routers.matomo.rule=Host(`matomo.localhost`)"
+            - "traefik.http.routers.matomo.entrypoints=web"
+            - "traefik.http.routers.matomo.service=matomo"
+            - "traefik.http.services.matomo.loadbalancer.server.port=80"
+
     sandbox:
         profiles: [ "all","sandbox" ]
         image: docker.io/smalswebtech/base-php:8.5-cli-dev
@@ -373,6 +418,8 @@ volumes:
     keycloak_data:
     prometheus_data:
     grafana_data:
+    matomo_db:
+    matomo_data:
 
 networks:
     default:

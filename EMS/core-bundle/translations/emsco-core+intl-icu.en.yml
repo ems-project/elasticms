@@ -40,6 +40,8 @@ action:
     copy: Copy
     copy_all: 'Copy all'
     copy_data: 'Copy data'
+    copy_error: 'Copy failed.'
+    copy_success: 'Copied to the clipboard.'
     create: Create
     create_draft: 'Create {content_type} draft'
     create_task: 'Create task'
@@ -464,6 +466,9 @@ field:
     mandatory_if: 'Mandatory if'
     mapping: Mapping
     mapping_options: 'Mapping options'
+    matomo_site_id: 'Matomo site ID'
+    matomo_token_auth: 'Matomo view-only authentication token'
+    matomo_url: 'Matomo URL'
     max: Max
     max_depth: 'Max depth'
     max_lines: 'Max lines'
@@ -780,6 +785,7 @@ key:
     match_or: 'Match (or)'
     match_phrase: 'Match phrase'
     match_phrase_prefix: 'Match phrase prefix'
+    matomo: Matomo
     mcp: MCP
     mcp_prompts: 'MCP prompts'
     mcp_resources: 'MCP resources'
@@ -956,6 +962,8 @@ message:
     content_type_update_mapping_error: "Error on updating {environments}''s mapping: {elasticsearch_error}"
     content_type_view_deleted: 'View "{view}" has been deleted'
     contenttype_mappings_error: 'Mappings update for {content_type} in {environments} failed: {elasticsearch_dump}'
+    contenttype_mappings_incompatible_definition: 'Mapping incompatibility for content type {content_type} in {environments}: field "{fieldPath}" has a different "{option}": existing={existing}, generated={generated}.'
+    contenttype_mappings_non_compatible_definition: 'Mapping incompatibility for content type {content_type} in {environments}: field "{fieldPath}" has a non-compatible definition.'
     contenttype_mappings_updated: 'Mappings successfully updated for content type {content_type} in {environments}'
     current_location: 'Current location: "{path}"'
     dashboard_deleted: 'The dashboard "{label}" has been deleted'

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use EMS\CoreBundle\Controller\ContentManagement\ManagedAliasController;
+use EMS\CoreBundle\Controller\Admin\ManagedAliasController;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return function (RoutingConfigurator $routes) {

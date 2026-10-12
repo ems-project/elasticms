@@ -14,6 +14,7 @@ use EMS\CoreBundle\Controller\Admin\FormController;
 use EMS\CoreBundle\Controller\Admin\I18nController;
 use EMS\CoreBundle\Controller\Admin\JobController as AdminJobController;
 use EMS\CoreBundle\Controller\Admin\JobScheduleController;
+use EMS\CoreBundle\Controller\Admin\ManagedAliasController;
 use EMS\CoreBundle\Controller\Admin\McpPromptController;
 use EMS\CoreBundle\Controller\Admin\McpResourceController;
 use EMS\CoreBundle\Controller\Admin\McpToolController;
@@ -40,7 +41,6 @@ use EMS\CoreBundle\Controller\ContentManagement\DataController;
 use EMS\CoreBundle\Controller\ContentManagement\DatatableController;
 use EMS\CoreBundle\Controller\ContentManagement\FileController;
 use EMS\CoreBundle\Controller\ContentManagement\JobController;
-use EMS\CoreBundle\Controller\ContentManagement\ManagedAliasController;
 use EMS\CoreBundle\Controller\ContentManagement\PublishController;
 use EMS\CoreBundle\Controller\ContentManagement\ReleaseController;
 use EMS\CoreBundle\Controller\ContentManagement\ViewController;
@@ -523,7 +523,6 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.alias'),
             service(ManagedAliasRepository::class),
             '%ems_core.instance_id%',
-            '%ems_core.template_namespace%',
         ])
         ->call('setContainer')
         ->tag('container.service_subscriber')

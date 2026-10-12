@@ -242,6 +242,12 @@ $form-check-input-border-radius: 0.2rem;
 $form-check-input-checked-bg-color: $primary;
 $form-check-input-checked-border-color: $primary;
 
+// Buttons
+$btn-white-space: nowrap !default;
+$btn-border-radius: .375rem !default;
+$btn-border-radius-sm: .3rem !default;
+$btn-border-radius-lg: .5rem !default;
+
 // Cards
 $card-bg: $ems-surface !default;
 $card-cap-bg: $ems-surface !default;
@@ -322,6 +328,10 @@ $breadcrumb-item-active-color: var(--bs-body-color);
 
 // Dropdowns
 $dropdown-bg: $ems-surface !default;
+$dropdown-font-size: $font-size-sm !default;
+$dropdown-padding-y: .25rem !default;
+$dropdown-item-padding-y: .25rem !default;
+$dropdown-item-padding-x: .75rem !default;
 
 $pagination-bg: $ems-surface !default;
 

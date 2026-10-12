@@ -3,6 +3,27 @@
   border-color: var(--bs-primary);
 }
 
+//buttons
+.btn-default,
+.btn-light {
+  --bs-btn-color: var(--bs-body-color);
+  --bs-btn-bg: var(--bs-tertiary-bg);
+  --bs-btn-border-color: var(--bs-border-color);
+  --bs-btn-hover-color: var(--bs-body-color);
+  --bs-btn-hover-bg: var(--bs-secondary-bg);
+  --bs-btn-hover-border-color: var(--bs-border-color);
+  --bs-btn-active-color: var(--bs-body-color);
+  --bs-btn-active-bg: var(--bs-secondary-bg);
+  --bs-btn-active-border-color: var(--bs-border-color);
+  --bs-btn-disabled-color: var(--bs-body-color);
+  --bs-btn-disabled-bg: var(--bs-tertiary-bg);
+  --bs-btn-disabled-border-color: var(--bs-border-color);
+}
+
+.btn-group > .dropdown-menu {
+  --bs-dropdown-min-width: 0;
+}
+
 //cards
 .card-outline {
   border-top: 3px solid var(--bs-card-border-color);

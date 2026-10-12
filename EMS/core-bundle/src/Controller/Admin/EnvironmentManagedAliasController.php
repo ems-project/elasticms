@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use function Symfony\Component\Translation\t;
 
-class ManagedAliasController extends AbstractController
+class EnvironmentManagedAliasController extends AbstractController
 {
     private const string PAGE_TEMPLATE = 'page/managed_alias.html.twig';
 

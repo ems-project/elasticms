@@ -14,7 +14,7 @@ use EMS\CoreBundle\Controller\Admin\FormController;
 use EMS\CoreBundle\Controller\Admin\I18nController;
 use EMS\CoreBundle\Controller\Admin\JobController as AdminJobController;
 use EMS\CoreBundle\Controller\Admin\JobScheduleController;
-use EMS\CoreBundle\Controller\Admin\ManagedAliasController;
+use EMS\CoreBundle\Controller\Admin\EnvironmentManagedAliasController;
 use EMS\CoreBundle\Controller\Admin\McpPromptController;
 use EMS\CoreBundle\Controller\Admin\McpResourceController;
 use EMS\CoreBundle\Controller\Admin\McpToolController;
@@ -516,7 +516,7 @@ return static function (ContainerConfigurator $container) {
         ->tag('container.service_subscriber')
         ->tag('controller.service_arguments');
 
-    $services->set(ManagedAliasController::class)
+    $services->set(EnvironmentManagedAliasController::class)
         ->public()
         ->args([
             service('emsco.logger'),

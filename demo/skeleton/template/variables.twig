@@ -1,6 +1,7 @@
 {%- trans_default_domain trans_default_domain -%}
 
 {%- do ems_http_header('X-Test', 'Example of customized header')  -%}
+{%- do ems_csp_source('style-src', "'self'")  -%}
 {%- do ems_csp_source('script-src', "'self'")  -%}
 {%- do ems_csp_source('script-src', 'https://cdn.example.com')  -%}
 

@@ -15,7 +15,8 @@ then
     done
 fi
 
-elasticms-command "$@"
+ELASTICMS_CLI_JOB_STATUS=0
+elasticms-command "$@" || ELASTICMS_CLI_JOB_STATUS=$?
 
 if [[ -d "${ELASTICMS_CLI_POST_JOB_PATH}" ]]
 then
@@ -24,3 +25,5 @@ then
         source ${FILE}
     done
 fi
+
+exit ${ELASTICMS_CLI_JOB_STATUS}

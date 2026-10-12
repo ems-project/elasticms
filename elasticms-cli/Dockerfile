@@ -82,16 +82,12 @@ ENV NODE_ENV=production
 
 ENV APP_DISABLE_DOTENV=true \
     PHP_OPENTELEMETRY_ENABLED=true \
-    PHP_BYPASS_INI_DEFAULT_VALUES=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser \
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     TMPDIR=/app/tmp 
 
 #ENV PHP_EXT_INSTALL_CUSTOM="sqlsrv-${PHP_EXT_SQLSRV_VERSION_ARG} pdo_sqlsrv-${PHP_EXT_SQLSRV_VERSION_ARG} pdo_odbc"
 ENV PHP_EXT_INSTALL_CUSTOM="pdo_odbc"
-
-ENV PHP_PDO_SQLSRV_ENABLED=false \
-    PHP_SQLSRV_ENABLED=false
 
 USER root
 
@@ -118,7 +114,6 @@ RUN --mount=type=bind,from=ca-bundle,source=/ca-bundle.pem,target=/run/ca-bundle
                                 msttcorefonts-installer \
                                 ttf-dejavu \
                                 fontconfig \
-                                supervisor \
                                 supercronic && \
     update-ms-fonts && \
     fc-cache -f -v && \
@@ -145,16 +140,12 @@ ENV NODE_ENV=development
 
 ENV APP_DISABLE_DOTENV=true \
     PHP_OPENTELEMETRY_ENABLED=true \
-    PHP_BYPASS_INI_DEFAULT_VALUES=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser \
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     TMPDIR=/app/tmp 
 
 #ENV PHP_EXT_INSTALL_CUSTOM="sqlsrv-${PHP_EXT_SQLSRV_VERSION_ARG} pdo_sqlsrv-${PHP_EXT_SQLSRV_VERSION_ARG} pdo_odbc"
 ENV PHP_EXT_INSTALL_CUSTOM="pdo_odbc"
-
-ENV PHP_PDO_SQLSRV_ENABLED=false \
-    PHP_SQLSRV_ENABLED=false
 
 USER root
 
@@ -181,7 +172,6 @@ RUN --mount=type=bind,from=ca-bundle,source=/ca-bundle.pem,target=/run/ca-bundle
                                 msttcorefonts-installer \
                                 ttf-dejavu \
                                 fontconfig \
-                                supervisor \
                                 supercronic && \
     update-ms-fonts && \
     fc-cache -f -v && \

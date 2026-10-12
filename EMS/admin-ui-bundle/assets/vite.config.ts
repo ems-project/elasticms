@@ -16,6 +16,13 @@ export default defineConfig({
         copyPublicDir: true,
         cssMinify: 'esbuild',
         rolldownOptions: {
+            onwarn(warning, warn) {
+                if (warning.code === 'MODULE_LEVEL_DIRECTIVE' && warning.message.includes('ace-builds')) {
+                    return
+                }
+
+                warn(warning)
+            },
             input: {
                 app: 'src/app.js',
                 swaggerui: 'src/swagger-ui.js',

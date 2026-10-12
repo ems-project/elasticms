@@ -20,4 +20,8 @@ done
 
 log "INFO" "+---- ElasticMS CLI Container ( Crontab ) configured succesfully -----"
 
-exec /usr/bin/supervisord -c /opt/etc/supervisord.conf
+# supercronic is the container's only process, under dumb-init: base-php's cli
+# variant renders no supervisord configuration, and supervisord added nothing
+# but a restart loop around a scheduler that does not crash on a failing job.
+# shellcheck disable=SC2086 # the flags are a word list
+exec /usr/bin/supercronic ${ELASTICMS_CLI_SUPERCRONIC_COMMAND_FLAGS} /opt/etc/crontabs/elasticms

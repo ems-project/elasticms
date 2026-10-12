@@ -114,7 +114,6 @@ RUN --mount=type=bind,from=ca-bundle,source=/ca-bundle.pem,target=/run/ca-bundle
                                 msttcorefonts-installer \
                                 ttf-dejavu \
                                 fontconfig \
-                                supervisor \
                                 supercronic && \
     update-ms-fonts && \
     fc-cache -f -v && \
@@ -173,7 +172,6 @@ RUN --mount=type=bind,from=ca-bundle,source=/ca-bundle.pem,target=/run/ca-bundle
                                 msttcorefonts-installer \
                                 ttf-dejavu \
                                 fontconfig \
-                                supervisor \
                                 supercronic && \
     update-ms-fonts && \
     fc-cache -f -v && \

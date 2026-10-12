@@ -12,7 +12,6 @@ use EMS\CoreBundle\Core\UI\Page\Page;
 use EMS\CoreBundle\DataTable\Type\Environment\EnvironmentDataTableType;
 use EMS\CoreBundle\DataTable\Type\Environment\EnvironmentManagedAliasDataTableType;
 use EMS\CoreBundle\Entity\Environment;
-use EMS\CoreBundle\Entity\Form\RebuildIndex;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Form\Environment\EnvironmentType;
 use EMS\CoreBundle\Form\Form\Environment\RebuildType;
@@ -31,6 +30,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
+
 use function Symfony\Component\Translation\t;
 
 class EnvironmentController extends AbstractController
@@ -48,7 +48,6 @@ class EnvironmentController extends AbstractController
         private readonly JobService $jobService,
         private readonly DataTableFactory $dataTableFactory,
         private readonly FormFactory $formFactory,
-        private readonly string $templateNamespace,
     ) {
         $this->breadcrumb = Navigation::admin()->environments();
     }
@@ -152,45 +151,29 @@ class EnvironmentController extends AbstractController
         };
     }
 
-    public function rebuild(Environment $environment, Request $request): Response
+    public function rebuild(UserInterface $user, Environment $environment, Request $request): Page|RedirectResponse
     {
-        $rebuildIndex = new RebuildIndex();
-
-        $form = $this->createForm(RebuildType::class, $rebuildIndex);
+        $form = $this->createForm(RebuildType::class);
         $form->handleRequest($request);
 
-        $user = $this->getUser();
-        if (!$user instanceof UserInterface) {
-            throw new \RuntimeException('Unexpected user object');
-        }
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $option = $rebuildIndex->getOption();
+            $command = match ($form->get('option')->getData()) {
+                'newIndex' => 'ems:environment:rebuild',
+                'sameIndex' => 'ems:environment:reindex',
+                default => throw new \RuntimeException('Unexpected rebuild option'),
+            };
+            $job = $this->jobService->createCommand($user, \sprintf('%s %s', $command, $environment->getName()));
 
-            switch ($option) {
-                case 'newIndex':
-                    $job = $this->jobService->createCommand($user, \sprintf('ems:environment:rebuild %s', $environment->getName()));
-
-                    return $this->redirectToRoute('emsco_job_status', [
-                        'job' => $job->getId(),
-                    ]);
-                case 'sameIndex':
-                    $job = $this->jobService->createCommand($user, \sprintf('ems:environment:reindex %s', $environment->getName()));
-
-                    return $this->redirectToRoute('emsco_job_status', [
-                        'job' => $job->getId(),
-                    ]);
-                default:
-                    $this->logger->messageWarning(t('message.environment_rebuild_unknown_option', [
-                        'environment' => $environment->getLabel(),
-                        'option' => $option,
-                    ], 'emsco-core'));
-            }
+            return $this->redirectToRoute(Routes::JOB_STATUS, ['job' => $job->getId()]);
         }
 
-        return $this->render(\sprintf('@%s/environment/rebuild.html.twig', $this->templateNamespace), [
-            'environment' => $environment,
+        return new Page([
             'form' => $form->createView(),
+            'title' => t('title.rebuild_environment', ['name' => $environment->getName()], 'emsco-core'),
+            'notice' => t('message.environment_rebuild_notice', [], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb->add(
+                t('title.rebuild_index_short', [], 'emsco-core')
+            ),
         ]);
     }
 

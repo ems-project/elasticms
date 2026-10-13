@@ -10,6 +10,17 @@ RUN_ADMIN		= docker compose exec admin-${ENVIRONMENT} ems-demo
 RUN_WEB			= docker compose exec -u ${DOCKER_USER} web-${ENVIRONMENT} preview
 RUN_POSTGRES 	= docker compose exec -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres
 NPM_IMAGE		?= docker.io/smalswebtech/base-php:8.5-cli-dev
+
+# Load generation (make load / load-ui). LOAD_SITE_HOST picks the website and the
+# path: a -web-nocache host goes straight to web-local, a -web one through Varnish.
+# Start the stack with WEB_APP_ENV=prod to measure the website without Symfony's
+# dev mode (profiler, toolbar); it defaults to dev.
+LOCUST_USERS		?= 10
+LOCUST_SPAWN_RATE	?= 2
+LOCUST_RUN_TIME		?= 30s
+LOAD_SITE_HOST		?= local.preview-ems-demo-web-nocache.localhost
+export LOAD_SITE_HOST
+export LOCUST_UID	:= $(shell id -u):$(shell id -g)
 RUN_NPM			= docker run -u ${DOCKER_USER}:0 --rm -it $(DOCKER_PROXY_ARGS) $(DOCKER_CA_ARGS) -v ${PWD}:/app --workdir /app $(NPM_IMAGE) npm
 
 # —— Corporate proxy / custom CA ——————————————————————————————————————————————————————————————————————————————————————
@@ -113,6 +124,22 @@ load: ## load
 	@$(MAKE) -s health-check
 	@$(MAKE) -s restore-documents
 	@$(MAKE) -s admin-align
+
+## —— Load ———————————————————————————————————————————————————————————————————————————————————————————————————————————————
+scrape: ## discover the website URLs -> configs/locust/urls.json (the stack must be up)
+	@docker compose --profile load run --rm scraper
+load: ## headless load run; LOCUST_USERS / LOCUST_SPAWN_RATE / LOCUST_RUN_TIME / LOAD_SITE_HOST
+	@$(MAKE) -s scrape
+	@docker compose --profile load run --rm \
+		-e LOCUST_HEADLESS=true \
+		-e LOCUST_USERS=$(LOCUST_USERS) \
+		-e LOCUST_SPAWN_RATE=$(LOCUST_SPAWN_RATE) \
+		-e LOCUST_RUN_TIME=$(LOCUST_RUN_TIME) \
+		-e LOCUST_EXIT_CODE_ON_ERROR=1 \
+		locust --only-summary
+load-ui: ## interactive Locust web UI on http://localhost:8089 (http://locust.localhost)
+	@$(MAKE) -s scrape
+	@docker compose --profile load up locust
 
 ## —— Admin ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 admin/%: ## run admin command

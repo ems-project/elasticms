@@ -28,7 +28,7 @@ services:
             - S3_BUCKET_NAME=${S3_BUCKET_NAME:-demo}
             - EMSF_AUTHKEY=${EMSF_AUTHKEY:-~}
             - TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR
-            - TRUSTED_HOSTS=localhost,*.localhost
+            - TRUSTED_HOSTS=^(.+\.)?localhost$$,^local\.ems-demo-admin(-dev)?$$,^admin-local$$
             - APP_SECRET=ThisIsSecret
             - PHP_OPENTELEMETRY_ENABLED=true
             - METRICS_ENABLED=true
@@ -50,7 +50,7 @@ services:
     web:
         image: elasticms/website-skeleton:${EMS_VERSION}
         environment:
-            - APP_ENV=dev
+            - APP_ENV=${WEB_APP_ENV:-dev}
             - APP_SECRET=ThisIsSecret
             - TZ=Europe/Brussels
             - PHP_FPM_PM_MAX_CHILDREN=8
@@ -68,7 +68,7 @@ services:
             - S3_ENDPOINT_URL=http://seaweedfs:8333
             - S3_BUCKET_NAME=${S3_BUCKET_NAME:-demo}
             - TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR
-            - TRUSTED_HOSTS=localhost,*.localhost
+            - TRUSTED_HOSTS=^(.+\.)?localhost$$
             - EMSCH_ASSET_LOCAL_FOLDER=skeleton
             - 'EMS_HTTP_CACHES=[{"header":"x-varnish","url":"http://varnish/","headers":{"X-Invalidate-Token":"devsecret"}}]'
             - PHP_OPENTELEMETRY_ENABLED=true

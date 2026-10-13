@@ -66,13 +66,13 @@
                     {% block body %}{% endblock body %}
                 </div>
             </main>
-            {{ block('footer') }}
+            {{ block('layoutFooter') }}
         </div>
         <twig:ems_layout_control_sidebar />
     </div>
 {% endblock wrapper %}
 
-{%- block footer -%}
+{%- block layoutFooter -%}
     <footer class="footer no-print">
         {% if app.user %}
             <a href="https://elasticms.fgov.be/" target="_blank">elastic<strong>MS</strong></a>
@@ -81,4 +81,4 @@
             </div>
         {% endif %}
     </footer>
-{%- endblock footer -%}
+{%- endblock layoutFooter -%}

@@ -3,6 +3,43 @@
   border-color: var(--bs-primary);
 }
 
+//buttons
+.btn-default,
+.btn-light {
+  --ems-btn-border: color-mix(in srgb, var(--bs-border-color), var(--bs-body-color) 20%);
+  --bs-btn-color: var(--bs-body-color);
+  --bs-btn-bg: var(--ems-surface);
+  --bs-btn-border-color: var(--ems-btn-border);
+  --bs-btn-hover-color: var(--bs-body-color);
+  --bs-btn-hover-bg: var(--bs-tertiary-bg);
+  --bs-btn-hover-border-color: var(--ems-btn-border);
+  --bs-btn-active-color: var(--bs-body-color);
+  --bs-btn-active-bg: var(--bs-secondary-bg);
+  --bs-btn-active-border-color: var(--ems-btn-border);
+  --bs-btn-disabled-color: var(--bs-body-color);
+  --bs-btn-disabled-bg: var(--ems-surface);
+  --bs-btn-disabled-border-color: var(--ems-btn-border);
+}
+
+table.table.dataTable.table-striped > tbody > tr:nth-of-type(odd) > * {
+  box-shadow: inset 0 0 0 9999px var(--bs-table-striped-bg);
+}
+
+.btn-group > .dropdown-menu {
+  --bs-dropdown-min-width: 0;
+}
+
+.table-responsive:has(.dt-layout-row) {
+  overflow-x: visible;
+}
+
+.dt-layout-table > .dt-layout-cell {
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
 //cards
 .card-outline {
   border-top: 3px solid var(--bs-card-border-color);

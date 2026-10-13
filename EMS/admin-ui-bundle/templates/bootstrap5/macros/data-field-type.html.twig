@@ -559,7 +559,7 @@
     <dl>
         <dt>
             {{ dataField.fieldType.translate('label', app.user) }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
-            {{ component('ems_copy_button', { text: dataField.rawData }) }}
+            {{ component('ems_copy_button', {text: dataField.rawData}) }}
         </dt>
         <dd>{{ emsco_diff_text(dataField.rawData, compare, dataField.fieldType.name, compareRawData)|raw }}</dd>
     </dl>
@@ -570,7 +570,7 @@
     <dl>
         <dt>
             {{ dataField.fieldType.translate('label', app.user) }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
-            {{ component('ems_copy_button', { text: dataField.rawData }) }}
+            {{ component('ems_copy_button', {text: dataField.rawData}) }}
         </dt>
         <dd>
             <div class="card border">
@@ -618,7 +618,7 @@
     <dl>
         <dt class="{{ color }}">
             {{ dataField.fieldType.translate('label', app.user) }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
-            {{ component('ems_copy_button', { text: dataField.rawData }) }}
+            {{ component('ems_copy_button', {text: dataField.rawData}) }}
         </dt>
         <dd>
             <div class="card border">

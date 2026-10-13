@@ -1,0 +1,61 @@
+{% extends '@EMSAdminUI/bootstrap5/page/default.html.twig' %}
+
+{% trans_default_domain 'emsco-core' %}
+
+{% block page_content %}
+    {{ form_start(form) }}
+    <div class="row g-3">
+        <div class="col-md-6">
+            {% embed '@EMSAdminUI/bootstrap5/core/card.html.twig' with {
+                class: 'card-primary h-100',
+                header: title|trans,
+                headerIcon: 'fa fa-code-fork',
+                form: form,
+            } only %}
+                {% block card_content %}
+                    {{ form_errors(form) }}
+                    <div class="d-flex flex-column gap-3">
+                        {{ form_row(form.name) }}
+                        {{ form_row(form.label) }}
+                        {{ form_row(form.color) }}
+                        {{ form_row(form.extra) }}
+                    </div>
+                {% endblock %}
+                {% block card_footer %}
+                    {{ form_widget(form.save) }}
+                {% endblock %}
+            {% endembed %}
+        </div>
+        <div class="col-md-6">
+            {% embed '@EMSAdminUI/bootstrap5/core/card.html.twig' with {
+                class: 'card-primary h-100',
+                header: 'field.indexes'|trans,
+                headerIcon: 'fa fa-database',
+                form: form,
+            } only %}
+                {% block card_content %}
+                    <div class="d-flex flex-column gap-3">
+                        {{ form_row(form.align_indexes) }}
+                        <table class="table table-sm table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>{{ 'field.index'|trans({}, 'emsco-core') }}</th>
+                                    <th>{{ 'field.total'|trans({}, 'emsco-core') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for checkbox in form.indexes %}
+                                    <tr>
+                                        <td>{{ form_widget(checkbox) }}</td>
+                                        <td>{{ checkbox.vars.attr['data-count'] }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock page_content %}

@@ -31,12 +31,6 @@
     {{- block('link_widget') -}}
 {%- endblock cancel_widget -%}
 
-{%- block user_options_row -%}
-    {%- if form.children|length > 0 -%}
-        {{ parent() }}
-    {%- endif -%}
-{%- endblock user_options_row -%}
-
 {# Widgets #}
 {%- block checkbox_widget -%}
     {%- set attr_class = attr_class|default(attr.class|default('')) -%}
@@ -189,7 +183,7 @@
     {% if confirm is defined and confirm != null %}
         {% set testId = attr|filter((a, k) => 'data-testid' is same as(k)) %}
         <div class="btn-group">
-            <button type="button" class="{{ confirm_class|default('btn btn-outline-danger') }} dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"{% if testId|length > 0 %} data-testid="{{ testId|first }}"{% endif %}>
+            <button type="button" class="{{ confirm_class|default('btn btn-outline-danger') }} dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"{% if testId|length > 0 %} data-testid="{{ testId|first }}"{% endif %}>
                 {%- if icon -%}
                     <span class="{{ icon }}"></span>&nbsp;
                 {% endif %}
@@ -200,6 +194,7 @@
                 {% if testId|length > 0 %}
                     {% set attr = attr|merge({'data-testid': (testId|first ~ '-message')}) %}
                 {% endif %}
+                {% set attr = attr|merge({class: 'dropdown-item'}) %}
                 <li>
                     <button type="{{ type|default('submit') }}" {{ block('button_attributes') }}>{{ confirm|trans }}</button>
                 </li>
@@ -352,36 +347,19 @@
 
 {%- endblock data_field_options_widget -%}
 
-{%- block code_editor_label -%}
-    {% if label is not same as(false) -%}
-        {% if not compound -%}
-            {% set label_attr = label_attr|merge({for: id}) %}
-        {%- endif -%}
-        {% if required -%}
-            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) %}
-        {%- endif -%}
-        {%- if label is not defined or label is null -%}
-            {%- if label_format is not empty -%}
-                {% set label = label_format|replace({
-                    '%name%': name,
-                    '%id%': id,
-                }) %}
-            {%- else -%}
-                {% set label = name|humanize %}
-            {%- endif -%}
-        {%- endif -%}
-        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
-    {%- endif -%}
-{%- endblock code_editor_label -%}
-
 {% block code_editor_row -%}
-    {%- set row_attr = row_attr|merge({class: ('ems-code-editor ' ~ row_attr.class|default(''))|trim}) -%}
+    {%- set row_attr = row_attr|merge({
+        class: ('ems-code-editor ' ~ row_attr.class|default(''))|trim,
+        'data-language': language,
+        'data-min-lines': min_lines,
+        'data-max-lines': max_lines,
+    }) -%}
     {{- block('form_row') -}}
 {%- endblock code_editor_row %}
 
 {% block code_editor_widget %}
-    <pre>{{ form.vars.data }}</pre>
-    <input type="hidden" id="{{ form.vars.id }}" class="{{ attr.class|default('') }}"  name="{{ form.vars.full_name }}" data-language="{{ form.vars.language }}" data-disabled="{{ form.vars.disabled }}" data-min-lines="{{ form.vars.min_lines }}" data-max-lines="{{ form.vars.max_lines }}" value="{{ form.vars.value }}">
+    <pre>{{ data }}</pre>
+    <input type="hidden" id="{{ id }}" class="{{ attr.class|default('') }}" name="{{ full_name }}" value="{{ value }}"{% if disabled %} disabled{% endif %}>
 {% endblock code_editor_widget %}
 
 {% block datafieldtype_label %}
@@ -807,7 +785,7 @@
         {%- endif -%}
         <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{% if form.vars.icon is defined and form.vars.icon %}<i class="{{ form.vars.icon }}"></i> {% endif %}{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
         {%- if label_attr.for|default -%}
-            {{- component('ems_copy_button', { target: label_attr.for }) -}}
+            {{- component('ems_copy_button', {target: label_attr.for}) -}}
         {%- endif -%}
     {%- endif -%}
 {%- endblock form_label -%}

@@ -1,8 +1,6 @@
 import Button from './plugins/button'
 import Choice from './plugins/choice'
-import CodeEditor from './plugins/codeEditor.ts'
 import Collection from './plugins/collection'
-import CopyButton from './plugins/copyButton.ts'
 import Datatable from './plugins/datatable'
 import Datetime from './plugins/datetime'
 import File from './plugins/file'
@@ -32,6 +30,9 @@ import CtrlSaveEvent from './events/ctrlSaveEvent'
 import $ from 'jquery'
 import { initIcons } from './components/UI/Icons.ts'
 
+const files = import.meta.glob('./modules/*.ts', { eager: true })
+const modules = Object.values(files).map((file) => new file.default())
+
 class Core {
     constructor() {
         this._statusUpdateUrl = document.body.getAttribute('data-status-url')
@@ -39,9 +40,7 @@ class Core {
             new Action(),
             new Button(),
             new Choice(),
-            new CodeEditor(),
             new Collection(),
-            new CopyButton(),
             new Datatable(),
             new Datetime(),
             new File(),
@@ -72,6 +71,7 @@ class Core {
             return
         }
         this._domListeners.forEach((element) => element.load(target))
+        modules.forEach((module) => Promise.resolve(module.load(target)).catch(console.error))
 
         window.dispatchEvent(new CustomEvent('emsReady'))
     }

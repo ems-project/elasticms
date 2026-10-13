@@ -61,7 +61,7 @@ $light-blue:  #3c8dbc !default;
 $indigo:      #6610f2 !default;
 $purple:      #605ca8 !default;
 $pink:        #d63384 !default;
-$red:         #dd4b39 !default;
+$red:         #c8453a !default;
 $maroon:      #d81b60 !default;
 $fuchsia:     #f012be !default;
 $orange:      #ff851b !default;
@@ -86,7 +86,7 @@ $gray-800:    #343a40 !default;
 $gray-900:    #212529 !default;
 $black:       #000 !default;
 
-$primary: $light-blue !default;
+$primary: #337ab7 !default;
 $secondary: $gray-600 !default;
 $success: $green !default;
 $info: $cyan !default;
@@ -242,6 +242,12 @@ $form-check-input-border-radius: 0.2rem;
 $form-check-input-checked-bg-color: $primary;
 $form-check-input-checked-border-color: $primary;
 
+// Buttons
+$btn-white-space: nowrap !default;
+$btn-border-radius: .375rem !default;
+$btn-border-radius-sm: .3rem !default;
+$btn-border-radius-lg: .5rem !default;
+
 // Cards
 $card-bg: $ems-surface !default;
 $card-cap-bg: $ems-surface !default;
@@ -251,13 +257,8 @@ $card-border-radius: .25rem !default;
 $list-group-bg: $ems-surface !default;
 
 // Tables
-$table-cell-padding-y: .75rem !default;
-$table-cell-padding-x: .75rem !default;
-$table-cell-padding-y-sm: .3rem !default;
-$table-cell-padding-x-sm: .3rem !default;
 $table-bg: transparent !default;
-$table-striped-bg: rgba(var(--bs-emphasis-color-rgb), .04) !default;
-$table-hover-bg: rgba(var(--bs-emphasis-color-rgb), .04) !default;
+$table-striped-bg-factor: .08 !default;
 
 // Sidebar general
 $sidebar-width: 260px !default;
@@ -328,8 +329,16 @@ $breadcrumb-item-active-color: var(--bs-body-color);
 
 // Dropdowns
 $dropdown-bg: $ems-surface !default;
+$dropdown-font-size: $font-size-sm !default;
+$dropdown-padding-y: .25rem !default;
+$dropdown-item-padding-y: .25rem !default;
+$dropdown-item-padding-x: .75rem !default;
 
 $pagination-bg: $ems-surface !default;
+$pagination-disabled-bg: $ems-surface !default;
+$pagination-font-size: $font-size-sm !default;
+$pagination-padding-y: .2rem !default;
+$pagination-padding-x: .6rem !default;
 
 // Main
 $main-box-shadow: inset .75rem 0px 1.5rem 0px rgba($black, 0.075);

@@ -19,7 +19,15 @@ class Datatable {
             if (!options.language && languages[language]) options.language = languages[language]
 
             const datatable = $(element).DataTable(options)
-            datatable.on('draw', () => Core.load(element))
+            const togglePaging = () => {
+                const paging = element.closest('.dt-container')?.querySelector('.dt-paging')
+                paging?.classList.toggle('d-none', datatable.page.info().pages <= 1)
+            }
+            togglePaging()
+            datatable.on('draw', () => {
+                togglePaging()
+                Core.load(element)
+            })
 
             document.querySelectorAll(`[data-datatable-target='${element.id}']`).forEach((btn) =>
                 btn.addEventListener('click', () => {

@@ -9,9 +9,9 @@ import IconSourceOff from '@tabler/icons/outline/code-off.svg?raw'
 import IconMaximize from '@tabler/icons/outline/arrows-maximize.svg?raw'
 import IconMinimize from '@tabler/icons/outline/arrows-minimize.svg?raw'
 import { getWysiwygOptions, getWysiwygProfile, WysiwygOptions } from './Wysiwyg.ts'
-import CodeEditor from '../../plugins/codeEditor.ts'
 import { escapeHtml } from '../Tiptap/Helper.ts'
 import { html as beautifyHtml } from 'js-beautify'
+import { EMS_ADDED_DOM_EVENT } from '../../events/addedDomEvent'
 
 export default class Tiptap {
     textarea: HTMLTextAreaElement
@@ -21,7 +21,6 @@ export default class Tiptap {
     container: HTMLDivElement
     wysiwygOptions: WysiwygOptions
 
-    private codeEditor = new CodeEditor()
     private sourceContainer: HTMLDivElement = document.createElement('div')
     private iframeWrapper: HTMLDivElement = document.createElement('div')
 
@@ -186,7 +185,9 @@ export default class Tiptap {
                                         <pre>${escapeHtml(html)}</pre>
                                     </div>
                                 `
-                                void this.codeEditor.load(this.sourceContainer)
+                                document.dispatchEvent(
+                                    new CustomEvent(EMS_ADDED_DOM_EVENT, { detail: { target: this.sourceContainer } })
+                                )
                                 tiptapEditor.toolbar.setDisabled(true, ['Source', 'Maximize'])
                             } else {
                                 const hiddenInput = this.sourceContainer.querySelector('input')

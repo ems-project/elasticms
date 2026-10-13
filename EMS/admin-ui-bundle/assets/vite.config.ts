@@ -16,6 +16,13 @@ export default defineConfig({
         copyPublicDir: true,
         cssMinify: 'esbuild',
         rolldownOptions: {
+            onwarn(warning, warn) {
+                if (warning.code === 'MODULE_LEVEL_DIRECTIVE' && warning.message.includes('ace-builds')) {
+                    return
+                }
+
+                warn(warning)
+            },
             input: {
                 app: 'src/app.js',
                 swaggerui: 'src/swagger-ui.js',
@@ -24,7 +31,6 @@ export default defineConfig({
                 'criteria-view': 'src/criteria-view.js',
                 'edit-revision': 'src/edit-revision.js',
                 hierarchical: 'src/hierarchical.js',
-                'managed-alias': 'src/managed-alias.js',
                 inline_editor: 'src/core/inline-editor/editor.ts',
                 inline_editor_iframe: 'src/core/inline-editor/iframe.ts',
                 core_bundle: 'src/core-bundle.ts'

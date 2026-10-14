@@ -6,12 +6,10 @@ export DEBUG=${DEBUG:-false}
 
 export ELASTICMS_CLI_JOB_COMMAND="$@"
 
+# The early hooks (entrypoint.d) have already run: base-php's cli entrypoint
+# sources them before it execs this script. Only the helper functions are
+# loaded here -- they do not cross an exec.
 source /usr/local/bin/container-entrypoint.d/entrypoint.d/00-functions.sh
-
-for FILE in $(find /opt/bin/container-entrypoint.d/entrypoint.d -iname \*.sh | sort)
-do
-    source ${FILE}
-done
 
 log "INFO" "+---- ElasticMS CLI Container ( Cronjob ) configured succesfully -----"
 

@@ -8,7 +8,10 @@ use EMS\CoreBundle\Entity\Revision;
 
 class CantBeFinalizedException extends ElasticmsException implements \Stringable
 {
-    public function __construct(string $originMessage = '', int $code = 0, ?\Throwable $previous = null, ?Revision $revision = null)
+    /**
+     * @param string[] $translations
+     */
+    public function __construct(string $originMessage = '', int $code = 0, ?\Throwable $previous = null, ?Revision $revision = null, private readonly array $translations = [])
     {
         if (null === $revision) {
             $message = 'This revision can not be finalized';
@@ -27,5 +30,13 @@ class CantBeFinalizedException extends ElasticmsException implements \Stringable
     public function __toString(): string
     {
         return parent::getMessage();
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTranslations(): array
+    {
+        return $this->translations;
     }
 }

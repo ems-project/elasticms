@@ -127,10 +127,13 @@ readonly class CoreExtension
         return \call_user_func($function, $parameter);
     }
 
+    /**
+     * @param string[] $translations
+     */
     #[AsTwigFunction(name: 'emsco_cant_be_finalized')]
-    public function cantBeFinalized(string $message = '', int $code = 0, ?\Throwable $previous = null): never
+    public function cantBeFinalized(string $message = '', int $code = 0, ?\Throwable $previous = null, array $translations = []): never
     {
-        throw new CantBeFinalizedException($message, $code, $previous);
+        throw new CantBeFinalizedException($message, $code, $previous, translations: $translations);
     }
 
     #[AsTwigFilter(name: 'emsco_convert_javascript_date_range_format')]

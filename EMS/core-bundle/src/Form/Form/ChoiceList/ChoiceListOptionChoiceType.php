@@ -31,7 +31,11 @@ final class ChoiceListOptionChoiceType extends AbstractType
         $builder
             ->add('value', TextType::class, [
                 'required' => true,
-                'label' => t('field.name', [], 'emsco-core'),
+                'label' => t('field.value', [], 'emsco-core'),
+            ])
+            ->add('label', TextType::class, [
+                'required' => true,
+                'label' => t('field.label', [], 'emsco-core'),
             ])
             ->add('group', ChoiceType::class, [
                 'choices' => [] === $options['groups'] ? [] : \array_combine($options['groups'], $options['groups']),

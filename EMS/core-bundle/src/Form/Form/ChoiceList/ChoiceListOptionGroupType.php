@@ -31,6 +31,10 @@ final class ChoiceListOptionGroupType extends AbstractType
             ->add('name', TextType::class, [
                 'required' => true,
                 'label' => t('field.name', [], 'emsco-core'),
+            ])
+            ->add('label', TextType::class, [
+                'required' => true,
+                'label' => t('field.label', [], 'emsco-core'),
             ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event) use ($options): void {

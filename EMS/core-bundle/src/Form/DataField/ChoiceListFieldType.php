@@ -193,7 +193,7 @@ class ChoiceListFieldType extends DataFieldType
             if (!\is_array($group) || !\is_string($group['name'] ?? null)) {
                 continue;
             }
-            $groupLabels[$group['name']] = $this->localizedLabel($group['labels'] ?? [], $locale, $group['name']);
+            $groupLabels[$group['name']] = $this->localizedLabel($group['labels'] ?? [], $locale, (string) ($group['label'] ?? $group['name']));
         }
 
         /** @var array<string, string|array<string, string>> $result */
@@ -203,7 +203,7 @@ class ChoiceListFieldType extends DataFieldType
                 continue;
             }
             $value = (string) $choice['value'];
-            $label = $this->localizedLabel($choice['labels'] ?? [], $locale, $value);
+            $label = $this->localizedLabel($choice['labels'] ?? [], $locale, (string) ($choice['label'] ?? $value));
             $group = \is_string($choice['group'] ?? null) ? $choice['group'] : null;
             if (null !== $group && isset($groupLabels[$group])) {
                 $groupLabel = $groupLabels[$group];

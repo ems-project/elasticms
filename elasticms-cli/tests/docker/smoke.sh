@@ -57,6 +57,14 @@ CONTAINERS+=("$CID")
 sleep 20
 check "the crontab mode runs the scheduled job" "$(docker logs "$CID" 2>&1 | strip)" 'job succeeded'
 
+# A command given after `crontab` replaces the default one. The early hooks
+# that set the default run before the crontab script, in base-php's entrypoint.
+CID=$(docker run -d --pull=never --tmpfs /opt/etc --tmpfs /app/tmp \
+	-e 'ELASTICMS_CLI_CROND_SCHEDULE=*/5 * * * * * *' "$IMAGE" crontab list)
+CONTAINERS+=("$CID")
+sleep 20
+check "the crontab mode runs the command it is given" "$(docker logs "$CID" 2>&1 | strip)" '> ELASTICMS_COMMAND: list'
+
 # The cronjob mode runs one job and reports its status.
 OUT=$("${RUN[@]}" "$IMAGE" cronjob ems:version 2>&1 | strip; echo "status=${PIPESTATUS[0]}")
 check "a cronjob succeeds" "$OUT" 'status=0$'

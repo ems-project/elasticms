@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormRegistryInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatableMessage;
@@ -174,6 +175,19 @@ class ChoiceListFieldType extends DataFieldType
         $dataField->addMessage('Was not able to import data: '.Json::encode($value));
 
         return ['value' => []];
+    }
+
+
+    #[\Override]
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        /* set the default option value for this kind of compound field */
+        parent::configureOptions($resolver);
+        $resolver->setDefault('choice_list', null);
+        $resolver->setDefault('multiple', false);
+        $resolver->setDefault('expanded', false);
+        $resolver->setDefault('select2', false);
+        $resolver->setDefault('placeholder', null);
     }
 
     /**

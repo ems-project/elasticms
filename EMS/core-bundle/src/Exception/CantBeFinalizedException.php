@@ -4,26 +4,13 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Exception;
 
-use EMS\CoreBundle\Entity\Revision;
+use Symfony\Component\Translation\TranslatableMessage;
 
 class CantBeFinalizedException extends ElasticmsException implements \Stringable
 {
-    /**
-     * @param string[] $translations
-     */
-    public function __construct(string $originMessage = '', int $code = 0, ?\Throwable $previous = null, ?Revision $revision = null, private readonly array $translations = [])
+    public function __construct(private readonly TranslatableMessage $translatableMessage)
     {
-        if (null === $revision) {
-            $message = 'This revision can not be finalized';
-        } elseif ($revision->hasId()) {
-            $message = \sprintf('The revision %s of the document %s:%s can not be finalized', $revision->getId(), $revision->giveContentType()->getName(), $revision->getOuuid());
-        } else {
-            $message = \sprintf('A new revision for the document %s:%s can not be finalized', $revision->giveContentType()->getName(), $revision->getOuuid());
-        }
-        if ('' !== $originMessage) {
-            $message .= \sprintf(' : %s', $originMessage);
-        }
-        parent::__construct($message, $code, $previous);
+        parent::__construct($translatableMessage->getMessage());
     }
 
     #[\Override]
@@ -32,11 +19,8 @@ class CantBeFinalizedException extends ElasticmsException implements \Stringable
         return parent::getMessage();
     }
 
-    /**
-     * @return string[]
-     */
-    public function getTranslations(): array
+    public function getTranslatableMessage(): TranslatableMessage
     {
-        return $this->translations;
+        return $this->translatableMessage;
     }
 }

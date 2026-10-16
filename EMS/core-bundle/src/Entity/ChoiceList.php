@@ -76,6 +76,16 @@ class ChoiceList extends JsonDeserializer implements \JsonSerializable, EntityIn
         return $this->options;
     }
 
+    public function getGroupsCount(): int
+    {
+        return \is_array($this->options['groups'] ?? null) ? \count($this->options['groups']) : 0;
+    }
+
+    public function getChoicesCount(): int
+    {
+        return \is_array($this->options['choices'] ?? null) ? \count($this->options['choices']) : 0;
+    }
+
     /**
      * @param array<string, mixed> $options
      */

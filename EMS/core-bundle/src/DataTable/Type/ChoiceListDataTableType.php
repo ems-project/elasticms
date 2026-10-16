@@ -26,6 +26,8 @@ class ChoiceListDataTableType extends AbstractEntityTableType
     {
         $table->addColumn(t('field.label', [], 'emsco-core'), 'label', 'label');
         $table->addColumn(t('field.name', [], 'emsco-core'), 'name', 'name');
+        $table->addColumn(t('field.groups', [], 'emsco-core'), 'groupsCount', 'groupsCount');
+        $table->addColumn(t('field.choices', [], 'emsco-core'), 'choicesCount', 'choicesCount');
 
         $this
             ->addItemEdit($table, Routes::CHOICE_LIST_ADMIN_EDIT)

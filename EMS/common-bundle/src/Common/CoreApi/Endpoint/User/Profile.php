@@ -21,8 +21,8 @@ final class Profile implements ProfileInterface
     private readonly array $userOptions;
     private ?\DateTimeImmutable $lastLogin = null;
     private ?\DateTimeImmutable $expirationDate = null;
-    private readonly string $locale;
-    private readonly string $localePreferred;
+    private readonly ?string $locale;
+    private readonly ?string $localePreferred;
 
     /**
      * @param array<string, mixed> $data

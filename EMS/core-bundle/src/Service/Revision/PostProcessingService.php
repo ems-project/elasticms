@@ -126,14 +126,6 @@ final readonly class PostProcessingService
                 if ($previousEvent instanceof CantBeFinalizedException) {
                     if (!$migration) {
                         $form->addError(new FormError($previousEvent->getTranslatableMessage()->trans($this->translator)));
-                        $this->logger->messageWarning(t('message.data_cant_finalize_field', [
-                            'error_message' => $e->getMessage(),
-                        ], 'emsco-core'), [
-                            '_id' => $context['_id'] ?? null,
-                            'field_name' => $dataField->giveFieldType()->getName(),
-                            'field_display' => isset($fieldType->getDisplayOptions()['label']) && !empty($fieldType->getDisplayOptions()['label']) ? $fieldType->getDisplayOptions()['label'] : $fieldType->getName(),
-                            EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getPrevious()->getMessage(),
-                        ]);
                     }
                 } elseif ($previousEvent instanceof Exception) {
                     throw $previousEvent;

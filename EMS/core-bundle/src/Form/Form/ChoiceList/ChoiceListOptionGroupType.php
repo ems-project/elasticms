@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Form\ChoiceList;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Intl\Locales;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * @extends AbstractType<mixed>
@@ -25,24 +28,27 @@ final class ChoiceListOptionGroupType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class, ['required' => true])
-            ->add('labels', CollectionType::class, [
-                'entry_type' => TextType::class,
-                'entry_options' => ['required' => false],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'required' => false,
+            ->add('name', TextType::class, [
+                'required' => true,
+                'label' => t('field.name', [], 'emsco-core'),
             ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event) use ($options): void {
             $data = $event->getData();
-            if (!\is_array($data)) {
-                return;
-            }
-
+            $data = \is_array($data) ? $data : [];
             $labels = \is_array($data['labels'] ?? null) ? $data['labels'] : [];
             $data['labels'] = \array_replace(\array_fill_keys($options['locales'], ''), $labels);
             $event->setData($data);
+
+            $form = $event->getForm();
+            $form->add('labels', FormType::class, ['label' => false]);
+            foreach ($options['locales'] as $locale) {
+                $form->get('labels')->add($locale, TextType::class, [
+                    'label' => Locales::getName($locale),
+                    'required' => false,
+                    'translation_domain' => false,
+                ]);
+            }
         });
     }
 

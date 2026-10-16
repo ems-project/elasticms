@@ -134,7 +134,11 @@ final class ChoiceListOptionType extends AbstractType
     {
         $form->add('groups', CollectionType::class, [
             'entry_type' => ChoiceListOptionGroupType::class,
-            'entry_options' => ['locales' => $locales],
+            'entry_options' => [
+                'locales' => $locales,
+                'label' => false,
+            ],
+            'label' => t('field.groups', [], 'emsco-core'),
             'allow_add' => true,
             'allow_delete' => true,
             'required' => false,
@@ -150,7 +154,9 @@ final class ChoiceListOptionType extends AbstractType
             'entry_options' => [
                 'locales' => $locales,
                 'groups' => $groups,
+                'label' => false,
             ],
+            'label' => t('field.choices', [], 'emsco-core'),
             'allow_add' => true,
             'allow_delete' => true,
             'required' => false,

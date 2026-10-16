@@ -301,6 +301,7 @@ field:
     category: Categorie
     channel: Kanaal
     char_filter: 'Char filter'
+    choices: Keuzes
     choices_template: Keuzesjabloon
     circles: Kringen
     circles_to: 'Kringen naar'
@@ -404,6 +405,7 @@ field:
     from_sender: 'Van {sender}'
     gender: Gender
     group: Groep
+    groups: Groepen
     hash: Hash-handtekening
     header: Header
     header_allow_origin: 'De Access-Control-Allow-Origin-header'
@@ -458,6 +460,7 @@ field:
     locale: Locale
     locale_preferred: Voorkeurstaal
     locale_preferred_first: 'Voorkeurslandinstelling eerst'
+    locales: 'Regionale instellingen'
     locked_by: 'Vergrendeld door'
     locked_until: 'Vergrendeld tot'
     lowercase: 'Kleine letters'
@@ -691,7 +694,7 @@ key:
     by: Door
     canceled: Geannuleerd
     channels: Kanalen
-    choice_lists: 'Keuzelijsten'
+    choice_lists: Keuzelijsten
     ckeditor4: 'CK Editor 4'
     client: Client
     cluster: Cluster

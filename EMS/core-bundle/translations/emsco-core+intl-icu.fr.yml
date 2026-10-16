@@ -306,6 +306,7 @@ field:
     category: Catégorie
     channel: Canal
     char_filter: 'Filtre de caractères'
+    choices: Choix
     choices_template: 'Modèle de choix'
     circles: Cercles
     circles_to: 'Cercles destinataires'
@@ -409,6 +410,7 @@ field:
     from_sender: 'De {sender}'
     gender: Genre
     group: Groupe
+    groups: Groupes
     hash: 'Signature du hash'
     header: En-tête
     header_allow_origin: 'L’en-tête Access-Control-Allow-Origin'
@@ -463,6 +465,7 @@ field:
     locale: Locale
     locale_preferred: 'Langue préférée'
     locale_preferred_first: 'Locale préférée en premier'
+    locales: 'Paramètres régionaux'
     locked_by: 'Verrouillé par'
     locked_until: 'Verrouillé jusqu’à'
     lowercase: Minuscules

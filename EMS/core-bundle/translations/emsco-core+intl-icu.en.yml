@@ -301,6 +301,7 @@ field:
     category: Category
     channel: Channel
     char_filter: 'Char filter'
+    choices: Choices
     choices_template: 'Choices template'
     circles: Circles
     circles_to: 'Circles to'
@@ -404,6 +405,7 @@ field:
     from_sender: 'From {sender}'
     gender: Gender
     group: Group
+    groups: Groups
     hash: 'Hash signature'
     header: Header
     header_allow_origin: 'The Access-Control-Allow-Origin header'
@@ -458,6 +460,7 @@ field:
     locale: Locale
     locale_preferred: 'Locale preferred'
     locale_preferred_first: 'Preferred locale first'
+    locales: Locales
     locked_by: 'Locked by'
     locked_until: 'Locked until'
     lowercase: Lowercase

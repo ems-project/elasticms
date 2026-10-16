@@ -46,6 +46,8 @@ final class ChoiceListOptionType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, static function (FormEvent $event): void {
             $data = $event->getData();
             $locales = self::getLocales($data);
+            $data = self::removeLabelsForLocalesNotSelected($data, $locales);
+            $event->setData($data);
             $groups = self::getGroupNames($data);
             self::addLocalizedCollections($event->getForm(), $locales, $groups);
         });
@@ -89,6 +91,38 @@ final class ChoiceListOptionType extends AbstractType
         }
 
         return $names;
+    }
+
+    /**
+     * @param array<string, mixed>|null $data
+     * @param string[]                  $locales
+     *
+     * @return array<string, mixed>|null
+     */
+    private static function removeLabelsForLocalesNotSelected(mixed $data, array $locales): ?array
+    {
+        if (!\is_array($data)) {
+            return null;
+        }
+
+        foreach (['groups', 'choices'] as $collection) {
+            if (!\is_array($data[$collection] ?? null)) {
+                continue;
+            }
+
+            foreach ($data[$collection] as $key => $item) {
+                if (!\is_array($item) || !\is_array($item['labels'] ?? null)) {
+                    continue;
+                }
+
+                $data[$collection][$key]['labels'] = \array_intersect_key(
+                    $item['labels'],
+                    \array_fill_keys($locales, true),
+                );
+            }
+        }
+
+        return $data;
     }
 
     /**

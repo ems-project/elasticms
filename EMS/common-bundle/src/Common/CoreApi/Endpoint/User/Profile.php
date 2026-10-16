@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Common\CoreApi\Endpoint\User;
 
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\User\ProfileInterface;
 
+#[\AllowDynamicProperties]
 final class Profile implements ProfileInterface
 {
     private readonly int $id;
@@ -20,6 +21,8 @@ final class Profile implements ProfileInterface
     private readonly array $userOptions;
     private ?\DateTimeImmutable $lastLogin = null;
     private ?\DateTimeImmutable $expirationDate = null;
+    private readonly string $locale;
+    private readonly string $localePreferred;
 
     /**
      * @param array<string, mixed> $data
@@ -33,6 +36,8 @@ final class Profile implements ProfileInterface
         $this->roles = $data['roles'] ?? [];
         $this->circles = $data['circles'] ?? [];
         $this->userOptions = $data['userOptions'] ?? [];
+        $this->locale = $data['locale'] ?? null;
+        $this->localePreferred = $data['localePreferred'] ?? null;
 
         if (isset($data['lastLogin'])) {
             $lastLogin = \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $data['lastLogin']);
@@ -104,5 +109,15 @@ final class Profile implements ProfileInterface
     public function getUserOptions(): array
     {
         return $this->userOptions;
+    }
+
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    public function getLocalePreferred(): string
+    {
+        return $this->localePreferred;
     }
 }

@@ -691,6 +691,7 @@ key:
     by: Door
     canceled: Geannuleerd
     channels: Kanalen
+    choice_lists: 'Keuzelijsten'
     ckeditor4: 'CK Editor 4'
     client: Client
     cluster: Cluster

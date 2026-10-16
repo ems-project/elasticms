@@ -691,6 +691,7 @@ key:
     by: By
     canceled: Canceled
     channels: Channels
+    choice_lists: 'Choice lists'
     ckeditor4: 'CK Editor 4'
     client: Client
     cluster: Cluster

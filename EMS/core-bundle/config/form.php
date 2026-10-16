@@ -67,6 +67,7 @@ use EMS\CoreBundle\Form\Field\SelectUserPropertyType;
 use EMS\CoreBundle\Form\Field\WysiwygStylesSetPickerType;
 use EMS\CoreBundle\Form\FieldType\FieldTypeType;
 use EMS\CoreBundle\Form\Form\ActionType;
+use EMS\CoreBundle\Form\Form\ChoiceListType;
 use EMS\CoreBundle\Form\Form\Dashboard\DashboardType;
 use EMS\CoreBundle\Form\Form\EmsCollectionType;
 use EMS\CoreBundle\Form\Form\Environment\EnvironmentType;
@@ -536,6 +537,9 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems_core.form.dashboard_type', DashboardType::class)
         ->args([service('ems_core.dashboard.dashboards')])
+        ->tag('form.type');
+
+    $services->set('ems_core.form.choice_list_type', ChoiceListType::class)
         ->tag('form.type');
 
     $services->set('ems_core.form.form_type', FormType::class)

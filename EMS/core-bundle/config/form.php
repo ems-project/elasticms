@@ -67,7 +67,10 @@ use EMS\CoreBundle\Form\Field\SelectUserPropertyType;
 use EMS\CoreBundle\Form\Field\WysiwygStylesSetPickerType;
 use EMS\CoreBundle\Form\FieldType\FieldTypeType;
 use EMS\CoreBundle\Form\Form\ActionType;
-use EMS\CoreBundle\Form\Form\ChoiceListType;
+use EMS\CoreBundle\Form\Form\ChoiceList\ChoiceListOptionChoiceType;
+use EMS\CoreBundle\Form\Form\ChoiceList\ChoiceListOptionGroupType;
+use EMS\CoreBundle\Form\Form\ChoiceList\ChoiceListOptionType;
+use EMS\CoreBundle\Form\Form\ChoiceList\ChoiceListType;
 use EMS\CoreBundle\Form\Form\Dashboard\DashboardType;
 use EMS\CoreBundle\Form\Form\EmsCollectionType;
 use EMS\CoreBundle\Form\Form\Environment\EnvironmentType;
@@ -541,6 +544,10 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems_core.form.choice_list_type', ChoiceListType::class)
         ->tag('form.type');
+
+    $services->set(ChoiceListOptionType::class)->tag('form.type');
+    $services->set(ChoiceListOptionGroupType::class)->tag('form.type');
+    $services->set(ChoiceListOptionChoiceType::class)->tag('form.type');
 
     $services->set('ems_core.form.form_type', FormType::class)
         ->tag('form.type');

@@ -13,7 +13,7 @@ use EMS\CoreBundle\Core\UI\Page\Page;
 use EMS\CoreBundle\DataTable\Type\ChoiceListDataTableType;
 use EMS\CoreBundle\Entity\ChoiceList;
 use EMS\CoreBundle\Form\Data\TableAbstract;
-use EMS\CoreBundle\Form\Form\ChoiceListType;
+use EMS\CoreBundle\Form\Form\ChoiceList\ChoiceListType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Routes;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

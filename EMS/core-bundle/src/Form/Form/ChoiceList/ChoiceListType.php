@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\Form\Form;
+namespace EMS\CoreBundle\Form\Form\ChoiceList;
 
 use EMS\CoreBundle\Entity\ChoiceList;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
-use EMS\Helpers\Standard\Json;
+use EMS\CoreBundle\Form\Form\TranslationsType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -40,7 +38,7 @@ final class ChoiceListType extends AbstractType
                 'label' => t('field.label_translations', [], 'emsco-core'),
                 'required' => false,
             ])
-            ->add('options', TextareaType::class, [
+            ->add('options', ChoiceListOptionType::class, [
                 'label' => t('field.options', [], 'emsco-core'),
                 'required' => false,
             ])
@@ -48,11 +46,6 @@ final class ChoiceListType extends AbstractType
                 'attr' => ['data-testid' => 'btn-action-save'],
                 'label' => t('action.save', [], 'emsco-core'),
             ]);
-
-        $builder->get('options')->addModelTransformer(new CallbackTransformer(
-            static fn (mixed $options): string => \is_array($options) ? Json::encode($options, true) : '',
-            static fn (mixed $options): array => '' === \trim((string) $options) ? [] : Json::decode((string) $options),
-        ));
     }
 
     #[\Override]

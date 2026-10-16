@@ -1,0 +1,131 @@
+<?php
+
+declare(strict_types=1);
+
+namespace EMS\CoreBundle\Form\Form\ChoiceList;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Intl\Locales;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use function Symfony\Component\Translation\t;
+
+/**
+ * @extends AbstractType<mixed>
+ */
+final class ChoiceListOptionType extends AbstractType
+{
+    /**
+     * @param FormBuilderInterface<mixed> $builder
+     * @param array<string, mixed>        $options
+     */
+    #[\Override]
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder->add('locales', ChoiceType::class, [
+            'label' => t('field.locales', [], 'emsco-core'),
+            'choices' => \array_flip(Locales::getNames()),
+            'choice_translation_domain' => false,
+            'multiple' => true,
+            'required' => false,
+            'attr' => ['class' => 'select2'],
+        ]);
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event): void {
+            $data = $event->getData();
+            $locales = self::getLocales($data);
+            $groups = self::getGroupNames($data);
+            self::addLocalizedCollections($event->getForm(), $locales, $groups);
+        });
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, static function (FormEvent $event): void {
+            $data = $event->getData();
+            $locales = self::getLocales($data);
+            $groups = self::getGroupNames($data);
+            self::addLocalizedCollections($event->getForm(), $locales, $groups);
+        });
+    }
+
+    #[\Override]
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+    }
+
+    /**
+     * @param array<string, mixed>|null $data
+     *
+     * @return string[]
+     */
+    private static function getLocales(mixed $data): array
+    {
+        if (!\is_array($data) || !\is_array($data['locales'] ?? null)) {
+            return [];
+        }
+
+        return \array_values(\array_filter($data['locales'], static fn (mixed $locale): bool => \is_string($locale) && '' !== $locale));
+    }
+
+    /**
+     * @param array<string, mixed>|null $data
+     *
+     * @return string[]
+     */
+    private static function getGroupNames(mixed $data): array
+    {
+        if (!\is_array($data) || !\is_array($data['groups'] ?? null)) {
+            return [];
+        }
+
+        $names = [];
+        foreach ($data['groups'] as $group) {
+            if (\is_array($group) && \is_string($group['name'] ?? null) && '' !== $group['name']) {
+                $names[] = $group['name'];
+            }
+        }
+
+        return $names;
+    }
+
+    /**
+     * @param string[]             $locales
+     * @param string[]             $groups
+     * @param FormInterface<mixed> $form
+     */
+    private static function addLocalizedCollections(FormInterface $form, array $locales, array $groups): void
+    {
+        $form->add('groups', CollectionType::class, [
+            'entry_type' => ChoiceListOptionGroupType::class,
+            'entry_options' => ['locales' => $locales],
+            'allow_add' => true,
+            'allow_delete' => true,
+            'required' => false,
+            'attr' => [
+                'class' => 'a2lix_lib_sf_collection',
+                'data-lang-add' => t('action.add_type', ['type' => 'group'], 'emsco-core'),
+                'data-lang-remove' => t('action.remove_type', ['type' => 'group'], 'emsco-core'),
+                'data-entry-remove-class' => 'btn btn-sm btn-danger',
+            ],
+        ]);
+        $form->add('choices', CollectionType::class, [
+            'entry_type' => ChoiceListOptionChoiceType::class,
+            'entry_options' => [
+                'locales' => $locales,
+                'groups' => $groups,
+            ],
+            'allow_add' => true,
+            'allow_delete' => true,
+            'required' => false,
+            'attr' => [
+                'class' => 'a2lix_lib_sf_collection',
+                'data-lang-add' => t('action.add_type', ['type' => 'choice'], 'emsco-core'),
+                'data-lang-remove' => t('action.remove_type', ['type' => 'choice'], 'emsco-core'),
+                'data-entry-remove-class' => 'btn btn-sm btn-danger',
+            ],
+        ]);
+    }
+}

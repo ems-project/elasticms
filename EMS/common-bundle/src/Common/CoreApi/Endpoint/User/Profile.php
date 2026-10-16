@@ -111,12 +111,12 @@ final class Profile implements ProfileInterface
         return $this->userOptions;
     }
 
-    public function getLocale(): string
+    public function getLocale(): ?string
     {
         return $this->locale;
     }
 
-    public function getLocalePreferred(): string
+    public function getLocalePreferred(): ?string
     {
         return $this->localePreferred;
     }

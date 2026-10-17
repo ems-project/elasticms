@@ -17,7 +17,7 @@ export AUTH_TOKEN='EDcTszIHnaaDCpvpi+dJeakj6uOsDqtvSY6rqJyDR3baPpnFA+6u4UAaPcMuJ
 | Action                     | Endpoint                                                   |
 | -------------------------- | ---------------------------------------------------------- |
 | Create a submission        | `POST /api/forms/submissions`                              |
-| List submissions           | `GET /api/forms/submissions`                              |
+| List submissions           | `GET /api/forms/submissions`                               |
 | Get a submission           | `GET /api/forms/submissions/{submissionId}`                |
 | Get a submitted file       | `GET /api/forms/submissions/{submissionId}/files/{fileId}` |
 | Create a verification code | `POST /api/forms/verifications`                            |
@@ -125,15 +125,15 @@ the total number of matching submissions and the requested page.
 
 ### Query parameters
 
-| Parameter        | Description                                                                                       | Default |
-| ---------------- | ------------------------------------------------------------------------------------------------- | ------- |
-| `from`           | Zero-based offset of the first submission to return.                                               | `0`     |
-| `size`           | Maximum number of submissions to return.                                                           | `50`    |
-| `from-datetime`  | Return submissions created on or after this ISO 8601 datetime.                                    |         |
-| `to-datetime`    | Return submissions created on or before this ISO 8601 datetime.                                   |         |
-| `names[]`        | Filter by one or more form names.                                                                 |         |
-| `instances[]`    | Filter by one or more form instances.                                                             |         |
-| `locales[]`      | Filter by one or more locales.                                                                    |         |
+| Parameter       | Description                                                     | Default |
+| --------------- | --------------------------------------------------------------- | ------- |
+| `from`          | Zero-based offset of the first submission to return.            | `0`     |
+| `size`          | Maximum number of submissions to return.                        | `50`    |
+| `from-datetime` | Return submissions created on or after this ISO 8601 datetime.  |         |
+| `to-datetime`   | Return submissions created on or before this ISO 8601 datetime. |         |
+| `names[]`       | Filter by one or more form names.                               |         |
+| `instances[]`   | Filter by one or more form instances.                           |         |
+| `locales[]`     | Filter by one or more locales.                                  |         |
 
 The `names`, `instances` and `locales` filters are array parameters and can be repeated. Datetimes
 must use the ISO 8601 format, for example `2026-09-09T14:28:57+02:00`.

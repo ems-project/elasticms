@@ -145,7 +145,7 @@ return static function (ContainerConfigurator $container) {
         ->public()
         ->args([
             service('emsco.logger'),
-            service('ems.choice_list.manager'),
+            service('emsco.choice_list.manager'),
             service('emsco.data_table.factory'),
         ])
         ->call('setContainer')

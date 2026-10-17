@@ -251,7 +251,7 @@ return static function (ContainerConfigurator $container) {
         ])
         ->tag('emsco.entity.service', ['priority' => 50]);
 
-    $services->set('ems.choice_list.manager', ChoiceListManager::class)
+    $services->set('emsco.choice_list.manager', ChoiceListManager::class)
         ->args([service(ChoiceListRepository::class)])
         ->tag('emsco.entity.service', ['priority' => 125]);
 

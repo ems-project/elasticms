@@ -217,7 +217,7 @@ return static function (ContainerConfigurator $container) {
         ->tag('emsco.datatable');
 
     $services->set('emsco.data_table.choice_list', ChoiceListDataTableType::class)
-        ->args([service('ems.choice_list.manager')])
+        ->args([service('emsco.choice_list.manager')])
         ->tag('emsco.datatable');
 
     $services->set('emsco.data_table.form', FormDataTableType::class)

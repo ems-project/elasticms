@@ -7,8 +7,11 @@ namespace EMS\CommonBundle\Command\Submission;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\Helpers\File\File;
+use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,12 +23,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class DownloadCommand extends AbstractCommand
 {
-    public const string OPTION_DATETIME_FROM = 'datetime-from';
-    public const string OPTION_DATETIME_TO = 'datetime-to';
-    public const string OPTION_NAMES = 'names';
-    public const string OPTION_INSTANCES = 'instances';
-    public const string OPTION_LOCALES = 'locales';
-    public const string OPTION_SIZE = 'size';
+    private const string OPTION_DATETIME_FROM = 'datetime-from';
+    private const string OPTION_DATETIME_TO = 'datetime-to';
+    private const string OPTION_NAMES = 'names';
+    private const string OPTION_INSTANCES = 'instances';
+    private const string OPTION_LOCALES = 'locales';
+    private const string OPTION_SIZE = 'size';
+    private const string ARG_OUTPUT_DIRECTORY = 'output-directory';
     /**
      * @var string[]
      */
@@ -41,6 +45,7 @@ class DownloadCommand extends AbstractCommand
     private ?\DateTimeImmutable $from;
     private ?\DateTimeImmutable $to;
     private int $size;
+    private string $outputDirectory;
 
     public function __construct(private readonly AdminHelper $adminHelper)
     {
@@ -51,7 +56,11 @@ class DownloadCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->addOption(
+            ->addArgument(
+                self::ARG_OUTPUT_DIRECTORY,
+                InputArgument::REQUIRED,
+                'Ouput directory',
+            )->addOption(
                 self::OPTION_DATETIME_FROM,
                 null,
                 InputOption::VALUE_OPTIONAL,
@@ -89,6 +98,7 @@ class DownloadCommand extends AbstractCommand
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
+        $this->outputDirectory = $this->getArgumentString(self::ARG_OUTPUT_DIRECTORY);
         $datetimeFrom = $this->getOptionStringNull(self::OPTION_DATETIME_FROM);
         $datetimeFrom = $datetimeFrom ? \DateTimeImmutable::createFromTimestamp(Type::integer(\strtotime($datetimeFrom))) : null;
         $this->from = $datetimeFrom;
@@ -107,7 +117,21 @@ class DownloadCommand extends AbstractCommand
         $this->io->section(\sprintf('Download submissions from %s', $this->adminHelper->getCoreApi()->getBaseUrl()));
 
         $from = 0;
-        $data = $this->adminHelper->getCoreApi()->form()->getSubmissions($from, $this->size, $this->from, $this->to, $this->names, $this->instances, $this->locales);
+        $total = null;
+        do {
+            $data = $this->adminHelper->getCoreApi()->form()->getSubmissions($from, $this->size, $this->from, $this->to, $this->names, $this->instances, $this->locales);
+            if (null === $total) {
+                $total = Type::integer($data['total'] ?? null);
+                $this->io->progressStart($total);
+            }
+            foreach (Type::array($data['submissions'] ?? []) as $submission) {
+                $id = Type::string($submission['id'] ?? null);
+                File::putContents(\sprintf('%s%s%s.json', $this->outputDirectory, DIRECTORY_SEPARATOR, $id), Json::encode($submission, true));
+                $this->io->progressAdvance();
+            }
+            $from += $this->size;
+        } while ($from < $total);
+        $this->io->progressFinish();
 
         return self::EXECUTE_SUCCESS;
     }

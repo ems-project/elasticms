@@ -619,6 +619,7 @@ field:
     user_uploaded: 'Uploadé par'
     username: "Nom d'utilisateur"
     username_or_email: 'Nom d’utilisateur ou adresse e-mail'
+    value: Valeur
     value_template: 'Modèle de valeur'
     values: Valeurs
     version_tag: 'Tag de version'
@@ -633,6 +634,7 @@ field_type:
     asset: 'Champ de fichier'
     checkbox: 'Case à cocher'
     choice: 'Champ de choix'
+    choice_list: 'Liste de choix'
     code: 'Éditeur de code'
     collection: 'Collection (gestion d’un tableau de types enfants)'
     collection_item: 'Objet d’une collection (ce message ne devrait jamais être affiché)'

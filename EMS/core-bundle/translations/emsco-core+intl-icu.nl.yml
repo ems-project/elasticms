@@ -614,6 +614,7 @@ field:
     user_uploaded: 'Geüpload door'
     username: Gebruikersnaam
     username_or_email: 'Gebruikersnaam of e-mailadres'
+    value: Waarde
     value_template: Waardesjabloon
     values: Waarden
     version_tag: Versietag
@@ -628,6 +629,7 @@ field_type:
     asset: Bestandsveld
     checkbox: Selectievakje
     choice: Keuzeveld
+    choice_list: Keuzelijst
     code: Code-editor
     collection: 'Collectie (beheer van een array van onderliggende types)'
     collection_item: 'Collectie-itemobject (dit bericht zou nooit mogen worden weergegeven)'

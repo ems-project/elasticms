@@ -201,6 +201,7 @@ class ChoiceListFieldType extends DataFieldType
         }
 
         $options = $choiceList->getOptions();
+        $sortOrder = \is_string($options['sortOrder'] ?? null) ? $options['sortOrder'] : null;
         $groups = \is_array($options['groups'] ?? null) ? $options['groups'] : [];
         $choices = \is_array($options['choices'] ?? null) ? $options['choices'] : [];
         $groupLabels = [];
@@ -230,7 +231,30 @@ class ChoiceListFieldType extends DataFieldType
             }
         }
 
+        if (\in_array($sortOrder, ['asc', 'desc'], true)) {
+            $result = self::sortChoices($result, $sortOrder);
+        }
+
         return $result;
+    }
+
+    /**
+     * @param  array<string, mixed> $choices
+     * @return array<string, mixed>
+     */
+    private static function sortChoices(array $choices, string $sortOrder): array
+    {
+        foreach ($choices as $key => $choice) {
+            if (\is_array($choice)) {
+                $choices[$key] = self::sortChoices($choice, $sortOrder);
+            }
+        }
+
+        \uksort($choices, static fn (string $left, string $right): int => 'asc' === $sortOrder
+            ? \strnatcasecmp($left, $right)
+            : \strnatcasecmp($right, $left));
+
+        return $choices;
     }
 
     /**

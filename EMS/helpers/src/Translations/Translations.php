@@ -7,6 +7,21 @@ namespace EMS\Helpers\Translations;
 class Translations
 {
     /**
+     * @param string[] $locales
+     * @param string[] $translations
+     */
+    public static function fromSimpleArray(array $locales, array $translations, string $defaultLabel): string
+    {
+        foreach ($locales as $locale) {
+            if (isset($translations[$locale])) {
+                return $translations[$locale];
+            }
+        }
+
+        return $defaultLabel;
+    }
+
+    /**
      * @param Translation[] $translations
      */
     public function __construct(private readonly array $translations = [])

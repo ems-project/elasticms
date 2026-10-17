@@ -17,6 +17,7 @@ export AUTH_TOKEN='EDcTszIHnaaDCpvpi+dJeakj6uOsDqtvSY6rqJyDR3baPpnFA+6u4UAaPcMuJ
 | Action                     | Endpoint                                                   |
 | -------------------------- | ---------------------------------------------------------- |
 | Create a submission        | `POST /api/forms/submissions`                              |
+| List submissions           | `GET /api/forms/submissions`                               |
 | Get a submission           | `GET /api/forms/submissions/{submissionId}`                |
 | Get a submitted file       | `GET /api/forms/submissions/{submissionId}/files/{fileId}` |
 | Create a verification code | `POST /api/forms/verifications`                            |
@@ -114,6 +115,62 @@ When files are submitted, the `submission.files` array contains file metadata:
     "mimeType": "text/plain",
     "size": "11",
     "formField": "attachment"
+}
+```
+
+## List submissions
+
+Use `GET /api/forms/submissions` to retrieve a paginated list of submissions. The response contains
+the total number of matching submissions and the requested page.
+
+### Query parameters
+
+| Parameter       | Description                                                     | Default |
+| --------------- | --------------------------------------------------------------- | ------- |
+| `from`          | Zero-based offset of the first submission to return.            | `0`     |
+| `size`          | Maximum number of submissions to return.                        | `50`    |
+| `from-datetime` | Return submissions created on or after this ISO 8601 datetime.  |         |
+| `to-datetime`   | Return submissions created on or before this ISO 8601 datetime. |         |
+| `names[]`       | Filter by one or more form names.                               |         |
+| `instances[]`   | Filter by one or more form instances.                           |         |
+| `locales[]`     | Filter by one or more locales.                                  |         |
+
+The `names`, `instances` and `locales` filters are array parameters and can be repeated. Datetimes
+must use the ISO 8601 format, for example `2026-09-09T14:28:57+02:00`.
+
+Example:
+
+```shell
+curl -X GET \
+     -H "X-Auth-Token: ${AUTH_TOKEN}" \
+     -H 'Accept: application/json' \
+     'http://localhost:8881/api/forms/submissions?from=0&size=25&names[]=contact&instances[]=website&locales[]=en&from-datetime=2026-09-01T00:00:00%2B02:00' \
+     -w '\n'
+```
+
+Successful response:
+
+```json
+{
+    "total": 1,
+    "submissions": [
+        {
+            "id": "4a154f68-2386-4f80-a2c8-657a4af25b61",
+            "name": "contact",
+            "instance": "website",
+            "locale": "en",
+            "data": {
+                "email": "jane.doe@example.test",
+                "message": "Please contact me."
+            },
+            "label": "Contact request from Jane Doe",
+            "processTryCounter": 0,
+            "processId": null,
+            "processBy": null,
+            "created": "2026-09-09T14:28:57+02:00",
+            "modified": "2026-09-09T14:28:57+02:00"
+        }
+    ]
 }
 ```
 

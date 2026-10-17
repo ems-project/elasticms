@@ -600,6 +600,7 @@ return static function (ContainerConfigurator $container) {
             service('twig'),
             service('form.factory'),
             service('emsco.logger'),
+            service('translator'),
         ]);
 
     $services->set('ems.service.revision', RevisionService::class)

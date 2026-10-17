@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Form\ChoiceList;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -51,6 +52,11 @@ final class ChoiceListOptionType extends AbstractType
             $groups = self::getGroupNames($data);
             self::addLocalizedCollections($event->getForm(), $locales, $groups);
         });
+
+        $builder->addModelTransformer(new CallbackTransformer(
+            static fn (mixed $data): mixed => $data,
+            static fn (mixed $data): array => self::normalizeOptions($data),
+        ));
     }
 
     #[\Override]
@@ -105,6 +111,7 @@ final class ChoiceListOptionType extends AbstractType
             return null;
         }
 
+        $data['locales'] = \array_values($data['locales'] ?? []);
         foreach (['groups', 'choices'] as $collection) {
             if (!\is_array($data[$collection] ?? null)) {
                 continue;
@@ -115,14 +122,34 @@ final class ChoiceListOptionType extends AbstractType
                     continue;
                 }
 
-                $data[$collection][$key]['labels'] = \array_intersect_key(
+                $labels = \array_intersect_key(
                     $item['labels'],
                     \array_fill_keys($locales, true),
+                );
+                $data[$collection][$key]['labels'] = \array_filter(
+                    $labels,
+                    static fn (mixed $label): bool => null !== $label && '' !== $label,
                 );
             }
         }
 
         return $data;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private static function normalizeOptions(mixed $data): array
+    {
+        if (!\is_array($data)) {
+            return [];
+        }
+
+        $locales = self::getLocales($data);
+        $normalized = self::removeLabelsForLocalesNotSelected($data, $locales) ?? [];
+        $normalized['locales'] = $locales;
+
+        return $normalized;
     }
 
     /**

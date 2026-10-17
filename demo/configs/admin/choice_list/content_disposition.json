@@ -13,17 +13,16 @@
             }
         },
         "options": {
-            "locales": {
-                "2": "fr",
-                "3": "nl"
-            },
+            "locales": [
+                "fr",
+                "nl"
+            ],
             "groups": [],
             "choices": [
                 {
                     "labels": {
                         "fr": "Pi\u00e8ce jointe",
-                        "nl": "Bijlage",
-                        "en": null
+                        "nl": "Bijlage"
                     },
                     "value": "attachment",
                     "group": null,
@@ -32,8 +31,7 @@
                 {
                     "labels": {
                         "fr": "En ligne",
-                        "nl": "In de tekst",
-                        "en": "Inline"
+                        "nl": "In de tekst"
                     },
                     "value": "inline",
                     "group": null,

@@ -26,6 +26,16 @@ class Translations
         return new self($translations);
     }
 
+    public static function fromSimpleArray(mixed $labels): self
+    {
+        $translations = [];
+        foreach ($labels as $key => $value) {
+            $translations[$key] = new Translation($value);
+        }
+
+        return new self($translations);
+    }
+
     /**
      * @return Translation[]
      */

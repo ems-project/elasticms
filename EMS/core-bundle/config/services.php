@@ -253,7 +253,7 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems.choice_list.manager', ChoiceListManager::class)
         ->args([service(ChoiceListRepository::class)])
-        ->tag('emsco.entity.service', ['priority' => 50]);
+        ->tag('emsco.entity.service', ['priority' => 125]);
 
     $services->set('ems.form.field-type.manager', FieldTypeManager::class)
         ->args([

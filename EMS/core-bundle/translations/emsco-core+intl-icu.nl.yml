@@ -665,6 +665,7 @@ field_type:
     wysiwyg: 'Editor voor opgemaakte tekst (WYSIWYG)'
 help:
     override_styles_set_config: 'configuratie van stijlensets overschrijven'
+    sort_choice_list: 'Sorteer de keuzemogelijkheden alfabetisch. Indien niet gedefinieerd, blijft de volgorde zoals vastgelegd in de keuzelijst behouden.'
 key:
     action: Actie
     actions: Acties

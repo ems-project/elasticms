@@ -665,6 +665,7 @@ field_type:
     wysiwyg: 'WYSIWYG field'
 help:
     override_styles_set_config: 'override styles sets config'
+    sort_choice_list: 'Sort choices alphabetically. If not defined, the order defined in the choice list is preserved.'
 key:
     action: Action
     actions: Actions

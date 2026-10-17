@@ -670,6 +670,7 @@ field_type:
     wysiwyg: 'Éditeur de texte enrichi (WYSIWYG)'
 help:
     override_styles_set_config: 'remplacer la configuration des jeux de styles'
+    sort_choice_list: 'Trier les choix par ordre alphabétique. Si aucune définition n’est fournie, l’ordre établi dans la liste des choix est conservé.'
 key:
     action: Action
     actions: Actions

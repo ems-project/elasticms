@@ -177,6 +177,28 @@ Test if the user as super rights
 {% if emsco_is_super() %}
 ```
 
+## emsco_cant_be_finalized
+
+Prevent the current revision from being finalized by throwing a validation error. The optional
+`message` argument defines the error message. If it is omitted, the default
+`message.draft_cant_be_finalized` translation is used.
+
+The optional `translations` argument is an associative array of locale codes and translated error
+messages. The translation matching the current user's locale is selected first; when no matching
+translation is found, the `message` argument is used as the fallback.
+
+```twig
+{{ emsco_cant_be_finalized('This field is invalid') }}
+
+{{ emsco_cant_be_finalized('', {
+    fr: 'Mon texte d\'erreur en français',
+    nl: 'Mijn foutmelding in het Nederlands',
+}) }}
+```
+
+The former `$code` and `$previous` parameters have been removed. They were normally unused. Use the
+`translations` parameter to provide localized error messages instead.
+
 ## emsco_i18n
 
 Retrieve the value of the I18N corresponding to the provided key and locale. If not specified locale

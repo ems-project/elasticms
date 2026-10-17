@@ -9,6 +9,12 @@ outline: [2, 2]
 
 ## 7.4
 
+### `emsco_cant_be_finalized` parameters
+
+The `$code` and `$previous` parameters of `emsco_cant_be_finalized` have been removed. They were
+normally unused. The new `$translations` parameter accepts an associative array of locale codes and
+translated error messages, for example `{fr: 'Mon texte d\'erreur en français'}` in Twig.
+
 ### Legacy routes name removed
 
 - job.start -> emsco_job_start

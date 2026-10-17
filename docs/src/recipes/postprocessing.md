@@ -13,3 +13,13 @@ memory perspective). The script also ensure that the file is an image.
     {{ emsco_cant_be_finalized('This field only accepts images') }}
 {% endif -%}
 ```
+
+To provide an error message translated according to the current user's locale, pass a map of locale
+codes as the second argument:
+
+```twig
+{{ emsco_cant_be_finalized('', {
+    fr: 'Le fichier ne peut pas dépasser 3 Mo',
+    en: 'The file cannot be bigger than 3 MB',
+}) }}
+```

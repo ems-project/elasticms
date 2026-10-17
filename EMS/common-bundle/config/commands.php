@@ -32,6 +32,7 @@ use EMS\CommonBundle\Command\Runner\StartCommand;
 use EMS\CommonBundle\Command\StatusCommand;
 use EMS\CommonBundle\Command\Storage\ClearCacheCommand;
 use EMS\CommonBundle\Command\Storage\LoadArchiveItemsInCacheCommand;
+use EMS\CommonBundle\Command\Submission\DownloadCommand as DownloadSubmissionCommand;
 use EMS\CommonBundle\Command\Submission\ForwardCommand;
 use EMS\CommonBundle\Command\SynchronizeCommand;
 use EMS\CommonBundle\Service\ElasticaService;
@@ -191,6 +192,10 @@ return static function (ContainerConfigurator $container) {
         ->tag('console.command');
 
     $services->set('ems.command.submission.forward', ForwardCommand::class)
+        ->args([service('ems.helper.admin_api')])
+        ->tag('console.command');
+
+    $services->set('ems.command.submission.download', DownloadSubmissionCommand::class)
         ->args([service('ems.helper.admin_api')])
         ->tag('console.command');
 

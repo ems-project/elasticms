@@ -36,6 +36,15 @@ final class ChoiceListOptionType extends AbstractType
             'multiple' => true,
             'required' => false,
             'attr' => ['class' => 'select2'],
+        ])->add('sortOrder', ChoiceType::class, [
+            'required' => false,
+            'label' => t('field.sort_order', [], 'emsco-core'),
+            'choices' => [
+                t('key.ascending', [], 'emsco-core')->getMessage() => 'asc',
+                t('key.descending', [], 'emsco-core')->getMessage() => 'desc',
+            ],
+            'translation_domain' => 'emsco-core',
+            'help' => t('help.sort_choice_list', [], 'emsco-core'),
         ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event): void {

@@ -137,7 +137,7 @@ class ChoiceListFieldType extends DataFieldType
     #[\Override]
     public function getBlockPrefix(): string
     {
-        return 'ems_choice_list';
+        return 'ems_choice';
     }
 
     /**

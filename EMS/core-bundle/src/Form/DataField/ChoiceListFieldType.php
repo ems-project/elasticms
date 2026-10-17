@@ -177,7 +177,6 @@ class ChoiceListFieldType extends DataFieldType
         return ['value' => []];
     }
 
-
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {

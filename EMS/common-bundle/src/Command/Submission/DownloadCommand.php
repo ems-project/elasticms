@@ -116,10 +116,11 @@ class DownloadCommand extends AbstractCommand
     {
         $this->io->section(\sprintf('Download submissions from %s', $this->adminHelper->getCoreApi()->getBaseUrl()));
 
+        $formApi = $this->adminHelper->getCoreApi()->form();
         $from = 0;
         $total = null;
         do {
-            $data = $this->adminHelper->getCoreApi()->form()->getSubmissions($from, $this->size, $this->from, $this->to, $this->names, $this->instances, $this->locales);
+            $data = $formApi->getSubmissions($from, $this->size, $this->from, $this->to, $this->names, $this->instances, $this->locales);
             if (null === $total) {
                 $total = Type::integer($data['total'] ?? null);
                 $this->io->progressStart($total);
@@ -127,6 +128,15 @@ class DownloadCommand extends AbstractCommand
             foreach (Type::array($data['submissions'] ?? []) as $submission) {
                 $id = Type::string($submission['id'] ?? null);
                 File::putContents(\sprintf('%s%s%s.json', $this->outputDirectory, DIRECTORY_SEPARATOR, $id), Json::encode($submission, true));
+                foreach (Type::array($submission['files'] ?? []) as $file) {
+                    $directory = \sprintf('%s%s%s', $this->outputDirectory, DIRECTORY_SEPARATOR, $id);
+                    if (!\is_dir($directory)) {
+                        \mkdir($directory);
+                    }
+                    $fileId = Type::string($file['id'] ?? null);
+                    $stream = $formApi->getSubmissionFileAsStreamResponse($id, $fileId);
+                    File::saveStreamedResponse($stream, \sprintf('%s%s%s%s%s', $this->outputDirectory, DIRECTORY_SEPARATOR, $id, DIRECTORY_SEPARATOR, Type::string($file['filename'] ?? null)));
+                }
                 $this->io->progressAdvance();
             }
             $from += $this->size;

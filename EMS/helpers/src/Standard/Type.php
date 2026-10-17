@@ -54,6 +54,18 @@ final class Type
         return $value;
     }
 
+    /**
+     * @return mixed[]|null
+     */
+    public static function nullableArray(mixed $value): ?array
+    {
+        if (null === $value) {
+            return null;
+        }
+
+        return self::array($value);
+    }
+
     public static function gdImage(mixed $value): \GdImage
     {
         if (!$value instanceof \GdImage) {

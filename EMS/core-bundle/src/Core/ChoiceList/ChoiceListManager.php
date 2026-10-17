@@ -95,6 +95,13 @@ class ChoiceListManager implements EntityServiceInterface
         return $choiceList;
     }
 
+    public function existsByName(string $name): bool
+    {
+        $choiceList = $this->choiceListRepository->getByName($name);
+
+        return null !== $choiceList;
+    }
+
     #[\Override]
     public function getByItemName(string $name): ?EntityInterface
     {

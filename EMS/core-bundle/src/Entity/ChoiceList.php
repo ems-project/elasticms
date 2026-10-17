@@ -131,4 +131,33 @@ class ChoiceList extends JsonDeserializer implements \JsonSerializable, EntityIn
 
         return $choiceList;
     }
+
+    /**
+     * @param  string[]                                                                                           $values
+     * @param  string[]                                                                                           $locales
+     * @return array<string, array{label: string, value: string, group: array{name: string, label: string}|null}>
+     */
+    public function getLabelsAndGroups(array $values = [], array $locales = []): array
+    {
+        $labelsAndGroups = [];
+        $groups = [];
+        foreach ($this->options['groups'] ?? [] as $group) {
+            $groups[$group['name']] = [
+                'name' => $group['name'],
+                'label' => Translations::fromSimpleArray($group['labels'] ?? [])->getTranslation($locales, $group['label'])->getLabel(),
+            ];
+        }
+        foreach ($this->options['choices'] ?? [] as $choice) {
+            $labelsAndGroups[$choice['value']] = [
+                'label' => Translations::fromSimpleArray($choice['labels'] ?? [])->getTranslation($locales, $choice['label'])->getLabel(),
+                'value' => $choice['value'],
+                'group' => $choice['group'] ? $groups[$choice['group']] ?? null : null,
+            ];
+        }
+        if ([] !== $values) {
+            return \array_filter($labelsAndGroups, fn ($key) => \in_array($key, $values), ARRAY_FILTER_USE_KEY);
+        }
+
+        return $labelsAndGroups;
+    }
 }

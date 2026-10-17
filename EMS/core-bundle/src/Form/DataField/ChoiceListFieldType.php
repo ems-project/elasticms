@@ -87,7 +87,9 @@ class ChoiceListFieldType extends DataFieldType
             'multiple' => $options['multiple'],
             'expanded' => $options['expanded'],
             'placeholder' => $options['placeholder'] ?? '',
-            'attr' => ['class' => $options['select2'] ? 'select2' : ''],
+            'attr' => [
+                'class' => $options['select2'] ? 'select2' : '',
+            ],
         ]);
     }
 

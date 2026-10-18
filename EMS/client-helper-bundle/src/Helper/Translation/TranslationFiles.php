@@ -13,19 +13,19 @@ use Symfony\Component\Translation\MessageCatalogue;
  */
 final class TranslationFiles implements \IteratorAggregate, \Countable
 {
+    private const string DIRECTORY = 'translations';
     /** @var TranslationFile[] */
     private array $files = [];
-
-    private const string DIRECTORY = 'translations';
+    private string $path;
 
     public function __construct(string $directory)
     {
-        $path = self::getPath($directory);
+        $this->path = self::getPath($directory);
 
-        if (!\file_exists($path)) {
+        if (!\file_exists($this->path)) {
             return;
         }
-        foreach (Finder::create()->in($path)->files()->name('*.yaml') as $file) {
+        foreach (Finder::create()->in($this->path)->files()->name('*.yaml') as $file) {
             $this->files[] = new TranslationFile($file);
         }
     }

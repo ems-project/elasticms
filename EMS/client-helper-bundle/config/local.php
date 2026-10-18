@@ -7,6 +7,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use EMS\ClientHelperBundle\Command\Local\AbstractLocalCommand;
 use EMS\ClientHelperBundle\Command\Local\FolderUploadCommand;
 use EMS\ClientHelperBundle\Command\Local\LoginCommand;
+use EMS\ClientHelperBundle\Command\Local\NormalizeCommand;
 use EMS\ClientHelperBundle\Command\Local\PullCommand;
 use EMS\ClientHelperBundle\Command\Local\PushCommand;
 use EMS\ClientHelperBundle\Command\Local\StatusCommand;
@@ -49,6 +50,13 @@ return static function (ContainerConfigurator $container) {
     $services->set('emsch.command.local.pull', PullCommand::class)
         ->parent('emsch.command.local')
         ->tag('console.command', ['command' => 'emsch:local:pull']);
+
+    $services->set('emsch.command.local.normalize', NormalizeCommand::class)
+        ->parent('emsch.command.local')
+        ->args([
+            service('twig'),
+        ])
+        ->tag('console.command', ['command' => 'emsch:local:normalize']);
 
     $services->set('emsch.command.local.push', PushCommand::class)
         ->parent('emsch.command.local')

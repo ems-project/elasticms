@@ -144,12 +144,12 @@ class ChoiceList extends JsonDeserializer implements \JsonSerializable, EntityIn
         foreach ($this->options['groups'] ?? [] as $group) {
             $groups[$group['name']] = [
                 'name' => $group['name'],
-                'label' => Translations::fromSimpleArray($group['labels'] ?? [])->getTranslation($locales, $group['label'])->getLabel(),
+                'label' => Translations::fromSimpleArray($locales, $group['labels'] ?? [], $group['label']),
             ];
         }
         foreach ($this->options['choices'] ?? [] as $choice) {
             $labelsAndGroups[$choice['value']] = [
-                'label' => Translations::fromSimpleArray($choice['labels'] ?? [])->getTranslation($locales, $choice['label'])->getLabel(),
+                'label' => Translations::fromSimpleArray($locales, $choice['labels'] ?? [], $choice['label']),
                 'value' => $choice['value'],
                 'group' => $choice['group'] ? $groups[$choice['group']] ?? null : null,
             ];

@@ -43,6 +43,30 @@ final class TranslationFiles implements \IteratorAggregate, \Countable
         return new self($directory);
     }
 
+    /**
+     * @param array<string, true> $keys
+     */
+    public function normalize(array $keys): int
+    {
+        $count = 0;
+        foreach ($this->files as $file) {
+            $messageCatalogue = new MessageCatalogue($file->locale);
+            foreach ($keys as $key => $unused) {
+                $messageCatalogue->set($key, $key);
+            }
+            foreach ($file->toArray() as $key => $label) {
+                if (!$messageCatalogue->has($key)) {
+                    continue;
+                }
+                $messageCatalogue->set($key, $label);
+            }
+            self::buildCatalogue($this->path, $messageCatalogue);
+            ++$count;
+        }
+
+        return $count;
+    }
+
     #[\Override]
     public function count(): int
     {

@@ -50,6 +50,15 @@ final class TranslationBuilder extends AbstractBuilder
         return $this->searchDocuments($contentType);
     }
 
+    /**
+     * @param array<string, true> $translationKeys
+     */
+    public function normalize(Environment $environment, array $translationKeys): void
+    {
+        $translationFiles = new TranslationFiles($environment->getLocal()->getDirectory());
+        $translationFiles->normalize($translationKeys);
+    }
+
     #[\Override]
     protected function modifySearch(Search $search): void
     {

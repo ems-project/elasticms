@@ -18,6 +18,11 @@ class MaxLength extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new Length(max: $this->value);
+        $max = (int) $this->value;
+        if ($max <= 0) {
+            throw new \RuntimeException(\sprintf('Maximum value should be greater than zero, %s given', $max));
+        }
+
+        return new Length(max: $max);
     }
 }

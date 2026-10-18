@@ -20,7 +20,7 @@ final class TranslationFiles implements \IteratorAggregate, \Countable
 
     public function __construct(string $directory)
     {
-        $path = $directory.\DIRECTORY_SEPARATOR.self::DIRECTORY;
+        $path = self::getPath($directory);
 
         if (!\file_exists($path)) {
             return;
@@ -35,7 +35,7 @@ final class TranslationFiles implements \IteratorAggregate, \Countable
      */
     public static function build(string $directory, iterable $messageCatalogues): self
     {
-        $path = $directory.\DIRECTORY_SEPARATOR.self::DIRECTORY;
+        $path = self::getPath($directory);
         $dumper = new YamlFileDumper('yaml');
 
         foreach ($messageCatalogues as $messageCatalogue) {
@@ -43,6 +43,11 @@ final class TranslationFiles implements \IteratorAggregate, \Countable
         }
 
         return new self($directory);
+    }
+
+    public static function getPath(string $directory): string
+    {
+        return $directory.\DIRECTORY_SEPARATOR.self::DIRECTORY;
     }
 
     #[\Override]

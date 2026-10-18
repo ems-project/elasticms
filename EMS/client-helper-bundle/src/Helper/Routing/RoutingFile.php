@@ -7,6 +7,7 @@ namespace EMS\ClientHelperBundle\Helper\Routing;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateFile;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateFiles;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateName;
+use EMS\Helpers\File\File;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
@@ -63,6 +64,25 @@ final class RoutingFile implements \Countable
         $fs->dumpFile($fileName, [] !== $routes ? Yaml::dump($routes, 3) : '');
 
         return new self($directory, $templateFiles);
+    }
+
+    public static function normalize(string $directory): bool
+    {
+        $fileName = $directory.\DIRECTORY_SEPARATOR.self::FILE_NAME;
+        if (!\is_file($fileName)) {
+            return false;
+        }
+
+        $routes = Yaml::parseFile($fileName);
+        if (null === $routes) {
+            return false;
+        }
+        if (!\is_array($routes)) {
+            throw new \RuntimeException(\sprintf('Routes file %s must contain a YAML mapping', $fileName));
+        }
+        File::putContents($fileName, Yaml::dump($routes, 3));
+
+        return true;
     }
 
     /**

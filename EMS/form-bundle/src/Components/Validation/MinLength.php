@@ -18,6 +18,11 @@ class MinLength extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new Length(min: $this->value);
+        $min = (int) $this->value;
+        if ($min < 0) {
+            throw new \RuntimeException(\sprintf('Minimum value should be greater, or equal, than zero, %s given', $min));
+        }
+
+        return new Length(min: (int) $min);
     }
 }

@@ -12,7 +12,7 @@ use Symfony\Component\Translation\MessageCatalogue;
 
 final class TranslationBuilder extends AbstractBuilder
 {
-    public const string TRANSLATION_DOMAIN = 'messages';
+    private const string TRANSLATION_DOMAIN = 'messages';
 
     /**
      * @return \Generator|MessageCatalogue[]

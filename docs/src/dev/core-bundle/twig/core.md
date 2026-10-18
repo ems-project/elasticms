@@ -13,6 +13,53 @@ from an ems link Optional you can pass an search environment.
 {% set docInLive = 'page:17090dbe-5a61-4277-b691-08a867ad740e'|emsco_get('live'|emsco_get_environment)  %}
 ```
 
+## emsco_choice_list
+
+Retrieve the choices and their translated labels from an EMS ChoiceList.
+
+```twig
+{{ choiceListName|emsco_choice_list(values, locale) }}
+```
+
+Arguments:
+
+- `choiceListName`: the name of the ChoiceList configured in the administration.
+- `values`: an optional array of choice values to retrieve. If omitted, all choices are returned.
+- `locale`: an optional locale used to resolve translated labels. If omitted, the locales of the current user are used.
+
+The filter returns an associative array indexed by the choice value. Each item contains the choice
+value, its resolved label and its optional group:
+
+```php
+[
+    'BE' => [
+        'value' => 'BE',
+        'label' => 'Belgium',
+        'group' => [
+            'name' => 'europe',
+            'label' => 'Europe',
+        ],
+    ],
+]
+```
+
+For example, retrieve only selected values and use the group label when it is available:
+
+```twig
+{% set values = 'countries'|emsco_choice_list(['BE', 'FR'], 'en') %}
+
+{% for choice in values %}
+    {% if choice.group %}{{ choice.group.label }} &gt; {% endif %}{{ choice.label }}
+{% endfor %}
+```
+
+If the requested ChoiceList does not exist, the filter returns the provided values with their value
+as label and no group:
+
+```twig
+{% set values = 'unknown_list'|emsco_choice_list(['draft', 'published']) %}
+```
+
 ## emsco*log*[error | warning | notice]
 
 Print flash message, usefull in post processing

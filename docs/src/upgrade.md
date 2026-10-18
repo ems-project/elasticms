@@ -9,6 +9,13 @@ outline: [2, 2]
 
 ## 7.4
 
+### Translated choice fields
+
+The choices and labels configured directly on a content type with `ChoiceFieldType` cannot be
+translated. For translated choices, migrate the field to `ChoiceListFieldType` and select a
+`ChoiceList` entity. The `ChoiceList` contains the choice values, fallback labels, optional groups
+and their locale-specific translations.
+
 ### `emsco_cant_be_finalized` parameters
 
 The `$code` and `$previous` parameters of `emsco_cant_be_finalized` have been removed. They were

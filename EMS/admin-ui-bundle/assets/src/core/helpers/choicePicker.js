@@ -20,6 +20,7 @@ class ChoicePicker {
             removeItemButton: true,
             allowHTML: true,
             removeItems: true,
+            shouldSort: false,
             callbackOnCreateTemplates: function (template, escapeForTemplate, getClassNames) {
                 return {
                     item: ({ classNames }, data) => {

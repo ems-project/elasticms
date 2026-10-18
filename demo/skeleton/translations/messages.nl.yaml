@@ -1,3 +1,6 @@
+ajax-search:
+    load-more: 'Meer laden'
+annexe: Bijlage
 aria:
     back-to-top: 'Back to top'
     navbar:
@@ -7,40 +10,21 @@ aria:
 block:
     grid:
         see_also: 'Zie ook'
-    release:
-        title: 'Release %version%'
 blog:
     filter: Filters
-    grid:
-        title: News
     title: 'What’s new?'
 breadcrumb:
     back-to: 'Terug naar  %title%'
     homepage: homepagina
-cookie:
-    close: 'Ik begrijp het!'
-    closeAll: 'cookies voor sociale media'
-    closeSite: 'functionele cookies'
-    link: 'Meer weten'
-    text: 'Wij gebruiken cookies op deze site om de gebruikerservaring te verbeteren.'
 ems:
     back_to_ems: 'Terug naar eMS'
+ems_file_browse: 'Bestanden kiezen'
 ems_form:
+    ignore_iframe: 'Iframe negeren'
     loading: 'bezig met laden...'
-emsch:
-    security:
-        exception:
-            bad_credentials: 'Ongeldige gebruikersnaam of wachtwoord'
-            error: 'Er is iets fout gegaan!'
-        form:
-            password: Wachtwoord
-            submit: Login
-            username: Gebruikersnaam
-features:
-    discover: 'Ontdek alle features'
-files_browse: 'Kiezen bestanden'
-footer:
-    join-us-github: 'Join-us on GitHub'
+error:
+    page-not-found: 'Pagina niet gevonden'
+    target-not-found: 'Doel niet gevonden'
 js:
     file_selected: '1 bestand geselecteerd'
     files_selected: '%count% geselecteerde bestanden'
@@ -54,8 +38,8 @@ js:
     remove: Verwijderen
     remove_all: 'Alles verwijderen'
     required_field: '(*) Verplicht veld'
-language:
-    selection: 'select language'
+key:
+    new_window: 'Opent in een nieuw venster'
 locale: Nederlands
 login: Login
 missing:
@@ -76,20 +60,14 @@ month:
     September: September
 navbar:
     swith-to-locale: NL
-release:
-    search:
-        choose_category: 'Kies een categorie'
-        filters_title: Filter
-        label: Trefwoorden
-        placeholder: Trefwoorden
-        remove_tag: 'Verwijder het filter'
-        selected_categories: 'Geselecteerde categories'
-        submit: Zoeken
+search:
+    pagination:
+        current: 'Pagina %current% van %total%'
+        next: Volgende
+        previous: Vorige
 site:
     copy: 'Copyright %year%'
-    lead: 'Een CMS op maat voor de openbare sector'
     name: elasticMS
-    news_title: "What's new?"
     short_name: elasticMS
 usergroup:
     facilitator: 'Facilitator van de volgende User Group'

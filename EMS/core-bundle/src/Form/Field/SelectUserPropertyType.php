@@ -63,6 +63,7 @@ final class SelectUserPropertyType extends AbstractType
             ->setDefaults([
                 'is_dynamic' => false,
                 'user_roles' => [],
+                'user_groups' => [],
                 'exclude_values' => [],
                 'event_dispatcher' => null,
                 'multiple' => false,

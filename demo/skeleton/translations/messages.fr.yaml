@@ -1,3 +1,6 @@
+ajax-search:
+    load-more: 'Charger plus'
+annexe: Annexe
 aria:
     back-to-top: 'Back to top'
     navbar:
@@ -7,40 +10,21 @@ aria:
 block:
     grid:
         see_also: 'Voir également'
-    release:
-        title: 'Release %version%'
 blog:
     filter: Filtres
-    grid:
-        title: News
     title: 'What’s new?'
 breadcrumb:
     back-to: 'Retour à la page %title%'
     homepage: "d'accueil"
-cookie:
-    close: "J'ai compris !"
-    closeAll: 'les cookies sociaux'
-    closeSite: 'les cookies fonctionnels'
-    link: 'En savoir plus'
-    text: 'Nous utilisons des cookies sur ce site pour améliorer votre expérience utilisateur.'
 ems:
     back_to_ems: 'Retour à eMS'
+ems_file_browse: 'Choisir des fichiers'
 ems_form:
+    ignore_iframe: "Ignorer l'iframe"
     loading: 'en cours de chargement...'
-emsch:
-    security:
-        exception:
-            bad_credentials: "Nom d'utilisateur ou mot de passe invalide"
-            error: "Une erreur s'est produite !"
-        form:
-            password: 'Mot de passe'
-            submit: 'Se connecter'
-            username: "Nom d'utilisateur"
-features:
-    discover: 'Découvrez toutes les fonctionnalités'
-files_browse: 'Glisser-déposer des fichiers ici ou'
-footer:
-    join-us-github: 'Join-us on GitHub'
+error:
+    page-not-found: 'Page non trouvée'
+    target-not-found: 'Cible non trouvée'
 js:
     file_selected: '1 fichier selectionné'
     files_selected: '%count% fichiers selectionnés'
@@ -54,8 +38,8 @@ js:
     remove: Supprimer
     remove_all: 'Supprimer tout'
     required_field: '(*) Champ obligatoire'
-language:
-    selection: 'select language'
+key:
+    new_window: "S'ouvre dans une nouvelle fenêtre"
 locale: Français
 login: 'Se connecter'
 missing:
@@ -76,20 +60,14 @@ month:
     September: Septembre
 navbar:
     swith-to-locale: FR
-release:
-    search:
-        choose_category: 'Choisissez une catégorie'
-        filters_title: Filtre
-        label: Mots-clés
-        placeholder: Mots-clés
-        remove_tag: 'Supprimer le filtre'
-        selected_categories: 'Tags sélectionnés'
-        submit: Rechercher
+search:
+    pagination:
+        current: 'Page %current% sur %total%'
+        next: Suivant
+        previous: Précédent
 site:
     copy: 'Copyright %year%'
-    lead: 'Un CMS sur mesure au service du secteur public'
     name: elasticMS
-    news_title: "What's new?"
     short_name: elasticMS
 usergroup:
     facilitator: 'Présentateur du prochain User Group'

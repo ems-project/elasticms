@@ -59,6 +59,11 @@ final class RoutingBuilder extends AbstractBuilder
         return $this->searchDocuments($contentType);
     }
 
+    public function normalize(Environment $environment): void
+    {
+        RoutingFile::normalize($environment->getLocal()->getDirectory());
+    }
+
     #[\Override]
     protected function modifySearch(Search $search): void
     {

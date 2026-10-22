@@ -1,5 +1,16 @@
 # Changelog 6.x
 
+## 6.9.41 (2026-10-21)
+### Features
+* feat(common/docker): configure the runner docker HostConfig by @theus77 in https://github.com/ems-project/elasticms/pull/1913
+### Bug Fixes
+* fix(admin): \natcasesort preserve array identifiers (break the list) by @theus77 in https://github.com/ems-project/elasticms/pull/1911
+* fix(admin/cli): switch environment non persisted new entities by @Davidmattei in https://github.com/ems-project/elasticms/pull/1916
+* fix(admin/fields): align the numbering of the reorder fields with that of the structure by @theus77 in https://github.com/ems-project/elasticms/pull/1912
+* fix(admin/revision): cant be finalized in modal for JsonMenuNested by @theus77 in https://github.com/ems-project/elasticms/pull/1920
+* fix(admin/submission): export add the submission id in the expression context by @theus77 in https://github.com/ems-project/elasticms/pull/1919
+* fix(common/coreApi): user profile return locale and locale preferred by @Davidmattei in https://github.com/ems-project/elasticms/pull/1922
+
 ## 6.9.40 (2026-10-05)
 ### Features
 * feat(common/asset): allows extra options in FileController::assetInArchive responses by @theus77 in https://github.com/ems-project/elasticms/pull/1886

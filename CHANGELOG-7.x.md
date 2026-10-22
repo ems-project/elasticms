@@ -1,5 +1,25 @@
 # Changelog 7.x
 
+## 7.3.10 (2026-10-22)
+### Features
+* feat(common/asset): allows extra options in FileController::assetInArchive responses by @theus77 in https://github.com/ems-project/elasticms/pull/1886
+* feat(common/docker): configure the runner docker HostConfig by @theus77 in https://github.com/ems-project/elasticms/pull/1913
+### Bug Fixes
+* fix(admin): \natcasesort preserve array identifiers (break the list) by @theus77 in https://github.com/ems-project/elasticms/pull/1911
+* fix(admin/cli): switch environment non persisted new entities by @Davidmattei in https://github.com/ems-project/elasticms/pull/1916
+* fix(admin/export): natural order for collection export (environments) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1890
+* fix(admin/fields): align the numbering of the reorder fields with that of the structure by @theus77 in https://github.com/ems-project/elasticms/pull/1912
+* fix(admin/revision): cant be finalized in modal for JsonMenuNested by @theus77 in https://github.com/ems-project/elasticms/pull/1920
+* fix(admin/submission): export add the submission id in the expression context by @theus77 in https://github.com/ems-project/elasticms/pull/1919
+* fix(admin/tanslation): wrong translation format by @theus77 in https://github.com/ems-project/elasticms/pull/1930
+* fix(admin/translations): add new item or node user type by @Davidmattei in https://github.com/ems-project/elasticms/pull/1892
+* fix(common/coreApi): user profile return locale and locale preferred by @Davidmattei in https://github.com/ems-project/elasticms/pull/1922
+* fix(docker): cli image runs on base-php's cli entrypoint and reports its jobs by @zebby76 in https://github.com/ems-project/elasticms/pull/1914
+* fix(web/emsch-form): disable csrf and cacheable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1891
+* fix(web/form): min and max are int with extra constraints by @theus77 in https://github.com/ems-project/elasticms/pull/1926
+### Chores
+* chore(docker): stop re-sourcing the cli early hooks in the cron scripts by @zebby76 in https://github.com/ems-project/elasticms/pull/1915
+
 ## 7.3.9 (2026-09-30)
 ### Bug Fixes
 * fix(admin): correct catch Storage exceptions and admin only switch user by @theus77 in https://github.com/ems-project/elasticms/pull/1858

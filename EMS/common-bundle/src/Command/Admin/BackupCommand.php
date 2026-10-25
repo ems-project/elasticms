@@ -302,12 +302,13 @@ class BackupCommand extends AbstractCommand
         $filename = $this->assetsFolder.DIRECTORY_SEPARATOR.$hash.'.bin';
         if (\file_exists($filename) && $hash === \hash_file($this->hashAlgo, $filename)) {
             $this->assetsAlreadyExported[$hash] = true;
+
             return;
         }
         try {
             $stream = $this->adminHelper->getCoreApi()->file()->getStream($hash);
         } catch (ClientException $e) {
-            if ($e->getCode() !== 404) {
+            if (404 !== $e->getCode()) {
                 throw $e;
             }
             $this->io->warning(\sprintf('File %s not found', $hash));

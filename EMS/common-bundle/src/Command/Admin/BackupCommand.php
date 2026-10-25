@@ -52,6 +52,7 @@ class BackupCommand extends AbstractCommand
         parent::__construct();
         $this->configsFolder = $projectFolder.DIRECTORY_SEPARATOR.ConfigHelper::DEFAULT_FOLDER;
         $this->documentsFolder = $projectFolder.DIRECTORY_SEPARATOR.DownloadCommand::DEFAULT_FOLDER;
+        $this->assetsFolder = $projectFolder.DIRECTORY_SEPARATOR.self::ASSETS_DEFAULT_FOLDER;
     }
 
     #[\Override]

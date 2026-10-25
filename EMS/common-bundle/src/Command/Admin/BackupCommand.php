@@ -322,6 +322,7 @@ class BackupCommand extends AbstractCommand
         }
         if (!$this->export) {
             $this->assetsAlreadyExported[$hash] = true;
+
             return;
         }
         $file = TempFile::create();

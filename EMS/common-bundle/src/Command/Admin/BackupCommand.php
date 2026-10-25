@@ -255,7 +255,7 @@ class BackupCommand extends AbstractCommand
         $this->io->progressStart($filesToClean->count());
         foreach ($filesToClean as $file) {
             $basename = $file->getBasename('.bin');
-            if (!isset($this->assetsAlreadyExported[$basename])) {
+            if (!isset($this->assetsAlreadyExported[$basename]) && $this->export) {
                 \unlink($file->getPathname());
             }
             $this->io->progressAdvance();
@@ -318,6 +318,10 @@ class BackupCommand extends AbstractCommand
         } catch (NotFoundException) {
             $this->io->warning(\sprintf('File %s not found', $hash));
 
+            return;
+        }
+        if (!$this->export) {
+            $this->assetsAlreadyExported[$hash] = true;
             return;
         }
         $file = TempFile::create();

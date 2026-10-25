@@ -266,6 +266,7 @@ class BackupCommand extends AbstractCommand
         }
         $filename = $this->assetsFolder.DIRECTORY_SEPARATOR.$hash.'.bin';
         if (\file_exists($filename) && $hash === \hash_file($this->hashAlgo, $filename)) {
+            $this->assetsAlreadyExported[$hash] = true;
             return;
         }
         try {

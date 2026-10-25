@@ -210,6 +210,7 @@ class BackupCommand extends AbstractCommand
 
     private function exportAssets(): void
     {
+        $this->io->section('Download assets from configs');
         if (!\is_dir($this->assetsFolder)) {
             \mkdir($this->assetsFolder, 0o777, true);
         }
@@ -221,6 +222,23 @@ class BackupCommand extends AbstractCommand
                 $this->findAssets(Json::decode($file->getContents()));
             } catch (\Throwable $e) {
                 $this->io->error(\sprintf('Error while parsing json file %s: %s', $file->getPathname(), $e->getMessage()));
+            }
+            $this->io->progressAdvance();
+        }
+        $this->io->progressFinish();
+        
+        $this->io->section('Extract assets from archives');
+        $finder = new Finder();
+        $files = $finder->in($this->assetsFolder)->name('*.bin');
+        $this->io->progressStart($files->count());
+        foreach ($files as $file) {
+            $basename = $file->getBasename('.bin');
+            if(!isset($this->assetsAlreadyExported[$basename])) {
+                continue;
+            }
+            try {
+                $this->findAssets(Json::decode($file->getContents()));
+            } catch (\Throwable $e) {
             }
             $this->io->progressAdvance();
         }

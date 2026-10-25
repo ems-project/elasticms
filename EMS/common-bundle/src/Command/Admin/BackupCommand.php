@@ -210,7 +210,7 @@ class BackupCommand extends AbstractCommand
 
     private function exportAssets(): void
     {
-        $this->io->section('Download assets from configs');
+        $this->io->section('Download assets from configs and documents');
         if (!\is_dir($this->assetsFolder)) {
             \mkdir($this->assetsFolder, 0o777, true);
         }
@@ -226,14 +226,15 @@ class BackupCommand extends AbstractCommand
             $this->io->progressAdvance();
         }
         $this->io->progressFinish();
-        
+
         $this->io->section('Extract assets from archives');
         $finder = new Finder();
         $files = $finder->in($this->assetsFolder)->name('*.bin');
         $this->io->progressStart($files->count());
         foreach ($files as $file) {
             $basename = $file->getBasename('.bin');
-            if(!isset($this->assetsAlreadyExported[$basename])) {
+            if (!isset($this->assetsAlreadyExported[$basename])) {
+                $this->io->progressAdvance();
                 continue;
             }
             try {

@@ -19,6 +19,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpClient\Exception\ClientException;
 
 class BackupCommand extends AbstractCommand
 {
@@ -269,6 +270,13 @@ class BackupCommand extends AbstractCommand
         }
         try {
             $stream = $this->adminHelper->getCoreApi()->file()->getStream($hash);
+        } catch (ClientException $e) {
+            if ($e->getCode() !== 404) {
+                throw $e;
+            }
+            $this->io->warning(\sprintf('File %s not found', $hash));
+
+            return;
         } catch (NotFoundException) {
             $this->io->warning(\sprintf('File %s not found', $hash));
 

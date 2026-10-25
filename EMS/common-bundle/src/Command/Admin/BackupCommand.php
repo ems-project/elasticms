@@ -244,6 +244,22 @@ class BackupCommand extends AbstractCommand
             $this->io->progressAdvance();
         }
         $this->io->progressFinish();
+
+        $finder = new Finder();
+        $filesToClean = $finder->in($this->assetsFolder)->name('*.bin')->notName(\array_map(fn ($hash) => \sprintf('%s.bin', $hash), \array_keys($this->assetsAlreadyExported)))->files();
+        if (0 === $filesToClean->count()) {
+            return;
+        }
+        $this->io->section('Remove unknow assets');
+        $this->io->progressStart($filesToClean->count());
+        foreach ($filesToClean as $file) {
+            $basename = $file->getBasename('.bin');
+            if (!isset($this->assetsAlreadyExported[$basename])) {
+                \unlink($file->getPathname());
+            }
+            $this->io->progressAdvance();
+        }
+        $this->io->progressFinish();
     }
 
     /**

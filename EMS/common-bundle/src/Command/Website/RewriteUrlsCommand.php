@@ -82,6 +82,9 @@ class RewriteUrlsCommand extends AbstractCommand
                 case 'htm':
                     $this->rewriteHtml($file);
                     break;
+                case 'css':
+                    $this->rewriteCss($file);
+                    break;
                 default:
                     $this->filesystem->copy(
                         $file->getPathname(),
@@ -154,6 +157,18 @@ class RewriteUrlsCommand extends AbstractCommand
 
         $targetFile = Path::join($this->target, $file->getRelativePathname());
         $this->filesystem->dumpFile($targetFile, $document->saveHtml());
+    }
+
+    private function rewriteCss(SplFileInfo $file): void
+    {
+        $currentDir = Path::join((string) \realpath($this->source), \dirname($file->getRelativePathname()));
+        $replace = fn (array $m) => $m[1].($this->toRelativeUrl($m[3], $currentDir) ?? $m[3]).$m[4];
+
+        $css = $file->getContents();
+        $css = \preg_replace_callback('/(url\(\s*(["\']?))([^"\')\s]+)(\2\s*\))/i', $replace, $css) ?? $css;
+        $css = \preg_replace_callback('/(@import\s+(["\']))([^"\']+)(\2)/i', $replace, $css) ?? $css;
+
+        $this->filesystem->dumpFile(Path::join($this->target, $file->getRelativePathname()), $css);
     }
 
     private function toRelativeUrl(string $url, string $currentDir): ?string

@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Finder\Finder;
 
 #[AsCommand(
@@ -48,6 +49,7 @@ class RewriteUrlsCommand extends AbstractCommand
         $this->source = $this->getArgumentString(self::ARGUMENT_SOURCE);
         $this->target = $this->getArgumentString(self::ARGUMENT_TARGET);
         $this->baseUrls = $this->getOptionStringArray(self::OPTION_BASE_URLS, false);
+        $this->filesystem = new Filesystem();
     }
 
     #[\Override]
@@ -70,6 +72,14 @@ class RewriteUrlsCommand extends AbstractCommand
 
         $this->io->progressStart($finder->count());
         foreach ($finder as $file) {
+            switch ($file->getExtension()) {
+                default:
+                    $this->filesystem->copy(
+                        $file->getPathname(),
+                        Path::join($this->target, $file->getRelativePathname()),
+                        true
+                    );
+            }
             $this->io->progressAdvance();
         }
         $this->io->progressFinish();
@@ -80,8 +90,6 @@ class RewriteUrlsCommand extends AbstractCommand
 
     private function prepareTarget(): bool
     {
-        $this->filesystem ??= new Filesystem();
-
         if (!$this->filesystem->exists($this->target)) {
             if (!$this->io->confirm(\sprintf('The target directory "%s" does not exist, do you want to create it?', $this->target), false)) {
                 $this->io->warning('Target directory not created, aborting.');

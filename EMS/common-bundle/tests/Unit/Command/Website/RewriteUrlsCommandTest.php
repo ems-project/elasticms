@@ -65,6 +65,7 @@ class RewriteUrlsCommandTest extends TestCase
             <a id="external" href="//other.com/css/s.css">external</a>
             <a id="evil" href="https://d.tld.evil/css/s.css">evil</a>
             <a id="dots" href="/a/../css/s.css">dots</a>
+            <a id="escape" href="/../css/s.css">escape</a>
             <a id="mail" href="mailto:a@b.c">mail</a>
             <img id="img" src="/my%20file.png">
             </body></html>
@@ -81,7 +82,8 @@ class RewriteUrlsCommandTest extends TestCase
         $this->assertStringContainsString('id="missing" href="/missing.html"', $html);
         $this->assertStringContainsString('id="external" href="//other.com/css/s.css"', $html);
         $this->assertStringContainsString('id="evil" href="https://d.tld.evil/css/s.css"', $html);
-        $this->assertStringContainsString('id="dots" href="/a/../css/s.css"', $html);
+        $this->assertStringContainsString('id="dots" href="css/s.css"', $html);
+        $this->assertStringContainsString('id="escape" href="/../css/s.css"', $html);
         $this->assertStringContainsString('id="mail" href="mailto:a@b.c"', $html);
         $this->assertStringContainsString('id="img" src="my%20file.png"', $html);
 
@@ -105,20 +107,39 @@ class RewriteUrlsCommandTest extends TestCase
         $this->assertStringContainsString('class="/css/s.css"', $html);
     }
 
+    public function testStyleTagsAndAttributes(): void
+    {
+        $this->write('wp/themes/t/assets/fonts/p.woff2', '');
+        $this->write('img/bg.png', '');
+        $this->write('page/index.html', <<<'HTML'
+            <html><head><style class="wp-fonts-local">
+            @font-face{font-family:Poppins;src:url('https://d.tld/wp/themes/t/../t/assets/fonts/p.woff2') format('woff2');}
+            @font-face{font-family:Other;src:url('https://d.tld/wp/missing.woff2') format('woff2');}
+            </style></head><body><div style="background:url(/img/bg.png) no-repeat"></div></body></html>
+            HTML);
+
+        $this->runCommand(['/', 'https://d.tld']);
+
+        $html = $this->read('page/index.html');
+        $this->assertStringContainsString("src:url('../wp/themes/t/assets/fonts/p.woff2') format('woff2');", $html);
+        $this->assertStringContainsString("src:url('https://d.tld/wp/missing.woff2') format('woff2');", $html);
+        $this->assertStringContainsString('style="background:url(../img/bg.png) no-repeat"', $html);
+    }
+
     public function testSrcsetWithMultipleUrls(): void
     {
         $this->write('up/b.jpg', '');
         $this->write('up/b-300x200.jpg', '');
         $this->write('up/w_1,h_2/c.jpg', '');
         $this->write('page/index.html', <<<'HTML'
-<html><body>
-<img id="wp" srcset="https://d.tld/up/b.jpg 2560w, https://d.tld/up/b-300x200.jpg 300w, https://d.tld/up/missing.jpg 18w, //cdn.tld/x.jpg 2x" src="/up/b.jpg">
-<img id="nospace" srcset="/up/b.jpg 1x,/up/b-300x200.jpg 2x">
-<img id="comma" srcset="/up/w_1,h_2/c.jpg 1x, /up/b.jpg, /up/b-300x200.jpg">
-<img id="data" data-srcset="/up/b.jpg 1x, /up/b-300x200.jpg 2x">
-<link id="preload" rel="preload" as="image" imagesrcset="/up/b.jpg 1x, /up/b-300x200.jpg 2x">
-</body></html>
-HTML);
+            <html><body>
+            <img id="wp" srcset="https://d.tld/up/b.jpg 2560w, https://d.tld/up/b-300x200.jpg 300w, https://d.tld/up/missing.jpg 18w, //cdn.tld/x.jpg 2x" src="/up/b.jpg">
+            <img id="nospace" srcset="/up/b.jpg 1x,/up/b-300x200.jpg 2x">
+            <img id="comma" srcset="/up/w_1,h_2/c.jpg 1x, /up/b.jpg, /up/b-300x200.jpg">
+            <img id="data" data-srcset="/up/b.jpg 1x, /up/b-300x200.jpg 2x">
+            <link id="preload" rel="preload" as="image" imagesrcset="/up/b.jpg 1x, /up/b-300x200.jpg 2x">
+            </body></html>
+            HTML);
 
         $this->runCommand(['/', 'https://d.tld']);
 
@@ -223,30 +244,30 @@ HTML);
         $this->write('img/icon.png', '');
         $this->write('app/index.html', '');
         $this->write("app/site.$extension", <<<'JSON'
-{
-  "start_url": "/app/",
-  "icons": [{"src": "https:\/\/d.tld\/img\/icon.png", "sizes": "192x192"}],
-  "missing": "/nope.png",
-  "name": "é /img/icon.png",
-  "empty": {},
-  "/img/icon.png": "key",
-  "count": 3
-}
-JSON);
+            {
+              "start_url": "/app/",
+              "icons": [{"src": "https:\/\/d.tld\/img\/icon.png", "sizes": "192x192"}],
+              "missing": "/nope.png",
+              "name": "é /img/icon.png",
+              "empty": {},
+              "/img/icon.png": "key",
+              "count": 3
+            }
+            JSON);
 
         $this->runCommand(['/', 'https://d.tld']);
 
         $expected = <<<'JSON'
-{
-  "start_url": "./",
-  "icons": [{"src": "../img/icon.png", "sizes": "192x192"}],
-  "missing": "/nope.png",
-  "name": "é /img/icon.png",
-  "empty": {},
-  "/img/icon.png": "key",
-  "count": 3
-}
-JSON;
+            {
+              "start_url": "./",
+              "icons": [{"src": "../img/icon.png", "sizes": "192x192"}],
+              "missing": "/nope.png",
+              "name": "é /img/icon.png",
+              "empty": {},
+              "/img/icon.png": "key",
+              "count": 3
+            }
+            JSON;
         $this->assertSame($expected, $this->read("app/site.$extension"));
     }
 

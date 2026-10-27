@@ -28,7 +28,7 @@ class RewriteUrlsCommand extends AbstractCommand
     public const string ARGUMENT_SOURCE = 'source';
     public const string ARGUMENT_TARGET = 'target';
     public const string OPTION_BASE_URLS = 'base-urls';
-    private const array URL_ATTRIBUTES = ['href', 'src', 'poster', 'action', 'srcset', 'imagesrcset'];
+    private const array URL_ATTRIBUTES = ['href', 'src', 'poster', 'action', 'srcset', 'imagesrcset', 'style'];
     private string $source;
     private string $target;
     /** @var string[] without trailing slash (so '/' becomes ''), longest first */
@@ -150,6 +150,10 @@ class RewriteUrlsCommand extends AbstractCommand
         $document = HTMLDocument::createFromString($file->getContents(), \LIBXML_NOERROR);
         $currentDir = Path::join((string) \realpath($this->source), \dirname($file->getRelativePathname()));
 
+        foreach ($document->querySelectorAll('style') as $style) {
+            $style->textContent = $this->rewriteCssContent($style->textContent ?? '', $currentDir);
+        }
+
         foreach ($document->querySelectorAll('*') as $element) {
             $urls = [];
             foreach ($element->attributes as $attribute) {
@@ -158,9 +162,11 @@ class RewriteUrlsCommand extends AbstractCommand
                 }
             }
             foreach ($urls as $name => $value) {
-                $relative = \str_ends_with($name, 'srcset')
-                    ? $this->rewriteSrcset($value, $currentDir)
-                    : $this->toRelativeUrl($value, $currentDir);
+                $relative = match (true) {
+                    'style' === $name => $this->rewriteCssContent($value, $currentDir),
+                    \str_ends_with($name, 'srcset') => $this->rewriteSrcset($value, $currentDir),
+                    default => $this->toRelativeUrl($value, $currentDir),
+                };
                 if (null !== $relative && $relative !== $value) {
                     $element->setAttribute($name, $relative);
                 }
@@ -193,13 +199,20 @@ class RewriteUrlsCommand extends AbstractCommand
     private function rewriteCss(SplFileInfo $file): void
     {
         $currentDir = Path::join((string) \realpath($this->source), \dirname($file->getRelativePathname()));
+
+        $this->filesystem->dumpFile(
+            Path::join($this->target, $file->getRelativePathname()),
+            $this->rewriteCssContent($file->getContents(), $currentDir)
+        );
+    }
+
+    private function rewriteCssContent(string $css, string $currentDir): string
+    {
         $replace = fn (array $m) => $m[1].($this->toRelativeUrl($m[3], $currentDir) ?? $m[3]).$m[4];
 
-        $css = $file->getContents();
         $css = \preg_replace_callback('/(url\(\s*(["\']?))([^"\')\s]+)(\2\s*\))/i', $replace, $css) ?? $css;
-        $css = \preg_replace_callback('/(@import\s+(["\']))([^"\']+)(\2)/i', $replace, $css) ?? $css;
 
-        $this->filesystem->dumpFile(Path::join($this->target, $file->getRelativePathname()), $css);
+        return \preg_replace_callback('/(@import\s+(["\']))([^"\']+)(\2)/i', $replace, $css) ?? $css;
     }
 
     private function rewriteJs(SplFileInfo $file): void
@@ -247,6 +260,27 @@ class RewriteUrlsCommand extends AbstractCommand
         $this->filesystem->dumpFile(Path::join($this->target, $file->getRelativePathname()), $json);
     }
 
+    private function normalizePath(string $path): ?string
+    {
+        $segments = [];
+        foreach (\explode('/', $path) as $segment) {
+            if ('' === $segment || '.' === $segment) {
+                continue;
+            }
+            if ('..' !== $segment) {
+                $segments[] = $segment;
+            } elseif ([] === $segments) {
+                return null;
+            } else {
+                \array_pop($segments);
+            }
+        }
+        $last = \basename($path);
+        $trailingSlash = '' === $last || '.' === $last || '..' === $last || \str_ends_with($path, '/');
+
+        return '/'.\implode('/', $segments).($trailingSlash && [] !== $segments ? '/' : '');
+    }
+
     private function toRelativeUrl(string $url, string $currentDir): ?string
     {
         $rest = null;
@@ -275,7 +309,8 @@ class RewriteUrlsCommand extends AbstractCommand
         if ('' === $path) {
             $path = '/';
         }
-        if (\in_array('..', \explode('/', $path), true)) {
+        $path = $this->normalizePath($path);
+        if (null === $path) {
             return null;
         }
 

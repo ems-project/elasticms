@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Command\Website;
 
+use Dom\Element;
 use Dom\HTMLDocument;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
@@ -28,11 +29,14 @@ class RewriteUrlsCommand extends AbstractCommand
     public const string ARGUMENT_SOURCE = 'source';
     public const string ARGUMENT_TARGET = 'target';
     public const string OPTION_BASE_URLS = 'base-urls';
+    public const string OPTION_IGNORE_SELECTORS = 'ignore-selector';
     private const array URL_ATTRIBUTES = ['href', 'src', 'poster', 'action', 'srcset', 'imagesrcset', 'style'];
     private string $source;
     private string $target;
     /** @var string[] without trailing slash (so '/' becomes ''), longest first */
     private array $baseUrls;
+    /** @var string[] */
+    private array $ignoreSelectors;
     private Filesystem $filesystem;
 
     #[\Override]
@@ -43,6 +47,7 @@ class RewriteUrlsCommand extends AbstractCommand
             ->addArgument(self::ARGUMENT_SOURCE, InputArgument::REQUIRED, 'Source directory of the static website')
             ->addArgument(self::ARGUMENT_TARGET, InputArgument::REQUIRED, 'Target directory where the rewritten website is exported')
             ->addOption(self::OPTION_BASE_URLS, null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Base URLs to rewrite (can be used multiple times)', ['/'])
+            ->addOption(self::OPTION_IGNORE_SELECTORS, null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'CSS selectors of HTML elements that must not be rewritten, e.g. ".language_switcher li:not(.__current) a" (can be used multiple times)', [])
         ;
     }
 
@@ -55,6 +60,7 @@ class RewriteUrlsCommand extends AbstractCommand
         $baseUrls = \array_map(fn (string $baseUrl) => \rtrim($baseUrl, '/'), $this->getOptionStringArray(self::OPTION_BASE_URLS, false));
         \usort($baseUrls, fn (string $a, string $b) => \strlen($b) <=> \strlen($a));
         $this->baseUrls = \array_values(\array_unique($baseUrls));
+        $this->ignoreSelectors = $this->getOptionStringArray(self::OPTION_IGNORE_SELECTORS, false);
         $this->filesystem = new Filesystem();
     }
 
@@ -155,10 +161,16 @@ class RewriteUrlsCommand extends AbstractCommand
         }
 
         foreach ($document->querySelectorAll('style') as $style) {
+            if ($this->isIgnored($style)) {
+                continue;
+            }
             $style->textContent = $this->rewriteCssContent($style->textContent ?? '', $currentDir);
         }
 
         foreach ($document->querySelectorAll('*') as $element) {
+            if ($this->isIgnored($element)) {
+                continue;
+            }
             $urls = [];
             foreach ($element->attributes as $attribute) {
                 if (\in_array($attribute->name, self::URL_ATTRIBUTES, true) || \str_starts_with($attribute->name, 'data-')) {
@@ -179,6 +191,17 @@ class RewriteUrlsCommand extends AbstractCommand
 
         $targetFile = Path::join($this->target, $file->getRelativePathname());
         $this->filesystem->dumpFile($targetFile, $document->saveHtml());
+    }
+
+    private function isIgnored(Element $element): bool
+    {
+        foreach ($this->ignoreSelectors as $selector) {
+            if ($element->matches($selector)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function rewriteSrcset(string $srcset, string $currentDir): string

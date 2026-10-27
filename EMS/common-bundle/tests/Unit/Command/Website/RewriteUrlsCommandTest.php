@@ -191,6 +191,24 @@ class RewriteUrlsCommandTest extends TestCase
         $this->assertStringContainsString('href="/css/s.css">b', $html);
     }
 
+    public function testIgnoreSelector(): void
+    {
+        $this->write('en/index.html', '');
+        $this->write('fr/index.html', '');
+        $this->write('index.html', '<html><body><ul class="language_switcher"><li class="__current"><a href="/en/">en</a></li><li><a href="/fr/">fr</a></li></ul><a href="/en/">x</a></body></html>');
+
+        $this->tester()->execute([
+            'source' => $this->source,
+            'target' => $this->target,
+            '--ignore-selector' => ['.language_switcher li:not(.__current) a'],
+        ]);
+
+        $html = $this->read('index.html');
+        $this->assertStringContainsString('href="/fr/">fr', $html);
+        $this->assertStringContainsString('href="en/">en', $html);
+        $this->assertStringContainsString('href="en/">x', $html);
+    }
+
     public function testCssUrlsAndImports(): void
     {
         $this->write('img/a.png', '');

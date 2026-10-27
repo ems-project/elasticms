@@ -119,6 +119,22 @@ class RewriteUrlsCommandTest extends TestCase
         $this->assertStringContainsString('src="/wp-includes/js/missing.js?ver=1"', $html);
     }
 
+    public function testImportMapInHtml(): void
+    {
+        $this->write('wp/js/interactivity/index.min.js', '');
+        $this->write('wp/js/other.js', '');
+        $this->write('page/index.html', '<html><head><script type="importmap" id="wp-importmap">{"imports":{"@wp\/interactivity":"https:\/\/d.tld\/wp\/js\/interactivity\/index.min.js?ver=1","other":"/wp/js/other.js","ext":"https:\/\/cdn.tld\/x.js"}}</script></head><body></body></html>');
+        $this->write('index.html', '<html><head><script type="importmap">{"imports":{"other":"/wp/js/other.js"}}</script></head></html>');
+
+        $this->runCommand(['/', 'https://d.tld']);
+
+        $html = $this->read('page/index.html');
+        $this->assertStringContainsString('"@wp\/interactivity":"../wp/js/interactivity/index.min.js?ver=1"', $html);
+        $this->assertStringContainsString('"other":"../wp/js/other.js"', $html);
+        $this->assertStringContainsString('"ext":"https:\/\/cdn.tld\/x.js"', $html);
+        $this->assertStringContainsString('"other":"./wp/js/other.js"', $this->read('index.html'));
+    }
+
     public function testStyleTagsAndAttributes(): void
     {
         $this->write('wp/themes/t/assets/fonts/p.woff2', '');

@@ -150,6 +150,10 @@ class RewriteUrlsCommand extends AbstractCommand
         $document = HTMLDocument::createFromString($file->getContents(), \LIBXML_NOERROR);
         $currentDir = Path::join((string) \realpath($this->source), \dirname($file->getRelativePathname()));
 
+        foreach ($document->querySelectorAll('script[type="importmap"]') as $importMap) {
+            $importMap->textContent = $this->rewriteJsonContent($importMap->textContent ?? '', $currentDir, true);
+        }
+
         foreach ($document->querySelectorAll('style') as $style) {
             $style->textContent = $this->rewriteCssContent($style->textContent ?? '', $currentDir);
         }
@@ -239,9 +243,17 @@ class RewriteUrlsCommand extends AbstractCommand
     {
         $currentDir = Path::join((string) \realpath($this->source), \dirname($file->getRelativePathname()));
 
-        $json = \preg_replace_callback(
+        $this->filesystem->dumpFile(
+            Path::join($this->target, $file->getRelativePathname()),
+            $this->rewriteJsonContent($file->getContents(), $currentDir)
+        );
+    }
+
+    private function rewriteJsonContent(string $content, string $currentDir, bool $dotPrefix = false): string
+    {
+        return \preg_replace_callback(
             '/"((?:[^"\\\\]|\\\\.)*+)"(\s*:)?/s',
-            function (array $m) use ($currentDir) {
+            function (array $m) use ($currentDir, $dotPrefix) {
                 if (isset($m[2])) {
                     return $m[0];
                 }
@@ -251,13 +263,17 @@ class RewriteUrlsCommand extends AbstractCommand
                     return $m[0];
                 }
                 $relative = \is_string($value) ? $this->toRelativeUrl($value, $currentDir) : null;
+                if (null === $relative) {
+                    return $m[0];
+                }
+                if ($dotPrefix && !\str_starts_with($relative, '.')) {
+                    $relative = './'.$relative;
+                }
 
-                return null === $relative ? $m[0] : Json::encode($relative, true);
+                return Json::encode($relative, true);
             },
-            $file->getContents()
-        ) ?? $file->getContents();
-
-        $this->filesystem->dumpFile(Path::join($this->target, $file->getRelativePathname()), $json);
+            $content
+        ) ?? $content;
     }
 
     private function normalizePath(string $path): ?string

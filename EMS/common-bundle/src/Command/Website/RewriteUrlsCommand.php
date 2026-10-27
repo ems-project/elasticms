@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Command\Website;
 
+use Dom\HTMLDocument;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -14,6 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 #[AsCommand(
     name: Commands::WEBSITE_REWRITE_URLS,
@@ -25,9 +27,10 @@ class RewriteUrlsCommand extends AbstractCommand
     public const string ARGUMENT_SOURCE = 'source';
     public const string ARGUMENT_TARGET = 'target';
     public const string OPTION_BASE_URLS = 'base-urls';
+    private const array URL_ATTRIBUTES = ['href', 'src', 'poster', 'action'];
     private string $source;
     private string $target;
-    /** @var string[] */
+    /** @var string[] without trailing slash (so '/' becomes ''), longest first */
     private array $baseUrls;
     private Filesystem $filesystem;
 
@@ -48,7 +51,9 @@ class RewriteUrlsCommand extends AbstractCommand
         parent::initialize($input, $output);
         $this->source = $this->getArgumentString(self::ARGUMENT_SOURCE);
         $this->target = $this->getArgumentString(self::ARGUMENT_TARGET);
-        $this->baseUrls = $this->getOptionStringArray(self::OPTION_BASE_URLS, false);
+        $baseUrls = \array_map(fn (string $baseUrl) => \rtrim($baseUrl, '/'), $this->getOptionStringArray(self::OPTION_BASE_URLS, false));
+        \usort($baseUrls, fn (string $a, string $b) => \strlen($b) <=> \strlen($a));
+        $this->baseUrls = \array_values(\array_unique($baseUrls));
         $this->filesystem = new Filesystem();
     }
 
@@ -72,7 +77,11 @@ class RewriteUrlsCommand extends AbstractCommand
 
         $this->io->progressStart($finder->count());
         foreach ($finder as $file) {
-            switch ($file->getExtension()) {
+            switch (\strtolower($file->getExtension())) {
+                case 'html':
+                case 'htm':
+                    $this->rewriteHtml($file);
+                    break;
                 default:
                     $this->filesystem->copy(
                         $file->getPathname(),
@@ -121,5 +130,81 @@ class RewriteUrlsCommand extends AbstractCommand
         $this->filesystem->remove($finder);
 
         return true;
+    }
+
+    private function rewriteHtml(SplFileInfo $file): void
+    {
+        $document = HTMLDocument::createFromString($file->getContents(), \LIBXML_NOERROR);
+        $currentDir = Path::join((string) \realpath($this->source), \dirname($file->getRelativePathname()));
+
+        foreach ($document->querySelectorAll('*') as $element) {
+            $urls = [];
+            foreach ($element->attributes as $attribute) {
+                if (\in_array($attribute->name, self::URL_ATTRIBUTES, true) || \str_starts_with($attribute->name, 'data-')) {
+                    $urls[$attribute->name] = $attribute->value;
+                }
+            }
+            foreach ($urls as $name => $value) {
+                $relative = $this->toRelativeUrl($value, $currentDir);
+                if (null !== $relative) {
+                    $element->setAttribute($name, $relative);
+                }
+            }
+        }
+
+        $targetFile = Path::join($this->target, $file->getRelativePathname());
+        $this->filesystem->dumpFile($targetFile, $document->saveHtml());
+    }
+
+    private function toRelativeUrl(string $url, string $currentDir): ?string
+    {
+        $rest = null;
+        foreach ($this->baseUrls as $baseUrl) {
+            if (!\str_starts_with($url, $baseUrl)) {
+                continue;
+            }
+            $candidate = \substr($url, \strlen($baseUrl));
+            $valid = '' === $baseUrl
+                ? \str_starts_with($candidate, '/') && !\str_starts_with($candidate, '//')
+                : '' === $candidate || 1 === \preg_match('/^[\/?#]/', $candidate);
+            if ($valid) {
+                $rest = $candidate;
+                break;
+            }
+        }
+        if (null === $rest) {
+            return null;
+        }
+
+        $suffix = '';
+        if (1 === \preg_match('/^([^?#]*)([?#].*)$/s', $rest, $matches)) {
+            [, $rest, $suffix] = $matches;
+        }
+        $path = \rawurldecode($rest);
+        if ('' === $path) {
+            $path = '/';
+        }
+        if (\in_array('..', \explode('/', $path), true)) {
+            return null;
+        }
+
+        $sourceRoot = (string) \realpath($this->source);
+        $absolute = Path::join($sourceRoot, $path);
+        $exists = \is_file($absolute)
+            || (\is_dir($absolute) && (\is_file(Path::join($absolute, 'index.html')) || \is_file(Path::join($absolute, 'index.htm'))));
+        if (!$exists) {
+            return null;
+        }
+
+        $relative = Path::makeRelative($absolute, $currentDir);
+        $segments = \array_map('rawurlencode', \array_filter(\explode('/', $relative), fn (string $s) => '' !== $s));
+        $relative = \implode('/', $segments);
+        if (\str_ends_with($path, '/') || \is_dir($absolute)) {
+            $relative = '' === $relative ? './' : $relative.'/';
+        } elseif ('' === $relative) {
+            $relative = \rawurlencode(\basename($absolute));
+        }
+
+        return $relative.$suffix;
     }
 }

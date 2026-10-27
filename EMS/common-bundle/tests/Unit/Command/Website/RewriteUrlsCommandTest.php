@@ -183,6 +183,48 @@ class RewriteUrlsCommandTest extends TestCase
         $this->assertStringContainsString('fetch("/js/util.js");', $js);
     }
 
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function jsonExtensions(): iterable
+    {
+        yield 'json' => ['json'];
+        yield 'webmanifest' => ['webmanifest'];
+    }
+
+    #[DataProvider('jsonExtensions')]
+    public function testJsonStringValues(string $extension): void
+    {
+        $this->write('img/icon.png', '');
+        $this->write('app/index.html', '');
+        $this->write("app/site.$extension", <<<'JSON'
+{
+  "start_url": "/app/",
+  "icons": [{"src": "https:\/\/d.tld\/img\/icon.png", "sizes": "192x192"}],
+  "missing": "/nope.png",
+  "name": "é /img/icon.png",
+  "empty": {},
+  "/img/icon.png": "key",
+  "count": 3
+}
+JSON);
+
+        $this->runCommand(['/', 'https://d.tld']);
+
+        $expected = <<<'JSON'
+{
+  "start_url": "./",
+  "icons": [{"src": "../img/icon.png", "sizes": "192x192"}],
+  "missing": "/nope.png",
+  "name": "é /img/icon.png",
+  "empty": {},
+  "/img/icon.png": "key",
+  "count": 3
+}
+JSON;
+        $this->assertSame($expected, $this->read("app/site.$extension"));
+    }
+
     public function testNonEmptyTargetIsKeptWhenNotConfirmed(): void
     {
         $this->write('index.html', '<html></html>');

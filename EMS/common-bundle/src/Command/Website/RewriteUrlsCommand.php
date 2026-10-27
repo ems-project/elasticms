@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Command\Website;
 use Dom\HTMLDocument;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -89,6 +90,10 @@ class RewriteUrlsCommand extends AbstractCommand
                 case 'mjs':
                 case 'cjs':
                     $this->rewriteJs($file);
+                    break;
+                case 'json':
+                case 'webmanifest':
+                    $this->rewriteJson($file);
                     break;
                 default:
                     $this->filesystem->copy(
@@ -194,6 +199,31 @@ class RewriteUrlsCommand extends AbstractCommand
         ) ?? $file->getContents();
 
         $this->filesystem->dumpFile(Path::join($this->target, $file->getRelativePathname()), $js);
+    }
+
+    private function rewriteJson(SplFileInfo $file): void
+    {
+        $currentDir = Path::join((string) \realpath($this->source), \dirname($file->getRelativePathname()));
+
+        $json = \preg_replace_callback(
+            '/"((?:[^"\\\\]|\\\\.)*+)"(\s*:)?/s',
+            function (array $m) use ($currentDir) {
+                if (isset($m[2])) {
+                    return $m[0];
+                }
+                try {
+                    $value = Json::mixedDecode('"'.$m[1].'"');
+                } catch (\RuntimeException) {
+                    return $m[0];
+                }
+                $relative = \is_string($value) ? $this->toRelativeUrl($value, $currentDir) : null;
+
+                return null === $relative ? $m[0] : Json::encode($relative, true);
+            },
+            $file->getContents()
+        ) ?? $file->getContents();
+
+        $this->filesystem->dumpFile(Path::join($this->target, $file->getRelativePathname()), $json);
     }
 
     private function toRelativeUrl(string $url, string $currentDir): ?string

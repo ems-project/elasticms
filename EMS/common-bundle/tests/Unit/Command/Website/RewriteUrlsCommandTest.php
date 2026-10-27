@@ -1,0 +1,288 @@
+<?php
+
+declare(strict_types=1);
+
+namespace EMS\CommonBundle\Tests\Unit\Command\Website;
+
+use EMS\CommonBundle\Command\Website\RewriteUrlsCommand;
+use EMS\CommonBundle\Commands;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Path;
+
+class RewriteUrlsCommandTest extends TestCase
+{
+    private Filesystem $filesystem;
+    private string $root;
+    private string $source;
+    private string $target;
+
+    #[\Override]
+    protected function setUp(): void
+    {
+        $this->filesystem = new Filesystem();
+        $this->root = Path::join(\sys_get_temp_dir(), 'ems_rewrite_urls_'.\uniqid());
+        $this->source = Path::join($this->root, 'source');
+        $this->target = Path::join($this->root, 'target');
+        $this->filesystem->mkdir([$this->source, $this->target]);
+    }
+
+    #[\Override]
+    protected function tearDown(): void
+    {
+        $this->filesystem->remove($this->root);
+    }
+
+    public function testDefaultCopyPreservesStructure(): void
+    {
+        $this->write('.htaccess', 'Options -Indexes');
+        $this->write('img/a/logo.png', "\x89PNG\x00\x01");
+        $this->write('data.json', '{"url":"/img/a/logo.png"}');
+
+        $tester = $this->runCommand();
+
+        $this->assertSame(0, $tester->getStatusCode());
+        $this->assertSame('Options -Indexes', $this->read('.htaccess'));
+        $this->assertSame("\x89PNG\x00\x01", $this->read('img/a/logo.png'));
+        $this->assertSame('{"url":"/img/a/logo.png"}', $this->read('data.json'));
+    }
+
+    public function testHtmlLinksAreMadeRelative(): void
+    {
+        $this->write('css/s.css', '');
+        $this->write('my file.png', '');
+        $this->write('a/b/index.html', '<html><body><a id="css" href="/css/s.css">c</a><a id="root" href="/">r</a><a id="self" href="/a/b/">s</a></body></html>');
+        $this->write('index.html', <<<'HTML'
+            <!DOCTYPE html><html><head><link href="/css/s.css" rel="stylesheet"></head><body>
+            <a id="dir" href="/a/b/">dir</a>
+            <a id="abs" href="https://d.tld/a/b/index.html?x=1#f">abs</a>
+            <a id="proto" href="//d.tld/css/s.css">proto</a>
+            <a id="root" href="/">root</a>
+            <a id="missing" href="/missing.html">missing</a>
+            <a id="external" href="//other.com/css/s.css">external</a>
+            <a id="evil" href="https://d.tld.evil/css/s.css">evil</a>
+            <a id="dots" href="/a/../css/s.css">dots</a>
+            <a id="mail" href="mailto:a@b.c">mail</a>
+            <img id="img" src="/my%20file.png">
+            </body></html>
+            HTML);
+
+        $this->runCommand(['/', 'https://d.tld', '//d.tld']);
+
+        $html = $this->read('index.html');
+        $this->assertStringContainsString('href="css/s.css" rel="stylesheet"', $html);
+        $this->assertStringContainsString('id="dir" href="a/b/"', $html);
+        $this->assertStringContainsString('id="abs" href="a/b/index.html?x=1#f"', $html);
+        $this->assertStringContainsString('id="proto" href="css/s.css"', $html);
+        $this->assertStringContainsString('id="root" href="./"', $html);
+        $this->assertStringContainsString('id="missing" href="/missing.html"', $html);
+        $this->assertStringContainsString('id="external" href="//other.com/css/s.css"', $html);
+        $this->assertStringContainsString('id="evil" href="https://d.tld.evil/css/s.css"', $html);
+        $this->assertStringContainsString('id="dots" href="/a/../css/s.css"', $html);
+        $this->assertStringContainsString('id="mail" href="mailto:a@b.c"', $html);
+        $this->assertStringContainsString('id="img" src="my%20file.png"', $html);
+
+        $nested = $this->read('a/b/index.html');
+        $this->assertStringContainsString('id="css" href="../../css/s.css"', $nested);
+        $this->assertStringContainsString('id="root" href="../../"', $nested);
+        $this->assertStringContainsString('id="self" href="./"', $nested);
+    }
+
+    public function testHtmExtensionAndDataAttributes(): void
+    {
+        $this->write('css/s.css', '');
+        $this->write('a/page.htm', '<html><body><div data-src="/css/s.css" data-x="/nope.css" data-json="{&quot;a&quot;:1}" class="/css/s.css"></div></body></html>');
+
+        $this->runCommand(['/']);
+
+        $html = $this->read('a/page.htm');
+        $this->assertStringContainsString('data-src="../css/s.css"', $html);
+        $this->assertStringContainsString('data-x="/nope.css"', $html);
+        $this->assertStringContainsString('data-json="{&quot;a&quot;:1}"', $html);
+        $this->assertStringContainsString('class="/css/s.css"', $html);
+    }
+
+    public function testOnlyGivenBaseUrlsAreApplied(): void
+    {
+        $this->write('css/s.css', '');
+        $this->write('index.html', '<html><body><a href="https://d.tld/css/s.css">a</a><a href="/css/s.css">b</a></body></html>');
+
+        $this->runCommand(['https://d.tld']);
+
+        $html = $this->read('index.html');
+        $this->assertStringContainsString('href="css/s.css">a', $html);
+        $this->assertStringContainsString('href="/css/s.css">b', $html);
+    }
+
+    public function testCssUrlsAndImports(): void
+    {
+        $this->write('img/a.png', '');
+        $this->write('img/b.svg', '');
+        $this->write('css/base.css', '');
+        $this->write('css/sub/m.css', <<<'CSS'
+            @import "/css/base.css";
+            @import url('https://d.tld/css/base.css');
+            a{background:url(/img/a.png)}
+            b{background:url( "//d.tld/img/b.svg" ) no-repeat}
+            c{background:url(/nope.png)}
+            d{background:url(data:image/png;base64,AAA=)}
+            e{background:url(img/rel.png)}
+            CSS);
+
+        $this->runCommand(['/', 'https://d.tld', '//d.tld']);
+
+        $css = $this->read('css/sub/m.css');
+        $this->assertStringContainsString('@import "../base.css";', $css);
+        $this->assertStringContainsString("@import url('../base.css');", $css);
+        $this->assertStringContainsString('url(../../img/a.png)', $css);
+        $this->assertStringContainsString('url( "../../img/b.svg" )', $css);
+        $this->assertStringContainsString('url(/nope.png)', $css);
+        $this->assertStringContainsString('url(data:image/png;base64,AAA=)', $css);
+        $this->assertStringContainsString('url(img/rel.png)', $css);
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function jsExtensions(): iterable
+    {
+        yield 'js' => ['js'];
+        yield 'mjs' => ['mjs'];
+        yield 'cjs' => ['cjs'];
+    }
+
+    #[DataProvider('jsExtensions')]
+    public function testJsModuleSpecifiers(string $extension): void
+    {
+        $this->write('js/util.js', '');
+        $this->write('js/lib/x.mjs', '');
+        $this->write("js/lib/m.$extension", <<<'JS'
+            import a from "/js/util.js";
+            import {b} from '/js/lib/x.mjs';
+            import "/js/util.js";
+            export * from "https://d.tld/js/lib/x.mjs";
+            const c = await import("/js/util.js");
+            import d from "/nope.js"; import e from "lodash"; import f from "./x.mjs";
+            fetch("/js/util.js");
+            JS);
+
+        $this->runCommand(['/', 'https://d.tld']);
+
+        $js = $this->read("js/lib/m.$extension");
+        $this->assertStringContainsString('import a from "../util.js";', $js);
+        $this->assertStringContainsString("import {b} from './x.mjs';", $js);
+        $this->assertStringContainsString('import "../util.js";', $js);
+        $this->assertStringContainsString('export * from "./x.mjs";', $js);
+        $this->assertStringContainsString('await import("../util.js");', $js);
+        $this->assertStringContainsString('import d from "/nope.js";', $js);
+        $this->assertStringContainsString('import e from "lodash";', $js);
+        $this->assertStringContainsString('import f from "./x.mjs";', $js);
+        $this->assertStringContainsString('fetch("/js/util.js");', $js);
+    }
+
+    public function testNonEmptyTargetIsKeptWhenNotConfirmed(): void
+    {
+        $this->write('index.html', '<html></html>');
+        $this->filesystem->dumpFile(Path::join($this->target, 'old.txt'), 'old');
+
+        $tester = $this->runCommand(['/'], [], ['interactive' => false]);
+
+        $this->assertSame(1, $tester->getStatusCode());
+        $this->assertFileExists(Path::join($this->target, 'old.txt'));
+        $this->assertFileDoesNotExist(Path::join($this->target, 'index.html'));
+    }
+
+    public function testNonEmptyTargetIsEmptiedWhenConfirmed(): void
+    {
+        $this->write('index.html', '<html></html>');
+        $this->filesystem->dumpFile(Path::join($this->target, 'old.txt'), 'old');
+        $this->filesystem->dumpFile(Path::join($this->target, '.hidden/old'), 'old');
+
+        $tester = $this->runCommand(['/'], ['yes']);
+
+        $this->assertSame(0, $tester->getStatusCode());
+        $this->assertFileDoesNotExist(Path::join($this->target, 'old.txt'));
+        $this->assertDirectoryDoesNotExist(Path::join($this->target, '.hidden'));
+        $this->assertFileExists(Path::join($this->target, 'index.html'));
+    }
+
+    public function testMissingTargetIsCreatedRecursivelyWhenConfirmed(): void
+    {
+        $this->write('a/index.html', '<html></html>');
+        $target = Path::join($this->root, 'deep/er/target');
+
+        $tester = $this->runCommand(['/'], ['yes'], [], $target);
+
+        $this->assertSame(0, $tester->getStatusCode());
+        $this->assertFileExists(Path::join($target, 'a/index.html'));
+    }
+
+    public function testMissingTargetIsNotCreatedWhenRefused(): void
+    {
+        $target = Path::join($this->root, 'deep/er/target');
+
+        $tester = $this->runCommand(['/'], ['no'], [], $target);
+
+        $this->assertSame(1, $tester->getStatusCode());
+        $this->assertDirectoryDoesNotExist($target);
+    }
+
+    public function testTargetIsAFile(): void
+    {
+        $target = Path::join($this->root, 'file');
+        $this->filesystem->dumpFile($target, 'x');
+
+        $tester = $this->runCommand(['/'], [], [], $target);
+
+        $this->assertSame(1, $tester->getStatusCode());
+        $this->assertStringContainsString('[ERROR]', $tester->getDisplay());
+    }
+
+    public function testSourceIsNotADirectory(): void
+    {
+        $tester = $this->tester();
+        $tester->execute(['source' => Path::join($this->root, 'nope'), 'target' => $this->target]);
+
+        $this->assertSame(1, $tester->getStatusCode());
+        $this->assertStringContainsString('[ERROR]', $tester->getDisplay());
+    }
+
+    private function tester(): CommandTester
+    {
+        $application = new Application();
+        $application->addCommand(new RewriteUrlsCommand());
+
+        return new CommandTester($application->find(Commands::WEBSITE_REWRITE_URLS));
+    }
+
+    /**
+     * @param string[]             $baseUrls
+     * @param list<string>         $inputs
+     * @param array<string, mixed> $options
+     */
+    private function runCommand(array $baseUrls = [], array $inputs = [], array $options = [], ?string $target = null): CommandTester
+    {
+        $tester = $this->tester();
+        $tester->setInputs($inputs);
+        $tester->execute([
+            'source' => $this->source,
+            'target' => $target ?? $this->target,
+            '--base-urls' => $baseUrls,
+        ], $options);
+
+        return $tester;
+    }
+
+    private function write(string $path, string $content): void
+    {
+        $this->filesystem->dumpFile(Path::join($this->source, $path), $content);
+    }
+
+    private function read(string $path): string
+    {
+        return \file_get_contents(Path::join($this->target, $path)) ?: '';
+    }
+}

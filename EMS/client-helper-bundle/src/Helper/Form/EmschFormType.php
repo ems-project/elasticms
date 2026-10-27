@@ -37,7 +37,14 @@ class EmschFormType extends AbstractType
         foreach ($options['elements'] as $element) {
             $elementType = $this->getElementType($element['type'] ?? 'text');
             $elementOptions = $element['options'] ?? [];
-            $elementOptions['constraints'] = $this->resolveConstraints($elementOptions['constraints'] ?? []);
+
+            if (isset($elementOptions['constraints'])) {
+                $elementOptions['constraints'] = $this->resolveConstraints($elementOptions['constraints']);
+            }
+
+            if (SymfonyType\ChoiceType::class === $elementType) {
+                $elementOptions = $this->resolveChoiceOptions($elementOptions);
+            }
 
             $builder->add(child: $element['name'], type: $elementType, options: $elementOptions);
         }
@@ -172,5 +179,47 @@ class EmschFormType extends AbstractType
             'lessThanOrEqual' => new Assert\LessThanOrEqual(value: $value['value'], message: $value['message'] ?? null),
             default => throw new \RuntimeException(\sprintf('Invalid constraint type "%s"', $value['type'])),
         }, $constraints);
+    }
+
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return array<string, mixed>
+     */
+    private function resolveChoiceOptions(array $options): array
+    {
+        $valueKey = $options['choice_value'] ?? null;
+        $labelKey = $options['choice_label'] ?? null;
+        $attr = $options['choice_attr'] ?? null;
+
+        $hasAttr = \is_string($attr) || \is_array($attr);
+
+        if (!\is_array($options['choices'] ?? null) || (!\is_string($valueKey) && !\is_string($labelKey) && !$hasAttr)) {
+            return $options;
+        }
+
+        $options['choices'] = \array_map(
+            static fn (array $choice) => new \ArrayObject($choice),
+            \array_values($options['choices'])
+        );
+
+        if (\is_string($valueKey)) {
+            $options['choice_value'] = static fn (?\ArrayObject $choice) => null === $choice ? null : (string) $choice[$valueKey];
+        }
+
+        if (\is_string($labelKey)) {
+            $options['choice_label'] = static fn (\ArrayObject $choice) => $choice[$labelKey];
+        }
+
+        if (\is_string($attr)) {
+            $options['choice_attr'] = static fn (\ArrayObject $choice) => $choice[$attr] ?? [];
+        } elseif (\is_array($attr)) {
+            $options['choice_attr'] = static fn (\ArrayObject $choice) => \array_filter(
+                \array_map(static fn (string $key) => $choice[$key] ?? null, $attr),
+                static fn ($value) => null !== $value
+            );
+        }
+
+        return $options;
     }
 }

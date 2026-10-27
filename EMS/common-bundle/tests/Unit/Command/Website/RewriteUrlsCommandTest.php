@@ -105,6 +105,31 @@ class RewriteUrlsCommandTest extends TestCase
         $this->assertStringContainsString('class="/css/s.css"', $html);
     }
 
+    public function testSrcsetWithMultipleUrls(): void
+    {
+        $this->write('up/b.jpg', '');
+        $this->write('up/b-300x200.jpg', '');
+        $this->write('up/w_1,h_2/c.jpg', '');
+        $this->write('page/index.html', <<<'HTML'
+<html><body>
+<img id="wp" srcset="https://d.tld/up/b.jpg 2560w, https://d.tld/up/b-300x200.jpg 300w, https://d.tld/up/missing.jpg 18w, //cdn.tld/x.jpg 2x" src="/up/b.jpg">
+<img id="nospace" srcset="/up/b.jpg 1x,/up/b-300x200.jpg 2x">
+<img id="comma" srcset="/up/w_1,h_2/c.jpg 1x, /up/b.jpg, /up/b-300x200.jpg">
+<img id="data" data-srcset="/up/b.jpg 1x, /up/b-300x200.jpg 2x">
+<link id="preload" rel="preload" as="image" imagesrcset="/up/b.jpg 1x, /up/b-300x200.jpg 2x">
+</body></html>
+HTML);
+
+        $this->runCommand(['/', 'https://d.tld']);
+
+        $html = $this->read('page/index.html');
+        $this->assertStringContainsString('srcset="../up/b.jpg 2560w, ../up/b-300x200.jpg 300w, https://d.tld/up/missing.jpg 18w, //cdn.tld/x.jpg 2x" src="../up/b.jpg"', $html);
+        $this->assertStringContainsString('id="nospace" srcset="../up/b.jpg 1x,../up/b-300x200.jpg 2x"', $html);
+        $this->assertStringContainsString('id="comma" srcset="../up/w_1,h_2/c.jpg 1x, ../up/b.jpg, ../up/b-300x200.jpg"', $html);
+        $this->assertStringContainsString('data-srcset="../up/b.jpg 1x, ../up/b-300x200.jpg 2x"', $html);
+        $this->assertStringContainsString('imagesrcset="../up/b.jpg 1x, ../up/b-300x200.jpg 2x"', $html);
+    }
+
     public function testOnlyGivenBaseUrlsAreApplied(): void
     {
         $this->write('css/s.css', '');

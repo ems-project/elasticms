@@ -28,7 +28,7 @@ class RewriteUrlsCommand extends AbstractCommand
     public const string ARGUMENT_SOURCE = 'source';
     public const string ARGUMENT_TARGET = 'target';
     public const string OPTION_BASE_URLS = 'base-urls';
-    private const array URL_ATTRIBUTES = ['href', 'src', 'poster', 'action'];
+    private const array URL_ATTRIBUTES = ['href', 'src', 'poster', 'action', 'srcset', 'imagesrcset'];
     private string $source;
     private string $target;
     /** @var string[] without trailing slash (so '/' becomes ''), longest first */
@@ -158,8 +158,10 @@ class RewriteUrlsCommand extends AbstractCommand
                 }
             }
             foreach ($urls as $name => $value) {
-                $relative = $this->toRelativeUrl($value, $currentDir);
-                if (null !== $relative) {
+                $relative = \str_ends_with($name, 'srcset')
+                    ? $this->rewriteSrcset($value, $currentDir)
+                    : $this->toRelativeUrl($value, $currentDir);
+                if (null !== $relative && $relative !== $value) {
                     $element->setAttribute($name, $relative);
                 }
             }
@@ -167,6 +169,25 @@ class RewriteUrlsCommand extends AbstractCommand
 
         $targetFile = Path::join($this->target, $file->getRelativePathname());
         $this->filesystem->dumpFile($targetFile, $document->saveHtml());
+    }
+
+    private function rewriteSrcset(string $srcset, string $currentDir): string
+    {
+        return \preg_replace_callback(
+            '/(\s*)(?:([^\s,]\S*,+)(?=\s|$)|([^\s,]\S*)(\s[^,]*)?(?:,|$))/',
+            function (array $m) use ($currentDir) {
+                if ('' !== ($m[2] ?? '')) {
+                    $url = \rtrim($m[2], ',');
+                    $rest = \substr($m[2], \strlen($url));
+                } else {
+                    $url = $m[3] ?? '';
+                    $rest = ($m[4] ?? '').(\str_ends_with($m[0], ',') ? ',' : '');
+                }
+
+                return $m[1].($this->toRelativeUrl($url, $currentDir) ?? $url).$rest;
+            },
+            $srcset
+        ) ?? $srcset;
     }
 
     private function rewriteCss(SplFileInfo $file): void
@@ -267,7 +288,7 @@ class RewriteUrlsCommand extends AbstractCommand
         }
 
         $relative = Path::makeRelative($absolute, $currentDir);
-        $segments = \array_map('rawurlencode', \array_filter(\explode('/', $relative), fn (string $s) => '' !== $s));
+        $segments = \array_map(fn (string $segment) => \str_replace('%2C', ',', \rawurlencode($segment)), \array_filter(\explode('/', $relative), fn (string $s) => '' !== $s));
         $relative = \implode('/', $segments);
         if (\str_ends_with($path, '/') || \is_dir($absolute)) {
             $relative = '' === $relative ? './' : $relative.'/';

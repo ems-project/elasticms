@@ -85,6 +85,11 @@ class RewriteUrlsCommand extends AbstractCommand
                 case 'css':
                     $this->rewriteCss($file);
                     break;
+                case 'js':
+                case 'mjs':
+                case 'cjs':
+                    $this->rewriteJs($file);
+                    break;
                 default:
                     $this->filesystem->copy(
                         $file->getPathname(),
@@ -169,6 +174,26 @@ class RewriteUrlsCommand extends AbstractCommand
         $css = \preg_replace_callback('/(@import\s+(["\']))([^"\']+)(\2)/i', $replace, $css) ?? $css;
 
         $this->filesystem->dumpFile(Path::join($this->target, $file->getRelativePathname()), $css);
+    }
+
+    private function rewriteJs(SplFileInfo $file): void
+    {
+        $currentDir = Path::join((string) \realpath($this->source), \dirname($file->getRelativePathname()));
+
+        $js = \preg_replace_callback(
+            '/((?:\bfrom|\bimport)\s*\(?\s*(["\']))([^"\'\n]+)(\2)/',
+            function (array $m) use ($currentDir) {
+                $relative = $this->toRelativeUrl($m[3], $currentDir);
+                if (null !== $relative && !\str_starts_with($relative, '.')) {
+                    $relative = './'.$relative;
+                }
+
+                return $m[1].($relative ?? $m[3]).$m[4];
+            },
+            $file->getContents()
+        ) ?? $file->getContents();
+
+        $this->filesystem->dumpFile(Path::join($this->target, $file->getRelativePathname()), $js);
     }
 
     private function toRelativeUrl(string $url, string $currentDir): ?string

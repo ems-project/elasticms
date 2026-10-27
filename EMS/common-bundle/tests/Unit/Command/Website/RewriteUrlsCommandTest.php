@@ -107,6 +107,18 @@ class RewriteUrlsCommandTest extends TestCase
         $this->assertStringContainsString('class="/css/s.css"', $html);
     }
 
+    public function testQueryStringIsIgnoredToFindTheFileButKept(): void
+    {
+        $this->write('wp-includes/js/index.min.js', '');
+        $this->write('page/index.html', '<html><body><script type="module" src="https://d.tld/wp-includes/js/index.min.js?ver=55aebb6e0a16726baffb"></script><script src="/wp-includes/js/missing.js?ver=1"></script></body></html>');
+
+        $this->runCommand(['/', 'https://d.tld']);
+
+        $html = $this->read('page/index.html');
+        $this->assertStringContainsString('src="../wp-includes/js/index.min.js?ver=55aebb6e0a16726baffb"', $html);
+        $this->assertStringContainsString('src="/wp-includes/js/missing.js?ver=1"', $html);
+    }
+
     public function testStyleTagsAndAttributes(): void
     {
         $this->write('wp/themes/t/assets/fonts/p.woff2', '');

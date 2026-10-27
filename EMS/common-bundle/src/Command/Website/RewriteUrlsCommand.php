@@ -22,9 +22,9 @@ use Symfony\Component\Finder\Finder;
 )]
 class RewriteUrlsCommand extends AbstractCommand
 {
-    public const ARGUMENT_SOURCE = 'source';
-    public const ARGUMENT_TARGET = 'target';
-    public const OPTION_BASE_URLS = 'base-urls';
+    public const string ARGUMENT_SOURCE = 'source';
+    public const string ARGUMENT_TARGET = 'target';
+    public const string OPTION_BASE_URLS = 'base-urls';
     private string $source;
     private string $target;
     /** @var string[] */
@@ -38,7 +38,7 @@ class RewriteUrlsCommand extends AbstractCommand
         $this
             ->addArgument(self::ARGUMENT_SOURCE, InputArgument::REQUIRED, 'Source directory of the static website')
             ->addArgument(self::ARGUMENT_TARGET, InputArgument::REQUIRED, 'Target directory where the rewritten website is exported')
-            ->addOption(self::OPTION_BASE_URLS, null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Base URLs to rewrite (can be used multiple times)')
+            ->addOption(self::OPTION_BASE_URLS, null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Base URLs to rewrite (can be used multiple times)', ['/'])
         ;
     }
 

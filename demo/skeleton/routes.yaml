@@ -110,18 +110,18 @@ emsch_news_details:
 export_pdf:
     config:
         path: /export/pdf
-        controller: 'emsch.controller.pdf'
+        controller: emsch.controller.pdf
     template_static: template/export/pdf.html.twig
 export_pdf_cached:
     config:
         path: /export/pdf-cached
-        defaults: { _emsch_cache: { key: 'pdf_cached' } }
-        controller: 'emsch.controller.pdf'
+        defaults: { _emsch_cache: { key: pdf_cached } }
+        controller: emsch.controller.pdf
     template_static: template/export/pdf.html.twig
 export_spreadsheet:
     config:
         path: /export/spreadsheet
-        controller: 'emsch.controller.spreadsheet'
+        controller: emsch.controller.spreadsheet
     template_static: template/export/spreadsheet.json.twig
 emsch_path:
     config:
@@ -133,8 +133,8 @@ emsch_archive:
     config:
         path: '/_archive/{hash}/{path}'
         controller: 'EMS\CommonBundle\Controller\FileController::assetInArchive'
-        requirements: { path: .* }
-        defaults: { _format: html, indexResource: 'index.html' }
+        requirements: { path: '.*' }
+        defaults: { _format: html, indexResource: index.html }
 emsch_error:
     config:
         path: '/_error/{statusCode}.{_format}'
@@ -158,14 +158,14 @@ ems_check_asset:
         controller: 'emsch.controller.router::redirect'
     template_static: template/redirects/asset.json.twig
 emsch_admin_webhook:
-  config:
-    path: '/_admin_webhook'
-    method: [POST]
-    host: 'localhost'
-    controller: 'emsch.controller.http_cache::adminWebhook'
+    config:
+        path: /_admin_webhook
+        method: [POST]
+        host: localhost
+        controller: 'emsch.controller.http_cache::adminWebhook'
 emsch_clear_cache:
-  config:
-    path: '/_clear_cache'
-    method: [POST]
-    host: 'localhost'
-  template_static: template/admin/clear-cache.html.twig
+    config:
+        path: /_clear_cache
+        method: [POST]
+        host: localhost
+    template_static: template/admin/clear-cache.html.twig

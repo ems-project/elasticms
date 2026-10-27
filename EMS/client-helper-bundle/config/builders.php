@@ -34,7 +34,10 @@ return static function (ContainerConfigurator $container) {
         ->parent('emsch.helper.builder');
 
     $services->set('emsch.helper.templating.builder', TemplateBuilder::class)
-        ->parent('emsch.helper.builder');
+        ->parent('emsch.helper.builder')
+        ->args([
+            service('twig'),
+        ]);
 
     $services->set('emsch.helper.translation.builder', TranslationBuilder::class)
         ->parent('emsch.helper.builder');

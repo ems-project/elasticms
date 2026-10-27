@@ -39,6 +39,8 @@ final class PushCommand extends AbstractLocalCommand
             return self::EXECUTE_ERROR;
         }
 
+        $this->localHelper->normalize($this->environment);
+
         if (!$this->force && !$this->localHelper->isUpToDate($this->environment)) {
             $this->io->error('Not up to date, please commit/stash changes and run emsch:local:pull');
 

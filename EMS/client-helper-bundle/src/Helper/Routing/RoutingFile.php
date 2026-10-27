@@ -7,8 +7,8 @@ namespace EMS\ClientHelperBundle\Helper\Routing;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateFile;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateFiles;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateName;
+use EMS\Helpers\File\File;
 use EMS\Helpers\Standard\Json;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 final class RoutingFile implements \Countable
@@ -58,11 +58,26 @@ final class RoutingFile implements \Countable
             $routes[$document->getName()] = $data;
         }
 
-        $fileName = $directory.\DIRECTORY_SEPARATOR.self::FILE_NAME;
-        $fs = new Filesystem();
-        $fs->dumpFile($fileName, [] !== $routes ? Yaml::dump($routes, 3) : '');
+        $fileName = self::getFileName($directory);
+        self::saveRoutesInLocale($routes, $fileName);
 
         return new self($directory, $templateFiles);
+    }
+
+    public static function normalize(string $directory): bool
+    {
+        $fileName = self::getFileName($directory);
+        if (!\is_file($fileName)) {
+            return false;
+        }
+
+        $routes = Yaml::parseFile($fileName) ?? [];
+        if (!\is_array($routes)) {
+            throw new \RuntimeException(\sprintf('Routes file %s must contain a YAML mapping', $fileName));
+        }
+        self::saveRoutesInLocale($routes, $fileName);
+
+        return true;
     }
 
     /**
@@ -117,5 +132,18 @@ final class RoutingFile implements \Countable
         }
 
         return $routes;
+    }
+
+    private static function getFileName(string $directory): string
+    {
+        return $directory.\DIRECTORY_SEPARATOR.self::FILE_NAME;
+    }
+
+    /**
+     * @param mixed[] $routes
+     */
+    private static function saveRoutesInLocale(array $routes, string $fileName): void
+    {
+        File::putContents($fileName, [] !== $routes ? Yaml::dump($routes, 3) : '');
     }
 }

@@ -25,4 +25,5 @@ class Commands
     final public const string RUNNER_STATUS = 'ems:runner:status';
     final public const string RUNNER_OUTPUT = 'ems:runner:output';
     final public const string INDEX_SYNCHRONIZE = 'ems:indexes:synchronize';
+    final public const string WEBSITE_REWRITE_URLS = 'ems:website:rewrite-urls';
 }

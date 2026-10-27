@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.401.4",
+            "version": "3.402.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "b5941e2da9fb860f06ad5046d96219c4288ab6b8"
+                "reference": "8c7d9eb8d8baa92ce13ba875ceac7da89597ad8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b5941e2da9fb860f06ad5046d96219c4288ab6b8",
-                "reference": "b5941e2da9fb860f06ad5046d96219c4288ab6b8",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8c7d9eb8d8baa92ce13ba875ceac7da89597ad8e",
+                "reference": "8c7d9eb8d8baa92ce13ba875ceac7da89597ad8e",
                 "shasum": ""
             },
             "require": {
@@ -83,7 +83,7 @@
                 "guzzlehttp/promises": "^2.0.3 || ^3.0",
                 "guzzlehttp/psr7": "^2.6.3 || ^3.0",
                 "mtdowling/jmespath.php": "^2.9.1",
-                "php": ">=8.1",
+                "php": ">=8.2",
                 "psr/http-message": "^1.0 || ^2.0",
                 "symfony/filesystem": "^v5.4.45 || ^v6.4.3 || ^v7.1.0 || ^v8.0.0"
             },
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.401.4"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.402.1"
             },
-            "time": "2026-10-20T18:15:27+00:00"
+            "time": "2026-10-26T18:06:02+00:00"
         },
         {
             "name": "brick/math",
@@ -1040,23 +1040,23 @@
         },
         {
             "name": "doctrine/inflector",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "6d6c96277ea252fc1304627204c3d5e6e15faa3b"
+                "reference": "46351b6812b7b6d52b82c3efa5dfb786a198ec88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/6d6c96277ea252fc1304627204c3d5e6e15faa3b",
-                "reference": "6d6c96277ea252fc1304627204c3d5e6e15faa3b",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/46351b6812b7b6d52b82c3efa5dfb786a198ec88",
+                "reference": "46351b6812b7b6d52b82c3efa5dfb786a198ec88",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^12.0 || ^13.0",
+                "doctrine/coding-standard": "^12.0 || ^14.0",
                 "phpstan/phpstan": "^1.12 || ^2.0",
                 "phpstan/phpstan-phpunit": "^1.4 || ^2.0",
                 "phpstan/phpstan-strict-rules": "^1.6 || ^2.0",
@@ -1110,7 +1110,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/inflector/issues",
-                "source": "https://github.com/doctrine/inflector/tree/2.1.0"
+                "source": "https://github.com/doctrine/inflector/tree/2.1.1"
             },
             "funding": [
                 {
@@ -1126,7 +1126,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-10T19:31:58+00:00"
+            "time": "2026-10-26T08:14:14+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -1902,7 +1902,7 @@
         },
         {
             "name": "elasticms/admin-ui-bundle",
-            "version": "6.9.41",
+            "version": "6.9.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSAdminUIBundle.git",
@@ -1941,22 +1941,22 @@
                 "ui"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSAdminUIBundle/tree/6.9.41"
+                "source": "https://github.com/ems-project/EMSAdminUIBundle/tree/6.9.42"
             },
             "time": "2026-05-30T12:23:39+00:00"
         },
         {
             "name": "elasticms/client-helper-bundle",
-            "version": "6.9.41",
+            "version": "6.9.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
-                "reference": "f0dfeb0867dcc613e4f511eceb419dcb4bb83872"
+                "reference": "766313dd569dd67e3af8fb457a12bd14a61b8f4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/f0dfeb0867dcc613e4f511eceb419dcb4bb83872",
-                "reference": "f0dfeb0867dcc613e4f511eceb419dcb4bb83872",
+                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/766313dd569dd67e3af8fb457a12bd14a61b8f4b",
+                "reference": "766313dd569dd67e3af8fb457a12bd14a61b8f4b",
                 "shasum": ""
             },
             "require": {
@@ -1998,13 +1998,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/6.9.41"
+                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/6.9.42"
             },
-            "time": "2026-10-05T12:35:51+00:00"
+            "time": "2026-10-27T06:17:07+00:00"
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "6.9.41",
+            "version": "6.9.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
@@ -2086,13 +2086,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.41"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.42"
             },
             "time": "2026-10-16T07:09:55+00:00"
         },
         {
             "name": "elasticms/core-bundle",
-            "version": "6.9.41",
+            "version": "6.9.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCoreBundle.git",
@@ -2159,13 +2159,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCoreBundle/tree/6.9.41"
+                "source": "https://github.com/ems-project/EMSCoreBundle/tree/6.9.42"
             },
             "time": "2026-10-16T06:49:24+00:00"
         },
         {
             "name": "elasticms/form-bundle",
-            "version": "6.9.41",
+            "version": "6.9.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSFormBundle.git",
@@ -2208,13 +2208,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSFormBundle/tree/6.9.41"
+                "source": "https://github.com/ems-project/EMSFormBundle/tree/6.9.42"
             },
             "time": "2026-08-31T12:35:18+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "6.9.41",
+            "version": "6.9.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
@@ -2258,13 +2258,13 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/6.9.41"
+                "source": "https://github.com/ems-project/helpers/tree/6.9.42"
             },
             "time": "2026-09-21T14:36:59+00:00"
         },
         {
             "name": "elasticms/submission-bundle",
-            "version": "6.9.41",
+            "version": "6.9.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSSubmissionBundle.git",
@@ -2310,13 +2310,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/6.9.41"
+                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/6.9.42"
             },
             "time": "2026-01-27T14:06:38+00:00"
         },
         {
             "name": "elasticms/xliff",
-            "version": "6.9.41",
+            "version": "6.9.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/xliff.git",
@@ -2358,7 +2358,7 @@
                 "xliff"
             ],
             "support": {
-                "source": "https://github.com/ems-project/xliff/tree/6.9.41"
+                "source": "https://github.com/ems-project/xliff/tree/6.9.42"
             },
             "time": "2026-01-22T07:21:39+00:00"
         },
@@ -2754,16 +2754,16 @@
         },
         {
             "name": "giggsey/locale",
-            "version": "2.9.0",
+            "version": "2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/Locale.git",
-                "reference": "fe741e99ae6ccbe8132f3d63d8ec89924e689778"
+                "reference": "c13d22635eac0e51d1dcd7f09b99fd7475209a51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/Locale/zipball/fe741e99ae6ccbe8132f3d63d8ec89924e689778",
-                "reference": "fe741e99ae6ccbe8132f3d63d8ec89924e689778",
+                "url": "https://api.github.com/repos/giggsey/Locale/zipball/c13d22635eac0e51d1dcd7f09b99fd7475209a51",
+                "reference": "c13d22635eac0e51d1dcd7f09b99fd7475209a51",
                 "shasum": ""
             },
             "require": {
@@ -2806,22 +2806,22 @@
             "description": "Locale functions required by libphonenumber-for-php",
             "support": {
                 "issues": "https://github.com/giggsey/Locale/issues",
-                "source": "https://github.com/giggsey/Locale/tree/2.9.0"
+                "source": "https://github.com/giggsey/Locale/tree/2.10.0"
             },
-            "time": "2026-02-24T15:32:13+00:00"
+            "time": "2026-10-22T19:31:33+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.16.0",
+            "version": "7.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "ffb62ec787050ae4fa9449cdd6b80335db69bda2"
+                "reference": "81755d989b3007ca7f88a069857553cd08e7dc2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ffb62ec787050ae4fa9449cdd6b80335db69bda2",
-                "reference": "ffb62ec787050ae4fa9449cdd6b80335db69bda2",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/81755d989b3007ca7f88a069857553cd08e7dc2e",
+                "reference": "81755d989b3007ca7f88a069857553cd08e7dc2e",
                 "shasum": ""
             },
             "require": {
@@ -2920,7 +2920,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.16.0"
+                "source": "https://github.com/guzzle/guzzle/tree/7.16.1"
             },
             "funding": [
                 {
@@ -2936,7 +2936,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-18T13:38:36+00:00"
+            "time": "2026-10-25T21:35:21+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -3988,20 +3988,21 @@
         },
         {
             "name": "masterminds/html5",
-            "version": "2.11.0",
+            "version": "2.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Masterminds/html5-php.git",
-                "reference": "a1e7a2f88ee13635d86fc61cfbdf2306a76ddfc7"
+                "reference": "15e16663bd6f512352209d0e3a789c0a691c0d9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/a1e7a2f88ee13635d86fc61cfbdf2306a76ddfc7",
-                "reference": "a1e7a2f88ee13635d86fc61cfbdf2306a76ddfc7",
+                "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/15e16663bd6f512352209d0e3a789c0a691c0d9b",
+                "reference": "15e16663bd6f512352209d0e3a789c0a691c0d9b",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
+                "ext-mbstring": "*",
                 "php": ">=7.4"
             },
             "require-dev": {
@@ -4049,9 +4050,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Masterminds/html5-php/issues",
-                "source": "https://github.com/Masterminds/html5-php/tree/2.11.0"
+                "source": "https://github.com/Masterminds/html5-php/tree/2.12.0"
             },
-            "time": "2026-08-18T06:18:41+00:00"
+            "time": "2026-10-25T08:57:58+00:00"
         },
         {
             "name": "monolog/monolog",

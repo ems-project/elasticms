@@ -209,6 +209,23 @@ class RewriteUrlsCommandTest extends TestCase
         $this->assertStringContainsString('href="en/">x', $html);
     }
 
+    public function testPathMap(): void
+    {
+        $this->write('archives/2024/accueil/index.html', '');
+        $this->write('archives/2024/index.html', '<html><body><a href="https://d.tld/archives/2024/nl/">a</a><a href="https://d.tld/archives/2024/nl/accueil/">b</a></body></html>');
+
+        $this->tester()->execute([
+            'source' => $this->source,
+            'target' => $this->target,
+            '--base-urls' => ['https://d.tld'],
+            '--path-map' => ['/archives/2024/nl=/archives/2024'],
+        ]);
+
+        $html = $this->read('archives/2024/index.html');
+        $this->assertStringContainsString('href="./">a', $html);
+        $this->assertStringContainsString('href="accueil/">b', $html);
+    }
+
     public function testCssUrlsAndImports(): void
     {
         $this->write('img/a.png', '');

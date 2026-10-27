@@ -29,12 +29,15 @@ class RewriteUrlsCommand extends AbstractCommand
     public const string ARGUMENT_SOURCE = 'source';
     public const string ARGUMENT_TARGET = 'target';
     public const string OPTION_BASE_URLS = 'base-urls';
+    public const string OPTION_PATH_MAP = 'path-map';
     public const string OPTION_IGNORE_SELECTORS = 'ignore-selector';
     private const array URL_ATTRIBUTES = ['href', 'src', 'poster', 'action', 'srcset', 'imagesrcset', 'style'];
     private string $source;
     private string $target;
     /** @var string[] without trailing slash (so '/' becomes ''), longest first */
     private array $baseUrls;
+    /** @var array<string, string> path prefix => replacement prefix, longest first */
+    private array $pathMap = [];
     /** @var string[] */
     private array $ignoreSelectors;
     private Filesystem $filesystem;
@@ -47,6 +50,7 @@ class RewriteUrlsCommand extends AbstractCommand
             ->addArgument(self::ARGUMENT_SOURCE, InputArgument::REQUIRED, 'Source directory of the static website')
             ->addArgument(self::ARGUMENT_TARGET, InputArgument::REQUIRED, 'Target directory where the rewritten website is exported')
             ->addOption(self::OPTION_BASE_URLS, null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Base URLs to rewrite (can be used multiple times)', ['/'])
+            ->addOption(self::OPTION_PATH_MAP, null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Map a URL path prefix to the path where it is located in the source, formatted as "from=to", e.g. "/archives/2024/nl=/archives/2024" (can be used multiple times)', [])
             ->addOption(self::OPTION_IGNORE_SELECTORS, null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'CSS selectors of HTML elements that must not be rewritten, e.g. ".language_switcher li:not(.__current) a" (can be used multiple times)', [])
         ;
     }
@@ -60,6 +64,14 @@ class RewriteUrlsCommand extends AbstractCommand
         $baseUrls = \array_map(fn (string $baseUrl) => \rtrim($baseUrl, '/'), $this->getOptionStringArray(self::OPTION_BASE_URLS, false));
         \usort($baseUrls, fn (string $a, string $b) => \strlen($b) <=> \strlen($a));
         $this->baseUrls = \array_values(\array_unique($baseUrls));
+        foreach ($this->getOptionStringArray(self::OPTION_PATH_MAP, false) as $mapping) {
+            $parts = \explode('=', $mapping, 2);
+            if (2 !== \count($parts)) {
+                throw new \InvalidArgumentException(\sprintf('Invalid --%s "%s", expected "from=to"', self::OPTION_PATH_MAP, $mapping));
+            }
+            $this->pathMap['/'.\trim($parts[0], '/')] = '/'.\trim($parts[1], '/');
+        }
+        \uksort($this->pathMap, fn (string $a, string $b) => \strlen($b) <=> \strlen($a));
         $this->ignoreSelectors = $this->getOptionStringArray(self::OPTION_IGNORE_SELECTORS, false);
         $this->filesystem = new Filesystem();
     }
@@ -320,6 +332,19 @@ class RewriteUrlsCommand extends AbstractCommand
         return '/'.\implode('/', $segments).($trailingSlash && [] !== $segments ? '/' : '');
     }
 
+    private function applyPathMap(string $path): string
+    {
+        foreach ($this->pathMap as $from => $to) {
+            if ($path === $from || $path === $from.'/' || \str_starts_with($path, $from.'/')) {
+                $mapped = \rtrim($to, '/').\substr($path, \strlen($from));
+
+                return '' === $mapped ? '/' : $mapped;
+            }
+        }
+
+        return $path;
+    }
+
     private function toRelativeUrl(string $url, string $currentDir): ?string
     {
         $rest = null;
@@ -352,6 +377,8 @@ class RewriteUrlsCommand extends AbstractCommand
         if (null === $path) {
             return null;
         }
+
+        $path = $this->applyPathMap($path);
 
         $sourceRoot = (string) \realpath($this->source);
         $absolute = Path::join($sourceRoot, $path);

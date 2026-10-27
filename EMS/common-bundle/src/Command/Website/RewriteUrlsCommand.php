@@ -11,6 +11,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 
 #[AsCommand(
     name: Commands::WEBSITE_REWRITE_URLS,
@@ -26,6 +28,7 @@ class RewriteUrlsCommand extends AbstractCommand
     private string $target;
     /** @var string[] */
     private array $baseUrls;
+    private Filesystem $filesystem;
 
     #[\Override]
     protected function configure(): void
@@ -52,6 +55,63 @@ class RewriteUrlsCommand extends AbstractCommand
     {
         $this->io->title('EMS - Website - Rewrite URLs');
 
+        if (!\is_dir($this->source)) {
+            $this->io->error(\sprintf('The source "%s" is not a directory.', $this->source));
+
+            return self::EXECUTE_ERROR;
+        }
+
+        if (!$this->prepareTarget()) {
+            return self::EXECUTE_ERROR;
+        }
+
+        $finder = new Finder();
+        $finder->files()->in($this->source)->ignoreDotFiles(false)->ignoreVCS(false);
+
+        $this->io->progressStart($finder->count());
+        foreach ($finder as $file) {
+            $this->io->progressAdvance();
+        }
+        $this->io->progressFinish();
+        $this->io->newLine(2);
+
         return self::EXECUTE_SUCCESS;
+    }
+
+    private function prepareTarget(): bool
+    {
+        $this->filesystem ??= new Filesystem();
+
+        if (!$this->filesystem->exists($this->target)) {
+            if (!$this->io->confirm(\sprintf('The target directory "%s" does not exist, do you want to create it?', $this->target), false)) {
+                $this->io->warning('Target directory not created, aborting.');
+
+                return false;
+            }
+            $this->filesystem->mkdir($this->target);
+
+            return true;
+        }
+
+        if (!\is_dir($this->target)) {
+            $this->io->error(\sprintf('The target "%s" is not a directory.', $this->target));
+
+            return false;
+        }
+
+        $finder = new Finder();
+        $finder->in($this->target)->ignoreDotFiles(false)->ignoreVCS(false)->depth('== 0');
+        if (!$finder->hasResults()) {
+            return true;
+        }
+
+        if (!$this->io->confirm(\sprintf('The target directory "%s" is not empty, do you want to delete its content?', $this->target), false)) {
+            $this->io->warning('Target directory not emptied, aborting.');
+
+            return false;
+        }
+        $this->filesystem->remove($finder);
+
+        return true;
     }
 }

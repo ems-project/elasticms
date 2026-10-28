@@ -230,7 +230,7 @@ class RewriteUrlsCommandTest extends TestCase
     {
         $this->write('index.html', '<html><body><a href="/missing/">a</a><a href="/missing/">b</a><a href="https://other.tld/x">c</a></body></html>');
 
-        $tester = $this->runCommand();
+        $tester = $this->runCommand(['/']);
 
         $display = $tester->getDisplay();
         $this->assertSame(1, \substr_count($display, '/missing/'));

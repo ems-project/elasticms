@@ -24,14 +24,20 @@ class RestoreCommand extends AbstractCommand
     final public const string IMPORT_FOLDER = 'import-folder';
     final public const string CONFIGS_FOLDER = 'configs-folder';
     final public const string DOCUMENTS_FOLDER = 'documents-folder';
+    final public const string ASSETS_FOLDER = 'assets-folder';
     final public const string CONFIGS_OPTION = 'configs';
     final public const string DOCUMENTS_OPTION = 'documents';
+    final public const string ASSETS_OPTION = 'assets';
+    final public const string ASSETS_DEFAULT_FOLDER = 'assets';
     private bool $force;
     private string $configsFolder;
     private string $documentsFolder;
+    private string $assetsFolder;
     private CoreApiInterface $coreApi;
     private bool $restoreConfigsOnly;
     private bool $restoreDocumentsOnly;
+    private bool $restoreAssetsOnly;
+    private string $hashAlgo;
 
     /**
      * @param string[] $excludedContentTypes
@@ -41,6 +47,7 @@ class RestoreCommand extends AbstractCommand
         parent::__construct();
         $this->configsFolder = $projectFolder.DIRECTORY_SEPARATOR.ConfigHelper::DEFAULT_FOLDER;
         $this->documentsFolder = $projectFolder.DIRECTORY_SEPARATOR.DownloadCommand::DEFAULT_FOLDER;
+        $this->assetsFolder = $projectFolder.DIRECTORY_SEPARATOR.self::ASSETS_DEFAULT_FOLDER;
     }
 
     #[\Override]
@@ -53,6 +60,7 @@ class RestoreCommand extends AbstractCommand
         if (null !== $importFolder) {
             $this->configsFolder = $importFolder.DIRECTORY_SEPARATOR.ConfigHelper::DEFAULT_FOLDER;
             $this->documentsFolder = $importFolder.DIRECTORY_SEPARATOR.DownloadCommand::DEFAULT_FOLDER;
+            $this->assetsFolder = $importFolder.DIRECTORY_SEPARATOR.self::ASSETS_DEFAULT_FOLDER;
         }
         $configsFolder = $this->getOptionStringNull(self::CONFIGS_FOLDER);
         if (null !== $configsFolder) {
@@ -62,8 +70,14 @@ class RestoreCommand extends AbstractCommand
         if (null !== $documentsFolder) {
             $this->documentsFolder = $documentsFolder;
         }
+        $assetsFolder = $this->getOptionStringNull(self::ASSETS_FOLDER);
+        if (null !== $assetsFolder) {
+            $this->assetsFolder = $assetsFolder;
+        }
         $this->restoreConfigsOnly = $this->getOptionBool(self::CONFIGS_OPTION);
         $this->restoreDocumentsOnly = $this->getOptionBool(self::DOCUMENTS_OPTION);
+        $this->restoreAssetsOnly = $this->getOptionBool(self::ASSETS_OPTION);
+        $this->hashAlgo = $this->adminHelper->getCoreApi()->file()->getHashAlgo();
     }
 
     #[\Override]
@@ -74,8 +88,10 @@ class RestoreCommand extends AbstractCommand
         $this->addOption(self::IMPORT_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Global import folder (can be overwritten per type of exports)');
         $this->addOption(self::CONFIGS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Import configs folder');
         $this->addOption(self::DOCUMENTS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Import documents folder');
+        $this->addOption(self::ASSETS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Import assets folder');
         $this->addOption(self::CONFIGS_OPTION, null, InputOption::VALUE_NONE, "Restore elasticMS's configs only");
         $this->addOption(self::DOCUMENTS_OPTION, null, InputOption::VALUE_NONE, "Restore elasticMS's documents only");
+        $this->addOption(self::ASSETS_OPTION, null, InputOption::VALUE_NONE, "Restore elasticMS's assets only");
     }
 
     #[\Override]
@@ -95,12 +111,17 @@ class RestoreCommand extends AbstractCommand
             $this->io->warning('Nothing will be updated, please use the --force option to really restore something');
         }
 
-        if ($this->restoreConfigsOnly || !$this->restoreDocumentsOnly) {
+        $allFalse = !$this->restoreConfigsOnly && !$this->restoreDocumentsOnly && !$this->restoreAssetsOnly;
+        if ($this->restoreConfigsOnly || $allFalse) {
             $this->restoreConfigs();
         }
 
-        if ($this->restoreDocumentsOnly || !$this->restoreConfigsOnly) {
+        if ($this->restoreDocumentsOnly || $allFalse) {
             $this->restoreDocuments();
+        }
+
+        if ($this->restoreAssetsOnly || $allFalse) {
+            $this->restoreAssets();
         }
 
         if (!$this->force) {
@@ -277,5 +298,34 @@ class RestoreCommand extends AbstractCommand
 
             $dataApi->save($ouuid, Json::decode($content), DataInterface::MODE_REPLACE);
         }
+    }
+
+    private function restoreAssets(): void
+    {
+        $finder = new Finder();
+        $filesToRestore = $finder->in($this->assetsFolder)->name('*.bin')->files();
+
+        if (0 === $filesToRestore->count()) {
+            $this->io->warning('No assets to be restored');
+
+            return;
+        }
+
+        $this->io->section('Restore assets');
+        $this->io->progressStart($filesToRestore->count());
+        $fileApi = $this->adminHelper->getCoreApi()->file();
+        foreach ($filesToRestore as $file) {
+            $basename = $file->getBasename('.bin');
+            if ($basename !== \hash_file($this->hashAlgo, $file->getRealPath())) {
+                $this->io->warning(\sprintf('Unexpected hashed file %s', $file->getBasename()));
+                $this->io->progressAdvance();
+                continue;
+            }
+            if (!$fileApi->headHash($basename)) {
+                $fileApi->uploadFile($file->getRealPath());
+            }
+            $this->io->progressAdvance();
+        }
+        $this->io->progressFinish();
     }
 }

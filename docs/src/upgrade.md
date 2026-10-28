@@ -9,6 +9,18 @@ outline: [2, 2]
 
 ## 7.4
 
+### `ems:admin:backup` exports assets
+
+The `ems:admin:backup` command now exports assets in addition to configurations and documents.
+To keep the previous behavior and exclude assets from the backup, combine the `--configs` and
+`--documents` options.
+
+### `ems:admin:restore` imports assets
+
+The `ems:admin:restore` command now imports assets in addition to configurations and documents.
+To keep the previous behavior and exclude assets from the restore, combine the `--configs` and
+`--documents` options.
+
 ### Translated choice fields
 
 The choices and labels configured directly on a content type with `ChoiceFieldType` cannot be

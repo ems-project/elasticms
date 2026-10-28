@@ -35,6 +35,7 @@ use EMS\CommonBundle\Command\Storage\LoadArchiveItemsInCacheCommand;
 use EMS\CommonBundle\Command\Submission\DownloadCommand as DownloadSubmissionCommand;
 use EMS\CommonBundle\Command\Submission\ForwardCommand;
 use EMS\CommonBundle\Command\SynchronizeCommand;
+use EMS\CommonBundle\Command\Website\RewriteUrlsCommand;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\StorageManager;
 
@@ -213,6 +214,9 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('elasticsearch:clean-orphan-indices', CleanOrphanIndicesCommand::class)
         ->args([service('http_client')])
+        ->tag('console.command');
+
+    $services->set('ems.command.website.rewrite_urls', RewriteUrlsCommand::class)
         ->tag('console.command');
 
     $services->set('ems.command.indexes.synchronize', SynchronizeCommand::class)

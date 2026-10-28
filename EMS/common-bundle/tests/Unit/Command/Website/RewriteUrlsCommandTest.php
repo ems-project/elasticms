@@ -226,6 +226,17 @@ class RewriteUrlsCommandTest extends TestCase
         $this->assertStringContainsString('href="accueil/">b', $html);
     }
 
+    public function testNotRewrittenUrlsAreListedOnce(): void
+    {
+        $this->write('index.html', '<html><body><a href="/missing/">a</a><a href="/missing/">b</a><a href="https://other.tld/x">c</a></body></html>');
+
+        $tester = $this->runCommand();
+
+        $display = $tester->getDisplay();
+        $this->assertSame(1, \substr_count($display, '/missing/'));
+        $this->assertStringNotContainsString('other.tld', $display);
+    }
+
     public function testCssUrlsAndImports(): void
     {
         $this->write('img/a.png', '');

@@ -38,6 +38,8 @@ class RewriteUrlsCommand extends AbstractCommand
     private array $baseUrls;
     /** @var array<string, string> path prefix => replacement prefix, longest first */
     private array $pathMap = [];
+    /** @var array<string, true> */
+    private array $notRewritten = [];
     /** @var string[] */
     private array $ignoreSelectors;
     private Filesystem $filesystem;
@@ -124,6 +126,13 @@ class RewriteUrlsCommand extends AbstractCommand
         }
         $this->io->progressFinish();
         $this->io->newLine(2);
+
+        if ([] !== $this->notRewritten) {
+            $urls = \array_map('strval', \array_keys($this->notRewritten));
+            \sort($urls);
+            $this->io->warning(\sprintf('%d unique URL(s) matching a base URL could not be rewritten because they were not found in the source:', \count($urls)));
+            $this->io->listing($urls);
+        }
 
         return self::EXECUTE_SUCCESS;
     }
@@ -375,6 +384,8 @@ class RewriteUrlsCommand extends AbstractCommand
         }
         $path = $this->normalizePath($path);
         if (null === $path) {
+            $this->notRewritten[$url] = true;
+
             return null;
         }
 
@@ -385,6 +396,8 @@ class RewriteUrlsCommand extends AbstractCommand
         $exists = \is_file($absolute)
             || (\is_dir($absolute) && (\is_file(Path::join($absolute, 'index.html')) || \is_file(Path::join($absolute, 'index.htm'))));
         if (!$exists) {
+            $this->notRewritten[$url] = true;
+
             return null;
         }
 

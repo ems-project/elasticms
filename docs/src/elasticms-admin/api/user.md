@@ -22,6 +22,7 @@ export AUTH_TOKEN='nlpUnMR/W8bgSSclYXI2G0dP5REdp5yhvaXfMDV/he+XgQgI7pIRqkuNqsJRJ
 | Get the authenticated user profile | `GET /api/user-profile`             | authenticated user                                       |
 | Get enabled user profiles          | `GET /api/user-profiles`            | `ROLE_USER_READ`, `ROLE_USER_MANAGEMENT` or `ROLE_ADMIN` |
 | Generate a token for another user  | `POST /api/user/proxy-authenticate` | `ROLE_USER_MANAGEMENT`                                   |
+| Generate a password reset URL      | `POST /api/admin/user/reset-password` | authenticated user                                     |
 
 ## Profile fields
 
@@ -195,6 +196,44 @@ This endpoint fails when:
 - the target user does not exist;
 - the target user is disabled or expired.
 
+## Generate a password reset URL
+
+Use `POST /api/admin/user/reset-password` to generate a password reset URL for a user. The request
+must contain the user's username or email in the `username` field.
+
+Request body:
+
+```json
+{
+    "username": "demo"
+}
+```
+
+Example:
+
+```shell
+curl -X POST \
+     -H "Authorization: Bearer ${AUTH_TOKEN}" \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
+     http://localhost:8881/api/admin/user/reset-password -d \
+'{
+  "username": "demo"
+}' -w '\n'
+```
+
+Successful response:
+
+```json
+{
+    "url": "http://localhost:8881/reset-password/abc123...",
+    "token": "abc123..."
+}
+```
+
+The endpoint returns `400 Bad Request` when `username` is missing or empty, or when no matching
+user is found. The returned URL can be sent to the user to complete the password reset.
+
 ## Error handling
 
 | Symptom                                   | Check                                                                                |
@@ -202,5 +241,6 @@ This endpoint fails when:
 | `401 Unauthorized`                        | The authentication token header is missing or invalid.                               |
 | `403 Forbidden`                           | The authenticated user does not have the role required by the endpoint.              |
 | `400 Bad Request` on proxy authentication | The JSON body must contain both `username` and `email`.                              |
+| `400 Bad Request` on password reset       | The JSON body must contain a non-empty `username` matching an existing user.          |
 | Target user not found                     | Verify the username, email and whether the user exists in Admin.                     |
 | Disabled or expired account               | Re-enable the target user or update the expiration date before proxy authentication. |

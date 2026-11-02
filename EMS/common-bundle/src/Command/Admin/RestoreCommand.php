@@ -303,7 +303,7 @@ class RestoreCommand extends AbstractCommand
     private function restoreAssets(): void
     {
         $finder = new Finder();
-        $filesToRestore = $finder->in($this->assetsFolder)->name('*.bin')->files();
+        $filesToRestore = $finder->in($this->assetsFolder)->name('*')->files();
 
         if (0 === $filesToRestore->count()) {
             $this->io->warning('No assets to be restored');
@@ -315,14 +315,23 @@ class RestoreCommand extends AbstractCommand
         $this->io->progressStart($filesToRestore->count());
         $fileApi = $this->adminHelper->getCoreApi()->file();
         foreach ($filesToRestore as $file) {
-            $basename = $file->getBasename('.bin');
-            if ($basename !== \hash_file($this->hashAlgo, $file->getRealPath())) {
+            $filename = $file->getBasename();
+            $extension = \pathinfo($filename, PATHINFO_EXTENSION);
+            $basename = \pathinfo($filename, PATHINFO_FILENAME);
+            if (!\preg_match('~^(?P<basename>.+)-(?P<hash>[a-f0-9]{12})$~iD', $basename, $matches)) {
+                $this->io->warning(\sprintf('Unexpected file %s', $file->getBasename()));
+                continue;
+            }
+            $basename = $matches['basename'];
+            $hashPrefix = $matches['hash'];
+            $hash = \hash_file($this->hashAlgo, $file->getRealPath());
+            if (!\str_starts_with($hash, $hashPrefix)) {
                 $this->io->warning(\sprintf('Unexpected hashed file %s', $file->getBasename()));
                 $this->io->progressAdvance();
                 continue;
             }
-            if (!$fileApi->headHash($basename)) {
-                $fileApi->uploadFile($file->getRealPath());
+            if (!$fileApi->headHash($hash)) {
+                $fileApi->uploadFile($file->getRealPath(), filename: '' === $extension ? $basename : \sprintf('%s.%s', $basename, $extension));
             }
             $this->io->progressAdvance();
         }

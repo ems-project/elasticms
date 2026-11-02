@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Common\CoreApi\Endpoint\User;
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\User\ProfileInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\User\UserInterface;
+use EMS\Helpers\Standard\Type;
 
 final readonly class User implements UserInterface
 {
@@ -41,5 +42,14 @@ final readonly class User implements UserInterface
         ]);
 
         return $response->getData()['token'] ?? null;
+    }
+
+    public function resetPasswordUrl(string $username): string
+    {
+        $response = $this->client->post('/api/admin/user/reset-password', [
+            'username' => $username,
+        ]);
+
+        return Type::string($response->getData()['url'] ?? null);
     }
 }

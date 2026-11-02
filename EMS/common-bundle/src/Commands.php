@@ -16,6 +16,7 @@ class Commands
     final public const string ADMIN_NEXT_JOB = 'ems:admin:next-job';
     final public const string ADMIN_WEBHOOKS_REGISTER = 'ems:admin:webhooks:register';
     final public const string ADMIN_FILE_INFO = 'ems:admin:file-info';
+    final public const string ADMIN_USER_RESET_PASSWORD_URL = 'ems:admin:user:reset-password-url';
     final public const string FILE_STRUCTURE_PUBLISH = 'ems:file-structure:publish';
     final public const string FILE_STRUCTURE_PULL = 'ems:file-structure:pull';
     final public const string FILE_STRUCTURE_PUSH = 'ems:file-structure:push';

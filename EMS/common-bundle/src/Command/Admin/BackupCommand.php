@@ -9,6 +9,7 @@ use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Admin\ConfigHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
+use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\Helpers\File\File;
@@ -279,7 +280,7 @@ class BackupCommand extends AbstractCommand
                 '/\A(?:[a-f0-9]{32}|[a-f0-9]{40}|[a-f0-9]{64}|[a-f0-9]{96}|[a-f0-9]{128})\z/i',
                 $value
             )) {
-                $this->extractAsset($value);
+                $this->extractAsset($value, $json[EmsFields::CONTENT_FILE_NAME_FIELD] ?? $json[EmsFields::CONTENT_FILE_NAME_FIELD_] ?? "$value.bin");
             }
 
             if (!\preg_match_all(
@@ -295,12 +296,14 @@ class BackupCommand extends AbstractCommand
         }
     }
 
-    private function extractAsset(string $hash): void
+    private function extractAsset(string $hash, string $filename): void
     {
         if (isset($this->assetsAlreadyExported[$hash])) {
             return;
         }
-        $filename = $this->assetsFolder.DIRECTORY_SEPARATOR.$hash.'.bin';
+        $basename = \pathinfo($filename, PATHINFO_FILENAME);
+        $extension = \pathinfo($filename, PATHINFO_EXTENSION);
+        $filename = $this->assetsFolder.DIRECTORY_SEPARATOR.\sprintf('' === $extension ? '%s-%s%s' : '%s-%s.%s', $basename, \substr($hash, 0, 12), $extension);
         if (\file_exists($filename) && $hash === \hash_file($this->hashAlgo, $filename)) {
             $this->assetsAlreadyExported[$hash] = true;
 

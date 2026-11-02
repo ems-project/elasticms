@@ -297,14 +297,23 @@ class BackupCommand extends AbstractCommand
             }
 
             if (!\preg_match_all(
-                '~(?<![a-f0-9])ems://asset:(?P<hash>[a-f0-9]{32}|[a-f0-9]{40}|[a-f0-9]{64}|[a-f0-9]{96}|[a-f0-9]{128})(?![a-f0-9])~i',
+                '~(?<![a-f0-9])ems://asset:(?P<hash>[a-f0-9]{32}|[a-f0-9]{40}|[a-f0-9]{64}|[a-f0-9]{96}|[a-f0-9]{128})(?![a-f0-9])(?![a-f0-9])(?:\?(?P<query>[^\s<>"\'#]*))?~i',
                 $value,
                 $matches
             )) {
                 continue;
             }
-            foreach ($matches['hash'] as $hash) {
-                $this->extractAsset($hash);
+            foreach ($matches['hash'] as $index => $hash) {
+                $query = [];
+                \parse_str(
+                    \html_entity_decode($matches['query'][$index] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8'),
+                    $query,
+                );
+                $filename = isset($query['name']) && \is_string($query['name'])
+                    ? $query['name']
+                    : "$hash.bin";
+
+                $this->extractAsset($hash, $filename);
             }
         }
     }

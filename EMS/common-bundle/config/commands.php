@@ -18,6 +18,7 @@ use EMS\CommonBundle\Command\Admin\RestoreCommand;
 use EMS\CommonBundle\Command\Admin\UpdateCommand;
 use EMS\CommonBundle\Command\Admin\Users\CreateUser;
 use EMS\CommonBundle\Command\Admin\Users\DeleteUser;
+use EMS\CommonBundle\Command\Admin\Users\EditUser;
 use EMS\CommonBundle\Command\Admin\Users\ResetPasswordUrl;
 use EMS\CommonBundle\Command\BatchCommand;
 use EMS\CommonBundle\Command\CleanOrphanIndicesCommand;
@@ -152,6 +153,12 @@ return static function (ContainerConfigurator $container) {
         ->tag('console.command');
 
     $services->set('ems.command.admin.users.delete', DeleteUser::class)
+        ->args([
+            service('ems.helper.admin_api'),
+        ])
+        ->tag('console.command');
+
+    $services->set('ems.command.admin.users.edit', EditUser::class)
         ->args([
             service('ems.helper.admin_api'),
         ])

@@ -71,4 +71,14 @@ final readonly class User implements UserInterface
 
         return Type::bool($response->getData()['success'] ?? false);
     }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function edit(array $data): bool
+    {
+        $response = $this->client->post('/api/admin/user/edit', $data);
+
+        return Type::bool($response->getData()['success'] ?? false);
+    }
 }

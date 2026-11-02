@@ -19,6 +19,9 @@ return function (RoutingConfigurator $routes): void {
         ->requirements(['_format' => 'html|json'])
         ->format('html');
 
+    $routes->import('@EMSCoreBundle/config/routing/api/user.php')
+        ->prefix('/api/admin/user');
+
     $routes->import('@EMSCoreBundle/config/routing/api/admin.php')
         ->prefix('/api/admin');
 
@@ -48,9 +51,6 @@ return function (RoutingConfigurator $routes): void {
 
     $routes->import('@EMSCoreBundle/config/routing/api/webhook.php')
         ->prefix('/api');
-
-    $routes->import('@EMSCoreBundle/config/routing/api/user.php')
-        ->prefix('/api/user');
 
     $routes->add('emsco_api_user_proxy_authenticate', '/api/user/proxy-authenticate')
         ->controller([UserController::class, 'proxyAuthenticate'])

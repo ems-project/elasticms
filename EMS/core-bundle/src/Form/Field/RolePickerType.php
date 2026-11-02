@@ -6,16 +6,12 @@ namespace EMS\CoreBundle\Form\Field;
 
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Service\UserService;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use function Symfony\Component\Translation\t;
 
-/**
- * @extends AbstractType<mixed>
- */
 class RolePickerType extends ChoiceType
 {
     public function __construct(private readonly UserService $userService)

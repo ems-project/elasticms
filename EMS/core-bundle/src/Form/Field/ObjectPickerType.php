@@ -70,7 +70,7 @@ class ObjectPickerType extends ChoiceType
             'querySearchLabel' => null,
             'referrer-ems-id' => null,
             'attr' => [
-                'class' => 'select2',
+                'class' => 'select2 objectpicker',
             ],
         ]);
     }
@@ -97,12 +97,6 @@ class ObjectPickerType extends ChoiceType
         $view->vars['attr']['data-query-search'] = $querySearch;
         $view->vars['attr']['data-query-search-label'] = $querySearchLabel;
         $view->vars['attr']['data-referrer-ems-id'] = $options['referrer-ems-id'] ?? false;
-    }
-
-    #[\Override]
-    public function getBlockPrefix(): string
-    {
-        return 'objectpicker';
     }
 
     private function getQuerySearchLabel(?string $querySearch): ?string

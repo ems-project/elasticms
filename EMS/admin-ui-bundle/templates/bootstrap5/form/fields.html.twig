@@ -157,11 +157,6 @@
     {{- block('form_widget') -}}
 {%- endblock colorpicker_widget %}
 
-{% block objectpicker_widget -%}
-    {% set attr = attr|merge({class: (attr.class|default('') ~ ' objectpicker')|trim}) %}
-    {{ block('choice_widget') }}
-{%- endblock objectpicker_widget %}
-
 {%- block submit_ems_widget -%}
     {%- set icon = icon|default(icons[name]|default('fa fa-save')) -%}
     {%- set attr = attr|merge({class: attr.class|default('btn btn-primary btn-sm')}) -%}

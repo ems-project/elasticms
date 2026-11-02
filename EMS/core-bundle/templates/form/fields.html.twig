@@ -147,11 +147,6 @@
 	</div>
 {%- endblock colorpicker_widget %}
 
-{% block objectpicker_widget -%}
-	{% set attr = attr|merge({class: (attr.class|default('') ~ ' objectpicker')|trim}) %}
-	{{ block('choice_widget') }}
-{%- endblock objectpicker_widget %}
-
 {% block selectpicker_widget -%}
 	{% set attr = attr|merge({class: (attr.class|default('') ~ ' selectpicker')|trim}) %}
 	{{ block('choice_widget') }}

@@ -52,4 +52,14 @@ final readonly class User implements UserInterface
 
         return Type::string($response->getData()['url'] ?? null);
     }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function create(array $data): string
+    {
+        $response = $this->client->post('/api/admin/user/create', $data);
+
+        return Type::string($response->getData()['url'] ?? null);
+    }
 }

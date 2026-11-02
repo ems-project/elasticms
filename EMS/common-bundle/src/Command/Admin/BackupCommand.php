@@ -272,6 +272,7 @@ class BackupCommand extends AbstractCommand
         foreach ($json as $value) {
             if (\is_array($value)) {
                 $this->findAssets($value);
+                continue;
             }
             if (!\is_string($value)) {
                 continue;

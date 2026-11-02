@@ -18,7 +18,7 @@ class Required extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new NotBlank();
+        return new NotBlank(message: $this->message);
     }
 
     #[\Override]

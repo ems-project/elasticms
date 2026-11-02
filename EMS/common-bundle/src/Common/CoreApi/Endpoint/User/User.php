@@ -62,4 +62,13 @@ final readonly class User implements UserInterface
 
         return Type::string($response->getData()['url'] ?? null);
     }
+
+    public function delete(string $username): bool
+    {
+        $response = $this->client->post('/api/admin/user/delete', [
+            'username' => $username,
+        ]);
+
+        return Type::bool($response->getData()['success'] ?? false);
+    }
 }

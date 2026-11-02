@@ -28,4 +28,6 @@ interface UserInterface
      * @param array<string, mixed> $data
      */
     public function create(array $data): string;
+
+    public function delete(string $username): bool;
 }

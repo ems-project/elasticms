@@ -43,7 +43,7 @@ final class IsBirthDateValidator extends ConstraintValidator
         try {
             return new \DateTimeImmutable($dateString);
         } catch (\Exception) {
-            throw new RuntimeException(\sprintf('Could not create date from string "%s"', $dateString));
+            throw new \RuntimeException(\sprintf('Could not create date from string "%s"', $dateString));
         }
     }
 }

@@ -8,7 +8,7 @@ class ValidationConfig
 {
     private readonly string $className;
 
-    public function __construct(private readonly string $id, private readonly string $name, string $className, private readonly ?string $fieldLabel, private readonly mixed $defaultValue = null, private readonly mixed $value = null)
+    public function __construct(private readonly string $id, private readonly string $name, string $className, private readonly ?string $fieldLabel, private readonly mixed $defaultValue = null, private readonly mixed $value = null, private readonly ?string $message = null)
     {
         if (!\class_exists($className)) {
             throw new \Exception(\sprintf('Error validation class "%s" does not exists!', $className));
@@ -40,5 +40,10 @@ class ValidationConfig
     public function getValue()
     {
         return $this->value ?? $this->defaultValue;
+    }
+
+    public function getMessage(): ?string
+    {
+        return $this->message;
     }
 }

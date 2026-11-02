@@ -277,6 +277,17 @@ class BackupCommand extends AbstractCommand
             if (!\is_string($value)) {
                 continue;
             }
+            if (Json::isJson($value)) {
+                $decoded = Json::mixedDecode($value);
+                if (\is_array($decoded)) {
+                    $this->findAssets($decoded);
+                    continue;
+                }
+                if (\is_string($decoded)) {
+                    $value = $decoded;
+                }
+            }
+
             if (1 === \preg_match(
                 '/\A(?:[a-f0-9]{32}|[a-f0-9]{40}|[a-f0-9]{64}|[a-f0-9]{96}|[a-f0-9]{128})\z/i',
                 $value

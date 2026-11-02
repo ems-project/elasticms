@@ -24,6 +24,7 @@ export AUTH_TOKEN='nlpUnMR/W8bgSSclYXI2G0dP5REdp5yhvaXfMDV/he+XgQgI7pIRqkuNqsJRJ
 | Generate a token for another user  | `POST /api/user/proxy-authenticate`   | `ROLE_USER_MANAGEMENT`                                   |
 | Create a user                      | `POST /api/admin/user/create`         | `ROLE_ADMIN`                                       |
 | Delete a user                      | `POST /api/admin/user/delete`         | `ROLE_ADMIN`                                      |
+| Edit a user                        | `POST /api/admin/user/edit`           | `ROLE_ADMIN`                                      |
 | Generate a password reset URL      | `POST /api/admin/user/reset-password` | `ROLE_ADMIN`                                    |
 
 ## Profile fields
@@ -329,6 +330,50 @@ Successful response:
 The endpoint returns `400 Bad Request` when `username` is missing or when no matching user is
 found.
 
+## Edit a user
+
+Use `POST /api/admin/user/edit` to update a user identified by username or email. The `username`
+field is required; all other fields are optional and use the same format as user creation:
+
+- `email`;
+- `wysiwygProfile`;
+- `roles`;
+- `group`;
+- `displayName`;
+- `locale`;
+- `localePreferred`;
+- `userOptions`.
+
+Set `wysiwygProfile` or `group` to `null` to remove the current value.
+
+Example:
+
+```shell
+curl -X POST \
+     -H "Authorization: Bearer ${AUTH_TOKEN}" \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
+     http://localhost:8881/api/admin/user/edit -d \
+'{
+  "username": "demo",
+  "displayName": "Updated User",
+  "roles": ["ROLE_USER", "ROLE_ADMIN"],
+  "group": "editors",
+  "localePreferred": "fr"
+}' -w '\n'
+```
+
+Successful response:
+
+```json
+{
+    "success": true
+}
+```
+
+The endpoint returns `400 Bad Request` when `username` is missing, no matching user is found, or
+a referenced group or WYSIWYG profile does not exist.
+
 ## Error handling
 
 | Symptom                                   | Check                                                                                |
@@ -339,5 +384,6 @@ found.
 | `400 Bad Request` on password reset       | The JSON body must contain a non-empty `username` matching an existing user.         |
 | `400 Bad Request` on user creation        | The JSON body must contain `username` and `email`, and valid optional field values.  |
 | `400 Bad Request` on user deletion         | The JSON body must contain a `username` matching an existing user.                    |
+| `400 Bad Request` on user editing          | The JSON body must contain a matching `username` and valid optional field values.    |
 | Target user not found                     | Verify the username, email and whether the user exists in Admin.                     |
 | Disabled or expired account               | Re-enable the target user or update the expiration date before proxy authentication. |

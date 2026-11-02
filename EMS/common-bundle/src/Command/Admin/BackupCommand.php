@@ -293,6 +293,7 @@ class BackupCommand extends AbstractCommand
                 $value
             )) {
                 $this->extractAsset($value, $json[EmsFields::CONTENT_FILE_NAME_FIELD] ?? $json[EmsFields::CONTENT_FILE_NAME_FIELD_] ?? "$value.bin");
+                continue;
             }
 
             if (!\preg_match_all(

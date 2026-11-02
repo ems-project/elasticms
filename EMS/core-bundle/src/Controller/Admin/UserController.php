@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Controller\Admin;
 
 use EMS\CoreBundle\Core\User\UserManager;
+use EMS\Helpers\Standard\Json;
+use EMS\Helpers\Standard\Type;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class UserController extends AbstractController
 {
@@ -19,7 +22,7 @@ final class UserController extends AbstractController
 
     public function resetPasswordUrl(Request $request): JsonResponse
     {
-        $username = $request->request->getString('username') ?: $request->query->getString('username');
+        $username = Type::string(Json::decode($request->getContent())['username'] ?? null);
         if ('' === $username) {
             throw new BadRequestHttpException('The "username" parameter is required.');
         }
@@ -33,7 +36,7 @@ final class UserController extends AbstractController
         return new JsonResponse([
             'url' => $this->generateUrl('emsco_user_resetting_reset', [
                 'token' => $token,
-            ]),
+            ], UrlGeneratorInterface::ABSOLUTE_URL),
             'token' => $token,
         ]);
     }

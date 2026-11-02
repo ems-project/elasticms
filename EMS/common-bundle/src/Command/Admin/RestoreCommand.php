@@ -112,16 +112,16 @@ class RestoreCommand extends AbstractCommand
         }
 
         $allFalse = !$this->restoreConfigsOnly && !$this->restoreDocumentsOnly && !$this->restoreAssetsOnly;
+        if ($this->restoreAssetsOnly || $allFalse) {
+            $this->restoreAssets();
+        }
+
         if ($this->restoreConfigsOnly || $allFalse) {
             $this->restoreConfigs();
         }
 
         if ($this->restoreDocumentsOnly || $allFalse) {
             $this->restoreDocuments();
-        }
-
-        if ($this->restoreAssetsOnly || $allFalse) {
-            $this->restoreAssets();
         }
 
         if (!$this->force) {

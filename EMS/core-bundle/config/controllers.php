@@ -929,6 +929,8 @@ return static function (ContainerConfigurator $container) {
         ->public()
         ->args([
             service('emsco.manager.user'),
+            service('ems.group.manager'),
+            service('ems.service.wysiwyg_profile'),
         ])
         ->call('setContainer')
         ->tag('container.service_subscriber')

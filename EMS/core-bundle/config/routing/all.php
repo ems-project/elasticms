@@ -33,7 +33,6 @@ return function (RoutingConfigurator $routes): void {
 
     $routes->import('@EMSCoreBundle/config/routing/views.php')->prefix('/views');
     $routes->import('@EMSCoreBundle/config/routing/admin/job.php')->prefix('/admin/job');
-    $routes->import('@EMSCoreBundle/config/routing/admin/user.php')->prefix('/admin/user');
     $routes->import('@EMSCoreBundle/config/routing/job.php')->prefix('/job');
     $routes->import('@EMSCoreBundle/config/routing/wysiwyg.php')->prefix('/wysiwyg');
     $routes->import('@EMSCoreBundle/config/routing/admin/wysiwyg.php')->prefix('/admin/wysiwyg');

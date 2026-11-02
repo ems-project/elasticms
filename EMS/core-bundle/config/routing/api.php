@@ -49,6 +49,9 @@ return function (RoutingConfigurator $routes): void {
     $routes->import('@EMSCoreBundle/config/routing/api/webhook.php')
         ->prefix('/api');
 
+    $routes->import('@EMSCoreBundle/config/routing/api/user.php')
+        ->prefix('/api/user');
+
     $routes->add('emsco_api_user_proxy_authenticate', '/api/user/proxy-authenticate')
         ->controller([UserController::class, 'proxyAuthenticate'])
         ->methods(['POST'])

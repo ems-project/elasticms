@@ -6,6 +6,11 @@
 # Symfony fell back to its own default, 100 (DEBUG).
 export LOG_LEVEL="${LOG_LEVEL:-WARNING}"
 CLI_PHP_MEMORY_LIMIT_WCMTECH_DEFAULT="512M"
+# Ceiling on memory_limit (PHP 8.5 max_memory_limit), used by the console wrappers
+# in config/sbin. -1 = no ceiling (default, no behaviour change). Set it to the
+# pod memory budget to make a runaway command fail with a clean PHP fatal instead
+# of a cgroup OOM that kills the container.
+CLI_PHP_MAX_MEMORY_LIMIT_WCMTECH_DEFAULT="-1"
 
 if [ ! -z "$AWS_S3_ENDPOINT_URL" ]; then
     export AWS_CLI_EXTRA_ARGS="--endpoint-url ${AWS_S3_ENDPOINT_URL}"

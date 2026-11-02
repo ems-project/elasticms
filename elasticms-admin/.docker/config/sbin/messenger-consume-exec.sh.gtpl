@@ -29,7 +29,7 @@ if [[ "$MESSENGER_TRANSPORT_DSN" =~ ^(redis|rediss|valkey|valkeys): ]] && [[ "$M
 fi
 
 # The console wrapper's memory limit, not php-fpm's per-request one.
-php -d memory_limit=${CLI_PHP_MEMORY_LIMIT:-512M} {{ .Env.APP_SRC_DIR }}/bin/console messenger:consume async {{ .Env.MESSENGER_CONSUME_COMMAND_OPTS }} &
+php -d max_memory_limit=${CLI_PHP_MAX_MEMORY_LIMIT:--1} -d memory_limit=${CLI_PHP_MEMORY_LIMIT:-512M} {{ .Env.APP_SRC_DIR }}/bin/console messenger:consume async {{ .Env.MESSENGER_CONSUME_COMMAND_OPTS }} &
 child_pid=$!
 started=$SECONDS
 

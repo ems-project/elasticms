@@ -1,5 +1,9 @@
 # Changelog 6.x
 
+## 6.9.42 (2026-10-27)
+### Features
+* feat(web/form): choice array values by @Davidmattei in https://github.com/ems-project/elasticms/pull/1934
+
 ## 6.9.41 (2026-10-21)
 ### Features
 * feat(common/docker): configure the runner docker HostConfig by @theus77 in https://github.com/ems-project/elasticms/pull/1913

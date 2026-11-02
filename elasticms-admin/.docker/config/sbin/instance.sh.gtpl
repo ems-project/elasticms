@@ -33,5 +33,5 @@ if [ "${1:-list}" = sql ] ; then
 
 else
   export EMS_PROCESS_COMMAND={{ .Env.ELASTICMS_INSTANCE_NAME }}
-  php -d memory_limit=${CLI_PHP_MEMORY_LIMIT:-512M} {{ .Env.APP_SRC_DIR }}/bin/console "$@"
+  php -d max_memory_limit=${CLI_PHP_MAX_MEMORY_LIMIT:--1} -d memory_limit=${CLI_PHP_MEMORY_LIMIT:-512M} {{ .Env.APP_SRC_DIR }}/bin/console "$@"
 fi;

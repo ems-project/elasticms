@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 export CLI_PHP_MEMORY_LIMIT="${CLI_PHP_MEMORY_LIMIT:-512M}"
+# Ceiling on memory_limit (PHP 8.5 max_memory_limit); -1 = no ceiling (default).
+export CLI_PHP_MAX_MEMORY_LIMIT="${CLI_PHP_MAX_MEMORY_LIMIT:--1}"
 
 export ELASTICMS_CLI_CROND_SCHEDULE="${ELASTICMS_CLI_CROND_SCHEDULE:-*/15 * * * *}"
 export ELASTICMS_CLI_CROND_COMMAND="${ELASTICMS_CLI_CROND_COMMAND:-ems:version}"

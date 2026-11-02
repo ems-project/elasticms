@@ -100,6 +100,25 @@ final class UserController extends AbstractController
         ], JsonResponse::HTTP_CREATED);
     }
 
+    public function delete(Request $request): JsonResponse
+    {
+        $username = Type::string(Json::decode($request->getContent())['username'] ?? null);
+        if ('' === $username) {
+            throw new BadRequestHttpException('The "username" parameter is required.');
+        }
+
+        $user = $this->userManager->getUserByUsernameOrEmail($username);
+        if (null === $user) {
+            throw new BadRequestHttpException('User not found.');
+        }
+
+        $this->userManager->delete($user);
+
+        return new JsonResponse([
+            'success' => true,
+        ]);
+    }
+
     public function resetPasswordUrl(Request $request): JsonResponse
     {
         $username = Type::string(Json::decode($request->getContent())['username'] ?? null);

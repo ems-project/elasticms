@@ -18,14 +18,14 @@ export AUTH_TOKEN='nlpUnMR/W8bgSSclYXI2G0dP5REdp5yhvaXfMDV/he+XgQgI7pIRqkuNqsJRJ
 ## Endpoints
 
 | Action                             | Endpoint                              | Required role                                            |
-|------------------------------------|---------------------------------------|----------------------------------------------------------|
+| ---------------------------------- | ------------------------------------- | -------------------------------------------------------- |
 | Get the authenticated user profile | `GET /api/user-profile`               | authenticated user                                       |
 | Get enabled user profiles          | `GET /api/user-profiles`              | `ROLE_USER_READ`, `ROLE_USER_MANAGEMENT` or `ROLE_ADMIN` |
 | Generate a token for another user  | `POST /api/user/proxy-authenticate`   | `ROLE_USER_MANAGEMENT`                                   |
-| Create a user                      | `POST /api/admin/user/create`         | `ROLE_ADMIN`                                       |
-| Delete a user                      | `POST /api/admin/user/delete`         | `ROLE_ADMIN`                                      |
-| Edit a user                        | `POST /api/admin/user/edit`           | `ROLE_ADMIN`                                      |
-| Generate a password reset URL      | `POST /api/admin/user/reset-password` | `ROLE_ADMIN`                                    |
+| Create a user                      | `POST /api/admin/user/create`         | `ROLE_ADMIN`                                             |
+| Delete a user                      | `POST /api/admin/user/delete`         | `ROLE_ADMIN`                                             |
+| Edit a user                        | `POST /api/admin/user/edit`           | `ROLE_ADMIN`                                             |
+| Generate a password reset URL      | `POST /api/admin/user/reset-password` | `ROLE_ADMIN`                                             |
 
 ## Profile fields
 
@@ -36,13 +36,9 @@ User profile responses use this structure:
     "id": 1,
     "username": "demo",
     "displayName": "Demo User",
-    "roles": [
-        "ROLE_USER"
-    ],
+    "roles": ["ROLE_USER"],
     "email": "demo@example.org",
-    "circles": [
-        "cercle_type:AWNJBOh85f9MtpLT8n-a"
-    ],
+    "circles": ["cercle_type:AWNJBOh85f9MtpLT8n-a"],
     "lastLogin": "2026-05-09T10:15:00+02:00",
     "expirationDate": null,
     "language": "en",
@@ -131,13 +127,9 @@ Successful response:
         "id": 1,
         "username": "demo",
         "displayName": "Demo User",
-        "roles": [
-            "ROLE_USER"
-        ],
+        "roles": ["ROLE_USER"],
         "email": "demo@example.org",
-        "circles": [
-            "publisher"
-        ],
+        "circles": ["publisher"],
         "lastLogin": "2026-05-09T10:15:00+02:00",
         "expirationDate": null,
         "language": "en",
@@ -242,8 +234,8 @@ Successful response:
 }
 ```
 
-The endpoint returns `400 Bad Request` when `username` is missing or empty, or when no matching
-user is found. The returned URL can be sent to the user to complete the password reset.
+The endpoint returns `400 Bad Request` when `username` is missing or empty, or when no matching user
+is found. The returned URL can be sent to the user to complete the password reset.
 
 ## Create a user
 
@@ -327,8 +319,7 @@ Successful response:
 }
 ```
 
-The endpoint returns `400 Bad Request` when `username` is missing or when no matching user is
-found.
+The endpoint returns `400 Bad Request` when `username` is missing or when no matching user is found.
 
 ## Edit a user
 
@@ -371,19 +362,19 @@ Successful response:
 }
 ```
 
-The endpoint returns `400 Bad Request` when `username` is missing, no matching user is found, or
-a referenced group or WYSIWYG profile does not exist.
+The endpoint returns `400 Bad Request` when `username` is missing, no matching user is found, or a
+referenced group or WYSIWYG profile does not exist.
 
 ## Error handling
 
 | Symptom                                   | Check                                                                                |
-|-------------------------------------------|--------------------------------------------------------------------------------------|
+| ----------------------------------------- | ------------------------------------------------------------------------------------ |
 | `401 Unauthorized`                        | The authentication token header is missing or invalid.                               |
 | `403 Forbidden`                           | The authenticated user does not have the role required by the endpoint.              |
 | `400 Bad Request` on proxy authentication | The JSON body must contain both `username` and `email`.                              |
 | `400 Bad Request` on password reset       | The JSON body must contain a non-empty `username` matching an existing user.         |
 | `400 Bad Request` on user creation        | The JSON body must contain `username` and `email`, and valid optional field values.  |
-| `400 Bad Request` on user deletion         | The JSON body must contain a `username` matching an existing user.                    |
-| `400 Bad Request` on user editing          | The JSON body must contain a matching `username` and valid optional field values.    |
+| `400 Bad Request` on user deletion        | The JSON body must contain a `username` matching an existing user.                   |
+| `400 Bad Request` on user editing         | The JSON body must contain a matching `username` and valid optional field values.    |
 | Target user not found                     | Verify the username, email and whether the user exists in Admin.                     |
 | Disabled or expired account               | Re-enable the target user or update the expiration date before proxy authentication. |

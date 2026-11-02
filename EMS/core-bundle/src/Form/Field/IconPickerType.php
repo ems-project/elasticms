@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Field;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use function Symfony\Component\Translation\t;
@@ -12,19 +13,13 @@ use function Symfony\Component\Translation\t;
 /**
  * @extends AbstractType<mixed>
  */
-class IconPickerType extends AbstractType
+class IconPickerType extends ChoiceType
 {
     private ?string $templateNamespace = null;
 
     public function setTemplateNamespace(string $namespace): void
     {
         $this->templateNamespace = $namespace;
-    }
-
-    #[\Override]
-    public function getParent(): string
-    {
-        return Select2Type::class;
     }
 
     /**
@@ -3319,6 +3314,7 @@ class IconPickerType extends AbstractType
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
+        parent::configureOptions($resolver);
         if ('EMSAdminUI/bootstrap5' === $this->templateNamespace) {
             $choices = $this->choices;
         } else {
@@ -3335,6 +3331,7 @@ class IconPickerType extends AbstractType
             'choices' => $choices,
             'attr' => [
                 'data-live-search' => true,
+                'class' => 'select2',
             ],
             'choice_attr' => fn ($category) => [
                 'data-icon' => $category,

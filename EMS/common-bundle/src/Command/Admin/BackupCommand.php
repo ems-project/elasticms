@@ -41,7 +41,7 @@ class BackupCommand extends AbstractCommand
     private bool $exportConfigsOnly;
     private bool $exportDocumentsOnly;
     private bool $exportAssetsOnly;
-    /** @var true[] */
+    /** @var string[] */
     private array $assetsAlreadyExported = [];
     private string $hashAlgo;
 
@@ -231,32 +231,36 @@ class BackupCommand extends AbstractCommand
 
         $this->io->section('Extract assets from archives');
         $finder = new Finder();
-        $files = $finder->in($this->assetsFolder)->name('*.bin');
+        $files = $finder->in($this->assetsFolder)->name('*.json');
         $this->io->progressStart($files->count());
         foreach ($files as $file) {
-            $basename = $file->getBasename('.bin');
-            if (!isset($this->assetsAlreadyExported[$basename])) {
+            if (!\in_array($file->getBasename(), $this->assetsAlreadyExported)) {
                 $this->io->progressAdvance();
                 continue;
             }
             try {
                 $this->findAssets(Json::decode($file->getContents()));
             } catch (\Throwable $e) {
+                $this->io->warning(\sprintf('Error while parsing file %s: %s', $file->getPathname(), $e->getMessage()));
             }
             $this->io->progressAdvance();
         }
         $this->io->progressFinish();
 
         $finder = new Finder();
-        $filesToClean = $finder->in($this->assetsFolder)->name('*.bin')->notName(\array_map(fn ($hash) => \sprintf('%s.bin', $hash), \array_keys($this->assetsAlreadyExported)))->files();
+        $filesToClean = $finder->in($this->assetsFolder)->name('*')->notName(\array_values($this->assetsAlreadyExported))->files();
         if (0 === $filesToClean->count()) {
             return;
         }
-        $this->io->section('Remove unknow assets');
+        $this->io->section('Delete unknow assets');
         $this->io->progressStart($filesToClean->count());
         foreach ($filesToClean as $file) {
-            $basename = $file->getBasename('.bin');
-            if (!isset($this->assetsAlreadyExported[$basename]) && $this->export) {
+            $basename = \pathinfo($file->getBasename(), PATHINFO_FILENAME);
+            if (!\preg_match('~^(?P<basename>.+)-(?P<hash>[a-f0-9]{12})$~iD', $basename, $matches)) {
+                $this->io->warning(\sprintf('Unexpected file %s', $file->getBasename()));
+                continue;
+            }
+            if ($this->export) {
                 \unlink($file->getPathname());
             }
             $this->io->progressAdvance();
@@ -325,9 +329,10 @@ class BackupCommand extends AbstractCommand
         }
         $basename = \pathinfo($filename, PATHINFO_FILENAME);
         $extension = \pathinfo($filename, PATHINFO_EXTENSION);
-        $filename = $this->assetsFolder.DIRECTORY_SEPARATOR.\sprintf('' === $extension ? '%s-%s%s' : '%s-%s.%s', $basename, \substr($hash, 0, 12), $extension);
+        $name = \sprintf('' === $extension ? '%s-%s%s' : '%s-%s.%s', $basename, \substr($hash, 0, 12), $extension);
+        $filename = $this->assetsFolder.DIRECTORY_SEPARATOR.$name;
         if (\file_exists($filename) && $hash === \hash_file($this->hashAlgo, $filename)) {
-            $this->assetsAlreadyExported[$hash] = true;
+            $this->assetsAlreadyExported[$hash] = $name;
 
             return;
         }
@@ -346,7 +351,7 @@ class BackupCommand extends AbstractCommand
             return;
         }
         if (!$this->export) {
-            $this->assetsAlreadyExported[$hash] = true;
+            $this->assetsAlreadyExported[$hash] = $name;
 
             return;
         }
@@ -356,6 +361,6 @@ class BackupCommand extends AbstractCommand
             throw new \RuntimeException(\sprintf('Unable to save %s', $hash));
         }
 
-        $this->assetsAlreadyExported[$hash] = true;
+        $this->assetsAlreadyExported[$hash] = $name;
     }
 }

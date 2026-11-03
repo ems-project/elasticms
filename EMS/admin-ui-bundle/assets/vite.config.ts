@@ -64,6 +64,7 @@ export default defineConfig({
             '@fonts': resolve('./public/fonts'),
             '@images': resolve('./public/images'),
             '@tabler-icons': resolve('./node_modules/@tabler/icons/icons'),
+            '@swagger-ui': resolve('./node_modules/swagger-ui/dist/swagger-ui-bundle.js'),
             '@css': resolve('./css')
         }
     },

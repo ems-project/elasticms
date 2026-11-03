@@ -1,4 +1,4 @@
-import SwaggerUI from 'swagger-ui'
+import SwaggerUI from '@swagger-ui'
 import 'swagger-ui/dist/swagger-ui.css'
 
 document.addEventListener('DOMContentLoaded', () => {

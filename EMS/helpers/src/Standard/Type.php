@@ -86,4 +86,17 @@ final class Type
 
         return (string) $value;
     }
+
+    /**
+     * @return string[]
+     */
+    public static function stringArray(mixed $value): array
+    {
+        $values = Type::array($value);
+        foreach ($values as $item) {
+            self::string($item);
+        }
+
+        return $value;
+    }
 }

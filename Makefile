@@ -242,8 +242,7 @@ demo: ## make new demo
 	@$(RUN_WEB) ems:admin:login --username=demo --password=demo
 	@$(RUN_WEB) emsch:local:push --force
 	@$(RUN_WEB) emsch:local:upload --filename=./demo/skeleton/template/asset_hash.twig --as-style-set-assets
-	@$(RUN_WEB) emsch:local:folder-upload ./demo/configs/admin/assets
-	@$(RUN_WEB) ems:admin:restore --documents-folder=./demo/configs/document --documents --force
+	@$(RUN_WEB) ems:admin:restore --import-folder=./demo/configs --documents --assets --force
 	@$(RUN_ADMIN) ems:environment:align preview live --force --no-debug
 	@$(RUN_WEB) ems:admin:webhooks:register http://localhost:8882/_admin_webhook content.finalize content.delete environment.new_index.preview
 demo-backup-configs: ## backup demo configs

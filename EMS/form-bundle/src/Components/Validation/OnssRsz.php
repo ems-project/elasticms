@@ -12,7 +12,12 @@ class OnssRsz extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new IsOnssRsz($this->value);
+        $constraint = new IsOnssRsz($this->value);
+        if ($this->message) {
+            $constraint->message = $this->message;
+        }
+
+        return $constraint;
     }
 
     #[\Override]

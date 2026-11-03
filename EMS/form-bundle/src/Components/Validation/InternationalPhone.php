@@ -12,6 +12,11 @@ final class InternationalPhone extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new IsInternationalPhoneNumber($this->value);
+        $constraint = new IsInternationalPhoneNumber($this->value);
+        if ($this->message) {
+            $constraint->message = $this->message;
+        }
+
+        return $constraint;
     }
 }

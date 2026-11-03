@@ -12,7 +12,12 @@ class CompanyNumber extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new IsCompanyNumber($this->value);
+        $constraint = new IsCompanyNumber($this->value);
+        if ($this->message) {
+            $constraint->message = $this->message;
+        }
+
+        return $constraint;
     }
 
     #[\Override]

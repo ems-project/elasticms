@@ -23,6 +23,6 @@ class MinLength extends AbstractValidation
             throw new \RuntimeException(\sprintf('Minimum value should be greater, or equal, than zero, %s given', $min));
         }
 
-        return new Length(min: (int) $min);
+        return new Length(min: $min, minMessage: $this->message);
     }
 }

@@ -23,6 +23,6 @@ class MaxLength extends AbstractValidation
             throw new \RuntimeException(\sprintf('Maximum value should be greater than zero, %s given', $max));
         }
 
-        return new Length(max: $max);
+        return new Length(max: $max, maxMessage: $this->message);
     }
 }

@@ -12,6 +12,11 @@ final class EmailMultiple extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new IsEmailMultiple($this->value);
+        $constraint = new IsEmailMultiple($this->value);
+        if ($this->message) {
+            $constraint->message = $this->message;
+        }
+
+        return $constraint;
     }
 }

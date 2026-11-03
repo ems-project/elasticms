@@ -18,7 +18,7 @@ class Email extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new EmailValidation(mode: EmailValidation::VALIDATION_MODE_HTML5);
+        return new EmailValidation(message: $this->message, mode: EmailValidation::VALIDATION_MODE_HTML5);
     }
 
     #[\Override]

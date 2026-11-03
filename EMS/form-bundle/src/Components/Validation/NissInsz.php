@@ -12,7 +12,12 @@ class NissInsz extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new IsNissInsz($this->value);
+        $constraint = new IsNissInsz($this->value);
+        if ($this->message) {
+            $constraint->message = $this->message;
+        }
+
+        return $constraint;
     }
 
     #[\Override]

@@ -18,6 +18,6 @@ class Min extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new GreaterThanOrEqual($this->value);
+        return new GreaterThanOrEqual($this->value, message: $this->message);
     }
 }

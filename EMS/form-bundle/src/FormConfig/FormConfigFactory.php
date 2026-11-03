@@ -190,7 +190,8 @@ class FormConfigFactory
                     $validation->getSource()['classname'],
                     $fieldConfig->getLabel(),
                     $validation->getSource()['default_value'] ?? null,
-                    $v['value'] ?? null
+                    $v['value'] ?? null,
+                    $v[$fieldConfig->getParentForm()->getLocale()]['message'] ?? null,
                 ));
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage(), [$e]);
@@ -427,7 +428,8 @@ class FormConfigFactory
                     $child->getObject()['classname'],
                     $child->getLabel(),
                     null,
-                    $child->getObject()['value'] ?? null
+                    $child->getObject()['value'] ?? null,
+                    $child->getObject()[$fieldConfig->getParentForm()->getLocale()]['message'] ?? null,
                 ));
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage(), [$e]);

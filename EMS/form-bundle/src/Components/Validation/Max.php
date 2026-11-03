@@ -18,6 +18,6 @@ class Max extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new LessThanOrEqual($this->value);
+        return new LessThanOrEqual($this->value, message: $this->message);
     }
 }

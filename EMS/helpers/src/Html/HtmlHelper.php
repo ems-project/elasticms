@@ -15,7 +15,8 @@ class HtmlHelper
     {
         $source ??= '';
         $formatter = new \tidy();
-        $formatter->parseString($source, \array_merge([
+        $enclosed = self::encloseInlineContent($source);
+        $formatter->parseString($enclosed, \array_merge([
             'indent' => true,
             'indent-spaces' => 2,
             'newline' => 'LF',
@@ -24,7 +25,30 @@ class HtmlHelper
             'drop-empty-elements' => false,
         ], $parseStringConfig));
 
-        return \trim(\str_replace(["<body>\n  ", "\n</body>", "\n  ", '<body>'], ['', '', "\n", ''], $formatter->body()->value));
+        $pretty = \trim(\str_replace(["<body>\n  ", "\n</body>", "\n  ", '<body>'], ['', '', "\n", ''], $formatter->body()->value));
+
+        if ($enclosed !== $source) {
+            return \preg_replace(['/^<p>\s+/', '/\s+<\/p>$/'], ['<p>', '</p>'], $pretty) ?? $pretty;
+        }
+
+        return $pretty;
+    }
+
+    /**
+     * Newer libtidy versions no longer wrap inline-only content in a paragraph, older ones did.
+     */
+    private static function encloseInlineContent(string $source): string
+    {
+        $withoutComments = \preg_replace('/<!--.*?-->/s', '', $source) ?? $source;
+        if ('' === \trim($withoutComments)) {
+            return $source;
+        }
+        $blockTags = 'address|article|aside|blockquote|body|dd|details|div|dl|dt|fieldset|figure|footer|form|h[1-6]|head|header|hr|html|li|main|nav|ol|p|pre|section|table|ul';
+        if (1 === \preg_match('/<(?:'.$blockTags.')[\s>\/]/i', $withoutComments)) {
+            return $source;
+        }
+
+        return '<p>'.$source.'</p>';
     }
 
     public static function compare(?string $html1, ?string $html2): int

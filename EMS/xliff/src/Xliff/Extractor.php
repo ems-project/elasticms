@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\Xliff\Xliff;
 
 use EMS\Helpers\Html\HtmlHelper;
-use EMS\Helpers\Standard\Type;
 use Symfony\Component\DomCrawler\Crawler;
 
 class Extractor extends XliffVersion
@@ -511,19 +510,13 @@ class Extractor extends XliffVersion
 
     private function buildEquivTextOpeningTag(\DOMElement $el): string
     {
-        $doc = $el->ownerDocument;
-        if (null === $doc) {
-            throw new \RuntimeException('Unexpected null doc');
-        }
-        $clone = $doc->createElement($el->tagName);
-
+        $xml = '<'.$el->tagName;
         foreach ($el->attributes as $attr) {
-            $clone->setAttribute($attr->name, $attr->value);
+            $xml .= \sprintf(' %s="%s"', $attr->name, \htmlspecialchars($attr->value, ENT_QUOTES | ENT_XML1, 'UTF-8'));
         }
-        $xml = $doc->saveXML($clone);
-        $xml = \preg_replace('#/>$#', '>', \trim(Type::string($xml)));
+        $xml .= '>';
 
-        return \htmlspecialchars(Type::string($xml), ENT_QUOTES | ENT_XML1);
+        return \htmlspecialchars($xml, ENT_QUOTES | ENT_XML1, 'UTF-8');
     }
 
     private function buildEquivTextClosingTag(\DOMElement $el): string

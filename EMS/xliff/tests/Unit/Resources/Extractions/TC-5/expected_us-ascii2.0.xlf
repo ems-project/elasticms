@@ -31,7 +31,7 @@
       <unit id="tu6" name="/html/body/p">
         <segment id="tu7" name="/html/body/p">
           <source> This is Mount Hood: <x id="x8" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood with its snow-covered top&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </source>
-          <target> Ceci est Mount Hood: <x id="x9" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood avec son sommet enneig&amp;amp;#xE9;&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </target>
+          <target> Ceci est Mount Hood: <x id="x9" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood avec son sommet enneig&#233;&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </target>
         </segment>
       </unit>
     </group>
@@ -39,7 +39,7 @@
       <unit id="tu11" name="/html/body/p">
         <segment id="tu12" name="/html/body/p">
           <source> This is Mount Hood: <x id="x13" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood with its snow-covered top&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </source>
-          <target> Ceci est Mount Hood: <x id="x14" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood avec son sommet enneig&amp;amp;#xE9;&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </target>
+          <target> Ceci est Mount Hood: <x id="x14" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood avec son sommet enneig&#233;&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </target>
         </segment>
       </unit>
     </group>

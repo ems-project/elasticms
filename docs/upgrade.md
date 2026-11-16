@@ -46,6 +46,30 @@
 
  * It's always a good idea to rebuild indexes on upgrade: `emsco:environment:rebuild --all`
 
+## version 6.9.41
+
+The Twig function `emsco_cant_be_finalized` no longer generates a warning
+message in the Admin UI.
+
+Since the fix [fix(admin/revision): cant be finalized in modal for JsonMenuNested - #1920](https://github.com/ems-project/elasticms/pull/1920/changes),
+the function also works when editing a JsonMenuNested in a modal.
+However, warning messages were displayed after the event, which was
+confusing for users.
+
+If you want to keep the warning message, you need to update your Twig
+template by adding a call to `emsco_warning` before calling
+`emsco_cant_be_finalized`.
+
+Since `emsco_cant_be_finalized` triggers an error, any subsequent call
+to `emsco_warning` will not be executed.
+
+E.g.:
+
+```twig
+{% do emsco_warning('This revision can not be finalized') %}
+{% do emsco_cant_be_finalized('in This revision can not be finalized') %}
+```
+
 ## version 6.9.13
 
 * If the `media_lib_file` block of the `media_library` component has been overridden and a file browser dashboard is defined, a `data-json` attribute must be added to the file selection link, as illustrated below:

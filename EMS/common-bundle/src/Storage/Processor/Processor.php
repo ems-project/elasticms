@@ -14,6 +14,7 @@ use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\File;
 use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Standard\Json;
+use EMS\Helpers\Standard\Type;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
@@ -366,11 +367,12 @@ class Processor
         }
 
         if ($cacheFolder && \file_exists($cacheFolder.\DIRECTORY_SEPARATOR.$hash)) {
-            $filename = $cacheFolder.\DIRECTORY_SEPARATOR.$path;
-            if (!\file_exists($filename)) {
+            $root = Type::string(\realpath($cacheFolder));
+            $filename = Type::string(\realpath($cacheFolder.\DIRECTORY_SEPARATOR.$path));
+            if (!\str_starts_with($filename, $root.\DIRECTORY_SEPARATOR) || !\is_file($filename)) {
                 throw new NotFoundHttpException('File not found');
             }
-            $response = new BinaryFileResponse($cacheFolder.\DIRECTORY_SEPARATOR.$path);
+            $response = new BinaryFileResponse($filename);
             $mimetype = MimeTypeHelper::getInstance()->guessMimeType($filename);
             $size = \filesize($filename);
         } else {

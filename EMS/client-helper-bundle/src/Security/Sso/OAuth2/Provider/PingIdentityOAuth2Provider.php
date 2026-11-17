@@ -21,8 +21,8 @@ final class PingIdentityOAuth2Provider extends AbstractOAuth2Provider
      * @param string[]|null $scopes
      */
     public function __construct(
-        string $issuer,
-        string $clientId,
+        private readonly string $issuer,
+        private readonly string $clientId,
         string $clientSecret,
         private readonly string $redirectUri,
         private readonly ?array $scopes = null,
@@ -42,16 +42,31 @@ final class PingIdentityOAuth2Provider extends AbstractOAuth2Provider
         );
     }
 
+    #[\Override]
     protected function getName(): string
     {
         return 'ping';
     }
 
+    #[\Override]
     protected function getRedirectUri(): string
     {
         return $this->redirectUri;
     }
 
+    #[\Override]
+    protected function getIssuer(): string
+    {
+        return $this->issuer;
+    }
+
+    #[\Override]
+    protected function getClientId(): string
+    {
+        return $this->clientId;
+    }
+
+    #[\Override]
     protected function getOptions(Request $request): array
     {
         return [
@@ -60,6 +75,7 @@ final class PingIdentityOAuth2Provider extends AbstractOAuth2Provider
         ];
     }
 
+    #[\Override]
     protected function getProvider(): AbstractProvider
     {
         return $this->provider;

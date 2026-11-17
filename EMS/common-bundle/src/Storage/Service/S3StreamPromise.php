@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Storage\Service;
 
 use Aws\S3\S3Client;
-use EMS\Helpers\Standard\Type;
 use Psr\Http\Message\StreamInterface;
 
 class S3StreamPromise implements StreamInterface
@@ -50,13 +49,11 @@ class S3StreamPromise implements StreamInterface
         if (null !== $this->size) {
             return $this->size;
         }
-        $result = $this->s3Client->getObject([
+        $result = $this->s3Client->headObject([
             'Bucket' => $this->bucket,
             'Key' => $this->key,
-            'Range' => 'bytes=0-0',
         ]);
-        $contentRangeExploded = \explode('/', Type::string($result['ContentRange'] ?? null));
-        $this->size = (int) \end($contentRangeExploded);
+        $this->size = (int) $result['ContentLength'];
 
         return $this->size;
     }

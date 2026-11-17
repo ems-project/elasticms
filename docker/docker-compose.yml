@@ -7,13 +7,18 @@ services:
             file: ../demo/docker-compose.yml
             service: traefik
 
-    setup_elk:
+    es-init:
         profiles: [ "all","ems" ]
+        image: curlimages/curl
+        depends_on:
+            es01:
+                condition: service_healthy
+        restart: "no"
         labels:
             - "elasticMS"
-        extends:
-            file: ../demo/docker-${ELK_VERSION-elk7}.yml
-            service: setup_elk
+        command: >
+            sh -c "curl -s -X PUT http://es01:9200/_template/zero-replicas -H 'Content-Type: application/json' -d '{\"index_patterns\":[\"*\"],\"order\":-1,\"settings\":{\"number_of_replicas\":0}}'
+            && curl -s -X PUT http://es01:9200/_all/_settings -H 'Content-Type: application/json' -d '{\"index\":{\"number_of_replicas\":0}}'"
 
     es01:
         profiles: [ "all","ems" ]
@@ -26,6 +31,10 @@ services:
             - bootstrap.memory_lock=true
             - node.store.allow_mmap=false
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        healthcheck:
+            test: [ "CMD-SHELL", "curl -s localhost:9200/_cluster/health | grep -qE '\"status\":\"(yellow|green)\"'" ]
+            interval: 10s
+            retries: 30
         ulimits:
             memlock:
                 soft: -1

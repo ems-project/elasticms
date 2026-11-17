@@ -40,6 +40,8 @@ services:
                 soft: -1
                 hard: -1
         mem_limit: ${MEM_LIMIT}
+        volumes:
+            - es_data01:/usr/share/elasticsearch/data
         ports:
             - "9201:9200"
         labels:
@@ -305,16 +307,9 @@ services:
             - "traefik.http.services.sandbox-cli.loadbalancer.server.port=8883"
 
 volumes:
-    elk7_data01:
-    elk7_data02:
-    elk7_data03:
-    elk8_data01:
-    elk8_data02:
-    elk8_data03:
+    es_data01:
+        name: ${ELK_PREFIX:-elk7}_data01
     elk8_kibanadata:
-    os2_data01:
-    os2_data02:
-    os2_data03:
     redis:
     seaweedfs:
     mariadb:

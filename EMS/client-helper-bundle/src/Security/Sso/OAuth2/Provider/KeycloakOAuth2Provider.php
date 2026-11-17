@@ -17,9 +17,9 @@ class KeycloakOAuth2Provider extends AbstractOAuth2Provider
     private readonly Keycloak $keycloak;
 
     public function __construct(
-        string $authServerUrl,
-        string $realm,
-        string $clientId,
+        private readonly string $authServerUrl,
+        private readonly string $realm,
+        private readonly string $clientId,
         string $clientSecret,
         private readonly string $redirectUri,
         ?string $version,
@@ -57,6 +57,19 @@ class KeycloakOAuth2Provider extends AbstractOAuth2Provider
         return $this->redirectUri;
     }
 
+    #[\Override]
+    protected function getIssuer(): ?string
+    {
+        return \rtrim($this->authServerUrl, '/').'/realms/'.$this->realm;
+    }
+
+    #[\Override]
+    protected function getClientId(): string
+    {
+        return $this->clientId;
+    }
+
+    #[\Override]
     protected function getOptions(Request $request): array
     {
         return ['redirect_uri' => $this->buildRedirectUri($request)];

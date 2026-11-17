@@ -26,7 +26,7 @@ services:
             file: docker-${ELK_VERSION-elk7}.yml
             service: es01
         ports:
-          - "9200:9200"
+            - "9200:9200"
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.es.rule=Host(`es.localhost`)"
@@ -68,7 +68,7 @@ services:
     postgres:
         image: postgres:17
         ports:
-          - "5432:5432"
+            - "5432:5432"
         environment:
             - POSTGRES_PASSWORD=s3cr3t
             - TZ=Europe/Brussels
@@ -127,16 +127,16 @@ services:
         entrypoint: [ "/bin/sh", "-ec" ]
         command:
             - |
-              weed_shell() { weed shell -master=seaweedfs:9333 -filer=seaweedfs:8888; }
-              echo 's3.bucket.create -name ${S3_BUCKET_NAME:-demo}' | weed_shell
-              echo 's3.configure -user elasticms -access_key accesskey -secret_key secretkey -actions Admin -apply' | weed_shell >/dev/null
-              tries=0
-              until echo 's3.bucket.list' | weed_shell | awk -v b='${S3_BUCKET_NAME:-demo}' '$$1 == b { found = 1 } END { exit !found }'; do
-                  tries=$$((tries + 1))
-                  [ "$$tries" -lt 60 ] || { echo 'bucket ${S3_BUCKET_NAME:-demo} still not listed after 60s' >&2; exit 1; }
-                  sleep 1
-              done
-              echo 'SeaweedFS bucket ${S3_BUCKET_NAME:-demo} ready'
+                weed_shell() { weed shell -master=seaweedfs:9333 -filer=seaweedfs:8888; }
+                echo 's3.bucket.create -name ${S3_BUCKET_NAME:-demo}' | weed_shell
+                echo 's3.configure -user elasticms -access_key accesskey -secret_key secretkey -actions Admin -apply' | weed_shell >/dev/null
+                tries=0
+                until echo 's3.bucket.list' | weed_shell | awk -v b='${S3_BUCKET_NAME:-demo}' '$$1 == b { found = 1 } END { exit !found }'; do
+                    tries=$$((tries + 1))
+                    [ "$$tries" -lt 60 ] || { echo 'bucket ${S3_BUCKET_NAME:-demo} still not listed after 60s' >&2; exit 1; }
+                    sleep 1
+                done
+                echo 'SeaweedFS bucket ${S3_BUCKET_NAME:-demo} ready'
 
     redis:
         image: centos/redis-5-centos7

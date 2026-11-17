@@ -1,3 +1,3 @@
 /.env
 /.sandbox/*
-!/.sandbox/.gitkepp
+!/.sandbox/.gitkeep

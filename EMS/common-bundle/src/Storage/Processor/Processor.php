@@ -361,6 +361,10 @@ class Processor
             return $cacheResponse;
         }
 
+        if (null !== $indexResource && ('' === $path || \str_ends_with($path, '/'))) {
+            $path .= $indexResource;
+        }
+
         if ($cacheFolder && \file_exists($cacheFolder.\DIRECTORY_SEPARATOR.$hash)) {
             $filename = $cacheFolder.\DIRECTORY_SEPARATOR.$path;
             if (!\file_exists($filename)) {
@@ -370,7 +374,7 @@ class Processor
             $mimetype = MimeTypeHelper::getInstance()->guessMimeType($filename);
             $size = \filesize($filename);
         } else {
-            $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path, $extract, $indexResource);
+            $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path, $extract);
             $response = $this->getResponseFromStreamInterface($streamWrapper->getStream(), $request);
             $mimetype = $streamWrapper->getMimetype();
             $size = $streamWrapper->getSize();

@@ -78,7 +78,7 @@ class FileStructurePullCommand extends AbstractCommand
         $filesystem->mkdir($this->folderPath);
 
         $finder = new Finder();
-        $finder->in($this->folderPath)->files();
+        $finder->in($this->folderPath)->files()->ignoreDotFiles(false);
         foreach ($finder as $file) {
             $item = $archive->getByPath($file->getRelativePathname());
             if (null !== $item && $item->hash === \hash_file($algo, $file->getPathname())) {

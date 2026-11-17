@@ -1,16 +1,19 @@
 #!/usr/bin/make -f
 
-PWD							= $(shell pwd)
-DOCKER_USER			?= $(shell id -u)
-DOCKER_COMPOSE	= docker compose -f docker/docker-compose.yml
+-include ./docker/.env
+
+PWD					   = $(shell pwd)
+DOCKER_USER    ?= $(shell id -u)
+DOCKER_COMPOSE = docker compose --project-directory=docker
 
 PORT_admin 			= 8881
 PORT_web 			= 8882
 PORT_cli 			= 8883
 
 RUN_ADMIN			= php ${PWD}/elasticms-admin/bin/console --no-debug
+RUN_CLI				= php ${PWD}/elasticms-cli/bin/console --no-debug
 RUN_WEB				= php ${PWD}/elasticms-web/bin/console --no-debug
-RUN_POSTGRES		= docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres
+RUN_POSTGRES		= docker compose --project-directory=docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg postgres
 NPM_CMD          	= "${NPM_EXTRA_CMD} npm $* --ignore-scripts"
 RUN_DEMO_NPM		= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.4-cli-dev sh -c ${NPM_CMD}
 RUN_ADMIN_UI_NPM 	= docker run -u ${DOCKER_USER}:0 --rm -p 5173:5173 -it -v ${PWD}/EMS/admin-ui-bundle:/opt/src --workdir /opt/src/assets elasticms/base-php:8.4-cli-dev sh -c ${NPM_CMD}
@@ -42,14 +45,22 @@ init: ## init mono repo (copy .env)
 	@cp -fp ./elasticms-web/.env.dist ./elasticms-web/.env
 	@cp -fp ./elasticms-web/.env.local.dist ./elasticms-web/.env.local
 start: ## start docker, admin server, web server
-	@$(DOCKER_COMPOSE) up -d
+	@$(DOCKER_COMPOSE) --profile=ems up -d
 	@$(MAKE) -s server-start/admin
 	@$(MAKE) -s server-start/web
 	cd elasticms-admin && symfony local:run -d php bin/console messenger:consume async -vvv
+start/%: ## start/(mariadb|keycloak|grafana|redis-commander)
+	@$(DOCKER_COMPOSE) --profile=${*} up -d --force-recreate
+start/sandbox: docker/sandbox.passwd ## start/sandbox
+	@$(DOCKER_COMPOSE) --profile=sandbox up -d --force-recreate
+start/mcp: ## start/mcp
+	@$(DOCKER_COMPOSE) --profile=mcp up -d --force-recreate
 stop: ## stop docker, admin server, web server
 	@$(MAKE) -s server-stop/admin
 	@$(MAKE) -s server-stop/web
-	@$(DOCKER_COMPOSE) down
+	@$(DOCKER_COMPOSE) --profile=all down
+stop/%: ## stop/(mariadb|keycloak|grafana|redis-commander)
+	@$(DOCKER_COMPOSE) --profile=${*} down
 check: ## run all checks
 	@composer monorepo-validate
 	@composer rector
@@ -58,11 +69,12 @@ check: ## run all checks
 	@$(MAKE) build-translations
 cache-clear: ## cache clear
 	@$(RUN_ADMIN) c:cl
+	@$(RUN_CLI) c:cl
 	@$(RUN_WEB) c:cl
 docs: ## serve docs
 	@docsify serve ./docs
 status: ## status
-	@$(DOCKER_COMPOSE) ps
+	@docker ps --filter="label=elasticMS" --format "table {{.Label \"com.docker.compose.service\"}}\t{{.Status}}\t{{.Ports}}"
 sandbox: ## open a terminal in a development sandbox container
 	@$(DOCKER_COMPOSE) exec sandbox bash
 
@@ -81,6 +93,14 @@ server-restart: ## server-restart
 	@$(MAKE) -s server-start/admin
 	@$(MAKE) -s server-start/web
 	cd elasticms-admin && symfony local:run -d php bin/console messenger:consume async -vvv
+
+## —— Docker --------———————————————————————————————————————————————————————————————————————————————————————————————————
+docker-images: ## List images
+	@docker ps --filter="label=elasticMS" --format "table {{.Label \"com.docker.compose.service\"}}\t{{.Image}}"
+docker-logs/%: ## logs by profile
+	@$(DOCKER_COMPOSE) --profile=${*} logs -f
+docker-logs: ## logs
+	@$(DOCKER_COMPOSE) --profile=all logs -f
 
 ## —— assets ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 assets-npm/%: ## npm run in AdminUIBundle
@@ -163,6 +183,10 @@ demo-backup-configs: ## backup demo configs
 	@$(RUN_WEB) c:c
 	@$(RUN_WEB) ems:admin:login --username=demo --password=demo
 	@$(RUN_WEB) ems:admin:backup --configs-folder=./demo/configs/admin --configs --export
+demo-restore-configs: ## restore demo configs
+	@$(RUN_WEB) c:c
+	@$(RUN_WEB) ems:admin:login --username=demo --password=demo
+	@$(RUN_WEB) ems:admin:restore --configs-folder=./demo/configs/admin --configs --force
 demo-backup-documents: ## backup demo documents
 	@$(RUN_ADMIN) ems:admin:backup --documents-folder=./demo/configs/document --documents --export
 demo-npm/%: ## demo npm

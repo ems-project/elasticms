@@ -368,8 +368,8 @@ class Processor
 
         if ($cacheFolder && \file_exists($cacheFolder.\DIRECTORY_SEPARATOR.$hash)) {
             $root = Type::string(\realpath($cacheFolder));
-            $filename = Type::string(\realpath($cacheFolder.\DIRECTORY_SEPARATOR.$path));
-            if (!\str_starts_with($filename, $root.\DIRECTORY_SEPARATOR) || !\is_file($filename)) {
+            $filename = \realpath($cacheFolder.\DIRECTORY_SEPARATOR.$path);
+            if (false === $filename || !\str_starts_with($filename, $root.\DIRECTORY_SEPARATOR) || !\is_file($filename)) {
                 throw new NotFoundHttpException('File not found');
             }
             $response = new BinaryFileResponse($filename);

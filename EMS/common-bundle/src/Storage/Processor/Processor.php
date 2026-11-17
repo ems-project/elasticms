@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Storage\Processor;
 
 use EMS\CommonBundle\Helper\Cache;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\File\LocalFile;
 use EMS\CommonBundle\Storage\NotFoundException;
@@ -13,9 +14,11 @@ use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\File;
 use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Standard\Json;
+use EMS\Helpers\Standard\Type;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -350,7 +353,7 @@ class Processor
         return $path;
     }
 
-    public function getResponseFromArchive(Request $request, string $hash, string $path, int $maxAge, bool $extract, ?string $indexResource): Response
+    public function getResponseFromArchive(Request $request, string $hash, string $path, int $maxAge, bool $extract, ?string $indexResource, ?string $cacheFolder): Response
     {
         $etag = \hash('sha1', \sprintf('Asset in archive: %s:%s', $hash, $path));
         $cacheResponse = new Response();
@@ -359,14 +362,32 @@ class Processor
             return $cacheResponse;
         }
 
-        $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path, $extract, $indexResource);
-        $response = $this->getResponseFromStreamInterface($streamWrapper->getStream(), $request);
+        if (null !== $indexResource && ('' === $path || \str_ends_with($path, '/'))) {
+            $path .= $indexResource;
+        }
+
+        if ($cacheFolder && \file_exists($cacheFolder.\DIRECTORY_SEPARATOR.$hash)) {
+            $root = Type::string(\realpath($cacheFolder));
+            $filename = \realpath($cacheFolder.\DIRECTORY_SEPARATOR.$path);
+            if (false === $filename || !\str_starts_with($filename, $root.\DIRECTORY_SEPARATOR) || !\is_file($filename)) {
+                throw new NotFoundHttpException('File not found');
+            }
+            $response = new BinaryFileResponse($filename);
+            $mimetype = MimeTypeHelper::getInstance()->guessMimeType($filename);
+            $size = \filesize($filename);
+        } else {
+            $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path, $extract);
+            $response = $this->getResponseFromStreamInterface($streamWrapper->getStream(), $request);
+            $mimetype = $streamWrapper->getMimetype();
+            $size = $streamWrapper->getSize();
+        }
+
         $response->headers->replace(\array_merge($cacheResponse->headers->all(), [
             Headers::CONTENT_DISPOSITION => HeaderUtils::DISPOSITION_INLINE.'; '.HeaderUtils::toString(['filename' => \basename($path)], ';'),
-            Headers::CONTENT_TYPE => $streamWrapper->getMimetype(),
+            Headers::CONTENT_TYPE => $mimetype,
         ]));
-        $response->headers->set(Headers::CONTENT_LENGTH, (string) $streamWrapper->getSize());
-        $response->headers->set(Headers::X_FILE_SIZE, (string) $streamWrapper->getSize());
+        $response->headers->set(Headers::CONTENT_LENGTH, (string) $size);
+        $response->headers->set(Headers::X_FILE_SIZE, (string) $size);
 
         return $response;
     }

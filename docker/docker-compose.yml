@@ -308,7 +308,7 @@ services:
 
 volumes:
     es_data01:
-        name: ${ELK_PREFIX:-elk7}_data01
+        name: ${COMPOSE_PROJECT_NAME:-ems-mono}_${ELK_PREFIX:-elk7}_data01
     elk8_kibanadata:
     redis:
     seaweedfs:

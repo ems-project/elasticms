@@ -27,7 +27,7 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
      */
     public function __construct(
         string $tenant,
-        string $clientId,
+        private readonly string $clientId,
         string $clientSecret,
         private readonly string $redirectUri,
         ?array $scopes,
@@ -80,7 +80,7 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
 
             $refreshedToken->serviceTokens[$serviceName] = $this->azure->getAccessToken('refresh_token', [
                 'refresh_token' => $serviceToken->getRefreshToken(),
-                'scope' => $this->serviceScopes[$serviceName],
+                'scope' => \implode(' ', $this->serviceScopes[$serviceName]),
             ]);
         }
 
@@ -97,6 +97,18 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
     protected function getRedirectUri(): string
     {
         return $this->redirectUri;
+    }
+
+    #[\Override]
+    protected function getIssuer(): ?string
+    {
+        return null;
+    }
+
+    #[\Override]
+    protected function getClientId(): string
+    {
+        return $this->clientId;
     }
 
     #[\Override]

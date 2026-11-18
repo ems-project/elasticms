@@ -108,8 +108,10 @@ server-restart: ## server-restart
 ## —— Docker --------———————————————————————————————————————————————————————————————————————————————————————————————————
 docker-images: ## List images
 	@docker ps --filter="label=elasticMS" --format "table {{.Label \"com.docker.compose.service\"}}\t{{.Image}}"
+docker-logs/%: ## logs by profile
+	@$(DOCKER_COMPOSE) --profile=${*} logs -f
 docker-logs: ## logs
-	@$(DOCKER_COMPOSE) logs -f
+	@$(DOCKER_COMPOSE) --profile=all logs -f
 
 ## —— assets ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 assets-npm/%: ## npm run in AdminUIBundle
@@ -206,6 +208,10 @@ demo-backup-configs: ## backup demo configs
 	@$(RUN_WEB) c:c
 	@$(RUN_WEB) ems:admin:login --username=demo --password=demo
 	@$(RUN_WEB) ems:admin:backup --configs-folder=./demo/configs/admin --configs --export
+demo-restore-configs: ## restore demo configs
+	@$(RUN_WEB) c:c
+	@$(RUN_WEB) ems:admin:login --username=demo --password=demo
+	@$(RUN_WEB) ems:admin:restore --configs-folder=./demo/configs/admin --configs --force
 demo-backup-documents: ## backup demo documents
 	@$(RUN_ADMIN) ems:admin:backup --documents-folder=./demo/configs/document --documents --export
 demo-npm/%: ## demo npm

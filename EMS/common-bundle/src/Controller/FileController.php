@@ -82,7 +82,7 @@ class FileController extends AbstractController
      * @param array<string, string|string[]> $extraHeaders
      * @param array<string, string>          $basePathByHost
      */
-    public function assetInArchive(Request $request, string $hash, string $path, int $maxAge = 604800, bool $extract = true, ?string $indexResource = null, ?string $notFoundTemplate = null, array $extraHeaders = [], array $basePathByHost = []): Response
+    public function assetInArchive(Request $request, string $hash, string $path, int $maxAge = 604800, bool $extract = true, ?string $indexResource = null, ?string $notFoundTemplate = null, array $extraHeaders = [], array $basePathByHost = [], ?string $cacheFolder = null): Response
     {
         $this->closeSession($request);
         $host = $request->getHost();
@@ -91,7 +91,7 @@ class FileController extends AbstractController
         }
 
         try {
-            $response = $this->processor->getResponseFromArchive($request, $hash, $path, $maxAge, $extract, $indexResource);
+            $response = $this->processor->getResponseFromArchive($request, $hash, $path, $maxAge, $extract, $indexResource, $cacheFolder);
             foreach ($extraHeaders as $key => $header) {
                 $response->headers->set($key, $header);
             }

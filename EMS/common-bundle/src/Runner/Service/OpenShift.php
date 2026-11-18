@@ -21,6 +21,8 @@ class OpenShift implements RunnerInterface
      * @param array<string, string>                     $labels
      * @param string|bool                               $verifySsl
      * @param array<array{name: string, value: string}> $env
+     * @param mixed[]                                   $extraContainerConfigs
+     * @param mixed[]                                   $extraSpecConfigs
      */
     public function __construct(
         private readonly string $tag,
@@ -36,6 +38,8 @@ class OpenShift implements RunnerInterface
         private readonly int $activeDeadlineSeconds = 60,
         private readonly array $labels = [],
         private readonly array $env = [],
+        private readonly array $extraContainerConfigs = [],
+        private readonly array $extraSpecConfigs = [],
     ) {
         $this->httpClient = HttpClientFactory::create(baseUrl: $baseUrl, headers: [
             'Authorization' => \sprintf('Bearer %s', $authKey),
@@ -64,15 +68,15 @@ class OpenShift implements RunnerInterface
                     'metadata' => [
                         'labels' => $this->labels,
                     ],
-                    'spec' => [
-                        'containers' => [[
+                    'spec' => \array_merge([
+                        'containers' => [\array_merge([
                             'name' => 'ems-runner-container',
                             'image' => null !== $this->imageTag ? "$this->image:$this->imageTag" : $this->image,
                             'args' => $command,
                             'env' => $this->env,
-                        ]],
+                        ], $this->extraContainerConfigs)],
                         'restartPolicy' => 'Never',
-                    ],
+                    ], $this->extraSpecConfigs),
                 ],
             ],
         ], 6);

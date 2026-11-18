@@ -23,6 +23,8 @@ class OpenShiftFactory extends AbstractFactory
     final public const string RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS = 'active-deadline-seconds';
     final public const string RUNNER_OPENSHIFT_LABELS = 'labels';
     final public const string RUNNER_OPENSHIFT_ENV = 'env';
+    final public const string RUNNER_OPENSHIFT_EXTRA_CONTAINER = 'extra-container';
+    final public const string RUNNER_OPENSHIFT_EXTRA_SPEC = 'extra-spec';
     final public const string RUNNER_OPENSHIFT_VERIFY_SSL = 'verify-ssl';
 
     public function __construct(LoggerInterface $logger, ComposerInfo $composerInfo)
@@ -49,6 +51,8 @@ class OpenShiftFactory extends AbstractFactory
                 self::RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS => 60,
                 self::RUNNER_OPENSHIFT_LABELS => [],
                 self::RUNNER_OPENSHIFT_ENV => [],
+                self::RUNNER_OPENSHIFT_EXTRA_CONTAINER => [],
+                self::RUNNER_OPENSHIFT_EXTRA_SPEC => [],
             ])
             ->setRequired([
                 self::RUNNER_OPENSHIFT_BASE_URL,
@@ -67,6 +71,8 @@ class OpenShiftFactory extends AbstractFactory
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_LABELS, ['array'])
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_ENV, ['array'])
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_VERIFY_SSL, ['bool', 'string'])
+            ->setAllowedTypes(self::RUNNER_OPENSHIFT_EXTRA_CONTAINER, ['array'])
+            ->setAllowedTypes(self::RUNNER_OPENSHIFT_EXTRA_SPEC, ['array'])
         ;
         /** @var array{
          *     type: string,
@@ -84,6 +90,8 @@ class OpenShiftFactory extends AbstractFactory
          *     labels: array<string, string>,
          *     env: array<array{name: string, value: string}>,
          *     verify-ssl: bool,
+         *     extra-container: mixed[],
+         *     extra-spec: mixed[],
          *         } $resolvedConfig */
         $resolvedConfig = $resolver->resolve($runnerConfig);
 
@@ -121,6 +129,8 @@ class OpenShiftFactory extends AbstractFactory
             $resolvedConfig[self::RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS],
             $resolvedConfig[self::RUNNER_OPENSHIFT_LABELS],
             $resolvedConfig[self::RUNNER_OPENSHIFT_ENV],
+            $resolvedConfig[self::RUNNER_OPENSHIFT_EXTRA_CONTAINER],
+            $resolvedConfig[self::RUNNER_OPENSHIFT_EXTRA_SPEC],
         );
     }
 }

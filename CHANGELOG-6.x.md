@@ -1,5 +1,19 @@
 # Changelog 6.x
 
+## 6.9.43 (2026-11-18)
+### Features
+* feat(common/assets): static cache folder by @theus77 in https://github.com/ems-project/elasticms/pull/1948
+* feat(web/sso): add iss and client id validation by @Davidmattei in https://github.com/ems-project/elasticms/pull/1949
+### Bug Fixes
+* fix(admin/field): raw data can be null in a multiplex fields when a locale is added by @theus77 in https://github.com/ems-project/elasticms/pull/1944
+* fix(common/runner): add any extra configs to the spec and container by @theus77 in https://github.com/ems-project/elasticms/pull/1951
+* fix(docker): profiles and only one es node by @Davidmattei in https://github.com/ems-project/elasticms/pull/1947
+* fix(form/translations): add validation translations by @theus77 in https://github.com/ems-project/elasticms/pull/1937
+* fix(xliff): xliff-encoding by @theus77 in https://github.com/ems-project/elasticms/pull/1946
+* fix: by default volumes are prefixed by the  COMPOSE_PROJECT_NAME by @theus77 in https://github.com/ems-project/elasticms/pull/1950
+### Documentation
+* docs: emsco_warning if emsco_cant_be_finalized by @theus77 in https://github.com/ems-project/elasticms/pull/1945
+
 ## 6.9.42 (2026-10-27)
 ### Features
 * feat(web/form): choice array values by @Davidmattei in https://github.com/ems-project/elasticms/pull/1934

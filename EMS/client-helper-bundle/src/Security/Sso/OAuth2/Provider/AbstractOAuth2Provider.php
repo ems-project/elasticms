@@ -18,6 +18,10 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
 
     abstract protected function getRedirectUri(): string;
 
+    abstract protected function getIssuer(): ?string;
+
+    abstract protected function getClientId(): string;
+
     /**
      * @return array<string, mixed>
      */
@@ -75,6 +79,17 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
             throw new AuthenticationException('Invalid state');
         }
 
+        $issuer = $this->getIssuer();
+        $actualIssuer = $request->query->get('iss');
+        if (null !== $issuer && null !== $actualIssuer && $this->normalizeIssuer($actualIssuer) !== $this->normalizeIssuer($issuer)) {
+            throw new AuthenticationException('Invalid issuer');
+        }
+
+        $actualClientId = $request->query->get('client_id');
+        if (null !== $actualClientId && $actualClientId !== $this->getClientId()) {
+            throw new AuthenticationException('Invalid client_id');
+        }
+
         $code = $request->query->get('code');
         if (!$code) {
             throw new AuthenticationException('Code missing');
@@ -82,6 +97,7 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
 
         $options = $this->getOptions($request);
         $options['code'] = $code;
+        $options['state'] = $actualState;
 
         return $this->getProvider()->getAccessToken('authorization_code', $options);
     }
@@ -95,5 +111,16 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
         }
 
         return $redirectUri;
+    }
+
+    private function normalizeIssuer(string $issuer): string
+    {
+        $parts = \parse_url(\rtrim($issuer, '/'));
+        $scheme = $parts['scheme'] ?? 'https';
+        $port = $parts['port'] ?? null;
+        $default = 'https' === $scheme ? 443 : 80;
+        $portPart = (null !== $port && $port !== $default) ? ':'.$port : '';
+
+        return $scheme.'://'.($parts['host'] ?? '').$portPart.($parts['path'] ?? '');
     }
 }

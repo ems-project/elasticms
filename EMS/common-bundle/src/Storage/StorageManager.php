@@ -590,11 +590,8 @@ class StorageManager implements FileManagerInterface
         }
     }
 
-    public function getStreamFromArchive(string $hash, string $path, bool $extract = true, ?string $indexResource = null): StreamWrapper
+    public function getStreamFromArchive(string $hash, string $path, bool $extract = true): StreamWrapper
     {
-        if (null !== $indexResource && ('' === $path || \str_ends_with($path, '/'))) {
-            $path .= $indexResource;
-        }
         if (!$this->head($hash)) {
             throw new NotFoundHttpException(\sprintf('Archive %s not found', $hash));
         }

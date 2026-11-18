@@ -29,10 +29,12 @@ class FileStructurePullCommand extends AbstractCommand
     private const string ARGUMENT_ARCHIVE_HASH = 'hash';
     private const string ARGUMENT_FOLDER = 'folder';
     private const string OPTION_ADMIN = 'admin';
+    private const string OPTION_HASH_FILE = 'hash-file';
 
     private string $folderPath;
     private string $archiveHash;
     private FileManagerInterface $fileManager;
+    private bool $hashFile;
 
     public function __construct(
         private readonly AdminHelper $adminHelper,
@@ -49,6 +51,7 @@ class FileStructurePullCommand extends AbstractCommand
             ->addArgument(self::ARGUMENT_ARCHIVE_HASH, InputArgument::REQUIRED, 'Hash of the ElasticMS Archive')
             ->addArgument(self::ARGUMENT_FOLDER, InputArgument::REQUIRED, 'Target folder')
             ->addOption(self::OPTION_ADMIN, null, InputOption::VALUE_NONE, 'Pull from admin')
+            ->addOption(self::OPTION_HASH_FILE, null, InputOption::VALUE_NONE, 'Add hash file at the root folder')
         ;
     }
 
@@ -62,6 +65,7 @@ class FileStructurePullCommand extends AbstractCommand
             true => $this->adminHelper->getCoreApi()->file(),
             false => $this->storageManager,
         };
+        $this->hashFile = $this->getOptionBool(self::OPTION_HASH_FILE);
     }
 
     #[\Override]
@@ -78,7 +82,7 @@ class FileStructurePullCommand extends AbstractCommand
         $filesystem->mkdir($this->folderPath);
 
         $finder = new Finder();
-        $finder->in($this->folderPath)->files();
+        $finder->in($this->folderPath)->files()->ignoreDotFiles(false);
         foreach ($finder as $file) {
             $item = $archive->getByPath($file->getRelativePathname());
             if (null !== $item && $item->hash === \hash_file($algo, $file->getPathname())) {
@@ -102,6 +106,9 @@ class FileStructurePullCommand extends AbstractCommand
             $progressBar->advance();
         }
         $progressBar->finish();
+        if ($this->hashFile) {
+            $filesystem->touch($this->folderPath.\DIRECTORY_SEPARATOR.$this->archiveHash);
+        }
 
         return self::EXECUTE_SUCCESS;
     }

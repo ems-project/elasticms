@@ -45,31 +45,43 @@ To do this, you must specify the following configuration parameters:
 - `labels`: Add OpenShift labels to the Job and the Pod
 - `env`: Additional environment variables as an array of pair {name: string, value: string} (Default
   value: `[]`)
+- `extra-container`: Additional properties merged into the container definition (e.g. `volumeMounts`, `resources`). Keys override the defaults (`name`, `image`, `args`, `env`) (Default value: `[]`)
+- `extra-spec`: Additional properties merged into the Pod spec (e.g. `volumes`, `nodeSelector`). Keys override the defaults (`containers`, `restartPolicy`) (Default value: `[]`)
 
 Example:
 
 ```json
 [
-    {
-        "type": "openshift",
-        "tag": "toto",
-        "base-url": "https://api.paas.my-company.tld:6443/",
-        "auth-key": "sha256~my-priVatE_aUthkEy",
-        "namespace": "my-team-project",
-        "image": "elasticms/cli",
-        "image-tag": "%ems_version%",
-        "labels": {
-            "app": "my-app",
-            "app.kubernetes.io/part-of": "my-app",
-            "type": "elasticms-runner"
-        },
-        "env": [
-            {
-                "name": "foo",
-                "value": "bar"
-            }
-        ]
+  {
+    "type": "openshift",
+    "tag": "toto",
+    "base-url": "https://api.paas.my-company.tld:6443/",
+    "auth-key": "sha256~my-priVatE_aUthkEy",
+    "namespace": "my-team-project",
+    "image": "elasticms/cli",
+    "image-tag": "%ems_version%",
+    "labels": {
+      "app": "my-app",
+      "app.kubernetes.io/part-of": "my-app",
+      "type": "elasticms-runner"
+    },
+    "env": [{
+      "name": "foo",
+      "value": "bar"
+    }],
+    "extra-container": {
+      "volumeMounts": [{
+        "name": "my-volume",
+        "mountPath": "/mnt/data"
+      }]
+    },
+    "extra-spec": {
+      "volumes": [{
+        "name": "my-volume",
+        "persistentVolumeClaim": {"claimName": "my-pvc"}
+      }]
     }
+  }
 ]
 ```
 

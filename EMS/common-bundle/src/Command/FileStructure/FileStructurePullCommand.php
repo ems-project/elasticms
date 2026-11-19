@@ -102,7 +102,7 @@ class FileStructurePullCommand extends AbstractCommand
             $explodedPath = \explode(\DIRECTORY_SEPARATOR, $this->folderPath.\DIRECTORY_SEPARATOR.$item->filename);
             \array_pop($explodedPath);
             $filesystem->mkdir(\implode(\DIRECTORY_SEPARATOR, $explodedPath));
-            $filesystem->rename($tempFile, $this->folderPath.\DIRECTORY_SEPARATOR.$item->filename);
+            \copy($tempFile, $this->folderPath.\DIRECTORY_SEPARATOR.$item->filename);
             $progressBar->advance();
         }
         $progressBar->finish();

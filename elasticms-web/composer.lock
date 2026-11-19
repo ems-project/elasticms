@@ -63,16 +63,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.404.1",
+            "version": "3.405.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "3f0279897d3f0f15971498793ca40ffa43ca385c"
+                "reference": "7e8a4a8ed7b812a9ae9fc6e921fe3ee5ed7ce8b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3f0279897d3f0f15971498793ca40ffa43ca385c",
-                "reference": "3f0279897d3f0f15971498793ca40ffa43ca385c",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/7e8a4a8ed7b812a9ae9fc6e921fe3ee5ed7ce8b0",
+                "reference": "7e8a4a8ed7b812a9ae9fc6e921fe3ee5ed7ce8b0",
                 "shasum": ""
             },
             "require": {
@@ -154,10 +154,10 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.404.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.405.0"
             },
-            "time": "2026-11-17T19:12:26+00:00",
-            "published-time": "2026-11-17T19:19:58+00:00"
+            "time": "2026-11-18T19:30:10+00:00",
+            "published-time": "2026-11-18T19:37:49+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1899,7 +1899,7 @@
         },
         {
             "name": "elasticms/client-helper-bundle",
-            "version": "6.9.43",
+            "version": "6.9.44",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
@@ -1950,23 +1950,23 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/6.9.43"
+                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/6.9.44"
             },
             "time": "2026-11-17T15:28:38+00:00",
-            "published-time": "2026-11-18T12:00:10+00:00"
+            "published-time": "2026-11-19T18:51:44+00:00"
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "6.9.43",
+            "version": "6.9.44",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "6190d48cd95ffc345fba899547f094acb6606b0f"
+                "reference": "9f08777fca7125572afb932c854cdba0ff599795"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/6190d48cd95ffc345fba899547f094acb6606b0f",
-                "reference": "6190d48cd95ffc345fba899547f094acb6606b0f",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/9f08777fca7125572afb932c854cdba0ff599795",
+                "reference": "9f08777fca7125572afb932c854cdba0ff599795",
                 "shasum": ""
             },
             "require": {
@@ -2039,14 +2039,14 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.43"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.44"
             },
-            "time": "2026-11-18T10:51:58+00:00",
-            "published-time": "2026-11-18T12:00:11+00:00"
+            "time": "2026-11-19T17:09:59+00:00",
+            "published-time": "2026-11-19T18:51:47+00:00"
         },
         {
             "name": "elasticms/form-bundle",
-            "version": "6.9.43",
+            "version": "6.9.44",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSFormBundle.git",
@@ -2089,14 +2089,14 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSFormBundle/tree/6.9.43"
+                "source": "https://github.com/ems-project/EMSFormBundle/tree/6.9.44"
             },
             "time": "2026-11-03T08:12:10+00:00",
-            "published-time": "2026-11-18T12:00:18+00:00"
+            "published-time": "2026-11-19T18:51:53+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "6.9.43",
+            "version": "6.9.44",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
@@ -2140,14 +2140,14 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/6.9.43"
+                "source": "https://github.com/ems-project/helpers/tree/6.9.44"
             },
             "time": "2026-11-16T07:08:51+00:00",
-            "published-time": "2026-11-18T12:00:24+00:00"
+            "published-time": "2026-11-19T18:52:01+00:00"
         },
         {
             "name": "elasticms/submission-bundle",
-            "version": "6.9.43",
+            "version": "6.9.44",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSSubmissionBundle.git",
@@ -2193,10 +2193,10 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/6.9.43"
+                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/6.9.44"
             },
             "time": "2026-01-27T14:06:38+00:00",
-            "published-time": "2026-11-18T12:00:20+00:00"
+            "published-time": "2026-11-19T18:51:55+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",
@@ -4212,16 +4212,16 @@
         },
         {
             "name": "onelogin/php-saml",
-            "version": "4.4.1",
+            "version": "4.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SAML-Toolkits/php-saml.git",
-                "reference": "68008d28359928b16a4953c2dda19400ce2d0654"
+                "reference": "dd404f4871e1644347dcc0fcae83593daefee0e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SAML-Toolkits/php-saml/zipball/68008d28359928b16a4953c2dda19400ce2d0654",
-                "reference": "68008d28359928b16a4953c2dda19400ce2d0654",
+                "url": "https://api.github.com/repos/SAML-Toolkits/php-saml/zipball/dd404f4871e1644347dcc0fcae83593daefee0e7",
+                "reference": "dd404f4871e1644347dcc0fcae83593daefee0e7",
                 "shasum": ""
             },
             "require": {
@@ -4272,21 +4272,21 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-04T18:13:16+00:00",
-            "published-time": "2026-11-04T18:27:32+00:00"
+            "time": "2026-11-18T15:01:33+00:00",
+            "published-time": "2026-11-18T15:13:25+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
-            "version": "v3.1.4",
+            "version": "v3.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/constant_time_encoding.git",
-                "reference": "5efef6e6cb43e088ccab7d0c1e2f2ab25b9e8b54"
+                "reference": "ceed38ba49d98b85808edfc4f04750ff61eb9739"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/5efef6e6cb43e088ccab7d0c1e2f2ab25b9e8b54",
-                "reference": "5efef6e6cb43e088ccab7d0c1e2f2ab25b9e8b54",
+                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/ceed38ba49d98b85808edfc4f04750ff61eb9739",
+                "reference": "ceed38ba49d98b85808edfc4f04750ff61eb9739",
                 "shasum": ""
             },
             "require": {
@@ -4342,8 +4342,8 @@
                 "issues": "https://github.com/paragonie/constant_time_encoding/issues",
                 "source": "https://github.com/paragonie/constant_time_encoding"
             },
-            "time": "2026-11-06T20:31:19+00:00",
-            "published-time": "2026-11-06T20:39:39+00:00"
+            "time": "2026-11-18T13:55:22+00:00",
+            "published-time": "2026-11-18T13:55:46+00:00"
         },
         {
             "name": "paragonie/random_compat",

@@ -1,5 +1,9 @@
 # Changelog 6.x
 
+## 6.9.44 (2026-11-19)
+### Bug Fixes
+* fix(file-structure): pulled files aren't readable by others by @theus77 in https://github.com/ems-project/elasticms/pull/1952
+
 ## 6.9.43 (2026-11-18)
 ### Features
 * feat(common/assets): static cache folder by @theus77 in https://github.com/ems-project/elasticms/pull/1948

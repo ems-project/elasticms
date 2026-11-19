@@ -1,5 +1,23 @@
 # Changelog 7.x
 
+## 7.3.11 (2026-11-19)
+### Features
+* feat(common/assets): static cache folder by @theus77 in https://github.com/ems-project/elasticms/pull/1948
+* feat(docker): cap the console memory_limit with PHP 8.5 max_memory_limit by @zebby76 in https://github.com/ems-project/elasticms/pull/1931
+* feat(web/form): choice array values by @Davidmattei in https://github.com/ems-project/elasticms/pull/1934
+* feat(web/sso): add iss and client id validation by @Davidmattei in https://github.com/ems-project/elasticms/pull/1949
+### Bug Fixes
+* fix(admin/field): raw data can be null in a multiplex fields when a locale is added by @theus77 in https://github.com/ems-project/elasticms/pull/1944
+* fix(admin/translation): total title has a counter by @theus77 in https://github.com/ems-project/elasticms/pull/1943
+* fix(common/runner): add any extra configs to the spec and container by @theus77 in https://github.com/ems-project/elasticms/pull/1951
+* fix(docker): profiles and only one es node by @Davidmattei in https://github.com/ems-project/elasticms/pull/1947
+* fix(file-structure): pulled files aren't readable by others by @theus77 in https://github.com/ems-project/elasticms/pull/1952
+* fix(form/translations): add validation translations by @theus77 in https://github.com/ems-project/elasticms/pull/1937
+* fix(xliff): xliff-encoding by @theus77 in https://github.com/ems-project/elasticms/pull/1946
+* fix: by default volumes are prefixed by the  COMPOSE_PROJECT_NAME by @theus77 in https://github.com/ems-project/elasticms/pull/1950
+### Documentation
+* docs: emsco_warning if emsco_cant_be_finalized by @theus77 in https://github.com/ems-project/elasticms/pull/1945
+
 ## 7.3.10 (2026-10-22)
 ### Features
 * feat(common/asset): allows extra options in FileController::assetInArchive responses by @theus77 in https://github.com/ems-project/elasticms/pull/1886

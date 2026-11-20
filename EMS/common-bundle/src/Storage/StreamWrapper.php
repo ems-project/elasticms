@@ -8,7 +8,7 @@ use Psr\Http\Message\StreamInterface;
 
 class StreamWrapper
 {
-    public function __construct(private readonly StreamInterface $stream, private readonly string $mimetype, private readonly int $size)
+    public function __construct(private readonly StreamInterface $stream, private readonly string $mimetype, private readonly ?int $size)
     {
     }
 
@@ -22,7 +22,7 @@ class StreamWrapper
         return $this->mimetype;
     }
 
-    public function getSize(): int
+    public function getSize(): ?int
     {
         return $this->size;
     }

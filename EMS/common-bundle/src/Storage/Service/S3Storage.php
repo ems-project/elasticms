@@ -342,7 +342,7 @@ class S3Storage extends AbstractUrlStorage
             $path,
         ]);
         try {
-            $response = $this->getS3Client()->headObject([
+            $response = $this->getS3Client()->getObject([
                 'Bucket' => $this->bucket,
                 'Key' => $cacheKey,
             ]);
@@ -352,17 +352,9 @@ class S3Storage extends AbstractUrlStorage
 
         $hash = $response->get('Metadata')['hash'] ?? null;
         if (\is_string($hash)) {
-            $masterResponse = $this->getS3Client()->getObject([
-                'Bucket' => $this->bucket,
-                'Key' => $this->key($hash),
-            ]);
-            $stream = $masterResponse['Body'] ?? null;
-            $size = (int) $masterResponse['ContentLength'];
+            $stream = $this->read($hash);
+            $size = $stream->getSize();
         } else {
-            $response = $this->getS3Client()->getObject([
-                'Bucket' => $this->bucket,
-                'Key' => $cacheKey,
-            ]);
             $stream = $response['Body'] ?? null;
             $size = (int) $response['ContentLength'];
         }
@@ -400,7 +392,6 @@ class S3Storage extends AbstractUrlStorage
         foreach ($archive->iterator() as $item) {
             $batch[] = $client->getCommand('PutObject', [
                 'Bucket' => $this->bucket,
-                'Body' => '',
                 'ContentType' => $item->type,
                 'Key' => \implode('/', [
                     'cache',

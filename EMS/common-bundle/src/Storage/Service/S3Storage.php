@@ -342,7 +342,7 @@ class S3Storage extends AbstractUrlStorage
             $path,
         ]);
         try {
-            $response = $this->getS3Client()->getObject([
+            $response = $this->getS3Client()->headObject([
                 'Bucket' => $this->bucket,
                 'Key' => $cacheKey,
             ]);
@@ -359,6 +359,10 @@ class S3Storage extends AbstractUrlStorage
             $stream = $masterResponse['Body'] ?? null;
             $size = (int) $masterResponse['ContentLength'];
         } else {
+            $response = $this->getS3Client()->getObject([
+                'Bucket' => $this->bucket,
+                'Key' => $cacheKey,
+            ]);
             $stream = $response['Body'] ?? null;
             $size = (int) $response['ContentLength'];
         }

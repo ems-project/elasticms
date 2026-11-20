@@ -1,5 +1,9 @@
 # Changelog 6.x
 
+## 6.9.45 (2026-11-20)
+### Bug Fixes
+* fix(common/storage): looks like S3 doesn't hash documents without Body by @theus77 in https://github.com/ems-project/elasticms/pull/1953
+
 ## 6.9.44 (2026-11-19)
 ### Bug Fixes
 * fix(file-structure): pulled files aren't readable by others by @theus77 in https://github.com/ems-project/elasticms/pull/1952

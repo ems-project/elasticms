@@ -352,12 +352,8 @@ class S3Storage extends AbstractUrlStorage implements \Stringable
 
         $hash = $response->get('Metadata')['hash'] ?? null;
         if (\is_string($hash)) {
-            $masterResponse = $this->getS3Client()->getObject([
-                'Bucket' => $this->bucket,
-                'Key' => $this->key($hash),
-            ]);
-            $stream = $masterResponse['Body'] ?? null;
-            $size = (int) $masterResponse['ContentLength'];
+            $stream = $this->read($hash);
+            $size = $stream->getSize();
         } else {
             $stream = $response['Body'] ?? null;
             $size = (int) $response['ContentLength'];

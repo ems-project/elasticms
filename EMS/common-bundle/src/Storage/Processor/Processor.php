@@ -409,8 +409,10 @@ class Processor
             Headers::CONTENT_DISPOSITION => HeaderUtils::DISPOSITION_INLINE.'; '.HeaderUtils::toString(['filename' => \basename($path)], ';'),
             Headers::CONTENT_TYPE => $mimetype,
         ]));
-        $response->headers->set(Headers::CONTENT_LENGTH, (string) $size);
-        $response->headers->set(Headers::X_FILE_SIZE, (string) $size);
+        if (null !== $size) {
+            $response->headers->set(Headers::CONTENT_LENGTH, (string) $size);
+            $response->headers->set(Headers::X_FILE_SIZE, (string) $size);
+        }
 
         return $response;
     }

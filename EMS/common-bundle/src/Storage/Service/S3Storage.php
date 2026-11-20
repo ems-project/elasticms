@@ -396,6 +396,7 @@ class S3Storage extends AbstractUrlStorage
         foreach ($archive->iterator() as $item) {
             $batch[] = $client->getCommand('PutObject', [
                 'Bucket' => $this->bucket,
+                'Body' => '',
                 'ContentType' => $item->type,
                 'Key' => \implode('/', [
                     'cache',

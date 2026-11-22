@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpClient\Exception\ClientException;
 
 #[AsCommand(
     name: Commands::ADMIN_NEXT_JOB,
@@ -56,7 +57,16 @@ class NextJobCommand extends AbstractCommand
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $job = $this->adminHelper->getCoreApi()->admin()->getNextJob($this->tag, $this->jobId);
+        try {
+            $job = $this->adminHelper->getCoreApi()->admin()->getNextJob($this->tag, $this->jobId);
+        } catch (ClientException $e) {
+            if (409 !== $e->getCode()) {
+                throw $e;
+            }
+            $this->io->write(\sprintf('The job %s has been already claimed', $this->jobId));
+
+            return self::EXECUTE_SUCCESS;
+        }
         if (null === $job) {
             $this->io->write('Nothing to execute locally');
 

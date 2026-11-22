@@ -63,7 +63,7 @@ class NextJobCommand extends AbstractCommand
             return self::EXECUTE_SUCCESS;
         }
         if (null !== $this->jobId && $this->jobId !== $job->getJobId()) {
-            throw new \RuntimeException(\sprintf('Job mismatched %s', (string) $job->getJobId()));
+            throw new \RuntimeException(\sprintf('Job mismatched %s', $job->getJobId()));
         }
 
         if (!$this->silent) {

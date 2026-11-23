@@ -45,7 +45,7 @@ class Client
 
     public function setBaseUrl(string $baseUrl): void
     {
-        $this->baseUrl = $baseUrl;
+        $this->baseUrl = \rtrim($baseUrl, '/');
     }
 
     public function getBaseUrl(): string

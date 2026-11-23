@@ -28,7 +28,7 @@ class Job
         $this->command = $resolved['command'] ?? 'list';
     }
 
-    public function getJobId(): mixed
+    public function getJobId(): string
     {
         return $this->jobId;
     }

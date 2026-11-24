@@ -319,7 +319,21 @@ final class ClientRequest implements ClientRequestInterface
             $environment = $currentEnvironment;
         }
 
-        if (null === $contentType = $this->contentTypeHelper->get($this, $environment, $name)) {
+        $contentTypeCollectionCache = $this->cache->getItem(\sprintf('ContentTypeCollectionFor%s', $environment->getName()));
+        if ($contentTypeCollectionCache->isHit()) {
+            $contentTypeCollection = $contentTypeCollectionCache->get();
+        } else {
+            $contentTypeCollection = $this->contentTypeHelper->getContentTypeCollection($this, $environment);
+            $contentTypeCollectionCache->set($contentTypeCollection);
+            $interval = \DateInterval::createFromDateString($this->options['cache_content_types_expire_after'] ?? '10 seconds');
+            if (!$interval) {
+                throw new \RuntimeException(\sprintf('Unexpected interval %s', $this->options['cache_content_types_expire_after']));
+            }
+            $contentTypeCollectionCache->expiresAfter($interval);
+            $this->cache->save($contentTypeCollectionCache);
+        }
+
+        if (null === $contentType = $contentTypeCollection->getByName($name)) {
             return null;
         }
 

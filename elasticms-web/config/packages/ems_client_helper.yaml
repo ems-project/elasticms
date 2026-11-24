@@ -20,6 +20,8 @@ parameters:
     env(EMSCH_SEARCH_LIMIT):            '1000'
     env(EMSCH_LOCAL_PATH):              ~
 
+    env(EMSCH_CACHE_CONTENT_TYPES_EXPIRE_AFTER): '10 seconds'
+
     env(EMSCH_SECURITY_ROUTE_LOGIN):    'emsch_login'
     env(EMSCH_SECURITY_FIREWALL):       ~
     env(EMSCH_SSO_CORE_USER):           false
@@ -66,6 +68,7 @@ ems_client_helper:
             asset_config_type: '%env(string:EMSCH_ASSET_CONFIG_TYPE)%'
             templates: '%env(json:EMSCH_TEMPLATES)%'
             search_config: '%env(json:EMSCH_SEARCH_CONFIG)%'
+            cache_content_types_expire_after: '%env(string:EMSCH_CACHE_CONTENT_TYPES_EXPIRE_AFTER)%'
     templates:
         error:    '%env(string:EMSCH_TEMPLATE_ERROR)%'
         ems_link:  '%env(string:EMSCH_TEMPLATE_EMS_LINK)%'
@@ -75,7 +78,7 @@ ems_client_helper:
         route_login: '%env(string:EMSCH_SECURITY_ROUTE_LOGIN)%'
         firewall: '%env(string:EMSCH_SECURITY_FIREWALL)%'
         sso:
-            core_user: 
+            core_user:
                 enabled: '%env(bool:EMSCH_SSO_CORE_USER)%'
                 groups: '%env(json:EMSCH_SSO_CORE_USER_GROUPS)%'
             oauth2:

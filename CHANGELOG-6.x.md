@@ -1,5 +1,11 @@
 # Changelog 6.x
 
+## 6.9.46 (2026-11-24)
+### Bug Fixes
+* fix(admin/job): '' is not a valid job's tag by @theus77 in https://github.com/ems-project/elasticms/pull/1956
+* fix(admin/job): exit 0 if already started by @theus77 in https://github.com/ems-project/elasticms/pull/1955
+* fix(common/api): ensure that the base url never ends with a slash  by @theus77 in https://github.com/ems-project/elasticms/pull/1954
+
 ## 6.9.45 (2026-11-20)
 ### Bug Fixes
 * fix(common/storage): looks like S3 doesn't hash documents without Body by @theus77 in https://github.com/ems-project/elasticms/pull/1953

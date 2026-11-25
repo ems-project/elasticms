@@ -213,7 +213,7 @@ services:
             file: docker-elasticms.yml
             service: web
         environment:
-            - TRUSTED_HOSTS=localhost,.*\.localhost
+            - TRUSTED_HOSTS=^(.+\.)?localhost$$
         labels:
             - traefik.enable=true
             - 'traefik.http.routers.skeleton.rule=HostRegexp(`^local\.([a-z0-9\-_\.]+)\-web\-nocache\.localhost$$`)'
@@ -235,6 +235,63 @@ services:
         labels:
             - 'traefik.http.routers.varnish.rule=Host(`varnish.localhost`) || HostRegexp(`^local\.([a-z0-9\-_\.]+)\-web\.localhost$$`)'
             - traefik.http.routers.varnish.entrypoints=web,websecure
+
+    # Load generation, profile "load": `make locust-run` / `make locust-ui`. The scraper
+    # crawls the website THROUGH Traefik (Host: LOAD_SITE_HOST) and writes the
+    # GET URLs it finds to configs/locust/${LOAD_URLS} (one file per site);
+    # Locust replays them.
+    # With LOAD_TARGET_HOST set to an external URL (and LOAD_SITE_HOST empty),
+    # both hit that site directly, through the HTTP(S)_PROXY passed below.
+    # `${VAR-default}` (no colon) is deliberate: the default applies only when
+    # VAR is unset, an empty value is kept -- LOAD_SITE_HOST= / LOAD_LOCALES= /
+    # LOAD_ASSET_PREFIXES= mean "none" (direct mode, crawl from /, all assets).
+    scraper:
+        profiles: [ "load" ]
+        image: docker.io/python:3.12-slim
+        environment:
+            - TARGET_HOST=${LOAD_TARGET_HOST:-http://traefik}
+            - SITE_HOST=${LOAD_SITE_HOST-local.preview-ems-demo-web-nocache.localhost}
+            - LOCALES=${LOAD_LOCALES-fr,nl}
+            - ASSET_PREFIXES=${LOAD_ASSET_PREFIXES-/skeleton/,/bundles/}
+            - OUT=/data/${LOAD_URLS:-urls.json}
+            - HTTP_PROXY
+            - HTTPS_PROXY
+            - NO_PROXY
+            - http_proxy
+            - https_proxy
+            - no_proxy
+        user: "${LOCUST_UID:-0}"
+        working_dir: /mnt/locust
+        entrypoint: ["python", "/mnt/locust/scrape.py"]
+        volumes:
+            - ./configs/locust:/mnt/locust:ro
+            - ./configs/locust:/data:rw
+        mem_limit: 256m
+
+    locust:
+        profiles: [ "load" ]
+        image: docker.io/locustio/locust:2.42.0
+        environment:
+            - LOCUST_LOCUSTFILE=/mnt/locust/locustfile.py
+            - LOCUST_HOST=${LOAD_TARGET_HOST:-http://traefik}
+            - SITE_HOST=${LOAD_SITE_HOST-local.preview-ems-demo-web-nocache.localhost}
+            - URLS_FILE=/mnt/locust/${LOAD_URLS:-urls.json}
+            - HTTP_PROXY
+            - HTTPS_PROXY
+            - NO_PROXY
+            - http_proxy
+            - https_proxy
+            - no_proxy
+        volumes:
+            - ./configs/locust:/mnt/locust:ro
+        ports:
+            - "8089:8089"
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.locust.rule=Host(`locust.localhost`)
+            - traefik.http.routers.locust.entrypoints=web
+            - traefik.http.services.locust.loadbalancer.server.port=8089
+        mem_limit: 512m
 
 volumes:
     elk8_data1:

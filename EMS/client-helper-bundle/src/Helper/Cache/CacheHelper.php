@@ -39,33 +39,6 @@ final readonly class CacheHelper
         $this->cache->save($item);
     }
 
-    public function getContentType(ContentType $contentType): ?ContentType
-    {
-        $item = $this->cache->getItem($contentType->getCacheKey());
-
-        if (!$item->isHit()) {
-            return null;
-        }
-
-        $cachedContentType = $item->get();
-
-        if (!$cachedContentType instanceof ContentType) {
-            return null;
-        }
-
-        if ($cachedContentType->getEnvironment()->getHash() !== $contentType->getEnvironment()->getHash()) {
-            return null; // update on environment
-        }
-
-        if ($cachedContentType->getCacheValidityTag() !== $contentType->getCacheValidityTag()) {
-            $this->cache->deleteItem($contentType->getCacheKey());
-
-            return null;
-        }
-
-        return $cachedContentType;
-    }
-
     public function saveContentType(ContentType $contentType): void
     {
         $item = $this->cache->getItem($contentType->getCacheKey());

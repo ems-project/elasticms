@@ -6,6 +6,10 @@ namespace EMS\ClientHelperBundle\Helper\ContentType;
 
 use Elastica\Aggregation\Max;
 use Elastica\Aggregation\Terms;
+use Elastica\Exception\ClientException;
+use Elastica\Exception\Connection\HttpException;
+use Elastica\Exception\ResponseException;
+use EMS\ClientHelperBundle\Exception\TransientException;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\ClientHelperBundle\Helper\Environment\Environment;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
@@ -22,11 +26,6 @@ final class ContentTypeHelper
     public function clear(): void
     {
         $this->contentTypeCollections = [];
-    }
-
-    public function get(ClientRequest $clientRequest, Environment $environment, string $contentTypeName): ?ContentType
-    {
-        return $this->getContentTypeCollection($clientRequest, $environment)->getByName($contentTypeName);
     }
 
     public function getContentTypeCollection(ClientRequest $clientRequest, Environment $environment): ContentTypeCollection
@@ -46,8 +45,13 @@ final class ContentTypeHelper
             $response = Response::fromResultSet($clientRequest->commonSearch($search));
 
             return ContentTypeCollection::fromResponse($environment, $response);
-        } catch (\Exception) {
-            return new ContentTypeCollection();
+        } catch (HttpException|ResponseException|ClientException $exception) {
+            if ($exception instanceof HttpException
+                || $exception instanceof ClientException
+                || \in_array($exception->getResponse()->getStatus(), [429, 502, 503, 504], true)) {
+                throw new TransientException($exception);
+            }
+            throw $exception;
         }
     }
 

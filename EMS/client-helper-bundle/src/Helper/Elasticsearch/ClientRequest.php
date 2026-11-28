@@ -9,8 +9,10 @@ use Elastica\Query\AbstractQuery;
 use Elastica\ResultSet;
 use EMS\ClientHelperBundle\Contracts\Elasticsearch\ClientRequestInterface;
 use EMS\ClientHelperBundle\Exception\SingleResultException;
+use EMS\ClientHelperBundle\Exception\TransientException;
 use EMS\ClientHelperBundle\Helper\Cache\CacheHelper;
 use EMS\ClientHelperBundle\Helper\ContentType\ContentType;
+use EMS\ClientHelperBundle\Helper\ContentType\ContentTypeCollection;
 use EMS\ClientHelperBundle\Helper\ContentType\ContentTypeHelper;
 use EMS\ClientHelperBundle\Helper\Environment\Environment;
 use EMS\ClientHelperBundle\Helper\Environment\EnvironmentHelper;
@@ -29,6 +31,9 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 final class ClientRequest implements ClientRequestInterface
 {
     private const int CONTENT_TYPE_LIMIT = 500;
+    private ?\DateInterval $freshInterval = null;
+    private ?\DateInterval $graceInterval = null;
+    private ?ContentTypeCollection $contentTypeCollection = null;
 
     /**
      * @param array<string, mixed> $options
@@ -319,10 +324,9 @@ final class ClientRequest implements ClientRequestInterface
             $environment = $currentEnvironment;
         }
 
-        if (null === $contentType = $this->contentTypeHelper->get($this, $environment, $name)) {
+        if (null === $contentType = $this->getContentTypeCollection($environment)->getByName($name)) {
             return null;
         }
-
         $cachedContentType = $this->cacheHelper->getContentType($contentType);
 
         return $cachedContentType ?: $contentType;
@@ -761,5 +765,62 @@ final class ClientRequest implements ClientRequestInterface
         $cacheItem->set($data);
         $cacheItem->expiresAfter(new \DateInterval('P1D'));
         $this->cache->save($cacheItem);
+    }
+
+    private function getFreshInterval(): \DateInterval
+    {
+        $this->freshInterval ??= $this->getInterval('cache_content_types_fresh_period', '10 seconds');
+
+        return $this->freshInterval;
+    }
+
+    private function getGraceInterval(): \DateInterval
+    {
+        $this->graceInterval ??= $this->getInterval('cache_content_types_grace_period', '5 minutes');
+
+        return $this->graceInterval;
+    }
+
+    private function getInterval(string $optionDurationName, string $defaultDuration): \DateInterval
+    {
+        $duration = $this->options[$optionDurationName] ?? $defaultDuration;
+        $interval = \DateInterval::createFromDateString($duration);
+        if (false === $interval) {
+            throw new \RuntimeException(\sprintf('Invalid %s duration format : %s', $optionDurationName, $duration));
+        }
+
+        return $interval;
+    }
+
+    private function getContentTypeCollection(Environment $environment): ContentTypeCollection
+    {
+        if (null !== $this->contentTypeCollection) {
+            return $this->contentTypeCollection;
+        }
+
+        $contentTypeCollectionCacheItem = $this->cache->getItem(\sprintf('ContentTypeCollectionFor%s', $environment->getName()));
+        /** @var ?ContentTypeCollection $cached */
+        $cached = $contentTypeCollectionCacheItem->isHit() ? $contentTypeCollectionCacheItem->get() : null;
+        if (null !== $cached && $cached->isFresh()) {
+            $this->contentTypeCollection = $cached;
+
+            return $this->contentTypeCollection;
+        }
+
+        try {
+            $contentTypeCollection = $this->contentTypeHelper->getContentTypeCollection($this, $environment);
+            $contentTypeCollection->setFreshPeriod($this->getFreshInterval());
+            $contentTypeCollectionCacheItem->set($contentTypeCollection);
+            $contentTypeCollectionCacheItem->expiresAt($contentTypeCollection->getFreshUntil()->add($this->getGraceInterval()));
+            $this->cache->save($contentTypeCollectionCacheItem);
+        } catch (TransientException $exception) {
+            if (null === $cached) {
+                throw $exception;
+            }
+            $contentTypeCollection = $cached;
+        }
+        $this->contentTypeCollection = $contentTypeCollection;
+
+        return $this->contentTypeCollection;
     }
 }

@@ -21,10 +21,17 @@ class ElasticaDataCollector extends DataCollector
     #[\Override]
     public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
+        try {
+            $version = $this->elasticaService->getVersion();
+            $health = $this->elasticaService->getHealthStatus();
+        } catch (\Throwable $exception) {
+            $version = 'N/A';
+            $health = 'red';
+        }
         $this->data['nb_queries'] = $this->logger->getNbQueries();
         $this->data['queries'] = $this->logger->getQueries();
-        $this->data['version'] = $this->elasticaService->getVersion();
-        $this->data['health'] = $this->elasticaService->getHealthStatus();
+        $this->data['version'] = $version;
+        $this->data['health'] = $health;
     }
 
     public function getHealth(): string

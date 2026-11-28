@@ -22,6 +22,9 @@ parameters:
   env(EMSCH_SEARCH_LIMIT):            '1000'
   env(EMSCH_LOCAL_PATH):              ~
 
+  env(EMSCH_CACHE_CONTENT_TYPES_FRESH_PERIOD): '10 seconds'
+  env(EMSCH_CACHE_CONTENT_TYPES_GRACE_PERIOD): '5 minutes'
+
 ems_client_helper:
   api:
     backend:
@@ -42,6 +45,8 @@ ems_client_helper:
       asset_config_type: '%env(string:EMSCH_ASSET_CONFIG_TYPE)%'
       templates: '%env(json:EMSCH_TEMPLATES)%'
       search_config: '%env(json:EMSCH_SEARCH_CONFIG)%'
+      cache_content_types_fresh_period: '%env(string:EMSCH_CACHE_CONTENT_TYPES_FRESH_PERIOD)%'
+      cache_content_types_grace_period: '%env(string:EMSCH_CACHE_CONTENT_TYPES_GRACE_PERIOD)%'
   templates:
     error:    '%env(string:EMSCH_TEMPLATE_ERROR)%'
     ems_link:  '%env(string:EMSCH_TEMPLATE_EMS_LINK)%'

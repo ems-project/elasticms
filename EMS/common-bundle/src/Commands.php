@@ -14,12 +14,20 @@ class Commands
     final public const string LOAD_ARCHIVE_IN_CACHE = 'ems:storage:load-archive-in-cache';
     final public const string ADMIN_COMMAND = 'ems:admin:command';
     final public const string ADMIN_NEXT_JOB = 'ems:admin:next-job';
+    final public const string ADMIN_WEBHOOKS_REGISTER = 'ems:admin:webhooks:register';
+    final public const string ADMIN_FILE_INFO = 'ems:admin:file-info';
+    final public const string ADMIN_USER_RESET_PASSWORD_URL = 'ems:admin:user:reset-password-url';
+    final public const string ADMIN_USER_CREATE = 'ems:admin:user:create';
+    final public const string ADMIN_USER_DELETE = 'ems:admin:user:delete';
+    final public const string ADMIN_USER_EDIT = 'ems:admin:user:edit';
     final public const string FILE_STRUCTURE_PUBLISH = 'ems:file-structure:publish';
     final public const string FILE_STRUCTURE_PULL = 'ems:file-structure:pull';
     final public const string FILE_STRUCTURE_PUSH = 'ems:file-structure:push';
     final public const string SUBMISSION_FORWARD = 'ems:submissions:forward';
+    final public const string SUBMISSION_DOWNLOAD = 'ems:submissions:download';
     final public const string RUNNER_START = 'ems:runner:start';
     final public const string RUNNER_STATUS = 'ems:runner:status';
     final public const string RUNNER_OUTPUT = 'ems:runner:output';
     final public const string INDEX_SYNCHRONIZE = 'ems:indexes:synchronize';
+    final public const string WEBSITE_REWRITE_URLS = 'ems:website:rewrite-urls';
 }

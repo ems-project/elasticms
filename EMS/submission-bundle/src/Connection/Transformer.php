@@ -18,7 +18,7 @@ final readonly class Transformer
      */
     public function transform(array $path): string
     {
-        if (empty($path)) {
+        if ([] === $path) {
             return '';
         }
 

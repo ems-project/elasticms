@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Form\Dashboard;
 
 use EMS\CoreBundle\Core\Dashboard\DashboardService;
+use EMS\CoreBundle\Core\Dashboard\DashboardType as DashboardTypeEnum;
 use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Form\Field\ColorPickerType;
-use EMS\CoreBundle\Form\Field\DashboardPickerType;
 use EMS\CoreBundle\Form\Field\IconPickerType;
 use EMS\CoreBundle\Form\Field\RolePickerType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
+use EMS\CoreBundle\Form\Form\TranslationsType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -41,59 +43,46 @@ final class DashboardType extends AbstractType
             ->add('name', null, [
                 'label' => t('field.name', [], 'emsco-core'),
                 'required' => true,
-                'row_attr' => [
-                    'class' => 'col-md-4',
-                ],
+                'col' => 4,
             ])
             ->add('icon', IconPickerType::class, [
-                'label' => t('field.icon', [], 'emsco-core'),
                 'required' => true,
-                'row_attr' => [
-                    'class' => 'col-md-4',
-                ],
+                'col' => 4,
             ])
             ->add('label', null, [
                 'label' => t('field.label', [], 'emsco-core'),
                 'required' => true,
-                'row_attr' => [
-                    'class' => 'col-md-4',
-                ],
+                'col' => 4,
+            ])
+            ->add('labelTranslations', TranslationsType::class, [
+                'label' => t('field.label_translations', [], 'emsco-core'),
+                'required' => false,
+                'col' => 4,
             ])
             ->add('role', RolePickerType::class, [
                 'label' => t('field.role', [], 'emsco-core'),
                 'required' => true,
-                'row_attr' => [
-                    'class' => 'col-md-4',
-                ],
+                'col' => 4,
             ])
             ->add('sidebarMenu', CheckboxType::class, [
                 'label' => t('field.is_menu_sidebar', [], 'emsco-core'),
                 'required' => false,
-                'row_attr' => [
-                    'class' => 'col-md-12',
-                ],
             ])
             ->add('notificationMenu', CheckboxType::class, [
                 'label' => t('field.is_menu_notification', [], 'emsco-core'),
                 'required' => false,
-                'row_attr' => [
-                    'class' => 'col-md-12',
-                ],
             ])
             ->add('color', ColorPickerType::class, [
                 'label' => t('field.color', [], 'emsco-core'),
                 'required' => false,
-                'row_attr' => [
-                    'class' => 'col-md-4',
-                ],
+                'col' => 4,
             ])
-            ->add('type', DashboardPickerType::class, [
+            ->add('type', EnumType::class, [
                 'label' => t('field.type', [], 'emsco-core'),
                 'required' => true,
                 'disabled' => !($options['create'] ?? false),
-                'row_attr' => [
-                    'class' => 'col-md-4',
-                ],
+                'class' => DashboardTypeEnum::class,
+                'col' => 4,
             ]);
 
         if (false === $options['create']) {
@@ -103,12 +92,8 @@ final class DashboardType extends AbstractType
         }
 
         $builder->add('save', SubmitEmsType::class, [
+            'attr' => ['data-testid' => 'btn-action-save'],
             'label' => t('action.save', [], 'emsco-core'),
-            'attr' => [
-                'class' => 'btn btn-primary btn-sm ',
-                'data-testid' => 'btn-action-save',
-            ],
-            'icon' => 'fa fa-save',
         ]);
     }
 

@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Tests\Unit\Common\CoreApi\Endpoint\Meta;
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Meta\Meta;
 use EMS\CommonBundle\Common\CoreApi\Result;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 final class MetaAiTest extends TestCase
@@ -21,6 +22,7 @@ final class MetaAiTest extends TestCase
         $this->meta = new Meta($this->client);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetDefaultContentTypeEnvironmentAlias(): void
     {
         $contentTypeName = 'testType';

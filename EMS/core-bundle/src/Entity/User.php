@@ -8,11 +8,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
+use EMS\CoreBundle\Core\Security\Canonicalizer;
 use EMS\CoreBundle\Core\User\UserOptions;
 use EMS\CoreBundle\Roles;
 use EMS\Helpers\Standard\Locale;
+use EMS\Helpers\Standard\Text;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
+#[UniqueEntity(fields: 'emailCanonical', message: 'user.email.already_used', errorPath: 'email')]
+#[UniqueEntity(fields: 'usernameCanonical', message: 'user.username.already_used', errorPath: 'username')]
 class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserInterface, \Stringable
 {
     use CreatedModifiedTrait;
@@ -31,13 +37,17 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     private Collection $authTokens;
     private string $locale = self::DEFAULT_LOCALE;
     private ?string $localePreferred = null;
+    #[Assert\Length(min: 2, max: 180, minMessage: 'user.username.short', maxMessage: 'user.username.long')]
     private ?string $username = null;
     private ?string $usernameCanonical = null;
+    #[Assert\Email(message: 'user.email.invalid')]
+    #[Assert\Length(min: 2, max: 254, minMessage: 'user.email.short', maxMessage: 'user.email.long')]
     private ?string $email = null;
     private ?string $emailCanonical = null;
     private bool $enabled = false;
     private ?string $salt = null;
     private ?string $password = null;
+    #[Assert\Length(min: 8, max: 4096, minMessage: 'user.password.short', maxMessage: 'user.password.long')]
     private ?string $plainPassword = null;
     private ?\DateTime $lastLogin = null;
     private ?\DateTime $expirationDate = null;
@@ -297,48 +307,40 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
         }
     }
 
-    public function serialize(): string
+    /**
+     * @return array{username: non-empty-string} $data
+     */
+    public function __serialize(): array
     {
-        return \serialize([
-            $this->password,
-            $this->salt,
-            $this->usernameCanonical,
-            $this->username,
-            $this->enabled,
-            $this->id,
-            $this->email,
-            $this->emailCanonical,
-            $this->expirationDate,
-        ]);
+        return [
+            'username' => $this->getUserIdentifier(),
+        ];
     }
 
-    public function unserialize(string $serialized): void
+    /**
+     * @param array{username: non-empty-string} $data
+     */
+    public function __unserialize(array $data): void
     {
-        $data = \unserialize($serialized);
-
-        if (13 === (\is_countable($data) ? \count($data) : 0)) {
-            // Unserializing a User object from 1.3.x
-            unset($data[4], $data[5], $data[6], $data[9], $data[10]);
-            $data = \array_values($data);
-        } elseif (11 === (\is_countable($data) ? \count($data) : 0)) {
-            // Unserializing a User from a dev version somewhere between 2.0-alpha3 and 2.0-beta1
-            unset($data[4], $data[7], $data[8]);
-            $data = \array_values($data);
-        }
-
-        [$this->password, $this->salt, $this->usernameCanonical, $this->username, $this->enabled, $this->id, $this->email, $this->emailCanonical] = $data;
+        $this->username = $data['username'];
     }
 
     #[\Override]
+    #[\Deprecated]
     public function eraseCredentials(): void
     {
-        $this->plainPassword = null;
     }
 
     #[\Override]
     public function getUserIdentifier(): string
     {
-        return $this->username ?? '';
+        $trimmed = Text::superTrim($this->username ?? '');
+
+        if ('' === $trimmed || $this->username !== $trimmed) {
+            throw new \LogicException('Username cannot be empty or start/end with a space.');
+        }
+
+        return $this->username;
     }
 
     #[\Override]
@@ -405,6 +407,14 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
         return \array_values(\array_unique($roles));
     }
 
+    public function getExtraRoles(): array
+    {
+        $roles = $this->roles;
+        $groupRole = $this->getGroup()?->getRoles() ?? [];
+
+        return \array_diff($roles, $groupRole);
+    }
+
     #[\Override]
     public function hasRole(string $role): bool
     {
@@ -427,11 +437,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     public function setUsername(?string $username): void
     {
         $this->username = $username;
-    }
-
-    public function setUsernameCanonical(?string $usernameCanonical): void
-    {
-        $this->usernameCanonical = $usernameCanonical;
+        $this->usernameCanonical = null !== $username ? Canonicalizer::canonicalize($username) : null;
     }
 
     public function setSalt(string $salt): void
@@ -442,11 +448,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     public function setEmail(?string $email): void
     {
         $this->email = $email;
-    }
-
-    public function setEmailCanonical(?string $emailCanonical): void
-    {
-        $this->emailCanonical = $emailCanonical;
+        $this->emailCanonical = null !== $email ? Canonicalizer::canonicalize($email) : null;
     }
 
     public function setEnabled(bool $enabled): void
@@ -541,5 +543,16 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     public function setUserRoles(array $roles): void
     {
         $this->roles = $roles;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getLocales(): array
+    {
+        return \array_unique(\array_filter([
+            $this->locale,
+            $this->localePreferred,
+        ]));
     }
 }

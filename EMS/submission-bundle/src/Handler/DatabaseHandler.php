@@ -37,8 +37,8 @@ final class DatabaseHandler extends AbstractHandler
             $handleResponse = new DatabaseHandleResponse($formSubmission);
 
             return $this->responseTransformer->transform($handleRequest, $handleResponse);
-        } catch (\Throwable $exception) {
-            return new FailedHandleResponse($exception);
+        } catch (\Throwable $throwable) {
+            return new FailedHandleResponse($throwable);
         }
     }
 }

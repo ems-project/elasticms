@@ -4,26 +4,33 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Repository;
 
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\ArrayParameterType;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use EMS\CoreBundle\Entity\ContentType;
 
 /**
- * @extends EntityRepository<ContentType>
+ * @extends ServiceEntityRepository<ContentType>
  *
+ * @method ContentType|null find($id, $lockMode = null, $lockVersion = null)
  * @method ContentType|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
  * @method ContentType[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
-class ContentTypeRepository extends EntityRepository
+class ContentTypeRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, ContentType::class);
+    }
+
     /**
      * @return ContentType[]
      */
-    public function findAllAsAssociativeArray()
+    public function findAllAsAssociativeArray(): array
     {
         $qb = $this->createQueryBuilder('ct');
         $qb->where($qb->expr()->eq('ct.deleted', ':false'));
@@ -163,7 +170,7 @@ class ContentTypeRepository extends EntityRepository
             ->setMaxResults($size);
         $this->addSearchFilters($qb, $searchValue);
 
-        if (\in_array($orderField, ['name', 'pluralName', 'singularName', 'active'])) {
+        if (\in_array($orderField, ['name', 'pluralName', 'singularName', 'active'], true)) {
             $qb->orderBy(\sprintf('c.%s', $orderField), $orderDirection);
         } else {
             $qb->orderBy('c.orderKey', $orderDirection);
@@ -188,7 +195,7 @@ class ContentTypeRepository extends EntityRepository
     {
         $qb->where($qb->expr()->eq('c.deleted', ':false'));
         $qb->setParameter(':false', false);
-        if (\strlen($searchValue) > 0) {
+        if ('' !== $searchValue) {
             $or = $qb->expr()->orX(
                 $qb->expr()->like('c.label', ':term'),
                 $qb->expr()->like('c.pluralName', ':term'),

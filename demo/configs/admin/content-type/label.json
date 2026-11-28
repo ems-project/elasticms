@@ -5,6 +5,8 @@
         "name": "label",
         "pluralName": "Translations",
         "singularName": "Translation",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": null,
         "icon": "fa fa-language",
         "description": null,
         "indexTwig": null,
@@ -432,6 +434,7 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
+                    "labelTranslations": null,
                     "icon": "fa fa-list-ul",
                     "options": {
                         "body": "{}",
@@ -452,7 +455,8 @@
         "versionTags": [],
         "versionOptions": {
             "dates_read_only": true,
-            "dates_interval_one_day": false
+            "dates_interval_one_day": false,
+            "not_blank_new_version": false
         },
         "versionFields": {
             "date_from": null,
@@ -467,8 +471,7 @@
             "delete": "ROLE_WEBMASTER",
             "trash": "ROLE_WEBMASTER",
             "archive": "not-defined",
-            "show_link_create": "ROLE_WEBMASTER",
-            "show_link_search": "not-defined"
+            "show_link_create": "ROLE_WEBMASTER"
         },
         "fields": {
             "display": null,
@@ -483,8 +486,14 @@
         },
         "settings": {
             "tasks_enabled": false,
-            "hide_revision_sidebar": false
-        }
+            "tasks_titles": [],
+            "tasks_helptexts": [],
+            "hide_revision_sidebar": false,
+            "recompute_on_publish": false
+        },
+        "querySearch": null
     },
-    "replaced": []
+    "replaced": [
+        "querySearch"
+    ]
 }

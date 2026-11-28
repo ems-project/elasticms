@@ -1,3 +1,3 @@
-import {emsFormDebug} from "./modules/emsFormDebug";
+import { emsFormDebug } from './modules/emsFormDebug'
 
-window.emsFormDebug = new emsFormDebug();
+window.emsFormDebug = new emsFormDebug()

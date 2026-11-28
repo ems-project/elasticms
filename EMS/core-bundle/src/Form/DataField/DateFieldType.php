@@ -13,13 +13,22 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class DateFieldType extends DataFieldType
 {
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Date field';
+        return ['type' => 'string', 'format' => 'date'];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.date', [], 'emsco-core');
     }
 
     #[\Override]
@@ -36,11 +45,7 @@ class DateFieldType extends DataFieldType
         }
         $dates = [];
         $format = $fieldType->getMappingOption('format', false);
-        if (false !== $format) {
-            $format = DateTime::convertFormat('java', $format);
-        } else {
-            $format = \DateTimeInterface::ATOM;
-        }
+        $format = false !== $format ? DateTime::convertFormat('java', $format) : \DateTimeInterface::ATOM;
         if (\is_string($data)) {
             $dates[] = \DateTime::createFromFormat($format, $data);
 
@@ -67,13 +72,10 @@ class DateFieldType extends DataFieldType
     {
         $data = parent::reverseModelTransform($dataField);
         $format = $dataField->giveFieldType()->getMappingOption('format', false);
-        if (false !== $format) {
-            $format = DateTime::convertFormat('java', $format);
-        } else {
-            $format = \DateTimeInterface::ATOM;
-        }
+        $format = false !== $format ? DateTime::convertFormat('java', $format) : \DateTimeInterface::ATOM;
+
         $out = [];
-        if (\is_iterable($data) && !empty($data)) {
+        if (\is_iterable($data) && [] !== $data) {
             foreach ($data as $item) {
                 if ($item instanceof \DateTime) {
                     $out[] = $item->format($format);
@@ -81,11 +83,11 @@ class DateFieldType extends DataFieldType
             }
         }
         if (!$dataField->giveFieldType()->getDisplayBoolOption('multidate', false)) {
-            if (empty($out)) {
+            if ([] === $out) {
                 return null;
-            } else {
-                return $out[0];
             }
+
+            return $out[0];
         }
 
         return $out;
@@ -97,16 +99,15 @@ class DateFieldType extends DataFieldType
         $data = parent::viewTransform($dataField);
         $out = [];
         $format = DateTime::convertFormat('js', $dataField->giveFieldType()->getDisplayOption('displayFormat', 'dd/mm/yyyy'));
-        if (\is_iterable($data) && !empty($data)) {
+        if (\is_iterable($data) && [] !== $data) {
             foreach ($data as $date) {
                 if ($date) {
                     $out[] = $date->format($format);
                 }
             }
         }
-        $temp = ['value' => \implode(',', $out)];
 
-        return $temp;
+        return ['value' => \implode(',', $out)];
     }
 
     /**
@@ -122,9 +123,8 @@ class DateFieldType extends DataFieldType
                 $dates[] = \DateTime::createFromFormat($format, $date);
             }
         }
-        $dataField = parent::reverseViewTransform($dates, $fieldType);
 
-        return $dataField;
+        return parent::reverseViewTransform($dates, $fieldType);
     }
 
     #[\Override]
@@ -137,7 +137,7 @@ class DateFieldType extends DataFieldType
     public function importData(DataField $dataField, array|string|int|float|bool|null $sourceArray, bool $isMigration): array
     {
         $migrationOptions = $dataField->giveFieldType()->getMigrationOptions();
-        if (!$isMigration || empty($migrationOptions) || !$migrationOptions['protected']) {
+        if (!$isMigration || [] === $migrationOptions || !$migrationOptions['protected']) {
             $format = DateTime::convertFormat('java', $dataField->giveFieldType()->getMappingOption('format'));
 
             if (null == $sourceArray) {
@@ -150,7 +150,7 @@ class DateFieldType extends DataFieldType
                 throw new \RuntimeException('Unexpected non-iterable source array');
             }
             $data = [];
-            foreach ($sourceArray as $idx => $child) {
+            foreach ($sourceArray as $child) {
                 $dateObject = \DateTime::createFromFormat($format, $child);
                 if ($dateObject) {
                     $data[] = $dateObject->format(\DateTimeInterface::ATOM);
@@ -256,48 +256,54 @@ class DateFieldType extends DataFieldType
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')->add('format', TextType::class, [
+                'label' => t('field.format', [], 'emsco-core'),
                 'required' => false,
                 'empty_data' => 'yyyy/MM/dd',
-                'attr' => ['placeholder' => 'i.e. yyyy/MM/dd'],
+                'attr' => ['placeholder' => t('placeholder.for_example', ['example' => 'yyyy/MM/dd'], 'emsco-core')],
             ])
             ->add('copy_to', TextType::class, [
+                'label' => t('field.copy_to', [], 'emsco-core'),
                 'required' => false,
             ]);
         }
 
         // String specific display options
         $optionsForm->get('displayOptions')->add('displayFormat', TextType::class, [
+            'label' => t('field.display_format', [], 'emsco-core'),
             'required' => false,
             'empty_data' => 'dd/MM/yyyy',
             'attr' => [
-                'placeholder' => 'e.g. dd/MM/yyyy',
+                'placeholder' => t('placeholder.for_example', ['example' => 'dd/MM/yyyy'], 'emsco-core'),
             ],
         ]);
         $optionsForm->get('displayOptions')->add('weekStart', IntegerType::class, [
+            'label' => t('field.week_start', [], 'emsco-core'),
             'required' => false,
             'empty_data' => 0,
             'attr' => [
-                'placeholder' => '0',
+                'placeholder' => t('placeholder.for_example', ['example' => '0'], 'emsco-core'),
             ],
         ]);
         $optionsForm->get('displayOptions')->add('todayHighlight', CheckboxType::class, [
+            'label' => t('field.today_highlight', [], 'emsco-core'),
             'required' => false,
-            'label' => 'Today highlight (deprecated)',
         ]);
         $optionsForm->get('displayOptions')->add('multidate', CheckboxType::class, [
+            'label' => t('field.multiple', [], 'emsco-core'),
             'required' => false,
         ]);
         $optionsForm->get('displayOptions')->add('daysOfWeekDisabled', TextType::class, [
+            'label' => t('field.days_of_week_disabled', [], 'emsco-core'),
             'required' => false,
             'attr' => [
-                'placeholder' => 'e.g. [0,6]',
+                'placeholder' => t('placeholder.for_example', ['example' => '0,6'], 'emsco-core'),
             ],
         ]);
         $optionsForm->get('displayOptions')->add('daysOfWeekHighlighted', TextType::class, [
+            'label' => t('field.days_of_week_highlighted', [], 'emsco-core'),
             'required' => false,
-            'label' => 'Days of week highlighted (deprecated)',
             'attr' => [
-                'placeholder' => 'i.e. 0,6',
+                'placeholder' => t('placeholder.for_example', ['example' => '0,6'], 'emsco-core'),
             ],
         ]);
     }

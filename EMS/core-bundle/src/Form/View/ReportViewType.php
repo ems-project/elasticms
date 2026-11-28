@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\View;
 
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Entity\View;
 use EMS\CoreBundle\Form\Field\CodeEditorType;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactory;
@@ -17,8 +17,13 @@ use Twig\Environment;
 
 class ReportViewType extends ViewType
 {
-    public function __construct(FormFactory $formFactory, Environment $twig, private readonly ElasticaService $elasticaService, LoggerInterface $logger, string $templateNamespace)
-    {
+    public function __construct(
+        FormFactory $formFactory,
+        Environment $twig,
+        private readonly ElasticaService $elasticaService,
+        LocalizedLoggerInterface $logger,
+        string $templateNamespace
+    ) {
         parent::__construct($formFactory, $twig, $logger, $templateNamespace);
     }
 
@@ -47,7 +52,6 @@ class ReportViewType extends ViewType
             'label' => 'The Elasticsearch body query [JSON Twig]',
             'attr' => [
             ],
-            'slug' => 'report_query',
         ])
         ->add('size', IntegerType::class, [
             'label' => 'Limit the result to the x first results',
@@ -56,7 +60,6 @@ class ReportViewType extends ViewType
             'label' => 'The Twig template used to display each keywords',
             'attr' => [
             ],
-            'slug' => 'report_template',
         ])
         ->add('header', CodeEditorType::class, [
             'label' => 'The HTML template included at the end of the header',
@@ -85,8 +88,8 @@ class ReportViewType extends ViewType
                 'contentType' => $view->getContentType(),
                 'environment' => $view->getContentType()->getEnvironment(),
             ]);
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage(), ['view' => $view->getName(), 'option' => 'body']);
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage(), ['view' => $view->getName(), 'option' => 'body']);
             $renderQuery = '{}';
         }
 
@@ -110,9 +113,9 @@ class ReportViewType extends ViewType
                 'environment' => $view->getContentType()->getEnvironment(),
                 'result' => $resultSet->getResponse()->getData(),
             ]);
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage(), ['view' => $view->getName(), 'option' => 'template']);
-            $render = 'Something went wrong with the template of the view '.$view->getLabel().' for the content type '.$view->getContentType()->getName().' ('.$e->getMessage().')';
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage(), ['view' => $view->getName(), 'option' => 'template']);
+            $render = 'Something went wrong with the template of the view '.$view->getLabel().' for the content type '.$view->getContentType()->getName().' ('.$exception->getMessage().')';
         }
         try {
             $javascript = $this->twig->createTemplate($view->getOptions()['javascript'] ?? '')->render([
@@ -121,8 +124,8 @@ class ReportViewType extends ViewType
                 'environment' => $view->getContentType()->getEnvironment(),
                 'result' => $resultSet->getResponse()->getData(),
             ]);
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage(), ['view' => $view->getName(), 'option' => 'javascript']);
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage(), ['view' => $view->getName(), 'option' => 'javascript']);
             $javascript = '';
         }
         try {
@@ -132,8 +135,8 @@ class ReportViewType extends ViewType
                 'environment' => $view->getContentType()->getEnvironment(),
                 'result' => $resultSet->getResponse()->getData(),
             ]);
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage(), ['view' => $view->getName(), 'option' => 'header']);
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage(), ['view' => $view->getName(), 'option' => 'header']);
             $header = '';
         }
 

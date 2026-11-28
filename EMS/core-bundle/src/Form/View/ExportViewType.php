@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\View;
 
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Service\Pdf\DomPdfPrinter;
 use EMS\CommonBundle\Service\Pdf\Pdf;
@@ -13,7 +14,6 @@ use EMS\CoreBundle\Form\Field\CodeEditorType;
 use EMS\CoreBundle\Form\Field\FileDispositionType;
 use EMS\CoreBundle\Form\Field\OrientationType;
 use EMS\CoreBundle\Form\Field\PdfSizeType;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -27,8 +27,14 @@ use Twig\Environment;
 
 class ExportViewType extends ViewType
 {
-    public function __construct(FormFactory $formFactory, Environment $twig, private readonly ElasticaService $elasticaService, LoggerInterface $logger, private readonly DomPdfPrinter $pdfPrinter, string $templateNamespace)
-    {
+    public function __construct(
+        FormFactory $formFactory,
+        Environment $twig,
+        private readonly ElasticaService $elasticaService,
+        LocalizedLoggerInterface $logger,
+        private readonly DomPdfPrinter $pdfPrinter,
+        string $templateNamespace
+    ) {
         parent::__construct($formFactory, $twig, $logger, $templateNamespace);
     }
 
@@ -57,7 +63,6 @@ class ExportViewType extends ViewType
             'label' => 'The Elasticsearch body query [JSON Twig]',
             'attr' => [
             ],
-            'slug' => 'export_query',
         ])
         ->add('size', IntegerType::class, [
             'label' => 'Limit the result to the x first results',
@@ -66,7 +71,6 @@ class ExportViewType extends ViewType
             'label' => 'The Twig template used to display each keywords',
             'attr' => [
             ],
-            'slug' => 'export_template',
         ])
         ->add('mimetype', TextType::class, [
             'label' => 'The mimetype used in the response',
@@ -83,7 +87,6 @@ class ExportViewType extends ViewType
             'label' => 'The Twig template used to generate the export file name',
             'attr' => [
             ],
-            'slug' => 'export_filename',
             'min-lines' => 4,
             'max-lines' => 4,
         ])
@@ -161,7 +164,7 @@ class ExportViewType extends ViewType
                 'contentType' => $view->getContentType(),
                 'environment' => $view->getContentType()->giveEnvironment(),
             ]);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $renderQuery = '{}';
         }
 
@@ -185,8 +188,8 @@ class ExportViewType extends ViewType
                 'environment' => $view->getContentType()->giveEnvironment(),
                 'result' => $resultSet->getResponse()->getData(),
             ]);
-        } catch (\Throwable $e) {
-            $render = 'Something went wrong with the template of the view '.$view->getLabel().' for the content type '.$view->getContentType()->getName().' ('.$e->getMessage().')';
+        } catch (\Throwable $throwable) {
+            $render = 'Something went wrong with the template of the view '.$view->getLabel().' for the content type '.$view->getContentType()->getName().' ('.$throwable->getMessage().')';
         }
 
         try {
@@ -196,8 +199,8 @@ class ExportViewType extends ViewType
                 'environment' => $view->getContentType()->giveEnvironment(),
                 'result' => $resultSet->getResponse()->getData(),
             ]);
-        } catch (\Throwable $e) {
-            $filename = 'Something went wrong with the template of the view '.$view->getLabel().' for the content type '.$view->getContentType()->getName().' ('.$e->getMessage().')';
+        } catch (\Throwable $throwable) {
+            $filename = 'Something went wrong with the template of the view '.$view->getLabel().' for the content type '.$view->getContentType()->getName().' ('.$throwable->getMessage().')';
         }
 
         return [

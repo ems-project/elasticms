@@ -1,4 +1,5 @@
 @use "sass:map";
 $choices-primary-color: map.get($theme-colors, "primary");
+$choices-z-index: 1000;
 
 @import "choices.js/src/styles/choices";

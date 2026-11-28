@@ -13,8 +13,6 @@ class Configuration implements ConfigurationInterface
 {
     private const array ELASTICSEARCH_DEFAULT_HOSTS = ['http://localhost:9200'];
     private const int LOG_LEVEL = Level::Notice->value;
-    final public const string WEBALIZE_REMOVABLE_REGEX = "/([^a-zA-Z0-9_| \-.'\/])|(\.$)/";
-    final public const string WEBALIZE_DASHABLE_REGEX = "/[\/| ']+/";
 
     #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
@@ -26,17 +24,22 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->variableNode('storages')->defaultValue([])->end()
+                ->variableNode('http_caches')->defaultValue([])->end()
                 ->variableNode('runners')->defaultValue([])->end()
                 ->variableNode('store_data_services')->defaultValue([])->end()
                 ->variableNode('key_store')->defaultValue([])->end()
                 ->booleanNode('profiler')->defaultFalse()->end()
+                ->arrayNode('response_headers')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('enabled')->defaultTrue()->end()
+                    ->end()
+                ->end()
                 ->scalarNode('hash_algo')->defaultValue('sha1')->end()
                 ->scalarNode('backend_url')->defaultValue(null)->end()
                 ->scalarNode('backend_api_key')->defaultValue(null)->end()
                 ->scalarNode('elasticsearch_proxy_api')->defaultValue(false)->end()
-                ->scalarNode('elasticsearch_connection_pool')->defaultValue(null)->end()
                 ->variableNode('elasticsearch_hosts')->defaultValue(self::ELASTICSEARCH_DEFAULT_HOSTS)->end()
-                ->scalarNode('elasticsearch_round_robin')->defaultValue(false)->end()
                 ->integerNode('log_level')->defaultValue(self::LOG_LEVEL)->end()
                 ->variableNode('excluded_content_types')->defaultValue([])->end()
                 ->variableNode('slug_symbol_map')->defaultValue(null)->end()
@@ -47,7 +50,6 @@ class Configuration implements ConfigurationInterface
         $this->addCacheSection($rootNode);
         $this->addCoreApiSection($rootNode);
         $this->addMetricSection($rootNode);
-        $this->addWebalizeSection($rootNode);
         $this->addRequestSection($rootNode);
 
         return $treeBuilder;
@@ -102,20 +104,6 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('enabled')->cannotBeEmpty()->end()
                         ->scalarNode('host')->end()
                         ->scalarNode('port')->defaultNull()->end()
-                ->end()
-            ->end()
-        ;
-    }
-
-    private function addWebalizeSection(ArrayNodeDefinition $rootNode): void
-    {
-        $rootNode
-            ->children()
-                ->arrayNode('webalize')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('removable_regex')->defaultValue(self::WEBALIZE_REMOVABLE_REGEX)->end()
-                        ->scalarNode('dashable_regex')->defaultValue(self::WEBALIZE_DASHABLE_REGEX)->end()
                 ->end()
             ->end()
         ;

@@ -14,6 +14,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * Defined a Container content type.
@@ -24,9 +27,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TextareaFieldType extends DataFieldType
 {
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Textarea field';
+        return ['type' => 'string'];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.textarea', [], 'emsco-core');
     }
 
     #[\Override]
@@ -85,12 +94,19 @@ class TextareaFieldType extends DataFieldType
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')
-                ->add('analyzer', AnalyzerPickerType::class)
-                ->add('copy_to', TextType::class, ['required' => false]);
+                ->add('analyzer', AnalyzerPickerType::class, [
+                    'label' => t('field.analyzer', [], 'emsco-core'),
+                ])
+                ->add('copy_to', TextType::class, [
+                    'required' => false,
+                    'label' => t('field.copy_to', [], 'emsco-core'),
+                ]);
         }
         $optionsForm->get('displayOptions')->add('rows', IntegerType::class, [
+            'label' => t('field.rows', [], 'emsco-core'),
             'required' => false,
         ])->add('placeholder', TextareaType::class, [
+            'label' => t('field.placeholder', [], 'emsco-core'),
             'required' => false,
         ]);
     }

@@ -23,19 +23,22 @@ class FormModelTransformer implements DataTransformerInterface
     }
 
     #[\Override]
-    public function transform($data): DataField
+    public function transform(mixed $value): DataField
     {
-        $data = RawDataTransformer::transform($this->fieldType, $data ?? []);
+        $data = RawDataTransformer::transform($this->fieldType, $value ?? []);
 
         return $this->nestedTransformer->transform($data);
     }
 
+    /**
+     * @return array<mixed>
+     */
     #[\Override]
-    public function reverseTransform($data)
+    public function reverseTransform(mixed $value): array
     {
-        $data = $this->nestedTransformer->reverseTransform($data);
+        $data = $this->nestedTransformer->reverseTransform($value);
         if (!\is_array($data)) {
-            throw new \RuntimeException('Unexpected non-array form\'s data');
+            throw new \RuntimeException("Unexpected non-array form's data");
         }
 
         return RawDataTransformer::reverseTransform($this->fieldType, $data);

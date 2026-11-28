@@ -13,27 +13,27 @@ class JsonMenuNestedExceptionAiTest extends TestCase
     {
         $exception = JsonMenuNestedException::itemNotFound();
         $this->assertInstanceOf(JsonMenuNestedException::class, $exception);
-        $this->assertEquals('json_menu_nested.error.item_not_found', $exception->getMessage());
+        $this->assertEquals('Item not found', $exception->getMessage());
     }
 
     public function testItemParentNotFound(): void
     {
         $exception = JsonMenuNestedException::itemParentNotFound();
         $this->assertInstanceOf(JsonMenuNestedException::class, $exception);
-        $this->assertEquals('json_menu_nested.error.item_parent_not_found', $exception->getMessage());
+        $this->assertEquals('Parent not found', $exception->getMessage());
     }
 
     public function testMoveChildMissing(): void
     {
         $exception = JsonMenuNestedException::moveChildMissing();
         $this->assertInstanceOf(JsonMenuNestedException::class, $exception);
-        $this->assertEquals('json_menu_nested.error.move_child_missing', $exception->getMessage());
+        $this->assertEquals('Move failed, current parent does not have item', $exception->getMessage());
     }
 
     public function testMoveChildExists(): void
     {
         $exception = JsonMenuNestedException::moveChildExists();
         $this->assertInstanceOf(JsonMenuNestedException::class, $exception);
-        $this->assertEquals('json_menu_nested.error.move_child_exists', $exception->getMessage());
+        $this->assertEquals('Move failed, new parent already has item', $exception->getMessage());
     }
 }

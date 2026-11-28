@@ -11,6 +11,8 @@
     <field name="name" length="100"/>
     <field name="pluralName" column="pluralName" length="100"/>
     <field name="singularName" column="singularName" length="100"/>
+    <field name="pluralNameTranslations" column="plural_name_translations" type="json" nullable="true"/>
+    <field name="singularNameTranslations" column="singular_name_translations" type="json" nullable="true"/>
     <field name="icon" length="100" nullable="true"/>
     <field name="description" type="text" nullable="true"/>
     <field name="indexTwig" column="indexTwig" type="text" nullable="true"/>
@@ -74,6 +76,9 @@
         <cascade-remove/>
       </cascade>
     </one-to-many>
+    <many-to-one field="querySearch" target-entity="EMS\CoreBundle\Entity\QuerySearch" inversed-by="contentTypesHavingThisAsDefault">
+      <join-column name="query_search_id"/>
+    </many-to-one>
 
     <field name="created" type="datetime"/>
     <field name="modified" type="datetime"/>

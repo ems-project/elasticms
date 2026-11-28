@@ -76,8 +76,8 @@ class BatchCommand extends AbstractCommand
             }
 
             return self::SUCCESS;
-        } catch (\Throwable $e) {
-            $io->error($e->getMessage());
+        } catch (\Throwable $throwable) {
+            $io->error($throwable->getMessage());
 
             return self::EXECUTE_ERROR;
         }

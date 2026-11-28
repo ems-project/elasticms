@@ -1,5 +1,5 @@
 {% extends '@EMSCore/base.html.twig' %}
-{% trans_default_domain 'emsco-twigs' %}
+{% trans_default_domain 'emsco-core' %}
 
 {% block breadcrumb %}
     <ol class="breadcrumb">
@@ -7,7 +7,7 @@
     </ol>
 {% endblock %}
 
-{% block title %}{{ 'dashboard.exception.title'|trans({'%name%': dashboard.name}) }}{% endblock %}
+{% block title %}{{ 'message.dashboard_exception'|trans({'name': dashboard.name}) }}{% endblock %}
 {% block pagetitle %}{{ block('title') }}{% endblock %}
 {% block subtitle %}{% endblock %}
 

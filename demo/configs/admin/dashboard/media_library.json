@@ -5,6 +5,7 @@
         "name": "media_library",
         "icon": "fa fa-university",
         "label": "Media library",
+        "labelTranslations": null,
         "sidebarMenu": true,
         "notificationMenu": false,
         "definition": null,

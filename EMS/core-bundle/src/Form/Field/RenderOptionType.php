@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Field;
 
-use EMS\CoreBundle\EMSCoreBundle;
 use Symfony\Component\Form\ChoiceList\Factory\ChoiceListFactoryInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -31,15 +30,15 @@ class RenderOptionType extends ChoiceType
     {
         parent::__construct($choiceListFactory, $translator);
         $this->choices = [
-            t('core.action.render-option.embed', [], EMSCoreBundle::TRANS_CORE)->getMessage() => self::EMBED,
-            t('core.action.render-option.export', [], EMSCoreBundle::TRANS_CORE)->getMessage() => self::EXPORT,
-            t('core.action.render-option.import', [], EMSCoreBundle::TRANS_CORE)->getMessage() => self::IMPORT,
-            t('core.action.render-option.external-link', [], EMSCoreBundle::TRANS_CORE)->getMessage() => self::EXTERNALLINK,
-            t('core.action.render-option.raw-html', [], EMSCoreBundle::TRANS_CORE)->getMessage() => self::RAW_HTML,
-            t('core.action.render-option.notification', [], EMSCoreBundle::TRANS_CORE)->getMessage() => self::NOTIFICATION,
-            t('core.action.render-option.job', [], EMSCoreBundle::TRANS_CORE)->getMessage() => self::JOB,
-            t('core.action.render-option.pdf', [], EMSCoreBundle::TRANS_CORE)->getMessage() => self::PDF,
-            t('core.action.render-option.event', [], EMSCoreBundle::TRANS_CORE)->getMessage() => self::EVENT,
+            t('core.action.render-option.embed', [], 'emsco-core')->getMessage() => self::EMBED,
+            t('core.action.render-option.export', [], 'emsco-core')->getMessage() => self::EXPORT,
+            t('core.action.render-option.import', [], 'emsco-core')->getMessage() => self::IMPORT,
+            t('core.action.render-option.external-link', [], 'emsco-core')->getMessage() => self::EXTERNALLINK,
+            t('core.action.render-option.raw-html', [], 'emsco-core')->getMessage() => self::RAW_HTML,
+            t('core.action.render-option.notification', [], 'emsco-core')->getMessage() => self::NOTIFICATION,
+            t('core.action.render-option.job', [], 'emsco-core')->getMessage() => self::JOB,
+            t('core.action.render-option.pdf', [], 'emsco-core')->getMessage() => self::PDF,
+            t('core.action.render-option.event', [], 'emsco-core')->getMessage() => self::EVENT,
         ];
     }
 
@@ -52,7 +51,6 @@ class RenderOptionType extends ChoiceType
             'choices' => $this->choices,
             'multiple' => false,
             'expanded' => false,
-            'choices_as_values' => null, // to be deprecated in 3.1
             'choice_loader' => null,
             'choice_label' => null,
             'choice_name' => null,
@@ -64,11 +62,8 @@ class RenderOptionType extends ChoiceType
             'placeholder' => null,
             'error_bubbling' => false,
             'compound' => false,
-            // The view data is always a string, even if the "data" option
-            // is manually set to an object.
-            // See https://github.com/symfony/symfony/pull/5582
             'data_class' => null,
-            'choice_translation_domain' => EMSCoreBundle::TRANS_CORE,
+            'choice_translation_domain' => 'emsco-core',
         ]);
     }
 }

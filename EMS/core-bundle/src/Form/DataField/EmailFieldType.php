@@ -10,6 +10,9 @@ use EMS\CoreBundle\Form\Field\AnalyzerPickerType;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * Defined a Container content type.
@@ -32,9 +35,15 @@ class EmailFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Email field';
+        return ['type' => 'string', 'format' => 'email'];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.email', [], 'emsco-core');
     }
 
     #[\Override]
@@ -102,10 +111,8 @@ class EmailFieldType extends DataFieldType
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /** @var FieldType $fieldType */
-        $fieldType = $options['metadata'];
         $builder->add('value', TextType::class, [
-            'label' => (null != $options['label'] ? $options['label'] : 'Email field type'),
+            'label' => (null != $options['label'] ? $options['label'] : t('field.email', [], 'emsco-core')),
             'disabled' => $this->isDisabled($options),
             'required' => false,
         ]);
@@ -119,8 +126,13 @@ class EmailFieldType extends DataFieldType
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')
-                ->add('analyzer', AnalyzerPickerType::class)
-                ->add('copy_to', TextType::class, ['required' => false]);
+                ->add('analyzer', AnalyzerPickerType::class, [
+                    'label' => (null != $options['label'] ? $options['label'] : t('field.analyzer', [], 'emsco-core')),
+                ])
+                ->add('copy_to', TextType::class, [
+                    'label' => (null != $options['label'] ? $options['label'] : t('field.copy_to', [], 'emsco-core')),
+                    'required' => false,
+                ]);
         }
     }
 }

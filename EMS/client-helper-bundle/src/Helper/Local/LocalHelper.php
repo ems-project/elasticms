@@ -220,4 +220,11 @@ final class LocalHelper
 
         return $directory;
     }
+
+    public function normalize(Environment $environment): void
+    {
+        $translationKeys = $this->builders->templating()->extractTranslationKeys($environment);
+        $this->builders->translation()->normalize($environment, $translationKeys);
+        $this->builders->routing()->normalize($environment);
+    }
 }

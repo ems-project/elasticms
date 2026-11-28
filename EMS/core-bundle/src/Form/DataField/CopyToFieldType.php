@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\DataField;
 
 use EMS\CoreBundle\Entity\DataField;
+use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Form\Field\AnalyzerPickerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * Defined a Container content type.
@@ -18,9 +22,15 @@ use Symfony\Component\Form\FormBuilderInterface;
 class CopyToFieldType extends DataFieldType
 {
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Elasticsearch copy_to field';
+        return [];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.copy_to', [], 'emsco-core');
     }
 
     #[\Override]
@@ -54,6 +64,7 @@ class CopyToFieldType extends DataFieldType
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')->add('analyzer', AnalyzerPickerType::class);
             $optionsForm->get('mappingOptions')->add('store', CheckboxType::class, [
+                'label' => t('field.store', [], 'emsco-core'),
                 'required' => false,
             ]);
         }

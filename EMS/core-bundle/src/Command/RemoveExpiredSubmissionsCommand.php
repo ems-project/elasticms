@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\Form\Submission\FormSubmissionService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
     aliases: ['ems:submissions:remove-expired'],
     hidden: false
 )]
-class RemoveExpiredSubmissionsCommand extends AbstractCommand
+class RemoveExpiredSubmissionsCommand extends AbstractCoreCommand
 {
     private const string OPTION_METADATA = 'metadata';
     private bool $metadata;
@@ -54,17 +54,17 @@ class RemoveExpiredSubmissionsCommand extends AbstractCommand
     {
         $removedCount = $this->formSubmissionService->removeExpiredSubmissionAttachments();
         $this->logger->notice(\sprintf('%d submission attachments were removed', $removedCount));
-        $output->writeln(\sprintf('%d submission attachments were removed', $removedCount));
+        $this->io->text(\sprintf('%d submission attachments were removed', $removedCount));
 
         $removedCount = $this->formSubmissionService->removeExpiredSubmissions($this->metadata);
         if ($this->metadata) {
             $this->logger->notice(\sprintf('%d submission data were cleaned out', $removedCount));
-            $output->writeln(\sprintf('%d submission data were cleaned out', $removedCount));
+            $this->io->text(\sprintf('%d submission data were cleaned out', $removedCount));
         } else {
             $this->logger->notice(\sprintf('%d submissions were removed', $removedCount));
-            $output->writeln(\sprintf('%d submissions were removed', $removedCount));
+            $this->io->text(\sprintf('%d submissions were removed', $removedCount));
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

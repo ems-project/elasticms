@@ -21,7 +21,7 @@ class Guard
 
     public function checkForm(Request $request): bool
     {
-        $formData = $request->get('form', []);
+        $formData = $request->request->all('form');
         $submittedToken = $formData['_token'] ?? null;
 
         return $this->checkToken($request, $submittedToken);
@@ -33,8 +33,8 @@ class Guard
             $this->validateHashcash($request, $token);
 
             return true;
-        } catch (\Exception $e) {
-            $this->logger->error('guard check valid', [$e]);
+        } catch (\Exception $exception) {
+            $this->logger->error('guard check valid', [$exception]);
 
             return false;
         }

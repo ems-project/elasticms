@@ -25,8 +25,8 @@ final readonly class TestService
             $status = ($json['success']) ? '{"success": true}' : '{"success": false}';
 
             return JsonResponse::fromJsonString($status);
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
 
             return JsonResponse::fromJsonString('{"success": false}');
         }

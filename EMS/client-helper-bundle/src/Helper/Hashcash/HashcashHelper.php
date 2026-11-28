@@ -7,11 +7,11 @@ namespace EMS\ClientHelperBundle\Helper\Hashcash;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Csrf\CsrfToken;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 final readonly class HashcashHelper
 {
-    public function __construct(private CsrfTokenManager $csrfTokenManager)
+    public function __construct(private CsrfTokenManagerInterface $csrfTokenManager)
     {
     }
 

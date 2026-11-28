@@ -18,15 +18,16 @@ use EMS\CoreBundle\Repository\TaskRepository;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class RevisionTasksDataTableType extends AbstractQueryTableType implements DataTableFilterFormInterface
 {
-    public const LOAD_MAX_ROWS = 1000;
+    public const int LOAD_MAX_ROWS = 1000;
 
-    /**
-     * @return array<string, array{'order_field'?: string, 'cellRender'?: bool }>
-     */
-    public const COLUMNS = [
+    /** @var array<string, string> */
+    public const array COLUMNS = [
         'title' => 'task_title',
         'label' => 'revision_label',
         'version_next_tag' => 'revision_version_next_tag',
@@ -112,7 +113,7 @@ class RevisionTasksDataTableType extends AbstractQueryTableType implements DataT
     {
         $taskContentTypes = $this->taskRepository->findTaskContentTypes();
         $countVersionTags = $taskContentTypes
-            ->filter(fn (ContentType $c) => \count($c->getVersioning()->getTags()) > 0)
+            ->filter(fn (ContentType $c) => [] !== $c->getVersioning()->getTags())
             ->count();
 
         return new TasksDataTableContext(
@@ -138,7 +139,7 @@ class RevisionTasksDataTableType extends AbstractQueryTableType implements DataT
         $table->setExportFileName('tasks');
 
         foreach ($this->getColumns($context) as [$name, $field, $label]) {
-            if (\in_array($name, ['deadline', 'modified'])) {
+            if (\in_array($name, ['deadline', 'modified'], true)) {
                 $table->addColumnDefinition(new DateTableColumn($label, $field));
             } else {
                 $table->addColumn($label, $field);
@@ -148,22 +149,22 @@ class RevisionTasksDataTableType extends AbstractQueryTableType implements DataT
 
     private function buildTable(QueryTable $table, TasksDataTableContext $context): void
     {
-        $columnTemplate = "@$table->templateNamespace/revision/task/columns.twig";
+        $columnTemplate = \sprintf('@%s/revision/task/columns.twig', $table->templateNamespace);
 
         foreach ($this->getColumns($context) as [$name, $field, $label]) {
             $def = new TemplateBlockTableColumn(
                 label: $label,
                 blockName: $name,
                 template: $columnTemplate,
-                orderField: !\in_array($name, ['label', 'actions']) ? $field : null
+                orderField: \in_array($name, ['label', 'actions'], true) ? null : $field
             );
-            $def->setCellRender(!\in_array($name, ['deadline', 'modified']));
+            $def->setCellRender(!\in_array($name, ['deadline', 'modified'], true));
             $table->addColumnDefinition($def)->setCellClass('col-'.$name);
         }
     }
 
     /**
-     * @return \Generator<string[]>
+     * @return \Generator<int, array{string, string, TranslatableMessage}>
      */
     private function getColumns(TasksDataTableContext $context): \Generator
     {
@@ -183,7 +184,23 @@ class RevisionTasksDataTableType extends AbstractQueryTableType implements DataT
         }
 
         foreach ($columns as $name => $field) {
-            yield [$name, $field, \sprintf('task.dashboard.column.%s', $name)];
+            yield [$name, $field, $this->getColumnLabel($name)];
         }
+    }
+
+    private function getColumnLabel(string $column): TranslatableMessage
+    {
+        return match ($column) {
+            'title' => t('field.title', [], 'emsco-core'),
+            'label' => t('key.document', [], 'emsco-core'),
+            'version_next_tag' => t('field.new_version', [], 'emsco-core'),
+            'requester' => t('field.requester', [], 'emsco-core'),
+            'assignee' => t('field.assignee', [], 'emsco-core'),
+            'status' => t('field.status', [], 'emsco-core'),
+            'deadline' => t('field.deadline', [], 'emsco-core'),
+            'modified' => t('field.last_modification', [], 'emsco-core'),
+            'actions' => t('key.actions', [], 'emsco-core'),
+            default => throw new \RuntimeException('invalid column')
+        };
     }
 }

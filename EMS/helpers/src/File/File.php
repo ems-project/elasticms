@@ -8,6 +8,7 @@ use EMS\Helpers\Html\MimeTypes as MimeTypeHeader;
 use EMS\Helpers\Standard\Type;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Mime\MimeTypes;
 
 class File
@@ -43,6 +44,42 @@ class File
         }
     }
 
+    public static function saveStreamedResponse(StreamedResponse $response, string $filename, int $chunkSize = self::DEFAULT_CHUNK_SIZE): void
+    {
+        $file = \fopen($filename, 'wb');
+
+        if (false === $file) {
+            throw new \RuntimeException('Unable to open the output file.');
+        }
+
+        \ob_start(static function (string $chunk) use ($file): string {
+            $length = \strlen($chunk);
+            $offset = 0;
+
+            while ($offset < $length) {
+                $written = \fwrite($file, \substr($chunk, $offset));
+
+                if (false === $written || 0 === $written) {
+                    throw new \RuntimeException('Unable to write to the output file.');
+                }
+
+                $offset += $written;
+            }
+
+            return '';
+        }, $chunkSize);
+
+        try {
+            $response->sendContent();
+        } finally {
+            try {
+                \ob_end_flush();
+            } finally {
+                \fclose($file);
+            }
+        }
+    }
+
     public function getContents(): string
     {
         if (false === $contents = \file_get_contents($this->file->getRealPath())) {
@@ -59,10 +96,8 @@ class File
     {
         $handle = $this->getHandler();
 
-        if ($fromByte > 0) {
-            if (0 !== \fseek($handle, $fromByte)) {
-                throw new \RuntimeException(\sprintf('Unexpected error while seeking the file pointer at position %s', $fromByte));
-            }
+        if ($fromByte > 0 && 0 !== \fseek($handle, $fromByte)) {
+            throw new \RuntimeException(\sprintf('Unexpected error while seeking the file pointer at position %s', $fromByte));
         }
         if ($chunkSize < 1) {
             throw new \RuntimeException(\sprintf('Unexpected chunk size %d', $chunkSize));

@@ -8,6 +8,8 @@ use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Form\Field\AnalyzerPickerType;
+use EMS\CoreBundle\Form\Field\GroupPickerType;
+use EMS\CoreBundle\Form\Field\RolePickerType;
 use EMS\CoreBundle\Form\Field\SelectUserPropertyType;
 use EMS\CoreBundle\Service\ElasticsearchService;
 use EMS\CoreBundle\Service\UserService;
@@ -17,7 +19,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class SelectUserPropertyFieldType extends DataFieldType
 {
@@ -26,14 +32,28 @@ class SelectUserPropertyFieldType extends DataFieldType
         AuthorizationCheckerInterface $authorizationChecker,
         FormRegistryInterface $formRegistry,
         ElasticsearchService $elasticsearchService,
+        TokenStorageInterface $tokenStorage,
     ) {
-        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
+        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService, $tokenStorage);
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Select User property field';
+        if ((bool) $fieldType->getDisplayOption('multiple', false)) {
+            return [
+                'type' => 'array',
+                'items' => ['type' => 'string'],
+            ];
+        }
+
+        return ['type' => 'string'];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.sect_user_property', [], 'emsco-core');
     }
 
     #[\Override]
@@ -69,6 +89,7 @@ class SelectUserPropertyFieldType extends DataFieldType
             'allow_add' => $options['allow_add'],
             'user_property' => $options['user_property'],
             'user_roles' => $options['user_roles'],
+            'user_groups' => $options['user_groups'],
             'event_dispatcher' => $builder->getEventDispatcher(),
             'required' => false,
             'empty_data' => $options['multiple'] ? [] : null,
@@ -85,6 +106,7 @@ class SelectUserPropertyFieldType extends DataFieldType
                 'allow_add' => true,
                 'multiple' => false,
                 'user_roles' => [],
+                'user_groups' => [],
             ])
         ;
     }
@@ -96,23 +118,30 @@ class SelectUserPropertyFieldType extends DataFieldType
         $optionsForm = $builder->get('options');
 
         $optionsForm->get('displayOptions')
-            ->add('multiple', CheckboxType::class, ['required' => false])
+            ->add('multiple', CheckboxType::class, [
+                'label' => t('option.multiple', [], 'emsco-core'),
+                'required' => false,
+            ])
             ->add('allow_add', CheckboxType::class, [
-                'label' => 'Allow add',
+                'label' => t('option.allow_add', [], 'emsco-core'),
                 'required' => false,
             ])
             ->add('user_property', ChoiceType::class, [
                 'required' => true,
-                'label' => 'User property',
+                'label' => t('field.user_property', [], 'emsco-core'),
                 'choices' => $this->userService->listUserDisplayProperties(),
             ])
-            ->add('user_roles', ChoiceType::class, [
+            ->add('user_roles', RolePickerType::class, [
+                'label' => t('field.user_roles', [], 'emsco-core'),
+                'include_not_defined' => false,
                 'required' => false,
-                'label' => 'User roles',
                 'multiple' => true,
-                'choices' => $this->userService->listUserRoles(),
             ])
-        ;
+            ->add('user_groups', GroupPickerType::class, [
+                'required' => false,
+                'label' => t('field.user_groups', [], 'emsco-core'),
+                'multiple' => true,
+            ]);
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')

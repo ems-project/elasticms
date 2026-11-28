@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Service\Form\Submission;
 
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Repository\FormSubmissionFileRepository;
@@ -13,14 +14,13 @@ use EMS\Helpers\Standard\Json;
 use EMS\SubmissionBundle\Entity\FormSubmission;
 use EMS\SubmissionBundle\Entity\FormSubmissionFile;
 use EMS\SubmissionBundle\Request\DatabaseRequest;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use ZipStream\ZipStream;
+
+use function Symfony\Component\Translation\t;
 
 final readonly class FormSubmissionService implements EntityServiceInterface
 {
@@ -28,8 +28,7 @@ final readonly class FormSubmissionService implements EntityServiceInterface
         private FormSubmissionRepository $formSubmissionRepository,
         private FormSubmissionFileRepository $formSubmissionFileRepository,
         private Environment $twig,
-        private RequestStack $requestStack,
-        private TranslatorInterface $translator,
+        private LocalizedLoggerInterface $logger,
         private string $templateNamespace,
     ) {
     }
@@ -40,7 +39,11 @@ final readonly class FormSubmissionService implements EntityServiceInterface
     #[\Override]
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
-        return $this->formSubmissionRepository->get($from, $size, $orderField, $orderDirection, $searchValue);
+        if (null !== $context && !$context instanceof FormSubmissionContext) {
+            throw new \InvalidArgumentException('Context must be an instance of FormSubmissionContext');
+        }
+
+        return $this->formSubmissionRepository->get($from, $size, $orderField, $orderDirection, $searchValue, $context);
     }
 
     public function findById(string $id): ?FormSubmission
@@ -187,14 +190,10 @@ final readonly class FormSubmissionService implements EntityServiceInterface
         }
 
         $formSubmission = $this->getById($id);
-        $session = $this->requestStack->getSession();
-        if (!$session instanceof FlashBagAwareSessionInterface) {
-            throw new \RuntimeException('Unexpected non FlashBag aware session');
-        }
-        $session->getFlashBag()->add('notice', $this->translator->trans('form_submissions.process.success', ['%id%' => $formSubmission->getId()], 'EMSCoreBundle'));
-
         $formSubmission->process($user->getUsername());
         $this->formSubmissionRepository->save($formSubmission);
+
+        $this->logger->messageNotice(t('message.form_submission_deleted', ['id' => $formSubmission->getId()], 'emsco-core'));
     }
 
     /**
@@ -212,11 +211,7 @@ final readonly class FormSubmissionService implements EntityServiceInterface
             $formSubmission = $this->getById($id);
             $formSubmission->process($user->getUsername());
             $this->formSubmissionRepository->persist($formSubmission);
-            $session = $this->requestStack->getSession();
-            if (!$session instanceof FlashBagAwareSessionInterface) {
-                throw new \RuntimeException('Unexpected non FlashBag aware session');
-            }
-            $session->getFlashBag()->add('notice', $this->translator->trans('form_submissions.process.success', ['%id%' => $id], 'EMSCoreBundle'));
+            $this->logger->messageNotice(t('message.form_submission_deleted', ['id' => $formSubmission->getId()], 'emsco-core'));
         }
 
         $this->formSubmissionRepository->flush();
@@ -255,9 +250,9 @@ final readonly class FormSubmissionService implements EntityServiceInterface
                 return $this->twig->createTemplate('There are no submissions for this form')->render();
             }
 
-            return $this->twig->render("@$this->templateNamespace/email/submissions.email.twig", ['submissions' => $submissions]);
-        } catch (\Exception $e) {
-            return $this->twig->createTemplate('Error in body template: '.$e->getMessage())->render();
+            return $this->twig->render(\sprintf('@%s/email/submissions.email.twig', $this->templateNamespace), ['submissions' => $submissions]);
+        } catch (\Exception $exception) {
+            return $this->twig->createTemplate('Error in body template: '.$exception->getMessage())->render();
         }
     }
 
@@ -285,7 +280,11 @@ final readonly class FormSubmissionService implements EntityServiceInterface
     #[\Override]
     public function count(string $searchValue = '', mixed $context = null): int
     {
-        return $this->formSubmissionRepository->countAllUnprocessed($searchValue);
+        if (null !== $context && !$context instanceof FormSubmissionContext) {
+            throw new \InvalidArgumentException('Context must be an instance of FormSubmissionContext');
+        }
+
+        return $this->formSubmissionRepository->countAllUnprocessed($searchValue, $context);
     }
 
     #[\Override]
@@ -322,7 +321,8 @@ final readonly class FormSubmissionService implements EntityServiceInterface
             return $rows;
         }
         $titles = $rows[0];
-        for ($i = 1; $i < \count($rows); ++$i) {
+        $counter = \count($rows);
+        for ($i = 1; $i < $counter; ++$i) {
             $rows[$i] = \array_map(fn (string $key) => $rows[$i][$key] ?? null, $titles);
         }
 

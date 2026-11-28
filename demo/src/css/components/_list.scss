@@ -1,7 +1,15 @@
-main {
+main, .wysiwyg-content {
   ul:not(.list-unstyled) {
     padding-left: 1.5rem;
     list-style-type: none;
+
+    li p {
+      margin: 0;
+    }
+
+    li p + p {
+      margin-top: 0.5em;
+    }
 
     li {
       position: relative;

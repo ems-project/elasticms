@@ -6,6 +6,7 @@ namespace EMS\Tests\CommonBundle\Unit\Controller;
 
 use EMS\CommonBundle\Common\Metric\MetricCollector;
 use EMS\CommonBundle\Controller\MetricController;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Prometheus\RenderTextFormat;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +27,7 @@ final class MetricControllerAiTest extends TestCase
         $this->controller = new MetricController($this->metricCollector, $this->metricPort);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testMetricsWithMismatchedPort(): void
     {
         $request = new Request();

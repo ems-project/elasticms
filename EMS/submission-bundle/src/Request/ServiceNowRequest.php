@@ -35,7 +35,7 @@ final class ServiceNowRequest
 
         if (!empty($message['body'])) {
             $body = Json::encode($message['body']);
-            $this->body = (!empty($body)) ? $body : '';
+            $this->body = (empty($body)) ? '' : $body;
         }
 
         if (!empty($message['attachments'])) {

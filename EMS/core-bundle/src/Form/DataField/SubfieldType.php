@@ -9,14 +9,23 @@ use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Form\Field\AnalyzerPickerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 // TODO:Refact Class name "SubfieldType" to "SubfieldFieldType"
 class SubfieldType extends DataFieldType
 {
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Virtual subfield (used to define alternatives analyzers)';
+        return [];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.subfield', [], 'emsco-core');
     }
 
     #[\Override]
@@ -37,11 +46,15 @@ class SubfieldType extends DataFieldType
         parent::buildOptionsForm($builder, $options);
         $optionsForm = $builder->get('options');
         $optionsForm->remove('displayOptions')->remove('migrationOptions')->remove('restrictionOptions');
+        $optionsForm->get('extraOptions')->remove('description');
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')
-                ->add('analyzer', AnalyzerPickerType::class)
-                ->add('fielddata', CheckboxType::class, ['required' => false]);
+                ->add('analyzer', AnalyzerPickerType::class, [
+                    'label' => t('field.analyzer', [], 'emsco-core'),
+                ])
+                ->add('fielddata', CheckboxType::class, [
+                    'label' => t('field.fielddata', [], 'emsco-core'), 'required' => false]);
         }
     }
 

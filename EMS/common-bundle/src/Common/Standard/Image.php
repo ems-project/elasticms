@@ -66,7 +66,7 @@ final class Image
             default:
                 $contents = \file_get_contents($filename);
                 if (false === $contents) {
-                    throw new \RuntimeException('Unexpected missing asset\'s temporary file');
+                    throw new \RuntimeException("Unexpected missing asset's temporary file");
                 }
                 $image = \imagecreatefromstring($contents);
         }

@@ -5,6 +5,7 @@ ems_submission:
         - { connection: "http-conn", user: "userTest", password: "testPass" }
 
 framework:
+    test: true
     http_method_override: false
     handle_all_throwables: true
     secret: 1621180219f163d89dc399e88cfc1807ab6448cf
@@ -19,17 +20,18 @@ framework:
         resource: 'routes.yml'
         utf8: true
         strict_requirements: ~
-    profiler:
-        enabled: true
     php_errors:
         log: true
     validation:
         email_validation_mode: html5
+    property_info:
+        with_constructor_extractor: true
+    profiler:
+        collect_serializer_data: true
 
 twig:
     debug: true
     strict_variables: true
-    exception_controller: null
 
 services:
     _defaults:

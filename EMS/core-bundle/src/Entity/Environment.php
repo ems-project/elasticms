@@ -11,14 +11,26 @@ use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Core\Environment\Index;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
+use EMS\Helpers\Translations\Translation;
+use EMS\Helpers\Translations\Translations;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
+#[UniqueEntity(fields: ['name'], message: 'form.name.already_used')]
 class Environment extends JsonDeserializer implements \JsonSerializable, EntityInterface, \Stringable
 {
     use CreatedModifiedTrait;
     use IdentifierIntegerTrait;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 100)]
+    #[Assert\Regex(pattern: '/^[a-z][a-z0-9\-_]*$/', message: 'environment.name_invalid')]
     protected string $name = '';
     protected ?string $label = null;
+    /** @var array<string, array<string,string>>|null */
+    protected ?array $labelTranslations;
+    protected ?string $description = null;
     protected string $alias = '';
     /** @var array<string, Index> */
     protected array $indexes = [];
@@ -32,7 +44,7 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
     /** @var string */
     protected $baseUrl;
     /** @var bool */
-    protected $managed;
+    protected $managed = true;
     /** @var bool */
     protected $snapshot = false;
     /** @var Collection<int, EnvironmentRevision> */
@@ -423,23 +435,42 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
         return $json;
     }
 
-    public function getLabel(): string
+    public function getLabel(?UserInterface $user = null): string
     {
-        if (null === $this->label) {
+        return $this->getLabelTranslation($user)->getLabel();
+    }
+
+    public function getLabelTranslation(?UserInterface $user = null): Translation
+    {
+        $label = $this->label;
+        if (null === $label) {
             $replaced = \preg_replace(['/([A-Z])/', '/[_\s]+/'], ['_$1', ' '], $this->name);
             if (!\is_string($replaced)) {
                 $replaced = $this->name;
             }
 
-            return \ucfirst(\strtolower(\trim($replaced)));
+            $label = \ucfirst(\strtolower(\trim($replaced)));
+        }
+        if (!$user instanceof User) {
+            return new Translation($label);
         }
 
-        return $this->label;
+        return Translations::fromArray($this->getLabelTranslations())->getTranslation($user->getLocales(), $label);
     }
 
     public function setLabel(?string $label): void
     {
         $this->label = $label;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
     }
 
     public function getTemplatePublication(): ?string
@@ -460,5 +491,21 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
     public function setRolePublish(?string $rolePublish): void
     {
         $this->rolePublish = $rolePublish;
+    }
+
+    /**
+     * @return mixed[][]
+     */
+    public function getLabelTranslations(): array
+    {
+        return $this->labelTranslations ?? [];
+    }
+
+    /**
+     * @param mixed[][]|null $labelTranslations
+     */
+    public function setLabelTranslations(?array $labelTranslations): void
+    {
+        $this->labelTranslations = $labelTranslations ?? [];
     }
 }

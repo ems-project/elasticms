@@ -1,4 +1,4 @@
-{%- trans_default_domain 'emsco-component' -%}
+{%- trans_default_domain 'emsco-core' -%}
 {# @var template \EMS\CoreBundle\Core\Component\MediaLibrary\Template\MediaLibraryTemplate #}
 {# @var config \EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig #}
 {# @var mediaFile \EMS\CoreBundle\Core\Component\MediaLibrary\File\MediaLibraryFile #}
@@ -6,19 +6,30 @@
 
 {%- block media_lib_header -%}
     <div class="media-lib-container">
-        {{- template.block('media_lib_button_folder_add', _context)|raw -}}
-        {{- template.block('media_lib_button_upload', _context)|raw -}}
+        <div class="ems-btn-group">
+            {{- template.block('media_lib_button_home', _context)|raw -}}
+            {{- template.block('media_lib_button_folder_add', _context)|raw -}}
+            {{- template.block('media_lib_button_upload', _context)|raw -}}
+        </div>
         {%- if mediaFile is defined -%}
-            {{- template.block('media_lib_button_file_view', _context)|raw -}}
-            {{- template.block('media_lib_button_file_rename', _context)|raw -}}
-            {{- template.block('media_lib_button_files_move', _context)|raw -}}
-            {{- template.block('media_lib_button_file_delete', _context)|raw -}}
+            <div class="ems-btn-group">
+                {{- template.block('media_lib_button_file_view', _context)|raw -}}
+                {{- template.block('media_lib_button_file_revision', _context)|raw -}}
+                {{- template.block('media_lib_button_file_rename', _context)|raw -}}
+                {{- template.block('media_lib_button_files_move', _context)|raw -}}
+                {{- template.block('media_lib_button_file_delete', _context)|raw -}}
+            </div>
         {%- elseif selectionFiles > 0 -%}
-            {{- template.block('media_lib_button_files_move', _context)|raw -}}
-            {{- template.block('media_lib_button_files_delete', _context)|raw -}}
+            <div class="ems-btn-group">
+                {{- template.block('media_lib_button_files_move', _context)|raw -}}
+                {{- template.block('media_lib_button_files_delete', _context)|raw -}}
+            </div>
         {%- elseif mediaFolder is defined -%}
-            {{- template.block('media_lib_button_folder_delete', _context)|raw -}}
-            {{- template.block('media_lib_button_folder_rename', _context)|raw -}}
+            <div class="ems-btn-group">
+                {{- template.block('media_lib_button_folder_delete', _context)|raw -}}
+                {{- template.block('media_lib_button_folder_move', _context)|raw -}}
+                {{- template.block('media_lib_button_folder_rename', _context)|raw -}}
+            </div>
         {%- endif -%}
     </div>
     <div class="media-lib-container">
@@ -51,7 +62,7 @@
 {%- block media_lib_file_row -%}
     <li>
         <div class="media-lib-container">
-            <div class="media-lib-file" data-id="{{- mediaFile.id -}}" data-testid="media-lib-file-item">
+            <div class="media-lib-file" data-id="{{- mediaFile.id -}}" data-ems-id="{{- mediaFile.emsId -}}" data-json="{{ mediaFile.getDataJson()|e('html_attr') }}" data-testid="media-lib-file-item">
                 {{- template.block('media_lib_file', _context)|raw -}}
             </div>
         </div>
@@ -59,8 +70,12 @@
 {%- endblock media_lib_file_row -%}
 
 {% block media_lib_file %}
-    <div><a href="{{- mediaFile.urlView -}}" download="{{- mediaFile.name -}}" data-ems-id="{{- mediaFile.emsId -}}" data-json="{{ mediaFile.getDataJson()|e('html_attr') }}">{{- mediaFile.name -}}</a></div>
-    <div>{{- mediaFile.file.mimetype|trans({}, 'emsco-mimetypes') -}}</div>
+    <div>
+        <a class="btn-file-view" href="{{- mediaFile.urlView -}}" data-id="{{- mediaFile.id -}}">
+            {{- mediaFile.name -}}
+        </a>
+    </div>
+    <div>{{- mediaFile.file.mimetype|trans({}, 'ems-mimetypes') -}}</div>
     <div class="text-right">{{- mediaFile.file.filesize|ems_format_bytes -}}</div>
 {% endblock media_lib_file %}
 
@@ -110,83 +125,83 @@
 {%- endblock media_lib_footer -%}
 
 {%- block media_lib_button_home -%}
-    <button class="btn btn-sm btn-default btn-home" data-testid="media-lib-button-home">
-        <i class="fa fa-home" aria-hidden="true"></i> {{- buttonLabel|default('media_library.home'|trans) -}}
+    <button class="ems-btn btn-home" data-ems-icon="home" data-testid="media-lib-button-home">
+        {{- buttonLabel|default('key.home'|trans) -}}
     </button>
 {%- endblock media_lib_button_home -%}
 
 {%- block media_lib_button_folder_add -%}
-    <button class="btn btn-sm btn-default btn-folder-add" data-testid="media-lib-button-folder-add">
-        <i class="fa fa-folder" aria-hidden="true"></i> {{- buttonLabel|default('media_library.folder.add.title'|trans) -}}
+    <button class="ems-btn btn-folder-add" data-ems-icon="folder" data-testid="media-lib-button-folder-add">
+        {{- buttonLabel|default('title.add_folder'|trans) -}}
     </button>
 {%- endblock media_lib_button_folder_add -%}
 
 {%- block media_lib_button_folder_delete -%}
-    <button class="btn btn-sm btn-default btn-folder-delete" data-id="{{- mediaFolder.id -}}" data-modal-size="md" data-testid="media-lib-button-folder-delete">
-        <i class="fa fa-remove" aria-hidden="true"></i> {{- buttonLabel|default('media_library.folder.delete.title'|trans) -}}
+    <button class="ems-btn btn-folder-delete" data-ems-icon="folder-delete" data-id="{{- mediaFolder.id -}}" data-modal-size="md" data-testid="media-lib-button-folder-delete">
+        {{- buttonLabel|default('title.delete_folder'|trans) -}}
     </button>
 {%- endblock media_lib_button_folder_delete -%}
 
 {%- block media_lib_button_folder_rename -%}
-    <button class="btn btn-sm btn-default btn-folder-rename" data-id="{{- mediaFolder.id -}}" data-testid="media-lib-button-folder-rename">
-        <i class="fa fa-pencil" aria-hidden="true"></i> {{- buttonLabel|default('media_library.folder.rename.title'|trans) -}}
+    <button class="ems-btn btn-folder-rename" data-ems-icon="folder-rename" data-id="{{- mediaFolder.id -}}" data-testid="media-lib-button-folder-rename">
+        {{- buttonLabel|default('title.rename_folder'|trans) -}}
     </button>
 {%- endblock media_lib_button_folder_rename -%}
 
 {%- block media_lib_button_folder_move -%}
-    <button class="btn btn-sm btn-default btn-folder-move" data-id="{{- mediaFolder.id -}}" data-modal-size="md" data-testid="media-lib-button-folder-move">
-        <i class="fa fa-location-arrow" aria-hidden="true"></i> {{- buttonLabel|default('media_library.folder.move.title'|trans) -}}
+    <button class="ems-btn btn-folder-move" data-ems-icon="folder-move" data-id="{{- mediaFolder.id -}}" data-modal-size="md" data-testid="media-lib-button-folder-move">
+        {{- buttonLabel|default('title.move_folder'|trans) -}}
     </button>
 {%- endblock media_lib_button_folder_move -%}
 
 {%- block media_lib_button_file_rename -%}
-    <button class="btn btn-sm btn-default btn-file-rename" data-id="{{- mediaFile.id -}}" data-testid="media-lib-button-file-rename">
-        <i class="fa fa-pencil" aria-hidden="true"></i> {{- buttonLabel|default('media_library.file.rename.title'|trans) -}}
+    <button class="ems-btn btn-file-rename" data-ems-icon="file-rename" data-id="{{- mediaFile.id -}}" data-testid="media-lib-button-file-rename">
+        {{- buttonLabel|default('title.rename_file'|trans) -}}
     </button>
 {%- endblock media_lib_button_file_rename -%}
 
 {%- block media_lib_button_file_delete -%}
-    <button class="btn btn-sm btn-default btn-file-delete" data-id="{{- mediaFile.id -}}" data-testid="media-lib-button-file-delete">
-        <i class="fa fa-remove" aria-hidden="true"></i> {{- buttonLabel|default('media_library.file.delete.title'|trans) -}}
+    <button class="ems-btn btn-file-delete" data-ems-icon="file-delete" data-id="{{- mediaFile.id -}}" data-testid="media-lib-button-file-delete">
+        {{- buttonLabel|default('title.delete_file'|trans) -}}
     </button>
 {%- endblock media_lib_button_file_delete -%}
 
 {%- block media_lib_button_file_view -%}
-    <button class="btn btn-sm btn-default btn-file-view" data-id="{{- mediaFile.id -}}" data-testid="media-lib-button-file-view">
-        <i class="fa fa-eye" aria-hidden="true"></i> {{- buttonLabel|default('media_library.file.view.title'|trans) -}}
+    <button class="ems-btn btn-file-view" data-ems-icon="file-view" data-id="{{- mediaFile.id -}}" data-testid="media-lib-button-file-view">
+        {{- buttonLabel|default('title.view_file'|trans) -}}
     </button>
 {%- endblock media_lib_button_file_view -%}
 
 {%- block media_lib_button_file_revision -%}
-    <a class="btn btn-sm btn-default" href="{{ path('emsco_view_revisions', { 'type': mediaFile.document.contentType, 'ouuid': mediaFile.id  }) }}" data-testid="media-lib-button-file-revision">
-        <i class="fa fa-archive" aria-hidden="true"></i> {{- buttonLabel|default('media_library.file.revision.title'|trans) -}}
+    <a class="ems-btn" href="{{ path('emsco_view_revisions', { 'type': mediaFile.document.contentType, 'ouuid': mediaFile.id  }) }}" data-ems-icon="revision" data-testid="media-lib-button-file-revision">
+        {{- buttonLabel|default('field.revision'|trans) -}}
     </a>
 {%- endblock media_lib_button_file_revision -%}
 
 {%- block media_lib_button_files_delete -%}
-    <button class="btn btn-sm btn-default btn-files-delete" data-modal-size="md" data-testid="media-lib-button-files-delete">
-        <i class="fa fa-remove" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.delete.title'|trans({ '%count%': selectionFiles })) -}}
+    <button class="ems-btn btn-files-delete" data-ems-icon="file-delete" data-modal-size="md" data-testid="media-lib-button-files-delete">
+        {{- buttonLabel|default('title.delete_files_count'|trans({ count: selectionFiles })) -}}
     </button>
 {%- endblock media_lib_button_files_delete -%}
 
 {%- block media_lib_button_files_move -%}
-    <button class="btn btn-sm btn-default btn-files-move" data-modal-size="md" data-testid="media-lib-button-files-move">
-        <i class="fa fa-location-arrow" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.move.title'|trans({ '%count%': selectionFiles })) -}}
+    <button class="ems-btn btn-files-move" data-ems-icon="file-move" data-modal-size="md" data-testid="media-lib-button-files-move">
+        {{- buttonLabel|default('title.move_files'|trans({ count: selectionFiles })) -}}
     </button>
 {%- endblock media_lib_button_files_move -%}
 
 {%- block media_lib_button_upload -%}
-    <label class="btn btn-sm btn-default btn-file-upload" for="media-lib-upload-{{- id -}}">
-        <i class="fa fa-upload"></i> {{- buttonLabel|default('media_library.file.add.title'|trans) -}}
+    <label class="ems-btn btn-file-upload" data-ems-icon="upload" for="media-lib-upload-{{- id -}}">
+        {{- buttonLabel|default('action.upload'|trans) -}}
     </label>
 {%- endblock media_lib_button_upload -%}
 
 {%- block media_lib_breadcrumb -%}
     <ul class="media-lib-list-breadcrumb" data-testid="media-lib-breadcrumb">
-        <li><button class="breadcrumb-item"><i class="fa fa-home"></i> Home</button></li>
+        <li><button class="media-lib-breadcrumb-item" data-ems-icon="home">Home</button></li>
         {%- if mediaFolder is defined -%}
             {%- for parent in mediaFolder.parents -%}
-                <li><button class="breadcrumb-item" data-id="{{- parent.id -}}">{{- parent.name -}}</button></li>
+                <li><button class="media-lib-breadcrumb-item" data-id="{{- parent.id -}}">{{- parent.name -}}</button></li>
             {%- endfor -%}
             {%- if mediaFile is defined -%}
                 <li><button>{{- mediaFile.file.filename -}}</button></li>
@@ -198,7 +213,7 @@
 {% block media_lib_search_box %}
     <label for="media-lib-search-{{- id -}}" class="sr-only">Media library search</label>
     <input id="media-lib-search-{{- id -}}"
-           class="{{ html_classes('media-lib-search form-control form-control-sm', {
+           class="{{ html_classes('media-lib-search', {
                'active': searchValue|default('')|length > 0
            }) }}"
            type="text"
@@ -224,15 +239,40 @@
 {%- endblock media_lib_modal_body -%}
 
 {%- block media_lib_modal_footer -%}
-    <div class="pull-right">
+    {%- set type = type|default(false) -%}
+    {%- if type == 'delete_files' -%}
+        <button id="ajax-modal-submit" class="ems-btn" data-ems-icon="delete" data-variant="danger" data-testid="media-lib-modal-submit">
+            {{- 'action.confirm'|trans -}}
+        </button>
+    {%- elseif type == 'delete_folder' -%}
+        <button id="ajax-modal-submit" class="ems-btn" data-ems-icon="delete" data-variant="danger" data-testid="media-lib-modal-submit">
+            {{- 'action.confirm'|trans -}}
+        </button>
+    {%- elseif type == 'move_files' -%}
+        <button id="ajax-modal-submit" class="ems-btn" data-ems-icon="file-move" data-variant="primary" data-testid="media-lib-modal-submit">
+            {{- 'action.move'|trans -}}
+        </button>
+    {%- elseif type == 'move_folder' -%}
+        <button id="ajax-modal-submit" class="ems-btn" data-ems-icon="folder-move" data-variant="primary" data-testid="media-lib-modal-submit">
+            {{- 'action.move'|trans -}}
+        </button>
+    {%- elseif type == 'rename_file' -%}
+        <button id="ajax-modal-submit" class="ems-btn" data-ems-icon="file-rename" data-variant="primary" data-testid="media-lib-modal-submit">
+            {{- 'action.rename'|trans -}}
+        </button>
+    {%- elseif type == 'rename_folder' -%}
+        <button id="ajax-modal-submit" class="ems-btn" data-ems-icon="folder-rename" data-variant="primary" data-testid="media-lib-modal-submit">
+            {{- 'action.rename'|trans -}}
+        </button>
+    {%- else -%}
         {% if form is defined %}
-            <button id="ajax-modal-submit" class="{{ html_classes('btn btn-sm', submitClass|default('btn-primary')) }}" data-testid="media-lib-modal-submit">
+            <button id="ajax-modal-submit" class="ems-btn" data-variant="primary" data-testid="media-lib-modal-submit">
                 <i class="{{ html_classes('fa', submitIcon|default('fa-save')) }}"></i>
-                {{ submitLabel|default('media_library.submit'|trans) }}
+                {{ submitLabel|default('action.save'|trans) }}
             </button>
         {% endif %}
-        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" data-testid="media-lib-modal-cancel">{{ 'media_library.close'|trans }}</button>
-    </div>
+    {%- endif -%}
+    <button type="button" class="ems-btn" data-dismiss="modal" data-testid="media-lib-modal-cancel">{{ 'action.close'|trans }}</button>
 {%- endblock media_lib_modal_footer -%}
 
 {% block media_lib_modal_preview %}
@@ -246,8 +286,8 @@
             {% else %}
                 <object data="{{ url }}" type="{{ mediaFile.fileMimetype }}">
                     <div class="alert alert-info" role="alert">
-                        {{ fallback|default('media_library.file.view.fallback'|trans) }}
-                        <a href="{{ url }}">{{ fallback|default('media_library.file.view.download'|trans) }}</a>
+                        {{ fallback|default('message.file_preview_fallback'|trans) }}
+                        <a href="{{ url }}">{{ fallback|default('message.download_file'|trans) }}</a>
                     </div>
                 </object>
             {% endif %}
@@ -259,21 +299,17 @@
 {% endblock media_lib_modal_preview %}
 
 {% block media_lib_modal_preview_info %}
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">Size: {{ mediaFile.filesize|ems_format_bytes }}</li>
-        <li class="list-group-item">Type: {{ mediaFile.fileMimetype|trans({}, 'emsco-mimetypes') }}</li>
+    <ul>
+        <li>Size: {{ mediaFile.filesize|ems_format_bytes }}</li>
+        <li>Type: {{ mediaFile.fileMimetype|trans({}, 'ems-mimetypes') }}</li>
     </ul>
 {% endblock media_lib_modal_preview_info %}
 
 {% block media_lib_modal_preview_footer %}
-    <div class="text-center">
-        <button class="btn btn-sm btn-default btn-preview-prev" style="display: none;">
-            <i class="fa fa-angle-double-left"></i>
-            {{ 'media_library.file.view.previous'|trans }}
-        </button>
-        <button class="btn btn-sm btn-default btn-preview-next" style="display: none;">
-            {{ 'media_library.file.view.next'|trans }}
-            <i class="fa fa-angle-double-right"></i>
-        </button>
-    </div>
+    <button class="ems-btn btn-preview-prev" data-ems-icon="chevrons-left" style="display: none;">
+        {{ 'action.previous'|trans }}
+    </button>
+    <button class="ems-btn btn-preview-next" data-ems-icon="chevrons-right" data-ems-icon-position="end" style="display: none;">
+        {{ 'action.next'|trans }}
+    </button>
 {% endblock media_lib_modal_preview_footer %}

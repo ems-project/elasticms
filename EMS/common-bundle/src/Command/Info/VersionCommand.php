@@ -22,7 +22,7 @@ class VersionCommand extends AbstractCommand
     }
 
     #[\Override]
-    public function initialize(InputInterface $input, OutputInterface $output): void
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
         $this->shortName = $this->getArgumentString(self::SHORT_NAME);
@@ -32,7 +32,7 @@ class VersionCommand extends AbstractCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addArgument(self::SHORT_NAME, InputArgument::OPTIONAL, \sprintf('Package composer short name'), self::DEFAULT_SHORT_NAME);
+        $this->addArgument(self::SHORT_NAME, InputArgument::OPTIONAL, 'Package composer short name', self::DEFAULT_SHORT_NAME);
     }
 
     #[\Override]

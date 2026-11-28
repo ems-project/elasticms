@@ -94,7 +94,7 @@ final class ServiceNowHandlerTest extends AbstractHandlerTestCase
                     $this->assertEquals('Text example attachment', $options['body']);
                 }
 
-                if (\in_array($url, $attachmentUrls)) {
+                if (\in_array($url, $attachmentUrls, true)) {
                     $fileName = $options['query']['file_name'] ?? '';
 
                     $this->assertSame([

@@ -5,17 +5,13 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Field;
 
 use EMS\CoreBundle\Form\DataField\DataFieldType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FieldTypePickerType extends Select2Type
+class FieldTypePickerType extends ChoiceType
 {
     /** @var array<string, DataFieldType> */
     private array $dataFieldTypes = [];
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function addDataFieldType(DataFieldType $dataField): void
     {
@@ -30,16 +26,19 @@ class FieldTypePickerType extends Select2Type
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults([
             'choices' => \array_keys($this->dataFieldTypes),
             'choice_label' => function ($value) {
-                $dataFieldType = $this->dataFieldTypes[$value];
-                $icon = $dataFieldType->getIcon();
-                $label = $dataFieldType->getLabel();
-
-                return "<i class=\"$icon\"></i>&nbsp;$label";
+                return $this->dataFieldTypes[$value]->getLabel();
             },
+            'choice_attr' => fn ($key) => [
+                'data-icon' => $this->dataFieldTypes[$key]->getIcon(),
+            ],
             'choice_value' => fn ($value) => $value,
+            'attr' => [
+                'class' => 'select2',
+            ],
         ]);
     }
 }

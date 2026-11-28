@@ -5,6 +5,8 @@
         "name": "route",
         "pluralName": "Routes",
         "singularName": "Route",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": null,
         "icon": "fa fa-map-signs",
         "description": null,
         "indexTwig": null,
@@ -107,7 +109,6 @@
                                     "sortable": false,
                                     "type": "template",
                                     "searchId": null,
-                                    "defaultValue": null,
                                     "querySearch": null
                                 },
                                 "mappingOptions": {
@@ -409,6 +410,7 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
+                    "labelTranslations": null,
                     "icon": "fa fa-list-ul",
                     "options": {
                         "body": "{}",
@@ -429,7 +431,8 @@
         "versionTags": [],
         "versionOptions": {
             "dates_read_only": true,
-            "dates_interval_one_day": false
+            "dates_interval_one_day": false,
+            "not_blank_new_version": false
         },
         "versionFields": {
             "date_from": null,
@@ -444,8 +447,7 @@
             "delete": "not-defined",
             "trash": "not-defined",
             "archive": "not-defined",
-            "show_link_create": "not-defined",
-            "show_link_search": "not-defined"
+            "show_link_create": "not-defined"
         },
         "fields": {
             "display": null,
@@ -460,8 +462,14 @@
         },
         "settings": {
             "tasks_enabled": false,
-            "hide_revision_sidebar": false
-        }
+            "tasks_titles": [],
+            "tasks_helptexts": [],
+            "hide_revision_sidebar": false,
+            "recompute_on_publish": false
+        },
+        "querySearch": null
     },
-    "replaced": []
+    "replaced": [
+        "querySearch"
+    ]
 }

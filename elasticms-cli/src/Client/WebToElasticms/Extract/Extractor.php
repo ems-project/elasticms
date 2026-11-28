@@ -89,11 +89,7 @@ class Extractor
                 continue;
             }
 
-            if ($emptyExtractor) {
-                $hash = $this->hashFromUrls($document);
-            } else {
-                $hash = \sha1(Json::encode($data));
-            }
+            $hash = $emptyExtractor ? $this->hashFromUrls($document) : \sha1(Json::encode($data));
 
             $type = $this->config->getType($document->getType());
             foreach ($type->getComputers() as $computer) {
@@ -159,7 +155,7 @@ class Extractor
         ]);
 
         if ($computer->isJsonDecode() && \is_string($value)) {
-            if (\in_array(\trim($value), ['null', ''])) {
+            if (\in_array(\trim($value), ['null', ''], true)) {
                 return null;
             }
 

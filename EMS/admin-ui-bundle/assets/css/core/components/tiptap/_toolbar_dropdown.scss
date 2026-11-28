@@ -1,0 +1,157 @@
+.tiptap-toolbar-dropdown-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #495057;
+  cursor: pointer;
+  width: 28px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  &:hover {
+    background-color: #e9ecef;
+  }
+}
+
+.tiptap-toolbar-dropdown-iframe {
+  .tiptap-toolbar-dropdown-btn {
+    width: 100px;
+    padding: 0 8px;
+    justify-content: space-between;
+  }
+
+  .tiptap-toolbar-dropdown-label {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+}
+
+.tiptap-dropdown {
+  position: fixed;
+  z-index: 100000;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  background: #fff;
+
+  .tiptap-dropdown-iframe {
+    display: block;
+    border: none;
+    min-width: 220px;
+    min-height: 200px;
+    width: 100%;
+  }
+
+  .tiptap-dropdown-content {
+    padding: 6px;
+
+    * {
+      box-sizing: border-box;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+.tiptap-color-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .tiptap-color-row-btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 4px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    outline: none;
+    border-radius: 3px;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.06);
+    }
+
+    .tiptap-color-auto-icon {
+      flex-shrink: 0;
+    }
+
+    span:last-child {
+      flex: 1;
+      text-align: center;
+    }
+
+    &.tiptap-color-more-btn {
+      justify-content: center;
+    }
+  }
+
+  .tiptap-color-auto-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    border: 1px solid #bbb;
+    background: linear-gradient(
+                    to bottom right,
+                    #fff 0%,
+                    #fff calc(50% - 1px),
+                    #d44 calc(50% - 1px),
+                    #d44 calc(50% + 1px),
+                    #fff calc(50% + 1px),
+                    #fff 100%
+    );
+  }
+
+  .tiptap-color-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    padding: 0;
+    max-width: calc(6 * 20px + 5 * 3px);
+
+    li {
+      width: 20px;
+      height: 20px;
+      border-radius: 2px;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      transition: transform 0.1s;
+
+      &:hover {
+        transform: scale(1.2);
+        border-color: #555;
+        z-index: 1;
+        position: relative;
+      }
+    }
+  }
+
+  .tiptap-color-predefined-section:empty,
+  .tiptap-color-active-section:empty {
+    display: none;
+  }
+
+  .tiptap-color-divider {
+    height: 1px;
+    background: #eee;
+    margin: 0;
+  }
+}

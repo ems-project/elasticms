@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" original="content_type:fakeOuuid:fakeRevisionId" datatype="database" target-language="fr">
+    <body>
+      <group resname="[body]" id="grp1">
+        <trans-unit restype="x-html-p" id="tu2" resname="/html/body/p">
+          <source xml:lang="en"> <bx id="bx4" rid="rid3" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/persons/specific/childsitter.html&amp;quot;&amp;gt;"/> Click here<ex id="ex5" rid="rid3" equiv-text="&amp;lt;/a&amp;gt;"/> </source>
+          <target xml:lang="fr" state="final"> <bx id="bx7" rid="rid6" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/persons/specific/childsitter.html&amp;quot;&amp;gt;"/> Click here<ex id="ex8" rid="rid6" equiv-text="&amp;lt;/a&amp;gt;"/> </target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

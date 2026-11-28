@@ -56,7 +56,7 @@ trait FindHelperTrait
             if (\is_array($value)) {
                 $subFind = self::find($property, $value);
 
-                if (\count($subFind) > 0) {
+                if ([] !== $subFind) {
                     return $subFind;
                 }
             }

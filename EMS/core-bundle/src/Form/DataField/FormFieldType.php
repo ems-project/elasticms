@@ -16,18 +16,23 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class FormFieldType extends DataFieldType
 {
     public function __construct(
-        protected AuthorizationCheckerInterface $authorizationChecker,
-        protected FormRegistryInterface $formRegistry,
-        protected ElasticsearchService $elasticsearchService,
+        AuthorizationCheckerInterface $authorizationChecker,
+        FormRegistryInterface $formRegistry,
+        ElasticsearchService $elasticsearchService,
+        TokenStorageInterface $tokenStorage,
         protected FieldTypeType $fieldTypeType,
         protected FormManager $formManager,
     ) {
-        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
+        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService, $tokenStorage);
     }
 
     #[\Override]
@@ -37,9 +42,15 @@ class FormFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Refers to a form entity';
+        return $buildObjectSchema($fieldType->getValidChildren());
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.form', [], 'emsco-core');
     }
 
     #[\Override]
@@ -122,10 +133,13 @@ class FormFieldType extends DataFieldType
         $optionsForm->get('restrictionOptions')->remove('mandatory');
         $optionsForm->get('restrictionOptions')->remove('mandatory_if');
         $optionsForm->get('displayOptions')->remove('label');
+        $optionsForm->get('displayOptions')->remove('labelTranslations');
         $optionsForm->get('displayOptions')->remove('class');
         $optionsForm->get('displayOptions')->remove('helptext');
+        $optionsForm->get('displayOptions')->remove('helptextTranslations');
         $optionsForm->get('displayOptions')->remove('lastOfRow');
         $optionsForm->get('displayOptions')->add('form', FormPickerType::class, [
+            'label' => t('field.form', [], 'emsco-core'),
             'required' => false,
         ]);
     }

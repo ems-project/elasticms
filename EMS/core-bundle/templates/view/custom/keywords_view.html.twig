@@ -1,4 +1,4 @@
-{% extends '@EMSCore/view/custom/abstract.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
+{% extends '@EMSCore/view/custom/abstract.html.twig' %}{% trans_default_domain 'emsco-core' %}
 
 {% block body %}
 
@@ -7,8 +7,4 @@
 		{{ view.options.template|emsco_generate_from_template({keyword: keyword})|raw }}
 	{% endfor %}
 </div>
-
-{% include '@EMSCore/app/menu.html.twig' with {
-	'item':  'data-view-'~ contentType.id ~ '-' ~ view.id
-}%}
 {% endblock %}

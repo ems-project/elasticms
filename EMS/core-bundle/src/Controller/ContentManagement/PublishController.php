@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 use Doctrine\ORM\NonUniqueResultException;
 use Elastica\Query\AbstractQuery;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Command\Environment\AlignCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\ContentType;
@@ -40,6 +41,7 @@ class PublishController extends AbstractController
         private readonly ContentTypeService $contentTypeService,
         private readonly SearchService $searchService,
         private readonly ElasticaService $elasticaService,
+        private readonly StorageManager $storageManager,
         private readonly string $templateNamespace
     ) {
     }
@@ -91,14 +93,14 @@ class PublishController extends AbstractController
         if (!$this->isGranted('ROLE_PUBLISHER')) {
             throw new AccessDeniedHttpException();
         }
+        $uid = $request->query->get('uid');
+        if (!\is_string($uid)) {
+            throw new NotFoundHttpException('Search UID not found');
+        }
         $search = new Search();
-        $searchForm = $this->createForm(SearchFormType::class, $search, [
-            'method' => 'GET',
-        ]);
-        $requestBis = clone $request;
-
-        $requestBis->setMethod('GET');
-        $searchForm->handleRequest($requestBis);
+        $searchForm = $this->createForm(SearchFormType::class, $search);
+        $data = $this->storageManager->getConfig($uid);
+        $searchForm->submit($data);
 
         if (1 !== \count($search->getEnvironments())) {
             throw new NotFoundHttpException('Environment not found');
@@ -132,8 +134,10 @@ class PublishController extends AbstractController
 
         $form = $builder->getForm();
         $form->handleRequest($request);
+
         $search->setEnvironments([$environment->getName()]);
         $search->setContentTypes([$contentType->getName()]);
+
         $emsSearch = $this->searchService->generateSearch($search);
         $total = $this->elasticaService->count($emsSearch);
         $query = $emsSearch->getQuery();
@@ -156,12 +160,12 @@ class PublishController extends AbstractController
 
             $job = $this->jobService->createCommand($user, \implode(' ', $command));
 
-            return $this->redirectToRoute('job.status', [
+            return $this->redirectToRoute('emsco_job_status', [
                 'job' => $job->getId(),
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/publish/publish-search-result.html.twig", [
+        return $this->render(\sprintf('@%s/publish/publish-search-result.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'fromEnvironment' => $environment,
             'contentType' => $contentType,

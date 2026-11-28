@@ -20,16 +20,16 @@ class ForgivingNumberDataTransformer implements DataTransformerInterface
     }
 
     #[\Override]
-    public function transform($value)
+    public function transform(mixed $value): mixed
     {
         return $value;
     }
 
     #[\Override]
-    public function reverseTransform($value)
+    public function reverseTransform(mixed $value): mixed
     {
         if (null === $value) {
-            return;
+            return null;
         }
 
         foreach ($this->transformerClasses as $class) {

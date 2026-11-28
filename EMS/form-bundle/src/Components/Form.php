@@ -17,6 +17,7 @@ use EMS\FormBundle\FormConfig\SubFormConfig;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -43,7 +44,12 @@ class Form extends AbstractType
             if ($element instanceof FieldConfig) {
                 $this->addField($builder, $element, $options['data'][$element->getName()] ?? null);
             } elseif ($element instanceof MarkupConfig || $element instanceof SubFormConfig) {
-                $builder->add($element->getName(), $element->getClassName(), ['config' => $element]);
+                $elementClass = $element->getClassName();
+                if (!\is_subclass_of($elementClass, FormTypeInterface::class)) {
+                    throw new \UnexpectedValueException();
+                }
+
+                $builder->add($element->getName(), $elementClass, ['config' => $element]);
             }
         }
     }

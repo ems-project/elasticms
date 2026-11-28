@@ -36,6 +36,7 @@ final readonly class CacheHelper
     {
         $item = $this->cache->getItem($cacheKey);
         $item->set($cacheResponse->getData());
+
         $this->cache->save($item);
     }
 
@@ -71,6 +72,7 @@ final readonly class CacheHelper
         $item = $this->cache->getItem($contentType->getCacheKey());
 
         $item->set($contentType);
+
         $this->cache->save($item);
     }
 

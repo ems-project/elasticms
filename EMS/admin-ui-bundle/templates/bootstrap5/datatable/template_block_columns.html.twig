@@ -11,8 +11,8 @@
 
 {% block environmentIndexesModal %}
     {% set modalId = "modal-environment-#{table.attributeName}-#{data.id|default(data.name)}" %}
-    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#{{ modalId }}">
-        {{ 'core.environment.index_count'|trans({'indexes': data.indexes|length }, 'emsco-core') }}
+    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#{{ modalId }}">
+        {{ 'core.environment.index_count'|trans({indexes: data.indexes|length}, 'emsco-core') }}
     </button>
     <div class="modal fade" id="{{ modalId }}">
         <div class="modal-dialog">
@@ -33,7 +33,7 @@
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-light pull-left" data-bs-dismiss="modal">
                         {{ 'action.close'|trans({}, 'emsco-core') }}
                     </button>
                 </div>
@@ -44,24 +44,23 @@
 
 {% block contentTypeViewType %}
     {% if line.data.type %}
-        {{ t('core.content_type.view_type', {'value': line.data.type|u.trimPrefix('ems.view.') }, 'emsco-core')|trans }}
+        {{ t('core.content_type.view_type', {value: line.data.type|u.trimPrefix('ems.view.')}, 'emsco-core')|trans }}
     {% endif %}
 {% endblock contentTypeViewType %}
 
 {% block contentTypeViewDefinition %}
     {% if line.data.definition %}
-        {{ t('core.content_type.view_definition', {'value': line.data.definition}, 'emsco-core')|trans }}
+        {{ t('core.content_type.view_definition', {value: line.data.definition}, 'emsco-core')|trans }}
     {% endif %}
 {% endblock contentTypeViewDefinition %}
 
 {% block dashboardType %}
-    <i class="{{ [line.data.type, 'icon']|join('.')|trans({}, 'emsco-twigs') }}"></i>&nbsp;&nbsp;
-    {{ [line.data.type, 'label']|join('.')|trans({}, 'emsco-twigs') }}
+    {{ line.data.type|trans }}
 {% endblock dashboardType %}
 
 {% block dashboardDefinition %}
     {% if line.data.definition %}
-        {{ t('core.dashboard.definition', {'value': line.data.definition}, 'emsco-core')|trans }}
+        {{ t('core.dashboard.definition', {value: line.data.definition}, 'emsco-core')|trans }}
     {% endif %}
 {% endblock dashboardDefinition %}
 
@@ -70,7 +69,7 @@
     <div class="progress">
         <div class="{{ html_classes('progress-bar', 'progress-bar-striped', {
             'bg-success': line.data.status != 'failed' and line.data.done is same as true,
-            'bg-danger': line.data.status == 'failed'
+            'bg-danger': line.data.status == 'failed',
         }) }}" role="progressbar" aria-valuenow="{{ p }}" aria-valuemin="0" aria-valuemax="100" style="{{ "width: #{p}%;" }}">
             {{ "#{p}%" }}
         </div>
@@ -79,7 +78,7 @@
 
 {% block i18nTranslations %}
     {% set modalId = "modal-i18n-#{data.id}" %}
-    <a data-toggle="modal" data-target="#{{ modalId }}" class="btn btn-sm btn-default">
+    <a data-bs-toggle="modal" data-bs-target="#{{ modalId }}" class="btn btn-sm btn-light">
         <i class="fa fa-eye"></i>&nbsp;
         {{ data.content|length }}
     </a>
@@ -89,7 +88,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title" id="{{ modalId }}-title">
                         <i class="fa fa-language"></i>
-                        {{ 'type.title_overview'|trans({'type': 'i18n_translations', 'key': data.identifier }, 'emsco-core') }}
+                        {{ 'type.title_overview'|trans({type: 'i18n_translations', key: data.identifier}, 'emsco-core') }}
                     </h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                 </div>
@@ -126,9 +125,9 @@
     {%- set info = data.getValue('info', false) -%}
     {%- if info -%}
         {%- set revision = info.revision(table.context.release.environmentSource.name) -%}
-        {{- '%date% Finalized by %user%'|trans({
-            '%date%': (revision.finalizedDate ? revision.finalizedDate|date(date_time_format) : ''),
-            '%user%': (revision.finalizedBy ? revision.finalizedBy|emsco_display_name : '')
+        {{- 'message.finalized_by'|trans({
+            date: (revision.finalizedDate ? revision.finalizedDate|date(date_time_format) : ''),
+            user: (revision.finalizedBy ? revision.finalizedBy|emsco_display_name : ''),
         }) -}}
     {%- endif -%}
 {% endblock release_unpublish_source %}
@@ -137,9 +136,9 @@
     {%- set info = data.getValue('info', false) -%}
     {%- if info -%}
         {%- set revision = info.revision(table.context.release.environmentTarget.name) -%}
-        {{- '%date% Finalized by %user%'|trans({
-            '%date%': (revision.finalizedDate ? revision.finalizedDate|date(date_time_format) : ''),
-            '%user%': (revision.finalizedBy ? revision.finalizedBy|emsco_display_name : '')
+        {{- 'message.finalized_by'|trans({
+            date: (revision.finalizedDate ? revision.finalizedDate|date(date_time_format) : ''),
+            user: (revision.finalizedBy ? revision.finalizedBy|emsco_display_name : ''),
         }) -}}
     {%- endif -%}
 {% endblock release_unpublish_target %}

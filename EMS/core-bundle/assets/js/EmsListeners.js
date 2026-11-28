@@ -42,6 +42,7 @@ export default class EmsListeners {
         this.addA2LixLibSfCollection();
         this.addDisabledButtonTreatListeners();
         this.addDateRangeListeners();
+        this.addCkeditor4();
         tooltipDataLinks(this.target);
     }
 
@@ -719,14 +720,23 @@ export default class EmsListeners {
             return text
         }
 
-        jquery(this.target).find(".select2").select2({
+        const dialog = jquery(this.target).closest('.ems-dialog')
+
+        const elements = jquery(this.target).find('.select2').select2({
             allowClear: true,
-            placeholder: "",
+            placeholder: '',
             width: '100%',
-            escapeMarkup: function (markup) { return markup; },
+            escapeMarkup: function (markup) { return markup },
             templateSelection: formatFn,
             templateResult: formatFn,
-        });
+            dropdownParent: dialog.length ? dialog : undefined
+        })
+
+        if (dialog.length) {
+            elements
+                .on('select2:opening', () => dialog.css('overflow', 'visible'))
+                .on('select2:closing', () => dialog.css('overflow', ''))
+        }
     }
 
     addRemoveButtonListeners() {
@@ -814,6 +824,19 @@ export default class EmsListeners {
                 $input.val('');
                 if (typeof self.onChangeCallback === "function") self.onChangeCallback();
             });
+        });
+    }
+
+    addCkeditor4() {
+        const info = document.body.dataset.wysiwygInfo;
+        if (!info) return
+
+        const wysiwygInfo = JSON.parse(document.querySelector('body').dataset.wysiwygInfo);
+        if (wysiwygInfo.editor !== 'ckeditor4') return;
+
+        const textareas = document.querySelectorAll('textarea.ems-wysiwyg');
+        textareas.forEach((element) => {
+            CKEDITOR.replace(element);
         });
     }
 }

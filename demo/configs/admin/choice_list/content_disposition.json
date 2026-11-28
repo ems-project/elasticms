@@ -1,0 +1,45 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\ChoiceList",
+    "arguments": [],
+    "properties": {
+        "name": "content_disposition",
+        "label": "Content disposition",
+        "labelTranslations": {
+            "fr": {
+                "label": "Disposition du contenu"
+            },
+            "nl": {
+                "label": "Content-dispositie"
+            }
+        },
+        "options": {
+            "locales": [
+                "fr",
+                "nl"
+            ],
+            "groups": [],
+            "choices": [
+                {
+                    "labels": {
+                        "fr": "Pi\u00e8ce jointe",
+                        "nl": "Bijlage"
+                    },
+                    "value": "attachment",
+                    "group": null,
+                    "label": "Attachment"
+                },
+                {
+                    "labels": {
+                        "fr": "En ligne",
+                        "nl": "In de tekst"
+                    },
+                    "value": "inline",
+                    "group": null,
+                    "label": "Inline"
+                }
+            ],
+            "sortOrder": null
+        }
+    },
+    "replaced": []
+}

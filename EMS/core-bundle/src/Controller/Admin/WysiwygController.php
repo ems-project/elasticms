@@ -11,7 +11,6 @@ use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Core\UI\Page\Page;
 use EMS\CoreBundle\DataTable\Type\Wysiwyg\WysiwygProfileDataTableType;
 use EMS\CoreBundle\DataTable\Type\Wysiwyg\WysiwygStylesSetDataTableType;
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\WysiwygProfile;
 use EMS\CoreBundle\Entity\WysiwygStylesSet;
 use EMS\CoreBundle\Form\Data\TableAbstract;
@@ -91,7 +90,7 @@ class WysiwygController extends AbstractController
 
                 return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
             } catch (\Throwable $e) {
-                $form->get('config')->addError(new FormError($this->translator->trans('wysiwyg.invalid_config_format', ['%msg%' => $e->getMessage()], EMSCoreBundle::TRANS_DOMAIN)));
+                $form->get('config')->addError(new FormError(t('message.wysiwyg_invalid_config_format', ['msg' => $e->getMessage()], 'emsco-core')->trans($this->translator)));
             }
         }
 
@@ -126,7 +125,7 @@ class WysiwygController extends AbstractController
 
                 return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
             } catch (\Throwable $e) {
-                $form->get('config')->addError(new FormError($this->translator->trans('wysiwyg.invalid_config_format', ['%msg%' => $e->getMessage()], 'EMSCoreBundle')));
+                $form->get('config')->addError(new FormError(t('message.wysiwyg_invalid_config_format', ['msg' => $e->getMessage()], 'emsco-core')->trans($this->translator)));
             }
         }
 
@@ -157,7 +156,7 @@ class WysiwygController extends AbstractController
 
                 return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
             } catch (\Throwable $e) {
-                $form->get('config')->addError(new FormError($this->translator->trans('wysiwyg.invalid_config_format', ['%msg%' => $e->getMessage()], 'EMSCoreBundle')));
+                $form->get('config')->addError(new FormError(t('message.wysiwyg_invalid_config_format', ['msg' => $e->getMessage()], 'emsco-core')->trans($this->translator)));
             }
         }
 
@@ -192,7 +191,7 @@ class WysiwygController extends AbstractController
 
                 return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
             } catch (\Throwable $e) {
-                $form->get('config')->addError(new FormError($this->translator->trans('wysiwyg.invalid_config_format', ['%msg%' => $e->getMessage()], 'EMSCoreBundle')));
+                $form->get('config')->addError(new FormError(t('message.wysiwyg_invalid_config_format', ['msg' => $e->getMessage()], 'emsco-core')->trans($this->translator)));
             }
         }
 
@@ -225,7 +224,7 @@ class WysiwygController extends AbstractController
                 TableType::REORDER_ACTION => $this->wysiwygProfileService->reorderByIds(
                     ...TableType::getReorderedKeys($form->getName(), $request)
                 ),
-                default => $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core')),
+                default => $this->logger->messageError(t('message.invalid_table_action', [], 'emsco-core')),
             };
 
             return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
@@ -251,7 +250,7 @@ class WysiwygController extends AbstractController
                 TableType::REORDER_ACTION => $this->wysiwygStylesSetService->reorderByIds(
                     ...TableType::getReorderedKeys($form->getName(), $request)
                 ),
-                default => $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core')),
+                default => $this->logger->messageError(t('message.invalid_table_action', [], 'emsco-core')),
             };
 
             return $this->redirectToRoute(Routes::WYSIWYG_INDEX);

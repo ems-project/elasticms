@@ -1,59 +1,55 @@
 import 'formdata-polyfill'
 
-export default class
-{
-    static getObjectFromFormData(form)
-    {
-        let object = {};
-        let formData = new FormData(form);
+export default class {
+    static getObjectFromFormData(form) {
+        let object = {}
+        let formData = new FormData(form)
 
         formData.forEach((value, key) => {
-            if(!Object.prototype.hasOwnProperty.call(object, key)){
-                object[key] = value;
-                return;
+            if (!Object.prototype.hasOwnProperty.call(object, key)) {
+                object[key] = value
+                return
             }
-            if(!Array.isArray(object[key])){
-                object[key] = [object[key]];
+            if (!Array.isArray(object[key])) {
+                object[key] = [object[key]]
             }
-            object[key].push(value);
-        });
+            object[key].push(value)
+        })
 
-        return object;
+        return object
     }
 
-    static getFormDataFromObject(obj)
-    {
-        let formData = new FormData();
-        Object.entries(obj).forEach(([key,value])=>{
+    static getFormDataFromObject(obj) {
+        let formData = new FormData()
+        Object.entries(obj).forEach(([key, value]) => {
             if (value.size === 0) {
-                return;
+                return
             }
-            let filename = value.name;
+            let filename = value.name
             if (filename !== undefined) {
                 if (value.size > 0) {
-                    formData.set(key, value, filename);
+                    formData.set(key, value, filename)
                 }
-                return;
+                return
             }
 
-            if(Array.isArray(value)){
+            if (Array.isArray(value)) {
                 for (let i = 0; i < value.length; i++) {
-                    formData.append(key, value[i]);
+                    formData.append(key, value[i])
                 }
-                return;
+                return
             }
 
-            formData.set(key, value);
-        });
+            formData.set(key, value)
+        })
 
-        return formData;
+        return formData
     }
 
-    static disablingSubmitButton(form)
-    {
-        let submits = form.getElementsByClassName('submit');
-        Array.prototype.forEach.call(submits, function(submit) {
-            submit.disabled = true;
-        });
+    static disablingSubmitButton(form) {
+        let submits = form.getElementsByClassName('submit')
+        Array.prototype.forEach.call(submits, function (submit) {
+            submit.disabled = true
+        })
     }
 }

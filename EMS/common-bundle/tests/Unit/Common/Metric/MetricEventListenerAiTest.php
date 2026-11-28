@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Tests\Unit\Common\Metric;
 use EMS\CommonBundle\Common\Metric\MetricCollector;
 use EMS\CommonBundle\Common\Metric\MetricEventListener;
 use EMS\CommonBundle\Controller\MetricController;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +26,7 @@ class MetricEventListenerAiTest extends TestCase
         $this->metricEventListener = new MetricEventListener($this->metricCollector);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetSubscribedEvents(): void
     {
         $expectedEvents = [
@@ -36,15 +38,16 @@ class MetricEventListenerAiTest extends TestCase
         $this->assertSame($expectedEvents, MetricEventListener::getSubscribedEvents());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testMetricCollect(): void
     {
         $request = new Request();
         $request->attributes->set('_controller', MetricController::METRICS);
 
         $event = new TerminateEvent(
-            $this->createMock(HttpKernelInterface::class),
+            $this->createStub(HttpKernelInterface::class),
             $request,
-            $this->createMock(Response::class)
+            $this->createStub(Response::class)
         );
 
         $this->metricCollector->expects($this->once())

@@ -32,6 +32,7 @@ class CacheAiTest extends TestCase
     {
         $response = new Response();
         $response->setContent(null);
+
         $etag = $this->cache->generateEtag($response);
 
         $this->assertNull($etag);

@@ -6,10 +6,15 @@ namespace EMS\CoreBundle\Entity;
 
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CoreBundle\Core\Dashboard\DashboardOptions;
+use EMS\CoreBundle\Core\Dashboard\DashboardType;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
+use EMS\Helpers\Standard\Type;
+use EMS\Helpers\Translations\Translation;
+use EMS\Helpers\Translations\Translations;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class Dashboard extends JsonDeserializer implements \JsonSerializable, EntityInterface
 {
@@ -19,6 +24,8 @@ class Dashboard extends JsonDeserializer implements \JsonSerializable, EntityInt
     protected string $name;
     protected string $icon;
     protected string $label;
+    /** @var array<string, array<string,string>>|null */
+    protected ?array $labelTranslations;
     protected bool $sidebarMenu = true;
     protected bool $notificationMenu = false;
     protected ?string $definition = null;
@@ -73,9 +80,18 @@ class Dashboard extends JsonDeserializer implements \JsonSerializable, EntityInt
         $this->name = $name;
     }
 
-    public function getLabel(): string
+    public function getLabel(?UserInterface $user = null): string
     {
-        return $this->label;
+        return $this->getLabelTranslation($user)->getLabel();
+    }
+
+    public function getLabelTranslation(?UserInterface $user = null): Translation
+    {
+        if (!$user instanceof User) {
+            return new Translation($this->label);
+        }
+
+        return Translations::fromArray($this->getLabelTranslations())->getTranslation($user->getLocales(), $this->label);
     }
 
     public function setLabel(string $label): void
@@ -83,14 +99,24 @@ class Dashboard extends JsonDeserializer implements \JsonSerializable, EntityInt
         $this->label = $label;
     }
 
-    public function getOption(string $option): ?string
+    /**
+     * @return mixed[]|string|null
+     */
+    public function getOption(string $option): mixed
     {
         return $this->getOptions()[$option];
     }
 
+    public function getNullableStringOption(string $option): ?string
+    {
+        $option = $this->getOption($option);
+
+        return $option ? Type::string($option) : null;
+    }
+
     public function getOptions(): DashboardOptions
     {
-        return new DashboardOptions($this->options ?? []);
+        return new DashboardOptions($this->options);
     }
 
     public function setOptions(DashboardOptions $options): void
@@ -148,14 +174,14 @@ class Dashboard extends JsonDeserializer implements \JsonSerializable, EntityInt
         $this->definition = $definition;
     }
 
-    public function getType(): string
+    public function getType(): DashboardType
     {
-        return $this->type;
+        return DashboardType::from($this->type);
     }
 
-    public function setType(string $type): void
+    public function setType(DashboardType $type): void
     {
-        $this->type = $type;
+        $this->type = $type->value;
     }
 
     public function getRole(): string
@@ -198,5 +224,21 @@ class Dashboard extends JsonDeserializer implements \JsonSerializable, EntityInt
         }
 
         return $dashboard;
+    }
+
+    /**
+     * @return mixed[][]
+     */
+    public function getLabelTranslations(): array
+    {
+        return $this->labelTranslations ?? [];
+    }
+
+    /**
+     * @param mixed[][]|null $labelTranslations
+     */
+    public function setLabelTranslations(?array $labelTranslations): void
+    {
+        $this->labelTranslations = $labelTranslations ?? [];
     }
 }

@@ -12,8 +12,8 @@
       </trans-unit>
       <group resname="[introduction]" id="grp3">
         <trans-unit restype="x-html-p" id="tu4" resname="/html/body/p">
-          <source xml:lang="nl"> <x id="x5" ctype="x-html-br" equiv-text=" "/> </source>
-          <target xml:lang="de" state="final"> <x id="x6" ctype="x-html-br" equiv-text=" "/> </target>
+          <source xml:lang="nl"> <x id="x5" ctype="lb" equiv-text=" "/> </source>
+          <target xml:lang="de" state="final"> <x id="x6" ctype="lb" equiv-text=" "/> </target>
         </trans-unit>
       </group>
       <group resname="[description]" id="grp7">
@@ -22,22 +22,22 @@
           <target xml:lang="de" state="final"> Diese Zielgruppenermäßigung wurde in jeder Region angepasst und/oder ersetzt. Weitere Informationen finden Sie auf den entsprechenden Seiten. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu9" resname="/html/body/p[2]">
-          <source xml:lang="nl"> <x id="x10" ctype="x-html-br" equiv-text=" "/> </source>
-          <target xml:lang="de" state="final"> <x id="x11" ctype="x-html-br" equiv-text=" "/> </target>
+          <source xml:lang="nl"> <x id="x10" ctype="lb" equiv-text=" "/> </source>
+          <target xml:lang="de" state="final"> <x id="x11" ctype="lb" equiv-text=" "/> </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu12" resname="/html/body/p[3]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-ul" id="tu13" resname="/html/body/ul">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu14" resname="/html/body/p[4]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
-        <group restype="x-html-div" id="tu15" resname="/html/body/div[1]">
+        <group restype="x-html-div" id="grp15" resname="/html/body/div[1]">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu16" resname="/html/body/div[1]/h3">
             <source xml:lang="nl"> Vlaams Gewest: </source>
@@ -50,9 +50,9 @@
         </group>
         <trans-unit restype="x-html-p" id="tu28" resname="/html/body/p[5]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
-        <group restype="x-html-div" id="tu29" resname="/html/body/div[2]">
+        <group restype="x-html-div" id="grp29" resname="/html/body/div[2]">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu30" resname="/html/body/div[2]/h3">
             <source xml:lang="nl"> Brussels Hoofdstedelijk Gewest: </source>
@@ -65,13 +65,13 @@
         </group>
         <trans-unit restype="x-html-p" id="tu42" resname="/html/body/p[6]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu43" resname="/html/body/p[7]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
-        <group restype="x-html-div" id="tu44" resname="/html/body/div[3]">
+        <group restype="x-html-div" id="grp44" resname="/html/body/div[3]">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu45" resname="/html/body/div[3]/h3">
             <source xml:lang="nl"> Waals Gewest (zonder de Duitstalige Gemeenschap): </source>
@@ -84,17 +84,17 @@
         </group>
         <trans-unit restype="x-html-p" id="tu57" resname="/html/body/p[8]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu58" resname="/html/body/p[9]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-h3" id="tu59" resname="/html/body/h3">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
-        <group restype="x-html-div" id="tu60" resname="/html/body/div[4]">
+        <group restype="x-html-div" id="grp60" resname="/html/body/div[4]">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu61" resname="/html/body/div[4]/h3">
             <source xml:lang="nl"> Duitstalige Gemeenschap: </source>
@@ -106,15 +106,15 @@
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu75" resname="/html/body/div[4]/p[2]">
             <source xml:lang="nl"/>
-            <target xml:lang="de" state="final"/>
+            <target xml:lang="de" state="new"/>
           </trans-unit>
         </group>
         <trans-unit id="tu76" resname="/html/body/br">
           <source xml:lang="nl">
-            <x id="x77" ctype="x-html-br" equiv-text=" "/>
+            <x id="x77" ctype="lb" equiv-text=" "/>
           </source>
           <target xml:lang="de" state="final">
-            <x id="x78" ctype="x-html-br" equiv-text=" "/>
+            <x id="x78" ctype="lb" equiv-text=" "/>
           </target>
         </trans-unit>
       </group>

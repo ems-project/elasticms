@@ -5,6 +5,7 @@
         "name": "media_lib_browse_object",
         "icon": "glyphicon glyphicon-pushpin",
         "label": "Browse media library",
+        "labelTranslations": null,
         "sidebarMenu": false,
         "notificationMenu": false,
         "definition": "browser_object",

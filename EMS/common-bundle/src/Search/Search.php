@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Serializer;
 
 class Search
 {
-    private const SERIALIZER_CONTEXT = [
+    private const array SERIALIZER_CONTEXT = [
         AbstractNormalizer::IGNORED_ATTRIBUTES => ['aggregations', 'suggest'],
     ];
 
@@ -77,7 +77,7 @@ class Search
 
     public function hasSources(): bool
     {
-        return \count($this->sourceIncludes) > 0 || \count($this->sourceExcludes) > 0;
+        return [] !== $this->sourceIncludes || [] !== $this->sourceExcludes;
     }
 
     /**
@@ -149,7 +149,7 @@ class Search
      */
     public function setSources(array $sources): void
     {
-        if (0 === \count($sources)) {
+        if ([] === $sources) {
             $this->sourceIncludes = [];
 
             return;
@@ -356,9 +356,7 @@ class Search
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
 
-        $serializer = new Serializer($normalizers, $encoders);
-
-        return $serializer;
+        return new Serializer($normalizers, $encoders);
     }
 
     /**

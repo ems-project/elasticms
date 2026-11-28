@@ -53,9 +53,8 @@ final class EmbedController extends AbstractController
      * @param string|string[]|null $searchType
      * @param array<mixed>         $body
      * @param array<mixed>         $args
-     * @param string[]             $sourceExclude
      */
-    public function renderEmbed(string|array|null $searchType, array $body, string $template, array $args = [], int $from = 0, int $size = 10, ?string $cacheType = null, array $sourceExclude = []): Response
+    public function renderEmbed(string|array|null $searchType, array $body, string $template, array $args = [], int $from = 0, int $size = 10, ?string $cacheType = null): Response
     {
         $cacheKey = [
             'EMSCH_Block',
@@ -66,11 +65,10 @@ final class EmbedController extends AbstractController
             $from,
             $size,
             $cacheType,
-            $sourceExclude,
         ];
 
-        return $this->clientRequest->getCacheResponse($cacheKey, $cacheType, function () use ($searchType, $body, $template, $args, $from, $size, $sourceExclude) {
-            $result = $this->clientRequest->search($searchType, $body, $from, $size, $sourceExclude);
+        return $this->clientRequest->getCacheResponse($cacheKey, $cacheType, function () use ($searchType, $body, $template, $args, $from, $size) {
+            $result = $this->clientRequest->search($searchType, $body, $from, $size);
 
             return $this->render($template, [
                 'translation_domain' => $this->clientRequest->getCacheKey(),

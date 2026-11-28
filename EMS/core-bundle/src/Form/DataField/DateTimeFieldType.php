@@ -9,6 +9,9 @@ use EMS\CoreBundle\Entity\FieldType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class DateTimeFieldType extends DataFieldType
 {
@@ -16,9 +19,15 @@ class DateTimeFieldType extends DataFieldType
     public const string DEFAULT_DISPLAY_FORMAT = 'D/MM/YYYY HH:mm:ss';
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Date Time Field';
+        return ['type' => 'string', 'format' => 'date-time'];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.date_time', [], 'emsco-core');
     }
 
     #[\Override]
@@ -31,6 +40,15 @@ class DateTimeFieldType extends DataFieldType
     public function getBlockPrefix(): string
     {
         return 'date_time_field_type';
+    }
+
+    /**
+     * @param callable(FieldType, mixed): mixed $buildChildValue
+     */
+    #[\Override]
+    public function buildMcpRawDataValue(FieldType $fieldType, mixed $rawData, callable $buildChildValue): mixed
+    {
+        return $this->normalizeMcpDateTimeValue($rawData);
     }
 
     #[\Override]
@@ -88,20 +106,24 @@ class DateTimeFieldType extends DataFieldType
 
         $optionsForm->get('displayOptions')
             ->add('displayFormat', TextType::class, [
+                'label' => t('field.display_format', [], 'emsco-core'),
                 'required' => false,
-                'attr' => ['placeholder' => self::DEFAULT_DISPLAY_FORMAT],
+                'attr' => ['placeholder' => t('placeholder.for_example', ['example' => self::DEFAULT_DISPLAY_FORMAT], 'emsco-core')],
             ])
             ->add('parseFormat', TextType::class, [
+                'label' => t('field.parse_format', [], 'emsco-core'),
                 'required' => false,
-                'attr' => ['placeholder' => \sprintf('(PHP) %s', self::DEFAULT_PARSE_FORMAT)],
+                'attr' => ['placeholder' => t('placeholder.for_example', ['example' => \sprintf('%s (PHP)', self::DEFAULT_PARSE_FORMAT)], 'emsco-core')],
             ])
             ->add('daysOfWeekDisabled', TextType::class, [
+                'label' => t('field.days_of_week_disabled', [], 'emsco-core'),
                 'required' => false,
-                'attr' => ['placeholder' => 'e.g. 0,6'],
+                'attr' => ['placeholder' => t('placeholder.for_example', ['example' => '0,6'], 'emsco-core')],
             ])
             ->add('hoursDisabled', TextType::class, [
+                'label' => t('field.hours_disabled', [], 'emsco-core'),
                 'required' => false,
-                'attr' => ['placeholder' => 'e.g. 0,23'],
+                'attr' => ['placeholder' => t('placeholder.for_example', ['example' => '0,23'], 'emsco-core')],
             ])
         ;
     }

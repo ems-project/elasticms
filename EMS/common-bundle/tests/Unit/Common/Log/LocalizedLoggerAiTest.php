@@ -14,7 +14,6 @@ class LocalizedLoggerAiTest extends TestCase
     private LocalizedLogger $localizedLogger;
     private LoggerInterface $logger;
     private TranslatorInterface $translator;
-    private string $translationDomain = 'test_domain';
 
     #[\Override]
     protected function setUp(): void
@@ -37,7 +36,7 @@ class LocalizedLoggerAiTest extends TestCase
 
         $this->translator->expects($this->once())
             ->method('trans')
-            ->with($message, [], $this->translationDomain)
+            ->with($message, [])
             ->willReturn($translatedMessage);
 
         $this->logger->expects($this->once())
@@ -58,7 +57,7 @@ class LocalizedLoggerAiTest extends TestCase
 
         $this->translator->expects($this->once())
             ->method('trans')
-            ->with($message, [], $this->translationDomain)
+            ->with($message, [])
             ->willReturn($translatedMessage);
 
         $this->logger->expects($this->once())

@@ -22,7 +22,7 @@ final readonly class Translator implements CacheWarmerInterface
     {
         $environment = $this->environmentHelper->getCurrentEnvironment();
 
-        if ($environment) {
+        if ($environment instanceof Environment) {
             $this->loadEnvironment($environment);
         }
     }

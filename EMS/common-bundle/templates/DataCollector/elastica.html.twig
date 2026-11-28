@@ -114,7 +114,7 @@
                     <td>
                         {% if query.error is not null %}
                             <div>
-                                {{ query.error.reason|default(query.error.type) }}
+                                {{ query.error }}
                                 <hr />
                             </div>
                         {% endif %}
@@ -131,7 +131,7 @@
 
                             <a href="#" class="sf-toggle link-inverse" data-toggle-selector="#formatted-query-{{ key }}" data-toggle-alt-content="Hide formatted query">View formatted query</a>
 
-                            {% if query.connection.transport in ['Http', 'Https'] %}{# cURL support only HTTP #}
+                            {% if query.connection.transport in ['http', 'https'] %}{# cURL support only HTTP #}
                                 &nbsp;
                                 <a href="#" class="sf-toggle link-inverse" data-toggle-selector="#elastica-curl-query-{{ key }}" data-toggle-alt-content="Hide cURL query">View cURL query</a>
                             {% endif %}
@@ -149,7 +149,7 @@
                             </code>
                         </div>
 
-                        {% if query.connection.transport in ['Http', 'Https'] %}{# cURL support only HTTP #}
+                        {% if query.connection.transport in ['http', 'https'] %}{# cURL support only HTTP #}
                             <div id="elastica-curl-query-{{ key }}" class="sql-runnable hidden">
                                 {% if query.data|length == 1 %}
                                     {% set dataFlag = '-d' %}

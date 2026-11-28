@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\DataField;
 
 use EMS\CoreBundle\Entity\DataField;
+use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Form\Field\IconPickerType;
 use EMS\Helpers\Standard\Json;
@@ -12,6 +13,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class ActionFieldType extends DataFieldType
 {
@@ -26,7 +30,10 @@ class ActionFieldType extends DataFieldType
             ->remove('migrationOptions');
 
         $displayOptions = $optionsForm->get('displayOptions');
-        $displayOptions->add('icon', IconPickerType::class, ['required' => false]);
+        $displayOptions->add('icon', IconPickerType::class, [
+            'label' => t('field.label', [], 'emsco-core'),
+            'required' => false,
+        ]);
 
         $restrictionOptions = $optionsForm->get('restrictionOptions');
         $restrictionOptions->remove('mandatory')->remove('mandatory_if');
@@ -81,8 +88,14 @@ class ActionFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Action field';
+        return [];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.action', [], 'emsco-core');
     }
 }

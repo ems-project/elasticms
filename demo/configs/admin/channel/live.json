@@ -3,13 +3,15 @@
     "arguments": [],
     "properties": {
         "name": "live",
-        "alias": "ems_demo_ma_live",
+        "alias": "ma_live",
         "public": true,
         "label": "Live",
         "options": {
+            "prefix_instance_id": true,
+            "inline_editor": false,
             "searchConfig": "[]",
             "entryPath": "./",
-            "attributes": "{\r\n    \"_backend\": \"\\/.\",\r\n    \"EMS_ADMIN_URL\": \"http:\\/\\/local.ems-demo-admin.localhost:9000\",\r\n    \"EMSCH_ENV\": \"ems_demo_ma_live\",\r\n    \"EMSCH_ENVS\": \"{\\\"preview\\\":{\\\"regex\\\":\\\"\\/.*\\/\\\",\\\"alias\\\":\\\"ems_demo_ma_live\\\"}}\"\r\n}"
+            "attributes": "{\r\n    \"_backend\": \"/.\"\r\n}"
         },
         "orderKey": 2
     },

@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/12.5/phpunit.xsd"
          colors="true"
          bootstrap="../vendor/autoload.php"
          cacheDirectory="../.cache/.phpunit.cache"
-         failOnDeprecation="true"
-         failOnPhpunitDeprecation="true"
-         failOnNotice="true"
-         failOnRisky="true"
-         failOnWarning="true">
+         stopOnFailure="true"
+         failOnAllIssues="true">
 
     <php>
         <ini name="error_reporting" value="-1"/>
@@ -24,7 +21,9 @@
         <env name="DATABASE_URL" value="mysql://db_user:db_password@127.0.0.1:3306/db_name"/>
     </php>
 
-    <source ignoreSuppressionOfDeprecations="true">
+    <source ignoreSuppressionOfDeprecations="true"
+            restrictWarnings="true"
+            restrictNotices="true">
         <include>
             <directory>./../elasticms-admin/src/</directory>
             <directory>./../elasticms-cli/src/</directory>

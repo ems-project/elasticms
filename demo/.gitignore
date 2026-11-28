@@ -3,3 +3,5 @@
 /skeleton/version.lock
 .env.local
 /skeleton/template/asset_hash.twig
+/tmp/
+/.cache/

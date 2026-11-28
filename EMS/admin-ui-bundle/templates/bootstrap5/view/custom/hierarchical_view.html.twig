@@ -1,4 +1,4 @@
-{% extends '@EMSAdminUI/bootstrap5/view/custom/abstract.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
+{% extends '@EMSAdminUI/bootstrap5/view/custom/abstract.html.twig' %}{% trans_default_domain 'emsco-core' %}
 
 {% block body %}
     <div class="row" id="hierarchical-row" data-content-type="{{ contentType|e('html_attr') }}" data-hierarchical-item-url="{{ path('views.hierarchical.item', {key: '__key__', view: view.id})|e('html_attr') }}">
@@ -6,17 +6,17 @@
             <div class="box box-solid">
                 <div class="box-header with-border">
                     <h2 class="box-title">
-                        {{ 'Reorganise: '|trans }}
-                        {{ (parent._source._contenttype~':'~parent._id)|emsco_data_link }}
+                        {{ 'key.reorganise_colon'|trans }}
+                        {{ (parent._source._contenttype ~ ':' ~ parent._id)|emsco_data_link }}
                     </h2>
                 </div>
                 {{ form_start(form) }}
                     <div class="box-body no-padding">
                         <ol class="nested-sortable vertical" id="root-list" data-nested-max-level="{% if view.options.maxDepth is defined and view.options.maxDepth and view.options.maxDepth >= 1 %}{{ view.options.maxDepth }}{% else %}3{% endif %}" data-nested-is-tree="true">
-                            {% include "@EMSAdminUI/bootstrap5/view/custom/hierarchical_item.html.twig" with {
+                            {{ include('@EMSAdminUI/bootstrap5/view/custom/hierarchical_item.html.twig', {
                                 parent: parent._source,
                                 view: view,
-                            } %}
+                            }) }}
                         </ol>
                     </div>
                     <!-- /.box-body -->

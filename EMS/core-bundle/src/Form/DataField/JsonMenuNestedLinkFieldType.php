@@ -25,8 +25,12 @@ use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 use Twig\Environment;
+
+use function Symfony\Component\Translation\t;
 
 class JsonMenuNestedLinkFieldType extends DataFieldType
 {
@@ -34,18 +38,32 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
         AuthorizationCheckerInterface $authorizationChecker,
         FormRegistryInterface $formRegistry,
         ElasticsearchService $elasticsearchService,
+        TokenStorageInterface $tokenStorage,
         private readonly ElasticaService $elasticaService,
         private readonly EnvironmentService $environmentService,
         private readonly Environment $twig,
         private readonly LoggerInterface $logger,
     ) {
-        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
+        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService, $tokenStorage);
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'JSON menu nested link field';
+        if ((bool) $fieldType->getDisplayOption('multiple', false)) {
+            return [
+                'type' => 'array',
+                'items' => ['type' => 'string'],
+            ];
+        }
+
+        return ['type' => 'string'];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.json_menu_nested_link', [], 'emsco-core');
     }
 
     #[\Override]
@@ -143,25 +161,57 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
         $optionsForm = $builder->get('options');
 
         $optionsForm->get('displayOptions')
-            ->add('expanded', CheckboxType::class, ['required' => false])
-            ->add('multiple', CheckboxType::class, ['required' => false])
-            ->add('json_menu_nested_types', TextType::class, ['required' => false])
-            ->add('json_menu_nested_field', TextType::class, ['required' => true])
-            ->add('json_menu_nested_unique', CheckboxType::class, ['required' => false])
-            ->add('query', CodeEditorType::class, ['required' => false, 'language' => 'ace/mode/json'])
+            ->add('expanded', CheckboxType::class, [
+                'label' => t('field.expanded', [], 'emsco-core'),
+                'required' => false,
+            ])
+            ->add('multiple', CheckboxType::class, [
+                'label' => t('field.multiple', [], 'emsco-core'),
+                'required' => false,
+            ])
+            ->add('json_menu_nested_types', TextType::class, [
+                'label' => t('field.json_menu_nested_types', [], 'emsco-core'),
+                'required' => false,
+            ])
+            ->add('json_menu_nested_field', TextType::class, [
+                'label' => t('field.json_menu_nested_field', [], 'emsco-core'),
+                'required' => false,
+            ])
+            ->add('json_menu_nested_unique', CheckboxType::class, [
+                'label' => t('field.json_menu_nested_unique', [], 'emsco-core'),
+                'required' => false,
+            ])
+            ->add('query', CodeEditorType::class, [
+                'label' => t('field.query', [], 'emsco-core'),
+                'required' => false,
+                'language' => 'ace/mode/json'])
             ->add('environment', EnvironmentPickerType::class, [
+                'label' => t('field.environment', [], 'emsco-core'),
                 'required' => false,
                 'managedOnly' => false,
                 'userPublishEnvironments' => false,
             ])
-            ->add('choices_template', CodeEditorType::class, ['required' => false, 'min-lines' => 10, 'language' => 'ace/mode/twig'])
-            ->add('display_template', CodeEditorType::class, ['required' => false, 'min-lines' => 10, 'language' => 'ace/mode/twig'])
+            ->add('choices_template', CodeEditorType::class, [
+                'label' => t('field.choices_template', [], 'emsco-core'),
+                'required' => false,
+                'min-lines' => 10,
+                'language' => 'ace/mode/twig',
+            ])
+            ->add('display_template', CodeEditorType::class, [
+                'label' => t('field.display_template', [], 'emsco-core'),
+                'required' => false,
+                'min-lines' => 10,
+                'language' => 'ace/mode/twig',
+            ])
         ;
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')
-                ->add('analyzer', AnalyzerPickerType::class)
+                ->add('analyzer', AnalyzerPickerType::class, [
+                    'label' => t('field.analyzer', [], 'emsco-core'),
+                ])
                 ->add('copy_to', TextType::class, [
+                    'label' => t('field.copy_to', [], 'emsco-core'),
                     'required' => false,
                 ]);
         }
@@ -210,18 +260,17 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
                 $dataField->addMessage('Was not able to import the data : '.Json::encode($out));
                 $out = [];
             }
-        } else { // not mutiple
-            if (null === $temp) {
-                $out = null;
-            } elseif (\is_string($temp) || \is_int($temp)) {
-                $out = $temp;
-            } elseif (\is_array($temp) && null != $temp && (\is_string(\array_values($temp)[0]) || \is_int(\array_values($temp)[0]))) {
-                $out = \array_values($temp)[0];
-                $dataField->addMessage('Only the first item has been imported : '.Json::encode($temp));
-            } else {
-                $dataField->addMessage('Was not able to import the data : '.Json::encode($temp));
-                $out = [];
-            }
+        } elseif (null === $temp) {
+            // not mutiple
+            $out = null;
+        } elseif (\is_string($temp) || \is_int($temp)) {
+            $out = $temp;
+        } elseif (\is_array($temp) && null != $temp && (\is_string(\array_first($temp)) || \is_int(\array_first($temp)))) {
+            $out = \array_first($temp);
+            $dataField->addMessage('Only the first item has been imported : '.Json::encode($temp));
+        } else {
+            $dataField->addMessage('Was not able to import the data : '.Json::encode($temp));
+            $out = [];
         }
 
         return ['value' => $out];
@@ -252,7 +301,7 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
         $environmentName = $fieldType->getDisplayOption('environment');
         $environment = $environmentName ? $this->environmentService->giveByName($environmentName) : null;
 
-        $index = $environment ? $environment->getAlias() : $fieldType->giveContentType()->giveEnvironment()->getAlias();
+        $index = $environment instanceof \EMS\CoreBundle\Entity\Environment ? $environment->getAlias() : $fieldType->giveContentType()->giveEnvironment()->getAlias();
         $jmnMenu = $this->createJsonMenuNested($index, $jmnQuery, $jmnField);
 
         $items = [];
@@ -261,7 +310,7 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
                 if (\in_array($item->getId(), $assignedUuids, true)) {
                     continue;
                 }
-                if (\count($jmnTypes) > 0 && !\in_array($item->getType(), $jmnTypes, true)) {
+                if ([] !== $jmnTypes && !\in_array($item->getType(), $jmnTypes, true)) {
                     continue;
                 }
                 $items[] = $item;

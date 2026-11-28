@@ -30,7 +30,7 @@ class LogController extends AbstractController
         private readonly LogManager $logManager,
         private readonly DataTableFactory $dataTableFactory,
         private readonly LocalizedLoggerInterface $logger,
-        private readonly string $templateNamespace,
+        private readonly string $datetimeFormat,
     ) {
     }
 
@@ -44,7 +44,7 @@ class LogController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             match ($this->getClickedButtonName($form)) {
                 TableAbstract::DELETE_ACTION => $this->logManager->deleteByIds($table->getSelected()),
-                default => $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core')),
+                default => $this->logger->messageError(t('message.invalid_table_action', [], 'emsco-core')),
             };
 
             return $this->redirectToRoute(Routes::LOG_INDEX);
@@ -59,15 +59,20 @@ class LogController extends AbstractController
         ]);
     }
 
-    public function view(Log $log): Response
+    public function view(Log $log): Page
     {
-        return $this->render("@$this->templateNamespace/log/view.html.twig", [
-            'log' => $log,
-            'subTitle' => t('type.title_sub', ['type' => 'log'], 'emsco-core'),
-            'breadcrumb' => $this->breadcrumb()->add(
-                label: t('key.details', [], 'emsco-core'),
-            ),
-        ]);
+        return new Page(
+            context: [
+                'log' => $log,
+                'icon' => 'fa fa-file-text',
+                'title' => t('title.log_of', ['created' => $log->getCreated()->format($this->datetimeFormat)], 'emsco-core'),
+                'subTitle' => t('type.title_sub', ['type' => 'log'], 'emsco-core'),
+                'breadcrumb' => $this->breadcrumb()->add(
+                    t('key.details', [], 'emsco-core'),
+                ),
+            ],
+            template: 'page/log.html.twig'
+        );
     }
 
     public function delete(Log $log): Response
@@ -82,7 +87,7 @@ class LogController extends AbstractController
         return Navigation::admin()->add(
             label: t('key.logs', [], 'emsco-core'),
             icon: 'fa fa-file-text',
-            route: 'emsco_log_index',
+            route: Routes::LOG_INDEX,
         );
     }
 }

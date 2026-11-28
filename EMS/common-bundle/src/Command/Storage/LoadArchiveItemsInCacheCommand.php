@@ -22,7 +22,7 @@ use Symfony\Component\Finder\SplFileInfo;
 
 #[AsCommand(
     name: Commands::LOAD_ARCHIVE_IN_CACHE,
-    description: 'Load archive\'s items in cache',
+    description: "Load archive's items in cache",
     hidden: false
 )]
 class LoadArchiveItemsInCacheCommand extends AbstractCommand
@@ -58,7 +58,7 @@ class LoadArchiveItemsInCacheCommand extends AbstractCommand
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title('Load archive\'s items in storage cache');
+        $this->io->title("Load archive's items in storage cache");
 
         $this->io->section('Downloading archive');
 

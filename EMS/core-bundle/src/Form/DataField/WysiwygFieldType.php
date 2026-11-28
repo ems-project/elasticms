@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\DataField;
 
-use EMS\CommonBundle\Twig\AssetRuntime;
-use EMS\CoreBundle\EMSCoreBundle;
+use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Form\Field\AnalyzerPickerType;
@@ -13,6 +13,7 @@ use EMS\CoreBundle\Form\Field\WysiwygStylesSetPickerType;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\ElasticsearchService;
 use EMS\CoreBundle\Service\WysiwygStylesSetService;
+use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Locale;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -28,19 +29,36 @@ use Symfony\Component\Intl\Locales;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class WysiwygFieldType extends DataFieldType
 {
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker, FormRegistryInterface $formRegistry, ElasticsearchService $elasticsearchService, private readonly RouterInterface $router, private readonly WysiwygStylesSetService $wysiwygStylesSetService, private readonly AssetRuntime $assetRuntime)
-    {
-        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        FormRegistryInterface $formRegistry,
+        ElasticsearchService $elasticsearchService,
+        TokenStorageInterface $tokenStorage,
+        private readonly RouterInterface $router,
+        private readonly WysiwygStylesSetService $wysiwygStylesSetService,
+        private readonly StorageManager $storageManager,
+    ) {
+        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService, $tokenStorage);
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'WYSIWYG field';
+        return ['type' => 'string'];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.wysiwyg', [], 'emsco-core');
     }
 
     #[\Override]
@@ -79,11 +97,7 @@ class WysiwygFieldType extends DataFieldType
             $contentCss ??= $styleSet->getContentCss();
             $assets = $styleSet->getAssets();
             $hash = $assets['sha1'] ?? null;
-            $saveDir = $styleSet->getSaveDir();
-            if (null !== $assets && \is_string($hash) && null !== $saveDir) {
-                $this->assetRuntime->unzip($hash, $saveDir);
-            }
-            if ($hash && null === $saveDir && $contentCss) {
+            if ($hash && $contentCss) {
                 $contentCss = $this->router->generate('ems_asset_in_archive', [
                     'hash' => $hash,
                     'path' => $contentCss,
@@ -94,6 +108,8 @@ class WysiwygFieldType extends DataFieldType
 
         if (isset($options['language'])) {
             $attr['data-lang'] = Locale::getLanguage($options['language']);
+        } elseif (isset($options['locale'])) {
+            $attr['data-lang'] = $options['locale'];
         }
 
         $attr['data-referrer-ems-id'] = $options['referrer-ems-id'] ?? false;
@@ -101,7 +117,7 @@ class WysiwygFieldType extends DataFieldType
         $attr['data-format-tags'] = $formatTags;
         $attr['data-styles-set'] = $styleSetName;
         $attr['data-content-css'] = $contentCss;
-        $attr['class'] .= ' ckeditor_ems';
+        $attr['class'] .= ' ems-wysiwyg-revision';
         $view->vars['attr'] = $attr;
     }
 
@@ -125,11 +141,31 @@ class WysiwygFieldType extends DataFieldType
     #[\Override]
     public function reverseViewTransform($data, FieldType $fieldType): DataField
     {
+        $assetPath = $this->router->generate('ems_asset', [
+            'hash_config' => '__hash_config__',
+            'hash' => '__hash__',
+            'filename' => '__filename__',
+        ]);
+
+        $out = \preg_replace_callback(
+            '#(?<target>src|href)="('.\substr($assetPath, 0, \strlen($assetPath) - 37).'(?<config>[a-f0-9]+)/(?<hash>[a-f0-9]+)/(?<filename>[^"]+))"#i',
+            function ($matches) {
+                $assetConfig = Json::decode($this->storageManager->getContents($matches['config']));
+                $query = \http_build_query([
+                    'type' => $assetConfig[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? 'application/bin',
+                    'name' => $matches['filename'],
+                ]);
+
+                return \sprintf('%s="ems://asset:%s?%s"', $matches['target'], $matches['hash'], $query);
+            },
+            $data
+        );
+
         $path = $this->router->generate('ems_file_view', ['sha1' => '__SHA1__'], UrlGeneratorInterface::ABSOLUTE_PATH);
         $out = \preg_replace_callback(
             '/('.\preg_quote(\substr($path, 0, \strlen($path) - 8), '/').')([^\n\r"\'\?]*)/i',
             fn ($matches) => 'ems://asset:'.$matches[2],
-            $data
+            $out
         );
 
         $path = $this->router->generate(Routes::DATA_LINK, ['key' => '__KEY__'], UrlGeneratorInterface::ABSOLUTE_PATH);
@@ -156,6 +192,7 @@ class WysiwygFieldType extends DataFieldType
         }
         $path = $this->router->generate('ems_file_view', ['sha1' => '__SHA1__'], UrlGeneratorInterface::ABSOLUTE_PATH);
         $path = \substr($path, 0, \strlen($path) - 8);
+
         $collectedAssets = [];
         $out = \preg_replace_callback(
             '/(ems:\/\/asset:)([^\n\r"\'\?]*)(\?[^\n\r"\']*)?/i',
@@ -174,7 +211,7 @@ class WysiwygFieldType extends DataFieldType
             Type::string($out)
         );
 
-        foreach ($this->assetRuntime->heads(...\array_keys($collectedAssets)) as $hash) {
+        foreach ($this->storageManager->heads(...\array_keys($collectedAssets)) as $hash) {
             if (true === $hash) {
                 continue;
             }
@@ -206,26 +243,39 @@ class WysiwygFieldType extends DataFieldType
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')
                 ->add('analyzer', AnalyzerPickerType::class)
-                ->add('copy_to', TextType::class, ['required' => false]);
+                ->add('copy_to', TextType::class, [
+                    'label' => t('field.copy_to', [], 'emsco-core'),
+                    'required' => false,
+                ]);
         }
         $optionsForm->get('displayOptions')
             ->add('language', ChoiceType::class, [
+                'label' => t('field.language', [], 'emsco-core'),
                 'required' => false,
                 'choices' => \array_flip(Locales::getNames()),
                 'choice_translation_domain' => false,
             ])
-            ->add('height', IntegerType::class, ['required' => false])
-            ->add('styles_set', WysiwygStylesSetPickerType::class, ['required' => false])
-            ->add('styles_set_preview', CheckboxType::class, ['required' => false])
+            ->add('height', IntegerType::class, [
+                'label' => t('field.height', [], 'emsco-core'),
+                'required' => false,
+            ])
+            ->add('styles_set', WysiwygStylesSetPickerType::class, [
+                'label' => t('field.styles_set', [], 'emsco-core'),
+                'required' => false,
+            ])
+            ->add('styles_set_preview', CheckboxType::class, [
+                'label' => t('field.is_styles_set_preview', [], 'emsco-core'),
+                'required' => false,
+            ])
             ->add('format_tags', TextType::class, [
                 'required' => false,
-                'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
-                'label' => 'form.form_field.wysiwyg.format_tags.label',
+                'label' => t('field.format_tags', [], 'emsco-core'),
+                'help' => t('help.override_styles_set_config', [], 'emsco-core'),
             ])
             ->add('content_css', TextType::class, [
                 'required' => false,
-                'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
-                'label' => 'form.form_field.wysiwyg.content_css.label',
+                'label' => t('field.content_css', [], 'emsco-core'),
+                'help' => t('help.override_styles_set_config', [], 'emsco-core'),
             ])
         ;
     }

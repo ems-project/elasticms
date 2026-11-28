@@ -10,8 +10,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ReadableCollection;
 use Doctrine\ORM\EntityManager;
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Entity\EntityInterface;
-use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\Environment\EnvironmentsRevision;
@@ -26,16 +26,15 @@ use EMS\CoreBundle\Repository\AnalyzerRepository;
 use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\EnvironmentRevisionRepository;
 use EMS\CoreBundle\Repository\FilterRepository;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
+use function Symfony\Component\Translation\t;
 
 class EnvironmentService implements EntityServiceInterface
 {
     /** @var array<string, Environment> */
     private array $environments = [];
-    /** @var array<string, Environment> */
-    private array $notSnapshotEnvironments = [];
     /** @var array<int, Environment> */
     private array $environmentsById = [];
 
@@ -45,7 +44,7 @@ class EnvironmentService implements EntityServiceInterface
         private readonly Registry $doctrine,
         private readonly UserService $userService,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
-        private readonly LoggerInterface $logger,
+        private readonly LocalizedLoggerInterface $logger,
         private readonly ElasticaService $elasticaService,
         private readonly AliasService $aliasService,
         private readonly EnvironmentRevisionRepository $environmentRevisionRepository,
@@ -85,10 +84,7 @@ class EnvironmentService implements EntityServiceInterface
         $environment = new Environment();
         $environment->setName($name);
         $environment->setColor($color ?? 'default');
-        $environment->setAlias($this->generateAlias($environment));
-        $environment->setManaged(true);
         $environment->setUpdateReferrers($updateReferrers);
-        $environment->setOrderKey($this->count(context: ['managed' => true]));
         $environment->setRolePublish($rolePublish);
 
         if (null !== $position) {
@@ -98,11 +94,23 @@ class EnvironmentService implements EntityServiceInterface
             $environment->setOrderKey($position);
         }
 
+        return $this->create($environment);
+    }
+
+    public function create(Environment $environment): Environment
+    {
+        $environment->setAlias($this->generateAlias($environment));
+        $environment->setManaged(true);
+
+        if (!$environment->hasOrderKey()) {
+            $environment->setOrderKey($this->count(context: ['managed' => true]));
+        }
+
         $this->environmentRepository->save($environment);
 
-        $this->logger->notice('log.environment.created', [
-            EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
-        ]);
+        $this->logger->messageNotice(t('message.environment_created', [
+            'environment' => $environment->getLabel(),
+        ], 'emsco-core'));
 
         return $environment;
     }
@@ -194,35 +202,6 @@ class EnvironmentService implements EntityServiceInterface
     }
 
     /**
-     * @return array<string, Environment>
-     */
-    #[\Deprecated(message: 'https://github.com/ems-project/EMSCoreBundle/issues/281')]
-    public function getNotSnapshotEnvironments(): array
-    {
-        if ([] !== $this->notSnapshotEnvironments) {
-            return $this->notSnapshotEnvironments;
-        }
-
-        $environments = $this->doctrine->getManager()->getRepository(Environment::class)->findBy(['snapshot' => false]);
-
-        /** @var Environment $environment */
-        foreach ($environments as $environment) {
-            $this->notSnapshotEnvironments[$environment->getName()] = $environment;
-        }
-
-        return $this->notSnapshotEnvironments;
-    }
-
-    /**
-     * @return string[]
-     */
-    #[\Deprecated(message: 'https://github.com/ems-project/EMSCoreBundle/issues/281')]
-    public function getNotSnapshotEnvironmentsNames(): array
-    {
-        return \array_keys($this->getNotSnapshotEnvironments());
-    }
-
-    /**
      * @return array<int, Environment>
      */
     public function getEnvironmentsById(): array
@@ -243,7 +222,7 @@ class EnvironmentService implements EntityServiceInterface
     /** @return Environment[] */
     public function getByNames(string ...$names): array
     {
-        return \count($names) > 0 ? $this->environmentRepository->findBy(['name' => $names]) : [];
+        return [] !== $names ? $this->environmentRepository->findBy(['name' => $names]) : [];
     }
 
     /** @return array<int|string, mixed> */
@@ -349,14 +328,13 @@ class EnvironmentService implements EntityServiceInterface
 
                 return null === $role || $this->authorizationChecker->isGranted($role);
             })
-            ->matching(Criteria::create()->orderBy(['orderKey' => \SortDirection::Ascending]))
+            ->matching(new Criteria()->orderBy(['orderKey' => \SortDirection::Ascending]))
         ;
     }
 
     public function clearCache(): self
     {
         $this->environments = [];
-        $this->notSnapshotEnvironments = [];
         $this->environmentsById = [];
 
         return $this;
@@ -392,7 +370,9 @@ class EnvironmentService implements EntityServiceInterface
     public function delete(Environment $environment): bool
     {
         if (0 !== $environment->getRevisions()->count()) {
-            $this->logger->error('log.environment.not_empty', [EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName()]);
+            $this->logger->messageError(t('message.environment_not_empty', [
+                'environment' => $environment->getLabel(),
+            ], 'emsco-core'));
 
             return false;
         }
@@ -407,7 +387,9 @@ class EnvironmentService implements EntityServiceInterface
         }
 
         if ($linked) {
-            $this->logger->error('log.environment.is_default', [EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName()]);
+            $this->logger->messageError(t('message.environment_is_default', [
+                'environment' => $environment->getLabel(),
+            ], 'emsco-core'));
 
             return false;
         }
@@ -425,9 +407,8 @@ class EnvironmentService implements EntityServiceInterface
         $position = $environment->getOrderKey();
         $this->environmentRepository->delete($environment);
         $this->environmentRepository->shiftOrderKeyFrom($position + 1, -1);
-        $this->logger->notice('log.environment.deleted', [
-            EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
-        ]);
+
+        $this->logger->messageNotice(t('message.environment_deleted', ['label' => $environment->getLabel()], 'emsco-core'));
 
         return true;
     }

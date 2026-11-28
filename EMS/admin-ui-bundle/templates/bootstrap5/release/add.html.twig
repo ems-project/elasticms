@@ -1,20 +1,18 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
-{% trans_default_domain 'EMSCoreBundle' %}
+{% trans_default_domain 'emsco-core' %}
 
-{% block title %}{{ 'release.add.title'|trans }}{% endblock %}
+{% block title %}{{ 'title.add_release'|trans }}{% endblock %}
 {% block pagetitle %}{{ block('title') }}{% endblock %}
 
 {% block breadcrumb %}
-	<ol class="breadcrumb float-sm-end">
-		<li class="breadcrumb-item">
-			<a href="{{ path('emsco_release_index') }}"><i class="{{ 'view.icon.class.release'|trans }}"></i> {{ 'release.menu'|trans }}
-			</a></li>
-		<li class="breadcrumb-item">{{ block('title') }}</li>
-	</ol>
+    <ol class="breadcrumb float-sm-end">
+        <li class="breadcrumb-item">
+            <a href="{{ path('emsco_release_index') }}"><i class="fa fa-cube"></i> {{ 'key.releases'|trans }}
+            </a></li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
 {% endblock %}
 
 {% block body %}
-    {% include "@EMSAdminUI/bootstrap5/release/form.html.twig" with {
-    	label: 'release.add.title',
-    } %}
+    {{ include('@EMSAdminUI/bootstrap5/release/form.html.twig') }}
 {% endblock %}

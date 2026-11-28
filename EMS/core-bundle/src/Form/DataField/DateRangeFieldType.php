@@ -15,13 +15,32 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class DateRangeFieldType extends DataFieldType
 {
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Date range field';
+        $fromDateMachineName = (string) $fieldType->getMappingOption('fromDateMachineName', $fieldType->getName().'_from_date');
+        $toDateMachineName = (string) $fieldType->getMappingOption('toDateMachineName', $fieldType->getName().'_to_date');
+
+        return [
+            'type' => 'object',
+            'properties' => [
+                $fromDateMachineName => ['type' => 'string', 'format' => 'date-time'],
+                $toDateMachineName => ['type' => 'string', 'format' => 'date-time'],
+            ],
+            'additionalProperties' => false,
+        ];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.date', [], 'emsco-core');
     }
 
     #[\Override]
@@ -54,6 +73,31 @@ class DateRangeFieldType extends DataFieldType
     public function getBlockPrefix(): string
     {
         return 'bypassdatafield';
+    }
+
+    /**
+     * @param callable(FieldType, mixed): mixed $buildChildValue
+     */
+    #[\Override]
+    public function buildMcpRawDataValue(FieldType $fieldType, mixed $rawData, callable $buildChildValue): mixed
+    {
+        if (!\is_array($rawData)) {
+            return $rawData;
+        }
+
+        $fromDateMachineName = (string) $fieldType->getMappingOption('fromDateMachineName', $fieldType->getName().'_from_date');
+        $toDateMachineName = (string) $fieldType->getMappingOption('toDateMachineName', $fieldType->getName().'_to_date');
+        $output = [];
+
+        foreach ([$fromDateMachineName, $toDateMachineName] as $machineName) {
+            if (!\array_key_exists($machineName, $rawData)) {
+                continue;
+            }
+
+            $output[$machineName] = $this->normalizeMcpDateTimeValue($rawData[$machineName]);
+        }
+
+        return $output;
     }
 
     /**
@@ -90,9 +134,8 @@ class DateRangeFieldType extends DataFieldType
             }
 
             $dataField->setRawData($convertedDates);
-        } else {
-            // TODO: log warnign
         }
+        // TODO: log warnign
 
         return $dataField;
     }
@@ -133,7 +176,7 @@ class DateRangeFieldType extends DataFieldType
     public function importData(DataField $dataField, array|string|int|float|bool|null $sourceArray, bool $isMigration): array
     {
         $migrationOptions = $dataField->giveFieldType()->getMigrationOptions();
-        if (!$isMigration || empty($migrationOptions) || !$migrationOptions['protected']) {
+        if (!$isMigration || [] === $migrationOptions || !$migrationOptions['protected']) {
             $mappingOptions = $dataField->giveFieldType()->getMappingOptions();
 
             if (!$mappingOptions['nested']) {
@@ -156,9 +199,9 @@ class DateRangeFieldType extends DataFieldType
                 $dataField->setRawData($in);
 
                 return $out;
-            } else {
-                return parent::importData($dataField, $sourceArray, $isMigration);
             }
+
+            return parent::importData($dataField, $sourceArray, $isMigration);
         }
 
         return [$dataField->giveFieldType()->getName()];
@@ -241,7 +284,7 @@ class DateRangeFieldType extends DataFieldType
         ];
 
         if ($current->getMappingOptions()['nested']) {
-            $out = [
+            return [
                 $current->getName() => [
                     'type' => 'nested',
                     'properties' => $out,
@@ -260,7 +303,7 @@ class DateRangeFieldType extends DataFieldType
                 $out[$data->giveFieldType()->getName()] = $data->getRawData();
             } else {
                 $rawData = $data->getRawData();
-                if (!\is_array($rawData) || empty($rawData)) {
+                if (!\is_array($rawData) || [] === $rawData) {
                     $rawData = [];
                 }
 
@@ -278,9 +321,18 @@ class DateRangeFieldType extends DataFieldType
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm
                 ->get('mappingOptions')
-                ->add('fromDateMachineName', TextType::class, ['required' => false])
-                ->add('toDateMachineName', TextType::class, ['required' => false])
-                ->add('nested', CheckboxType::class, ['required' => false]);
+                ->add('fromDateMachineName', TextType::class, [
+                    'label' => t('field.from_date_machine_name', [], 'emsco-core'),
+                    'required' => false,
+                ])
+                ->add('toDateMachineName', TextType::class, [
+                    'label' => t('field.to_date_machine_name', [], 'emsco-core'),
+                    'required' => false,
+                ])
+                ->add('nested', CheckboxType::class, [
+                    'label' => t('field.nested', [], 'emsco-core'),
+                    'required' => false,
+                ]);
         }
 
         $optionsForm->get('displayOptions')->add('locale', SubOptionsType::class, [
@@ -288,36 +340,44 @@ class DateRangeFieldType extends DataFieldType
             'label' => false,
         ]);
         $optionsForm->get('displayOptions')->get('locale')->add('format', TextType::class, [
+            'label' => t('field.format', [], 'emsco-core'),
             'required' => false,
             'attr' => [
-                'placeholder' => 'i.e. dd/MM/yyyy HH:mm',
+                'placeholder' => t('placeholder.for_example', ['example' => 'dd/MM/yyyy HH:mm'], 'emsco-core'),
             ],
         ]);
         $optionsForm->get('displayOptions')->get('locale')->add('parseFormat', TextType::class, [
+            'label' => t('field.parse_format', [], 'emsco-core'),
             'required' => false,
-            'attr' => ['placeholder' => '(PHP) d/m/Y H:i'],
+            'attr' => ['placeholder' => t('placeholder.for_example', ['example' => 'd/m/Y H:i (PHP)'], 'emsco-core')],
         ]);
         $optionsForm->get('displayOptions')->get('locale')->add('firstDay', IntegerType::class, [
+            'label' => t('field.week_start', [], 'emsco-core'),
             'required' => false,
         ]);
         $optionsForm->get('displayOptions')->add('icon', IconPickerType::class, [
+            'label' => t('field.icon', [], 'emsco-core'),
             'required' => false,
         ]);
         $optionsForm->get('displayOptions')->add('showWeekNumbers', CheckboxType::class, [
+            'label' => t('field.show_week_numbers', [], 'emsco-core'),
             'required' => false,
         ]);
         $optionsForm->get('displayOptions')->add('timePicker', CheckboxType::class, [
+            'label' => t('field.time_picker', [], 'emsco-core'),
             'required' => false,
         ]);
         $optionsForm->get('displayOptions')->add('timePicker24Hour', CheckboxType::class, [
+            'label' => t('field.time_picker_24_hour', [], 'emsco-core'),
             'required' => false,
         ]);
 
         $optionsForm->get('displayOptions')->add('timePickerIncrement', IntegerType::class, [
+            'label' => t('field.time_picker_increment', [], 'emsco-core'),
             'required' => false,
             'empty_data' => 5,
             'attr' => [
-                'placeholder' => '5',
+                'placeholder' => t('placeholder.for_example', ['example' => '5'], 'emsco-core'),
             ],
         ]);
     }

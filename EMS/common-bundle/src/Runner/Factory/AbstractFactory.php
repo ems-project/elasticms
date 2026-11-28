@@ -34,7 +34,7 @@ abstract class AbstractFactory implements RunnerFactoryInterface
         if (self::RUNNER_EMS_VERSION_REPLACER === $imageTag) {
             $imageTag = $this->composerInfo->getVersionPackages()['common'] ?? null;
             if (null === $imageTag) {
-                $this->logger->warning('ElasticMS\'s version package is not configured.');
+                $this->logger->warning("ElasticMS's version package is not configured.");
             }
         }
 

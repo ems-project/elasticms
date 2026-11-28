@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface;
-use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\ContentType\FieldType\FieldTypeService;
 use EMS\CoreBundle\Core\ContentType\FieldType\FieldTypeTreeItem;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
@@ -25,15 +25,16 @@ use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\UserService;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use function Symfony\Component\Translation\t;
+
 class UserController extends AbstractController
 {
     public function __construct(
-        private readonly LoggerInterface $logger,
+        private readonly LocalizedLoggerInterface $logger,
         private readonly ContentTypeRepository $contentTypeRepository,
         private readonly UserService $userService,
         private readonly UserManager $userManager,
@@ -55,7 +56,7 @@ class UserController extends AbstractController
         $form = $this->createForm(TableType::class, $table);
         $form->handleRequest($request);
 
-        return $this->render("@$this->templateNamespace/user/index.html.twig", [
+        return $this->render(\sprintf('@%s/user/index.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
         ]);
     }
@@ -109,7 +110,7 @@ class UserController extends AbstractController
             Roles::ROLE_USER_READ,
         ];
 
-        return $this->render("@$this->templateNamespace/user/permissions/permissions.html.twig", [
+        return $this->render(\sprintf('@%s/user/permissions/permissions.html.twig', $this->templateNamespace), [
             'contentTypeCounts' => $contentTypeCounts,
             'roles' => $roles,
             'rolesFunctionality' => $rolesFunctionality,
@@ -123,7 +124,7 @@ class UserController extends AbstractController
 
         $fieldTypesWithMinimumRole = $tree->getChildrenRecursive()->filter(fn (FieldTypeTreeItem $item) => $item->getFieldType()->getRestrictionOption('minimum_role', false));
 
-        return $this->render("@$this->templateNamespace/user/permissions/specific-permissions.html.twig", [
+        return $this->render(\sprintf('@%s/user/permissions/specific-permissions.html.twig', $this->templateNamespace), [
             'contentType' => $contentType,
             'tree' => $tree,
             'children' => $fieldTypesWithMinimumRole,
@@ -137,18 +138,14 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $continue = $this->userExist($user, 'add');
+            $user->setEnabled(true);
+            $this->userManager->add($user);
+            $this->addFlash('notice', 'User created!');
 
-            if ($continue) {
-                $user->setEnabled(true);
-                $this->userManager->add($user);
-                $this->addFlash('notice', 'User created!');
-
-                return $this->redirectToRoute(Routes::USER_INDEX);
-            }
+            return $this->redirectToRoute(Routes::USER_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/user/add.html.twig", [
+        return $this->render(\sprintf('@%s/user/add.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
         ]);
     }
@@ -164,17 +161,15 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->userService->updateUser($user);
-            $this->logger->notice('log.user.updated', [
-                'username_managed' => $user->getUsername(),
+            $this->userManager->update($user);
+            $this->logger->messageNotice(t('message.user_updated', [
                 'user_display_name' => $user->getDisplayName(),
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
-            ]);
+            ], 'emsco-core'));
 
             return $this->redirectToRoute(Routes::USER_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/user/edit.html.twig", [
+        return $this->render(\sprintf('@%s/user/edit.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'user' => $user,
         ]);
@@ -187,15 +182,10 @@ class UserController extends AbstractController
 
     public function delete(User $user): Response
     {
-        $username = $user->getUsername();
-        $displayName = $user->getDisplayName();
         $this->userService->deleteUser($user);
-
-        $this->logger->notice('log.user.deleted', [
-            'username_managed' => $username,
-            'user_display_name' => $displayName,
-            EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_DELETE,
-        ]);
+        $this->logger->messageNotice(t('message.user_deleted', [
+            'user_display_name' => $user->getDisplayName(),
+        ], 'emsco-core'));
 
         return $this->redirectToRoute(Routes::USER_INDEX);
     }
@@ -204,25 +194,26 @@ class UserController extends AbstractController
     {
         if ($user->isEnabled()) {
             $user->setEnabled(false);
-            $message = 'log.user.disabled';
+            $this->logger->messageNotice(t('message.user_disabled', [
+                'user_display_name' => $user->getDisplayName(),
+            ], 'emsco-core'));
         } else {
             $user->setEnabled(true);
-            $message = 'log.user.enabled';
+            $this->logger->messageNotice(t('message.user_enabled', [
+                'user_display_name' => $user->getDisplayName(),
+            ], 'emsco-core'));
         }
-        $this->userService->updateUser($user);
-
-        $this->logger->notice($message, [
-            'username_managed' => $user->getUsername(),
-            'user_display_name' => $user->getDisplayName(),
-            EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
-        ]);
+        $this->userManager->update($user);
 
         return $this->redirectToRoute(Routes::USER_INDEX);
     }
 
     public function apiKey(string $username): Response
     {
-        $user = $this->userService->giveUser($username, false);
+        $user = $this->userManager->getUserByUsername($username);
+        if (null === $user) {
+            throw new \RuntimeException(\sprintf('User %s not found', $username));
+        }
 
         $roles = $user->getRoles();
         if (!\in_array('ROLE_API', $roles)) {
@@ -236,24 +227,20 @@ class UserController extends AbstractController
 
         $authToken = new AuthToken($user);
         $this->authTokenRepository->save($authToken);
-
-        // TODO: Hide the key in the logs?
-        $this->logger->notice('log.user.api_key', [
-            'username_managed' => $user->getUsername(),
+        $this->logger->messageNotice(t('message.user_api_key_generated', [
             'user_display_name' => $user->getDisplayName(),
             'api_key' => $authToken->getValue(),
-            EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
-        ]);
+        ], 'emsco-core'));
 
         return $this->redirectToRoute(Routes::USER_INDEX);
     }
 
     public function sidebarCollapse(bool $collapsed): Response
     {
-        /** @var User $user */
-        $user = $this->userService->giveUser($this->userService->getCurrentUser()->getUsername(), false);
+        $user = $this->userManager->getAuthenticatedUser();
         $user->setSidebarCollapse($collapsed);
-        $this->userService->updateUser($user);
+
+        $this->userManager->update($user);
 
         return $this->flashMessageLogger->buildJsonResponse([
             'success' => true,
@@ -262,7 +249,7 @@ class UserController extends AbstractController
 
     public function spreadsheetExport(string $_format): Response
     {
-        $rows = [['username', 'display name', 'notification', 'email', 'enabled', 'last login', 'expiration date', 'roles']];
+        $rows = [['username', 'display name', 'notification', 'email', 'enabled', 'last login', 'expiration date', 'profile', 'group', 'roles']];
         foreach ($this->userService->getAll() as $user) {
             $rows[] = [
                 $user->getUsername(),
@@ -272,7 +259,9 @@ class UserController extends AbstractController
                 $user->isEnabled() ? 'Y' : 'N',
                 $user->getLastLogin()?->format($this->dateTimeFormat),
                 $user->getExpirationDate()?->format($this->dateTimeFormat),
-                \implode(', ', $user->getRoles()),
+                $user->getWysiwygProfile()?->getName() ?? '',
+                $user->getGroup()?->getName() ?? '',
+                \implode(', ', $user->getExtraRoles()),
             ];
         }
 
@@ -286,26 +275,6 @@ class UserController extends AbstractController
         ]);
     }
 
-    private function userExist(User $user, string $action): bool
-    {
-        $exists = [
-            'email' => $this->userManager->getUserByEmail($user->getEmail()),
-            'username' => $this->userManager->getUserByUsername($user->getUsername()),
-        ];
-        $messages = ['email' => 'User email already exist!', 'username' => 'Username already exist!'];
-        foreach ($exists as $key => $value) {
-            if ($value instanceof User) {
-                if ('add' === $action || ('edit' === $action && $value->getId() !== $user->getId())) {
-                    $this->addFlash('error', $messages[$key]);
-
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
     public function removeFromGroup(User $user, string $groupName): Response
     {
         $userGroup = $user->getGroup();
@@ -313,7 +282,7 @@ class UserController extends AbstractController
             throw new \RuntimeException(\sprintf('The user is not in the group "%s".', $groupName));
         }
         $user->setGroup(null);
-        $this->userService->updateUser($user);
+        $this->userManager->update($user);
 
         return $this->redirectToRoute(Routes::GROUP_EDIT, [
             'group' => $groupName,
@@ -328,7 +297,7 @@ class UserController extends AbstractController
         }
 
         $user->setGroup($userGroup);
-        $this->userService->updateUser($user);
+        $this->userManager->update($user);
 
         return $this->redirectToRoute(Routes::GROUP_EDIT, [
             'group' => $userGroup->getId(),

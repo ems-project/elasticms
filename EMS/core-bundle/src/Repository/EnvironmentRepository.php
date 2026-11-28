@@ -4,22 +4,28 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Repository;
 
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\ReadableCollection;
 use Doctrine\DBAL\ArrayParameterType;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Revision;
 
 /**
- * @extends EntityRepository<Environment>
+ * @extends ServiceEntityRepository<Environment>
  *
  * @method Environment|null find($id, $lockMode = null, $lockVersion = null)
  * @method Environment|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
  */
-class EnvironmentRepository extends EntityRepository
+class EnvironmentRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Environment::class);
+    }
+
     /**
      * @return Environment[]
      */
@@ -85,28 +91,16 @@ class EnvironmentRepository extends EntityRepository
     }
 
     /**
-     * @return array<mixed>
+     * @return Environment[]
      */
-    public function findAllAsAssociativeArray(string $field): array
+    public function associativeArrayByAlias(): array
     {
-        $qb = $this->createQueryBuilder('e');
-        $qb->select('e.'.$field.' key, e.name name, e.label label, e.color color, e.alias alias, e.managed managed, e.baseUrl baseUrl, e.circles circles');
-
-        $out = [];
-        $result = $qb->getQuery()->getResult();
-        foreach ($result as $record) {
-            $out[$record['key']] = [
-                'color' => $record['color'],
-                'name' => $record['name'],
-                'label' => $record['label'] ?? $record['name'],
-                'alias' => $record['alias'],
-                'managed' => $record['managed'],
-                'baseUrl' => $record['baseUrl'],
-                'circles' => $record['circles'] ?? [],
-            ];
+        $associativeArray = [];
+        foreach ($this->findAll() as $environment) {
+            $associativeArray[$environment->getAlias()] = $environment;
         }
 
-        return $out;
+        return $associativeArray;
     }
 
     public function delete(Environment $environment): void

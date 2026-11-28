@@ -52,7 +52,7 @@ class ContentTypeFields implements \ArrayAccess
     public function getFields(): array
     {
         /** @var array<string, ?string> $cleaned */
-        $cleaned = ArrayHelper::map($this->fields, fn (?string $v) => (null !== $v && \strlen($v) > 0 ? $v : null));
+        $cleaned = ArrayHelper::map($this->fields, fn (?string $v) => (null !== $v && '' !== $v ? $v : null));
 
         return $cleaned;
     }
@@ -72,6 +72,10 @@ class ContentTypeFields implements \ArrayAccess
     #[\Override]
     public function offsetSet($offset, $value): void
     {
+        if (null === $offset) {
+            return;
+        }
+
         $this->fields[$offset] = $value;
     }
 

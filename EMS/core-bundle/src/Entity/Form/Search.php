@@ -6,23 +6,15 @@ namespace EMS\CoreBundle\Entity\Form;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
-use EMS\CoreBundle\Entity\ContentType;
 
 class Search implements \JsonSerializable
 {
-    use IdentifierIntegerTrait;
-
     /** @var Collection<int, SearchFilter> */
     public Collection $filters;
-    private string $user;
     /** @var string[] */
     public array $environments = [];
     /** @var string[] */
     public array $contentTypes = [];
-    private string $name;
-    private bool $default = false;
-    private ?ContentType $contentType = null;
     public ?string $sortBy = null;
     public ?string $sortOrder = null;
     /** @var int */
@@ -56,54 +48,6 @@ class Search implements \JsonSerializable
         return $out;
     }
 
-    /**
-     * Set user.
-     *
-     * @param string $user
-     *
-     * @return Search
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user.
-     *
-     * @return string
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return Search
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
     public function getFirstFilter(): SearchFilter
     {
         if (!$firstFilter = $this->filters->first()) {
@@ -130,6 +74,11 @@ class Search implements \JsonSerializable
         if ($this->filters->contains($filter)) {
             $this->filters->removeElement($filter);
         }
+    }
+
+    public function clearFilters(): void
+    {
+        $this->filters->clear();
     }
 
     /**
@@ -179,7 +128,7 @@ class Search implements \JsonSerializable
      */
     public function getEnvironments(): array
     {
-        return $this->environments ?? [];
+        return $this->environments;
     }
 
     /**
@@ -200,42 +149,6 @@ class Search implements \JsonSerializable
         return \array_values($this->contentTypes);
     }
 
-    /**
-     * Set default.
-     *
-     * @param bool $default
-     *
-     * @return Search
-     */
-    public function setDefault($default)
-    {
-        $this->default = $default;
-
-        return $this;
-    }
-
-    /**
-     * Get default.
-     *
-     * @return bool
-     */
-    public function getDefault()
-    {
-        return $this->default;
-    }
-
-    public function getContentType(): ?ContentType
-    {
-        return $this->contentType;
-    }
-
-    public function setContentType(?ContentType $contentType): self
-    {
-        $this->contentType = $contentType;
-
-        return $this;
-    }
-
     public function getMinimumShouldMatch(): int
     {
         return $this->minimumShouldMatch;
@@ -251,7 +164,7 @@ class Search implements \JsonSerializable
     public function setSearchPattern(string $pattern, bool $liveSearch = false): void
     {
         $queryString = $pattern;
-        if ($liveSearch && \strlen($pattern) > 0 && !\in_array(\substr($pattern, -1), [' ', '?', '*', '.', '/'])) {
+        if ($liveSearch && '' !== $pattern && !\in_array(\substr($pattern, -1), [' ', '?', '*', '.', '/'], true)) {
             $queryString .= '*';
         }
 

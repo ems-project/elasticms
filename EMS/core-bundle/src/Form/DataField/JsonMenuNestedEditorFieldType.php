@@ -4,23 +4,40 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\DataField;
 
+use EMS\CommonBundle\Json\JsonMenuNested;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Form\Field\AnalyzerPickerType;
 use EMS\CoreBundle\Form\Field\IconPickerType;
 use EMS\CoreBundle\Form\Field\IconTextType;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class JsonMenuNestedEditorFieldType extends DataFieldType
 {
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'JSON menu nested editor field';
+        return [
+            'type' => 'array',
+            'items' => ['$ref' => '#/$defs/jsonMenuNestedNode'],
+            '$defs' => [
+                'jsonMenuNestedNode' => $this->buildJsonMenuNestedNodeSchema($fieldType, $buildObjectSchema),
+            ],
+        ];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.json_menu_nested_editor', [], 'emsco-core');
     }
 
     #[\Override]
@@ -66,7 +83,49 @@ class JsonMenuNestedEditorFieldType extends DataFieldType
         return [$current->getName() => ['type' => 'text']];
     }
 
+    /**
+     * @param callable(FieldType, mixed): mixed $buildChildValue
+     */
     #[\Override]
+    public function buildMcpRawDataValue(FieldType $fieldType, mixed $rawData, callable $buildChildValue): mixed
+    {
+        if (!\is_string($rawData) && !\is_array($rawData)) {
+            return $rawData;
+        }
+
+        $jsonMenuNested = JsonMenuNested::fromStructure($rawData);
+        $nestedTypes = [];
+        foreach ($fieldType->getChildren() as $nestedContainer) {
+            $nestedTypes[$nestedContainer->getName()] = $nestedContainer;
+        }
+
+        foreach ($jsonMenuNested as $item) {
+            $nestedType = $nestedTypes[$item->getType()] ?? null;
+            if (!$nestedType instanceof FieldType) {
+                continue;
+            }
+
+            $itemObject = $item->getObject();
+            $itemObject = $buildChildValue($nestedType, $itemObject);
+            if (!\is_array($itemObject)) {
+                continue;
+            }
+
+            $item->setObject($itemObject);
+            if (\is_string($itemObject['label'] ?? null)) {
+                $item->setLabel($itemObject['label']);
+            }
+        }
+
+        return $jsonMenuNested->toArrayStructure();
+    }
+
+    #[\Override]
+    public function mcpInputToRawValue(FieldType $fieldType, mixed $rawData): mixed
+    {
+        return \is_array($rawData) ? Json::encode($rawData) : $rawData;
+    }
+
     public function buildOptionsForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildOptionsForm($builder, $options);
@@ -74,12 +133,16 @@ class JsonMenuNestedEditorFieldType extends DataFieldType
         $optionsForm = $builder->get('options');
 
         if ($optionsForm->has('mappingOptions')) {
-            $optionsForm->get('mappingOptions')->add('analyzer', AnalyzerPickerType::class);
+            $optionsForm->get('mappingOptions')->add('analyzer', AnalyzerPickerType::class, [
+                'label' => t('field.analyzer', [], 'emsco-core'),
+            ]);
         }
 
         $optionsForm->get('displayOptions')->add('icon', IconPickerType::class, [
+            'label' => t('field.icon', [], 'emsco-core'),
             'required' => false,
         ])->add('blocks_template', IconTextType::class, [
+            'label' => t('field.blocks_template', [], 'emsco-core'),
             'required' => false,
             'icon' => 'fa fa-html5',
         ]);
@@ -100,5 +163,65 @@ class JsonMenuNestedEditorFieldType extends DataFieldType
 
         $view->vars['disabled'] = !$this->authorizationChecker->isGranted($fieldType->getMinimumRole());
         $view->vars['revision'] = $revision;
+    }
+
+    /**
+     * @param callable(array<FieldType>): array<string, mixed> $buildObjectSchema
+     *
+     * @return array<string, mixed>
+     */
+    private function buildJsonMenuNestedNodeSchema(FieldType $fieldType, callable $buildObjectSchema): array
+    {
+        $variants = [];
+        foreach ($fieldType->getValidChildren() as $childFieldType) {
+            $variants[] = $this->buildJsonMenuNestedVariantSchema($childFieldType, $buildObjectSchema);
+        }
+
+        if ([] === $variants) {
+            return $this->buildJsonMenuNestedBaseSchema();
+        }
+
+        return ['anyOf' => $variants];
+    }
+
+    /**
+     * @param callable(array<FieldType>): array<string, mixed> $buildObjectSchema
+     *
+     * @return array<string, mixed>
+     */
+    private function buildJsonMenuNestedVariantSchema(FieldType $childFieldType, callable $buildObjectSchema): array
+    {
+        $baseSchema = $this->buildJsonMenuNestedBaseSchema();
+
+        return [
+            'type' => 'object',
+            'properties' => [
+                ...$baseSchema['properties'],
+                'type' => ['const' => $childFieldType->getName()],
+                'object' => $buildObjectSchema($childFieldType->getValidChildren()),
+            ],
+            'required' => ['id', 'label', 'type', 'object'],
+            'additionalProperties' => false,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function buildJsonMenuNestedBaseSchema(): array
+    {
+        return [
+            'type' => 'object',
+            'properties' => [
+                'id' => ['type' => 'string'],
+                'label' => ['type' => 'string'],
+                'children' => [
+                    'type' => 'array',
+                    'items' => ['$ref' => '#/$defs/jsonMenuNestedNode'],
+                ],
+            ],
+            'required' => ['id', 'label'],
+            'additionalProperties' => false,
+        ];
     }
 }

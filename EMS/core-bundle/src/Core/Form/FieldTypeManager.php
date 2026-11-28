@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Form;
 
-use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Exception\ElasticmsException;
 use EMS\CoreBundle\Form\DataField\DataFieldType;
 use EMS\CoreBundle\Form\DataField\SubfieldType;
 use EMS\CoreBundle\Service\Mapping;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormRegistryInterface;
+
+use function Symfony\Component\Translation\t;
 
 class FieldTypeManager
 {
     public function __construct(
-        private readonly LoggerInterface $logger,
+        private readonly LocalizedLoggerInterface $logger,
         private readonly FormRegistryInterface $formRegistry
     ) {
     }
@@ -28,11 +29,14 @@ class FieldTypeManager
     {
         if ($out = $this->addNewField($inputFieldType, $fieldType)) {
             return true === $out ? null : $out;
-        } elseif ($out = $this->addNewSubfield($inputFieldType, $fieldType)) {
+        }
+        if ($out = $this->addNewSubfield($inputFieldType, $fieldType)) {
             return true === $out ? null : $out;
-        } elseif ($out = $this->duplicateField($inputFieldType, $fieldType)) {
+        }
+        if ($out = $this->duplicateField($inputFieldType, $fieldType)) {
             return true === $out ? null : $out;
-        } elseif ($this->removeField($inputFieldType, $fieldType)) {
+        }
+        if ($this->removeField($inputFieldType, $fieldType)) {
             return null;
         }
         $this->reorderFields($inputFieldType, $fieldType);
@@ -42,7 +46,7 @@ class FieldTypeManager
 
     public static function isValidName(string $name): bool
     {
-        if (\in_array($name, [Mapping::HASH_FIELD, Mapping::SIGNATURE_FIELD, Mapping::FINALIZED_BY_FIELD, Mapping::FINALIZATION_DATETIME_FIELD])) {
+        if (\in_array($name, [Mapping::HASH_FIELD, Mapping::SIGNATURE_FIELD, Mapping::FINALIZED_BY_FIELD, Mapping::FINALIZATION_DATETIME_FIELD], true)) {
             return false;
         }
 
@@ -56,9 +60,9 @@ class FieldTypeManager
     {
         if (\array_key_exists('add', $formArray)) {
             if (isset($formArray['ems:internal:add:field:name'])
-                && 0 != \strcmp((string) $formArray['ems:internal:add:field:name'], '')
+                && 0 !== \strcmp((string) $formArray['ems:internal:add:field:name'], '')
                 && isset($formArray['ems:internal:add:field:class'])
-                && 0 != \strcmp((string) $formArray['ems:internal:add:field:class'], '')) {
+                && 0 !== \strcmp((string) $formArray['ems:internal:add:field:class'], '')) {
                 if (static::isValidName($formArray['ems:internal:add:field:name'])) {
                     $fieldTypeNameOrServiceName = $formArray['ems:internal:add:field:class'];
                     $fieldName = $formArray['ems:internal:add:field:name'];
@@ -69,33 +73,31 @@ class FieldTypeManager
                     $child->setParent($fieldType);
                     $child->setOptions($dataFieldType->getDefaultOptions($fieldName));
                     $fieldType->addChild($child);
-                    $this->logger->notice('log.contenttype.field.added', [
-                        'field_name' => $fieldName,
-                        EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
-                    ]);
+
+                    $this->logger->messageNotice(t('message.field_added', [
+                        'name' => $fieldName,
+                    ], 'emsco-core'));
 
                     return '_ems_'.$child->getName().'_modal_options';
-                } else {
-                    $this->logger->error('log.contenttype.field.name_not_valid', [
-                        'field_format' => '/[a-z][a-z0-9_-]*/ !'.Mapping::HASH_FIELD.' !'.Mapping::HASH_FIELD,
-                    ]);
                 }
+
+                $this->logger->messageError(t('message.field_name_not_valid', [
+                    'field_format' => '/[a-z][a-z0-9_-]*/ !'.Mapping::HASH_FIELD.' !'.Mapping::HASH_FIELD,
+                ], 'emsco-core'));
             } else {
-                $this->logger->error('log.contenttype.field.name_mandatory', [
-                ]);
+                $this->logger->messageError(t('message.field_name_mandatory', [], 'emsco-core'));
             }
 
             return true;
-        } else {
-            foreach ($fieldType->getChildren() as $child) {
-                if (!$child instanceof FieldType) {
-                    throw new \RuntimeException('Unexpected FieldType object');
-                }
-                if (!$child->getDeleted()) {
-                    $out = $this->addNewField($formArray['ems_'.$child->getName()], $child);
-                    if (false !== $out) {
-                        return '_ems_'.$child->getName().$out;
-                    }
+        }
+        foreach ($fieldType->getChildren() as $child) {
+            if (!$child instanceof FieldType) {
+                throw new \RuntimeException('Unexpected FieldType object');
+            }
+            if (!$child->getDeleted()) {
+                $out = $this->addNewField($formArray['ems_'.$child->getName()], $child);
+                if (false !== $out) {
+                    return '_ems_'.$child->getName().$out;
                 }
             }
         }
@@ -117,33 +119,31 @@ class FieldTypeManager
                     $child->setType(SubfieldType::class);
                     $child->setParent($fieldType);
                     $fieldType->addChild($child);
-                    $this->logger->notice('log.contenttype.subfield.added', [
-                        'subfield_name' => $formArray['ems:internal:add:subfield:name'],
-                        EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
-                    ]);
+
+                    $this->logger->messageNotice(t('message.subfield_added', [
+                        'name' => $formArray['ems:internal:add:subfield:name'],
+                    ], 'emsco-core'));
 
                     return '_ems_'.$child->getName().'_modal_options';
-                } else {
-                    $this->logger->error('log.contenttype.subfield.name_not_valid', [
-                        'field_format' => '/[a-z][a-z0-9_-]*/',
-                    ]);
                 }
+
+                $this->logger->messageError(t('message.subfield_name_not_valid', [
+                    'field_format' => '/[a-z][a-z0-9_-]*/',
+                ], 'emsco-core'));
             } else {
-                $this->logger->error('log.contenttype.subfield.name_mandatory', [
-                ]);
+                $this->logger->messageError(t('message.subfield_name_mandatory', [], 'emsco-core'));
             }
 
             return true;
-        } else {
-            foreach ($fieldType->getChildren() as $child) {
-                if (!$child instanceof FieldType) {
-                    throw new \RuntimeException('Unexpected FieldType object');
-                }
-                if (!$child->getDeleted()) {
-                    $out = $this->addNewSubfield($formArray['ems_'.$child->getName()], $child);
-                    if (false !== $out) {
-                        return '_ems_'.$child->getName().$out;
-                    }
+        }
+        foreach ($fieldType->getChildren() as $child) {
+            if (!$child instanceof FieldType) {
+                throw new \RuntimeException('Unexpected FieldType object');
+            }
+            if (!$child->getDeleted()) {
+                $out = $this->addNewSubfield($formArray['ems_'.$child->getName()], $child);
+                if (false !== $out) {
+                    return '_ems_'.$child->getName().$out;
                 }
             }
         }
@@ -162,41 +162,37 @@ class FieldTypeManager
                 if (static::isValidName($formArray['ems:internal:add:subfield:target_name'])) {
                     $new = clone $fieldType;
                     $new->setName($formArray['ems:internal:add:subfield:target_name']);
-                    if ($parent = $new->getParent()) {
+                    if (($parent = $new->getParent()) instanceof FieldType) {
                         $parent->addChild($new);
                     }
 
-                    $this->logger->notice('log.contenttype.field.added', [
-                        'field_name' => $formArray['ems:internal:add:subfield:target_name'],
-                        EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
-                    ]);
+                    $this->logger->messageNotice(t('message.field_added', [
+                        'name' => $formArray['ems:internal:add:subfield:target_name'],
+                    ], 'emsco-core'));
 
                     return 'first_ems_'.$new->getName().'_modal_options';
-                } else {
-                    $this->logger->error('log.contenttype.field.name_not_valid', [
-                        'field_format' => '/[a-z][a-z0-9_-]*/ !'.Mapping::HASH_FIELD.' !'.Mapping::HASH_FIELD,
-                    ]);
                 }
+                $this->logger->messageError(t('message.field_name_not_valid', [
+                    'field_format' => '/[a-z][a-z0-9_-]*/ !'.Mapping::HASH_FIELD.' !'.Mapping::HASH_FIELD,
+                ], 'emsco-core'));
             } else {
-                $this->logger->error('log.contenttype.field.name_mandatory', [
-                ]);
+                $this->logger->messageError(t('message.field_name_mandatory', [], 'emsco-core'));
             }
 
             return true;
-        } else {
-            foreach ($fieldType->getChildren() as $child) {
-                if (!$child instanceof FieldType) {
-                    throw new \RuntimeException('Unexpected FieldType object');
-                }
-                if (!$child->getDeleted()) {
-                    $out = $this->duplicateField($formArray['ems_'.$child->getName()], $child);
-                    if (false !== $out) {
-                        if (\is_string($out) && \str_starts_with($out, 'first')) {
-                            return \substr($out, 5);
-                        }
-
-                        return '_ems_'.$child->getName().$out;
+        }
+        foreach ($fieldType->getChildren() as $child) {
+            if (!$child instanceof FieldType) {
+                throw new \RuntimeException('Unexpected FieldType object');
+            }
+            if (!$child->getDeleted()) {
+                $out = $this->duplicateField($formArray['ems_'.$child->getName()], $child);
+                if (false !== $out) {
+                    if (\is_string($out) && \str_starts_with($out, 'first')) {
+                        return \substr($out, 5);
                     }
+
+                    return '_ems_'.$child->getName().$out;
                 }
             }
         }
@@ -211,20 +207,19 @@ class FieldTypeManager
     {
         if (\array_key_exists('remove', $formArray)) {
             $fieldType->setDeleted(true);
-            $this->logger->notice('log.contenttype.field.deleted', [
-                'field_name' => $fieldType->getName(),
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_DELETE,
-            ]);
+
+            $this->logger->messageNotice(t('message.field_deleted', [
+                'name' => $fieldType->getName(),
+            ], 'emsco-core'));
 
             return true;
-        } else {
-            foreach ($fieldType->getChildren() as $child) {
-                if (!$child instanceof FieldType) {
-                    throw new \RuntimeException('Unexpected FieldType object');
-                }
-                if (!$child->getDeleted() && $this->removeField($formArray['ems_'.$child->getName()], $child)) {
-                    return true;
-                }
+        }
+        foreach ($fieldType->getChildren() as $child) {
+            if (!$child instanceof FieldType) {
+                throw new \RuntimeException('Unexpected FieldType object');
+            }
+            if (!$child->getDeleted() && $this->removeField($formArray['ems_'.$child->getName()], $child)) {
+                return true;
             }
         }
 
@@ -259,19 +254,19 @@ class FieldTypeManager
             foreach ($fields as $field) {
                 $fieldType->getChildren()->add($field);
             }
-            $this->logger->notice('log.contenttype.field.reordered', [
-                'field_name' => $fieldType->getName(),
-            ]);
+
+            $this->logger->messageNotice(t('message.field_reordered', [
+                'name' => $fieldType->getName(),
+            ], 'emsco-core'));
 
             return true;
-        } else {
-            foreach ($fieldType->getChildren() as $child) {
-                if (!$child instanceof FieldType) {
-                    throw new \RuntimeException('Unexpected FieldType object');
-                }
-                if (!$child->getDeleted() && $this->reorderFields($formArray['ems_'.$child->getName()], $child)) {
-                    return true;
-                }
+        }
+        foreach ($fieldType->getChildren() as $child) {
+            if (!$child instanceof FieldType) {
+                throw new \RuntimeException('Unexpected FieldType object');
+            }
+            if (!$child->getDeleted() && $this->reorderFields($formArray['ems_'.$child->getName()], $child)) {
+                return true;
             }
         }
 

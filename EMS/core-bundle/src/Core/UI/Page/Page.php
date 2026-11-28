@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\UI\Page;
 
 use Symfony\Component\Form\FormView;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatableMessage;
 
 readonly class Page
@@ -19,11 +20,17 @@ readonly class Page
      *     datatables?: array<int, array{ form: FormView, icon?: string, title?: TranslatableMessage, table_id?: string }>,
      *     form?: FormView,
      *     notice?: TranslatableMessage
-     * } $context
+     * }|array<string, mixed> $context
      */
     public function __construct(
         public array $context,
-        public string $template = 'page/page.html.twig'
+        public string $template = 'page/default.html.twig',
+        public ?Response $response = null,
     ) {
+    }
+
+    public function getBreadcrumb(): ?Navigation
+    {
+        return $this->context['breadcrumb'] ?? null;
     }
 }

@@ -54,7 +54,7 @@ final readonly class SubmissionExporter
             $sheet[] = $line;
         }
 
-        if (0 === \count($sheet)) {
+        if ([] === $sheet) {
             return new ExportResult($unprocessedSubmissionsCount, 0);
         }
 
@@ -70,7 +70,7 @@ final readonly class SubmissionExporter
             SpreadsheetGeneratorServiceInterface::WRITER => $extension,
         ], $tempFile->path);
 
-        if (!empty($config->emailsTo)) {
+        if ([] !== $config->emailsTo) {
             $this->sendEmail($tempFile, $config);
         }
 
@@ -90,9 +90,9 @@ final readonly class SubmissionExporter
         if (!empty($column['template'])) {
             $template = $this->templating->load($column['template']);
 
-            return !empty($column['block'])
-                ? $template->renderBlock($column['block'], \compact('data'))
-                : $template->render(\compact('data'));
+            return empty($column['block'])
+                ? $template->render(['data' => $data])
+                : $template->renderBlock($column['block'], ['data' => $data]);
         }
 
         return '';
@@ -103,7 +103,7 @@ final readonly class SubmissionExporter
         $fileExtension = $config->filename ? \pathinfo($config->filename, PATHINFO_EXTENSION) : null;
 
         if ($fileExtension && !\in_array($fileExtension, SpreadsheetGeneratorServiceInterface::FORMAT_WRITERS, true)) {
-            throw new \InvalidArgumentException("Unsupported file extension: $fileExtension");
+            throw new \InvalidArgumentException('Unsupported file extension: '.$fileExtension);
         }
 
         return $config->format ?? $fileExtension ?? SpreadsheetGeneratorServiceInterface::XLSX_WRITER;

@@ -17,7 +17,7 @@ class Functions
 
         $document = new \DOMDocument('1.0', 'UTF-8');
         \libxml_use_internal_errors(true);
-        if (true !== $document->loadHTML(\sprintf('<?xml encoding="utf-8" ?><body>%s</body>', $html))) {
+        if (!$document->loadHTML(\sprintf('<?xml encoding="utf-8" ?><body>%s</body>', $html))) {
             \libxml_clear_errors();
             throw new \RuntimeException(\sprintf('Unexpected error while loading this html %s', $html));
         }
@@ -53,7 +53,7 @@ class Functions
      */
     private static function addNodeToJsonMenu(\DOMDocument $document, array $current, array &$output, string $tag, string $fieldName, string $typeName, ?string $labelField): void
     {
-        if (empty($current)) {
+        if ([] === $current) {
             return;
         }
         $label = '';
@@ -171,7 +171,7 @@ class Functions
         $data = [];
         foreach ($keys as $key => $key_val) {
             if (\is_array($key_val)) {
-                if (\is_array($values) and \array_key_exists($key, $values)) {
+                if (\is_array($values) && \array_key_exists($key, $values)) {
                     $results = self::mergeArrayForJsonMenuNested($values[$key], $key_val);
                     $array = [];
                     foreach ($results as $k => $result) {
@@ -181,16 +181,14 @@ class Functions
                 } else {
                     $data = \array_merge_recursive($data, self::mergeArrayForJsonMenuNested($values, $key_val));
                 }
-            } else {
-                if (\is_array($values) and \array_key_exists($key_val, $values) and \is_array($values[$key_val])) {
-                    foreach ($values[$key_val] as $k => $value) {
-                        if (\array_key_exists($k, $data)) {
-                            $data[$k] = \array_merge($data[$k], [$key_val => $value]);
-                        } elseif (\array_key_exists('i_'.$k, $data)) {
-                            $data['i_'.$k] = \array_merge($data['i_'.$k], [$key_val => $value]);
-                        } else {
-                            $data['i_'.$k] = [$key_val => $value];
-                        }
+            } elseif (\is_array($values) && \array_key_exists($key_val, $values) && \is_array($values[$key_val])) {
+                foreach ($values[$key_val] as $k => $value) {
+                    if (\array_key_exists($k, $data)) {
+                        $data[$k] = \array_merge($data[$k], [$key_val => $value]);
+                    } elseif (\array_key_exists('i_'.$k, $data)) {
+                        $data['i_'.$k] = \array_merge($data['i_'.$k], [$key_val => $value]);
+                    } else {
+                        $data['i_'.$k] = [$key_val => $value];
                     }
                 }
             }

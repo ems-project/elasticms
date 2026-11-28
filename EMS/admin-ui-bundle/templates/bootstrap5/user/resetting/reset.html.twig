@@ -1,7 +1,7 @@
-{%- trans_default_domain 'emsco-user' -%}
+{%- trans_default_domain 'emsco-core' -%}
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
 
-{% block title %}{{ 'user.management.title'|trans }}{% endblock %}
+{% block title %}{{ 'key.user_management'|trans }}{% endblock %}
 
 {% block body %}
     <div class="row">
@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    {{ form_row(form.submit, {'attr': { 'class': 'btn btn-primary'} }) }}
+                    {{ form_row(form.submit, {attr: {class: 'btn btn-primary'}}) }}
                 </div>
                 {{ form_end(form) }}
             </div>

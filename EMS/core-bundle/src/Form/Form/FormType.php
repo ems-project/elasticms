@@ -4,23 +4,21 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Form;
 
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\Form;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
 use EMS\CoreBundle\Form\FieldType\FieldTypeType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * @extends AbstractType<mixed>
  */
 final class FormType extends AbstractType
 {
-    public function __construct()
-    {
-    }
-
     /**
      * @param FormBuilderInterface<mixed> $builder
      * @param array<string, mixed>        $options
@@ -28,45 +26,36 @@ final class FormType extends AbstractType
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $form = $options['data'] ?? null;
-        if (!$form instanceof Form) {
-            throw new \RuntimeException('Unexpected data type');
-        }
+        /** @var Form $form */
+        $form = $options['data'];
 
         $builder
-            ->add('name', null, [
+            ->add('name', TextType::class, [
+                'label' => t('field.name', [], 'emsco-core'),
                 'required' => true,
-                'row_attr' => [
-                    'class' => 'col-md-4',
-                ],
+                'col' => 4,
             ])
-            ->add('label', null, [
+            ->add('label', TextType::class, [
+                'label' => t('field.label', [], 'emsco-core'),
                 'required' => true,
-                'row_attr' => [
-                    'class' => 'col-md-4',
-                ],
+                'col' => 4,
             ]);
 
         if ($options['create'] ?? false) {
             $builder
-                ->add('create', SubmitEmsType::class, [
-                    'attr' => [
-                        'class' => 'btn btn-primary btn-sm ',
-                        'data-testid' => 'btn-action-create',
-                    ],
-                    'icon' => 'fa fa-save',
+                ->add('save', SubmitEmsType::class, [
+                    'label' => t('action.create', [], 'emsco-core'),
+                    'attr' => ['data-testid' => 'btn-action-create'],
                 ]);
         } else {
-            $builder->add('fieldType', FieldTypeType::class, [
-                'data' => $form->getFieldType(),
-            ])
-            ->add('save', SubmitEmsType::class, [
-                'attr' => [
-                    'class' => 'btn btn-primary btn-sm ',
-                    'data-testid' => 'btn-action-save',
-                ],
-                'icon' => 'fa fa-save',
-            ]);
+            $builder
+                ->add('fieldType', FieldTypeType::class, [
+                    'data' => $form->getFieldType(),
+                ])
+                ->add('save', SubmitEmsType::class, [
+                    'attr' => ['data-testid' => 'btn-action-save'],
+                    'label' => t('action.save', [], 'emsco-core'),
+                ]);
         }
     }
 
@@ -75,7 +64,6 @@ final class FormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Form::class,
-            'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
             'create' => false,
         ]);
     }

@@ -34,7 +34,7 @@ final class Config
         $configResolver
             ->setRequired(['type', 'prefix'])
             ->setAllowedValues('type', Cache::TYPES)
-            ->setDefault('redis', function (OptionsResolver $redisResolver, Options $config) {
+            ->setOptions('redis', function (OptionsResolver $redisResolver, Options $config) {
                 $redisResolver
                     ->setDefault('host', 'localhost')
                     ->setDefault('port', 6379)

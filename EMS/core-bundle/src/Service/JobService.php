@@ -98,16 +98,9 @@ class JobService implements EntityServiceInterface
     /**
      * @return Job[]
      */
-    public function findByUser(string $user): array
+    public function findByUser(UserInterface $user): array
     {
-        /** @var Job[] $doneJobs */
-        $doneJobs = $this->repository->findBy([
-            'user' => $user,
-        ], [
-            'created' => 'DESC',
-        ], 20);
-
-        return $doneJobs;
+        return $this->repository->findBy(['user' => $user->getUserIdentifier()], ['created' => \SortDirection::Descending]);
     }
 
     #[\Override]
@@ -184,8 +177,8 @@ class JobService implements EntityServiceInterface
             }
 
             $this->finish($job->getId());
-        } catch (\Exception $e) {
-            $this->finish($job->getId(), $e->getMessage());
+        } catch (\Exception $exception) {
+            $this->finish($job->getId(), $exception->getMessage());
         }
     }
 
@@ -235,6 +228,7 @@ class JobService implements EntityServiceInterface
         $job->setCreated($startDate);
         $job->setModified(new \DateTime());
         $job->setProgress(0);
+
         $this->em->persist($job);
         $this->em->flush();
 
@@ -248,8 +242,8 @@ class JobService implements EntityServiceInterface
         if ($includeJobTime) {
             try {
                 $modifiedBefore = DateTime::create($this->cleanJobTime);
-            } catch (\Throwable $e) {
-                $this->logger->warning(\sprintf('Invalid string to time format: %s (%s)', $this->cleanJobTime, $e->getMessage()));
+            } catch (\Throwable $throwable) {
+                $this->logger->warning(\sprintf('Invalid string to time format: %s (%s)', $this->cleanJobTime, $throwable->getMessage()));
 
                 return 0;
             }
@@ -257,8 +251,8 @@ class JobService implements EntityServiceInterface
 
         try {
             $jobsCleaned = $this->repository->clean($skipFailed, $modifiedBefore);
-        } catch (\Throwable $e) {
-            $this->logger->warning(\sprintf('Error during cleaning jobs: %s', $e->getMessage()));
+        } catch (\Throwable $throwable) {
+            $this->logger->warning(\sprintf('Error during cleaning jobs: %s', $throwable->getMessage()));
 
             return 0;
         }
@@ -317,14 +311,14 @@ class JobService implements EntityServiceInterface
     #[\Override]
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {
-        throw new \RuntimeException('Job entities doesn\'t support JSON update');
+        throw new \RuntimeException("Job entities doesn't support JSON update");
     }
 
     #[\Override]
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
         if (null !== $name) {
-            throw new \RuntimeException('Job entities doesn\'t support JSON update');
+            throw new \RuntimeException("Job entities doesn't support JSON update");
         }
         $meta = JsonClass::fromJsonString($json);
         $job = $meta->jsonDeserialize();
@@ -356,7 +350,7 @@ class JobService implements EntityServiceInterface
         $job = $this->repository->findById($jobId);
 
         $output = $this->getJobOutput($job);
-        $output->doWrite($message, $newLine);
+        $output->write($message, $newLine);
     }
 
     private function getJobOutput(Job $job): JobOutput

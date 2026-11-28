@@ -17,8 +17,6 @@ class DataLink
 
     public function process(string $href, string $type): string
     {
-        $path = $this->config->findDataLink($href, $this->rapport, $this->currentUrl, $type);
-
-        return $path;
+        return $this->config->findDataLink($href, $this->rapport, $this->currentUrl, $type);
     }
 }

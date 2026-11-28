@@ -10,6 +10,9 @@ use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
+use EMS\Helpers\Translations\Translation;
+use EMS\Helpers\Translations\Translations;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class Template extends JsonDeserializer implements \JsonSerializable, EntityInterface, \Stringable
 {
@@ -18,6 +21,8 @@ class Template extends JsonDeserializer implements \JsonSerializable, EntityInte
 
     protected string $name = '';
     protected string $label = '';
+    /** @var array<string, array<string,string>>|null */
+    protected ?array $labelTranslations;
     protected ?string $icon = null;
     protected ?string $body = null;
     protected ?string $header = null;
@@ -57,13 +62,6 @@ class Template extends JsonDeserializer implements \JsonSerializable, EntityInte
 
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
-    }
-
-    public function updateOrder(): void
-    {
-        if (!isset($this->orderKey)) {
-            $this->orderKey = 0;
-        }
     }
 
     public function setName(?string $name): self
@@ -433,9 +431,18 @@ class Template extends JsonDeserializer implements \JsonSerializable, EntityInte
         return $json;
     }
 
-    public function getLabel(): string
+    public function getLabel(?UserInterface $user = null): string
     {
-        return $this->label;
+        return $this->getLabelTranslation($user)->getLabel();
+    }
+
+    public function getLabelTranslation(?UserInterface $user = null): Translation
+    {
+        if (!$user instanceof User) {
+            return new Translation($this->label);
+        }
+
+        return Translations::fromArray($this->getLabelTranslations())->getTranslation($user->getLocales(), $this->label);
     }
 
     public function setLabel(string $label): void
@@ -477,5 +484,21 @@ class Template extends JsonDeserializer implements \JsonSerializable, EntityInte
     public function setAllowedRemoteHosts(?array $allowedRemoteHosts): void
     {
         $this->allowedRemoteHosts = $allowedRemoteHosts;
+    }
+
+    /**
+     * @return mixed[][]
+     */
+    public function getLabelTranslations(): array
+    {
+        return $this->labelTranslations ?? [];
+    }
+
+    /**
+     * @param mixed[][]|null $labelTranslations
+     */
+    public function setLabelTranslations(?array $labelTranslations): void
+    {
+        $this->labelTranslations = $labelTranslations ?? [];
     }
 }

@@ -19,6 +19,6 @@ final class DateTimeCreationException extends \RuntimeException
         $input = $data[$key] ?? '[ERROR: key out of bound]';
         $message = \sprintf('Could not create a DateTime from input value: "%s", with key: "%s"', $input, $key);
 
-        return new static($message, $code, $previous);
+        return new self($message, $code, $previous);
     }
 }

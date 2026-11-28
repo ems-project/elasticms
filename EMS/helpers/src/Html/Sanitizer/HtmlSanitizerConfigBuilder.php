@@ -141,16 +141,16 @@ class HtmlSanitizerConfigBuilder
                 'block_elements' => [],
                 'drop_attributes' => [],
                 'drop_elements' => [],
-                'classes' => function (OptionsResolver $classesResolver) {
-                    $classesResolver->setDefaults([
-                        'allow' => [],
-                        'drop' => [],
-                        'replace' => [],
-                    ]);
-                },
             ])
             ->setAllowedTypes('allow_safe_elements', 'bool')
             ->setAllowedTypes('max_input_length', 'int')
+            ->setOptions('classes', function (OptionsResolver $classesResolver) {
+                $classesResolver->setDefaults([
+                    'allow' => [],
+                    'drop' => [],
+                    'replace' => [],
+                ]);
+            })
         ;
 
         return $optionsResolver;

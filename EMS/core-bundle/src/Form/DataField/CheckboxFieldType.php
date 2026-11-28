@@ -10,13 +10,22 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class CheckboxFieldType extends DataFieldType
 {
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Checkbox field';
+        return ['type' => 'boolean'];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.checkbox', [], 'emsco-core');
     }
 
     #[\Override]
@@ -29,8 +38,8 @@ class CheckboxFieldType extends DataFieldType
     public function importData(DataField $dataField, array|string|int|float|bool|null $sourceArray, bool $isMigration): array
     {
         $migrationOptions = $dataField->giveFieldType()->getMigrationOptions();
-        if (!$isMigration || empty($migrationOptions) || !$migrationOptions['protected']) {
-            $dataField->setBooleanValue($sourceArray ? true : false);
+        if (!$isMigration || [] === $migrationOptions || !$migrationOptions['protected']) {
+            $dataField->setBooleanValue((bool) $sourceArray);
         }
 
         return [$dataField->giveFieldType()->getName()];
@@ -43,9 +52,6 @@ class CheckboxFieldType extends DataFieldType
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /** @var FieldType $fieldType */
-        $fieldType = $builder->getOptions()['metadata'];
-
         $builder->add('value', CheckboxType::class, [
             'label' => ($options['question_label'] ?: $options['label'] ?? false),
             'disabled' => $this->isDisabled($options),
@@ -68,7 +74,7 @@ class CheckboxFieldType extends DataFieldType
     {
         $out = parent::viewTransform($dataField);
 
-        return ['value' => ((null !== $out && !empty($out)) ? true : false)];
+        return ['value' => (null !== $out && !empty($out))];
     }
 
     #[\Override]
@@ -122,15 +128,11 @@ class CheckboxFieldType extends DataFieldType
         parent::buildOptionsForm($builder, $options);
         $optionsForm = $builder->get('options');
 
-        // String specific display options
         $optionsForm->get('displayOptions')->add('question_label', TextType::class, [
+            'label' => t('field.question_label', [], 'emsco-core'),
             'required' => false,
-            //         ] )->add ( 'labels', TextareaType::class, [
-            //                 'required' => false,
         ]);
 
-        //         // String specific mapping options
-        //         $optionsForm->get ( 'mappingOptions' )->add ( 'analyzer', AnalyzerPickerType::class);
         $optionsForm->get('restrictionOptions')->remove('mandatory');
         $optionsForm->get('restrictionOptions')->remove('mandatory_if');
     }

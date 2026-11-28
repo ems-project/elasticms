@@ -7,41 +7,19 @@ services:
             file: ../demo/docker-compose.yml
             service: traefik
 
-    es-init:
+    setup_elk:
         profiles: [ "all","ems" ]
-        image: curlimages/curl
-        depends_on:
-            es01:
-                condition: service_healthy
-        restart: "no"
         labels:
             - "elasticMS"
-        command: >
-            sh -c "curl -s -X PUT http://es01:9200/_template/zero-replicas -H 'Content-Type: application/json' -d '{\"index_patterns\":[\"*\"],\"order\":-1,\"settings\":{\"number_of_replicas\":0}}'
-            && curl -s -X PUT http://es01:9200/_all/_settings -H 'Content-Type: application/json' -d '{\"index\":{\"number_of_replicas\":0}}'"
+        extends:
+            file: ../demo/docker-${ELK_VERSION-elk8}.yml
+            service: setup_elk
 
     es01:
         profiles: [ "all","ems" ]
-        image: elasticsearch:${ELK7_STACK_VERSION}
-        environment:
-            - node.name=es01
-            - cluster.name=es7-docker-cluster
-            - discovery.type=single-node
-            - cluster.routing.allocation.disk.threshold_enabled=false
-            - bootstrap.memory_lock=true
-            - node.store.allow_mmap=false
-            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-        healthcheck:
-            test: [ "CMD-SHELL", "curl -s localhost:9200/_cluster/health | grep -qE '\"status\":\"(yellow|green)\"'" ]
-            interval: 10s
-            retries: 30
-        ulimits:
-            memlock:
-                soft: -1
-                hard: -1
-        mem_limit: ${MEM_LIMIT}
-        volumes:
-            - es_data01:/usr/share/elasticsearch/data
+        extends:
+            file: ../demo/docker-${ELK_VERSION-elk8}.yml
+            service: es01
         ports:
             - "9201:9200"
         labels:
@@ -55,7 +33,7 @@ services:
     kibana:
         profiles: [ "all","ems" ]
         extends:
-            file: ../demo/docker-${ELK_VERSION-elk7}.yml
+            file: ../demo/docker-${ELK_VERSION-elk8}.yml
             service: kibana
         labels:
             - "elasticMS"
@@ -65,6 +43,19 @@ services:
             - "traefik.http.routers.kibana.service=kibana"
             - "traefik.http.services.kibana.loadbalancer.server.port=5601"
 
+    apm-server:
+        profiles: [ "all","ems" ]
+        extends:
+            file: ../demo/docker-${ELK_VERSION-elk8}.yml
+            service: apm-server
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.apm-server.rule=Host(`apm-server.localhost`)"
+            - "traefik.http.routers.apm-server.entrypoints=web"
+            - "traefik.http.routers.apm-server.service=apm-server"
+            - "traefik.http.services.apm-server.loadbalancer.server.port=8200"
+        ports:
+            - "8200:8200"
 
     postgres:
         profiles: [ "all","ems" ]
@@ -155,7 +146,7 @@ services:
             - "elasticMS"
         extends:
             file: ../demo/docker-compose.yml
-            service: mailhog
+            service: mailserver
         ports:
             - "1025:1025"
 
@@ -166,6 +157,51 @@ services:
         extends:
             file: '../demo/docker-compose.yml'
             service: mercure
+
+    varnish:
+        profiles: [ "all","ems" ]
+        image: varnish:8.0.1
+        environment:
+            - VARNISH_SIZE=256M
+            - VARNISH_BACKEND_HOST=${VARNISH_BACKEND_HOST:-http://host.docker.internal:8882}
+        volumes:
+            - ./varnish/default.vcl:/etc/varnish/default.vcl:ro
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        labels:
+            - "elasticMS"
+            - "traefik.enable=true"
+            - "traefik.http.routers.varnish.rule=Host(`varnish.localhost`)"
+            - "traefik.http.routers.varnish.service=varnish"
+            - "traefik.http.routers.varnish.entrypoints=web"
+            - "traefik.http.services.varnish.loadbalancer.server.port=80"
+
+    mcp_inspect:
+        profiles: [ "all","mcp" ]
+        image: ghcr.io/modelcontextprotocol/inspector:latest
+        environment:
+            HOST: 0.0.0.0
+            SERVER_HOST: 0.0.0.0
+            CLIENT_PORT: 6274
+            SERVER_PORT: 6277
+            MCP_AUTO_OPEN_ENABLED: false
+            ALLOWED_ORIGINS: "http://mcp-inspect.localhost,http://mcp-inspect-proxy.localhost"
+        command: ["--web", "--catalog", "/config/.mcp.json"]
+        volumes:
+            - ../.mcp.json:/config/.mcp.json
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        labels:
+            - "elasticMS"
+            - "traefik.enable=true"
+            - "traefik.http.routers.mcp_inspect.rule=Host(`mcp-inspect.localhost`)"
+            - "traefik.http.routers.mcp_inspect.service=mcp_inspect"
+            - "traefik.http.routers.mcp_inspect.entrypoints=web"
+            - "traefik.http.services.mcp_inspect.loadbalancer.server.port=6274"
+            - "traefik.http.routers.mcp_inspect_proxy.rule=Host(`mcp-inspect-proxy.localhost`)"
+            - "traefik.http.routers.mcp_inspect_proxy.service=mcp_inspect_proxy"
+            - "traefik.http.routers.mcp_inspect_proxy.entrypoints=web"
+            - "traefik.http.services.mcp_inspect_proxy.loadbalancer.server.port=6277"
 
     keycloak:
         profiles: [ "all","keycloak" ]
@@ -249,15 +285,63 @@ services:
             - "traefik.http.routers.grafana.service=grafana"
             - "traefik.http.services.grafana.loadbalancer.server.port=3000"
 
+    matomo-db:
+        profiles: [ "all","matomo" ]
+        image: mariadb:${MATOMO_MARIADB_VERSION-11.4}
+        environment:
+            MARIADB_DATABASE: matomo
+            MARIADB_USER: matomo
+            MARIADB_PASSWORD: matomo
+            MARIADB_ROOT_PASSWORD: matomo-root
+            TZ: Europe/Brussels
+        volumes:
+            - matomo_db:/var/lib/mysql
+        healthcheck:
+            test: [ "CMD-SHELL", "healthcheck.sh --connect --innodb_initialized" ]
+            interval: 10s
+            timeout: 5s
+            retries: 10
+        labels:
+            - "elasticMS"
+
+    matomo:
+        profiles: [ "all","matomo" ]
+        image: matomo:${MATOMO_VERSION-5-apache}
+        depends_on:
+            matomo-db:
+                condition: service_healthy
+        environment:
+            MATOMO_DATABASE_HOST: matomo-db
+            MATOMO_DATABASE_ADAPTER: mysql
+            MATOMO_DATABASE_TABLES_PREFIX: matomo_
+            MATOMO_DATABASE_USERNAME: matomo
+            MATOMO_DATABASE_PASSWORD: matomo
+            MATOMO_DATABASE_DBNAME: matomo
+            MATOMO_DATABASE_PORT: 3306
+            TZ: Europe/Brussels
+        volumes:
+            - matomo_data:/var/www/html
+        restart: unless-stopped
+        labels:
+            - "elasticMS"
+            - "traefik.enable=true"
+            - "traefik.http.routers.matomo.rule=Host(`matomo.localhost`)"
+            - "traefik.http.routers.matomo.entrypoints=web"
+            - "traefik.http.routers.matomo.service=matomo"
+            - "traefik.http.services.matomo.loadbalancer.server.port=80"
+
     sandbox:
         profiles: [ "all","sandbox" ]
-        image: docker.io/smalswebtech/base-php:8.4-cli-dev
+        image: docker.io/smalswebtech/base-php:8.5-cli-dev
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
         user: ${DOCKER_USER-1000}
         env_file:
-            - ./sandbox.env
+            -   ./sandbox.env
         environment:
             NPM_CONFIG_PREFIX: /home/default/.local/npm
         volumes:
+            - ./sandbox.passwd:/etc/passwd:ro
             - ./.sandbox:/home/default:rw
             - ../:/workspace:rw
         working_dir: /workspace
@@ -267,8 +351,23 @@ services:
             - |
                 mkdir -p /home/default/.local/bin /home/default/.local/npm/bin /home/default/.config
                 export PATH="/home/default/.local/bin:/home/default/.local/npm/bin:$$PATH"
+                if [ ! -f ~/.gitignore ]; then
+                    echo -e ".idea\nThumbs.db\n.DS_Store\n.vscode\n" > ~/.gitignore
+                    git config --global core.excludesfile ~/.gitignore
+                    git config --global core.autocrlf false
+                    git config --global core.eol lf
+                fi
+                if [ ! -d /home/default/.oh-my-bash ]; then
+                    bash -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" "" --unattended
+                fi
+                if command -v zsh >/dev/null 2>&1 && [ ! -d /home/default/.oh-my-zsh ]; then
+                    RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+                fi
                 grep -qxF 'export PATH="/home/default/.local/bin:/home/default/.local/npm/bin:$$PATH"' /home/default/.bashrc || echo 'export PATH="/home/default/.local/bin:/home/default/.local/npm/bin:$$PATH"' >> /home/default/.bashrc
                 grep -qxF "alias pbc='php bin/console'" /home/default/.bashrc || echo "alias pbc='php bin/console'" >> /home/default/.bashrc
+                touch /home/default/.zshrc
+                grep -qxF 'export PATH="/home/default/.local/bin:/home/default/.local/npm/bin:$$PATH"' /home/default/.zshrc || echo 'export PATH="/home/default/.local/bin:/home/default/.local/npm/bin:$$PATH"' >> /home/default/.zshrc
+                grep -qxF "alias pbc='php bin/console'" /home/default/.zshrc || echo "alias pbc='php bin/console'" >> /home/default/.zshrc
                 npm config set prefix /home/default/.local/npm
                 if ! command -v symfony >/dev/null 2>&1; then
                     curl -sS https://get.symfony.com/cli/installer | bash
@@ -307,9 +406,9 @@ services:
             - "traefik.http.services.sandbox-cli.loadbalancer.server.port=8883"
 
 volumes:
-    es_data01:
-        name: ${COMPOSE_PROJECT_NAME:-ems-mono}_${ELK_PREFIX:-elk7}_data01
-    elk8_kibanadata:
+    elk8_data1:
+    os2_data1:
+    kibana:
     redis:
     seaweedfs:
     mariadb:
@@ -319,6 +418,8 @@ volumes:
     keycloak_data:
     prometheus_data:
     grafana_data:
+    matomo_db:
+    matomo_data:
 
 networks:
     default:

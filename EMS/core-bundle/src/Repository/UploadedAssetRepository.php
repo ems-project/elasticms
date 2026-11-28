@@ -4,22 +4,30 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Repository;
 
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\ArrayParameterType;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use EMS\CoreBundle\Entity\UploadedAsset;
 
 /**
- * @extends EntityRepository<UploadedAsset>
+ * @extends ServiceEntityRepository<UploadedAsset>
  *
- * @method UploadedAsset findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method UploadedAsset|null find($id, $lockMode = null, $lockVersion = null)
+ * @method UploadedAsset|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method UploadedAsset[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
-class UploadedAssetRepository extends EntityRepository
+class UploadedAssetRepository extends ServiceEntityRepository
 {
     final public const int PAGE_SIZE = 100;
+
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, UploadedAsset::class);
+    }
 
     /**
      * @return int
@@ -108,7 +116,7 @@ class UploadedAssetRepository extends EntityRepository
         $qb = $this->createQueryBuilder('ua');
         $qb
             ->andWhere($qb->expr()->in('ua.id', $ids))
-            ->orderBy('ua.created', 'desc');
+            ->orderBy('ua.created', \SortDirection::Descending);
 
         return $qb->getQuery()->execute();
     }
@@ -119,7 +127,43 @@ class UploadedAssetRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
+    public function getFirstUploadedByHash(string $hash): ?UploadedAsset
+    {
+        return $this->uploadedByHash($hash, \SortDirection::Ascending);
+    }
+
     public function getLastUploadedByHash(string $hash): ?UploadedAsset
+    {
+        return $this->uploadedByHash($hash, \SortDirection::Descending);
+    }
+
+    /**
+     * @return array{count:int, firstUploadedAt:?\DateTimeImmutable, lastUploadedAt:?\DateTimeImmutable}
+     */
+    public function getStatistics(string $hash): array
+    {
+        $qb = $this->createQueryBuilder('ua');
+        $qb->select('COUNT(ua.id) AS count')
+            ->addSelect('MIN(ua.created) AS firstUploadedAt')
+            ->addSelect('MAX(ua.created) AS lastUploadedAt')
+            ->where($qb->expr()->eq('ua.available', ':true'))
+            ->andWhere($qb->expr()->eq('ua.sha1', ':hash'))
+            ->setParameters(new ArrayCollection([
+                new Parameter('true', true),
+                new Parameter('hash', $hash),
+            ]));
+
+        /** @var array{count:numeric-string|int, firstUploadedAt:?string, lastUploadedAt:?string}|null $result */
+        $result = $qb->getQuery()->getOneOrNullResult();
+
+        return [
+            'count' => (int) ($result['count'] ?? 0),
+            'firstUploadedAt' => \is_string($result['firstUploadedAt'] ?? null) ? new \DateTimeImmutable($result['firstUploadedAt']) : null,
+            'lastUploadedAt' => \is_string($result['lastUploadedAt'] ?? null) ? new \DateTimeImmutable($result['lastUploadedAt']) : null,
+        ];
+    }
+
+    private function uploadedByHash(string $hash, \SortDirection $modifiedOrder): ?UploadedAsset
     {
         $qb = $this->createQueryBuilder('ua');
         $qb->where($qb->expr()->eq('ua.available', ':true'));
@@ -128,8 +172,9 @@ class UploadedAssetRepository extends EntityRepository
             new Parameter('true', true),
             new Parameter('hash', $hash),
         ]));
-        $qb->orderBy('ua.modified', 'DESC');
+        $qb->orderBy('ua.modified', $modifiedOrder);
         $qb->setMaxResults(1);
+
         $uploadedAsset = $qb->getQuery()->getOneOrNullResult();
 
         if (null === $uploadedAsset || $uploadedAsset instanceof UploadedAsset) {

@@ -5,6 +5,8 @@
         "name": "template_ems",
         "pluralName": "Templates EMS",
         "singularName": "Template EMS",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": null,
         "icon": "ems-icon-ball",
         "description": null,
         "indexTwig": null,
@@ -60,6 +62,8 @@
                                     "suffixText": null,
                                     "helptext": null,
                                     "placeholder": null,
+                                    "labelTranslations": [],
+                                    "helptextTranslations": [],
                                     "icon": null
                                 },
                                 "mappingOptions": {
@@ -75,7 +79,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "postProcessing": null,
-                                    "clear_on_copy": false
+                                    "clear_on_copy": false,
+                                    "description": null
                                 },
                                 "migrationOptions": {
                                     "protected": false
@@ -180,6 +185,7 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
+                    "labelTranslations": null,
                     "icon": "fa fa-list-ul",
                     "options": {
                         "body": "{}",
@@ -215,8 +221,7 @@
             "delete": "not-defined",
             "trash": "not-defined",
             "archive": "not-defined",
-            "show_link_create": "not-defined",
-            "show_link_search": "not-defined"
+            "show_link_create": "not-defined"
         },
         "fields": {
             "display": null,
@@ -233,7 +238,10 @@
             "tasks_enabled": false,
             "tasks_titles": [],
             "hide_revision_sidebar": false
-        }
+        },
+        "querySearch": null
     },
-    "replaced": []
+    "replaced": [
+        "querySearch"
+    ]
 }

@@ -53,8 +53,8 @@ final class MultipartHandler extends AbstractHandler
             $handleResponse = new HttpHandleResponse($httpResponse, $httpResponseContent, 'Submission send by multipart over http.');
 
             return $this->responseTransformer->transform($handleRequest, $handleResponse);
-        } catch (\Throwable $exception) {
-            return new FailedHandleResponse($exception);
+        } catch (\Throwable $throwable) {
+            return new FailedHandleResponse($throwable);
         }
     }
 
@@ -109,7 +109,7 @@ final class MultipartHandler extends AbstractHandler
             $data[$key] = $this->searchAndReplaceFiles($subData, $formData);
         }
         if ($arrayValues) {
-            $data = \array_values($data);
+            return \array_values($data);
         }
 
         return $data;

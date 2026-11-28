@@ -73,7 +73,7 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
     public function getAccessToken(Request $request): AccessTokenInterface
     {
         $expectedState = $request->getSession()->get($this->getName());
-        $actualState = $request->get('state');
+        $actualState = $request->query->get('state');
 
         if (!$actualState || ($actualState !== $expectedState)) {
             throw new AuthenticationException('Invalid state');
@@ -107,7 +107,7 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
         $redirectUri = $this->getRedirectUri();
 
         if (\str_starts_with($redirectUri, '/')) {
-            $redirectUri = $request->getSchemeAndHttpHost().$redirectUri;
+            return $request->getSchemeAndHttpHost().$redirectUri;
         }
 
         return $redirectUri;

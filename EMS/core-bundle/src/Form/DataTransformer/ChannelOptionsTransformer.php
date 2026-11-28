@@ -12,25 +12,33 @@ use Symfony\Component\Form\DataTransformerInterface;
  */
 final class ChannelOptionsTransformer implements DataTransformerInterface
 {
+    /**
+     * @return array<mixed>
+     */
     #[\Override]
-    public function transform($value)
+    public function transform(mixed $value): array
     {
         $searchConfig = $this->jsonFormat($value, 'searchConfig');
         $attributes = $this->jsonFormat($value, 'attributes');
 
         return [
             'prefix_instance_id' => $value['prefix_instance_id'] ?? false,
+            'inline_editor' => $value['inline_editor'] ?? false,
             'searchConfig' => $searchConfig,
             'entryPath' => $value['entryPath'] ?? null,
             'attributes' => $attributes,
         ];
     }
 
+    /**
+     * @return array<mixed>
+     */
     #[\Override]
-    public function reverseTransform($value)
+    public function reverseTransform(mixed $value): array
     {
         return [
             'prefix_instance_id' => $value['prefix_instance_id'] ?? '',
+            'inline_editor' => $value['inline_editor'] ?? '',
             'searchConfig' => $value['searchConfig'] ?? '',
             'entryPath' => $value['entryPath'] ?? '',
             'attributes' => $value['attributes'] ?? '',

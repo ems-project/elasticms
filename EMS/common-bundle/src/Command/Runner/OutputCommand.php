@@ -33,7 +33,7 @@ class OutputCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->addArgument(self::ARGUMENT_TAG, InputArgument::REQUIRED, 'Runner\'s tag')
+            ->addArgument(self::ARGUMENT_TAG, InputArgument::REQUIRED, "Runner's tag")
             ->addArgument(self::ARGUMENT_ID, InputArgument::REQUIRED, 'Runner identifier')
         ;
     }

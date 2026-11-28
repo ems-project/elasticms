@@ -1,0 +1,10 @@
+web.audit.missing-document: 'A document has not been published in the CMS, or has been unpublished or deleted.'
+web.audit.server-gone: 'The website does not exist or no longer exists. Check the URL or remove the link.'
+web.audit.local-file: "The file has not been uploaded to the CMS; it is a link to the author's local computer."
+web.audit.blocked-by-enterprise-policy: 'The link is blocked by security rules. Check the URL manually.'
+web.audit.page-not-found: 'The page no longer exists. Check the URL or remove the link.'
+web.audit.permanent-redirect: 'Permanent redirect. Update your link to the new URL.'
+web.audit.temporary-redirect: 'Temporary redirect. No immediate action is required.'
+web.audit.access-denied: 'Access is denied, often because of anti-bot protection or required authentication.'
+web.audit.internal-server-error: 'Internal server error. Try again later.'
+web.audit.problem-without-solution: 'There is a problem, but no solution has been assessed yet.'

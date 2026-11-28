@@ -36,4 +36,13 @@ interface FormInterface
     public function createVerification(string $value): string;
 
     public function getVerification(string $value): string;
+
+    /**
+     * @param string[] $names
+     * @param string[] $instances
+     * @param string[] $locales
+     *
+     * @return mixed[]
+     */
+    public function getSubmissions(int $from, int $size, ?\DateTimeImmutable $fromDateTime, ?\DateTimeImmutable $toDateTime, array $names, array $instances, array $locales): array;
 }

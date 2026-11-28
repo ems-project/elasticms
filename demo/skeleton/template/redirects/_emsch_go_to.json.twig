@@ -2,8 +2,8 @@
 
 {%- block request -%}
     {%- if app.user -%}
-        {%- set contentType = app.request.get('contentType') -%}
-        {%- set ouuid = app.request.get('ouuid') -%}
+        {%- set contentType = app.request.attributes.get('contentType') -%}
+        {%- set ouuid = app.request.attributes.get('ouuid') -%}
         {%- set emsLink = "ems://object:#{contentType}:#{ouuid}" -%}
         
         {%- set routingUrl = emsLink|emsch_routing_config({

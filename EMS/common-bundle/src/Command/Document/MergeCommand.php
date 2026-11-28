@@ -33,7 +33,7 @@ class MergeCommand extends AbstractCommand
     }
 
     #[\Override]
-    public function initialize(InputInterface $input, OutputInterface $output): void
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
         $this->adminHelper->setLogger(new ConsoleLogger($output));
@@ -46,7 +46,7 @@ class MergeCommand extends AbstractCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addArgument(self::CONTENT_TYPE_ARGUMENT, InputArgument::REQUIRED, 'Content-type\'s name');
+        $this->addArgument(self::CONTENT_TYPE_ARGUMENT, InputArgument::REQUIRED, "Content-type's name");
         $this->addArgument(self::DATA_ARGUMENT, InputArgument::REQUIRED, 'Data to merge with in a JSON format');
         $this->addOption(self::QUERY_OPTION, null, InputOption::VALUE_OPTIONAL, 'Elasticsearch query to filter the documents in a JSON format', '{}');
     }
@@ -65,7 +65,7 @@ class MergeCommand extends AbstractCommand
         }
         $defaultAlias = $coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
         $contentTypeApi = $coreApi->data($this->contentType);
-        $search = new Search([$defaultAlias], empty($this->query) ? null : $this->query);
+        $search = new Search([$defaultAlias], [] === $this->query ? null : $this->query);
         $search->setContentTypes([$this->contentType]);
         $search->setSources(['_id']);
 

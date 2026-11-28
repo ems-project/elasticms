@@ -1,5 +1,5 @@
-{% extends '@EMSAdminUI/bootstrap5/page/page.html.twig' %}
-{% trans_default_domain 'ems-adminui-twigs' %}
+{% extends '@EMSAdminUI/bootstrap5/page/default.html.twig' %}
+{% trans_default_domain 'emsco-core' %}
 
 {% block body %}
     <div class="row">
@@ -15,17 +15,17 @@
         </div>
         <div class="col-md-7">
             <div>
-                <h2>{{ 'subtitle.user-in-group'|trans }}</h2>
+                <h2>{{ 'title.users_in_group'|trans }}</h2>
                 {% with {
-                    datatable: {'form': datatableForm},
+                    datatable: {form: datatableForm},
                 } %}
                     {{ parent() }}
                 {% endwith %}
             </div>
             <div>
-                <h2>{{ 'subtitle.user-not-in-group'|trans }}</h2>
+                <h2>{{ 'title.user_not_in_group'|trans }}</h2>
                 {% with {
-                    datatable: {'form': userNotInGroupDataTable},
+                    datatable: {form: userNotInGroupDataTable},
                 } %}
                     {{ parent() }}
                 {% endwith %}

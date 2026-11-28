@@ -1,3 +1,0 @@
-ems_form:
-    resource: '@EMSFormBundle/config/routing/debug.xml'
-    prefix: /_emsf

@@ -30,7 +30,7 @@ class InternalLink implements HtmlInterface
 
     protected function convertAttribute(WebResource $resource, Crawler $content, string $attribute): void
     {
-        foreach ($content->filter("[$attribute]") as $item) {
+        foreach ($content->filter(\sprintf('[%s]', $attribute)) as $item) {
             if (!$item instanceof \DOMElement) {
                 throw new \RuntimeException('Unexpected non DOMElement object');
             }
@@ -46,7 +46,7 @@ class InternalLink implements HtmlInterface
                 continue;
             }
 
-            if (\in_array($url->getScheme(), ['mailto'])) {
+            if ('mailto' === $url->getScheme()) {
                 continue;
             }
             if (!\in_array($url->getHost(), $this->config->getHosts())) {

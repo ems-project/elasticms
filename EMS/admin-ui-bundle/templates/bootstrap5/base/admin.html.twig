@@ -1,40 +1,29 @@
 {% extends '@EMSAdminUI/bootstrap5/base/html5.html.twig' %}
-{%- trans_default_domain 'base' -%}
-{% set wysiwygInfo = emsco_wysiwyg_info() %}
+{%- trans_default_domain 'emsco-core' -%}
 
-{%- set type_filters = [] -%}
-{%- set all_types = false %}
-{%- if emsco_get_content_types()|length > 0 -%}
-    {%- for contentType in emsco_get_content_types()|filter(contentType => contentType.webContent) -%}
-        {%- if all_types  -%}
-            {% set all_types = all_types~','~contentType.name -%}
-        {%- else %}
-            {% set all_types = contentType.name -%}
-        {%- endif -%}
-        {%- set type_filters = type_filters|merge([[contentType.singularName, contentType.name ]]) -%}
-    {%- endfor -%}
-{%- endif -%}
-{%- set type_filters = [['All content types'|trans, all_types ]]|merge(type_filters) -%}
+{%- set wysiwygInfo = emsco_wysiwyg_info() -%}
+{%- set html_attr = {
+    'data-theme': theme_color,
+    'data-bs-theme': 'light',
+    'data-sidebar-collapsed': app.user?.sidebarCollapse|default(false),
+} -%}
 
-{% set body_attr = {
-    class: 'hold-transition sidebar-mini sidebar-mini-md layout-fixed layout-navbar-fixed',
+{%- set body_attr = {
     'data-hash-algo': ems_hash_algo,
     'data-status-url': path('elasticsearch.status', {_format: 'json'}),
     'data-search-api': path('elasticsearch.api.search'),
     'data-init-upload': path('emsco_file_data_init_upload'),
     'data-revision-url': path('emsco_view_revisions', {
-        'type': '__type__',
-        'ouuid': '__ouuid__',
+        type: '__type__',
+        ouuid: '__ouuid__',
     }),
-    'data-ems-link-info': path('emsco_ems_link_info'),
-    'data-file-view': path('ems.file.view', { sha1: '__file_identifier__', name: '__file_name__' }),
-    'data-file-extract': path('ems_file_extract', { sha1: '__file_identifier__', name: '__file_name__' }),
-    'data-file-extract-forced': path('ems_file_extract_forced', { sha1: '__file_identifier__', name: '__file_name__' }),
-    'data-wysiwyg-type-filters': type_filters|json_encode,
-    'data-wysiwyg-info': wysiwygInfo,
+    'data-file-view': path('ems.file.view', {sha1: '__file_identifier__', name: '__file_name__'}),
+    'data-file-extract': path('ems_file_extract', {sha1: '__file_identifier__', name: '__file_name__'}),
+    'data-file-extract-forced': path('ems_file_extract_forced', {sha1: '__file_identifier__', name: '__file_name__'}),
+    'data-wysiwyg-type-filters': wysiwygInfo.linkTypes|json_encode,
+    'data-wysiwyg-info': wysiwygInfo|json_encode,
     'data-asset-path': asset(''),
-} %}
-{% set theme_color_contrast = theme_color in ['yellow','lime','white','cyan'] ? 'light' : 'dark' %}
+} -%}
 
 {% block breadcrumb %}
     {% if breadcrumb is defined %}
@@ -45,7 +34,7 @@
                     {% if item.icon %}<i class="{{ item.icon }}"></i>&nbsp;{% endif %}
                     {{ item.label ? item.label|trans : item.text|default('...') }}
                 {%- endset -%}
-                <li class="{{ html_classes('breadcrumb-item', { 'active': loop.last }) }}">
+                <li class="{{ html_classes('breadcrumb-item', {active: loop.last}) }}">
                     {% if item.route and loop.last == false %}
                         <a href="{{ path(item.route, item.routeParams) }}">{{ label }}</a>
                     {% else %}
@@ -59,31 +48,37 @@
 
 {% block wrapper %}
     <div class="wrapper">
-        {% if preloader|default(false) %}
-            {{ include('@EMSAdminUI/bootstrap5/elements/preloader.html.twig') }}
-        {% endif %}
-        {{ include('@EMSAdminUI/bootstrap5/elements/topbar.html.twig') }}
-        {{ include('@EMSAdminUI/bootstrap5/elements/sidenav.html.twig') }}
-        <div class="content-wrapper">
+        <twig:ems_layout_sidebar />
+        <div class="main">
+            <twig:ems_layout_topbar />
             {{ include('@EMSAdminUI/bootstrap5/elements/toasts.html.twig') }}
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
+            <main class="content">
+                <div class="container-fluid p-0">
+                    <div class="row mb-3">
                         <div class="col-sm-6">
-                            <h1 class="m-0">{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% if subTitle is defined %}<small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}</h1>
+                            <h1 class="h3 mb-0">{% block pagetitle %}<strong>{{ block('title') }}</strong>{% endblock %}</h1>
+                            {% block subtitle %}{% if subTitle is defined %} <small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}
                         </div>
                         <div class="col-sm-6">
                             {{ block('breadcrumb') }}
                         </div>
                     </div>
-                </div>
-                <section class="content">
                     {% block body %}{% endblock body %}
-                </section>
-            </div>
+                </div>
+            </main>
+            {{ block('layoutFooter') }}
         </div>
-
-        {{ include('@EMSAdminUI/bootstrap5/elements/footer.html.twig') }}
-        {{ include('@EMSAdminUI/bootstrap5/elements/control-sidebar.html.twig') }}
+        <twig:ems_layout_control_sidebar />
     </div>
 {% endblock wrapper %}
+
+{%- block layoutFooter -%}
+    <footer class="footer no-print">
+        {% if app.user %}
+            <a href="https://elasticms.fgov.be/" target="_blank">elastic<strong>MS</strong></a>
+            <div class="float-end d-none d-sm-inline-block">
+                {{ 'core.version'|trans({core: ems_version('core'), symfony: ems_version('symfony')}) }}
+            </div>
+        {% endif %}
+    </footer>
+{%- endblock layoutFooter -%}

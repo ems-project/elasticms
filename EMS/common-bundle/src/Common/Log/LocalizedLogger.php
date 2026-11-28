@@ -17,32 +17,31 @@ class LocalizedLogger extends AbstractLogger implements LocalizedLoggerInterface
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly TranslatorInterface $translator,
-        private readonly string $translationDomain,
     ) {
-    }
-
-    #[\Override]
-    public function message(string $level, TranslatableMessage $message, array $context = []): void
-    {
-        $this->logger->log($level, $message->trans($this->translator), $context);
     }
 
     #[\Override]
     public function messageError(TranslatableMessage $message, array $context = []): void
     {
-        $this->message('error', $message, $context);
+        $this->logger->log('error', $message->trans($this->translator), $context);
     }
 
     #[\Override]
     public function messageWarning(TranslatableMessage $message, array $context = []): void
     {
-        $this->message('warning', $message, $context);
+        $this->logger->log('warning', $message->trans($this->translator), $context);
     }
 
     #[\Override]
     public function messageNotice(TranslatableMessage $message, array $context = []): void
     {
-        $this->message('notice', $message, $context);
+        $this->logger->log('notice', $message->trans($this->translator), $context);
+    }
+
+    #[\Override]
+    public function messageInfo(TranslatableMessage $message, array $context = []): void
+    {
+        $this->logger->log('info', $message->trans($this->translator), $context);
     }
 
     /**
@@ -60,7 +59,7 @@ class LocalizedLogger extends AbstractLogger implements LocalizedLoggerInterface
     private function translateMessage(string|\Stringable $message, array &$context): string
     {
         $context['translation_message'] = $message;
-        $translation = $this->translator->trans((string) $message, [], $this->translationDomain);
+        $translation = $this->translator->trans((string) $message, []);
 
         return \preg_replace_callback(
             pattern: self::PATTERN,

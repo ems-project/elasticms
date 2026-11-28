@@ -1,0 +1,380 @@
+# User API
+
+The User API exposes authenticated user profile information and user impersonation helpers for
+elasticMS Admin integrations.
+
+Every request must be authenticated with an API token. See the [Login API](./login.md) documentation
+for token generation and validation.
+
+Prefer the standard `Authorization: Bearer <token>` header. The historical `X-Auth-Token` header
+remains supported for backward compatibility.
+
+In the examples below, the token is available in the `AUTH_TOKEN` environment variable:
+
+```shell
+export AUTH_TOKEN='nlpUnMR/W8bgSSclYXI2G0dP5REdp5yhvaXfMDV/he+XgQgI7pIRqkuNqsJRJzoYvYM='
+```
+
+## Endpoints
+
+| Action                             | Endpoint                              | Required role                                            |
+| ---------------------------------- | ------------------------------------- | -------------------------------------------------------- |
+| Get the authenticated user profile | `GET /api/user-profile`               | authenticated user                                       |
+| Get enabled user profiles          | `GET /api/user-profiles`              | `ROLE_USER_READ`, `ROLE_USER_MANAGEMENT` or `ROLE_ADMIN` |
+| Generate a token for another user  | `POST /api/user/proxy-authenticate`   | `ROLE_USER_MANAGEMENT`                                   |
+| Create a user                      | `POST /api/admin/user/create`         | `ROLE_ADMIN`                                             |
+| Delete a user                      | `POST /api/admin/user/delete`         | `ROLE_ADMIN`                                             |
+| Edit a user                        | `POST /api/admin/user/edit`           | `ROLE_ADMIN`                                             |
+| Generate a password reset URL      | `POST /api/admin/user/reset-password` | `ROLE_ADMIN`                                             |
+
+## Profile fields
+
+User profile responses use this structure:
+
+```json
+{
+    "id": 1,
+    "username": "demo",
+    "displayName": "Demo User",
+    "roles": ["ROLE_USER"],
+    "email": "demo@example.org",
+    "circles": ["cercle_type:AWNJBOh85f9MtpLT8n-a"],
+    "lastLogin": "2026-05-09T10:15:00+02:00",
+    "expirationDate": null,
+    "language": "en",
+    "locale": "en",
+    "localePreferred": "en",
+    "userOptions": {
+        "simplified_ui": false,
+        "allowed_configure_wysiwyg": false,
+        "custom_options": []
+    }
+}
+```
+
+Date fields are returned in ISO 8601 format when available. Nullable fields may be returned as
+`null`.
+
+## Get the authenticated user profile
+
+Use `GET /api/user-profile` to retrieve the profile of the user associated with the current API
+token.
+
+```shell
+curl -X GET \
+     -H "Authorization: Bearer ${AUTH_TOKEN}" \
+     -H 'Accept: application/json' \
+     http://localhost:8881/api/user-profile -w '\n'
+```
+
+Successful response:
+
+```json
+{
+    "id": 1,
+    "username": "demo",
+    "displayName": "Demo",
+    "roles": [
+        "ROLE_SUPER_ADMIN",
+        "ROLE_COPY_PASTE",
+        "ROLE_ALLOW_ALIGN",
+        "ROLE_DEFAULT_SEARCH",
+        "ROLE_API",
+        "ROLE_PUBLISHER",
+        "ROLE_USER",
+        "ROLE_FORM_CRM",
+        "ROLE_ADMIN"
+    ],
+    "email": "demo@example.org",
+    "circles": [],
+    "lastLogin": "2026-05-07T21:28:08+02:00",
+    "expirationDate": null,
+    "language": "fr",
+    "locale": "en",
+    "localePreferred": "fr",
+    "userOptions": {
+        "simplified_ui": false,
+        "allowed_configure_wysiwyg": false,
+        "custom_options": []
+    }
+}
+```
+
+The endpoint fails if the authenticated user is disabled.
+
+## Get enabled user profiles
+
+Use `GET /api/user-profiles` to retrieve all enabled users.
+
+The authenticated user must have one of these roles:
+
+- `ROLE_USER_READ`
+- `ROLE_USER_MANAGEMENT`
+- `ROLE_ADMIN`
+
+```shell
+curl -X GET \
+     -H "Authorization: Bearer ${AUTH_TOKEN}" \
+     -H 'Accept: application/json' \
+     http://localhost:8881/api/user-profiles -w '\n'
+```
+
+Successful response:
+
+```json
+[
+    {
+        "id": 1,
+        "username": "demo",
+        "displayName": "Demo User",
+        "roles": ["ROLE_USER"],
+        "email": "demo@example.org",
+        "circles": ["publisher"],
+        "lastLogin": "2026-05-09T10:15:00+02:00",
+        "expirationDate": null,
+        "language": "en",
+        "locale": "en",
+        "localePreferred": "en",
+        "userOptions": {}
+    }
+]
+```
+
+Disabled users are not included in the response.
+
+## Generate a token for another user
+
+Use `POST /api/user/proxy-authenticate` to generate an authentication token for another enabled
+user. This is intended for trusted back-office integrations that need to act as a specific user.
+
+The authenticated user must have `ROLE_USER_MANAGEMENT`.
+
+Request body:
+
+```json
+{
+    "username": "demo",
+    "email": "demo@example.org"
+}
+```
+
+`username` and `email` are both required by the request validator. When `email` is provided, the API
+first tries to find the user by email, then falls back to the username.
+
+Example:
+
+```shell
+curl -X POST \
+     -H "Authorization: Bearer ${AUTH_TOKEN}" \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
+     http://localhost:8881/api/user/proxy-authenticate -d \
+'{
+  "username": "demo",
+  "email": "demo@example.org"
+}' -w '\n'
+```
+
+Successful response:
+
+```json
+{
+    "success": true,
+    "token": "EDcTszIHnaaDCpvpi+dJeakj6uOsDqtvSY6rqJyDR3baPpnFA+6u4UAaPcMuJIAfwTs="
+}
+```
+
+The returned token can be used as a bearer token for subsequent API calls:
+
+```shell
+-H "Authorization: Bearer ${AUTH_TOKEN}"
+```
+
+`X-Auth-Token` is still accepted for backward compatibility.
+
+This endpoint fails when:
+
+- the authenticated user does not have `ROLE_USER_MANAGEMENT`;
+- `username` or `email` is missing from the JSON body;
+- the target user does not exist;
+- the target user is disabled or expired.
+
+## Generate a password reset URL
+
+Use `POST /api/admin/user/reset-password` to generate a password reset URL for a user. The request
+must contain the user's username or email in the `username` field.
+
+Request body:
+
+```json
+{
+    "username": "demo"
+}
+```
+
+Example:
+
+```shell
+curl -X POST \
+     -H "Authorization: Bearer ${AUTH_TOKEN}" \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
+     http://localhost:8881/api/admin/user/reset-password -d \
+'{
+  "username": "demo"
+}' -w '\n'
+```
+
+Successful response:
+
+```json
+{
+    "url": "http://localhost:8881/reset-password/abc123...",
+    "token": "abc123..."
+}
+```
+
+The endpoint returns `400 Bad Request` when `username` is missing or empty, or when no matching user
+is found. The returned URL can be sent to the user to complete the password reset.
+
+## Create a user
+
+Use `POST /api/admin/user/create` to create an enabled user and generate a password reset URL. The
+`username` and `email` fields are required. The other fields are optional:
+
+- `wysiwygProfile`: the WYSIWYG profile name;
+- `roles`: an array of role names;
+- `group`: the group name;
+- `displayName`: the display name;
+- `locale`: the locale;
+- `localePreferred`: the preferred locale;
+- `userOptions`: an object containing `simplified_ui`, `allowed_configure_wysiwyg` and
+  `custom_options`.
+
+Example:
+
+```shell
+curl -X POST \
+     -H "Authorization: Bearer ${AUTH_TOKEN}" \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
+     http://localhost:8881/api/admin/user/create -d \
+'{
+  "username": "new-user",
+  "email": "new-user@example.org",
+  "displayName": "New User",
+  "roles": ["ROLE_USER"],
+  "locale": "en",
+  "localePreferred": "en",
+  "userOptions": {
+    "simplified_ui": false,
+    "allowed_configure_wysiwyg": false,
+    "custom_options": []
+  }
+}' -w '\n'
+```
+
+Successful response (`201 Created`):
+
+```json
+{
+    "url": "http://localhost:8881/reset-password/abc123...",
+    "token": "abc123..."
+}
+```
+
+The endpoint returns `400 Bad Request` when a required field is missing, a referenced group or
+WYSIWYG profile does not exist, or an optional field has an invalid type.
+
+## Delete a user
+
+Use `POST /api/admin/user/delete` to delete a user identified by username or email.
+
+Request body:
+
+```json
+{
+    "username": "demo"
+}
+```
+
+Example:
+
+```shell
+curl -X POST \
+     -H "Authorization: Bearer ${AUTH_TOKEN}" \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
+     http://localhost:8881/api/admin/user/delete -d \
+'{
+  "username": "demo"
+}' -w '\n'
+```
+
+Successful response:
+
+```json
+{
+    "success": true
+}
+```
+
+The endpoint returns `400 Bad Request` when `username` is missing or when no matching user is found.
+
+## Edit a user
+
+Use `POST /api/admin/user/edit` to update a user identified by username or email. The `username`
+field is required; all other fields are optional and use the same format as user creation:
+
+- `email`;
+- `wysiwygProfile`;
+- `roles`;
+- `group`;
+- `displayName`;
+- `locale`;
+- `localePreferred`;
+- `userOptions`.
+
+Set `wysiwygProfile` or `group` to `null` to remove the current value.
+
+Example:
+
+```shell
+curl -X POST \
+     -H "Authorization: Bearer ${AUTH_TOKEN}" \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
+     http://localhost:8881/api/admin/user/edit -d \
+'{
+  "username": "demo",
+  "displayName": "Updated User",
+  "roles": ["ROLE_USER", "ROLE_ADMIN"],
+  "group": "editors",
+  "localePreferred": "fr"
+}' -w '\n'
+```
+
+Successful response:
+
+```json
+{
+    "success": true
+}
+```
+
+The endpoint returns `400 Bad Request` when `username` is missing, no matching user is found, or a
+referenced group or WYSIWYG profile does not exist.
+
+## Error handling
+
+| Symptom                                   | Check                                                                                |
+| ----------------------------------------- | ------------------------------------------------------------------------------------ |
+| `401 Unauthorized`                        | The authentication token header is missing or invalid.                               |
+| `403 Forbidden`                           | The authenticated user does not have the role required by the endpoint.              |
+| `400 Bad Request` on proxy authentication | The JSON body must contain both `username` and `email`.                              |
+| `400 Bad Request` on password reset       | The JSON body must contain a non-empty `username` matching an existing user.         |
+| `400 Bad Request` on user creation        | The JSON body must contain `username` and `email`, and valid optional field values.  |
+| `400 Bad Request` on user deletion        | The JSON body must contain a `username` matching an existing user.                   |
+| `400 Bad Request` on user editing         | The JSON body must contain a matching `username` and valid optional field values.    |
+| Target user not found                     | Verify the username, email and whether the user exists in Admin.                     |
+| Disabled or expired account               | Re-enable the target user or update the expiration date before proxy authentication. |

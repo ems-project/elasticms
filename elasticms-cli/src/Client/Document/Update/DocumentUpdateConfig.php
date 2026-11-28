@@ -52,7 +52,7 @@ final class DocumentUpdateConfig
             ->setDefaults([
                 'dataColumns' => [],
             ])
-            ->setDefault('update', function (OptionsResolver $updateResolver) {
+            ->setOptions('update', function (OptionsResolver $updateResolver) {
                 $updateResolver
                     ->setDefaults(['mapping' => [], 'collectionField' => null])
                     ->setRequired(['contentType', 'indexEmsId', 'mapping'])

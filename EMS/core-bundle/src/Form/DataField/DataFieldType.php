@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\DataField;
 
+use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\ContentType\DataFieldFormOptions;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
+use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Form\DataField\Options\OptionsType;
 use EMS\CoreBundle\Form\DataTransformer\DataFieldModelTransformer;
 use EMS\CoreBundle\Form\DataTransformer\DataFieldViewTransformer;
@@ -19,7 +21,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 
 /**
  * @extends AbstractType<mixed>
@@ -27,11 +31,13 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 abstract class DataFieldType extends AbstractType
 {
     private ?DataFieldFormOptions $formOptions = null;
+    private ?User $user = null;
 
     public function __construct(
         protected AuthorizationCheckerInterface $authorizationChecker,
         protected FormRegistryInterface $formRegistry,
         protected ElasticsearchService $elasticsearchService,
+        protected TokenStorageInterface $tokenStorage,
     ) {
     }
 
@@ -40,7 +46,7 @@ abstract class DataFieldType extends AbstractType
      */
     public static function textAreaToArray(?string $textArea): array
     {
-        if (null === $textArea || 0 === \strlen($textArea)) {
+        if (null === $textArea || '' === $textArea) {
             return [];
         }
         $cleaned = \str_replace("\r", '', $textArea);
@@ -91,7 +97,7 @@ abstract class DataFieldType extends AbstractType
             ->setFieldType($fieldType)
             ->setFormOptions($this->formOptions);
 
-        if ('' === $data || (\is_array($data) && 0 === \count($data))) {
+        if ('' === $data || (\is_array($data) && [] === $data)) {
             $out->setRawData(null);
         } else {
             $out->setRawData($data);
@@ -178,18 +184,21 @@ abstract class DataFieldType extends AbstractType
         ];
     }
 
+    abstract public function getLabel(): TranslatableMessage;
+
     /**
-     * Used to display in the content type edit page (instaed of the class path).
+     * @param callable(array<FieldType>): array<string, mixed> $buildObjectSchema
+     *
+     * @return array<string, mixed>
      */
-    abstract public function getLabel(): string;
+    abstract public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array;
 
     /**
      * @param array<string, mixed> $options
      */
     public function isDisabled(array $options): bool
     {
-        $sapiName = \php_sapi_name();
-        if ('cli' === $sapiName) {
+        if ('cli' === PHP_SAPI) {
             return false;
         }
 
@@ -215,28 +224,6 @@ abstract class DataFieldType extends AbstractType
     public function getElasticsearchQuery(DataField $dataField, array $options = []): array
     {
         return [];
-    }
-
-    /**
-     * get the data value(s), as string, for the symfony form) in the context of this field.
-     *
-     * @param array<mixed> $options
-     */
-    public function getDataValue(DataField &$dataValues, array $options): never
-    {
-        // TODO: should be abstract ??
-        throw new \Exception('This function should never be called');
-    }
-
-    /**
-     * set the data value(s) from a string recieved from the symfony form) in the context of this field.
-     *
-     * @param array<mixed> $options
-     */
-    public function setDataValue(mixed $input, DataField &$dataValues, array $options): never
-    {
-        // TODO: should be abstract ??
-        throw new \Exception('This function should never be called');
     }
 
     /**
@@ -278,17 +265,6 @@ abstract class DataFieldType extends AbstractType
     }
 
     /**
-     * See if we can asume that we should find this field directly or if its a more complex type such as file or date range.
-     *
-     * @param array<mixed> $option
-     */
-    #[\Deprecated]
-    public static function isVirtualField(array $option): bool
-    {
-        return false;
-    }
-
-    /**
      * @param array<mixed>|string|int|float|bool|null $sourceArray
      *
      * @return array<mixed>
@@ -296,7 +272,7 @@ abstract class DataFieldType extends AbstractType
     public function importData(DataField $dataField, array|string|int|float|bool|null $sourceArray, bool $isMigration): array
     {
         $migrationOptions = $dataField->giveFieldType()->getMigrationOptions();
-        if (!$isMigration || empty($migrationOptions) || !$migrationOptions['protected']) {
+        if (!$isMigration || [] === $migrationOptions || !$migrationOptions['protected']) {
             $dataField->setRawData($sourceArray);
         }
 
@@ -315,7 +291,7 @@ abstract class DataFieldType extends AbstractType
         $view->vars['helptext'] = $options['helptext'];
         $view->vars['isContainer'] = static::isContainer();
         $view->vars['isVisible'] = static::isVisible();
-        if (null == $options['label']) {
+        if (null === $options['label']) {
             $view->vars['label'] = false;
         }
         /** @var DataFieldType $dataFieldType */
@@ -347,10 +323,37 @@ abstract class DataFieldType extends AbstractType
     }
 
     /**
-     * Test if the field may contain sub field.
+     * Build a field-specific value for MCP rawData output.
      *
-     * I.e. container, nested, array, ...
+     * @param callable(FieldType, mixed): mixed $buildChildValue
      */
+    public function buildMcpRawDataValue(FieldType $fieldType, mixed $rawData, callable $buildChildValue): mixed
+    {
+        return $rawData;
+    }
+
+    public function mcpInputToRawValue(FieldType $fieldType, mixed $rawData): mixed
+    {
+        return $rawData;
+    }
+
+    protected function normalizeMcpDateTimeValue(mixed $value, string $outputFormat = \DateTimeInterface::ATOM): mixed
+    {
+        if ($value instanceof \DateTimeInterface) {
+            return $value->format($outputFormat);
+        }
+
+        if (!\is_string($value) || '' === \trim($value)) {
+            return $value;
+        }
+
+        try {
+            return new \DateTimeImmutable($value)->format($outputFormat);
+        } catch (\Throwable) {
+            return $value;
+        }
+    }
+
     public static function isContainer(): bool
     {
         return false;
@@ -383,7 +386,7 @@ abstract class DataFieldType extends AbstractType
             return true;
         }
 
-        return 0 === \count($dataField->getMessages()) && $this->isMandatory($dataField, $parent, $masterRawData);
+        return [] === $dataField->getMessages() && $this->isMandatory($dataField, $parent, $masterRawData);
     }
 
     /**
@@ -395,14 +398,14 @@ abstract class DataFieldType extends AbstractType
         // Get FieldType mandatory option
         $restrictionOptions = $dataField->giveFieldType()->getRestrictionOptions();
         if (isset($restrictionOptions['mandatory']) && true == $restrictionOptions['mandatory']) {
-            $parentRawData = $parent ? $parent->getRawData() : [];
+            $parentRawData = $parent instanceof DataField ? $parent->getRawData() : [];
             $parentRawDataArray = \is_array($parentRawData) ? $parentRawData : [];
 
             if (null === $parent || !isset($restrictionOptions['mandatory_if'])
                 || null === $parent->getRawData()
                 || $this->isSet($masterRawData ?? [], $parentRawDataArray, $restrictionOptions['mandatory_if'])) {
                 $rawData = $dataField->getRawData();
-                if (null === $rawData || (\is_string($rawData) && '' === $rawData) || (\is_array($rawData) && 0 === \count(\array_filter($rawData)))) {
+                if (null === $rawData || (\is_string($rawData) && '' === $rawData) || (\is_array($rawData) && [] === \array_filter($rawData))) {
                     $isValidMandatory = false;
                     $dataField->addMessage('Empty field');
                 }
@@ -437,7 +440,7 @@ abstract class DataFieldType extends AbstractType
 
     public function hasDeletedParent(?DataField $parent = null): bool
     {
-        if (!$parent) {
+        if (!$parent instanceof DataField) {
             return false;
         }
 
@@ -520,7 +523,7 @@ abstract class DataFieldType extends AbstractType
                 'disabled_fields' => $options['disabled_fields'],
                 'referrer-ems-id' => $options['referrer-ems-id'],
                 'locale' => $options['locale'],
-            ], $fieldType->getDisplayOptions());
+            ], $fieldType->translateDisplayOptions($this->getUser()));
 
             $builder->add($fieldType->getName(), $fieldType->getType(), $options);
 
@@ -541,5 +544,65 @@ abstract class DataFieldType extends AbstractType
     public function setFormOptions(?DataFieldFormOptions $formOptions): void
     {
         $this->formOptions = $formOptions;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function generateAssetMcpSchema(FieldType $fieldType): array
+    {
+        $assetSchema = [
+            'type' => 'object',
+            'properties' => [
+                EmsFields::CONTENT_FILE_HASH_FIELD => [
+                    'type' => 'string',
+                    'description' => 'File hash.',
+                ],
+                EmsFields::CONTENT_FILE_NAME_FIELD => [
+                    'type' => 'string',
+                    'description' => 'Original file name.',
+                ],
+                EmsFields::CONTENT_FILE_SIZE_FIELD => [
+                    'type' => 'integer',
+                    'description' => 'File size in bytes.',
+                ],
+                EmsFields::CONTENT_MIME_TYPE_FIELD => [
+                    'type' => 'string',
+                    'description' => 'File MIME type.',
+                ],
+                EmsFields::CONTENT_FILE_ALGO_FIELD_ => [
+                    'type' => 'string',
+                    'description' => 'Hash algorithm used to identify the file.',
+                ],
+            ],
+            'additionalProperties' => true,
+        ];
+
+        if ((bool) $fieldType->getDisplayOption('multiple', false)) {
+            return [
+                'type' => 'array',
+                'items' => $assetSchema,
+            ];
+        }
+
+        return $assetSchema;
+    }
+
+    private function getUser(): User
+    {
+        if (null !== $this->user) {
+            return $this->user;
+        }
+        $token = $this->tokenStorage->getToken();
+        if (null === $token) {
+            throw new \RuntimeException('Unexpected null token');
+        }
+        $user = $token->getUser();
+        if (!$user instanceof User) {
+            throw new \RuntimeException('Unexpected user type');
+        }
+        $this->user = $user;
+
+        return $user;
     }
 }

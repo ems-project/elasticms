@@ -26,7 +26,7 @@ final class InternationalPhone extends AbstractForgivingNumberField
     {
         $options = parent::getOptions();
 
-        if (\count($this->config->getChoiceList()) > 0) {
+        if ([] !== $this->config->getChoiceList()) {
             $options['attr']['data-allowed-countries'] = \implode(',', $this->config->getChoiceList());
         }
 

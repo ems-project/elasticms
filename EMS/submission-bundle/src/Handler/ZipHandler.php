@@ -45,8 +45,8 @@ final class ZipHandler extends AbstractHandler
             $handleResponse = new ZipHandleResponse($zipRequest, $tempFile->getContents());
 
             return $this->responseTransformer->transform($handleRequest, $handleResponse);
-        } catch (\Throwable $exception) {
-            return new FailedHandleResponse($exception);
+        } catch (\Throwable $throwable) {
+            return new FailedHandleResponse($throwable);
         }
     }
 }

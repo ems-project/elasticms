@@ -8,13 +8,22 @@ use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class NumberFieldType extends DataFieldType
 {
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Number field';
+        return ['type' => 'number'];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.number', [], 'emsco-core');
     }
 
     #[\Override]
@@ -76,23 +85,6 @@ class NumberFieldType extends DataFieldType
         return [
             $current->getName() => \array_merge(['type' => 'double'], \array_filter($current->getMappingOptions())),
         ];
-    }
-
-    #[\Override]
-    public function buildOptionsForm(FormBuilderInterface $builder, array $options): void
-    {
-        parent::buildOptionsForm($builder, $options);
-        $optionsForm = $builder->get('options');
-
-        //         // String specific display options
-        //         $optionsForm->get ( 'displayOptions' )->add ( 'choices', TextareaType::class, [
-        //                 'required' => false,
-        //         ] )->add ( 'labels', TextareaType::class, [
-        //                 'required' => false,
-        //         ] );
-
-        //         // String specific mapping options
-        //         $optionsForm->get ( 'mappingOptions' )->add ( 'analyzer', AnalyzerPickerType::class);
     }
 
     #[\Override]

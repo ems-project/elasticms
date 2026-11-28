@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\DataField;
 
-use EMS\CoreBundle\Entity\DataField;
+use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Form\Field\AnalyzerPickerType;
 use EMS\CoreBundle\Form\Field\IconPickerType;
 use EMS\CoreBundle\Form\Field\IconTextType;
@@ -13,6 +13,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * Basic content type for text (regular text input).
@@ -22,9 +25,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TextStringFieldType extends DataFieldType
 {
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Text field';
+        return ['type' => 'string'];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.text', [], 'emsco-core');
     }
 
     /**
@@ -38,19 +47,6 @@ class TextStringFieldType extends DataFieldType
         $view->vars['class'] = null;
         $view->vars['attr']['placeholder'] = $options['placeholder'];
     }
-
-    //     /**
-    //      *
-    //      * {@inheritDoc}
-    //      * @see \EMS\CoreBundle\Form\DataField\DataFieldType::viewTransform()
-    //      */
-    //     public function viewTransform(DataField $data){
-    //         $out = parent::viewTransform($data);
-    //         if(empty($out)) {
-    //             return "";
-    //         }
-    //         return $out;
-    //     }
 
     #[\Override]
     public static function getIcon(): string
@@ -86,26 +82,34 @@ class TextStringFieldType extends DataFieldType
 
         // String specific display options
         $optionsForm->get('displayOptions')->add('icon', IconPickerType::class, [
+            'label' => t('field.icon', [], 'emsco-core'),
             'required' => false,
         ])->add('prefixIcon', IconPickerType::class, [
+            'label' => t('field.prefix_icon', [], 'emsco-core'),
             'required' => false,
         ])->add('prefixText', IconTextType::class, [
+            'label' => t('field.prefix_text', [], 'emsco-core'),
             'required' => false,
             'prefixIcon' => 'fa fa-hand-o-left',
         ])->add('suffixIcon', IconPickerType::class, [
+            'label' => t('field.suffix_icon', [], 'emsco-core'),
             'required' => false,
         ])->add('suffixText', IconTextType::class, [
+            'label' => t('field.suffix_text', [], 'emsco-core'),
             'required' => false,
             'prefixIcon' => 'fa fa-hand-o-right',
         ])->add('placeholder', TextType::class, [
+            'label' => t('field.placeholder', [], 'emsco-core'),
             'required' => false,
         ]);
 
         if ($optionsForm->has('mappingOptions')) {
             // String specific mapping options
             $optionsForm->get('mappingOptions')
-                ->add('analyzer', AnalyzerPickerType::class)
+                ->add('analyzer', AnalyzerPickerType::class, [
+                    'label' => t('field.analyzer', [], 'emsco-core'), ])
                 ->add('copy_to', TextType::class, [
+                    'label' => t('field.copy_to', [], 'emsco-core'),
                     'required' => false,
                 ]);
         }

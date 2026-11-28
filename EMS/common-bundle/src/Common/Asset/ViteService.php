@@ -13,12 +13,11 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ViteService
 {
-    /** @var array<string, array{file: string, name: string, css: ?string[]}> */
-    private array $manifest = [];
-    private bool $manifestLoaded = false;
+    /** @var array<string, array<string, array{file: string, name: string, css: ?string[]}>> */
+    private array $manifests = [];
     private ?bool $devServerRunning = null;
 
-    public const FILE = '.vite/manifest.json';
+    public const string FILE = '.vite/manifest.json';
 
     public function __construct(
         private readonly StorageManager $storageManager,
@@ -28,40 +27,40 @@ class ViteService
     ) {
     }
 
-    public function loadManifestFromDirectory(string $directory): void
+    public function loadManifestFromDirectory(string $directory): string
     {
-        if ($this->manifestLoaded) {
-            return;
+        if (isset($this->manifests[$directory])) {
+            return $directory;
         }
 
         $path = $directory.DIRECTORY_SEPARATOR.self::FILE;
-        $this->manifest = \file_exists($path) ? Json::decode(File::fromFilename($path)->getContents()) : [];
-        $this->manifestLoaded = true;
+        $this->manifests[$directory] = \file_exists($path) ? Json::decode(File::fromFilename($path)->getContents()) : [];
+
+        return $directory;
     }
 
-    public function loadManifestFromEmsArchive(string $hash): void
+    public function loadManifestFromEmsArchive(string $hash): string
     {
-        if ($this->manifestLoaded) {
-            return;
+        if (isset($this->manifests[$hash])) {
+            return $hash;
         }
 
         $cacheKey = "ems-manifest-$hash";
         $cacheItem = $this->cacheManager->getItem($cacheKey);
         if ($cacheItem->isHit()) {
-            $this->manifest = $cacheItem->get();
-            $this->manifestLoaded = true;
+            $this->manifests[$hash] = $cacheItem->get();
 
-            return;
+            return $hash;
         }
         try {
             $jsonManifest = $this->storageManager->getStreamFromArchive($hash, self::FILE)->getStream()->getContents();
-            $this->manifest = Json::decode($jsonManifest);
-            $cacheItem->set($this->manifest);
+            $this->manifests[$hash] = Json::decode($jsonManifest);
+            $cacheItem->set($this->manifests[$hash]);
             $this->cacheManager->save($cacheItem);
         } catch (\Throwable) {
         }
 
-        $this->manifestLoaded = true;
+        return $hash;
     }
 
     public function devPath(string $path): ?string
@@ -73,18 +72,20 @@ class ViteService
         return \sprintf('%s/%s', \rtrim(Type::string($this->devServerUrl), '/'), \ltrim($path, '/'));
     }
 
-    public function path(string $path): string
+    public function path(string $path, string $manifestId): string
     {
-        if (0 === \count($this->manifest)) {
+        $manifest = $this->manifests[$manifestId] ?? [];
+
+        if ([] === $manifest) {
             return $path;
         }
 
         if (\preg_match('/(?<path>.*\.(js|ts|cjs))(\.(?<index>[0-9]+))?\.css$/', $path, $matches) > 0
-            && isset($this->manifest[$matches['path']]['css'][$matches['index'] ?? 0])) {
-            return $this->manifest[$matches['path']]['css'][$matches['index'] ?? 0];
+            && isset($manifest[$matches['path']]['css'][$matches['index'] ?? 0])) {
+            return $manifest[$matches['path']]['css'][$matches['index'] ?? 0];
         }
 
-        return $this->manifest[$path]['file'] ?? $path;
+        return $manifest[$path]['file'] ?? $path;
     }
 
     public function isDevServerRunning(): bool

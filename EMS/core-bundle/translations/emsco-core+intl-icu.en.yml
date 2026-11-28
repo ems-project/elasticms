@@ -1,34 +1,160 @@
 action:
+    acknowledge: Acknowledge
     activate: Activate
     add: Add
     add_alias: 'Add alias'
+    add_managed_alias: 'Add managed alias'
+    add_new_type: 'Add a new {type}'
     add_referenced: 'Add referenced'
     add_referenced_content_type: 'Add a reference content type'
+    add_release_publish: 'Add to release for publication'
+    add_release_unpublish: 'Add to release for unpublish'
+    add_task: 'Add a task'
+    add_to_release: 'Add to release'
+    add_type: |-
+        {type, select,
+            aggregate_option   {Add aggregate option}
+            filter   {Add filter}
+            search_field_option   {Add search field option}
+            sort_option   {Add sort option}
+            translation   {Add translation}
+            transformer   {Add transformer}
+            other   {Add}
+        }
+    apply_filters: 'Apply filters'
+    approve: Approve
     attach: Attach
+    browse_server: 'Browse server'
+    cancel: Cancel
+    change_order: 'Change order'
+    change_password: 'Change password'
+    clear: Clear
+    clear_sort_options: 'Clear sort options'
     close: Close
+    collapse: Collapse
+    collapse_all: 'Collapse all'
+    compare: Compare
+    compare_with_current: 'Compare this revision with the current one'
+    confirm: Confirm
     confirmation: 'Do you confirm?'
+    copy: Copy
+    copy_all: 'Copy all'
+    copy_data: 'Copy data'
+    copy_error: 'Copy failed.'
+    copy_success: 'Copied to the clipboard.'
     create: Create
+    create_draft: 'Create {content_type} draft'
+    create_task: 'Create task'
     deactivate: Deactivate
+    default_search_for_content_type: 'Default search for {content_type}'
     define: Define
     delete: Delete
     delete_all: 'Delete all'
+    delete_item: 'Delete item'
     delete_selected: 'Delete selected'
+    delete_task: 'Delete task'
     details: Details
+    disable: Disable
+    discard: Discard
+    download: Download
     download_selected: 'Download selected'
     duplicate: Duplicate
     edit: Edit
+    edit_draft: 'Edit draft'
+    edit_main_container: 'Edit the main container'
+    edit_managed_alias: 'Edit managed alias'
+    edit_revision: 'Edit revision'
+    enable: Enable
+    exit: Exit
     export: Export
+    export_content_type: 'Export {pluralName}'
+    export_selected: 'Export selected'
+    extract_content: 'Extract content'
+    forgot_password: 'I forgot my password'
+    hide: Hide
+    hide_revision_sidebar: 'Hide revision sidebar'
+    import: Import
+    info: Info
+    init_upload: 'Initialize upload'
+    launch: Launch
+    move: Move
+    move_item: 'Move item'
+    new_entity_name: 'New {label}'
+    new_job: 'New job'
+    next: Next
+    paste: Paste
+    previous: Previous
+    publish: Publish
+    publish_content_type: 'Publish {total} {pluralName}'
+    publish_release: 'Release now'
+    put_back: 'Put back'
+    put_back_selected: 'Put back selected'
+    re_index: Re-index
     rebuild: Rebuild
+    refresh: Refresh
+    reject: Reject
+    relaunch: Relaunch
+    reload_page: 'Reload page'
+    remove: Remove
+    remove_documents: 'Remove documents'
+    remove_type: |-
+        {type, select,
+            aggregate_option   {Remove this aggregate option}
+            filter   {Remove this filter}
+            search_field_option   {Remove this search field option}
+            sort_option   {Remove this sort option}
+            translation   {Remove this translation}
+            transformer   {Remove this transformer}
+            other   {Remove}
+        }
+    rename: Rename
     reorder: Reorder
+    reorder_content_type: 'Reorder the content type "{content_type}"'
+    reorder_content_type_fields: 'Reorder "{content_type}" fields'
+    reorganise: Reorganise
+    reset_filters: 'Reset filters'
+    revert_to_revision: 'Revert to this revision'
     save: Save
+    save_and_edit_structure: 'Save and edit structure'
+    save_and_reorder: 'Save and reorder'
+    save_as_draft: 'Save as draft'
     save_close: 'Save and Close'
+    save_publish_in: 'Save and publish in {environments}'
+    save_task: 'Save task'
+    save_update_mapping: 'Save and edit mapping'
     select_all: 'Select all'
+    send: Send
+    set_as_default: |-
+        {type, select,
+            query_search   {Set as default search}
+            other   {Set as default}
+        }
+    set_as_default_search: 'Set as default search'
+    set_status_canceled: 'Cancel release'
+    set_status_ready: 'Validate release'
+    set_status_wip: 'Rework release'
+    show: Show
+    sign_in: 'Sign In'
+    sign_out: 'Sign out'
     status: Status
+    switch_user: 'Switch user'
+    test: Test
+    toggle_sidebar: 'Toggle sidebar'
     toggle_visibility: 'Toggle visibility'
     toggle_visibility_selected: 'Toggle visibility selected'
+    treat: Treat
+    treat_selected: 'Treat selected'
+    update: Update
     update_content_type_from_json: 'Update {name} from a JSON file'
+    update_from_json: 'Update from JSON'
     update_mapping: 'Update mapping'
+    upload: Upload
+    upload_file: 'Upload file'
+    upload_files: 'Upload files'
     view: View
+    view_current_revision: 'View current revision'
+    view_draft_in_progress: 'View draft in progress'
+    view_this_revision: 'View this revision'
 asset_extractor:
     status: |-
         {color, select,
@@ -69,18 +195,6 @@ color:
     red: Red
     teal: Teal
     yellow: Yellow
-content-type:
-    field:
-        hide_revision_sidebar:
-            label: 'Hide revision sidebar'
-        recompute_on_publish:
-            label: 'Recompute documents on publication'
-        tasks_enabled:
-            label: Enabled
-        tasks_helptexts:
-            label: Helptexts
-        tasks_titles:
-            label: Titles
 core:
     action:
         render-option:
@@ -149,205 +263,1226 @@ core:
     version: 'Version {core} with Symfony {symfony}'
 field:
     accumulate_file: 'Accumulate in one file'
+    action_config: 'Action config'
+    action_dropdown_label: 'Actions in {environment}'
+    action_dropdown_sr_only: "Toggle dropdown of {environment}'s actions"
+    aggregate_options: 'Aggregate options'
     alias: Alias
+    allow_link_to_root: 'Allow link to root'
     allowed_remote_hosts: 'Allowed remote hosts'
+    analyzer: Analyzer
+    ask_for_ouuid: 'Ask for OUUID'
+    asset:
+        author: 'Author :'
+        content: 'Content :'
+        date: 'Date :'
+        details: 'File details'
+        download: Download
+        hash_signature: 'Hash signature'
+        info: Info
+        language: 'Language :'
+        mime_type: 'MIME Type :'
+        size: 'Size :'
+        title: 'Title :'
+    asset_field: Asset
+    assigned_to: 'Assigned to '
+    assignee: Assignee
     attributes: 'Request extra attributes'
+    author: Author
+    auto_publish: 'Silently publish draft and auto-save into the default environment'
     available: Available
+    base_url: 'Base URL'
+    blocks_template: 'Blocks template'
+    boolean_clause: 'Boolean clause'
+    boost: Boost
+    bootstrap_class: 'Bootstrap class'
+    business_id: 'Business ID'
+    by_role: 'by role {role}'
+    category: Category
     channel: Channel
+    char_filter: 'Char filter'
+    choices: Choices
+    choices_template: 'Choices template'
+    circles: Circles
     circles_to: 'Circles to'
+    class: 'HTML class'
+    clear_on_copy: 'Clear on copy'
+    collapsible: Collapsible
     color: Color
     command: Command
+    comment: Comment
+    compare: Compare
     config: Config
+    content: Content
     content_css: 'Content css'
     content_js: 'Content js'
+    content_type: 'Content Type'
+    content_types: 'Content types'
     context: Context
+    copy_to: 'Copy to'
     count: Count
+    created_by: 'Created by'
+    creator: Creator
     cron: Cron
+    date: Date
     date_build: 'Date build'
     date_created: 'Date creation'
     date_execution: 'Execution date'
+    date_expiration: 'Expiration date'
+    date_from: 'Date from'
     date_modified: 'Date modified'
+    date_range:
+        duration: Duration
+        from: From
+        to: To
     date_run_next: 'Date next run'
     date_run_previous: 'Date previous run'
+    date_to: 'Date to'
     date_upload: 'Date upload'
+    dates_interval_one_day: 'Dates interval one day'
+    dates_read_only: 'Dates read only'
+    days_of_week_disabled: 'Days of week disabled'
+    days_of_week_highlighted: 'Days of week highlighted'
+    deadline: Deadline
+    default_sort_order: 'Default sort order'
+    default_time: 'Default time'
+    default_value: 'Default value'
     definition: Definition
+    delay: 'Delay (in days)'
+    description: Description
+    display: Display
+    display_format: 'Display format'
+    display_name: 'Display name'
+    display_template: 'Display template'
+    docs_count: '# Documents'
+    dynamic_loading: 'Dynamic loading'
+    edit_twig_with_wysiwyg: 'Edit the Twig template with a WYSIWYG editor'
     editor: Editor
+    elision: Elision
+    email: Email
     email_content_type: 'Content type (ie: text/html)'
+    enabled: Enabled
+    encryption: Encryption
+    endpoint_url: Endpoint
     entry_path: 'Default entry path'
+    environment: Environment
     environment_default: 'Default environment'
     environment_external: 'External environment'
+    environment_source: 'Environment source'
+    environment_target: 'Environment target'
     environments: Environments
+    error: 'Error message'
+    events: Events
+    expanded: Expanded
+    expiration_date: 'Expiration Date'
+    explicit_mode: 'Explicit mode'
     extra: Extra
+    extra_roles: 'Additional roles'
+    field: Field
+    field_type: "Field's type"
+    fielddata: 'Field data'
     file:
-        disposition: Disposition
+        disposition: 'File disposition'
+        disposition_attachment: 'Attachment (force download)'
+        disposition_inline: 'Inline (try to open in browser)'
         extension: Extension
         mimetype: Mime-Type
         name: Filename
-        orientation: Orientation
         paper_size: 'Paper size'
         size: Size
         type: Type
+    file_hash: 'File hash'
+    file_hash_apostrophe: "File's hash"
+    file_info: 'File information'
+    file_info_apostrophe: "File's information"
+    filename: Filename
+    filter: Filter
+    filters: Filters
+    flags: Flags
+    form: Form
+    format: Format
     format_tags: 'Format tags'
+    from_date_machine_name: 'From date machine name'
+    from_sender: 'From {sender}'
+    gender: Gender
+    group: Group
+    groups: Groups
     hash: 'Hash signature'
     header: Header
     header_allow_origin: 'The Access-Control-Allow-Origin header'
+    height: Height
+    helptext: Helptext
+    helptext_translations: 'Helptext translations'
+    helptexts: Helptexts
     hidden: Hidden
+    hours_disabled: 'Hours disabled'
     icon: Icon
+    id: ID
+    image_asset_config_identifier: 'Image asset config identifier'
     index: Index
+    index_twig: 'Index template (Twig)'
     indexes: Indexes
+    instance: Instance
+    inverted: Inverted
     is_active: Active
+    is_default: Default
     is_dirty: Dirty
     is_edit_wysiwyg: 'Edit with WYSIWYG'
+    is_mail_notification: 'e-mail notification'
     is_menu_notification: 'Visible in the notification menu'
     is_menu_sidebar: 'Visible in the sidebar menu'
     is_preview: Preview
     is_public: Public
+    is_styles_set_preview: 'Styles set preview'
+    item_bootstrap_class: 'Item Bootstrap class'
+    item_types: 'Item types'
+    json_decode: 'Try to JSON decode'
+    json_file: 'JSON file'
+    json_menu_content_type: 'JSON menu content type'
+    json_menu_field: 'JSON menu field'
+    json_menu_nested_field: 'JSON menu nested field'
+    json_menu_nested_types: 'JSON menu nested types'
+    json_menu_nested_unique: 'JSON menu nested unique'
+    json_nested_deny: 'JSON nested deny'
+    json_nested_is_leaf: 'JSON nested is leaf'
+    json_nested_max_depth: 'JSON nested max depth'
     key: Key
     label: Label
+    label_field: 'Label field'
+    label_translations: 'Label translations'
+    labels: Labels
+    language: Language
+    language_preferred: 'Language preferred'
+    language_ui: 'Language UI'
+    last_login: 'Last Login'
+    last_modification: 'Last modification'
+    last_of_row: 'Last item of the row'
     last_seen: 'Last seen'
     locale: Locale
+    locale_preferred: 'Locale preferred'
+    locale_preferred_first: 'Preferred locale first'
+    locales: Locales
+    locked_by: 'Locked by'
+    locked_until: 'Locked until'
+    lowercase: Lowercase
+    machine_name: 'Machine name'
+    mandatory: Mandatory
+    mandatory_if: 'Mandatory if'
+    mapping: Mapping
+    mapping_options: 'Mapping options'
+    matomo_site_id: 'Matomo site ID'
+    matomo_token_auth: 'Matomo view-only authentication token'
+    matomo_url: 'Matomo URL'
+    max: Max
+    max_depth: 'Max depth'
+    max_lines: 'Max lines'
+    max_output_size: 'Max output size'
+    max_token_length: 'Max token lenght'
+    mcp_arguments: 'MCP arguments template (JSON)'
+    mcp_input_schema: 'MCP input schema template (JSON)'
+    mcp_output_schema: 'MCP output schema template (JSON)'
+    mcp_prompt_response: 'MCP prompt response template (JSON)'
+    mcp_response: 'MCP response template (JSON)'
     message: Message
+    mime_type: 'MIME type'
+    min: Min
+    minimum_role: 'Minimum role'
+    minimum_should_match: 'Minimum should match'
+    minute_step: 'Minute step'
+    multiple: Multiple
     name: Name
+    nested: Nested
+    new_version: 'New version'
+    node_name: 'Node name'
+    node_types: 'Node types'
+    not_blank_new_version: 'Not blank new version'
+    number: Number
+    operator: Operator
+    operators: Operators
+    options: Options
+    orientation: Orientation
+    ouuid: OUUID
+    parse_format: 'Parse format'
+    password: Password
+    password_repeat: 'Repeat password'
+    pattern: Pattern
+    pdf_size: 'PDF Size'
+    permission: Permission
+    placeholder: Placeholder
     plural: Plural
+    plural_name: 'Plural name'
+    plural_name_translations: 'Plural name translations'
+    post_processing: 'Post processing'
+    postition_increment_gap: 'Position increment gap'
+    prefix_icon: 'Prefix icon'
+    prefix_text: 'Prefix text'
+    protected: Protected
     public_access: 'Public Access'
+    publish_to: 'Publish to'
+    published_label: 'Published in {environment}'
     query: Query
+    query_search: 'Query search'
+    question_label: 'Question label'
+    quick_search: 'Quick search'
+    referer_field_name: 'Referer field name'
+    rejected_by: 'Rejected by'
+    rejected_message: 'Rejected message'
     release_environment_source: 'Source Environment for publication'
     release_environment_target: 'Environment for (un)publication'
     render_option: 'Render option'
+    renumbering: 'Items will be renumbered'
+    requester: Requester
+    reset_password: 'Reset the password'
+    revision: Revision
     revision_version_tag: 'Yes as {version_tag}'
     revision_version_tag_empty: 'No (Silent publish)'
     role: Role
+    role_archive: Archive
     role_cc: 'Role cc'
+    role_create: Create
+    role_delete: Delete
+    role_edit: Edit
+    role_publish: Publish
+    role_show_link_create: 'Show link create'
+    role_show_link_search: 'Show link search'
     role_to: 'Role to'
+    role_trash: Trash
+    role_view: View
     roles: Roles
-    save_dir: 'Save dir'
+    root_content_type: 'Root content type'
+    rows: Rows
     search_config: 'Search config'
+    search_field_options: 'Search field options'
+    search_id: 'Search ID'
+    separator: Separator
     severity: Severity
+    show_meridian: 'Show meridian (true: 12hr, false: 24hr)'
+    show_seconds: 'Show seconds'
+    show_week_numbers: 'Show week numbers'
     singular: Singular
+    singular_name: 'Singular name'
+    singular_name_translations: 'Singular name translations'
+    sort: Sort
+    sort_by: 'Sort by'
+    sort_options: 'Sort options'
+    sort_order: 'Sort order'
+    sortable: Sortable
     spreadsheet: Spreadsheet
     status: Status
-    table_default_css: 'Default Table class attribute (deprecated)'
+    stopwords: Stopwords
+    store: Store
+    styles_set: 'Styles set'
+    subfield_name: 'Subfield name'
+    suffix_icon: 'Suffix icon'
+    suffix_text: 'Suffix text'
+    table_default_css: 'Default Table class attribute'
     tag: Tag
+    tags: Tags
+    template: Template
     template_body: 'Template body'
     template_footer: 'Template footer'
     template_header: 'Template header'
+    template_publication: 'Publication template'
     template_response: 'Template response'
     text: Text
+    theme: Theme
+    time_picker: 'Time picker'
+    time_picker_24_hour: 'Time picker 24 hour'
+    time_picker_increment: 'Time picker increment'
+    title: Task
+    titles: Titles
+    to_date_machine_name: 'To date machine name'
+    today_highlight: 'Highlight today'
+    tokenizer: Tokenizer
+    tooltip: Tooltip
     total: Total
     total_deleted: 'Total deleted'
     total_elastic: 'Total in ES'
     total_ems: 'Total in EMS'
+    transformers: 'Select a transformer'
     translations: Translations
     type: Type
+    unpublish_from: 'Unpublish from'
+    unpublish_in: 'Unpublish in {env}'
+    update_referers_field: 'Update referers field'
+    uri: URI
     user: User
     user_deleted: 'Deleted by'
+    user_groups: 'User groups'
     user_impersonator: Impersonator
     user_modified: 'Modified by'
+    user_property: 'User property'
+    user_roles: 'User roles'
     user_uploaded: 'Uploaded by'
-form:
-    reorder:
-        title: 'Reorder fields of form: {label}'
+    username: Username
+    username_or_email: 'Username or email address'
+    value: Value
+    value_template: 'Value template'
+    values: Values
+    version_tag: 'Version tag'
+    web_content: 'Web content (available in WYSIWYG field as internal link)'
+    week_start: 'Week start'
+    with_business_key: 'With business key'
+    with_environment: 'With environment'
+    with_locales_variable: 'With locales from EMSCH_LOCALES variable'
+    wysiwyg_profile: 'WYSIWYG profile'
+field_type:
+    action: 'Action field'
+    asset: 'Asset field'
+    checkbox: 'Checkbox field'
+    choice: 'Choice field'
+    choice_list: 'Choice list'
+    code: 'Code editor field'
+    collection: 'Collection (manage array of children types)'
+    collection_item: 'Collection item object (this message should neve seen anywhere)'
+    color_picker: 'Color picker field'
+    computed: 'Computed from the raw-data'
+    container: 'Visual container (invisible in Elasticsearch)'
+    copy_to: 'Elasticsearch copy_to field'
+    data_link: 'Link to data object(s)'
+    date: 'Date field'
+    date_time: 'Date Time Field'
+    email: 'Email field'
+    form: 'Refers to a form entity'
+    holder: 'Invisible container (Holder)'
+    icon: 'Icon field'
+    indexed_asset: 'Indexed file field'
+    integer: 'Integer field'
+    json_menu_editor: 'JSON menu editor field'
+    json_menu_link: 'JSON menu link field'
+    json_menu_nested_editor: 'JSON menu nested editor field'
+    json_menu_nested_link: 'JSON menu nested link field'
+    multiplex_tab: 'Multiplexed Tab Container'
+    nested: 'Nested object'
+    number: 'Number field'
+    ouuid: 'Copy of the object identifier'
+    password: 'Password field'
+    sect_user_property: 'Select User property field'
+    subfield: 'Virtual subfield (used to define alternatives analyzers)'
+    tabs: 'Visual tab container (invisible in Elasticsearch)'
+    text: 'Text field'
+    textarea: 'Textarea field'
+    time: 'Time field'
+    version_tag: 'Select version tag'
+    wysiwyg: 'WYSIWYG field'
+help:
+    override_styles_set_config: 'override styles sets config'
+    sort_choice_list: 'Sort choices alphabetically. If not defined, the order defined in the choice list is preserved.'
 key:
+    action: Action
     actions: Actions
+    active_primary_shards: 'Active primary shards'
+    active_shards: 'Active shards'
+    active_shards_percent_as_number: 'Active shards'
+    add_documents: 'Add documents'
+    add_user: 'Add user'
     admin: Admin
+    advanced_search: 'Advanced search'
+    align_with: 'Align with'
+    all_content_types: 'All Content Types'
+    all_linked_documents: 'All linked documents'
+    all_releases: 'All releases'
+    all_tasks: 'All tasks'
     analyzers: Analyzers
+    anonymous_user: 'Anonymous user'
+    api_documentation: 'API documentation'
+    api_key: 'API key'
+    applied: Applied
+    ascending: Ascending
+    assigned_to_me: 'Assigned to me'
+    assignees: Assignees
     attachment: Attachment
+    audit: Audit
+    autosave: Autosave
+    bits: Bits
+    build_date: 'Build date'
+    build_in: 'Build in'
+    by: By
+    canceled: Canceled
     channels: Channels
+    choice_lists: 'Choice lists'
     ckeditor4: 'CK Editor 4'
-    ckeditor5: 'CK Editor 5'
+    client: Client
+    cluster: Cluster
+    cluster_uuid: 'Cluster UUID'
+    compare_environments: 'Compare environments'
+    completed: Completed
+    console_output: 'Console output'
+    content: Content
+    content_type: 'Content type'
     content_types: 'Content Types'
+    control_sidebar: 'Control sidebar'
+    created: Created
+    csv_export: 'CSV export'
+    current_password: 'Current password'
+    current_revision: 'Current revision'
+    current_version: 'Current version'
+    customized: Customized
     dashboards: Dashboards
+    delayed_unassigned_shards: 'Delayed unassigned shards'
+    descending: Descending
     details: Details
+    discard_modifications: 'Discard non-saved modifications'
+    document: Document
     documentation: Documentation
+    draft: Draft
+    draft_in_progress: 'Draft in progress'
+    edit_revision_json: 'JSON raw edit'
+    elasticms_logo_alt: "elasticMS's logo"
+    elements: Elements
+    email_lowercase: e-mail
+    email_notification_lowercase: 'e-mail notification'
+    email_or_username: 'Email or Username'
+    empty: Empty
     environments: Environments
     environments_external: 'External environments'
     environments_local: 'Local environments'
+    error: Error
+    excel_export: 'Excel export'
     export_documents: 'Export documents'
+    failed: Failed
+    failed_jobs: 'Failed jobs'
+    'false': 'False'
+    filter: Filter
     filters: Filters
+    finalize: Finalize
+    finalized_by: 'Finalized by'
+    finalized_on: 'Finalized on'
+    folders: Folders
+    form_root: "Form's root"
     form_submissions: 'Form Submissions'
     forms: Forms
+    gender:
+        female: Female
+        male: Male
+        neutral: Neutral
     groups: Groups
+    gt: 'Greater than'
+    gte: 'Greater than or equal to'
+    history: History
+    home: Home
     i18n: I18N
+    inbox: Inbox
+    information: Information
+    initializing_shards: 'Initializing shards'
     inline: Inline
+    inline_editor: 'Inline editor'
+    item_label: 'Item label'
     job_logs: 'Jobs logs'
     jobs: Jobs
     landscape: Landscape
+    last_commands: 'Last commands'
+    last_update: 'Last update'
+    link_to_document: 'Link to document'
+    locale_ui: 'Locale UI'
+    locale_ui_abbrev: UI
+    locked: Locked
+    login: Login
     logs: Logs
     loop_count: '#'
+    lt: 'Less than'
+    lte: 'Less than or equal to'
+    lucene_version: 'Lucene version'
+    mail_action_approved: approved
+    mail_action_assignee_changed: 'changed assignee'
+    mail_action_completed: completed
+    mail_action_created: created
+    mail_action_deleted: deleted
+    mail_action_rejected: rejected
+    mail_action_updated: updated
     managed_aliases: 'Managed aliases'
+    match_and: 'Match (and)'
+    match_or: 'Match (or)'
+    match_phrase: 'Match phrase'
+    match_phrase_prefix: 'Match phrase prefix'
+    matomo: Matomo
+    mcp: MCP
+    mcp_prompts: 'MCP prompts'
+    mcp_resources: 'MCP resources'
+    mcp_tools: 'MCP tools'
+    must: Must
+    must_not: 'Must not'
+    new_password: 'New password'
+    new_password_confirmation: 'Repeat new password'
+    new_user: 'New user'
+    new_versions: 'New versions'
     none: None
+    not-applicable: N/A
+    not_applicable: 'Not applicable'
+    not_defined: 'Not defined'
+    nothing: Nothing
     notice: Notice
+    notification: Notification
+    notifications: Notifications
+    number_of_data_nodes: 'Number of data nodes'
+    number_of_in_flight_fetch: 'Number of in flight fetch'
+    number_of_nodes: 'Number of nodes'
+    number_of_pending_tasks: 'Number of pending tasks'
+    'on': 'On'
+    on_lowercase: 'on'
     orphan_indexes: 'Orphan indexes'
+    other: Other
+    other_environment_actions: 'Other environment actions'
+    other_revision_actions: 'Other actions on this revision'
+    outbox: Outbox
+    overdue_only: 'Overdue only'
     overview: Overview
+    pending: Pending
+    pending_jobs: 'Pending jobs'
+    pendings: Pendings
+    permission_overview_singular: 'Permission Overview'
+    plural: Plural
     portrait: Portrait
+    prefix: Prefix
     prefix_instance_id: 'Prefix alias with instance ID'
+    previous_revision: 'Previous revision'
+    progress: Progress
     public_channel: 'Make channel available for non-authenticated users ?'
+    public_key: 'Public key'
     public_view: 'Publicly available (without authentication)'
     publishers: Publishers
+    push_menu: 'Push menu'
+    query_and: 'Query (and)'
+    query_or: 'Query (or)'
     query_search: 'Query search'
     query_searches: QuerySearch
+    raw_view: 'Raw view'
+    ready: Ready
+    recent_activities: 'Recent Activities'
+    releases: Releases
+    relocating_shards: 'Relocating shards'
+    remember_me: 'Remember Me'
+    reorganise_colon: 'Reorganise:'
+    requested_tasks: 'Requested tasks'
+    requesters: Requesters
+    reset_password_subject: 'Reset Password'
+    revision_tasks: 'Revision tasks'
+    revisions: Revisions
+    roles_hierarchy: 'Roles hierarchy'
+    roles_specific_functionalities: 'Roles for specific functionalities'
+    rollback: Rollback
+    running: Running
     schedule: Schedule
     schedule_cron: '<Minute> <Hour> <Day_of_the_Month> <Month_of_the_Year> <Day_of_the_Week>. E.g. every 15 minutes: */15 * * * *'
     schedule_tag: 'Used to indentify workers (e.g. CLI) which would remotely execute the job'
+    scheduled: Scheduled
     search: Search
+    selected: Selected
+    sent: Sent
+    settings: Settings
+    should: Should
+    show_search_form: 'Show search form'
+    simplified_ui: 'Simplified UI'
+    singular: Singular
+    sort_by: 'Sort by'
+    sort_options_lowercase: 'Sort options'
+    specif_roles_abbrev: 'Specif. Roles'
+    specific_roles_lowercase: 'specific roles'
+    specific_roles_of_fields: 'Specific roles of fields'
+    statuses: Statuses
     structure: Structure
+    subfield: Subfield
+    system_logs: 'System logs'
+    tagline: Tagline
+    task_max_waiting_in_queue_millis: 'Task max waiting in queue'
+    task_status_active: Active
+    task_status_completed: Completed
+    task_status_finished: Finished
+    task_status_planned: Planned
+    task_status_rejected: Rejected
+    tasks: Tasks
+    template: Template
+    term: Term
+    textarea_counter: '{count} characters'
+    tiptap: Tiptap
+    title: Title
+    to_be_treated: 'To be treated'
     trash: Trash
+    treat_selection: 'Treat selection'
+    'true': 'True'
+    unassigned_shards: 'Unassigned shards'
+    unknown: Unknown
     unreferenced_aliases: 'Unreferenced aliases'
+    until: Until
     uploaded_files: 'Uploaded Files'
     uploaded_files_logs: 'Uploaded Files Logs'
+    user_administration: 'User administration'
+    user_management: 'User management'
+    user_profile_picture_alt: "User profile's picture"
     users: Users
+    version: Version
+    versioning: Versioning
     views: Views
+    waiting_to_start: 'Waiting to start'
+    warning: Warning
+    warnings: Warnings
+    webhook_subscriptions: Subscriptions
+    webhooks: Webhooks
+    welcome: Welcome
+    welcome_back: 'Welcome back!'
+    working_area: 'Working area'
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
-log:
-    error:
-        content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
-        delete_failed: 'Delete failed'
-        invalid_table_action: 'Unknown table action'
-    notice:
-        alias_attached: 'The alias "{alias}" has been attached'
-        content_type_deleted: 'Content type "{contentType}" has been deleted'
-        content_type_referenced: 'Referenced content type "{contentType}" from "{environment}" environment'
-        content_type_view_deleted: 'View "{view}" has been deleted'
-        deleted_orphan_index: 'The index "{index}" has been deleted'
-        deleted_orphan_indexes: 'Orphan indexes have been deleted'
-        draft_deleted: 'Draft "{revision}" has been deleted'
-    warning:
-        draft_not_found: 'Draft not found with id "{revisionId}"'
-        duplicate_environment: 'Environment "{name}" already exists!'
-        index_not_found: 'Index "{index}" not found'
-profile:
-    title: 'Your profile'
-    title_sub: 'All about you'
-revision:
-    draft:
-        delete: 'Delete this draft'
-        edit: 'Edit draft'
-        label: 'Draft in progress'
-        title: '{pluralName} drafts in progress'
-        view: 'View draft in progress'
-    field:
-        locked: 'Locked until'
-        locked_by: 'Locked by'
-        ouuid: Ouuid
-    new: 'New {contentType}'
-    trash:
-        put_back: 'Put back'
-        put_back_confirm: 'Put back "{label}" ?'
-        put_back_selected: 'Put back selected'
-        title: '{pluralName} in trash'
-search:
-    title: |-
+message:
+    action_created: 'A new action "{label}" has been created'
+    action_deleted: 'The action "{label}" has been deleted'
+    action_error: 'This page/action has encountered an error: {error_message}'
+    action_updated: 'The action "{label}" has been updated'
+    add_field_to: 'Add a field to <strong>{name}</strong>'
+    add_subfield_to: 'Add a subfield to <strong>{name}</strong>'
+    alias_added: 'A new alias "{alias_name}" has been added to the index "{index_name}"'
+    alias_attached: 'The alias "{alias}" has been attached'
+    alias_too_many_indexes: 'There are too many indexes'
+    all_treated: 'All notifications treated'
+    allow_configure_wysiwyg: "Allow user to switch WYSIWYG's profile"
+    analyzer_created: 'The analyzer "{label}" has been created'
+    analyzer_deleted: 'The analyzer "{label}" has been deleted'
+    analyzer_updated: 'The analyzer "{label}" has been updated'
+    another_draft_already_exist: 'A draft of this document is already in progress'
+    api_entity_created: 'Entity {entity} has been created with id {id}'
+    api_entity_deleted: 'Entity {entity} "{name}" has been deleted with id {id}'
+    api_entity_updated: 'Entity {entity} "{name}" has been updated with id {id}'
+    asset_extract_error: 'An issue has been raised while extracting information from the file {filename}: {error_message}<br>Please verify your input file and retry or add manually meta information within the info modal menu.'
+    asset_extract_file_too_large: 'As this file is larger ({filesize}) than {max_size} its content has not been automatically extracted. You can either force the extraction or specify it manually in the "Info" menu.'
+    cancel_last_modifications_confirm: 'Cancel last modifications ?'
+    cancel_non_saved_modifications: 'Cancel non-saved modifications'
+    cant_delete_query_search: '{1} The query search {label} is still linked to a content type and cannot be deleted.|]1,Inf[ {count} The query search {label} is still linked to {count} content types and cannot be deleted.'
+    channel_alias_not_found: 'The channel "{label}" cannot be registered as its alias "{alias}" is missing'
+    channel_deleted: 'The channel "{name}" has been deleted'
+    collection_added_items: '{0} Nothing has been added.|{1} One item has been added.|]1,Inf[ {count} items have been added.'
+    collection_removed_items: '{0} Nothing has been removed.|{1} One item has been removed.|]1,Inf[ {count} item have been removed.'
+    confirm_delete_files: 'Are you sure you want to delete the {count} selected files?'
+    confirm_delete_folder: |
+        Are you sure you want to delete this folder?
+        This action will also remove any subfolders and files within.
+    confirm_save_and_publish: 'Confirm save and publish ?'
+    content_type_action_not_found: 'Action not found on the content type "{label}"'
+    content_type_created: 'The content type "{label}" has been created'
+    content_type_deleted: 'The content type "{label}" has been deleted'
+    content_type_dirty: 'The content type "{label}" is dirty (its mapping might be out of date), try to update its mapping'
+    content_type_info_ouuid: |
+        This operation will not index a new object ‘<em>{content_type}</em>’ immediately. It will start a new draft without any previous revision. <strong>This draft will not be visible</strong> in any environment <strong>until it has been finalized for the first time</strong>.
+        This means you will not be able to see it in any list view (such as the index, map, calendar...), but all drafts in progress can be found in the ‘Draft in progress’ section.
+
+        About the <strong>object unique identifier</strong>: you are free to specify one (provided it has not been taken yet, of course).
+        If you leave it <strong>empty</strong>, an object unique identifier <strong>will be generated</strong> during the save. It is impossible to update the object unique identifier later.
+    content_type_mapping_not_found: 'Mapping not found for the content type "{label}"'
+    content_type_referenced: 'Referenced content type "{contentType}" from "{environment}" environment'
+    content_type_reordered: 'Content type "{content_type}" has been reordered'
+    content_type_update_mapping_error: "Error on updating {environments}''s mapping: {elasticsearch_error}"
+    content_type_view_deleted: 'View "{view}" has been deleted'
+    contenttype_mappings_error: 'Mappings update for {content_type} in {environments} failed: {elasticsearch_dump}'
+    contenttype_mappings_incompatible_definition: 'Mapping incompatibility for content type {content_type} in {environments}: field "{fieldPath}" has a different "{option}": existing={existing}, generated={generated}.'
+    contenttype_mappings_non_compatible_definition: 'Mapping incompatibility for content type {content_type} in {environments}: field "{fieldPath}" has a non-compatible definition.'
+    contenttype_mappings_updated: 'Mappings successfully updated for content type {content_type} in {environments}'
+    current_location: 'Current location: "{path}"'
+    custom: '{message}'
+    dashboard_deleted: 'The dashboard "{label}" has been deleted'
+    dashboard_exception: 'The dashboard {name} raised an exception'
+    data_already_unpublished: 'The document "{label}" was already unpublished from {environment}'
+    data_check_signature_failed: 'Signature mismatch in {environment} for the document "{label}"'
+    data_computed_hash_mismatch: 'Computed hash mismatch in {environment} for the document "{label}"'
+    data_default_value_error: 'It was impossible to initiate the default value (json_decode) for the content type {content_type}, please check the content type configuration'
+    data_default_value_template_error: 'It was impossible to initiate the default value (compile template) for the content type {content_type}, please check the content type configuration'
+    data_error_check_signature: 'Error checking the signature in {environment} for the document "{label}": {error_message}'
+    data_hash_mismatch: 'Hash mismatch in {environment} for the document "{label}"'
+    data_hash_missing: 'Hash missing in {environment} for the document "{label}"'
+    data_integrity_failed: 'Issue in {environment} while checking the integrity of the document "{label}": {error_message}'
+    data_not_a_draft: 'The document "{label}" is already finalized'
+    data_not_able_to_load_private_key: 'It is impossible to load the private key {private_key_filename}: {error_message}'
+    data_not_able_to_sign: 'It was impossible to sign the document: {error_message}'
+    data_not_consumed: '{count, plural, one {A data of this revision was not consumed: {data}} other {Some data (#) of this revision were not consumed: {data}}}'
+    data_post_finalize_failed: 'Error while finalizing the post processing of the document "{label}": {error_message}'
+    data_revision_not_signed: 'Revision not signed in {environment} for the document "{label}"'
+    data_unknown_update_type: 'The document "{label}" has not been replaced as the update type "{update_type}" is unknown'
+    data_unlock_revisions_error: 'Unexpected unlock exception'
+    data_update_referrers_error: "It was impossible to update the document's referrers"
+    delay_days: '{number} days'
+    delete_failed: 'Delete failed'
+    delete_this_draft: 'Delete this draft'
+    delete_this_user_confirm: 'Delete this user?'
+    deleted_orphan_index: 'The index "{index}" has been deleted'
+    deleted_orphan_indexes: 'Orphan indexes have been deleted'
+    difference_count: '{0} No difference|{1} One difference|]1,Inf[ {count} differences'
+    disable_user_confirm: 'Disable this user?'
+    discard_draft_modification_lost: 'Modification made in this draft will be lost'
+    document_cant_duplicate_ouuid_required: 'It is impossible to duplicate the document "{label}" as the content type "{content_type}" requires an OUUID first'
+    document_compared: 'Compared the revision {revision_id} of the document {content_type}:{ouuid} with the revision {compare_revision_id} of the document {compare_content_type}:{compare_ouuid}'
+    document_copied: 'The content of the document "{label}" has been copied to the clipboard'
+    document_duplicated: 'The document "{label}" has been used to initiate a new document'
+    download_file: 'Download the file'
+    draft_cant_be_finalized: 'This revision cannot be finalized'
+    draft_deleted: 'Draft "{revision}" has been deleted'
+    draft_modifications_will_be_lost: 'Modifications made in this draft will be lost'
+    draft_not_found: 'Draft not found with id "{revisionId}"'
+    drag_and_drop_file: 'Drag and drop your file here'
+    drag_and_drop_files: 'Drag and drop your files here'
+    duplicate_environment: 'Environment "{name}" already exists!'
+    duplicate_field: 'Duplicate <strong>{name}</strong>'
+    edit_field_name: 'Edit {name}'
+    email_crm_export: 'Please find attached the export of requested CRM submissions.'
+    email_greeting: Regards.
+    email_hello: 'Hello,'
+    entity_created: '{entity} {name} has been created'
+    entity_deleted: '{entity} {name} has been deleted'
+    entity_updated: '{entity} {name} has been updated'
+    environment_add_notice: 'This operation will create a new elastic search index with an alias pointing to it.'
+    environment_alias_missing: 'The alias for the environment {environment} is missing, consider to rebuild a brand new alias'
+    environment_alias_removed: 'The alias {alias} has been removed'
+    environment_aligned: 'Environment {environment} and {with_environment} are aligned for those content types'
+    environment_cannot_align_default: 'The document "{label}" cannot be published in {environment} as it is the {content_type}''''s default environment'
+    environment_created: 'The environment {environment} has been created'
+    environment_deleted: 'The environment "{label}" has been deleted'
+    environment_edit_notice_rename: |
+        If you intend to rename the alias,
+        please create a new environment and align it to the one you would like to rename the alias.
+        Then delete the previous one.
+    environment_is_default: 'The environment {environment} is used as default environment for at least one content type'
+    environment_not_empty: 'The environment {environment} is not empty'
+    environment_publish_permission_denied: 'You do not have enough privileges to publish "{content_type}" documents'
+    environment_rebuild_notice: 'Be cautious, depending of the option selected some content in the search index may be lost.'
+    environment_updated: 'The environment {environment} has been updated'
+    environment_wrong_ouuid: 'Malformed OUUID {ouuid}'
+    error_status: 'With the message "{status}"'
+    error_status_code: 'The server returned a {status_code}'
+    error_status_with_message: 'With the message "{status_text}".'
+    field_added: 'The field "{name}" has been added'
+    field_collection_import_array: 'Some data were not imported for the collection field {field_name} as is was not an array'
+    field_deleted: 'The field "{name}" has been deleted'
+    field_json_parse_post_processing_error: 'Error to JSON parse the result of the post processing script of field {field_name} (|json_encode|raw): {error_message}'
+    field_name_mandatory: 'The field name is mandatory'
+    field_name_not_valid: 'The field name is not valid (format: {field_format})'
+    field_not_a_data_field: 'Unexpected {field_name} field in the revision form'
+    field_other_post_processing_error: 'The postprocessing of the field {field_name} faced an issue: {error_message}'
+    field_reordered: 'The subfields of the field "{name}" have been reordered'
+    field_syntax_error: 'Syntax error with field {field_name}: {error_message}'
+    field_template_parse_error: 'Error to parse the computed field {computed_field_name}: {error_message}'
+    field_type_not_found: 'The type definition associated to this item is missing (probably deleted).'
+    field_with_errors: 'The field {path} is in error with the message {error_message}'
+    file_preview_fallback: 'No plugin-in available to display the file content.'
+    file_preview_of_field: 'File preview of field {label}'
+    file_upload_error: 'Error during file upload: {error_message}'
+    filter_deleted: 'The filter {filter_name} has been deleted'
+    finalized_by: '{date} Finalized by {user}'
+    finalized_when_user: '{date} Finalized by {user}'
+    folder_delete_async: 'Folder will be removed ASAP.'
+    folder_delete_in_progress: 'Folder removing in progress. Please wait...'
+    folder_move_async: 'Folder will be moved ASAP.'
+    folder_move_in_progress: |
+        Moving the selected folder from "{from}" to "{to}"
+        Please wait...
+    folder_rename_async: 'Folder will be renamed ASAP.'
+    folder_rename_in_progress: |
+        Folder renaming in progress.
+        Please wait...
+    form_deleted: 'The form "{label}" has been deleted'
+    form_not_defined: 'Form not defined'
+    form_not_found: 'Form not found'
+    form_submission_deleted: 'Form submission with id "{id}" has been deleted!'
+    generate_api_key_confirm: 'Generate API key for this user?'
+    hide_finished_tasks: 'Hide finished tasks ({number})'
+    import_failed: 'Import failed'
+    import_file_missing_columns: 'Missing columns in import file, required columns "{columns}"'
+    import_file_missing_data: 'Missing data in import file'
+    index_not_found: 'Index "{index}" not found'
+    invalid_table_action: 'Unknown table action'
+    item_outdated: 'Out of sync, close and retry!'
+    job_done: 'The job "{job_id}" is done'
+    job_failed: 'The job "{label}" has failed in the environment {environment}'
+    job_info: 'About this job'
+    job_initialized: 'The job "{label}" has been initialized in the environment {environment}'
+    json_menu_out_of_sync: 'Out of sync, please refresh and retry!'
+    linked_documents_in: 'Linked documents in {environment} ({length}/{total})'
+    loading_more_files: 'Loading more files ...'
+    log_content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
+    logged_in_as: 'Logged in as {username}'
+    mail_approved_subject: 'Approved task "{title}" for "{document}"'
+    mail_assignee_changed_subject: 'Assignee changed task "{title}" for "{document}"'
+    mail_completed_subject: 'Ready for validation, task "{title}" for "{document}"'
+    mail_created_subject: 'New task "{title}" for "{document}"'
+    mail_deleted_subject: 'Deleted task "{title}" for "{document}"'
+    mail_greetings: 'Hello {receiver},'
+    mail_kind_regards: 'Kind regards,'
+    mail_overdue_or_active_list: 'Here is the list of overdue or active tasks.'
+    mail_process_urgently: 'Please process them urgently.'
+    mail_rejected_subject: 'Rejected task "{title}" for "{document}"'
+    mail_task_has_been: 'A task has been {action} {role}.'
+    mail_updated_subject: 'Update task "{title}" for "{document}"'
+    managed_alias_created: 'Managed alias "{managed_alias_label}" has been created'
+    managed_alias_deleted: 'Managed alias "{managed_alias_label}" has been deleted'
+    managed_alias_updated: 'Managed alias "{managed_alias_label}" has been updated'
+    member_since: 'Member since {date}'
+    messages_in_error: 'Messages in error'
+    messages_in_queue: 'Messages in the queue'
+    move_files_success: |-
+        {count, plural,
+            one {Moving the selected file from "{from}" to "{to}". Please wait...}
+            other {Moving # files from "{from}" to "{to}". Please wait...}
+        }
+    no_linked_document: 'This document does not have any linked document'
+    no_revision_in_env: 'no revision in {env}'
+    no_tasks_for_document: 'No tasks for this document'
+    notification_already_pending: 'Another notification {notification_name} is already pending for document "{label}" in {environment} by {notification_username}'
+    notification_duplicate: 'At least another notification exists for this object'
+    notification_no_results: 'No result to display'
+    notification_no_results_for_filter_combo: 'No result for this filters combination'
+    notification_not_found: 'Notification #{notification_id} not found'
+    notification_send_error: 'Error while sending notification ({action_label}) for {content_type}: {error_message}'
+    notification_sent: '{notification_name} for document "{label}" in {environment} has been sent'
+    notification_treated: '{notification_name} for document "{label}" in {environment} has been {status}'
+    notification_updated: 'A "{notification_name}" notification has been {notification_status} for a "{content_type}" document ({ouuid})'
+    notification_will_be_lost_on_finalize: 'An "{notification_name}" notification will be lost for this {content_type} document ({ouuid}) on finalize'
+    object_choice_alias_not_found: 'Alias not found for content type {content_type}'
+    object_choice_content_type_not_found: 'Content type {content_type} not found'
+    object_choice_key_not_found: 'Object key {object_key} not found'
+    object_choice_limited_result_set: 'The data link picker is limited to the first {limit} of {count} documents'
+    ouuid_constraint: "OUUID has an unauthorized character: A-Z, a-z, 0-9, caret: '-', underscore: '_' or dot: '.'."
+    ouuid_placeholder: 'Auto-generated if left empty'
+    pick_file_from_server: 'Pick a file from the server'
+    please_reload_page: 'Please reload the page.'
+    preview_alt: 'Preview of the field {field}'
+    privilege_exception: 'You do not have enough privileges to edit this document'
+    publish_not_authorized: 'You can not (un)publish the content type {content_type}'
+    publish_not_in_circles: 'You can not (un)publish the content type {content_type} as you do not share any circle'
+    publish_not_in_default_environment: 'You can not (un)publish in the default environment {environment} of the document "{label}"'
+    put_back_confirm: 'Put back "{label}" ?'
+    query_search_deleted: 'The query search "{label}" has been deleted'
+    reindex_command_end: "The content type {content_type}''s documents have been reindexed in {environment} (index: {index})"
+    reindex_command_environment_not_found: 'Environment named {environment} not found'
+    reindex_command_start: 'Start reindexing {content_type} in {environment}'
+    release_add_publish: 'Add documents for publication'
+    release_add_unpublish: 'Add documents for unpublish'
+    release_delete_confirm: 'Delete the Release?'
+    release_delete_selected_confirm: 'Delete all selected Releases?'
+    release_deleted: 'The release "{name}" has been deleted'
+    release_not_ready: 'The status of the release "{name}" is not ready'
+    release_revision_finalized_by: '{date} finalized by {user}'
+    release_revision_missing: 'The document "{label}" is no more available in {environment}'
+    release_revision_no_more_in_target: 'This revision has been unpublished from {target}'
+    release_revision_preceding: 'A previous revision is already related to the release "{name}"'
+    release_revision_still_in_target: 'Still released in {target}'
+    release_unknown_action: 'Unknown action'
+    remove_user_from_group_confirm: 'Remove this user from the group?'
+    removing_files: 'Removing {count} files. Please wait...'
+    replaced_by_revision: 'replaced by revision {date}'
+    reset_password_check_email: |
+        An email has been sent. It contains a link you must click to reset your password.
+        Note: You can only request a new password once within {tokenLifetime} hours.
+
+        If you don't get an email check your spam folder or try again.
+    reset_password_email_body: |-
+        Hello {username}!
+
+        To reset your password - please visit {confirmationUrl}
+
+        Regards,
+        the Team.
+    revision_add_for_publication: 'Add document for publication'
+    revision_add_for_unpublish: 'Add document for unpublish'
+    revision_add_from_json_error: 'It was impossible to initiate a new {content_type} document due to an internal error'
+    revision_added_to_release: 'Document "{label}" has been added to release "{release}"'
+    revision_ajax_update_on_finalized: 'It is impossible to save the document "{label}" as this revision is already finalized'
+    revision_already_in_release: 'This revision of document "{label}" was already in release "{release}"'
+    revision_already_published: 'The document "{label}" is already published in {environment}'
+    revision_auto_publish_rollback: 'The document "{label}" has been silently published back in {environment}'
+    revision_auto_save_off_with_auto_publish: 'The auto-save has been disabled as the auto-publish is enabled for the content type {content_type}. Press Ctrl+S (Cmd+S) to save and publish in {environment}'
+    revision_cannot_delete_published: 'The document "{label}" cannot be deleted as it is published in {environment}'
+    revision_cannot_finalize: 'The document "{label}" cannot be finalized as it is'
+    revision_cannot_finalize_invalid: '{count, plural, one {The document "{label}" cannot be finalized it has one error} other {The document "{label}" cannot be finalized as there are # errors}}'
+    revision_cannot_finalize_pending_auto_save: 'The document "{label}" cannot be finalized as an auto save is pending'
+    revision_compare: 'Compare the revision {revision_id} of the document {content_type}:{ouuid} with the revision {compare_revision_id}'
+    revision_compare_more_recent: 'Compare the revision {revision_id} of the document {content_type}:{ouuid} with the revision {compare_revision_id}, which one is more recent'
+    revision_compare_not_found: 'Impossible to compare the revision {revision_id} of the document {content_type}:{ouuid} with the revision id {compare_revision_id} as this revision does not exist'
+    revision_create_error: 'The revision for the content type "{content_type}" cannot be created, reason: {error_message}'
+    revision_create_from_array_error: 'It was impossible to initiate a new {content_type} document due to an internal error'
+    revision_current: 'You are viewing the last revision'
+    revision_delete_error: 'The revision {ouuid} for the content type "{content_type}" cannot be deleted, reason: {error_message}'
+    revision_deleted: 'The document "{label}" has been deleted'
+    revision_deleted_but_referenced: 'The document "{label}" is marked as deleted but is still referenced in {environment}'
+    revision_discard_error: 'The revision {revision_id} for the content type "{content_type}" cannot be discarded, reason: {error_message}'
+    revision_draft_cannot_be_added_to_release: 'Revision in draft mode can not be added to a release'
+    revision_draft_created: 'A new draft has been initiated for the document "{label}"'
+    revision_draft_deleted: 'Draft discard for the document "{label}"'
+    revision_draft_in_progress: 'This is a draft in progress'
+    revision_draft_publish_error: 'A draft of the document "{label}" cannot be published in {environment}: {error_message}'
+    revision_draft_published: 'A draft of the document "{label}" has been published in {environment}'
+    revision_draft_updated: 'Updated draft for the document "{label}"'
+    revision_edit_draft_warning: 'You are editing an already published revision, it is safer to <a href="{path}" class="btn btn-primary"><span class="fa fa-pencil"></span> edit a draft</a>'
+    revision_finalize_error: 'The revision {revision_id} for the content type "{content_type}" cannot be finalized, reason: {error_message}'
+    revision_form_created: "Revision's form created"
+    revision_in_draft_by: 'In draft by "{user}"'
+    revision_incomplete_request: 'It is impossible to save the document "{label}". Please check your PHP/Web configuration (i.e.: max_input_vars in php.ini)'
+    revision_json_edit_draft_only: 'Only a draft can be edited as JSON'
+    revision_loaded_from_auto_save: 'Data were loaded from an auto-saved version'
+    revision_locked: 'Document "{label}" is currently locked by {username}'
+    revision_merge_error: 'The revision {ouuid} for the content type "{content_type}" cannot be merged/updated, reason: {error_message}'
+    revision_not_found_in_environment: 'It is impossible to identify a revision for the document "{ouuid}" in the environment {environment}'
+    revision_not_found_in_source: 'Missing revision in the environment {environment} for the document "{ouuid}"'
+    revision_not_in_target_environment: 'Document "{label}" is not published in target environment "{target}"'
+    revision_not_published: 'This revision is not published in {environment} anymore'
+    revision_not_published_and_duplicate: 'This revision is not published in {environment} anymore and another notification exists'
+    revision_only_super_can_finalize_archive: 'Only a super user can finalize an archived revision'
+    revision_previous: 'This is a revision from the past'
+    revision_publish_failed: 'The publication of the document "{label}" failed!'
+    revision_published: 'The document "{label}" has been published in {environment}'
+    revision_read_error: 'The revision for the content type "{content_type}" cannot be found, reason: {error_message}'
+    revision_reindexed: 'The document "{label}" has been reindexed in {environment}'
+    revision_reindexed_failed: 'The document "{label}" has encountered an exception during its reindexing "{error_message}"'
+    revision_reindexed_failed_in: 'The document "{label}" has encountered an exception during its reindexing in {environment}'
+    revision_replace_by_date: 'replace by revision {date}'
+    revision_replace_error: 'The revision {ouuid} for the content type "{content_type}" cannot be replaced/updated, reason: {error_message}'
+    revision_request_form_handled: "Revision's request form handled"
+    revision_restored: 'The document "{label}" has been restored'
+    revision_unpublished: 'The document "{label}" has been unpublished from {environment}'
+    revision_updated_in_release: 'Document "{label}" has been updated with a new revision in release "{release}"'
+    revison_not_found_in_env: 'no revision in {environment}'
+    roles_functionalities_description: 'These roles are specifically for functionality and have nothing to do with content management. They are functional roles that grant access to specific CMS features.'
+    roles_hierarchy_description: 'Access to a role implies access to all roles below it in the hierarchy. Hierarchical roles can be assigned to grant and limit access to the content type.'
+    schedule_created: 'Schedule "{name}" has been created'
+    schedule_deleted: 'The schedule "{name}" has been deleted'
+    schedule_updated: 'Schedule "{name}" has been updated'
+    search_paging_limit_exceeded: 'The paging is limited to the first {paging} items, got {total} documents'
+    search_placeholder: Search...
+    search_result_count: |-
         {count, plural,
             =-1   {Search result is missing}
             =0    {No results found}
             =1    {1 document found}
-            other {# documents found}
+            other {{total} documents found}
         }
-status:
-    title: "Systems' status"
-    title_sub: 'Is everything working as expected?'
+    select_new_location: 'Select new location:'
+    show_finished_tasks: 'Show finished tasks ({number})'
+    sign_in_start_session: 'Sign in to start your session'
+    sign_in_to_continue: 'Sign in to your account to continue'
+    something_wrong: 'There is something wrong with this application.'
+    start_edit: 'Start editing the document {ouuid} of type {type}'
+    start_edit_without_ouuid: 'Start editing a new document of type {type}'
+    started_on_date: 'Started on {date}'
+    still_in_target: 'Still in {target}'
+    subfield_added: 'The subfield "{name}" has been added'
+    subfield_name_mandatory: 'The subfield name is mandatory'
+    subfield_name_not_valid: 'The subfield name is not valid (format: {field_format})'
+    task_created: 'Task "{title}" successfully created.'
+    task_deleted: 'Task "{title}" successfully deleted.'
+    task_history_approved: '{user} approved the task'
+    task_history_completed: '{user} completed the task'
+    task_history_created: '{user} created the task'
+    task_history_planned: '{user} planned the task'
+    task_history_progress: 'The task became active for {assignee}'
+    task_history_rejected: '{user} rejected the task'
+    task_history_updated: '{user} updated the task'
+    task_revision_locked: 'Revision locked by {user} until {time}'
+    task_search_warning: 'More than {count} tasks, search on document title is impossible.'
+    task_updated: 'Task "{title}" successfully updated.'
+    tika_server_not_configured: 'Tika server is not configured'
+    up_to_date: 'Everything is up to date.'
+    upload_is_starting: 'Upload is starting'
+    user_api_key_generated: 'New API key for the user {user_display_name}: {api_key}'
+    user_custom_form_not_found: 'Custom user form "{name}" not found'
+    user_deleted: 'The user {user_display_name} has been deleted'
+    user_disabled: 'The user {user_display_name} has been disabled'
+    user_enabled: 'The user {user_display_name} has been enabled'
+    user_profile_changed_password: 'The password has been changed.'
+    user_profile_updated: 'The profile has been updated.'
+    user_resetting_success: 'The password has been reset successfully.'
+    user_updated: 'The user {user_display_name} has been updated'
+    users_in_group_label: 'Users in group {label}'
+    users_not_in_group_label: 'Users not in group {label}'
+    view_bucket_not_found: 'Bucket {bucket_path} not found'
+    view_created: 'A new view {view_label} has been created'
+    view_criteria_added: 'A criteria has been added for field {field_name} with value {field_data}'
+    view_criteria_already_exists: 'A criteria already exists for field {field_name} with value {field_data}'
+    view_criteria_already_missing: 'A criteria is already missing for field {field_name} with value {field_data}'
+    view_criteria_created: 'A new criteria has been created for {target_field_name}:{target_field_data}'
+    view_criteria_document_key_not_found: 'Document reference "{document_reference}" not found for the document "{ems_id}"'
+    view_criteria_draft_in_progress: '{count, plural, one {One draft in progress. You won’t be able to update it from here.} other { # drafts in progress. You won’t be able to update them from here.}}'
+    view_criteria_field_not_found: 'Field path {field_path} not found'
+    view_criteria_locked_revision: 'Impossible to update the document "{label}" as the revision is locked by {locked_by}'
+    view_criteria_not_found: 'Criteria not found for the field {field_name}'
+    view_criteria_removed: 'A criteria has been removed for field {field_name} with value {field_data}'
+    view_criteria_too_many: 'Too many criteria found ({total}). something wrong with this combination of criteria!'
+    view_criteria_update_not_authorized: 'You do not have enough privileges to use this view to update criteria'
+    view_criteria_update_privilege_issue: 'You are not authorized to update the document "{label}"'
+    view_deleted: 'The view "{label}" has been deleted'
+    view_document_update_error: 'It was impossible to update the document "{label}": {error_message}'
+    view_hierarchical_reorganized: 'The {content_type}''''s documents have been reorganized with the view "{view_label}"'
+    view_not_found: 'View {id} not found'
+    view_sorter_ordered: 'The {content_type} documents have been ordered with the view "{view_label}"'
+    view_sorter_too_many_documents: 'This content type has too many documents ({total}) to be reordered all at once'
+    view_updated: 'The view "{label}" has been updated'
+    webhook_disabled: 'The subscription {id} has been disabled'
+    webhook_re_enabled: 'The subscription {id} has been re-enabled'
+    webhook_test_dispatched: 'A webhook_test event has been sent to the subscription {id}'
+    wysiwyg_invalid_config_format: 'Format not valid: {msg}'
+    wysiwyg_profile_deleted: 'Profile "{name}" has been deleted'
+    wysiwyg_profile_updated: 'Profile "{name}" has been updated'
+    wysiwyg_styles_set_deleted: 'Style set "{name}" has been deleted'
+    wysiwyg_styles_set_updated: 'Style set "{name}" has been updated'
+    xliff_not_current_revision: 'The revision {revision_id} of {ouuid} is no longer the last revision. The translations were not imported.'
+    xliff_too_many_translations: '{counter} translation documents while only one is expected for the translation id {translation_id} and the target locale {target_locale} in the environment {environment}'
+option:
+    allow_add: 'Allow add'
+    default_search: 'In default search'
+    delete_existing_templates: 'Delete existing templates'
+    delete_existing_views: 'Delete existing views'
+    disabled: Disabled
+    display: Display
+    email_notification: 'Email notifications'
+    enabled: Enabled
+    extra: Extra
+    layout_boxed: 'Layout boxed'
+    layout_sidebar_collapse: 'Sidebar collapse'
+    layout_sidebar_mini: 'Sidebar mini'
+    migration: Migration
+    multiple: Multiple
+    rebuild_new_index: "A new index will be created and all objects will be reindexed with the revision defined for this environment. Once it's done the environment alias will be updated. Nothing will be removed from the current search index."
+    rebuild_same_index: 'All objects in eMS will be just reindexed into the existing index.'
+    recompute_on_publish: 'Recompute documents on publication'
+    restriction: Restriction
+    update_referrers: 'Update referrers'
+placeholder:
+    for_example: 'e.g. {example}'
+role:
+    admin:
+        label: Administrator
+    allow_align:
+        description: 'Align environment grants access to a tool that allows bulk publishing of various documents.'
+        label: 'Align Environment'
+    api:
+        description: 'Give access through the API.'
+        label: API
+    auditor:
+        label: Auditor
+    author:
+        label: Author
+    copy_paste:
+        description: 'Copy/Paste role for copying and pasting content on documents.'
+        label: Copy/Paste
+    copywriter:
+        label: Copywriter
+    default_search:
+        description: 'Default Search role for default search functionality (deprecated).'
+        label: 'Default search'
+    form_crm:
+        description: 'Form CRM grants access to the mini CRM management tool included in the CMS.'
+        label: 'Form CRM'
+    not_defined:
+        label: 'Not defined'
+    publisher:
+        label: Publisher
+    reviewer:
+        label: Reviewer
+    super:
+        label: 'Super user'
+    super_admin:
+        label: 'Super Admin'
+    super_user:
+        description: 'Super User role for super user functionalities.'
+        label: 'Super User'
+    task_manager:
+        description: 'Task Manager role for managing tasks.'
+        label: 'Task admin'
+    traductor:
+        label: Traductor
+    user:
+        label: User
+    user_management:
+        description: 'User Management role for managing users.'
+        label: 'User Management'
+    user_read:
+        description: 'User Read role for accessing to CMS user accounts information through the API.'
+        label: 'User read'
+    webmaster:
+        label: Webmaster
+title:
+    add_content_type: 'Add a new {content_type}'
+    add_folder: 'Add folder'
+    add_new_task: 'Add a new task'
+    add_release: 'Add a Release'
+    align_environments: 'Align Environments'
+    align_environments_subtitle: 'time to align environments?'
+    as_indexed_in_environment: 'As indexed in {environment}'
+    asset_options: 'Asset options'
+    change_your_password: 'Change your password'
+    compare_environments: 'Compare {environment} with {with_environment}'
+    content_type_create_ouuid: 'This operation will not index the {content_type}, but initiate a draft only with a specific OUUID'
+    content_type_from_json_file: "from a Content Type's JSON file"
+    content_type_json_update: 'Update the content type "{content_type}"'
+    content_type_permissions: 'Permissions of content types'
+    delete_file: 'Delete file'
+    delete_files_count: 'Delete {count} files'
+    delete_folder: 'Delete folder'
+    deleted_task: 'Deleted task : {title}'
+    drafts_in_progress: '{pluralName} drafts in progress'
+    edit_display_name: 'Edit {display_name}'
+    edit_release: 'Edit a Release'
+    edit_revision_content_type: 'Edit the {contentType}: {revision} '
+    edit_task: 'Edit task : {title}'
+    edit_username: 'Edit {username}'
+    edit_your_profile: 'Edit your profile'
+    error: 'An Error Occurred'
+    error_page: 'Oops! An Error Occurred'
+    filtering_tasks: 'Filtering the tasks'
+    items_in_trash: '{pluralName} in trash'
+    job_list: "Job's list"
+    list_releases: 'List of Releases'
+    log_of: 'Log of the {created}'
+    messages_in_bus: 'Messages in the bus'
+    move_files: |-
+        {count, plural,
+            one {Move file}
+            other {Move # files}
+        }
+    move_folder: 'Move folder'
+    name_of_plural: '{name} of {plural}'
+    new_content_type: 'New {content_type}'
+    new_draft: '{contentType}: new draft'
+    new_label: 'New {label}'
+    notifications_none_pending: 'No pending notifications'
+    out_of_sync: 'Out of sync'
+    permissions_overview: 'Permissions Overview'
+    pick_a_release: 'Pick a release for "{label}"'
+    planned_tasks: 'Planned tasks'
+    profile: 'Your profile'
+    profile_tagline: 'All about you'
+    publish_search_result: 'Publish {count} {content_type} from {environment}'
+    rebuild_environment: 'Rebuild the environment {name}'
+    rebuild_index_short: 'Rebuild index'
+    release_documents: "Release's documents"
+    release_revision_list_publish: 'List of documents available for publication'
+    release_revision_list_unpublish: 'List of documents available for unpublish'
+    rename_file: 'Rename file'
+    rename_folder: 'Rename folder'
+    reorder_form_fields: 'Reorder fields of form: {label}'
+    reset_password: 'Reset password'
+    revisions_of_content_type: 'Revisions of {contentType}: {title}'
+    select_environments_to_compare: 'Select Environments to compare'
+    specific_permissions_for: 'Permission for {content_type_singular_name}'
+    systems_status: "Systems' status"
+    systems_status_tagline: 'Is everything working as expected?'
+    task_modal: 'Task: {title}'
+    total: |-
+        {count, plural,
+            =0 {No result}
+            =1 {1 result}
+            other {# results}
+        }
+    user_list: 'User list'
+    user_not_in_group: 'User not in group'
+    users_in_group: 'Users in group'
+    view_custom: 'View {name} of the {contentType} "{label}" as indexed in {environment}'
+    view_ems_id: 'View {content_type}:{id}'
+    view_environment: 'View the environment {label}'
+    view_environment_short: 'View environment'
+    view_file: 'View file'
+    view_file_modal: 'View file: {name}'
+    view_recursive: 'Recursive view'
+transformer:
+    html_attribute: 'HTML Attribute'
+    html_empty: 'HTML Empty'
+    html_remove_node: 'HTML Remove node'
+    html_unwrap: 'HTML Unwrap'
 type:
     confirm: |-
         {type, select,
@@ -536,5 +1671,3 @@ type:
             view          {Customize the menu}
             other         {}
         }
-view:
-    title: '{name} of {plural}'

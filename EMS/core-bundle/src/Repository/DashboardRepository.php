@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use EMS\CoreBundle\Entity\Dashboard;
 
 /**
@@ -19,9 +19,9 @@ use EMS\CoreBundle\Entity\Dashboard;
  * @method Dashboard|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
  * @method Dashboard[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
-final class DashboardRepository extends ServiceEntityRepository
+class DashboardRepository extends ServiceEntityRepository
 {
-    public function __construct(Registry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Dashboard::class);
     }
@@ -32,30 +32,6 @@ final class DashboardRepository extends ServiceEntityRepository
     public function getAll(): array
     {
         return $this->findBy([], ['orderKey' => 'ASC']);
-    }
-
-    /**
-     * @return Dashboard[]
-     */
-    public function getSidebarMenu(): array
-    {
-        return $this->findBy([
-            'sidebarMenu' => true,
-        ], [
-            'orderKey' => 'ASC',
-        ]);
-    }
-
-    /**
-     * @return Dashboard[]
-     */
-    public function getNotificationMenu(): array
-    {
-        return $this->findBy([
-            'notificationMenu' => true,
-        ], [
-            'orderKey' => 'ASC',
-        ]);
     }
 
     public function counter(string $searchValue = ''): int
@@ -112,7 +88,7 @@ final class DashboardRepository extends ServiceEntityRepository
             ->setMaxResults($size);
         $this->addSearchFilters($qb, $searchValue);
 
-        if (\in_array($orderField, ['label', 'name'])) {
+        if (\in_array($orderField, ['label', 'name'], true)) {
             $qb->orderBy(\sprintf('c.%s', $orderField), $orderDirection);
         } else {
             $qb->orderBy('c.orderKey', $orderDirection);
@@ -123,7 +99,7 @@ final class DashboardRepository extends ServiceEntityRepository
 
     private function addSearchFilters(QueryBuilder $qb, string $searchValue): void
     {
-        if (\strlen($searchValue) > 0) {
+        if ('' !== $searchValue) {
             $or = $qb->expr()->orX(
                 $qb->expr()->like('c.label', ':term'),
                 $qb->expr()->like('c.name', ':term'),

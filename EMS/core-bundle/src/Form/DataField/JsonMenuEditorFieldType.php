@@ -14,13 +14,22 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class JsonMenuEditorFieldType extends DataFieldType
 {
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'JSON menu editor field';
+        return $this->buildLegacyJsonMenuSchema($fieldType, $buildObjectSchema);
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.json_menu_editor', [], 'emsco-core');
     }
 
     #[\Override]
@@ -92,17 +101,115 @@ class JsonMenuEditorFieldType extends DataFieldType
         $optionsForm = $builder->get('options');
 
         if ($optionsForm->has('mappingOptions')) {
-            $optionsForm->get('mappingOptions')->add('analyzer', AnalyzerPickerType::class);
+            $optionsForm->get('mappingOptions')->add('analyzer', AnalyzerPickerType::class, [
+                'label' => t('field.analyzer', [], 'emsco-core'),
+            ]);
         }
 
         $optionsForm->get('displayOptions')->add('icon', IconPickerType::class, [
+            'label' => t('field.icon', [], 'emsco-core'),
             'required' => false,
         ])->add('maxDepth', IntegerType::class, [
+            'label' => t('field.max_depth', [], 'emsco-core'),
             'required' => false,
         ])->add('nodeTypes', TextType::class, [
+            'label' => t('field.node_types', [], 'emsco-core'),
             'required' => false,
         ])->add('itemTypes', TextType::class, [
+            'label' => t('field.item_types', [], 'emsco-core'),
             'required' => false,
         ]);
+    }
+
+    /**
+     * @param callable(array<FieldType>): array<string, mixed> $buildObjectSchema
+     *
+     * @return array<string, mixed>
+     */
+    protected function buildLegacyJsonMenuSchema(FieldType $fieldType, callable $buildObjectSchema): array
+    {
+        return [
+            'type' => 'array',
+            'items' => ['$ref' => '#/$defs/jsonMenuNode'],
+            '$defs' => [
+                'jsonMenuNode' => $this->buildLegacyJsonMenuNodeSchema($fieldType, $buildObjectSchema),
+            ],
+        ];
+    }
+
+    /**
+     * @param callable(array<FieldType>): array<string, mixed> $buildObjectSchema
+     *
+     * @return array<string, mixed>
+     */
+    protected function buildLegacyJsonMenuNodeSchema(FieldType $fieldType, callable $buildObjectSchema): array
+    {
+        $variants = [];
+        foreach ($fieldType->getValidChildren() as $childFieldType) {
+            $variants[] = $this->buildLegacyJsonMenuVariantSchema($childFieldType, $buildObjectSchema, 'type');
+            $variants[] = $this->buildLegacyJsonMenuVariantSchema($childFieldType, $buildObjectSchema, 'contentType');
+        }
+
+        if ([] === $variants) {
+            return $this->buildLegacyJsonMenuBaseSchema();
+        }
+
+        return ['anyOf' => $variants];
+    }
+
+    /**
+     * @param callable(array<FieldType>): array<string, mixed> $buildObjectSchema
+     *
+     * @return array<string, mixed>
+     */
+    protected function buildLegacyJsonMenuVariantSchema(FieldType $childFieldType, callable $buildObjectSchema, string $discriminatorProperty): array
+    {
+        $componentSchema = $buildObjectSchema($childFieldType->getValidChildren());
+        $baseSchema = $this->buildLegacyJsonMenuBaseSchema();
+        $componentProperties = \is_array($componentSchema['properties'] ?? null) ? $componentSchema['properties'] : [];
+        $componentRequired = \is_array($componentSchema['required'] ?? null) ? $componentSchema['required'] : [];
+
+        $properties = [
+            ...$componentProperties,
+            ...$baseSchema['properties'],
+            $discriminatorProperty => ['const' => $childFieldType->getName()],
+        ];
+
+        if ('type' === $discriminatorProperty) {
+            $properties['contentType'] = ['type' => 'string'];
+        } else {
+            $properties['type'] = ['type' => 'string'];
+        }
+
+        return [
+            'type' => 'object',
+            'properties' => $properties,
+            'required' => \array_values(\array_unique([...$componentRequired, 'id', 'label', $discriminatorProperty])),
+            'additionalProperties' => false,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function buildLegacyJsonMenuBaseSchema(): array
+    {
+        return [
+            'type' => 'object',
+            'properties' => [
+                'id' => ['type' => 'string'],
+                'label' => ['type' => 'string'],
+                'children' => [
+                    'type' => 'array',
+                    'items' => ['$ref' => '#/$defs/jsonMenuNode'],
+                ],
+                'contains' => [
+                    'type' => 'array',
+                    'items' => ['type' => 'string'],
+                ],
+            ],
+            'required' => ['id', 'label'],
+            'additionalProperties' => false,
+        ];
     }
 }

@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Service;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\ORM\EntityManagerInterface;
 use EMS\CommonBundle\Entity\EntityInterface;
-use EMS\CoreBundle\Core\Security\Canonicalizer;
-use EMS\CoreBundle\Core\UI\Menu;
+use EMS\CoreBundle\Core\User\UserList;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Entity\UserInterface;
-use EMS\CoreBundle\Repository\SearchRepository;
 use EMS\CoreBundle\Repository\UserRepository;
+use EMS\CoreBundle\Roles;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -27,11 +24,9 @@ class UserService implements EntityServiceInterface
      * @param array<mixed> $securityRoles
      */
     public function __construct(
-        private readonly Registry $doctrine,
         private readonly TokenStorageInterface $tokenStorage,
         private readonly Security $security,
         private readonly UserRepository $userRepository,
-        private readonly SearchRepository $searchRepository,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly array $securityRoles,
     ) {
@@ -39,7 +34,7 @@ class UserService implements EntityServiceInterface
 
     public function isSuper(): bool
     {
-        return $this->authorizationChecker->isGranted('ROLE_SUPER');
+        return $this->authorizationChecker->isGranted(Roles::ROLE_SUPER);
     }
 
     public function searchUser(string $search): ?UserInterface
@@ -53,38 +48,6 @@ class UserService implements EntityServiceInterface
 
         $user = $this->userRepository->search($search);
         $cache[$search] = $user;
-
-        return $user;
-    }
-
-    public function getUserById(int $id): ?User
-    {
-        return $this->userRepository->findOneBy(['id' => $id]);
-    }
-
-    public function findUserByEmail(string $email): ?User
-    {
-        return $this->userRepository->findOneBy(['email' => $email]);
-    }
-
-    public function updateUser(User $user): UserInterface
-    {
-        $user->setUsernameCanonical(Canonicalizer::canonicalize($user->getUsername()));
-        $user->setEmailCanonical(Canonicalizer::canonicalize($user->getEmail()));
-
-        $em = $this->doctrine->getManager();
-        $em->persist($user);
-        $em->flush();
-
-        return $user;
-    }
-
-    public function giveUser(string $username, bool $detachIt = true): UserInterface
-    {
-        $user = $this->getUser($username, $detachIt);
-        if (null === $user) {
-            throw new \RuntimeException('Unexpected null user object');
-        }
 
         return $user;
     }
@@ -109,7 +72,7 @@ class UserService implements EntityServiceInterface
 
     public function getCurrentUser(bool $detach = true): UserInterface
     {
-        if ($this->currentUser) {
+        if ($this->currentUser instanceof UserInterface) {
             return $this->currentUser;
         }
 
@@ -128,37 +91,6 @@ class UserService implements EntityServiceInterface
     }
 
     /**
-     * @return array<string, string>
-     */
-    public function getExistingRoles(): array
-    {
-        $roleHierarchy = $this->securityRoles;
-
-        $out = [];
-
-        foreach ($roleHierarchy as $parent => $children) {
-            foreach ($children as $child) {
-                if (empty($out[(string) $child])) {
-                    $out[(string) $child] = (string) $child;
-                }
-            }
-            if (empty($out[(string) $parent])) {
-                $out[(string) $parent] = (string) $parent;
-            }
-        }
-
-        $out['ROLE_COPY_PASTE'] = 'ROLE_COPY_PASTE';
-        $out['ROLE_ALLOW_ALIGN'] = 'ROLE_ALLOW_ALIGN';
-        $out['ROLE_DEFAULT_SEARCH'] = 'ROLE_DEFAULT_SEARCH';
-        $out['ROLE_SUPER'] = 'ROLE_SUPER';
-        $out['ROLE_API'] = 'ROLE_API';
-        $out['ROLE_USER_READ'] = 'ROLE_USER_READ';
-        $out['ROLE_USER_MANAGEMENT'] = 'ROLE_USER_MANAGEMENT';
-
-        return $out;
-    }
-
-    /**
      * @param string[] $circles
      *
      * @return User[]
@@ -170,10 +102,7 @@ class UserService implements EntityServiceInterface
 
     public function deleteUser(UserInterface $user): void
     {
-        /** @var EntityManagerInterface $em */
-        $em = $this->doctrine->getManager();
-        $em->remove($user);
-        $em->flush();
+        $this->userRepository->remove($user);
     }
 
     /**
@@ -205,30 +134,41 @@ class UserService implements EntityServiceInterface
     }
 
     /**
-     * @return array<string, string>
+     * @return string[]
      */
     public function listUserRoles(): array
     {
         $roleHierarchy = $this->securityRoles;
-        $roles = [...['ROLE_USER'], ...\array_keys($roleHierarchy), ...['ROLE_API']];
 
-        return \array_combine($roles, $roles);
+        return [
+            Roles::ROLE_USER,
+            ...\array_keys($roleHierarchy),
+            ...[
+                Roles::ROLE_COPY_PASTE,
+                Roles::ROLE_ALLOW_ALIGN,
+                Roles::ROLE_DEFAULT_SEARCH,
+                Roles::ROLE_SUPER_USER,
+                Roles::ROLE_API,
+                Roles::ROLE_USER_READ,
+            ],
+        ];
     }
 
     /**
      * @param string[] $roles
+     * @param string[] $groups
      *
      * @return User[]
      */
-    public function findUsersWithRoles(array $roles): array
+    public function findUsersWithRolesOrGroups(array $roles, array $groups = []): array
     {
         $users = $this->userRepository->findBy(['enabled' => true]);
 
-        if (0 === \count($roles)) {
+        if ([] === $roles && [] === $groups) {
             return $users;
         }
 
-        return \array_filter($users, fn (User $user) => \array_any($roles, $user->hasRole(...)));
+        return \array_filter($users, fn (User $user) => \array_any($roles, $user->hasRole(...)) || \in_array($user->getGroup()?->getName(), $groups, true));
     }
 
     #[\Override]
@@ -269,23 +209,6 @@ class UserService implements EntityServiceInterface
         return $this->security->isGranted($role);
     }
 
-    public function getSidebarMenu(): Menu
-    {
-        $user = $this->getCurrentUser();
-        $menu = new Menu('view.elements.side-menu.user.name', ['%name%' => $user->getDisplayName()]);
-
-        $searches = $this->searchRepository->getByUsername($user->getUsername());
-        if (!empty($searches)) {
-            $link = $menu->addChild('view.elements.side-menu.user.searches', 'fa fa-search', 'elasticsearch.search');
-            $link->setTranslation([]);
-            foreach ($searches as $search) {
-                $link->addChild($search->getName(), '', 'elasticsearch.search', ['searchId' => $search->getId()]);
-            }
-        }
-
-        return $menu;
-    }
-
     #[\Override]
     public function getByItemName(string $name): ?EntityInterface
     {
@@ -317,12 +240,17 @@ class UserService implements EntityServiceInterface
 
     public function isCliSession(): bool
     {
-        return 'cli' === \php_sapi_name();
+        return 'cli' === PHP_SAPI;
+    }
+
+    public function getEnabledUsers(): UserList
+    {
+        return $this->userRepository->getUsersEnabled();
     }
 
     public function inMyCircles(mixed $circles): bool
     {
-        if (\is_array($circles) && 0 === \count($circles)) {
+        if (\is_array($circles) && [] === $circles) {
             return true;
         }
 
@@ -333,7 +261,7 @@ class UserService implements EntityServiceInterface
         $user = $this->getCurrentUser(UserService::DONT_DETACH);
 
         if (\is_array($circles)) {
-            return \count(\array_intersect($circles, $user->getCircles())) > 0;
+            return [] !== \array_intersect($circles, $user->getCircles());
         }
 
         return \in_array($circles, $user->getCircles());

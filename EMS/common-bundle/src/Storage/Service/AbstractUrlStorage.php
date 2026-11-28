@@ -79,20 +79,12 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
     #[\Override]
     public function read(string $hash, bool $confirmed = true): StreamInterface
     {
-        if ($confirmed) {
-            $out = $this->getPath($hash);
-        } else {
-            $out = $this->getUploadPath($hash);
-        }
+        $out = $confirmed ? $this->getPath($hash) : $this->getUploadPath($hash);
         if (!\file_exists($out)) {
             throw new NotFoundHttpException($hash);
         }
         $context = $this->getContext();
-        if (null === $context) {
-            $resource = \fopen($out, 'rb');
-        } else {
-            $resource = \fopen($out, 'rb', false, $context);
-        }
+        $resource = null === $context ? \fopen($out, 'rb') : \fopen($out, 'rb', false, $context);
         if (!\is_resource($resource)) {
             throw new NotFoundHttpException($hash);
         }
@@ -167,7 +159,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         \fflush($file);
         \fclose($file);
 
-        if (false === $result || $result != \strlen($chunk)) {
+        if (false === $result || $result !== \strlen($chunk)) {
             return false;
         }
 
@@ -182,22 +174,22 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         $this->initDirectory($destination);
         try {
             return \rename($source, $destination);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->info('Rename {source} to {destination} failed: {message} in service {serviceName}', [
                 'source' => $source,
                 'destination' => $destination,
-                'message' => $e->getMessage(),
+                'message' => $throwable->getMessage(),
                 'serviceName' => $this->__toString(),
             ]);
         }
         $copyResult = false;
         try {
             $copyResult = \copy($source, $destination);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->warning('Copy {source} to {destination} failed: {message}in service {serviceName}', [
                 'source' => $source,
                 'destination' => $destination,
-                'message' => $e->getMessage(),
+                'message' => $throwable->getMessage(),
                 'serviceName' => $this->__toString(),
             ]);
         } finally {

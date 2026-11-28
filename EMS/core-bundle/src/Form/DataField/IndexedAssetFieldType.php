@@ -16,7 +16,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * Defined a Container content type.
@@ -30,9 +34,10 @@ class IndexedAssetFieldType extends DataFieldType
         AuthorizationCheckerInterface $authorizationChecker,
         FormRegistryInterface $formRegistry,
         ElasticsearchService $elasticsearchService,
+        TokenStorageInterface $tokenStorage,
         private readonly FileService $fileService,
     ) {
-        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
+        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService, $tokenStorage);
     }
 
     #[\Override]
@@ -42,9 +47,15 @@ class IndexedAssetFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Indexed file field';
+        return $this->generateAssetMcpSchema($fieldType);
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.indexed_asset', [], 'emsco-core');
     }
 
     #[\Override]
@@ -126,7 +137,7 @@ class IndexedAssetFieldType extends DataFieldType
     private function testDataField(DataField $dataField): void
     {
         $raw = $dataField->getRawData();
-        if (!\is_array($raw) || empty($raw) || empty($raw['sha1'])) {
+        if (!\is_array($raw) || [] === $raw || empty($raw['sha1'])) {
             $restrictionOptions = $dataField->giveFieldType()->getRestrictionOptions();
             if (isset($restrictionOptions['mandatory']) && $restrictionOptions['mandatory']) {
                 $dataField->addMessage('This entry is required');
@@ -162,7 +173,7 @@ class IndexedAssetFieldType extends DataFieldType
         $out = parent::viewTransform($dataField);
 
         if (\is_array($out) && empty($out['sha1'])) {
-            $out = null;
+            return null;
         }
 
         return $out;

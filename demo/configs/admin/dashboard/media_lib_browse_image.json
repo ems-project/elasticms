@@ -5,6 +5,7 @@
         "name": "media_lib_browse_image",
         "icon": "fa fa-image",
         "label": "Browse media library",
+        "labelTranslations": null,
         "sidebarMenu": false,
         "notificationMenu": false,
         "definition": "browser_image",

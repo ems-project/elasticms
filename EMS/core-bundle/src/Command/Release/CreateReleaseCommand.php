@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Release;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Revision\Release\ReleaseRevisionType;
 use EMS\CoreBundle\Entity\ContentType;
@@ -31,7 +31,7 @@ use Symfony\Component\Console\Output\OutputInterface;
     description: 'Add documents for a given contenttype in a release.',
     hidden: false
 )]
-class CreateReleaseCommand extends AbstractCommand
+class CreateReleaseCommand extends AbstractCoreCommand
 {
     private ContentType $contentType;
     private Environment $target;
@@ -77,17 +77,17 @@ class CreateReleaseCommand extends AbstractCommand
             'index' => $this->contentType->getEnvironment()->getAlias(),
             '_source' => false,
             'type' => $this->contentType->getName(),
-            'body' => \count($this->query) > 0 ? $this->query : null,
+            'body' => [] !== $this->query ? $this->query : null,
         ]);
 
         $documentCount = $this->elasticaService->count($search);
         if (0 === $documentCount) {
-            $this->io->error(\count($this->query) > 0 ? \sprintf('No document found in %s with this query : %s', $this->contentType->getName(), Json::encode($this->query)) : \sprintf('No document found in %s', $this->contentType->getName()));
+            $this->io->error([] !== $this->query ? \sprintf('No document found in %s with this query : %s', $this->contentType->getName(), Json::encode($this->query)) : \sprintf('No document found in %s', $this->contentType->getName()));
 
             return -1;
         }
 
-        $this->io->comment(\count($this->query) > 0 ? \sprintf('%s document(s) found in %s with this query : %s', $documentCount, $this->contentType->getName(), Json::encode($this->query)) : \sprintf('%s document(s) found in %s', $documentCount, $this->contentType->getName()));
+        $this->io->comment([] !== $this->query ? \sprintf('%s document(s) found in %s with this query : %s', $documentCount, $this->contentType->getName(), Json::encode($this->query)) : \sprintf('%s document(s) found in %s', $documentCount, $this->contentType->getName()));
 
         $release = new Release();
         $release->setName(\sprintf('CMD-Release for %s to %s', $this->contentType, $this->target->getName()));

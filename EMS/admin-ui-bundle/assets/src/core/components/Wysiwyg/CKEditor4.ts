@@ -1,0 +1,330 @@
+import ChangeEvent from '../../events/ChangeEvent.ts'
+import { getWysiwygProfile, getWysiwygOptions, WysiwygProfile, WysiwygOptions } from './Wysiwyg.ts'
+
+declare let CKEDITOR: {
+    replace: (
+        element: HTMLElement,
+        config?: CKEditorConfig
+    ) => {
+        on: (
+            eventName: string,
+            callback: (event: {
+                editor: {
+                    langCode: string
+                    lang: any[]
+                }
+            }) => void
+        ) => void
+    }
+    instances: any
+    on: (
+        event: string,
+        callback: (e: any) => void,
+        scopeObj: null,
+        listenerData: null,
+        priority: number
+    ) => void
+    plugins: {
+        addExternal: (name: string, path: string, description: string) => void
+    }
+    stylesSet: {
+        add: (name: string, config: object) => void
+    }
+    dtd: {
+        $removeEmpty: {
+            i: number
+        }
+    }
+}
+
+declare class BeforePasteEvent {
+    cancel: () => void
+    data: {
+        dataTransfer: {
+            getData: (type: string) => string
+        }
+    }
+}
+
+export class CKEditorConfig {
+    public height: number = 400
+    public format_tags: undefined | string = undefined
+    public emsAjaxPaste: undefined | string = undefined
+    public language: string = 'en'
+    public stylesSet: undefined | string = undefined
+    public contentsCss: undefined | string = undefined
+    public referrerEmsId: undefined | string = undefined
+    public div_wrapTable: string = 'true'
+    public allowedContent: boolean | undefined = undefined
+    public extraAllowedContent: string | undefined = undefined
+    public ems:
+        | undefined
+        | null
+        | {
+              translations: any[]
+          } = undefined
+}
+
+export default class CKEditor4 {
+    private readonly element: HTMLElement
+    private profile: WysiwygProfile
+
+    private static config: null | CKEditorConfig = null
+    constructor(element: HTMLElement) {
+        this.element = element
+        this.profile = getWysiwygProfile()
+
+        const options = getWysiwygOptions(this.element)
+
+        if (options.inRevision) {
+            this.createForRevision(options)
+        } else {
+            CKEDITOR.replace(element)
+        }
+    }
+
+    private createForRevision(opt: WysiwygOptions) {
+        const config = this.getDefaultConfig()
+        const self = this
+
+        if (opt.height !== null) config.height = opt.height
+        if (opt.formatTags !== null) config.format_tags = opt.formatTags
+        if (opt.styleSet !== null) config.stylesSet = opt.styleSet
+        if (opt.contentCss !== null) config.contentsCss = opt.contentCss
+        if (opt.lang !== null) config.language = opt.lang
+        if (opt.referrerEmsId !== null) config.referrerEmsId = opt.referrerEmsId
+
+        //http://stackoverflow.com/questions/18250404/ckeditor-strips-i-tag
+        config.allowedContent = true
+        config.extraAllowedContent = 'p(*)[*]{*};div(*)[*]{*};li(*)[*]{*};ul(*)[*]{*}'
+        CKEDITOR.dtd.$removeEmpty.i = 0
+
+        CKEDITOR.on(
+            'instanceReady',
+            (event) => {
+                const editor = event.editor
+                const emsTranslations = self.getDefaultConfig().ems?.translations
+
+                if (
+                    typeof emsTranslations === 'undefined' ||
+                    !Object.prototype.hasOwnProperty.call(emsTranslations, editor.langCode)
+                )
+                    return
+
+                const emsTranslationsLang = emsTranslations[editor.langCode]
+                const ckeditorSections = [
+                    ...Object.getOwnPropertyNames(editor.lang),
+                    ...Object.getOwnPropertyNames(Object.getPrototypeOf(editor.lang))
+                ]
+
+                ckeditorSections.forEach((section) => {
+                    Object.entries(emsTranslationsLang).forEach(([key, value]) => {
+                        const splitKey = key.split('.')
+                        if (section !== splitKey[0]) return
+                        if (
+                            Object.prototype.hasOwnProperty.call(editor.lang[section], splitKey[1])
+                        ) {
+                            editor.lang[section][splitKey[1]] = value
+                        }
+                    })
+                })
+            },
+            null,
+            null,
+            3
+        )
+
+        const editor = CKEDITOR.replace(this.element, {
+            ...config,
+            ...this.profile.config
+        } as CKEditorConfig)
+        if (!this.element.classList.contains('ignore-ems-update')) {
+            editor.on(opt.onChangeEvent ?? 'key', () => {
+                const changeEvent = new ChangeEvent(self.element)
+                changeEvent.dispatch()
+            })
+        }
+
+        const tableDefaultCss = this.element.dataset.tableDefaultCss ?? 'table table-bordered'
+        //Set defaults that are compatible with bootstrap for html generated by CKEDITOR (e.g. tables)
+        CKEDITOR.on(
+            'dialogDefinition',
+            function (ev) {
+                // Take the dialog name and its definition from the event data.
+                const dialogName = ev.data.name
+                const dialogDefinition = ev.data.definition
+
+                // Check if the definition is from the dialog we're interested in (the "Table" dialog).
+                if (dialogName === 'table') {
+                    // Get a reference to the "Table Info" tab.
+                    const infoTab = dialogDefinition.getContents('info')
+
+                    const txtBorder = infoTab.get('txtBorder')
+                    txtBorder['default'] = 0
+                    const txtCellPad = infoTab.get('txtCellPad')
+                    txtCellPad['default'] = ''
+                    const txtCellSpace = infoTab.get('txtCellSpace')
+                    txtCellSpace['default'] = ''
+                    const txtWidth = infoTab.get('txtWidth')
+                    txtWidth['default'] = ''
+
+                    // Get a reference to the "Table Advanced" tab.
+                    const advancedTab = dialogDefinition.getContents('advanced')
+
+                    const advCSSClasses = advancedTab.get('advCSSClasses')
+                    advCSSClasses['default'] = tableDefaultCss
+                }
+            },
+            null,
+            null,
+            3
+        )
+
+        if (
+            config.emsAjaxPaste &&
+            Object.prototype.hasOwnProperty.call(CKEDITOR.instances, this.element.id)
+        ) {
+            const editor = CKEDITOR.instances[this.element.id]
+            editor.on('beforePaste', (event: BeforePasteEvent) => {
+                const pastedText = event.data.dataTransfer.getData('text/html')
+                if (!pastedText || pastedText === '' || !config.emsAjaxPaste) {
+                    return
+                }
+
+                event.cancel()
+                fetch(config.emsAjaxPaste, {
+                    method: 'POST',
+                    body: JSON.stringify({ content: pastedText }),
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                    .then((response) => {
+                        return response.ok
+                            ? response.json().then((json) => {
+                                  editor.fire('paste', {
+                                      type: 'auto',
+                                      dataValue: json.content,
+                                      method: 'paste'
+                                  })
+                              })
+                            : Promise.reject(response)
+                    })
+                    .catch(() => {
+                        console.error('error pasting')
+                    })
+            })
+        }
+    }
+
+    private getDefaultConfig(): CKEditorConfig {
+        if (null !== CKEditor4.config) {
+            return CKEditor4.config
+        }
+
+        CKEditor4.config = new CKEditorConfig()
+        const assetPath = document.body.dataset.assetPath
+        if (undefined === assetPath) {
+            throw new Error('Attribute data-asset-path not defined')
+        }
+        CKEDITOR.plugins.addExternal(
+            'adv_link',
+            assetPath + 'bundles/emscore/js/cke-plugins/adv_link/plugin.js',
+            ''
+        )
+        CKEDITOR.plugins.addExternal(
+            'div',
+            assetPath + 'bundles/emscore/js/cke-plugins/div/plugin.js',
+            ''
+        )
+        CKEDITOR.plugins.addExternal(
+            'imagebrowser',
+            assetPath + 'bundles/emscore/js/cke-plugins/imagebrowser/plugin.js',
+            ''
+        )
+
+        this.profile.styles.forEach(function (item) {
+            CKEDITOR.stylesSet.add(item.name, item.config)
+        })
+
+        this.addEmsBrowser()
+
+        return CKEditor4.config
+    }
+
+    private addEmsBrowser() {
+        if (!this.profile.config.emsBrowsers) {
+            return
+        }
+
+        const self = this
+
+        if (this.profile.config.emsBrowsers.browser_object) {
+            CKEDITOR.on(
+                'dialogDefinition',
+                function (e) {
+                    if (e.data.name !== 'link') return
+                    const infoTab = e.data.definition.getContents('info')
+                    const localPageOptions = infoTab.get('localPageOptions')
+                    if (
+                        !self.profile.config.emsBrowsers ||
+                        !self.profile.config.emsBrowsers.browser_object
+                    ) {
+                        return
+                    }
+                    if (localPageOptions) {
+                        localPageOptions.children.push({
+                            type: 'button',
+                            id: 'objectBrowse',
+                            hidden: 'true',
+                            filebrowser: {
+                                action: 'Browse',
+                                url: self.profile.config.emsBrowsers.browser_object.url
+                            },
+                            label: self.profile.config.emsBrowsers.browser_object.label
+                        })
+                    }
+                },
+                null,
+                null,
+                1
+            )
+        }
+
+        if (this.profile.config.emsBrowsers.browser_file) {
+            const browserFile = this.profile.config.emsBrowsers.browser_file
+            CKEDITOR.on(
+                'dialogDefinition',
+                function (e) {
+                    if (e.data.name !== 'link') return
+                    const infoTab = e.data.definition.getContents('info')
+                    const fileBrowseButton = infoTab.get('fileBrowse')
+                    if (fileBrowseButton) {
+                        fileBrowseButton.label = browserFile.label
+                        fileBrowseButton.filebrowser = { action: 'Browse', url: browserFile.url }
+                    }
+                },
+                null,
+                null,
+                1
+            )
+        }
+
+        if (this.profile.config.emsBrowsers.browser_image) {
+            const browserImage = this.profile.config.emsBrowsers.browser_image
+            CKEDITOR.on(
+                'dialogDefinition',
+                function (e) {
+                    if (e.data.name !== 'image2') return
+                    const infoTab = e.data.definition.getContents('info')
+                    const imageBrowseButton = infoTab.get('browse')
+                    if (imageBrowseButton) {
+                        imageBrowseButton.label = browserImage.label
+                        imageBrowseButton.filebrowser = { action: 'Browse', url: browserImage.url }
+                    }
+                },
+                null,
+                null,
+                1
+            )
+        }
+    }
+}

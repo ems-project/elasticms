@@ -13,13 +13,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: Commands::ENVIRONMENT_LIST,
-    description: 'List the environments defined.',
-    hidden: false,
-    aliases: ['ems:environment:list']
-)]
-class EnvironmentCommand extends Command
+#[AsCommand(name: Commands::ENVIRONMENT_LIST, description: 'List the environments defined.', aliases: ['ems:environment:list'], hidden: false)]
+class EnvironmentCommand extends AbstractCoreCommand
 {
     public function __construct(private readonly EnvironmentService $environmentService)
     {
@@ -50,9 +45,9 @@ class EnvironmentCommand extends Command
 
         /** @var Environment $environment */
         foreach ($environments as $environment) {
-            $output->writeln($environment->getName());
+            $this->io->text($environment->getName());
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

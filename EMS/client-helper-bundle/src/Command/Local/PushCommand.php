@@ -19,7 +19,7 @@ final class PushCommand extends AbstractLocalCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, 'Ignore environment\'s up-to --date chacks');
+        $this->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, "Ignore environment's up-to --date chacks");
     }
 
     #[\Override]
@@ -38,6 +38,8 @@ final class PushCommand extends AbstractLocalCommand
         if (!$this->healthCheck()) {
             return self::EXECUTE_ERROR;
         }
+
+        $this->localHelper->normalize($this->environment);
 
         if (!$this->force && !$this->localHelper->isUpToDate($this->environment)) {
             $this->io->error('Not up to date, please commit/stash changes and run emsch:local:pull');

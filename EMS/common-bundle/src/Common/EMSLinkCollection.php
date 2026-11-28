@@ -21,7 +21,7 @@ class EMSLinkCollection
             $self->links[$link->getContentType()][] = $link->getOuuid();
         }
 
-        if (0 === \count($self->links)) {
+        if ([] === $self->links) {
             throw new \RuntimeException('Empty link collection');
         }
 

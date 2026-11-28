@@ -11,17 +11,14 @@ class Menu
     /** @var MenuEntry[] */
     private array $children = [];
 
-    /**
-     * @param array<string, mixed> $transParameters
-     */
-    public function __construct(private readonly string $title, private readonly array $transParameters = [])
+    public function __construct(public readonly TranslatableMessage $title)
     {
     }
 
     /**
      * @param array<string, mixed> $routeParameters
      */
-    public function addChild(string|TranslatableMessage $label, string $icon, string $route, array $routeParameters = [], ?string $color = null): MenuEntry
+    public function addChild(string|TranslatableMessage $label, string $icon, ?string $route = null, array $routeParameters = [], ?string $color = null): MenuEntry
     {
         return $this->children[] = new MenuEntry(
             label: $label,
@@ -47,19 +44,11 @@ class Menu
 
     public function hasChildren(): bool
     {
-        return \count($this->children) > 0;
+        return [] !== $this->children;
     }
 
-    public function getTitle(): string
+    public function getTitle(): TranslatableMessage
     {
         return $this->title;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function getTransParameters(): array
-    {
-        return $this->transParameters;
     }
 }

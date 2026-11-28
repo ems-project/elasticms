@@ -8,5 +8,5 @@ use Psr\Log\LoggerInterface;
 
 interface LocalizedLoggerFactoryInterface
 {
-    public function __invoke(LoggerInterface $logger, string $translationDomain): LocalizedLoggerInterface;
+    public function __invoke(LoggerInterface $logger): LocalizedLoggerInterface;
 }

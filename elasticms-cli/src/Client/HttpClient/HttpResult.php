@@ -44,7 +44,7 @@ class HttpResult
     public function getMimetype(): string
     {
         $mimeType = $this->getResponse()->getHeader('Content-Type');
-        if (!empty($mimeType)) {
+        if ([] !== $mimeType) {
             return $mimeType[0];
         }
 

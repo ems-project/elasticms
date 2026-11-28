@@ -7,19 +7,61 @@ namespace EMS\CoreBundle\Form\DataField;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Form\Field\CodeEditorType;
+use EMS\CoreBundle\Service\ElasticsearchService;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+use Twig\Environment;
+
+use function Symfony\Component\Translation\t;
 
 class ComputedFieldType extends DataFieldType
 {
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        FormRegistryInterface $formRegistry,
+        ElasticsearchService $elasticsearchService,
+        TokenStorageInterface $tokenStorage,
+        private readonly Environment $twig,
+    ) {
+        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService, $tokenStorage);
+    }
+
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Computed from the raw-data';
+        if (!$isOutputSchema) {
+            return [];
+        }
+
+        $mcpOutputSchema = $fieldType->getExtraOption('mcpOutputSchema');
+        if (!\is_string($mcpOutputSchema) || '' === \trim($mcpOutputSchema)) {
+            return [];
+        }
+
+        try {
+            $renderedSchema = $this->twig->createTemplate($mcpOutputSchema, \sprintf('%s:%s', $fieldType->getPath(), ':mcp-output-schema'))->render([
+                'fieldType' => $fieldType,
+                'contentType' => $fieldType->getContentType(),
+            ]);
+
+            return Json::decode($renderedSchema);
+        } catch (\Throwable) {
+            return [];
+        }
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.computed', [], 'emsco-core');
     }
 
     #[\Override]
@@ -31,7 +73,7 @@ class ComputedFieldType extends DataFieldType
 
                 return [$current->getName() => $this->elasticsearchService->updateMapping($mapping)];
             } catch (\Exception) {
-                // TODO send message to user, mustr move to service first
+                // TODO send message to user, must move to service first
             }
         }
 
@@ -48,10 +90,6 @@ class ComputedFieldType extends DataFieldType
     public function buildObjectArray(DataField $data, array &$out): void
     {
         if (!$data->giveFieldType()->getDeleted()) {
-            /*
-             * by default it serialize the text value.
-             * It can be overrided.
-             */
             $out[$data->giveFieldType()->getName()] = $data->getRawData();
         }
     }
@@ -63,12 +101,14 @@ class ComputedFieldType extends DataFieldType
         $optionsForm = $builder->get('options');
 
         $optionsForm->get('displayOptions')->add('valueTemplate', CodeEditorType::class, [
+            'label' => t('field.value_template', [], 'emsco-core'),
             'required' => false,
             'language' => 'ace/mode/twig',
         ])->add('json', CheckboxType::class, [
+            'label' => t('field.json_decode', [], 'emsco-core'),
             'required' => false,
-            'label' => 'Try to JSON decode',
         ])->add('displayTemplate', CodeEditorType::class, [
+            'label' => t('field.display_template', [], 'emsco-core'),
             'required' => false,
             'language' => 'ace/mode/twig',
         ]);
@@ -76,16 +116,25 @@ class ComputedFieldType extends DataFieldType
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm
                 ->get('mappingOptions')->remove('analyzer')->add('mappingOptions', CodeEditorType::class, [
+                    'label' => t('field.mapping_options', [], 'emsco-core'),
                     'required' => false,
                     'language' => 'ace/mode/json',
                 ])
             ->add('copy_to', TextType::class, [
+                'label' => t('field.copy_to', [], 'emsco-core'),
                 'required' => false,
             ]);
         }
 
         $optionsForm->remove('restrictionOptions');
         $optionsForm->remove('migrationOptions');
+        if ($optionsForm->has('extraOptions')) {
+            $optionsForm->get('extraOptions')->add('mcpOutputSchema', CodeEditorType::class, [
+                'label' => t('field.mcp_output_schema', [], 'emsco-core'),
+                'required' => false,
+                'language' => 'ace/mode/twig',
+            ]);
+        }
     }
 
     /**
@@ -129,7 +178,6 @@ class ComputedFieldType extends DataFieldType
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
-        /* set the default option value for this kind of compound field */
         parent::configureOptions($resolver);
         $resolver->setDefault('displayTemplate', null);
         $resolver->setDefault('json', false);

@@ -9,15 +9,8 @@ class Config
     public const string REMOTE = 'https://github.com/ems-project/elasticms.git';
     public const string REMOTE_SSH = 'git@github.com:ems-project/elasticms.git';
 
-    /** @var array<string, string[]> */
-    public const REPOSITORIES = [
-        'applications' => self::APPLICATIONS,
-        'docker' => self::DOCKER,
-        'packages' => self::PACKAGES,
-    ];
-
     /** @var string[] */
-    public const APPLICATIONS = [
+    public const array APPLICATIONS = [
         'elasticms-admin',
         'elasticms-web',
         'elasticms-cli',
@@ -25,14 +18,7 @@ class Config
     ];
 
     /** @var string[] */
-    public const DOCKER = [
-        'elasticms-admin-docker',
-        'elasticms-web-docker',
-        'elasticms-cli-docker',
-    ];
-
-    /** @var string[] */
-    public const PACKAGES = [
+    public const array PACKAGES = [
         'EMSAdminUIBundle',
         'EMSClientHelperBundle',
         'EMSCommonBundle',
@@ -44,7 +30,7 @@ class Config
     ];
 
     /** @var array<string, string> */
-    public const COMPOSER_PACKAGES = [
+    public const array COMPOSER_PACKAGES = [
         'EMSAdminUIBundle' => 'elasticms/admin-ui-bundle',
         'EMSClientHelperBundle' => 'elasticms/client-helper-bundle',
         'EMSCommonBundle' => 'elasticms/common-bundle',

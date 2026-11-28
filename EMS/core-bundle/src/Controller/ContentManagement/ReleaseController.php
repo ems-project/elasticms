@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Revision\Release\ReleaseRevisionType;
@@ -19,17 +20,18 @@ use EMS\CoreBundle\Form\Form\ReleaseType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\ReleaseService;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
+use function Symfony\Component\Translation\t;
 
 final class ReleaseController extends AbstractController
 {
     use CoreControllerTrait;
 
     public function __construct(
-        private readonly LoggerInterface $logger,
+        private readonly LocalizedLoggerInterface $logger,
         private readonly ReleaseService $releaseService,
         private readonly DataTableFactory $dataTableFactory,
         private readonly string $templateNamespace,
@@ -44,13 +46,13 @@ final class ReleaseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             match ($this->getClickedButtonName($form)) {
                 TableAbstract::DELETE_ACTION => $this->releaseService->deleteByIds($table->getSelected()),
-                default => $this->logger->error('log.controller.release.unknown_action'),
+                default => $this->logger->messageError(t('message.release_unknown_action', [], 'emsco-core')),
             };
 
             return $this->redirectToRoute(Routes::RELEASE_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/release/index.html.twig", [
+        return $this->render(\sprintf('@%s/release/index.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
         ]);
     }
@@ -66,7 +68,7 @@ final class ReleaseController extends AbstractController
             return $this->redirectToRoute(Routes::RELEASE_EDIT, ['release' => $release->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/release/add.html.twig", [
+        return $this->render(\sprintf('@%s/release/add.html.twig', $this->templateNamespace), [
             'form_release' => $form->createView(),
         ]);
     }
@@ -78,14 +80,14 @@ final class ReleaseController extends AbstractController
         ]);
 
         $revisionsForm = $this->createForm(TableType::class, $revisionsTable, [
-            'title_label' => 'release.revision.view.title',
+            'title_label' => t('title.release_documents', [], 'emsco-core'),
         ]);
 
         $revisionsForm->handleRequest($request);
         if ($revisionsForm->isSubmitted() && $revisionsForm->isValid()) {
             match ($this->getClickedButtonName($revisionsForm)) {
                 TableAbstract::REMOVE_ACTION => $this->releaseService->removeRevisions($release, $revisionsTable->getSelected()),
-                default => $this->logger->error('log.controller.release.unknown_action'),
+                default => $this->logger->messageError(t('message.release_unknown_action', [], 'emsco-core')),
             };
 
             return $this->redirectToRoute(Routes::RELEASE_EDIT, ['release' => $release->getId()]);
@@ -102,7 +104,7 @@ final class ReleaseController extends AbstractController
             };
         }
 
-        return $this->render("@$this->templateNamespace/release/edit.html.twig", [
+        return $this->render(\sprintf('@%s/release/edit.html.twig', $this->templateNamespace), [
             'form' => $revisionsForm->createView(),
             'form_release' => $releaseForm->createView(),
             'release' => $release,
@@ -116,7 +118,7 @@ final class ReleaseController extends AbstractController
         ]);
 
         $form = $this->createForm(TableType::class, $table, [
-            'title_label' => 'release.revision.view.title',
+            'title_label' => t('title.release_documents', [], 'emsco-core'),
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -126,12 +128,12 @@ final class ReleaseController extends AbstractController
                 return $this->redirectToRoute(Routes::RELEASE_EDIT, ['release' => $rollback->getId()]);
             }
 
-            $this->logger->error('log.controller.release.unknown_action');
+            $this->logger->messageError(t('message.release_unknown_action', [], 'emsco-core'));
 
             return $this->redirectToRoute(Routes::RELEASE_VIEW, ['release' => $release->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/release/view.html.twig", [
+        return $this->render(\sprintf('@%s/release/view.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'release' => $release,
         ]);
@@ -191,13 +193,13 @@ final class ReleaseController extends AbstractController
             if (TableAbstract::ADD_ACTION === $this->getClickedButtonName($form)) {
                 $this->releaseService->addRevisions($release, $releaseType, $table->getSelected());
             } else {
-                $this->logger->error('log.controller.release.unknown_action');
+                $this->logger->messageError(t('message.release_unknown_action', [], 'emsco-core'));
             }
 
             return $this->redirectToRoute(Routes::RELEASE_EDIT, ['release' => $release->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/release/revisions.html.twig", [
+        return $this->render(\sprintf('@%s/release/revisions.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'type' => $releaseType->value,
         ]);
@@ -218,7 +220,7 @@ final class ReleaseController extends AbstractController
 
         $form = $this->createForm(TableType::class, $table);
 
-        return $this->render("@$this->templateNamespace/release/add-to-release.html.twig", [
+        return $this->render(\sprintf('@%s/release/add-to-release.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'revision' => $revision,
         ]);

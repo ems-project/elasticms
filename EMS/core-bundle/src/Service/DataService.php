@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use EMS\CommonBundle\Common\EMSLink;
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
@@ -25,6 +26,7 @@ use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Notification;
 use EMS\CoreBundle\Entity\Revision;
+use EMS\CoreBundle\Event\RevisionDeleteEvent;
 use EMS\CoreBundle\Event\RevisionFinalizeDraftEvent;
 use EMS\CoreBundle\Event\RevisionNewDraftEvent;
 use EMS\CoreBundle\Event\UpdateRevisionReferersEvent;
@@ -40,13 +42,11 @@ use EMS\CoreBundle\Form\DataField\FormFieldType;
 use EMS\CoreBundle\Form\Form\RevisionType;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\RevisionRepository;
+use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Service\Revision\PostProcessingService;
-use EMS\CoreBundle\Twig\AppExtension;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
-use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -60,6 +60,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Twig\Environment as TwigEnvironment;
 use Twig\Error\Error;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * @todo Move Revision related logic to RevisionService
@@ -87,13 +89,12 @@ class DataService
         protected Mapping $mapping,
         protected string $instanceId,
         protected FormFactoryInterface $formFactory,
-        protected Container $container,
         protected FormRegistryInterface $formRegistry,
         protected EventDispatcherInterface $dispatcher,
         protected ContentTypeService $contentTypeService,
         string $privateKey,
-        protected LoggerInterface $logger,
-        private readonly LoggerInterface $auditLogger,
+        protected LocalizedLoggerInterface $logger,
+        private readonly LocalizedLoggerInterface $auditLogger,
         private readonly StorageManager $storageManager,
         protected TwigEnvironment $twig,
         protected UserService $userService,
@@ -116,7 +117,10 @@ class DataService
 
                 $this->privateKey = \openssl_pkey_get_private($privateKeyContent);
             } catch (\Exception $e) {
-                $this->logger->warning('service.data.not_able_to_load_the_private_key', [
+                $this->logger->messageWarning(t('message.data_not_able_to_load_private_key', [
+                    'error_message' => $e->getMessage(),
+                    'private_key_filename' => $privateKey,
+                ], 'emsco-core'), [
                     EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
                     EmsFields::LOG_EXCEPTION_FIELD => $e,
                     'private_key_filename' => $privateKey,
@@ -142,15 +146,13 @@ class DataService
     public function lockRevision(Revision $revision, ?Environment $publishEnv = null, bool $super = false, ?string $username = null, ?\DateTime $lockTime = null): string
     {
         if (null === $username && null !== $publishEnv && !$this->authorizationChecker->isGranted($revision->giveContentType()->role(ContentTypeRoles::PUBLISH))) {
-            throw new PrivilegeException($revision, 'You don\'t have publisher role for this content');
+            throw new PrivilegeException($revision, "You don't have publisher role for this content");
         }
         if (null === $username && null !== $publishEnv && !empty($publishEnv->getCircles()) && !$this->authorizationChecker->isGranted('ROLE_USER_MANAGEMENT') && !$this->userService->inMyCircles($publishEnv->getCircles())) {
-            throw new PrivilegeException($revision, 'You don\'t share any circle with this content');
+            throw new PrivilegeException($revision, "You don't share any circle with this content");
         }
-        if (null === $username && null === $publishEnv && !empty($revision->giveContentType()->getCirclesField()) && !empty($revision->getRawData()[$revision->giveContentType()->getCirclesField()])) {
-            if (!$this->userService->inMyCircles($revision->getRawData()[$revision->giveContentType()->getCirclesField()] ?? [])) {
-                throw new PrivilegeException($revision);
-            }
+        if (null === $username && null === $publishEnv && !empty($revision->giveContentType()->getCirclesField()) && !empty($revision->getRawData()[$revision->giveContentType()->getCirclesField()]) && !$this->userService->inMyCircles($revision->getRawData()[$revision->giveContentType()->getCirclesField()] ?? [])) {
+            throw new PrivilegeException($revision);
         }
 
         /** @var Notification[] $revisionNotifications */
@@ -176,9 +178,8 @@ class DataService
             throw new LockedException($revision);
         }
 
-        $twigExtension = $this->container->get('app.twig_extension');
-
-        if (!$username && !$revision->isLazyIndex() && $twigExtension instanceof AppExtension && !$twigExtension->oneGranted($revision->giveContentType()->getFieldType()->getFieldsRoles(), $super)) {
+        $fieldRoles = $revision->giveContentType()->getFieldType()->getFieldsRoles();
+        if (!$username && !$revision->isLazyIndex() && !$this->authorizationChecker->isGranted(Roles::ROLE_SUPER) && !\array_any($fieldRoles, fn ($role) => $this->authorizationChecker->isGranted($role))) {
             throw new PrivilegeException($revision);
         }
         // TODO: test circles
@@ -221,9 +222,8 @@ class DataService
             if (!empty($fieldValue)) {
                 if (\is_array($fieldValue)) {
                     return $fieldValue;
-                } else {
-                    $out[] = $fieldValue;
                 }
+                $out[] = $fieldValue;
             }
         }
 
@@ -331,6 +331,7 @@ class DataService
         $revision = $this->getEmptyRevision($contentType, 'hitToBusinessDocument');
         $revision->setRawData($hit['_source']);
         $revision->setOuuid($hit['_id']);
+
         $revisionType = $this->formFactory->create(RevisionType::class, $revision, ['migration' => false, 'raw_data' => $revision->getRawData()]);
         $result = $this->walkRecursive($revisionType->get('data'), $hit['_source'], function (string $name, $data, DataFieldType $dataFieldType, DataField $dataField) {
             if (null !== $data) {
@@ -424,9 +425,9 @@ class DataService
             if ($dataFieldType instanceof DataFieldType) {
                 $dataFieldType->generateInput($dataField);
             } elseif (!DataService::isInternalField($dataField->getFieldType()->getName())) {
-                $this->logger->warning('service.data.not_a_data_field', [
+                $this->logger->messageWarning(t('message.field_not_a_data_field', [
                     'field_name' => $dataField->getFieldType()->getName(),
-                ]);
+                ], 'emsco-core'));
             }
         }
     }
@@ -449,6 +450,7 @@ class DataService
         $newRevision->setEndTime(null);
         $newRevision->setDeleted(false);
         $newRevision->setDraft(true);
+
         $lockBy = $this->userService->getCurrentUser()->getUserIdentifier();
         $newRevision->setLockBy($lockBy);
 
@@ -474,14 +476,14 @@ class DataService
         $hash = $this->storageManager->computeStringHash($json);
         $objectArray[Mapping::HASH_FIELD] = $hash;
 
-        if ($this->privateKey) {
+        if ($this->privateKey instanceof \OpenSSLAsymmetricKey) {
             $signature = null;
             if (\openssl_sign($json, $signature, $this->privateKey, OPENSSL_ALGO_SHA1)) {
                 $objectArray[Mapping::SIGNATURE_FIELD] = \base64_encode((string) $signature);
             } else {
-                $this->logger->warning('service.data.not_able_to_sign', [
-                    EmsFields::LOG_ERROR_MESSAGE_FIELD => \openssl_error_string(),
-                ]);
+                $this->logger->messageWarning(t('message.data_not_able_to_sign', [
+                    'error_message' => \openssl_error_string(),
+                ], 'emsco-core'));
             }
         }
 
@@ -493,11 +495,7 @@ class DataService
      */
     public function sign(Revision $revision, bool $silentPublish = false): array
     {
-        if ($silentPublish && $revision->getAutoSave()) {
-            $objectArray = $revision->getAutoSave();
-        } else {
-            $objectArray = $revision->getRawData();
-        }
+        $objectArray = $silentPublish && $revision->getAutoSave() ? $revision->getAutoSave() : $revision->getRawData();
 
         $objectArray[Mapping::CONTENT_TYPE_FIELD] = $revision->giveContentType()->getName();
 
@@ -506,7 +504,7 @@ class DataService
         if ($versioning->enabled()) {
             $objectArray[Mapping::VERSION_UUID] = $revision->getVersionUuid();
         }
-        if ($versioning->enabled() && \count($versioning->getTags()) > 0) {
+        if ($versioning->enabled() && [] !== $versioning->getTags()) {
             $objectArray[Mapping::VERSION_TAG] = $revision->getVersionTag();
             $revision->updateVersionNextTag();
         }
@@ -591,14 +589,13 @@ class DataService
 
                 if (isset($indexedItem[Mapping::HASH_FIELD])) {
                     if ($indexedItem[Mapping::HASH_FIELD] != $revision->getSha1()) {
-                        $this->logger->warning('service.data.hash_mismatch', [
-                            EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                            EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                            EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
-                            EmsFields::LOG_OUUID_FIELD => $revision->giveOuuid(),
+                        $this->logger->messageWarning(t('message.data_hash_mismatch', [
+                            'environment' => $environment->getLabel(),
+                            'label' => $revision->getLabel(),
+                        ], 'emsco-core'), [
+                            ...LogRevisionContext::read($revision),
                             'index_hash' => $indexedItem[Mapping::HASH_FIELD],
                             'db_hash' => $revision->getSha1(),
-                            'label' => $revision->getLabel(),
                         ]);
                     }
                     unset($indexedItem[Mapping::HASH_FIELD]);
@@ -616,66 +613,52 @@ class DataService
                         }
 
                         if (0 === $ok) {
-                            $this->logger->info('service.data.check_signature_failed', [
-                                EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                                EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                                EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getLabel(),
-                                EmsFields::LOG_OUUID_FIELD => $revision->giveOuuid(),
+                            $this->logger->messageInfo(t('message.data_check_signature_failed', [
+                                'environment' => $environment->getLabel(),
                                 'label' => $revision->getLabel(),
-                            ]);
+                            ], 'emsco-core'), LogRevisionContext::read($revision));
                         } elseif (1 !== $ok) { // 1 means signature is ok
-                            $this->logger->info('service.data.error_check_signature', [
-                                EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                                EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                                EmsFields::LOG_OUUID_FIELD => $revision->giveOuuid(),
-                                EmsFields::LOG_ERROR_MESSAGE_FIELD => \openssl_error_string(),
-                                EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
+                            $this->logger->messageInfo(t('message.data_error_check_signature', [
+                                'environment' => $environment->getLabel(),
                                 'label' => $revision->getLabel(),
-                            ]);
+                                'error_message' => \openssl_error_string(),
+                            ], 'emsco-core'), LogRevisionContext::read($revision));
                         }
                     } else {
                         $data = Json::encode($indexedItem);
-                        if ($this->privateKey) {
-                            $this->logger->info('service.data.revision_not_signed', [
-                                EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                                EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                                EmsFields::LOG_OUUID_FIELD => $revision->giveOuuid(),
-                                EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
+                        if ($this->privateKey instanceof \OpenSSLAsymmetricKey) {
+                            $this->logger->messageInfo(t('message.data_revision_not_signed', [
+                                'environment' => $environment->getLabel(),
                                 'label' => $revision->getLabel(),
-                            ]);
+                            ], 'emsco-core'), LogRevisionContext::read($revision));
                         }
                     }
 
                     $computedHash = $this->storageManager->computeStringHash($data);
                     if ($computedHash !== $revision->getSha1()) {
-                        $this->logger->info('service.data.computed_hash_mismatch', [
-                            EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                            EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                            EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
-                            EmsFields::LOG_OUUID_FIELD => $revision->giveOuuid(),
+                        $this->logger->messageInfo(t('message.data_computed_hash_mismatch', [
+                            'environment' => $environment->getLabel(),
+                            'label' => $revision->getLabel(),
+                        ], 'emsco-core'), [
+                            ...LogRevisionContext::read($revision),
                             'computed_hash' => $computedHash,
                             'db_hash' => $revision->getSha1(),
-                            'label' => $revision->getLabel(),
                         ]);
                     }
                 } else {
-                    $this->logger->warning('service.data.hash_missing', [
-                        EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                        EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                        EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
-                        EmsFields::LOG_OUUID_FIELD => $revision->giveOuuid(),
+                    $this->logger->messageWarning(t('message.data_hash_missing', [
+                        'environment' => $environment->getLabel(),
                         'label' => $revision->getLabel(),
-                    ]);
+                    ], 'emsco-core'), LogRevisionContext::read($revision));
                 }
             } catch (\Exception $e) {
-                $this->logger->error('service.data.integrity_failed', [
-                    EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                    EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                    EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
-                    EmsFields::LOG_OUUID_FIELD => $revision->giveOuuid(),
-                    EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                    EmsFields::LOG_EXCEPTION_FIELD => $e,
+                $this->logger->messageError(t('message.data_integrity_failed', [
+                    'environment' => $environment->getLabel(),
                     'label' => $revision->getLabel(),
+                    'error_message' => $e->getMessage(),
+                ], 'emsco-core'), [
+                    ...LogRevisionContext::read($revision),
+                    EmsFields::LOG_EXCEPTION_FIELD => $e,
                 ]);
             }
         }
@@ -694,9 +677,8 @@ class DataService
 
         // Get the form from Factory
         $builder = $this->formFactory->createBuilder(RevisionType::class, $revision, ['raw_data' => $revision->getRawData()]);
-        $form = $builder->getForm();
 
-        return $form;
+        return $builder->getForm();
     }
 
     public function refresh(Environment $environment): bool
@@ -716,7 +698,7 @@ class DataService
             throw new DataStateException('An auto save is pending, it can not be recomputed.');
         }
         if (!$revision->hasOuuid()) {
-            throw new DataStateException('The revision doesn\'t have OUUID, it can not be recomputed.');
+            throw new DataStateException("The revision doesn't have OUUID, it can not be recomputed.");
         }
         if (null == $revision->getDatafield()) {
             $this->loadDataStructure($revision);
@@ -836,20 +818,24 @@ class DataService
             $this->unlockRevision($revision, $username);
             $this->dispatcher->dispatch(new RevisionFinalizeDraftEvent($revision));
 
-            $this->auditLogger->notice('log.revision.finalized', LogRevisionContext::update($revision));
+            $this->auditLogger->messageNotice(t('message.revision_published', [
+                'label' => $revision->getLabel(),
+                'environment' => $revision->giveContentType()->giveEnvironment()->getLabel(),
+            ], 'emsco-core'), LogRevisionContext::update($revision));
 
             try {
                 $this->postFinalizeTreatment($revision->giveContentType()->getName(), $revision->giveOuuid(), $form->get('data'), $previousObjectArray);
             } catch (\Exception $e) {
-                $this->logger->warning('service.data.post_finalize_failed', [
-                    EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                    EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                    EmsFields::LOG_ENVIRONMENT_FIELD => $revision->giveContentType()->giveEnvironment()->getName(),
-                    EmsFields::LOG_OUUID_FIELD => $revision->giveOuuid(),
-                    EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                    EmsFields::LOG_EXCEPTION_FIELD => $e,
-                    'label' => $revision->getLabel(),
-                ]);
+                $this->logger->messageWarning(
+                    t('message.data_post_finalize_failed', [
+                        'label' => $revision->getLabel(),
+                        'error_message' => $e->getMessage(),
+                    ], 'emsco-core'),
+                    [
+                        ...LogRevisionContext::read($revision),
+                        EmsFields::LOG_EXCEPTION_FIELD => $e,
+                    ]
+                );
             }
         } else {
             $this->logFormErrors($form);
@@ -902,10 +888,11 @@ class DataService
             }
             $errorPath .= $fieldName;
 
-            $this->logger->warning('service.data.error_with_fields', [
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $errorMessage,
+            $this->logger->messageWarning(t('message.field_with_errors', [
+                'path' => $errorPath,
+                'error_message' => $errorMessage,
+            ], 'emsco-core'), [
                 EmsFields::LOG_FIELD_IN_ERROR_FIELD => $fieldName,
-                EmsFields::LOG_PATH_IN_ERROR_FIELD => $errorPath,
             ]);
         }
     }
@@ -949,20 +936,18 @@ class DataService
             'contentType' => $contentType,
             'deleted' => false,
         ]);
-
-        if (1 == \count($revisions)) {
+        if (1 === \count($revisions)) {
             $endTime = $revisions[0]->getEndTime();
-
             if (null === $endTime) {
                 return $revisions[0];
-            } else {
-                throw new NotFoundHttpException('Revision for ouuid '.$ouuid.' and contenttype '.$contentType->getName().' with end time '.$endTime->format(\DateTimeInterface::ATOM));
             }
-        } elseif (0 == \count($revisions)) {
-            throw new NotFoundHttpException('Revision not found for ouuid '.$ouuid.' and contenttype '.$contentType->getName());
-        } else {
-            throw new \Exception('Too much newest revisions available for ouuid '.$ouuid.' and contenttype '.$contentType->getName());
+            throw new NotFoundHttpException('Revision for ouuid '.$ouuid.' and contenttype '.$contentType->getName().' with end time '.$endTime->format(\DateTimeInterface::ATOM));
         }
+
+        if (0 === \count($revisions)) {
+            throw new NotFoundHttpException('Revision not found for ouuid '.$ouuid.' and contenttype '.$contentType->getName());
+        }
+        throw new \Exception('Too much newest revisions available for ouuid '.$ouuid.' and contenttype '.$contentType->getName());
     }
 
     /**
@@ -989,14 +974,14 @@ class DataService
                 try {
                     $revision->setRawData(Json::decode($defaultValue));
                 } catch (\Throwable) {
-                    $this->logger->error('service.data.default_value_error', [
-                        EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-                        EmsFields::LOG_OUUID_FIELD => $ouuid,
-                    ]);
+                    $this->logger->messageError(t('message.data_default_value_error', [
+                        'content_type' => $contentType->getName(),
+                    ], 'emsco-core'), [EmsFields::LOG_OUUID_FIELD => $ouuid]);
                 }
             } catch (Error $e) {
-                $this->logger->error('service.data.default_value_template_error', [
-                    EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
+                $this->logger->messageError(t('message.data_default_value_template_error', [
+                    'content_type' => $contentType->getName(),
+                ], 'emsco-core'), [
                     EmsFields::LOG_OUUID_FIELD => $ouuid,
                     EmsFields::LOG_EXCEPTION_FIELD => $e,
                     EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
@@ -1024,6 +1009,8 @@ class DataService
         $revision->setDraft(true);
         if (null !== $ouuid) {
             $revision->setOuuid($ouuid);
+        } elseif ($this->preGeneratedOuuids) {
+            $revision->setOuuid(Uuid::uuid4()->toString());
         }
         $revision->setDeleted(false);
         $revision->setStartTime($now);
@@ -1039,19 +1026,17 @@ class DataService
                     $revision->setCircles([$revision->getRawData()[$contentType->getCirclesField()]]);
                 }
             } else {
-                $fieldType = $contentType->getFieldType()->getChildByPath($contentType->getCirclesField());
+                $fieldType = $this->contentTypeService->getChildByPath($contentType->getFieldType(), $contentType->getCirclesField());
 
                 if ($fieldType) {
                     $options = $fieldType->getDisplayOptions();
                     if (isset($options['multiple']) && $options['multiple']) {
                         $revision->setRawData(\array_merge($revision->getRawData(), [$contentType->getCirclesField() => $currentUser->getCircles()]));
                         $revision->setCircles($currentUser->getCircles());
-                    } else {
+                    } elseif (!empty($currentUser->getCircles())) {
                         // set first of my circles
-                        if (!empty($currentUser->getCircles())) {
-                            $revision->setRawData(\array_merge($revision->getRawData(), [$contentType->getCirclesField() => $currentUser->getCircles()[0]]));
-                            $revision->setCircles([$currentUser->getCircles()[0]]);
-                        }
+                        $revision->setRawData(\array_merge($revision->getRawData(), [$contentType->getCirclesField() => $currentUser->getCircles()[0]]));
+                        $revision->setCircles([$currentUser->getCircles()[0]]);
                     }
                 }
             }
@@ -1072,8 +1057,8 @@ class DataService
         $userCircles = $this->userService->getCurrentUser()->getCircles();
         $environment = $contentType->giveEnvironment();
         $environmentCircles = $environment->getCircles();
-        if (!$this->authorizationChecker->isGranted('ROLE_USER_MANAGEMENT') && !empty($environmentCircles)) {
-            if (empty($userCircles)) {
+        if (!$this->authorizationChecker->isGranted('ROLE_USER_MANAGEMENT') && [] !== $environmentCircles) {
+            if ([] === $userCircles) {
                 throw new HasNotCircleException($environment);
             }
             $found = \array_any($userCircles, fn ($userCircle) => \in_array($userCircle, $environmentCircles));
@@ -1097,7 +1082,7 @@ class DataService
         if (!empty($revision->giveContentType()->getCirclesField()) && isset($objectArray[$revision->giveContentType()->getCirclesField()]) && !empty($objectArray[$revision->giveContentType()->getCirclesField()])) {
             $revision->setCircles(\is_array($objectArray[$revision->giveContentType()->getCirclesField()]) ? $objectArray[$revision->giveContentType()->getCirclesField()] : [$objectArray[$revision->giveContentType()->getCirclesField()]]);
         } else {
-            $revision->setCircles(null);
+            $revision->setCircles();
         }
     }
 
@@ -1143,7 +1128,7 @@ class DataService
         if (!$revision->getDraft()) {
             $now = new \DateTime();
 
-            if ($fromRev) {
+            if ($fromRev instanceof Revision) {
                 $newDraft = new Revision($fromRev);
             } else {
                 $newDraft = new Revision($revision);
@@ -1161,7 +1146,9 @@ class DataService
             $em->persist($newDraft);
             $em->flush();
 
-            $this->auditLogger->info('log.revision.draft.created', LogRevisionContext::update($revision));
+            $this->auditLogger->messageInfo(t('message.revision_draft_created', [
+                'label' => $revision->getLabel(),
+            ], 'emsco-core'), LogRevisionContext::update($revision));
 
             $this->dispatcher->dispatch(new RevisionNewDraftEvent($newDraft));
 
@@ -1198,7 +1185,7 @@ class DataService
                 ->where('t.ouuid = :ouuid')
                 ->andWhere('t.id <> :id')
                 ->andWhere('t.contentType =  :contentType')
-                ->orderBy('t.id', 'desc')
+                ->orderBy('t.id', \SortDirection::Descending)
                 ->setParameter('ouuid', $revision->getOuuid())
                 ->setParameter('contentType', $revision->getContentType())
                 ->setParameter('id', $revision->getId())
@@ -1207,7 +1194,7 @@ class DataService
 
             $result = $query->getResult();
 
-            if (1 == (\is_countable($result) ? \count($result) : 0)) {
+            if (1 === (\is_countable($result) ? \count($result) : 0)) {
                 /** @var Revision $previous */
                 $previous = $result[0];
                 $this->lockRevision($previous, null, $super, $username);
@@ -1226,7 +1213,9 @@ class DataService
 
         $em->flush();
 
-        $this->auditLogger->info('log.revision.draft.deleted', LogRevisionContext::update($revision));
+        $this->auditLogger->messageInfo(t('message.revision_draft_deleted', [
+            'label' => $revision->getLabel(),
+        ], 'emsco-core'), LogRevisionContext::update($revision));
 
         return $hasPreviousRevision;
     }
@@ -1259,17 +1248,16 @@ class DataService
             foreach ($revision->getEnvironments() as $environment) {
                 try {
                     $this->indexService->delete($revision, $environment);
-                    $this->auditLogger->notice('log.unpublished.success', LogRevisionContext::unpublish($revision, $environment));
+                    $this->auditLogger->messageNotice(t('message.revision_unpublished', [
+                        'label' => $revision->getLabel(),
+                        'environment' => $revision->giveContentType()->giveEnvironment()->getLabel(),
+                    ], 'emsco-core'), LogRevisionContext::unpublish($revision, $environment));
                 } catch (NotFoundException $e) {
                     if (!$revision->getDeleted()) {
-                        $this->logger->warning('service.data.already_unpublished', [
+                        $this->logger->messageWarning(t('message.data_already_unpublished', [
+                            'environment' => $environment->getLabel(),
                             'label' => $revision->getLabel(),
-                            EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                            EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                            EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                            EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_DELETE,
-                            EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getLabel(),
-                        ]);
+                        ], 'emsco-core'), LogRevisionContext::unpublish($revision, $environment));
                     }
                     throw $e;
                 }
@@ -1278,7 +1266,10 @@ class DataService
             $revision->delete($username);
 
             if (null === $revision->getEndTime()) {
-                $this->auditLogger->notice('log.revision.deleted', LogRevisionContext::delete($revision));
+                $this->auditLogger->messageNotice(t('message.revision_deleted', [
+                    'label' => $revision->getLabel(),
+                ], 'emsco-core'), LogRevisionContext::delete($revision));
+                $this->dispatcher->dispatch(new RevisionDeleteEvent($revision));
             }
 
             $em->persist($revision);
@@ -1309,7 +1300,9 @@ class DataService
             $revision->restore();
             if (null === $revision->getEndTime()) {
                 $revision->setDraft(true);
-                $this->auditLogger->notice('log.revision.restored', LogRevisionContext::update($revision));
+                $this->auditLogger->messageNotice(t('message.revision_restored', [
+                    'label' => $revision->getLabel(),
+                ], 'emsco-core'), LogRevisionContext::update($revision));
             }
             $this->em->persist($revision);
             $this->unlockRevision($revision);
@@ -1330,7 +1323,9 @@ class DataService
 
         $dataFieldType = $this->formRegistry->getType($fieldType->getType())->getInnerType();
         if (!$dataFieldType instanceof DataFieldType && !self::isInternalField($fieldType->getName())) {
-            $this->logger->warning('service.data.not_a_data_field', ['field_name' => $fieldType->getName()]);
+            $this->logger->messageWarning(t('message.field_not_a_data_field', [
+                'field_name' => $fieldType->getName(),
+            ], 'emsco-core'));
 
             return;
         }
@@ -1384,32 +1379,31 @@ class DataService
             }
 
             $fieldNames = $dataFieldType->getJsonNames($fieldType);
-            if (0 === \count($fieldNames)) {// Virtual container
+            if ([] === $fieldNames) {
+                // Virtual container
                 /** @var DataField $child */
                 foreach ($dataField->getChildren() as $child) {
                     $this->updateDataValue($child, $elasticIndexDatas, $isMigration);
                 }
+            } elseif ($dataFieldType->isVirtual($dataField->giveFieldType()->getOptions())) {
+                $treatedFields = $dataFieldType->importData($dataField, $elasticIndexDatas, $isMigration);
+                foreach ($treatedFields as $fieldName) {
+                    unset($elasticIndexDatas[$fieldName]);
+                }
             } else {
-                if ($dataFieldType->isVirtual($dataField->giveFieldType()->getOptions())) {
-                    $treatedFields = $dataFieldType->importData($dataField, $elasticIndexDatas, $isMigration);
-                    foreach ($treatedFields as $fieldName) {
-                        unset($elasticIndexDatas[$fieldName]);
-                    }
-                } else {
-                    foreach ($fieldNames as $fieldName) {
-                        if (\array_key_exists($fieldName, $elasticIndexDatas)) {
-                            $treatedFields = $dataFieldType->importData($dataField, $elasticIndexDatas[$fieldName], $isMigration);
-                            foreach ($treatedFields as $treatedFieldName) {
-                                unset($elasticIndexDatas[$treatedFieldName]);
-                            }
+                foreach ($fieldNames as $fieldName) {
+                    if (\array_key_exists($fieldName, $elasticIndexDatas)) {
+                        $treatedFields = $dataFieldType->importData($dataField, $elasticIndexDatas[$fieldName], $isMigration);
+                        foreach ($treatedFields as $treatedFieldName) {
+                            unset($elasticIndexDatas[$treatedFieldName]);
                         }
                     }
                 }
             }
         } elseif (!DataService::isInternalField($dataField->giveFieldType()->getName())) {
-            $this->logger->warning('service.data.not_a_data_field', [
+            $this->logger->messageWarning(t('message.field_not_a_data_field', [
                 'field_name' => $dataField->giveFieldType()->getName(),
-            ]);
+            ], 'emsco-core'));
         }
     }
 
@@ -1422,6 +1416,7 @@ class DataService
         $data->setFieldType($revision->giveContentType()->getFieldType());
         $data->setOrderKey($revision->giveContentType()->getFieldType()->getOrderKey());
         $data->setRawData($revision->getRawData());
+
         $revision->setDataField($data);
 
         if ($revision->isLazyIndex()) {
@@ -1442,27 +1437,19 @@ class DataService
             return;
         }
 
-        if (\count($object) > 0) {
+        if ([] !== $object) {
             $html = self::arrayToHtml($object);
 
-            $this->logger->warning('service.data.data_not_consumed', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_DELETE,
+            $this->logger->messageWarning(t('message.data_not_consumed', [
                 'count' => \count($object),
                 'data' => $html,
-            ]);
+            ], 'emsco-core'), LogRevisionContext::read($revision));
         }
     }
 
     public function reloadData(Revision $revision, bool $flush = true): int
     {
-        if ($revision->hasHash()) {
-            $revisionHash = $revision->getHash();
-        } else {
-            $revisionHash = null;
-        }
+        $revisionHash = $revision->hasHash() ? $revision->getHash() : null;
         $reloadRevision = clone $revision;
 
         $finalizedBy = false;
@@ -1521,11 +1508,7 @@ class DataService
     {
         $out = $form->getViewData();
 
-        if ($form instanceof Form) {
-            $iteratedOn = $form->getIterator();
-        } else {
-            $iteratedOn = $form->all();
-        }
+        $iteratedOn = $form instanceof Form ? $form->getIterator() : $form->all();
 
         foreach ($iteratedOn as $subForm) {
             if ($subForm->getConfig()->getCompound()) {
@@ -1591,9 +1574,9 @@ class DataService
 
         if (!$viewData instanceof DataField) {
             if (!DataService::isInternalField($form->getName())) {
-                $this->logger->warning('service.data.not_a_data_field', [
+                $this->logger->messageWarning(t('message.field_not_a_data_field', [
                     'field_name' => $form->getName(),
-                ]);
+                ], 'emsco-core'));
             }
 
             return true;
@@ -1632,7 +1615,7 @@ class DataService
         }
 
         if ($form->getErrors(true, true)->count() > 0) {
-            $isValid = false;
+            return false;
         }
 
         return $isValid;
@@ -1652,7 +1635,7 @@ class DataService
             'deleted' => false,
         ]);
 
-        if (1 != \count($contentTypes)) {
+        if (1 !== \count($contentTypes)) {
             throw new NotFoundHttpException('Unknown content type');
         }
         $contentType = $contentTypes[0];
@@ -1665,20 +1648,18 @@ class DataService
             'contentType' => $contentType,
             'deleted' => false,
         ]);
-
-        if (1 == \count($revisions)) {
+        if (1 === \count($revisions)) {
             $endTime = $revisions[0]->getEndTime();
-
             if (null === $endTime) {
                 return $revisions[0];
-            } else {
-                throw new \Exception('Revision for ouuid '.$id.' and contenttype '.$type.' with end time '.$endTime->format(\DateTimeInterface::ATOM));
             }
-        } elseif (0 == \count($revisions)) {
-            throw new NotFoundHttpException('Revision not found for id '.$id.' and contenttype '.$type);
-        } else {
-            throw new \Exception('Too much newest revisions available for ouuid '.$id.' and contenttype '.$type);
+            throw new \Exception('Revision for ouuid '.$id.' and contenttype '.$type.' with end time '.$endTime->format(\DateTimeInterface::ATOM));
         }
+
+        if (0 === \count($revisions)) {
+            throw new NotFoundHttpException('Revision not found for id '.$id.' and contenttype '.$type);
+        }
+        throw new \Exception('Too much newest revisions available for ouuid '.$id.' and contenttype '.$type);
     }
 
     /**
@@ -1703,14 +1684,10 @@ class DataService
                 $newRawData = \array_merge($revision->getRawData(), $rawData);
                 $newDraft->setRawData($newRawData);
             } else {
-                $this->logger->error('service.data.unknown_update_type', [
-                    EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                    EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                    EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                    EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_DELETE,
+                $this->logger->messageError(t('message.data_unknown_update_type', [
                     'update_type' => $replaceOrMerge,
                     'label' => $revision->getLabel(),
-                ]);
+                ], 'emsco-core'), LogRevisionContext::update($revision));
 
                 return $revision;
             }
@@ -1727,16 +1704,12 @@ class DataService
             $em->flush();
 
             return $newDraft;
-        } else {
-            $this->logger->error('service.data.not_a_draft', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_DELETE,
-                'update_type' => $replaceOrMerge,
-                'label' => $revision->getLabel(),
-            ]);
         }
+
+        $this->logger->messageError(
+            t('message.data_not_a_draft', ['label' => $revision->getLabel()], 'emsco-core'),
+            ['update_type' => $replaceOrMerge, ...LogRevisionContext::delete($revision)]
+        );
 
         return $revision;
     }
@@ -1790,7 +1763,7 @@ class DataService
                     $this->discardDraft($revision);
                 }
             } catch (LockedException $e) {
-                $this->logger->error('service.data.update_referrers_error', [
+                $this->logger->messageError(t('message.data_update_referrers_error', [], 'emsco-core'), [
                     EmsFields::LOG_CONTENTTYPE_FIELD => $key[0],
                     EmsFields::LOG_OUUID_FIELD => $key[1],
                     EmsFields::LOG_EXCEPTION_FIELD => $e,
@@ -1816,7 +1789,7 @@ class DataService
                     $this->discardDraft($revision);
                 }
             } catch (LockedException $e) {
-                $this->logger->error('service.data.update_referrers_error', [
+                $this->logger->messageError(t('message.data_update_referrers_error', [], 'emsco-core'), [
                     EmsFields::LOG_CONTENTTYPE_FIELD => $key[0],
                     EmsFields::LOG_OUUID_FIELD => $key[1],
                     EmsFields::LOG_EXCEPTION_FIELD => $e,
@@ -1864,7 +1837,7 @@ class DataService
                 continue;
             }
 
-            if ($contentType->getBusinessIdField() && \count($ouuids) > 0) {
+            if ($contentType->getBusinessIdField() && [] !== $ouuids) {
                 $search = $this->elasticaService->convertElasticsearchSearch([
                     'index' => $contentType->giveEnvironment()->getAlias(),
                     'body' => [
@@ -1917,9 +1890,10 @@ class DataService
         $revision = $this->getEmptyRevision($contentType, 'hitFromBusinessIdToDataLink');
         $revision->setRawData($rawData);
         $revision->setOuuid($ouuid);
+
         $revisionType = $this->formFactory->create(RevisionType::class, $revision, ['migration' => true, 'raw_data' => $revision->getRawData(), 'with_warning' => false]);
         $result = $this->walkRecursive($revisionType->get('data'), $rawData, function (string $name, $data, DataFieldType $dataFieldType, DataField $dataField) {
-            if (null !== $data && (!\is_array($data) || \count($data) > 0)) {
+            if (null !== $data && (!\is_array($data) || [] !== $data)) {
                 if ($dataFieldType->isVirtual()) {
                     return $data;
                 }
@@ -1951,11 +1925,11 @@ class DataService
     {
         try {
             return $this->revRepository->lockAllRevisions($until, $by);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->error('service.data.lock_revisions_error', [
                 EmsFields::LOG_USERNAME_FIELD => $by,
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $throwable,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $throwable->getMessage(),
             ]);
         }
 
@@ -1966,12 +1940,12 @@ class DataService
     {
         try {
             return $this->revRepository->lockRevisions($contentType, $until, $by, $force, $ouuid);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->error('service.data.lock_revisions_error', [
                 EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
                 EmsFields::LOG_USERNAME_FIELD => $by,
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $throwable,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $throwable->getMessage(),
             ]);
         }
 
@@ -1982,11 +1956,11 @@ class DataService
     {
         try {
             return $this->revRepository->unlockAllRevisions($by);
-        } catch (\Throwable $e) {
-            $this->logger->error('service.data.unlock_revisions_error', [
+        } catch (\Throwable $throwable) {
+            $this->logger->messageError(t('message.data_unlock_revisions_error', [], 'emsco-core'), [
                 EmsFields::LOG_USERNAME_FIELD => $by,
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $throwable,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $throwable->getMessage(),
             ]);
         }
 
@@ -1997,12 +1971,12 @@ class DataService
     {
         try {
             return $this->revRepository->unlockRevisions($contentType, $by);
-        } catch (\Throwable $e) {
-            $this->logger->error('service.data.unlock_revisions_error', [
+        } catch (\Throwable $throwable) {
+            $this->logger->messageError(t('message.data_unlock_revisions_error', [], 'emsco-core'), [
                 EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
                 EmsFields::LOG_USERNAME_FIELD => $by,
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $throwable,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $throwable->getMessage(),
             ]);
         }
 
@@ -2030,9 +2004,9 @@ class DataService
         $this->em->getConnection()->beginTransaction();
 
         try {
-            $restoredDraft = $currentRevision ? $this->trashPutBackAsDraft($contentType, $currentRevision->giveOuuid()) : null;
+            $restoredDraft = $currentRevision instanceof Revision ? $this->trashPutBackAsDraft($contentType, $currentRevision->giveOuuid()) : null;
 
-            if ($restoredDraft) {
+            if ($restoredDraft instanceof Revision) {
                 $restoredDraft->setDraft(false);
                 $restoredDraft->setEndTime($revision->getStartTime());
                 $this->unlockRevision($restoredDraft);
@@ -2041,9 +2015,9 @@ class DataService
             $this->em->persist($revision);
             $this->em->flush();
             $this->em->getConnection()->commit();
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->em->getConnection()->rollBack();
-            throw $e;
+            throw $throwable;
         }
 
         return $revision;

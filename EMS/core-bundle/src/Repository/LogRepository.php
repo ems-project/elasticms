@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use EMS\CommonBundle\Entity\Log;
 use EMS\CoreBundle\Core\Log\LogEntityTableContext;
 
@@ -17,10 +17,12 @@ use EMS\CoreBundle\Core\Log\LogEntityTableContext;
  * @extends ServiceEntityRepository<Log>
  *
  * @method Log|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Log|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method Log[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class LogRepository extends ServiceEntityRepository
 {
-    public function __construct(Registry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Log::class);
     }
@@ -83,7 +85,7 @@ class LogRepository extends ServiceEntityRepository
             ->setMaxResults($context->size);
         $this->addSearchFilters($qb, $context);
 
-        if (\in_array($context->orderField, ['created', 'message', 'level', 'levelName', 'channel', 'formatted', 'username'])) {
+        if (\in_array($context->orderField, ['created', 'message', 'level', 'levelName', 'channel', 'formatted', 'username'], true)) {
             $qb->orderBy(\sprintf('log.%s', $context->orderField), $context->orderDirection);
         }
 
@@ -92,7 +94,7 @@ class LogRepository extends ServiceEntityRepository
 
     private function addSearchFilters(QueryBuilder $qb, LogEntityTableContext $context): void
     {
-        if (\strlen($context->searchValue) > 0) {
+        if ('' !== $context->searchValue) {
             $qb
                 ->andWhere($qb->expr()->orX(
                     $qb->expr()->like('log.message', ':term'),
@@ -108,7 +110,7 @@ class LogRepository extends ServiceEntityRepository
                 ->setParameter('ouuid', $revision->giveOuuid());
         }
 
-        if (\count($context->channels) > 0) {
+        if ([] !== $context->channels) {
             $qb
                 ->andWhere($qb->expr()->in('log.channel', ':channels'))
                 ->setParameter('channels', $context->channels, Types::JSON);

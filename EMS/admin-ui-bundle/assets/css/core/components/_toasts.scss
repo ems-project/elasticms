@@ -1,0 +1,18 @@
+.toast {
+    .toast-body {
+        > *:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .btn-close {
+        --bs-btn-close-opacity: 1;
+        --bs-btn-close-hover-opacity: 1;
+    }
+
+    &.text-bg-danger, &.text-bg-primary {
+        .btn-close {
+            @extend .btn-close-white;
+        }
+    }
+}

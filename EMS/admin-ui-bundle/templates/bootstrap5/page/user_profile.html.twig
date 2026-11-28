@@ -1,0 +1,81 @@
+{% extends '@EMSAdminUI/bootstrap5/page/default.html.twig' %}
+
+{% block page_content %}
+    {% embed '@EMSAdminUI/bootstrap5/core/card.html.twig' with {
+        class: 'card-primary',
+        attributes: {'data-testid': 'profile'},
+        user: user,
+        circles_object: circles_object,
+    } only %}
+        {% block card_content %}
+            <div class="text-center">
+                {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
+                    class: 'profile-user-img img-responsive rounded-circle',
+                }) }}
+                <h3 class="profile-username">{{ user.displayName }}</h3>
+                <p class="text-muted">{{ user.username }}</p>
+            </div>
+            <ul class="list-group list-group-flush mb-3">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <b>{{ 'key.login'|trans({}, 'emsco-core') }}</b> <i>{{ user.username }}</i>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <b>{{ 'field.display_name'|trans({}, 'emsco-core') }}</b> <i>{{ user.displayName }}</i>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <b>{{ 'key.email_lowercase'|trans({}, 'emsco-core') }}</b> <i>{{ user.email }}</i>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <b>{{ 'key.email_notification_lowercase'|trans({}, 'emsco-core') }}</b> <i class="fa fa-2x fa-{% if user.emailNotification %}check-{% endif %}square-o"></i>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <b>{{ 'key.simplified_ui'|trans({}, 'emsco-core') }}</b> <i class="fa fa-2x fa-{% if attribute(user.userOptions, 'simplified_ui') %}check-{% endif %}square-o"></i>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <b>{{ 'key.locale_ui'|trans({}, 'emsco-core') }}</b> <i>{{ user.locale|language_name }}</i>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-testid="profile-locale-preferred">
+                    <b>{{ 'field.locale_preferred'|trans({}, 'emsco-core') }}</b> <i>{{ user.localePreferred|locale_name }}</i>
+                </li>
+                {% if circles_object and circles_object|emsco_get_content_type %}
+                    <li class="list-group-item" data-testid="profile-circles">
+                        <div class="fw-bold mb-2">{{ circles_object|emsco_get_content_type.pluralName }}</div>
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for circle in user.circles %}
+                                <span class="badge text-bg-light border">{{ circle|emsco_display|raw }}</span>
+                            {% endfor %}
+                        </div>
+                    </li>
+                {% endif %}
+                {%- if user.userRoles|length > 0 -%}
+                    <li class="list-group-item" data-testid="profile-roles">
+                        <div class="fw-bold mb-2">{{ 'field.roles'|trans({}, 'emsco-core') }}</div>
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for role in user.userRoles %}
+                                <span class="badge text-bg-light border">{{ (role|replace({ROLE_: 'ROLE.'}) ~ '.label')|lower|trans([], 'emsco-core') }}</span>
+                            {% endfor %}
+                        </div>
+                    </li>
+                {%- endif -%}
+                {%- if user.group -%}
+                    <li class="list-group-item d-flex justify-content-between align-items-center" data-testid="profile-group">
+                        <b>{{ 'field.group'|trans({}, 'emsco-core') }}</b> <i>{{ user.group.label }}</i>
+                    </li>
+                {%- endif -%}
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-testid="profile-wysiwyg">
+                    <b>{{ 'field.wysiwyg_profile'|trans({}, 'emsco-core') }}</b> <i>{% if user.wysiwygProfile %}{{ user.wysiwygProfile.name }}{% endif %}</i>
+                </li>
+            </ul>
+        {% endblock %}
+        {% block card_footer %}
+            <div class="btn-group">
+                <a href="{{ path('emsco_user_profile_edit') }}" class="btn btn-sm btn-primary" data-testid="profile-edit">
+                    <i class="fa fa-pencil"></i> {{ 'action.edit'|trans({}, 'emsco-core') }}
+                </a>
+                <a href="{{ path('emsco_user_change_password') }}" class="btn btn-sm btn-primary" data-testid="profile-change-password">
+                    <i class="fa fa-lock"></i> {{ 'action.change_password'|trans({}, 'emsco-core') }}
+                </a>
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock page_content %}

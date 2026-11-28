@@ -9,6 +9,8 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use function Symfony\Component\Translation\t;
+
 class SubmitEmsType extends SubmitType
 {
     #[\Override]
@@ -20,7 +22,7 @@ class SubmitEmsType extends SubmitType
     #[\Override]
     public function getBlockPrefix(): string
     {
-        return 'submitems';
+        return 'submit_ems';
     }
 
     #[\Override]
@@ -32,6 +34,7 @@ class SubmitEmsType extends SubmitType
             'message' => null,
             'confirm' => null,
             'confirm_class' => null,
+            'label' => t('action.save', [], 'emsco-core'),
         ]);
     }
 

@@ -11,7 +11,6 @@ use EMS\CoreBundle\Form\Field\AssetType;
 use EMS\CoreBundle\Form\Field\IconPickerType;
 use EMS\CoreBundle\Service\ElasticsearchService;
 use EMS\CoreBundle\Service\FileService;
-use EMS\Helpers\Standard\Type;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,7 +18,11 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * Defined a Container content type.
@@ -29,9 +32,14 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class AssetFieldType extends DataFieldType
 {
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker, FormRegistryInterface $formRegistry, ElasticsearchService $elasticsearchService, private readonly FileService $fileService)
-    {
-        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        FormRegistryInterface $formRegistry,
+        ElasticsearchService $elasticsearchService,
+        TokenStorageInterface $tokenStorage,
+        private readonly FileService $fileService
+    ) {
+        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService, $tokenStorage);
     }
 
     #[\Override]
@@ -59,7 +67,7 @@ class AssetFieldType extends DataFieldType
             }
             $data[$oldField] = $data[$newField];
         }
-        foreach ($data as $id => $content) {
+        foreach (\array_keys($data) as $id) {
             if (!\in_array($id, [EmsFields::CONTENT_FILE_HASH_FIELD_, EmsFields::CONTENT_FILE_NAME_FIELD_, EmsFields::CONTENT_FILE_SIZE_FIELD_, EmsFields::CONTENT_MIME_TYPE_FIELD_,  EmsFields::CONTENT_FILE_HASH_FIELD, EmsFields::CONTENT_FILE_NAME_FIELD, EmsFields::CONTENT_FILE_SIZE_FIELD, EmsFields::CONTENT_MIME_TYPE_FIELD,  EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD, EmsFields::CONTENT_FILE_DATE, EmsFields::CONTENT_FILE_AUTHOR, EmsFields::CONTENT_FILE_LANGUAGE, EmsFields::CONTENT_FILE_CONTENT, EmsFields::CONTENT_FILE_TITLE], true)) {
                 unset($data[$id]);
             }
@@ -92,9 +100,15 @@ class AssetFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'File field';
+        return $this->generateAssetMcpSchema($fieldType);
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.asset', [], 'emsco-core');
     }
 
     #[\Override]
@@ -113,12 +127,15 @@ class AssetFieldType extends DataFieldType
         // an optional icon can't be specified ritgh to the container label
         $optionsForm->get('displayOptions')
         ->add('multiple', CheckboxType::class, [
+            'label' => t('field.multiple', [], 'emsco-core'),
             'required' => false,
         ])
         ->add('icon', IconPickerType::class, [
+            'label' => t('field.icon', [], 'emsco-core'),
             'required' => false,
         ])
         ->add('imageAssetConfigIdentifier', TextType::class, [
+            'label' => t('field.image_asset_config_identifier', [], 'emsco-core'),
             'required' => false,
         ]);
     }
@@ -201,11 +218,7 @@ class AssetFieldType extends DataFieldType
         }
 
         $isMultiple = true === $fieldType->getDisplayOption('multiple', false);
-        if ($isMultiple) {
-            $data = $rawData['files'] ?? [];
-        } else {
-            $data = [$rawData];
-        }
+        $data = $isMultiple ? $rawData['files'] ?? [] : [$rawData];
 
         $mandatory = (bool) $dataField->giveFieldType()->getRestrictionOption('mandatory', false);
 
@@ -234,7 +247,7 @@ class AssetFieldType extends DataFieldType
 
         if ($isMultiple) {
             $dataField->setRawData($rawData);
-        } elseif (0 === \count($rawData)) {
+        } elseif ([] === $rawData) {
             $dataField->setRawData(null);
         } else {
             $dataField->setRawData(\reset($rawData));
@@ -251,7 +264,7 @@ class AssetFieldType extends DataFieldType
 
         $out = parent::viewTransform($dataField);
         if (true !== $fieldType->getDisplayOption('multiple') && \is_array($out) && empty($out['sha1'])) {
-            $out = null;
+            return null;
         }
 
         return $out;

@@ -7,7 +7,6 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
-use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Form\FieldTypeManager;
@@ -69,14 +68,6 @@ class ContentTypeController extends AbstractController
     ) {
     }
 
-    #[\Deprecated]
-    public static function isValidName(string $name): bool
-    {
-        @\trigger_error('Deprecated isValidName function, please use the FieldTypeManager::isValidName function', E_USER_DEPRECATED);
-
-        return FieldTypeManager::isValidName($name);
-    }
-
     public function updateFromJson(ContentType $contentType, Request $request): Response
     {
         $jsonUpdate = new ContentTypeJsonUpdate();
@@ -97,7 +88,7 @@ class ContentTypeController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/contenttype/json_update.html.twig", [
+        return $this->render(\sprintf('@%s/contenttype/json_update.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'title' => t('action.update_content_type_from_json', ['name' => $contentType->getName()], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
@@ -118,10 +109,9 @@ class ContentTypeController extends AbstractController
     public function activate(ContentType $contentType): Response
     {
         if ($contentType->getDirty()) {
-            $this->logger->error('log.contenttype.dirty', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_READ,
-            ]);
+            $this->logger->messageError(t('message.content_type_dirty', [
+                'label' => $contentType->getSingularName(),
+            ], 'emsco-core'));
 
             return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_INDEX);
         }
@@ -186,7 +176,7 @@ class ContentTypeController extends AbstractController
                 $form->get('name')->addError(new FormError('Another content type named '.$contentTypeAdded->getName().' already exists'));
             }
 
-            if (!static::isValidName($contentTypeAdded->getName())) {
+            if (!FieldTypeManager::isValidName($contentTypeAdded->getName())) {
                 $form->get('name')->addError(new FormError('The content type name is malformed (format: [a-z][a-z0-9_-]*)'));
             }
 
@@ -219,10 +209,9 @@ class ContentTypeController extends AbstractController
                     $this->contentTypeService->update($contentType, false);
                 }
 
-                $this->logger->notice('log.contenttype.created', [
-                    EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-                    EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
-                ]);
+                $this->logger->messageNotice(t('message.content_type_created', [
+                    'label' => $contentType->getSingularName(),
+                ], 'emsco-core'));
 
                 return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_EDIT, [
                     'contentType' => $contentType->getId(),
@@ -230,7 +219,7 @@ class ContentTypeController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/contenttype/add.html.twig", [
+        return $this->render(\sprintf('@%s/contenttype/add.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'title' => t('type.title_create', ['type' => 'content_type'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
@@ -259,7 +248,7 @@ class ContentTypeController extends AbstractController
                 TableType::REORDER_ACTION => $this->contentTypeService->reorderByIds(
                     ...TableType::getReorderedKeys($form->getName(), $request)
                 ),
-                default => $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core')),
+                default => $this->logger->messageError(t('message.invalid_table_action', [], 'emsco-core')),
             };
 
             return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_INDEX);
@@ -303,7 +292,7 @@ class ContentTypeController extends AbstractController
         $this->contentTypeService->update($contentType);
 
         $this->logger->messageNotice(t(
-            'log.notice.content_type_referenced',
+            'message.content_type_referenced',
             ['contentType' => $contentType->getSingularName(), 'environment' => $environment->getLabel()],
             'emsco-core'
         ));
@@ -332,7 +321,7 @@ class ContentTypeController extends AbstractController
             return $this->treatFieldSubmit($contentType, $field, $action, $subFieldName);
         }
 
-        return $this->render("@$this->templateNamespace/contenttype/field.html.twig", [
+        return $this->render(\sprintf('@%s/contenttype/field.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'field' => $field,
             'contentType' => $contentType,
@@ -360,7 +349,7 @@ class ContentTypeController extends AbstractController
             return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_EDIT, ['contentType' => $contentType->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/contenttype/reorder.html.twig", [
+        return $this->render(\sprintf('@%s/contenttype/reorder.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'contentType' => $contentType,
             'title' => t('action.reorder', ['type' => 'content_type'], 'emsco-core'),
@@ -379,10 +368,9 @@ class ContentTypeController extends AbstractController
         try {
             $mapping = $this->mappingService->getMapping($environment);
         } catch (\Throwable) {
-            $this->logger->warning('log.contenttype.mapping.not_found', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_READ,
-            ]);
+            $this->logger->messageWarning(t('message.content_type_mapping_not_found', [
+                'label' => $contentType->getSingularName(),
+            ], 'emsco-core'));
             $mapping = null;
         }
 
@@ -403,17 +391,19 @@ class ContentTypeController extends AbstractController
                 $this->contentTypeService->update($contentType, false);
 
                 if ($contentType->getDirty()) {
-                    $this->logger->warning('log.contenttype.dirty', [
-                        EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-                    ]);
+                    $this->logger->messageWarning(t('message.content_type_dirty', [
+                        'label' => $contentType->getSingularName(),
+                    ], 'emsco-core'));
                 }
                 if (\array_key_exists('saveAndClose', $inputContentType)) {
                     return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_INDEX);
-                } elseif (\array_key_exists('saveAndEditStructure', $inputContentType)) {
+                }
+                if (\array_key_exists('saveAndEditStructure', $inputContentType)) {
                     return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_STRUCTURE, [
                         'id' => $contentType->getId(),
                     ]);
-                } elseif (\array_key_exists('saveAndReorder', $inputContentType)) {
+                }
+                if (\array_key_exists('saveAndReorder', $inputContentType)) {
                     return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_REORDER, [
                         'contentType' => $contentType->getId(),
                     ]);
@@ -426,12 +416,12 @@ class ContentTypeController extends AbstractController
         }
 
         if ($contentType->getDirty()) {
-            $this->logger->warning('log.contenttype.dirty', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-            ]);
+            $this->logger->messageWarning(t('message.content_type_dirty', [
+                'label' => $contentType->getSingularName(),
+            ], 'emsco-core'));
         }
 
-        return $this->render("@$this->templateNamespace/contenttype/edit.html.twig", [
+        return $this->render(\sprintf('@%s/contenttype/edit.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'contentType' => $contentType,
             'mapping' => $mapping,
@@ -472,9 +462,9 @@ class ContentTypeController extends AbstractController
                 $this->contentTypeService->persist($contentType);
 
                 if ($contentType->getDirty()) {
-                    $this->logger->warning('log.contenttype.dirty', [
-                        EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-                    ]);
+                    $this->logger->messageWarning(t('message.content_type_dirty', [
+                        'label' => $contentType->getSingularName(),
+                    ], 'emsco-core'));
                 }
                 if (\array_key_exists('saveAndClose', $inputContentType)) {
                     return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_EDIT, [
@@ -490,25 +480,24 @@ class ContentTypeController extends AbstractController
                 return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_STRUCTURE, [
                     'id' => $id,
                 ]);
-            } else {
-                $openModal = $this->fieldTypeManager->handleRequest($contentType->getFieldType(), $inputContentType['fieldType']);
-                $contentType->getFieldType()->updateOrderKeys();
-                $this->contentTypeService->update($contentType, false);
-
-                return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_STRUCTURE, \array_filter([
-                    'id' => $id,
-                    'open' => $openModal,
-                ]));
             }
+            $openModal = $this->fieldTypeManager->handleRequest($contentType->getFieldType(), $inputContentType['fieldType']);
+            $contentType->getFieldType()->updateOrderKeys();
+            $this->contentTypeService->update($contentType, false);
+
+            return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_STRUCTURE, \array_filter([
+                'id' => $id,
+                'open' => $openModal,
+            ]));
         }
 
         if ($contentType->getDirty()) {
-            $this->logger->warning('log.contenttype.dirty', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-            ]);
+            $this->logger->messageWarning(t('message.content_type_dirty', [
+                'label' => $contentType->getSingularName(),
+            ], 'emsco-core'));
         }
 
-        return $this->render("@$this->templateNamespace/contenttype/structure.html.twig", [
+        return $this->render(\sprintf('@%s/contenttype/structure.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'contentType' => $contentType,
             'title' => t('action.reorder', ['type' => 'content_type'], 'emsco-core'),
@@ -540,9 +529,9 @@ class ContentTypeController extends AbstractController
             $this->contentTypeService->persistField($field);
 
             if ($contentType->getDirty()) {
-                $this->logger->warning('log.contenttype.dirty', [
-                    EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-                ]);
+                $this->logger->messageWarning(t('message.content_type_dirty', [
+                    'label' => $contentType->getSingularName(),
+                ], 'emsco-core'));
             }
 
             if ('saveAndClose' === $action) {
@@ -553,7 +542,7 @@ class ContentTypeController extends AbstractController
         } else {
             switch ($action) {
                 case 'subfield':
-                    if (static::isValidName($subFieldName)) {
+                    if (FieldTypeManager::isValidName($subFieldName)) {
                         try {
                             $child = new FieldType();
                             $child->setName($subFieldName);
@@ -562,23 +551,22 @@ class ContentTypeController extends AbstractController
                             $field->addChild($child);
                             $this->fieldTypeRepository->save($field);
 
-                            $this->logger->notice('log.contenttype.subfield.added', [
-                                'subfield_name' => $subFieldName,
-                                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
-                            ]);
+                            $this->logger->messageNotice(t('message.subfield_added', [
+                                'name' => $subFieldName,
+                            ], 'emsco-core'));
                         } catch (OptimisticLockException|ORMException $e) {
-                            throw new ElasticmsException($e->getMessage());
+                            throw new ElasticmsException($e->getMessage(), $e->getCode(), $e);
                         }
                     } else {
-                        $this->logger->error('log.contenttype.field.name_not_valid', [
+                        $this->logger->messageError(t('message.field_name_not_valid', [
                             'field_format' => '/[a-z][a-z0-9_-]*/ !'.Mapping::HASH_FIELD.' !'.Mapping::HASH_FIELD,
-                        ]);
+                        ], 'emsco-core'));
                     }
                     break;
                 default:
-                    $this->logger->warning('log.contenttype.action_not_found', [
-                        EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-                    ]);
+                    $this->logger->messageWarning(t('message.content_type_action_not_found', [
+                        'label' => $contentType->getSingularName(),
+                    ], 'emsco-core'));
             }
         }
 

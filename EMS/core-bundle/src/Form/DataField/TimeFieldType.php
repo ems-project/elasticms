@@ -15,6 +15,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * Basic content type for text (regular text input).
@@ -27,9 +30,15 @@ class TimeFieldType extends DataFieldType
     final public const string INDEXFORMAT = 'HH:mm:ss';
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Time field';
+        return ['type' => 'string'];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.time', [], 'emsco-core');
     }
 
     #[\Override]
@@ -42,10 +51,10 @@ class TimeFieldType extends DataFieldType
     public function importData(DataField $dataField, array|string|int|float|bool|null $sourceArray, bool $isMigration): array
     {
         $migrationOptions = $dataField->giveFieldType()->getMigrationOptions();
-        if (!$isMigration || empty($migrationOptions) || !$migrationOptions['protected']) {
+        if (!$isMigration || [] === $migrationOptions || !$migrationOptions['protected']) {
             $format = DateTime::convertFormat('java', $dataField->giveFieldType()->getMappingOption('format'));
 
-            $timeObject = !\is_array($sourceArray) ? \DateTime::createFromFormat($format, (string) $sourceArray) : false;
+            $timeObject = \is_array($sourceArray) ? false : \DateTime::createFromFormat($format, (string) $sourceArray);
             if ($timeObject) {
                 $dataField->setRawData($timeObject->format(\DateTimeInterface::ATOM));
             } else {
@@ -63,11 +72,7 @@ class TimeFieldType extends DataFieldType
      */
     public static function getFormat(array $options): string
     {
-        if ($options['displayOptions']['showMeridian']) {
-            $format = 'g:i';
-        } else {
-            $format = 'G:i';
-        }
+        $format = $options['displayOptions']['showMeridian'] ? 'g:i' : 'G:i';
 
         if ($options['displayOptions']['showSeconds']) {
             $format .= ':s';
@@ -104,8 +109,8 @@ class TimeFieldType extends DataFieldType
     {
         $format = static::getFormat($fieldType->getOptions());
 
-        $converted = !\is_array($data) ? \DateTime::createFromFormat($format, (string) $data) : false;
-        $convertedFromStoreFormat = !\is_array($data) ? \DateTime::createFromFormat($this::STOREFORMAT, (string) $data) : false;
+        $converted = \is_array($data) ? false : \DateTime::createFromFormat($format, (string) $data);
+        $convertedFromStoreFormat = \is_array($data) ? false : \DateTime::createFromFormat($this::STOREFORMAT, (string) $data);
         if ($converted) {
             $out = $converted->format($this::STOREFORMAT);
         } elseif ($convertedFromStoreFormat) {
@@ -183,31 +188,34 @@ class TimeFieldType extends DataFieldType
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')->add('format', TextType::class, [
+                'label' => t('field.format', [], 'emsco-core'),
                 'required' => false,
                 'empty_data' => 'HH:mm:ss',
                 'attr' => [
-                    'placeholder' => 'i.e. HH:mm:ss',
+                    'placeholder' => t('placeholder.for_example', ['example' => 'HH:mm:ss'], 'emsco-core'),
                 ],
             ]);
         }
 
         $optionsForm->get('displayOptions')->add('minuteStep', IntegerType::class, [
+            'label' => t('field.minute_step', [], 'emsco-core'),
             'required' => false,
             'empty_data' => 15,
         ]);
         $optionsForm->get('displayOptions')->add('showMeridian', CheckboxType::class, [
             'required' => false,
-            'label' => 'Show meridian (true: 12hr, false: 24hr)',
+            'label' => t('field.show_meridian', [], 'emsco-core'),
         ]);
         $optionsForm->get('displayOptions')->add('defaultTime', TextType::class, [
             'required' => false,
-            'label' => 'Default time (Deprecated)',
+            'label' => t('field.default_time', [], 'emsco-core'),
         ]);
         $optionsForm->get('displayOptions')->add('showSeconds', CheckboxType::class, [
+            'label' => t('field.show_seconds', [], 'emsco-core'),
             'required' => false,
         ]);
         $optionsForm->get('displayOptions')->add('explicitMode', CheckboxType::class, [
-            'label' => 'Explicit mode (Deprecated)',
+            'label' => t('field.explicit_mode', [], 'emsco-core'),
             'required' => false,
         ]);
     }

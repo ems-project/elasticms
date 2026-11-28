@@ -33,8 +33,8 @@ final class PdfHandler extends AbstractHandler
             $handleResponse = new PdfHandleResponse($pdfRequest, $pdfOutput);
 
             return $this->responseTransformer->transform($handleRequest, $handleResponse);
-        } catch (\Throwable $exception) {
-            return new FailedHandleResponse($exception);
+        } catch (\Throwable $throwable) {
+            return new FailedHandleResponse($throwable);
         }
     }
 }

@@ -13,7 +13,11 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * Defined a Container content type.
@@ -29,15 +33,22 @@ class TabsFieldType extends DataFieldType
         AuthorizationCheckerInterface $authorizationChecker,
         FormRegistryInterface $formRegistry,
         ElasticsearchService $elasticsearchService,
+        TokenStorageInterface $tokenStorage,
         private readonly UserManager $userManager
     ) {
-        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
+        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService, $tokenStorage);
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Visual tab container (invisible in Elasticsearch)';
+        return $buildObjectSchema($fieldType->getValidChildren());
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.tabs', [], 'emsco-core');
     }
 
     #[\Override]
@@ -108,6 +119,7 @@ class TabsFieldType extends DataFieldType
 
         $optionsForm->get('displayOptions')
             ->add(self::LOCALE_PREFERRED_FIRST_DISPLAY_OPTION, CheckboxType::class, [
+                'label' => t('field.locale_preferred_first', [], 'emsco-core'),
                 'required' => false,
             ]);
 

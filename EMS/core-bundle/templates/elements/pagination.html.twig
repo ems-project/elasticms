@@ -1,4 +1,4 @@
-{% trans_default_domain 'EMSCoreBundle' %}{#
+{% trans_default_domain 'emsco-core' %}{#
   Parameters:
     * currentFilters (array) : associative array that contains the current route-arguments
     * currentPage (int) : the current page you are in
@@ -11,11 +11,9 @@
     {% set currentPage = paging.page %}
     {% set lastPage = paging.lastPage %}
     {% set paginationPath = paging.paginationPath %}
-{%  endif %}
-
+{% endif %}
 
 {% if lastPage > 1 %}
-
     {# the number of first and last pages to be displayed #}
     {% set extremePagesLimit = 3 %}
     {% if not pageParameter is defined %}

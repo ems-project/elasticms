@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Helpers\File;
 
 use EMS\Helpers\Standard\Type;
+use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Message\StreamInterface;
 
 class TempFile
@@ -38,13 +39,13 @@ class TempFile
     public function loadFromStream(StreamInterface $stream, ?callable $callback = null): self
     {
         if (!$handle = \fopen($this->path, 'w')) {
-            throw new \RuntimeException(\sprintf('Can\'t open a temporary file %s', $this->path));
+            throw new \RuntimeException(\sprintf("Can't open a temporary file %s", $this->path));
         }
 
         while (!$stream->eof()) {
             $size = \fwrite($handle, $stream->read(File::DEFAULT_CHUNK_SIZE));
             if (false === $size) {
-                throw new \RuntimeException(\sprintf('Can\'t write in temporary file %s', $this->path));
+                throw new \RuntimeException(\sprintf("Can't write in temporary file %s", $this->path));
             }
             if (null !== $callback) {
                 $callback($size);
@@ -52,7 +53,7 @@ class TempFile
         }
 
         if (false === \fclose($handle)) {
-            throw new \RuntimeException(\sprintf('Can\'t close the temporary file %s', $this->path));
+            throw new \RuntimeException(\sprintf("Can't close the temporary file %s", $this->path));
         }
 
         return $this;
@@ -90,5 +91,15 @@ class TempFile
         if ($numberOfBytes !== \strlen($contents)) {
             throw new \RuntimeException(\sprintf('Size mismatched! %d were written, %d were expected.', $numberOfBytes, \strlen($contents)));
         }
+    }
+
+    public function getOutputStream(): StreamInterface
+    {
+        $resource = \fopen($this->path, 'wb');
+        if (false === $resource) {
+            throw new \RuntimeException('Unable to open the temporary file in wr');
+        }
+
+        return Utils::streamFor($resource);
     }
 }

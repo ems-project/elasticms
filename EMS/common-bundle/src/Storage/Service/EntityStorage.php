@@ -73,6 +73,7 @@ class EntityStorage implements StorageInterface, \Stringable
         $entity->setSize($size);
         $entity->setContents($content);
         $entity->setConfirmed(true);
+
         $this->manager->persist($entity);
         $this->manager->flush();
 

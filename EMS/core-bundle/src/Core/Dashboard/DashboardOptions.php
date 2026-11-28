@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Dashboard;
 
+use EMS\Helpers\Standard\Type;
+
 /**
- * @implements \ArrayAccess<string, string>
+ * @implements \ArrayAccess<string, mixed>
  */
 class DashboardOptions implements \ArrayAccess
 {
@@ -19,6 +21,18 @@ class DashboardOptions implements \ArrayAccess
     final public const string FILENAME = 'filename';
     final public const string MIMETYPE = 'mimetype';
     final public const string FILE_DISPOSITION = 'fileDisposition';
+    final public const string ENVIRONMENTS = 'environments';
+    final public const string CONTENT_TYPES = 'contentTypes';
+    final public const string SORT_BY = 'sortBy';
+    final public const string SORT_ORDER = 'sortOrder';
+    final public const string MINIMUM_SHOULD_MATCH = 'minimumShouldMatch';
+    final public const string FILTERS = 'filters';
+    final public const string SORT_OPTIONS = 'sortOptions';
+    final public const string AGGREGATE_OPTIONS = 'aggregateOptions';
+    final public const string SEARCH_FIELD_OPTIONS = 'searchFieldOptions';
+    final public const string MATOMO_URL = 'matomoUrl';
+    final public const string MATOMO_SITE_ID = 'matomoSiteId';
+    final public const string MATOMO_TOKEN_AUTH = 'matomoTokenAuth';
 
     private const array OPTIONS = [
         self::BODY,
@@ -27,10 +41,22 @@ class DashboardOptions implements \ArrayAccess
         self::FILENAME,
         self::MIMETYPE,
         self::FILE_DISPOSITION,
+        self::ENVIRONMENTS,
+        self::CONTENT_TYPES,
+        self::SORT_BY,
+        self::SORT_ORDER,
+        self::MINIMUM_SHOULD_MATCH,
+        self::FILTERS,
+        self::SORT_OPTIONS,
+        self::AGGREGATE_OPTIONS,
+        self::SEARCH_FIELD_OPTIONS,
+        self::MATOMO_URL,
+        self::MATOMO_SITE_ID,
+        self::MATOMO_TOKEN_AUTH,
     ];
 
     /**
-     * @param array<string, ?string> $data
+     * @param array<string, mixed> $data
      */
     public function __construct(array $data)
     {
@@ -42,7 +68,7 @@ class DashboardOptions implements \ArrayAccess
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, mixed>
      */
     public function getOptions(): array
     {
@@ -55,15 +81,36 @@ class DashboardOptions implements \ArrayAccess
         return isset($this->options[$offset]);
     }
 
+    /**
+     * @return mixed[]|string|null
+     */
     #[\Override]
-    public function offsetGet($offset): ?string
+    public function offsetGet($offset): mixed
     {
         return $this->options[$offset] ?? null;
+    }
+
+    public function getNullableString(string $offset, ?string $default = null): ?string
+    {
+        return isset($this->options[$offset]) ? Type::string($this->options[$offset]) : $default;
+    }
+
+    /**
+     * @param  mixed[] $default
+     * @return mixed[]
+     */
+    public function getArray(string $offset, array $default = []): array
+    {
+        return Type::array($this->options[$offset] ?? $default);
     }
 
     #[\Override]
     public function offsetSet($offset, $value): void
     {
+        if (null === $offset) {
+            return;
+        }
+
         $this->options[$offset] = $value;
     }
 
@@ -71,5 +118,10 @@ class DashboardOptions implements \ArrayAccess
     public function offsetUnset($offset): void
     {
         unset($this->options[$offset]);
+    }
+
+    public function getInteger(string $offset, ?int $default = null): int
+    {
+        return Type::integer($this->options[$offset] ?? $default);
     }
 }

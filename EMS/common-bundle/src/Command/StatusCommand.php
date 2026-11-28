@@ -43,8 +43,7 @@ class StatusCommand extends AbstractCommand
                 self::OPTION_WAIT_FOR_STATUS,
                 null,
                 InputOption::VALUE_REQUIRED,
-                'One of green, yellow or red. Will wait (until the timeout provided) until the status of the cluster changes to the one provided or better, i.e. green > yellow > red.',
-                null
+                'One of green, yellow or red. Will wait (until the timeout provided) until the status of the cluster changes to the one provided or better, i.e. green > yellow > red.'
             )
             ->addOption(
                 self::OPTION_TIMEOUT,

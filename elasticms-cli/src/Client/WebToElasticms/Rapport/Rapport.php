@@ -22,7 +22,7 @@ class Rapport
     /** @var string[][] */
     private array $extractErrors = [['Type', 'URL', 'Locale', 'Selector', 'Strategy', 'Property', 'Attribute', 'Count']];
     /** @var string[][] */
-    private array $urlsInError = [['Doc\'s URLs', 'URLs', 'Code', 'Message', 'Type']];
+    private array $urlsInError = [["Doc's URLs", 'URLs', 'Code', 'Message', 'Type']];
     /** @var string[][] */
     private array $dataLinksInError = [['Path', 'Referrers']];
     /** @var string[][] */

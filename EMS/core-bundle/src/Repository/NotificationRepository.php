@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Form\NotificationFilter;
@@ -23,11 +23,15 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  * @extends ServiceEntityRepository<Notification>
  *
  * @method Notification|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Notification|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method Notification[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class NotificationRepository extends ServiceEntityRepository
 {
-    public function __construct(Registry $registry, private readonly AuthorizationCheckerInterface $authorizationChecker)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private readonly AuthorizationCheckerInterface $authorizationChecker
+    ) {
         parent::__construct($registry, Notification::class);
     }
 
@@ -134,7 +138,7 @@ class NotificationRepository extends ServiceEntityRepository
         $qb = $this->getQueryBuilderForSent($user, $notificationFilter->contentType->toArray());
         $qb->select('n')->setFirstResult($from)->setMaxResults($limit);
 
-        if (\count($notificationFilter->environment) > 0) {
+        if ([] !== $notificationFilter->environment) {
             $qb->andWhere('n.environment IN (:envs)')->setParameter('envs', $notificationFilter->environment);
         }
 
@@ -168,7 +172,7 @@ class NotificationRepository extends ServiceEntityRepository
 
         $templateIds = $this->getTemplatesIdsForUserFrom($user, $contentTypes);
 
-        if (\count($templateIds) > 0) {
+        if ([] !== $templateIds) {
             $qb->andWhere('n.template IN (:ids)')->setParameter('ids', $templateIds);
         }
 
@@ -255,9 +259,7 @@ class NotificationRepository extends ServiceEntityRepository
             ->setMaxResults($limit);
         $query = $qb->getQuery();
 
-        $results = $query->getResult();
-
-        return $results;
+        return $query->getResult();
     }
 
     /**
@@ -284,7 +286,7 @@ class NotificationRepository extends ServiceEntityRepository
                     $templateIds[] = $template->getId();
                 } else {
                     $commonCircle = \array_intersect($circles, $template->getCirclesTo());
-                    if (!empty($commonCircle) || $this->authorizationChecker->isGranted('ROLE_USER_MANAGEMENT')) {
+                    if ([] !== $commonCircle || $this->authorizationChecker->isGranted('ROLE_USER_MANAGEMENT')) {
                         $templateIds[] = $template->getId();
                     }
                 }
@@ -311,7 +313,7 @@ class NotificationRepository extends ServiceEntityRepository
         $templateIds = [];
         foreach ($results as $template) {
             foreach ($template->getEnvironments() as $environment) {
-                if (empty($environment->getCircles()) || \count(\array_intersect($environment->getCircles(), $user->getCircles())) > 0) {
+                if (empty($environment->getCircles()) || [] !== \array_intersect($environment->getCircles(), $user->getCircles())) {
                     $templateIds[] = $template->getId();
                     break;
                 }

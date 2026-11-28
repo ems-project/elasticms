@@ -26,6 +26,7 @@ class NestedChoiceType extends Form
         /** @var FieldConfig $config */
         $config = $this->getFieldConfig($options);
         $config->setClassName(ChoiceSelect::class);
+
         $choices = $config->getChoices();
         $field = $this->createField($config);
         $fieldOptions = $field->getOptions();
@@ -78,7 +79,7 @@ class NestedChoiceType extends Form
     }
 
     #[\Override]
-    public function getBlockPrefix(): ?string
+    public function getBlockPrefix(): string
     {
         return 'ems_nested_choice';
     }

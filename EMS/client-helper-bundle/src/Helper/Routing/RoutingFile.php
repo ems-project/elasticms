@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Routing;
 
+use EMS\ClientHelperBundle\Helper\Templating\TemplateFile;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateFiles;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateName;
+use EMS\Helpers\File\File;
 use EMS\Helpers\Standard\Json;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 final class RoutingFile implements \Countable
@@ -45,7 +46,7 @@ final class RoutingFile implements \Countable
             $data = $document->getDataSource();
             if (isset($data['template_static'])) {
                 $templateFile = $templateFiles->find(new TemplateName($data['template_static']));
-                $data['template_static'] = $templateFile ? $templateFile->getPathName() : $data['template_static'];
+                $data['template_static'] = $templateFile instanceof TemplateFile ? $templateFile->getPathName() : $data['template_static'];
             }
 
             if (isset($data['config'])) {
@@ -57,11 +58,26 @@ final class RoutingFile implements \Countable
             $routes[$document->getName()] = $data;
         }
 
-        $fileName = $directory.\DIRECTORY_SEPARATOR.self::FILE_NAME;
-        $fs = new Filesystem();
-        $fs->dumpFile($fileName, $routes ? Yaml::dump($routes, 3) : '');
+        $fileName = self::getFileName($directory);
+        self::saveRoutesInLocale($routes, $fileName);
 
         return new self($directory, $templateFiles);
+    }
+
+    public static function normalize(string $directory): bool
+    {
+        $fileName = self::getFileName($directory);
+        if (!\is_file($fileName)) {
+            return false;
+        }
+
+        $routes = Yaml::parseFile($fileName) ?? [];
+        if (!\is_array($routes)) {
+            throw new \RuntimeException(\sprintf('Routes file %s must contain a YAML mapping', $fileName));
+        }
+        self::saveRoutesInLocale($routes, $fileName);
+
+        return true;
     }
 
     /**
@@ -75,7 +91,7 @@ final class RoutingFile implements \Countable
         foreach ($this->routes as $name => $route) {
             if (isset($route['template_static'])) {
                 $template = $this->templateFiles->find(new TemplateName($route['template_static']));
-                if ($template) {
+                if ($template instanceof TemplateFile) {
                     $route['template_static'] = $template->getPathOuuid();
                 }
             }
@@ -109,12 +125,25 @@ final class RoutingFile implements \Countable
         foreach ($this->routes as $name => $data) {
             if (isset($data['template_static'])) {
                 $template = $this->templateFiles->find(new TemplateName($data['template_static']));
-                $data['template_static'] = $template ? $template->getPathName() : $data['template_static'];
+                $data['template_static'] = $template instanceof TemplateFile ? $template->getPathName() : $data['template_static'];
             }
 
             $routes[] = Route::fromData($name, $data);
         }
 
         return $routes;
+    }
+
+    private static function getFileName(string $directory): string
+    {
+        return $directory.\DIRECTORY_SEPARATOR.self::FILE_NAME;
+    }
+
+    /**
+     * @param mixed[] $routes
+     */
+    private static function saveRoutesInLocale(array $routes, string $fileName): void
+    {
+        File::putContents($fileName, [] !== $routes ? Yaml::dump($routes, 3) : '');
     }
 }

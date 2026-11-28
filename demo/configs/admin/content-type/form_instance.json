@@ -5,6 +5,8 @@
         "name": "form_instance",
         "pluralName": "Forms",
         "singularName": "Form",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": null,
         "icon": "fa fa-paper-plane",
         "description": null,
         "indexTwig": null,
@@ -1639,7 +1641,7 @@
                                                                                     "class": "col-md-12",
                                                                                     "height": 200,
                                                                                     "format_tags": null,
-                                                                                    "styles_set": "Default",
+                                                                                    "styles_set": null,
                                                                                     "content_css": null,
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
@@ -2332,6 +2334,7 @@
                 "properties": {
                     "name": "debug",
                     "label": "Debug",
+                    "labelTranslations": null,
                     "icon": "fa fa-bug",
                     "body": "{{ block('form_instance_debug', '@EMSCH/template_ems/actions.twig') }}",
                     "header": null,
@@ -2373,6 +2376,7 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
+                    "labelTranslations": null,
                     "icon": "fa fa-list-ul",
                     "options": {
                         "body": "{}",
@@ -2393,7 +2397,8 @@
         "versionTags": [],
         "versionOptions": {
             "dates_read_only": true,
-            "dates_interval_one_day": false
+            "dates_interval_one_day": false,
+            "not_blank_new_version": false
         },
         "versionFields": {
             "date_from": null,
@@ -2408,8 +2413,7 @@
             "delete": "ROLE_PUBLISHER",
             "trash": "ROLE_WEBMASTER",
             "archive": "not-defined",
-            "show_link_create": "ROLE_USER",
-            "show_link_search": "not-defined"
+            "show_link_create": "ROLE_USER"
         },
         "fields": {
             "display": null,
@@ -2425,8 +2429,13 @@
         "settings": {
             "tasks_enabled": false,
             "tasks_titles": [],
-            "hide_revision_sidebar": false
-        }
+            "tasks_helptexts": [],
+            "hide_revision_sidebar": false,
+            "recompute_on_publish": false
+        },
+        "querySearch": "forms"
     },
-    "replaced": []
+    "replaced": [
+        "querySearch"
+    ]
 }

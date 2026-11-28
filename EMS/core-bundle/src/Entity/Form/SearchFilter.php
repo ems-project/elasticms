@@ -4,22 +4,15 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Entity\Form;
 
-use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
+use EMS\Helpers\Standard\Type;
 
 class SearchFilter implements \JsonSerializable
 {
-    use IdentifierIntegerTrait;
-
-    private ?Search $search = null;
     public ?string $pattern = null;
     public ?string $field = null;
     public ?string $booleanClause = 'must';
     public string $operator = 'query_and';
     public ?string $boost = null;
-
-    public function __construct()
-    {
-    }
 
     /**
      * @return array<string, mixed>
@@ -34,6 +27,19 @@ class SearchFilter implements \JsonSerializable
             'operator' => $this->operator,
             'boost' => $this->boost,
         ];
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    public static function fromArray(array $data): self
+    {
+        return new self()
+            ->setPattern(Type::nullableString($data['pattern'] ?? null))
+            ->setField(Type::nullableString($data['field'] ?? null))
+            ->setBooleanClause(Type::string($data['booleanClause'] ?? 'must'))
+            ->setOperator(Type::string($data['operator'] ?? 'query_and'))
+            ->setBoost(Type::nullableString($data['boost'] ?? null));
     }
 
     /**
@@ -210,21 +216,9 @@ class SearchFilter implements \JsonSerializable
 
     public function setBoost(?string $boost): self
     {
-        $this->boost = $boost ? (string) $boost : null;
+        $this->boost = $boost;
 
         return $this;
-    }
-
-    public function setSearch(?Search $search = null): self
-    {
-        $this->search = $search;
-
-        return $this;
-    }
-
-    public function getSearch(): ?Search
-    {
-        return $this->search;
     }
 
     public function setBooleanClause(?string $booleanClause): self

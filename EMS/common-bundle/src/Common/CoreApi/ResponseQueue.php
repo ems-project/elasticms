@@ -36,7 +36,7 @@ class ResponseQueue implements \Countable
 
     public function flush(): self
     {
-        foreach ($this->responses as $i => $response) {
+        foreach (\array_keys($this->responses) as $i) {
             unset($this->responses[$i]);
         }
 

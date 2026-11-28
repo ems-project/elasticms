@@ -31,7 +31,7 @@ class CacheAiTest extends TestCase
     #[\Override]
     protected function tearDown(): void
     {
-        \array_map(unlink(...), \glob("$this->cacheDir/*.*"));
+        \array_map(unlink(...), \glob($this->cacheDir.'/*.*'));
         $this->removeDirectory($this->cacheDir);
     }
 
@@ -71,6 +71,7 @@ class CacheAiTest extends TestCase
         $this->cache = new Cache(['type' => Cache::TYPE_FILE_SYSTEM, 'prefix' => 'test_prefix_'], $this->cacheDir);
         $item = $this->cache->getItem('test_key');
         $item->set('test_value');
+
         $this->cache->save($item);
 
         $savedItem = $this->cache->getItem('test_key');
@@ -83,9 +84,11 @@ class CacheAiTest extends TestCase
         $this->cache = new Cache(['type' => Cache::TYPE_FILE_SYSTEM, 'prefix' => 'test_prefix_'], $this->cacheDir);
         $item = $this->cache->getItem('test_key');
         $item->set('test_value');
+
         $this->cache->save($item);
 
         $this->cache->delete('test_key');
+
         $deletedItem = $this->cache->getItem('test_key');
         $this->assertFalse($deletedItem->isHit());
     }
@@ -95,10 +98,12 @@ class CacheAiTest extends TestCase
         $this->cache = new Cache(['type' => Cache::TYPE_FILE_SYSTEM, 'prefix' => 'test_prefix_'], $this->cacheDir);
         $item1 = $this->cache->getItem('test_key1');
         $item1->set('test_value1');
+
         $this->cache->save($item1);
 
         $item2 = $this->cache->getItem('test_key2');
         $item2->set('test_value2');
+
         $this->cache->save($item2);
 
         $this->cache->clear();

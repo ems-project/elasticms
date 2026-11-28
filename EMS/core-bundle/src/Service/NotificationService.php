@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CoreBundle\Core\ContentType\Action\EventType;
@@ -25,19 +26,26 @@ use EMS\CoreBundle\Event\RevisionUnpublishEvent;
 use EMS\CoreBundle\Exception\SkipNotificationException;
 use EMS\CoreBundle\Form\Field\RenderOptionType;
 use EMS\CoreBundle\Repository\NotificationRepository;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Twig\Environment as TwigEnvironment;
 use Twig\Error\Error;
 
+use function Symfony\Component\Translation\t;
+
 class NotificationService
 {
     private bool $dryRun = false;
 
-    public function __construct(private readonly Registry $doctrine, private readonly UserService $userService, private readonly LoggerInterface $logger, private readonly DataService $dataService, private readonly MailerService $mailerService, private readonly TwigEnvironment $twig)
-    {
+    public function __construct(
+        private readonly Registry $doctrine,
+        private readonly UserService $userService,
+        private readonly LocalizedLoggerInterface $logger,
+        private readonly DataService $dataService,
+        private readonly MailerService $mailerService,
+        private readonly TwigEnvironment $twig
+    ) {
     }
 
     public function publishEvent(RevisionPublishEvent $event): void
@@ -89,12 +97,14 @@ class NotificationService
         /** @var NotificationRepository $repository */
         $repository = $em->getRepository(Notification::class);
         $notifications = $repository->findByRevisionOuuidAndEnvironment($event->getRevision(), $event->getRevision()->giveContentType()->giveEnvironment());
+        $revision = $event->getRevision();
 
         foreach ($notifications as $notification) {
-            $this->logger->warning('service.notification.notification_will_be_lost_finalize', [
-                ...LogRevisionContext::read($notification->getRevision()),
-                ...['notification_name' => $notification->getTemplate()->getName()],
-            ]);
+            $this->logger->messageWarning(t('message.notification_will_be_lost_on_finalize', [
+                'content_type' => $revision->giveContentType()->getSingularName(),
+                'ouuid' => $revision->getOuuid(),
+                'notification_name' => $notification->getTemplate()->getLabel(),
+            ], 'emsco-core'), LogRevisionContext::read($revision));
         }
         $this->triggerEventActions($event, EventType::NewDraft);
     }
@@ -110,7 +120,7 @@ class NotificationService
         $userName = $this->userService->getCurrentUser()->getUserName();
 
         $notification->setStatus($status);
-        if ('acknowledged' != $status) {
+        if ('acknowledged' !== $status) {
             $notification->setResponseBy($userName);
         }
 
@@ -118,20 +128,21 @@ class NotificationService
         $em->persist($notification);
         $em->flush();
 
-        $context = [
-            ...LogRevisionContext::read($notification->getRevision()),
-            ...[
-                'notification_name' => $notification->getTemplate()->getName(),
-                'notification_status' => $status,
-            ],
-        ];
+        $revision = $notification->getRevision();
+
+        $message = t('message.notification_updated', [
+            'notification_name' => $notification->getTemplate()->getName(),
+            'notification_status' => $status,
+            'ouuid' => $revision->getOuuid(),
+            'content_type' => $revision->giveContentType()->getSingularName(),
+        ], 'emsco-core');
 
         if ('error' === $level) {
-            $this->logger->error('service.notification.update', $context);
+            $this->logger->messageError($message, LogRevisionContext::read($notification->getRevision()));
         } elseif ('warning' === $level) {
-            $this->logger->warning('service.notification.update', $context);
+            $this->logger->messageWarning($message, LogRevisionContext::read($notification->getRevision()));
         } else {
-            $this->logger->notice('service.notification.update', $context);
+            $this->logger->messageNotice($message, LogRevisionContext::read($notification->getRevision()));
         }
 
         return $this;
@@ -144,7 +155,7 @@ class NotificationService
     {
         $out = false;
         try {
-            if (!\in_array($template->getRenderOption(), [RenderOptionType::NOTIFICATION])) {
+            if (RenderOptionType::NOTIFICATION !== $template->getRenderOption()) {
                 throw new \RuntimeException(\sprintf('Unexpected %s action', $template->getRenderOption()));
             }
             $notification = new Notification();
@@ -164,13 +175,13 @@ class NotificationService
             if (!empty($alreadyPending)) {
                 /** @var Notification $alreadyPending */
                 $alreadyPending = $alreadyPending[0];
-                $this->logger->warning('service.notification.another_one_is_pending', [
-                    ...LogRevisionContext::read($revision),
-                    ...[
-                        'notification_name' => $alreadyPending->getTemplate()->getName(),
-                        'notification_username' => $alreadyPending->getUsername(),
-                    ],
-                ]);
+
+                $this->logger->messageWarning(t('message.notification_already_pending', [
+                    'notification_name' => $alreadyPending->getTemplate()->getName(),
+                    'notification_username' => $alreadyPending->getUsername(),
+                    'label' => $revision->getLabel(),
+                    'environment' => $environment->getLabel(),
+                ], 'emsco-core'), LogRevisionContext::read($revision));
 
                 return null;
             }
@@ -194,10 +205,11 @@ class NotificationService
             $em->persist($notification);
             $em->flush();
 
-            $this->logger->notice('service.notification.send', [
-                ...LogRevisionContext::read($notification->getRevision()),
-                ...['notification_name' => $notification->getTemplate()->getName()],
-            ]);
+            $this->logger->messageNotice(t('message.notification_sent', [
+                'notification_name' => $notification->getTemplate()->getName(),
+                'label' => $revision->getLabel(),
+                'environment' => $environment->getLabel(),
+            ], 'emsco-core'), LogRevisionContext::read($notification->getRevision()));
             $out = true;
         } catch (SkipNotificationException $e) {
             $this->logger->warning($e->getMessage(), [
@@ -210,14 +222,14 @@ class NotificationService
                 ],
             ]);
         } catch (\Exception $e) {
-            $this->logger->error('service.notification.send_error', [
+            $this->logger->messageError(t('message.notification_send_error', [
+                'action_label' => $template->getLabel(),
+                'content_type' => $revision->giveContentType()->getSingularName(),
+                'error_message' => $e->getMessage(),
+            ], 'emsco-core'), [
                 ...LogRevisionContext::read($revision),
-                ...[
-                    'action_name' => $template->getName(),
-                    'action_label' => $template->getLabel(),
-                    EmsFields::LOG_EXCEPTION_FIELD => $e,
-                    EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                ],
+                EmsFields::LOG_EXCEPTION_FIELD => $e,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
             ]);
         }
 
@@ -227,7 +239,7 @@ class NotificationService
     /**
      * @param ?array<string, mixed> $filters
      */
-    public function menuNotification(?array $filters = null): int
+    public function countNotifications(?array $filters = null): int
     {
         $contentTypes = null;
         $environments = null;
@@ -248,9 +260,8 @@ class NotificationService
         $repository = $em->getRepository(Notification::class);
 
         $count = $repository->countPendingByUserRoleAndCircle($this->userService->getCurrentUser(), $contentTypes, $environments, $templates);
-        $count += $repository->countRejectedForUser($this->userService->getCurrentUser());
 
-        return $count;
+        return $count + $repository->countRejectedForUser($this->userService->getCurrentUser());
     }
 
     public function countPending(): int
@@ -400,6 +411,7 @@ class NotificationService
         $notification->setResponseTimestamp(new \DateTime());
         $notification->setResponseBy($this->userService->getCurrentUser()->getUsername());
         $notification->setStatus($status);
+
         $em = $this->doctrine->getManager();
         $em->persist($notification);
         $em->flush();
@@ -409,14 +421,12 @@ class NotificationService
         } catch (\Throwable) {
         }
 
-        $this->logger->notice('service.notification.treated', [
-            ...LogRevisionContext::read($notification->getRevision()),
-            ...[
-                'notification_name' => $notification->getTemplate()->getName(),
-                'status' => $notification->getStatus(),
-                'label' => $notification->getRevision()->getLabel(),
-            ],
-        ]);
+        $this->logger->messageNotice(t('message.notification_treated', [
+            'notification_name' => $notification->getTemplate()->getName(),
+            'status' => $notification->getStatus(),
+            'label' => $notification->getRevision()->getLabel(),
+            'environment' => $notification->getRevision()->giveContentType()->giveEnvironment()->getLabel(),
+        ], 'emsco-core'), LogRevisionContext::read($notification->getRevision()));
     }
 
     public function accept(Notification $notification, TreatNotifications $treatNotifications): void
@@ -434,7 +444,7 @@ class NotificationService
      *
      * @return array<string, Address>
      */
-    private static function usersToEmailAddresses(array $users): array
+    private function usersToEmailAddresses(array $users): array
     {
         $out = [];
 
@@ -456,9 +466,9 @@ class NotificationService
 
         $toCircles = \array_unique(\array_merge($fromCircles, $notification->getTemplate()->getCirclesTo()));
 
-        $fromUser = self::usersToEmailAddresses(\array_filter([$this->userService->getUser($notification->getUsername())]));
-        $toUsers = self::usersToEmailAddresses($this->userService->getUsersForRoleAndCircles($notification->getTemplate()->getRoleTo(), $toCircles));
-        $ccUsers = self::usersToEmailAddresses($this->userService->getUsersForRoleAndCircles($notification->getTemplate()->getRoleCc(), $toCircles));
+        $fromUser = $this->usersToEmailAddresses(\array_filter([$this->userService->getUser($notification->getUsername())]));
+        $toUsers = $this->usersToEmailAddresses($this->userService->getUsersForRoleAndCircles($notification->getTemplate()->getRoleTo(), $toCircles));
+        $ccUsers = $this->usersToEmailAddresses($this->userService->getUsersForRoleAndCircles($notification->getTemplate()->getRoleCc(), $toCircles));
 
         $email = new Email();
         $params = [
@@ -485,7 +495,7 @@ class NotificationService
                 ->to(...\array_values($toUsers));
 
             $cc = [...$ccUsers, ...$fromUser];
-            if ($cc) {
+            if ([] !== $cc) {
                 $email->cc(...\array_values($cc));
             }
 
@@ -503,7 +513,7 @@ class NotificationService
                 ->to(...\array_values($fromUser));
 
             $cc = [...$ccUsers, ...$toUsers];
-            if ($cc) {
+            if ([] !== $cc) {
                 $email->cc(...\array_values($cc));
             }
 

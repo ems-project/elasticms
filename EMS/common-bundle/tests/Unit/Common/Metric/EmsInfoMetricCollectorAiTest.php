@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Tests\Unit\Common\Metric;
 
 use EMS\CommonBundle\Common\Composer\ComposerInfo;
 use EMS\CommonBundle\Common\Metric\EmsInfoMetricCollector;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Prometheus\CollectorRegistry;
 use Prometheus\Gauge;
@@ -22,17 +23,20 @@ class EmsInfoMetricCollectorAiTest extends TestCase
         $this->emsInfoMetricCollector = new EmsInfoMetricCollector($this->composerInfo);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetName(): void
     {
         $this->assertSame('ems_info', $this->emsInfoMetricCollector->getName());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testValidUntil(): void
     {
         $timestamp = $this->emsInfoMetricCollector->validUntil();
         $this->assertGreaterThan(\time(), $timestamp);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testCollect(): void
     {
         $versionPackages = ['package1' => '1.0.0', 'package2' => '2.0.0'];

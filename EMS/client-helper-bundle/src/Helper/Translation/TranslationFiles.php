@@ -13,19 +13,19 @@ use Symfony\Component\Translation\MessageCatalogue;
  */
 final class TranslationFiles implements \IteratorAggregate, \Countable
 {
+    private const string DIRECTORY = 'translations';
     /** @var TranslationFile[] */
     private array $files = [];
-
-    private const string DIRECTORY = 'translations';
+    private string $path;
 
     public function __construct(string $directory)
     {
-        $path = $directory.\DIRECTORY_SEPARATOR.self::DIRECTORY;
+        $this->path = self::getPath($directory);
 
-        if (!\file_exists($path)) {
+        if (!\file_exists($this->path)) {
             return;
         }
-        foreach (Finder::create()->in($path)->files()->name('*.yaml') as $file) {
+        foreach (Finder::create()->in($this->path)->files()->name('*.yaml') as $file) {
             $this->files[] = new TranslationFile($file);
         }
     }
@@ -35,14 +35,36 @@ final class TranslationFiles implements \IteratorAggregate, \Countable
      */
     public static function build(string $directory, iterable $messageCatalogues): self
     {
-        $path = $directory.\DIRECTORY_SEPARATOR.self::DIRECTORY;
-        $dumper = new YamlFileDumper('yaml');
-
+        $path = self::getPath($directory);
         foreach ($messageCatalogues as $messageCatalogue) {
-            $dumper->dump($messageCatalogue, ['path' => $path, 'as_tree' => true, 'inline' => 5]);
+            self::buildCatalogue($path, $messageCatalogue);
         }
 
         return new self($directory);
+    }
+
+    /**
+     * @param array<string, true> $keys
+     */
+    public function normalize(array $keys): int
+    {
+        $count = 0;
+        foreach ($this->files as $file) {
+            $messageCatalogue = new MessageCatalogue($file->locale);
+            foreach ($keys as $key => $unused) {
+                $messageCatalogue->set($key, $key);
+            }
+            foreach ($file->toArray() as $key => $label) {
+                if (!$messageCatalogue->has($key)) {
+                    continue;
+                }
+                $messageCatalogue->set($key, $label);
+            }
+            self::buildCatalogue($this->path, $messageCatalogue);
+            ++$count;
+        }
+
+        return $count;
     }
 
     #[\Override]
@@ -81,5 +103,16 @@ final class TranslationFiles implements \IteratorAggregate, \Countable
         }
 
         return $result;
+    }
+
+    private static function buildCatalogue(string $path, MessageCatalogue $messageCatalogue): void
+    {
+        $dumper = new YamlFileDumper('yaml');
+        $dumper->dump($messageCatalogue, ['path' => $path, 'as_tree' => true, 'inline' => 5]);
+    }
+
+    private static function getPath(string $directory): string
+    {
+        return $directory.\DIRECTORY_SEPARATOR.self::DIRECTORY;
     }
 }

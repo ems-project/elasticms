@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\NotFoundException;
@@ -15,19 +16,22 @@ use EMS\Helpers\File\File;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Standard\Number;
 use EMS\Helpers\Standard\Type;
-use Psr\Log\LoggerInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
+
+use function Symfony\Component\Translation\t;
 
 class AssetExtractorService implements CacheWarmerInterface
 {
     private const string CONTENT_EP = '/tika';
     private const string HELLO_EP = '/tika';
     private const string META_EP = '/meta';
+    private const string ASSET_EXTRACTOR_STATUS_CACHE_ID = 'status.asset_extractor.result';
     private ?TikaWrapper $wrapper = null;
 
     public function __construct(
         private readonly RestClientService $rest,
-        private readonly LoggerInterface $logger,
+        private readonly LocalizedLoggerInterface $logger,
         private readonly Registry $doctrine,
         private readonly FileService $fileService,
         private readonly ?string $tikaServer,
@@ -35,6 +39,25 @@ class AssetExtractorService implements CacheWarmerInterface
         private readonly ?string $tikaDownloadUrl,
         private readonly int $tikaMaxContent = 5120,
     ) {
+    }
+
+    public function getStatus(): string
+    {
+        $cache = new FilesystemAdapter('', 60);
+        $cachedStatus = $cache->getItem(self::ASSET_EXTRACTOR_STATUS_CACHE_ID);
+        if ($cachedStatus->isHit()) {
+            return $cachedStatus->get();
+        }
+
+        try {
+            $status = 200 === $this->hello()['code'] ? 'green' : 'yellow';
+        } catch (\Throwable) {
+            $status = 'yellow';
+        }
+        $cachedStatus->set($status);
+        $cache->save($cachedStatus);
+
+        return $status;
     }
 
     private function getTikaWrapper(): TikaWrapper
@@ -77,24 +100,14 @@ class AssetExtractorService implements CacheWarmerInterface
                 'content' => $result->getBody()->__toString(),
                 'client' => 'Tika',
             ];
-        } else {
-            $tempFile = TempFile::create();
-            File::putContents($tempFile->path, "elasticms's built in TikaWrapper : àêïôú");
-
-            return [
-                'code' => 200,
-                'content' => self::cleanString($this->getTikaWrapper()->getText($tempFile->path)),
-            ];
         }
-    }
+        $tempFile = TempFile::create();
+        File::putContents($tempFile->path, "elasticms's built in TikaWrapper : àêïôú");
 
-    /**
-     * @return mixed[]
-     */
-    #[\Deprecated]
-    public function extractData(string $hash, ?string $file = null, bool $forced = false): array
-    {
-        return $this->extractMetaData($hash, $file, $forced)->getSource();
+        return [
+            'code' => 200,
+            'content' => $this->cleanString($this->getTikaWrapper()->getText($tempFile->path)),
+        ];
     }
 
     public function findCachedExtractedData(string $hash): ?ExtractedData
@@ -120,10 +133,10 @@ class AssetExtractorService implements CacheWarmerInterface
 
         $filesize = $this->fileService->getSize($hash);
         if (!$forced && $filesize > (3 * 1024 * 1024)) {
-            $this->logger->warning('log.warning.asset_extract.file_to_large', [
+            $this->logger->messageWarning(t('message.asset_extract_file_too_large', [
                 'filesize' => Number::formatBytes($filesize),
                 'max_size' => '3 MB',
-            ]);
+            ], 'emsco-core'));
 
             return new ExtractedData([], $this->tikaMaxContent);
         }
@@ -155,10 +168,10 @@ class AssetExtractorService implements CacheWarmerInterface
                 ]);
                 $out->setContent($result->getBody()->__toString());
             } catch (\Exception $e) {
-                $this->logger->warning('service.asset_extractor.extract_error', [
-                    'file_hash' => $hash,
+                $this->logger->messageWarning(t('message.asset_extract_error', [
+                    'error_message' => $e->getMessage(),
                     'filename' => $filename ?? $hash,
-                    EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                ], 'emsco-core'), [
                     EmsFields::LOG_EXCEPTION_FIELD => $e,
                     'tika' => 'server',
                 ]);
@@ -176,13 +189,14 @@ class AssetExtractorService implements CacheWarmerInterface
                     $out->setContent($text ?? '');
                 }
                 if (!empty($out->getLocale())) {
-                    $out->setLocale(self::cleanString($this->getTikaWrapper()->getLanguage($file)));
+                    $out->setLocale($this->cleanString($this->getTikaWrapper()->getLanguage($file)));
                 }
             } catch (\Exception $e) {
-                $this->logger->warning('service.asset_extractor.extract_error', [
-                    'file_hash' => $hash,
+                $this->logger->messageWarning(t('message.asset_extract_error', [
                     'filename' => $filename ?? $hash,
-                    EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                    'error_message' => $e->getMessage(),
+                ], 'emsco-core'), [
+                    'file_hash' => $hash,
                     EmsFields::LOG_EXCEPTION_FIELD => $e,
                     'tika' => 'jar',
                 ]);
@@ -190,7 +204,7 @@ class AssetExtractorService implements CacheWarmerInterface
             }
         }
 
-        if ($canBePersisted && isset($out)) {
+        if ($canBePersisted) {
             $cacheData = new CacheAssetExtractor();
             $cacheData->setHash($hash);
             $cacheData->setData($out->getSource());
@@ -203,7 +217,7 @@ class AssetExtractorService implements CacheWarmerInterface
         return $out ?? new ExtractedData([], $this->tikaMaxContent);
     }
 
-    private static function cleanString(string $string): string
+    private function cleanString(string $string): string
     {
         if (!\mb_check_encoding($string)) {
             $string = \mb_convert_encoding($string, \mb_internal_encoding(), 'ASCII');
@@ -241,13 +255,12 @@ class AssetExtractorService implements CacheWarmerInterface
                     'Accept' => 'application/json',
                 ],
             ]);
-            $meta = ExtractedData::fromJsonString($result->getBody()->__toString(), $this->tikaMaxContent);
-        } else {
-            $tempFile = TempFile::create();
-            File::putContents($tempFile->path, $text);
-            $meta = ExtractedData::fromMetaString($this->getTikaWrapper()->getMetadata($tempFile->path), $this->tikaMaxContent);
-        }
 
-        return $meta;
+            return ExtractedData::fromJsonString($result->getBody()->__toString(), $this->tikaMaxContent);
+        }
+        $tempFile = TempFile::create();
+        File::putContents($tempFile->path, $text);
+
+        return ExtractedData::fromMetaString($this->getTikaWrapper()->getMetadata($tempFile->path), $this->tikaMaxContent);
     }
 }

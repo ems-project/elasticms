@@ -57,8 +57,8 @@ class OAuth2Service
     {
         try {
             return $this->getProvider()->refreshToken($request, $token);
-        } catch (\Throwable $e) {
-            $this->logger->error($e->getMessage());
+        } catch (\Throwable $throwable) {
+            $this->logger->error($throwable->getMessage());
 
             return new NullToken();
         }

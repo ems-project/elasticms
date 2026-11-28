@@ -8,6 +8,9 @@ use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Form\Field\IconPickerType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * Defined a Container content type.
@@ -24,9 +27,15 @@ class IconFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Icon field';
+        return ['type' => 'string'];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.icon', [], 'emsco-core');
     }
 
     /**
@@ -36,10 +45,8 @@ class IconFieldType extends DataFieldType
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /** @var FieldType $fieldType */
-        $fieldType = $options['metadata'];
         $builder->add('value', IconPickerType::class, [
-            'label' => (null != $options['label'] ? $options['label'] : 'Icon field type'),
+            'label' => (null != $options['label'] ? $options['label'] : t('field.icon', [], 'emsco-core')),
             'disabled' => $this->isDisabled($options),
             'required' => false,
         ]);

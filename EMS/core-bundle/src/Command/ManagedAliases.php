@@ -14,13 +14,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: Commands::MANAGED_ALIAS_LIST,
-    description: 'List managed aliases.',
-    hidden: false,
-    aliases: ['ems:managedalias:list']
-)]
-class ManagedAliases extends Command
+#[AsCommand(name: Commands::MANAGED_ALIAS_LIST, description: 'List managed aliases.', aliases: ['ems:managedalias:list'], hidden: false)]
+class ManagedAliases extends AbstractCoreCommand
 {
     public function __construct(protected LoggerInterface $logger, protected AliasService $aliasService)
     {
@@ -30,7 +25,7 @@ class ManagedAliases extends Command
     #[\Override]
     protected function configure(): void
     {
-        $this->setDescription('')
+        $this
             ->addOption('detailed', null, InputOption::VALUE_NONE, 'List all indexes in each managed alias');
     }
 
@@ -41,14 +36,14 @@ class ManagedAliases extends Command
         $detailed = $input->getOption('detailed');
         /** @var ManagedAlias $alias */
         foreach ($this->aliasService->getManagedAliases() as $alias) {
-            $output->writeln($alias->getName());
+            $this->io->text($alias->getName());
             if ($detailed) {
                 foreach ($alias->getIndexes() as $index) {
-                    $output->writeln(\sprintf(' - Index: %s (%d)', $index['name'], $index['count']));
+                    $this->io->text(\sprintf(' - Index: %s (%d)', $index['name'], $index['count']));
                 }
             }
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

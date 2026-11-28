@@ -27,7 +27,7 @@ class CsvFile implements \Countable, \IteratorAggregate
     {
         foreach ($this->getRows() as $row) {
             if ($this->encoding) {
-                $row = \array_map([$this, 'convertEncoding'], $row);
+                $row = \array_map($this->convertEncoding(...), $row);
             }
             yield $row;
         }

@@ -1,4 +1,4 @@
-{% trans_default_domain 'emsco-component' %}
+{% trans_default_domain 'emsco-core' %}
 {# @var template \EMS\CoreBundle\Core\Component\MediaLibrary\Template\MediaLibraryTemplate #}
 {# @var config \EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig #}
 
@@ -17,8 +17,7 @@
                 <ul class="media-lib-list-uploads"></ul>
                 <ul class="media-lib-list-files"></ul>
                 <div class="media-lib-load-more">
-                    <i class="fa fa-refresh fa-spin fa-2x fa-fw"></i>
-                    <span>{{ 'media_library.file.load_more'|trans }}</span>
+                    <span>{{ 'message.loading_more_files'|trans }}</span>
                 </div>
             </div>
         </div>

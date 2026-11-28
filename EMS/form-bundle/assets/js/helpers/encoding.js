@@ -1,20 +1,17 @@
-export default class
-{
-    static jsonParse(string)
-    {
+export default class {
+    static jsonParse(string) {
         try {
-            return JSON.parse(string);
+            return JSON.parse(string)
         } catch (e) {
-            return false;
+            return false
         }
     }
 
-    static urlEncodeData(data)
-    {
-        let urlEncoded = [];
+    static urlEncodeData(data) {
+        let urlEncoded = []
         for (let key in data) {
-            urlEncoded.push(encodeURI(key.concat('=').concat(data[key])));
+            urlEncoded.push(encodeURI(key.concat('=').concat(data[key])))
         }
-        return urlEncoded.join('&');
+        return urlEncoded.join('&')
     }
 }

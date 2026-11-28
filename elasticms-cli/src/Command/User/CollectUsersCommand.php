@@ -109,7 +109,7 @@ class CollectUsersCommand extends AbstractCommand
         }
 
         $fileExtension = \pathinfo($this->filename, PATHINFO_EXTENSION);
-        if (!\in_array($fileExtension, SpreadsheetGeneratorServiceInterface::FORMAT_WRITERS)) {
+        if (!\in_array($fileExtension, SpreadsheetGeneratorServiceInterface::FORMAT_WRITERS, true)) {
             $this->io->error(\sprintf('File extension %s is not supported', $fileExtension));
 
             return self::INVALID;

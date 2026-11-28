@@ -7,8 +7,10 @@ namespace EMS\CommonBundle\Tests\Unit\Elasticsearch\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentCollection;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Elasticsearch\Response\ResponseInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class DocumentCollectionTest extends TestCase
 {
     private ResponseInterface $mockResponse;
@@ -19,18 +21,20 @@ class DocumentCollectionTest extends TestCase
         $mockResponse = $this->createMock(ResponseInterface::class);
         $mockResponse->method('getDocuments')
             ->willReturn([
-                $this->createMock(DocumentInterface::class),
-                $this->createMock(DocumentInterface::class),
+                $this->createStub(DocumentInterface::class),
+                $this->createStub(DocumentInterface::class),
             ]);
         $this->mockResponse = $mockResponse;
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testFromResponse(): void
     {
         $collection = DocumentCollection::fromResponse($this->mockResponse);
         $this->assertEquals(2, $collection->count());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetIterator(): void
     {
         $collection = DocumentCollection::fromResponse($this->mockResponse);

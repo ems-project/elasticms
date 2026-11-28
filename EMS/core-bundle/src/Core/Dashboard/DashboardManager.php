@@ -5,24 +5,25 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Dashboard;
 
 use Doctrine\Common\Collections\Collection;
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CommonBundle\Helper\Text\Encoder;
-use EMS\CoreBundle\Core\UI\Menu;
 use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Repository\DashboardRepository;
-use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\EntityServiceInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
+use function Symfony\Component\Translation\t;
 
 class DashboardManager implements EntityServiceInterface
 {
     /** @var ?Collection<string, Dashboard> */
     private ?Collection $definitions = null;
 
-    public function __construct(private readonly DashboardRepository $dashboardRepository, private readonly LoggerInterface $logger, private readonly AuthorizationCheckerInterface $authorizationChecker)
-    {
+    public function __construct(
+        private readonly DashboardRepository $dashboardRepository,
+        private readonly LocalizedLoggerInterface $logger,
+    ) {
     }
 
     #[\Override]
@@ -104,24 +105,26 @@ class DashboardManager implements EntityServiceInterface
 
     public function delete(Dashboard $dashboard): void
     {
-        $name = $dashboard->getName();
+        $label = $dashboard->getLabel();
         $this->dashboardRepository->delete($dashboard);
-        $this->logger->warning('log.service.dashboard.delete', [
-            'name' => $name,
-        ]);
+
+        $this->logger->messageWarning(t('message.dashboard_deleted', ['label' => $label], 'emsco-core'));
     }
 
-    public function getSidebarMenu(): Menu
+    /**
+     * @return Dashboard[]
+     */
+    public function getVisibleSidebarDashboards(): array
     {
-        $menu = new Menu('views.elements.sidebar-menu-html.dashboards');
-        foreach ($this->dashboardRepository->getSidebarMenu() as $dashboard) {
-            if (!$this->authorizationChecker->isGranted($dashboard->getRole())) {
-                continue;
-            }
-            $menu->addChild($dashboard->getLabel(), $dashboard->getIcon(), Routes::DASHBOARD, ['name' => $dashboard->getName()], $dashboard->getColor());
-        }
+        return $this->dashboardRepository->findBy(['sidebarMenu' => true], ['orderKey' => \SortDirection::Ascending]);
+    }
 
-        return $menu;
+    /**
+     * @return Dashboard[]
+     */
+    public function getVisibleTopbarDashboards(): array
+    {
+        return $this->dashboardRepository->findBy(['notificationMenu' => true], ['orderKey' => \SortDirection::Ascending]);
     }
 
     public function getByName(string $name): Dashboard
@@ -134,19 +137,6 @@ class DashboardManager implements EntityServiceInterface
         return $dashboard;
     }
 
-    public function getNotificationMenu(): Menu
-    {
-        $menu = new Menu('views.elements.notification-menu-html.dashboards');
-        foreach ($this->dashboardRepository->getNotificationMenu() as $dashboard) {
-            if (!$this->authorizationChecker->isGranted($dashboard->getRole())) {
-                continue;
-            }
-            $menu->addChild($dashboard->getLabel(), $dashboard->getIcon(), Routes::DASHBOARD, ['name' => $dashboard->getName()], $dashboard->getColor());
-        }
-
-        return $menu;
-    }
-
     public function getDefinition(string $definition): ?Dashboard
     {
         return $this->getDefinitions()->get($definition);
@@ -154,7 +144,7 @@ class DashboardManager implements EntityServiceInterface
 
     public function define(Dashboard $dashboard, string $definition): void
     {
-        if (!\in_array($definition, Dashboard::DEFINITIONS)) {
+        if (!\in_array($definition, Dashboard::DEFINITIONS, true)) {
             throw new \Exception(\sprintf('Invalid definition passed "%s"', $definition));
         }
 

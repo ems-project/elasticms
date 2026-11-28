@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+METRICS_ENABLED_WCMTECH_DEFAULT="false"
+METRICS_VHOST_SERVER_NAME_WCMTECH_DEFAULT=$(hostname -i)
+
+true

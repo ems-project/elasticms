@@ -21,7 +21,7 @@
           <source xml:lang="nl"> Betrokken werkgevers </source>
           <target xml:lang="de" state="final"> Betroffene Arbeitgeber </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu7" resname="/html/body/ul[1]">
+        <group restype="x-html-ul" id="grp7" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu8" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">De werkgevers uit de openbare sector waarvan het personeel gebruik kan maken van het systeem van loopbaanonderbreking (ingevoerd door de artikelen 99 tot 107 van de herstelwet van 22 januari 1985 houdende sociale bepalingen). De zelfde modaliteiten gelden voor vervangers van ambtenaren in het systeem van loopbaanonderbreking in de openbare sector Vlaanderen (het zogenaamde 'zorgkrediet'). </source>
             <target xml:lang="de" state="final">Arbeitgeber des öffentlichen Sektors, deren Personal das System der Laufbahnunterbrechnung in Anspruch nehmen kann (eingeführt durch Artikel 99 bis 107 des Sanierungsgesetzes vom 22.01.1985 zur Festlegung sozialer Bestimmungen). Die gleichen Modalitäten gelten für Ersatzkräfte von Beamten im System der Laufbahnunterbrechung im öffentlichen Sektor Flandern (den sogenannten ,Pflegekredit‘). </target>
@@ -39,7 +39,7 @@
           <source xml:lang="nl"> Betrokken werknemers </source>
           <target xml:lang="de" state="final"> Betroffene Arbeitnehmer </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu12" resname="/html/body/ul[2]">
+        <group restype="x-html-ul" id="grp12" resname="/html/body/ul[2]">
           <trans-unit restype="listitem" id="tu13" resname="/html/body/ul[2]/li[1]">
             <source xml:lang="nl">De contractuele vervangers van (contractuele en statutaire) ambtenaren die een loopbaanonderbreking (ingevoerd door de artikelen 99 tot 107 van de herstelwet van 22 januari 1985 houdende sociale bepalingen) genieten </source>
             <target xml:lang="de" state="final">Vertragspersonal, das als Ersatz für (vertraglich und satzungsgemäß eingestellte) Beamte eingestellt wird, die Anspruch auf eine Laufbahnunterbrechung haben (eingeführt durch Artikel 99 bis 107 des Sanierungsgesetzes vom 22.01.1985 zur Festlegung sozialer Bestimmungen) </target>
@@ -49,8 +49,8 @@
             <target xml:lang="de" state="final">Vertragspersonal, das als Ersatz eingestellt wird im Sinne von Artikel 4 des Gesetzes vom 19.07.2012 über die Viertagewoche und die Halbzeitarbeit ab 50 oder 55 Jahre im öffentlichen Sektor; es handelt sich um Ersatzkräfte für Arbeitnehmer, die ihre Leistungen um ein Fünftel in Kombination mit der Viertagewoche und einer Ausgleichsprämie verringert haben. <x id="x16" ctype="x-html-sup" equiv-text=" "/> </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu17" resname="/html/body/ul[2]/li[3]">
-            <source xml:lang="nl">De contractuele vervangers bedoeld in artikel 9, §1, artikel 10quater §1, en artikel 12, §1 van de wet van 10 april 1995 betreffende de herverdeling van de arbeid in de openbare sector; het zijn eveneens vervangers van werknemers die hun prestaties met 1/5de verminderd hebben in combinatie met de 4-dagenweek en compenserende premie.<x id="x18" ctype="x-html-br" equiv-text=" "/> </source>
-            <target xml:lang="de" state="final">Ersatzweise eingestelltes Vertragspersonal im Sinne von Artikel 9, §1, Artikel 10quater §1, und Artikel 12, §1 des Gesetzes vom 10.04.1995 über die Neuverteilung der Arbeit im öffentlichen Sektor; es handelt sich ebenfalls um Ersatzkräfte für Arbeitnehmer, die ihre Leistungen um ein Fünftel in Kombination mit der Viertagewoche und einer Ausgleichsprämie verringert haben.<x id="x19" ctype="x-html-br" equiv-text=" "/> </target>
+            <source xml:lang="nl">De contractuele vervangers bedoeld in artikel 9, §1, artikel 10quater §1, en artikel 12, §1 van de wet van 10 april 1995 betreffende de herverdeling van de arbeid in de openbare sector; het zijn eveneens vervangers van werknemers die hun prestaties met 1/5de verminderd hebben in combinatie met de 4-dagenweek en compenserende premie.<x id="x18" ctype="lb" equiv-text=" "/> </source>
+            <target xml:lang="de" state="final">Ersatzweise eingestelltes Vertragspersonal im Sinne von Artikel 9, §1, Artikel 10quater §1, und Artikel 12, §1 des Gesetzes vom 10.04.1995 über die Neuverteilung der Arbeit im öffentlichen Sektor; es handelt sich ebenfalls um Ersatzkräfte für Arbeitnehmer, die ihre Leistungen um ein Fünftel in Kombination mit der Viertagewoche und einer Ausgleichsprämie verringert haben.<x id="x19" ctype="lb" equiv-text=" "/> </target>
           </trans-unit>
         </group>
         <trans-unit restype="x-html-h2" id="tu20" resname="/html/body/h2[3]">

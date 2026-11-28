@@ -12,6 +12,7 @@ use EMS\CommonBundle\Storage\File\LocalFile;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\File;
+use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
@@ -92,6 +93,11 @@ class Processor
             return $cacheResponse;
         }
 
+        if (null !== ($pathInArchive = $config->getPathInArchive())) {
+            $exploded = \explode('/', $pathInArchive);
+            $filename = \array_pop($exploded);
+        }
+
         try {
             $stream = $this->getStream($config, $filename);
             $response = $this->getResponseFromStreamInterface($stream, $request);
@@ -105,7 +111,7 @@ class Processor
         ]);
         $canonical = $config->getCanonical();
         if (null !== $canonical) {
-            $response->headers->set(Headers::LINK, "$canonical; rel=\"canonical\"");
+            $response->headers->set(Headers::LINK, $canonical.'; rel="canonical"');
         }
 
         if ($immutableRoute) {
@@ -150,7 +156,18 @@ class Processor
         }
 
         if ('zip' === $config->getConfigType()) {
+            if (null === $config->getPathInArchive()) {
+                throw new \Exception('It was not able to generated a ZIP archive with path in cache');
+            }
+
             return $this->generateZip($config);
+        }
+
+        if (null !== ($pathInArchive = $config->getPathInArchive())) {
+            $stream = $this->storageManager->getStreamFromArchive($config->getAssetHash(), $pathInArchive);
+            $config->setMimeType($stream->getMimeType());
+
+            return $stream->getStream();
         }
 
         $filename = $config->getFilename();
@@ -173,6 +190,12 @@ class Processor
         try {
             if ($filename) {
                 $file = new LocalFile($filename);
+            } elseif (null !== ($pathInArchive = $config->getPathInArchive())) {
+                $tempFile = TempFile::create();
+                $stream = $this->storageManager->getStreamFromArchive($config->getAssetHash(), $pathInArchive);
+                $tempFile->loadFromStream($stream->getStream());
+                $config->setMimeType($stream->getMimetype());
+                $file = new LocalFile($tempFile->path);
             } else {
                 $file = $this->storageManager->getFile($config->getAssetHash());
             }

@@ -1,0 +1,20 @@
+:root,
+[data-bs-theme='light'] {
+  --ems-surface: #fff;
+}
+
+[data-bs-theme='dark'] {
+  --ems-surface: var(--bs-tertiary-bg);
+}
+
+body, html, #root {
+  height: 100%;
+}
+
+body {
+  opacity: 1 !important;
+}
+
+html {
+  scrollbar-width: thin;
+}

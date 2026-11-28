@@ -30,30 +30,27 @@ class I18nType extends AbstractType
             ->add('identifier', null, [
                 'label' => t('field.key', [], 'emsco-core'),
                 'required' => true,
-                'row_attr' => ['class' => 'col-md-6'],
+                'col' => 6,
             ])
             ->add('content', CollectionType::class, [
                 'allow_add' => true,
                 'allow_delete' => true,
                 'attr' => [
                     'class' => 'a2lix_lib_sf_collection',
-                    'data-lang-add' => 'Add translation',
-                    'data-lang-remove' => 'Remove translation',
+                    'data-lang-add' => t('action.add_type', ['type' => 'translation'], 'emsco-core'),
+                    'data-lang-remove' => t('action.remove_type', ['type' => 'translation'], 'emsco-core'),
                     'data-entry-remove-class' => 'btn btn-sm btn-danger',
                 ],
                 'block_prefix' => 'content',
                 'entry_type' => I18nContentType::class,
                 'entry_options' => [
                     'label' => false,
-                    'row_attr' => ['class' => 'col-md-12'],
                 ],
                 'label' => t('field.translations', [], 'emsco-core'),
-                'row_attr' => ['class' => 'col-md-12'],
             ])
             ->add('save', SubmitEmsType::class, [
-                'attr' => ['class' => 'btn btn-sm btn-primary', 'data-testid' => 'btn-action-save'],
+                'attr' => ['data-testid' => 'btn-action-save'],
                 'label' => t('action.save', [], 'emsco-core'),
-                'icon' => 'fa fa-save',
             ]);
     }
 

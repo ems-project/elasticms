@@ -13,7 +13,10 @@ enum MimeTypes: string
     case APPLICATION_XML = 'application/xml';
     case APPLICATION_JSON = 'application/json';
     case APPLICATION_OCTET_STREAM = 'application/octet-stream';
+    case APPLICATION_BIN = 'application/bin';
+    case APPLICATION_XLSX = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     case TEXT_PLAIN = 'text/plain';
+    case TEXT_EVENT_STREAM = 'text/event-stream';
     case IMAGE_PNG = 'image/png';
     case IMAGE_JPEG = 'image/jpeg';
     case IMAGE_WEBP = 'image/webp';

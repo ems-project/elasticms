@@ -63,9 +63,9 @@ class JsonTest extends TestCase
     }
 
     #[DataProvider('normalizeProvider')]
-    public function testNormalize(array $provided, array $expected): void
+    public function testNormalize(array $provided, array $expected, int $sortFlag = SORT_REGULAR): void
     {
-        Json::normalize($provided);
+        Json::normalize($provided, $sortFlag);
         self::assertSame($expected, $provided);
     }
 

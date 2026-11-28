@@ -15,6 +15,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+use function Symfony\Component\Translation\t;
+
 /**
  * @extends AbstractType<mixed>
  */
@@ -40,9 +42,11 @@ class RevisionTaskHandleType extends AbstractType
             $builder
                 ->add('comment', TextareaType::class, [
                     'attr' => ['rows' => 4],
-                    'constraints' => !$task->isRequester($user) ? [new NotBlank()] : [],
+                    'constraints' => $task->isRequester($user) ? [] : [new NotBlank()],
                 ])
-                ->add('send', ButtonType::class);
+                ->add('send', ButtonType::class, [
+                    'label' => t('action.send', [], 'emsco-core'),
+                ]);
         }
 
         if ($task->isStatus(TaskStatus::COMPLETED)
@@ -52,8 +56,12 @@ class RevisionTaskHandleType extends AbstractType
                     'attr' => ['rows' => 4],
                     'constraints' => 'reject' === $options['handle'] ? [new NotBlank()] : [],
                 ])
-                ->add('approve', ButtonType::class)
-                ->add('reject', ButtonType::class);
+                ->add('approve', ButtonType::class, [
+                    'label' => t('action.approve', [], 'emsco-core'),
+                ])
+                ->add('reject', ButtonType::class, [
+                    'label' => t('action.reject', [], 'emsco-core'),
+                ]);
         }
     }
 

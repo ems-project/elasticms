@@ -71,7 +71,7 @@ class FormSubmission implements EntityInterface, \JsonSerializable
         $data['created'] = $this->created->format(\DateTimeInterface::ATOM);
         $data['modified'] = $this->modified->format(\DateTimeInterface::ATOM);
 
-        if ($this->expireDate) {
+        if ($this->expireDate instanceof \DateTimeInterface) {
             $data['expireDate'] = $this->expireDate->format(\DateTimeInterface::ATOM);
         } else {
             unset($data['expireDate']);

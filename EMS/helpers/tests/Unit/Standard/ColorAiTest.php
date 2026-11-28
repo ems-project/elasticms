@@ -39,7 +39,6 @@ class ColorAiTest extends TestCase
         $image = \imagecreatetruecolor(100, 100);
         $colorId = $color->getColorId($image);
         $this->assertIsInt($colorId);
-        \imagedestroy($image);
     }
 
     public function testRelativeLuminance()

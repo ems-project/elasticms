@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\DataField;
 
+use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Form\Field\AnalyzerPickerType;
 use EMS\CoreBundle\Form\Field\IconPickerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -13,13 +14,22 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class CodeFieldType extends DataFieldType
 {
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Code editor field';
+        return ['type' => 'string'];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.code', [], 'emsco-core');
     }
 
     #[\Override]
@@ -88,15 +98,22 @@ class CodeFieldType extends DataFieldType
         $optionsForm = $builder->get('options');
 
         if ($optionsForm->has('mappingOptions')) {
-            $optionsForm->get('mappingOptions')->add('analyzer', AnalyzerPickerType::class);
+            $optionsForm->get('mappingOptions')->add('analyzer', AnalyzerPickerType::class, [
+                'label' => t('field.analyzer', [], 'emsco-core'),
+            ]);
         }
         $optionsForm->get('displayOptions')->add('icon', IconPickerType::class, [
+            'label' => t('field.icon', [], 'emsco-core'),
             'required' => false,
         ])->add('maxLines', IntegerType::class, [
+            'label' => t('field.max_lines', [], 'emsco-core'),
             'required' => false,
         ])->add('height', IntegerType::class, [
+            'label' => t('field.height', [], 'emsco-core'),
             'required' => false,
         ])->add('language', ChoiceType::class, [
+            'label' => t('field.language', [], 'emsco-core'),
+            'choice_translation_domain' => false,
             'required' => false,
             'attr' => [
                 'class' => 'select2',
@@ -292,6 +309,8 @@ class CodeFieldType extends DataFieldType
                 'Zeek' => 'ace/mode/zeek',
             ],
         ])->add('theme', ChoiceType::class, [
+            'label' => t('field.theme', [], 'emsco-core'),
+            'choice_translation_domain' => false,
             'required' => false,
             'attr' => [
                 'class' => 'select2',

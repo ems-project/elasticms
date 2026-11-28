@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Views;
 
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\UI\FlashMessageLogger;
@@ -14,15 +15,16 @@ use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\SearchService;
 use EMS\Helpers\Standard\Color;
 use EMS\Helpers\Standard\Type;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use function Symfony\Component\Translation\t;
+
 class CalendarController extends AbstractController
 {
     public function __construct(
-        private readonly LoggerInterface $logger,
+        private readonly LocalizedLoggerInterface $logger,
         private readonly ElasticaService $elasticaService,
         private readonly DataService $dataService,
         private readonly SearchService $searchService,
@@ -66,10 +68,11 @@ class CalendarController extends AbstractController
             return $this->flashMessageLogger->buildJsonResponse([
                 'success' => true,
             ]);
-        } catch (\Exception $e) {
-            $this->logger->error('log.error', [
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
+        } catch (\Exception $exception) {
+            $this->logger->messageError(t('message.action_error', [
+                'error_message' => $exception->getMessage(),
+            ], 'emsco-core'), [
+                EmsFields::LOG_EXCEPTION_FIELD => $exception,
             ]);
 
             return $this->flashMessageLogger->buildJsonResponse([
@@ -91,7 +94,8 @@ class CalendarController extends AbstractController
         /* @var Search $search */
         $search->setEnvironments([$view->getContentType()->getName()]);
 
-        $body = $this->searchService->generateSearchBody($search);
+        $esSearch = $this->searchService->generateSearch($search);
+        $body = \array_filter(['query' => $esSearch->getQueryArray(), 'sort' => $esSearch->getSort()]);
 
         $from = new \DateTime(Type::string($request->query->get('from')));
         $to = new \DateTime(Type::string($request->query->get('to')));
@@ -146,7 +150,6 @@ class CalendarController extends AbstractController
 
         $field = $view->getContentType()->getFieldType()->get('ems_'.$view->getOptions()['dateRangeField']);
         $contentType = $view->getContentType();
-        $environment = $view->getContentType()->giveEnvironment();
         $events = [];
         foreach ($this->elasticaService->search($search)->getResponse()->getData()['hits']['hits'] ?? [] as $item) {
             $source = $item['_source'];
@@ -156,7 +159,7 @@ class CalendarController extends AbstractController
             $event = [
                 'id' => $item['id'] ?? null,
                 'title' => $contentType->hasLabelField() && isset($item['_source'][$contentType->giveLabelField()]) ? $item['_source'][$contentType->giveLabelField()] : $item['id'] ?? null,
-                'url' => $this->generateUrl('data.revisions', [
+                'url' => $this->generateUrl('emsco_view_revisions', [
                     'type' => $contentType->getName(),
                     'ouuid' => $item['id'] ?? 'not-found',
                 ]),

@@ -12,6 +12,8 @@ use Symfony\Component\Translation\MessageCatalogue;
 
 final class TranslationBuilder extends AbstractBuilder
 {
+    private const string TRANSLATION_DOMAIN = 'messages';
+
     /**
      * @return \Generator|MessageCatalogue[]
      */
@@ -31,7 +33,7 @@ final class TranslationBuilder extends AbstractBuilder
 
     public function buildFiles(Environment $environment, string $directory): void
     {
-        $messageCatalogues = $this->buildMessageCatalogues($environment, 'messages');
+        $messageCatalogues = $this->buildMessageCatalogues($environment, self::TRANSLATION_DOMAIN);
 
         TranslationFiles::build($directory, $messageCatalogues);
     }
@@ -46,6 +48,15 @@ final class TranslationBuilder extends AbstractBuilder
         }
 
         return $this->searchDocuments($contentType);
+    }
+
+    /**
+     * @param array<string, true> $translationKeys
+     */
+    public function normalize(Environment $environment, array $translationKeys): void
+    {
+        $translationFiles = new TranslationFiles($environment->getLocal()->getDirectory());
+        $translationFiles->normalize($translationKeys);
     }
 
     #[\Override]

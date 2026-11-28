@@ -1,60 +1,81 @@
-import { defineConfig } from 'vite'
 import inject from '@rollup/plugin-inject'
+import { defineConfig } from 'vite'
 import liveReload from 'vite-plugin-live-reload'
-import { resolve } from 'path';
+import { resolve } from 'path'
+
+const componentChunks = ['MediaLibrary', 'Tiptap', 'UI', 'Wysiwyg']
+    .map(name => ({ name: name.toLowerCase(), test: new RegExp(`components/${name}`) }))
 
 export default defineConfig({
-  base: './',
-  build: {
-    manifest: true,
-    outDir: '../public',
-    sourcemap: false,
-    emptyOutDir: true,
-    copyPublicDir: true,
-    rollupOptions: {
-      input: {
-        app: 'src/app.js',
-        swaggerui: 'src/swagger-ui.js',
-        calendar: 'src/calendar.js',
-        'criteria-table': 'src/criteria-table.js',
-        'criteria-view': 'src/criteria-view.js',
-        'edit-revision': 'src/edit-revision.js',
-        hierarchical: 'src/hierarchical.js',
-        'managed-alias': 'src/managed-alias.js'
-      }
-    }
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler',
-      }
+    base: './',
+    build: {
+        manifest: true,
+        outDir: '../public',
+        sourcemap: false,
+        emptyOutDir: true,
+        copyPublicDir: true,
+        cssMinify: 'esbuild',
+        rolldownOptions: {
+            onwarn(warning, warn) {
+                if (warning.code === 'MODULE_LEVEL_DIRECTIVE' && warning.message.includes('ace-builds')) {
+                    return
+                }
+
+                warn(warning)
+            },
+            input: {
+                app: 'src/app.js',
+                swaggerui: 'src/swagger-ui.js',
+                calendar: 'src/calendar.js',
+                'criteria-table': 'src/criteria-table.js',
+                'criteria-view': 'src/criteria-view.js',
+                'edit-revision': 'src/edit-revision.js',
+                hierarchical: 'src/hierarchical.js',
+                inline_editor: 'src/core/inline-editor/editor.ts',
+                inline_editor_iframe: 'src/core/inline-editor/iframe.ts',
+                core_bundle: 'src/core-bundle.ts'
+            },
+            output: {
+                codeSplitting: {
+                    groups: [
+                        ...componentChunks,
+                        { name: 'plugin-media-library', test: /plugins\/mediaLibrary/ },
+                        { name: 'plugin-wysiwyg', test: /plugins\/wysiwyg/ }
+                    ]
+                }
+            }
+        }
     },
-    devSourcemap: true
-  },
-  plugins: [
-    liveReload('../templates/**/*.twig'),
-    liveReload('../../core-bundle/templates/**/*.twig'),
-    inject({
-      jQuery: 'jquery',
-      $: 'jquery',
-      exclude: ['**/*.scss', '**/*.css']
-    })
-  ],
-  resolve: {
-    extensions: ['.js', '.ts'],
-    alias: {
-      '@fonts': resolve('./public/fonts')
+    css: {
+        devSourcemap: true
+    },
+    plugins: [
+        liveReload('../templates/**/*.twig'),
+        liveReload('../../core-bundle/templates/**/*.twig'),
+        inject({
+            jQuery: 'jquery',
+            $: 'jquery',
+            exclude: ['**/*.scss', '**/*.css']
+        })
+    ],
+    resolve: {
+        extensions: ['.js', '.ts'],
+        alias: {
+            '@fonts': resolve('./public/fonts'),
+            '@images': resolve('./public/images'),
+            '@tabler-icons': resolve('./node_modules/@tabler/icons/icons'),
+            '@swagger-ui': resolve('./node_modules/swagger-ui/dist/swagger-ui-bundle.js'),
+            '@css': resolve('./css')
+        }
+    },
+    server: {
+        host: '0.0.0.0',
+        origin: 'http://localhost:5173',
+        port: 5173,
+        strictPort: true,
+        hmr: true,
+        watch: {
+            usePolling: true
+        }
     }
-  },
-  server: {
-    host: '0.0.0.0',
-    origin: 'http://localhost:5173',
-    port: 5173,
-    strictPort: true,
-    hmr: true,
-    watch: {
-      usePolling: true,
-    }
-  }
 })

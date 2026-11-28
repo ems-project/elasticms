@@ -26,12 +26,12 @@ final readonly class AssetVersionStrategy implements VersionStrategyInterface
     #[\Override]
     public function applyVersion(string $path): string
     {
-        $this->viteService->loadManifestFromDirectory(
+        $manifestId = $this->viteService->loadManifestFromDirectory(
             directory: $this->fileLocator->locate('@EMSAdminUIBundle/public')
         );
 
         $devPath = $this->viteService->devPath($path);
 
-        return $devPath ?? $this->basePath.$this->viteService->path($path);
+        return $devPath ?? $this->basePath.$this->viteService->path($path, $manifestId);
     }
 }

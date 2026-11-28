@@ -13,7 +13,6 @@ use EMS\CoreBundle\Core\Component\JsonMenuNested\JsonMenuNestedService;
 use EMS\CoreBundle\Core\Revision\RawDataTransformer;
 use EMS\CoreBundle\Core\UI\Modal\Modal;
 use EMS\CoreBundle\Core\UI\Modal\ModalMessageType;
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Form\Form\RevisionJsonMenuNestedType;
@@ -55,8 +54,8 @@ class JsonMenuNestedController
             $item = $config->jsonMenuNested->giveItemById($itemId);
 
             return new JsonResponse(['item' => $item->toArrayStructure(true)]);
-        } catch (JsonMenuNestedException $e) {
-            return $this->responseWarning($e->getMessage());
+        } catch (JsonMenuNestedException $jsonMenuNestedException) {
+            return $this->responseWarning($jsonMenuNestedException->getMessage());
         }
     }
 
@@ -68,8 +67,8 @@ class JsonMenuNestedController
             $this->clearFlashes($request);
 
             return $this->responseSuccess(['item' => $addedItem?->getData()]);
-        } catch (JsonMenuNestedException $e) {
-            return $this->responseWarning($e->getMessage());
+        } catch (JsonMenuNestedException $jsonMenuNestedException) {
+            return $this->responseWarning($jsonMenuNestedException->getMessage());
         }
     }
 
@@ -113,7 +112,7 @@ class JsonMenuNestedController
 
             if ($form->isSubmitted()) {
                 if ($form->get('_item_hash')->getData() !== $item->getObjectHash()) {
-                    return $this->responseWarningModal($this->translator->trans('json_menu_nested.error.item_edit_outdated', [], EMSCoreBundle::TRANS_COMPONENT));
+                    return $this->responseWarningModal($this->translator->trans('message.item_outdated', [], 'emsco-core'));
                 }
                 if (null !== $object = $this->handleFormItem($form, $config, $node)) {
                     $this->jsonMenuNestedService->itemUpdate($config, $item, $object);
@@ -142,8 +141,8 @@ class JsonMenuNestedController
             return new JsonResponse($this->jsonMenuNestedService->itemModal($config, $item, $modalName, [
                 'node' => $node,
             ]));
-        } catch (JsonMenuNestedException $e) {
-            return $this->responseWarningModal($e->getMessage());
+        } catch (JsonMenuNestedException $jsonMenuNestedException) {
+            return $this->responseWarningModal($jsonMenuNestedException->getMessage());
         }
     }
 
@@ -175,8 +174,8 @@ class JsonMenuNestedController
                 'dataFields' => $dataFields ?? null,
                 'node' => $node,
             ]));
-        } catch (JsonMenuNestedException $e) {
-            return $this->responseWarningModal($e->getMessage());
+        } catch (JsonMenuNestedException $jsonMenuNestedException) {
+            return $this->responseWarningModal($jsonMenuNestedException->getMessage());
         }
     }
 
@@ -188,8 +187,8 @@ class JsonMenuNestedController
             $this->clearFlashes($request);
 
             return $this->responseSuccess(['item' => $deleteItem->getData()]);
-        } catch (JsonMenuNestedException $e) {
-            return $this->responseWarning($e->getMessage());
+        } catch (JsonMenuNestedException $jsonMenuNestedException) {
+            return $this->responseWarning($jsonMenuNestedException->getMessage());
         }
     }
 
@@ -201,8 +200,8 @@ class JsonMenuNestedController
             $this->clearFlashes($request);
 
             return $this->responseSuccess();
-        } catch (JsonMenuNestedException $e) {
-            return $this->responseWarning($e->getMessage());
+        } catch (JsonMenuNestedException $jsonMenuNestedException) {
+            return $this->responseWarning($jsonMenuNestedException->getMessage());
         }
     }
 
@@ -213,8 +212,8 @@ class JsonMenuNestedController
             $this->jsonMenuNestedService->itemCopy($config, $copyItem);
 
             return $this->responseSuccess(['copyId' => $copyItem->getId()]);
-        } catch (JsonMenuNestedException $e) {
-            return $this->responseWarning($e->getMessage());
+        } catch (JsonMenuNestedException $jsonMenuNestedException) {
+            return $this->responseWarning($jsonMenuNestedException->getMessage());
         }
     }
 
@@ -225,8 +224,8 @@ class JsonMenuNestedController
             $pasteItem = $this->jsonMenuNestedService->itemPaste($config, $item);
 
             return $this->responseSuccess(['pasteId' => $pasteItem->getId()]);
-        } catch (JsonMenuNestedException $e) {
-            return $this->responseWarning($e->getMessage());
+        } catch (JsonMenuNestedException $jsonMenuNestedException) {
+            return $this->responseWarning($jsonMenuNestedException->getMessage());
         }
     }
 
@@ -242,7 +241,7 @@ class JsonMenuNestedController
      */
     private function createFormItem(JsonMenuNestedConfig $config, JsonMenuNestedNode $node, ?JsonMenuNested $item = null): FormInterface
     {
-        $object = $item ? $item->getObject() : [];
+        $object = $item instanceof JsonMenuNested ? $item->getObject() : [];
         $data = RawDataTransformer::transform($node->getFieldType(), $object);
 
         return $this->formFactory->create(RevisionJsonMenuNestedType::class, ['data' => $data], [
@@ -282,7 +281,7 @@ class JsonMenuNestedController
     private function responseWarning(string $warning): JsonResponse
     {
         return new JsonResponse([
-            'warning' => $this->translator->trans($warning, [], EMSCoreBundle::TRANS_COMPONENT),
+            'warning' => $this->translator->trans($warning, [], 'emsco-core'),
         ]);
     }
 
@@ -290,7 +289,7 @@ class JsonMenuNestedController
     {
         return new JsonResponse(Modal::forMessage(
             ModalMessageType::Warning,
-            $this->translator->trans($warning, [], EMSCoreBundle::TRANS_COMPONENT),
+            $this->translator->trans($warning, [], 'emsco-core'),
             'Warning'
         ));
     }

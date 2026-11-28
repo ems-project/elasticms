@@ -1,16 +1,16 @@
-{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
+{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'emsco-core' %}
 
-{% block title %}Add a user{% endblock %}
-{% block pagetitle %}New user{% endblock %}
+{% block title %}{{ 'key.add_user'|trans }}{% endblock %}
+{% block pagetitle %}{{ 'key.add_user'|trans }}{% endblock %}
 
-{% block subtitle %}<small>A new user in town?</small>{% endblock %}
+{% block subtitle %}<small>{{ 'key.user_administration'|trans }}</small>{% endblock %}
 
 {% block body %}
     <div class="card card-{{ theme_color }} card-outline">
         <div class="card-header">
-            <h3 class="card-title">Add user</h3>
+            <h3 class="card-title">{{ 'key.new_user'|trans }}</h3>
         </div>
-        {{ form_start(form, {'method': 'post', 'action': path('emsco_user_add') }) }}
+        {{ form_start(form, {method: 'post', action: path('emsco_user_add')}) }}
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">

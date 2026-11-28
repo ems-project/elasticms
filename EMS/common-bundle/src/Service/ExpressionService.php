@@ -21,7 +21,7 @@ final class ExpressionService implements ExpressionServiceInterface
     {
         $evaluate = $this->evaluate($expression, $values);
 
-        return \is_bool($evaluate) ? $evaluate : false;
+        return \is_bool($evaluate) && $evaluate;
     }
 
     #[\Override]
@@ -39,9 +39,9 @@ final class ExpressionService implements ExpressionServiceInterface
     {
         try {
             return $this->getExpressionLanguage()->evaluate($expression, $values);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->error('Expression failed: {message}', [
-                'message' => $e->getMessage(),
+                'message' => $throwable->getMessage(),
                 'values' => $values,
                 'expression' => $expression,
                 'noFlash' => true,

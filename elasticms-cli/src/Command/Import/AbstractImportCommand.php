@@ -21,6 +21,7 @@ use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\Standard\Hash;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\UuidGenerator;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -104,6 +105,7 @@ abstract class AbstractImportCommand extends AbstractCommand
 
         $progressBar = $this->io->createProgressBar();
         $progressBar->start();
+
         $queue = $coreApi->queue($this->flushSize);
 
         foreach ($this->processInChunk($config, $records) as $docs) {
@@ -140,7 +142,7 @@ abstract class AbstractImportCommand extends AbstractCommand
             $this->io->warning(\sprintf('Could not read %d records', $notReadable));
         }
 
-        if (!$this->dryRun && $config->deleteMissingDocuments && \count($ouuids) > 0) {
+        if (!$this->dryRun && $config->deleteMissingDocuments && [] !== $ouuids) {
             $this->deleteMissingDocuments($contentTypeApi, ...$ouuids);
         }
 
@@ -187,7 +189,7 @@ abstract class AbstractImportCommand extends AbstractCommand
                 $row = \array_change_key_case($row);
             }
 
-            $ouuid = $this->createOuuid($config, $row);
+            $ouuid = $this->createOuuid($config, $row) ?? Uuid::uuid4()->toString();
 
             $rawData = $config->defaultData;
             $rawData['_sync_metadata'] = $row;
@@ -214,7 +216,7 @@ abstract class AbstractImportCommand extends AbstractCommand
             }
         }
 
-        if (\count($chunks) > 0) {
+        if ([] !== $chunks) {
             yield $chunks;
         }
     }
@@ -287,6 +289,7 @@ abstract class AbstractImportCommand extends AbstractCommand
     {
         $this->io->newLine(2);
         $this->io->section(\sprintf('%d documents have not been updated and will be deleted', \count($ouuids)));
+
         $progressBar = $this->io->createProgressBar(\count($ouuids));
         foreach ($ouuids as $ouuid) {
             $api->delete($ouuid);
@@ -348,7 +351,7 @@ abstract class AbstractImportCommand extends AbstractCommand
     {
         $alignEnvironments = $config->alignEnvironments;
 
-        if (0 === \count($alignEnvironments)) {
+        if ([] === $alignEnvironments) {
             return;
         }
 

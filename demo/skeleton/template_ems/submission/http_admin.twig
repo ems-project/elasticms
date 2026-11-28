@@ -15,7 +15,7 @@
 
 {%- block body -%}
     {%- set files = formData.allFiles|default([])|map(v => v.toArray|merge({ 'base64': v.base64() }) )|map(f => {
-        'filename': ('attachment '~f.filename)|ems_slug,
+        'filename': f.filename|ems_slug(preserveFileExtension: true),
         'mimeType': f.mimeType,
         'size': f.size,
         'form_field': f.form_field,

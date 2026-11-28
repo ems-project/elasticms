@@ -10,6 +10,7 @@
 
     <field name="name" length="255"/>
     <field name="label" length="255"/>
+    <field name="labelTranslations" column="label_translations" type="json" nullable="true"/>
     <field name="icon" length="255" nullable="true"/>
     <field name="body" type="text" nullable="true"/>
     <field name="header" type="text" nullable="true"/>
@@ -67,9 +68,6 @@
     <lifecycle-callbacks>
       <lifecycle-callback type="prePersist" method="updateModified" />
       <lifecycle-callback type="preUpdate" method="updateModified" />
-
-      <lifecycle-callback type="prePersist" method="updateOrder" />
-      <lifecycle-callback type="preUpdate" method="updateOrder" />
     </lifecycle-callbacks>
   </entity>
 </doctrine-mapping>

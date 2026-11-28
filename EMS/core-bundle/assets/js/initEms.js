@@ -5,7 +5,6 @@
  *
  */
 import EmsListeners from "./EmsListeners";
-import MediaLibrary from "./component/mediaLibrary";
 import JsonMenu from "./module/jsonMenu";
 import JsonMenuNested from "./module/jsonMenuNested";
 import ajaxModal from "./helper/ajaxModal";
@@ -25,20 +24,6 @@ import JsonMenuNestedComponent from "./component/jsonMenuNestedComponent";
     }
 
 }(function($) {
-
-    function activeMenu() {
-        //try to find which side menu elements to activate
-        const currentMenuLink = $('section.sidebar ul.sidebar-menu a[href="' + window.location.pathname + window.location.search + '"]');
-
-        if ( currentMenuLink.length > 0 ) {
-            currentMenuLink.last().parents('li').addClass('active');
-        }
-        else {
-            $('#side-menu-id').each(function(){
-                $('#'+$(this).data('target')).parents('li').addClass('active');
-            });
-        }
-    }
 
     function loadLazyImages() {
         $("img.lazy").show().lazyload({
@@ -265,19 +250,6 @@ import JsonMenuNestedComponent from "./component/jsonMenuNestedComponent";
         window.jsonMenuNestedComponents = jsonMenuNestedComponents
     }
 
-    function initMediaLibrary() {
-        let elements = document.getElementsByClassName('media-lib');
-        let bodyData = document.querySelector('body').dataset;
-
-        [].forEach.call(elements, function (el) {
-            new MediaLibrary(el, {
-                urlMediaLib: '/component/media-lib',
-                urlInitUpload: bodyData.initUpload,
-                hashAlgo: bodyData.hashAlgo,
-            });
-        });
-    }
-
     function intAjaxModalLinks() {
         let ajaxModalLinks = document.querySelectorAll('a[data-ajax-modal-url]');
         [].forEach.call(ajaxModalLinks, function (link) {
@@ -352,7 +324,6 @@ import JsonMenuNestedComponent from "./component/jsonMenuNestedComponent";
 
 
     $(document).ready(function() {
-        activeMenu();
         loadLazyImages();
         matchHeight();
         closeModalNotification();
@@ -364,7 +335,6 @@ import JsonMenuNestedComponent from "./component/jsonMenuNestedComponent";
         startPendingJob();
         initAjaxFormSave();
         initJsonMenu();
-        initMediaLibrary();
         initJsonMenuNestedComponent()
         intAjaxModalLinks();
         initPostButtons();

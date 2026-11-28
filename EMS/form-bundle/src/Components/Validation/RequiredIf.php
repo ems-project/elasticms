@@ -12,7 +12,7 @@ class RequiredIf extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        $constraint = new IsRequiredIf(['expression' => $this->value]);
+        $constraint = new IsRequiredIf(expression: $this->value);
         if ($this->message) {
             $constraint->message = $this->message;
         }

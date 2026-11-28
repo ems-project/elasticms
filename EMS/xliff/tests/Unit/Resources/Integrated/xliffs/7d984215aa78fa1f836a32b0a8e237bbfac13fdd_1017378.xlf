@@ -15,7 +15,7 @@
           <source xml:lang="nl"> Wanneer de werkgever een langdurig werkzoekende aanwerft, kan hij onder bepaalde voorwaarden genieten van volgende twee voordelen: </source>
           <target xml:lang="de" state="final"> Wenn der Arbeitgeber einen Langzeitarbeitssuchenden einstellt, kann er unter bestimmten Bedingungen die beiden folgenden Vorteile in Anspruch nehmen: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu5" resname="/html/body/ul">
+        <group restype="x-html-ul" id="grp5" resname="/html/body/ul">
           <trans-unit restype="listitem" id="tu6" resname="/html/body/ul/li[1]">
             <source xml:lang="nl">een <g id="g7" ctype="x-html-strong">vermindering van de werkgeversbijdragen</g> voor sociale zekerheid onder de vorm van een doelgroepvermindering voor langdurig werkzoekenden; </source>
             <target xml:lang="de" state="final">eine <g id="g8" ctype="x-html-strong">Ermäßigung der Arbeitgeberbeiträge</g> für die soziale Sicherheit in Form einer Zielgruppenermäßigung für Langzeitarbeitssuchende; </target>
@@ -27,7 +27,7 @@
         </group>
         <trans-unit restype="x-html-p" id="tu12" resname="/html/body/p[2]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu13" resname="/html/body/p[3]">
           <source xml:lang="nl"> De hiernavolgende tekst handelt enkel over de bijdragevermindering, de toekenning van de uitkeringen valt immers onder de bevoegdheid van de RVA of van het OCMW. </source>
@@ -47,7 +47,7 @@
           <source xml:lang="nl"> Zijn evenwel uitgesloten: </source>
           <target xml:lang="de" state="final"> Folgende Arbeitgeber sind jedoch ausgeschlossen: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu18" resname="/html/body/ul[1]">
+        <group restype="x-html-ul" id="grp18" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu19" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">het Rijk, met daarin begrepen de Rechterlijke macht, de Raad van State, het leger en de federale politie; </source>
             <target xml:lang="de" state="final">der Staat, einschließlich der richterlichen Gewalt, des Staatsrats, der Armee und der föderalen Polizei; </target>
@@ -65,7 +65,7 @@
           <source xml:lang="nl"> Komen voor de overheidssector wel in aanmerking: </source>
           <target xml:lang="de" state="final"> Folgende Arbeitgeber kommen für den öffentlichen Sektor jedoch in Betracht: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu23" resname="/html/body/ul[2]">
+        <group restype="x-html-ul" id="grp23" resname="/html/body/ul[2]">
           <trans-unit restype="listitem" id="tu24" resname="/html/body/ul[2]/li[1]">
             <source xml:lang="nl">de openbare kredietinstellingen; </source>
             <target xml:lang="de" state="final">öffentliche Kreditinstitute; </target>
@@ -143,7 +143,7 @@
           <source xml:lang="nl"> De voorwaarde dat zij de hoedanigheid van werkzoekende moeten hebben op het ogenblik van de indienstneming, geldt evenwel niet voor werknemers die verder worden tewerkgesteld na afloop van één van de volgende periodes: </source>
           <target xml:lang="de" state="final"> Die Bedingung, dass sie die Eigenschaft eines Arbeitssuchenden bei Dienstantritt haben müssen, gilt jedoch nicht für Arbeitnehmer, die nach Ablauf einer der folgenden Perioden weiter beschäftigt werden: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu45" resname="/html/body/ul[3]">
+        <group restype="x-html-ul" id="grp45" resname="/html/body/ul[3]">
           <trans-unit restype="listitem" id="tu46" resname="/html/body/ul[3]/li[1]">
             <source xml:lang="nl">de periode van tewerkstelling in toepassing van artikel 60, § 7, van de organieke wet van 8 juli 1976 betreffende de openbare centra voor maatschappelijk welzijn; </source>
             <target xml:lang="de" state="final">die Periode der Beschäftigung in Anwendung von Artikel 60, § 7 des Grundlagengesetzes vom 08.07.1976 über die öffentlichen Sozialhilfezentren; </target>
@@ -169,7 +169,7 @@
           <source xml:lang="nl"> De werknemers van de volgende categorieën komen niet in aanmerking voor de vermindering : </source>
           <target xml:lang="de" state="final"> Die Arbeitnehmer der folgenden Kategorien kommen für die Ermäßigung nicht in Betracht: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu52" resname="/html/body/ul[4]">
+        <group restype="x-html-ul" id="grp52" resname="/html/body/ul[4]">
           <trans-unit restype="listitem" id="tu53" resname="/html/body/ul[4]/li[1]">
             <source xml:lang="nl">de werknemer die van het voordeel van de vrijstelling werd uitgesloten door een beslissing van het beheerscomité van de Rijksdienst voor Sociale Zekerheid, genomen op basis van een rapport van de inspectiediensten van de Inspectie van de Sociale Wetten, de Sociale Inspectie, de RVA of de RSZ, indien na klacht werd vastgesteld dat de werknemer werd aangenomen ter vervanging en in eenzelfde functie van een ontslagen werknemer met als hoofdzakelijk doel de voordelen van dit koninklijk besluit te verkrijgen; </source>
             <target xml:lang="de" state="final">Arbeitnehmer, die aufgrund eines Berichts der Inspektionsdienststellen der Inspektion der Sozialgesetze, der Sozialinspektion, des LfA oder des LSS durch den Verwaltungsausschuss des Landesamtes für Soziale Sicherheit gefassten Beschlusses vom Vorteil der Befreiung ausgeschlossen wurden, wenn nach einer Klage festgestellt wurde, dass sie als Ersatz für einen entlassenen Arbeitnehmer und in derselben Funktion hauptsächlich mit dem Ziel eingestellt wurden, die Vorteile dieses Königlichen Erlasses zu beanspruchen. </target>
@@ -199,7 +199,7 @@
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <group restype="x-html-div" id="tu64" resname="/html/body/div[1]">
+        <group restype="x-html-div" id="grp64" resname="/html/body/div[1]">
           <note from="class">alert message</note>
           <trans-unit restype="x-html-h3" id="tu65" resname="/html/body/div[1]/h3">
             <source xml:lang="nl"> Vlaams Gewest: </source>
@@ -214,7 +214,7 @@
             <target xml:lang="de" state="final"> Die Ermäßigung ist am 31.12.2018 endgültig ausgelaufen. </target>
           </trans-unit>
         </group>
-        <group restype="x-html-div" id="tu72" resname="/html/body/div[2]">
+        <group restype="x-html-div" id="grp72" resname="/html/body/div[2]">
           <note from="class">alert message</note>
           <trans-unit restype="x-html-h3" id="tu73" resname="/html/body/div[2]/h3">
             <source xml:lang="nl"> Waals Gewest (zonder de Duitstalige Gemeenschap): </source>
@@ -229,7 +229,7 @@
             <target xml:lang="de" state="final"> Die Ermäßigung läuft endgültig am 30. Juni 2020 ab.  </target>
           </trans-unit>
         </group>
-        <group restype="x-html-div" id="tu80" resname="/html/body/div[3]">
+        <group restype="x-html-div" id="grp80" resname="/html/body/div[3]">
           <note from="class">alert message</note>
           <trans-unit restype="x-html-h3" id="tu81" resname="/html/body/div[3]/h3">
             <source xml:lang="nl"> Brussels Hoofdstedelijk Gewest: </source>
@@ -244,7 +244,7 @@
             <target xml:lang="de" state="final"> Die Ermäßigung ist am 31.12.2018 endgültig ausgelaufen. </target>
           </trans-unit>
         </group>
-        <group restype="x-html-div" id="tu88" resname="/html/body/div[4]">
+        <group restype="x-html-div" id="grp88" resname="/html/body/div[4]">
           <note from="class">alert message</note>
           <trans-unit restype="x-html-h3" id="tu89" resname="/html/body/div[4]/h3">
             <source xml:lang="nl"> Duitstalige Gemeenschap: </source>
@@ -271,15 +271,15 @@
           <source xml:lang="nl"> Bedrag van de vermindering </source>
           <target xml:lang="de" state="final"> Betrag der Ermäßigung </target>
         </trans-unit>
-        <group restype="table" id="tu105" resname="/html/body/table">
+        <group restype="table" id="grp105" resname="/html/body/table">
           <note from="class">table-bordered table-striped</note>
           <trans-unit restype="caption" id="tu106" resname="/html/body/table/caption">
             <source xml:lang="nl"> De werkgever kan volgende verminderingen genieten: </source>
             <target xml:lang="de" state="final"> Der Arbeitgeber kann folgende Ermäßigungen beanspruchen: </target>
           </trans-unit>
-          <group restype="x-html-thead" id="tu107" resname="/html/body/table/thead">
-            <group restype="row" id="tu108" resname="/html/body/table/thead/tr">
-              <group restype="x-html-th" id="tu109" resname="/html/body/table/thead/tr/th[1]">
+          <group restype="x-html-thead" id="grp107" resname="/html/body/table/thead">
+            <group restype="row" id="grp108" resname="/html/body/table/thead/tr">
+              <group restype="x-html-th" id="grp109" resname="/html/body/table/thead/tr/th[1]">
                 <trans-unit restype="x-html-p" id="tu110" resname="/html/body/table/thead/tr/th[1]/p[1]">
                   <source xml:lang="nl"> Leeftijd </source>
                   <target xml:lang="de" state="final"> Alter </target>
@@ -297,13 +297,13 @@
                   <target xml:lang="de" state="final"> (Jahr) </target>
                 </trans-unit>
               </group>
-              <group restype="x-html-th" id="tu114" resname="/html/body/table/thead/tr/th[2]">
+              <group restype="x-html-th" id="grp114" resname="/html/body/table/thead/tr/th[2]">
                 <trans-unit restype="x-html-p" id="tu115" resname="/html/body/table/thead/tr/th[2]/p">
                   <source xml:lang="nl"> Maatregel </source>
                   <target xml:lang="de" state="final"> Maßnahme </target>
                 </trans-unit>
               </group>
-              <group restype="x-html-th" id="tu116" resname="/html/body/table/thead/tr/th[3]">
+              <group restype="x-html-th" id="grp116" resname="/html/body/table/thead/tr/th[3]">
                 <trans-unit restype="x-html-p" id="tu117" resname="/html/body/table/thead/tr/th[3]/p[1]">
                   <source xml:lang="nl"> Min. aantal dagen </source>
                   <target xml:lang="de" state="final"> Mindestanzahl der Tage </target>
@@ -317,7 +317,7 @@
                   <target xml:lang="de" state="final"> (6-Tage-Regelung) </target>
                 </trans-unit>
               </group>
-              <group restype="x-html-th" id="tu120" resname="/html/body/table/thead/tr/th[4]">
+              <group restype="x-html-th" id="grp120" resname="/html/body/table/thead/tr/th[4]">
                 <trans-unit restype="x-html-p" id="tu121" resname="/html/body/table/thead/tr/th[4]/p[1]">
                   <source xml:lang="nl"> Referte- </source>
                   <target xml:lang="de" state="final"> Referenz- </target>
@@ -335,7 +335,7 @@
                   <target xml:lang="de" state="final"> (<g id="g126" ctype="x-html-sup">1</g>) </target>
                 </trans-unit>
               </group>
-              <group restype="x-html-th" id="tu127" resname="/html/body/table/thead/tr/th[5]">
+              <group restype="x-html-th" id="grp127" resname="/html/body/table/thead/tr/th[5]">
                 <trans-unit restype="x-html-p" id="tu128" resname="/html/body/table/thead/tr/th[5]/p[1]">
                   <source xml:lang="nl"> Aantal kwartalen G<g id="g129" ctype="x-html-sub">8</g> </source>
                   <target xml:lang="de" state="final"> Anzahl Quartale G<g id="g130" ctype="x-html-sub">8</g> </target>
@@ -345,7 +345,7 @@
                   <target xml:lang="de" state="final"> (<g id="g133" ctype="x-html-sup">2</g>) </target>
                 </trans-unit>
               </group>
-              <group restype="x-html-th" id="tu134" resname="/html/body/table/thead/tr/th[6]">
+              <group restype="x-html-th" id="grp134" resname="/html/body/table/thead/tr/th[6]">
                 <trans-unit restype="x-html-p" id="tu135" resname="/html/body/table/thead/tr/th[6]/p[1]">
                   <source xml:lang="nl"> Aantal kwartalen G<g id="g136" ctype="x-html-sub">1</g> </source>
                   <target xml:lang="de" state="final"> Anzahl Quartale G<g id="g137" ctype="x-html-sub">1</g> </target>
@@ -355,7 +355,7 @@
                   <target xml:lang="de" state="final"> (<g id="g141" ctype="x-html-sup">2</g><g id="g142" ctype="x-html-sup">)</g> </target>
                 </trans-unit>
               </group>
-              <group restype="x-html-th" id="tu143" resname="/html/body/table/thead/tr/th[7]">
+              <group restype="x-html-th" id="grp143" resname="/html/body/table/thead/tr/th[7]">
                 <trans-unit restype="x-html-p" id="tu144" resname="/html/body/table/thead/tr/th[7]/p[1]">
                   <source xml:lang="nl"> Aantal kwartalen G<g id="g145" ctype="x-html-sub">2</g> </source>
                   <target xml:lang="de" state="final"> Anzahl Quartale G<g id="g146" ctype="x-html-sub">2</g> </target>
@@ -365,13 +365,13 @@
                   <target xml:lang="de" state="final"> (<g id="g150" ctype="x-html-sup"><g id="g151" ctype="x-html-sup">2</g>)</g> </target>
                 </trans-unit>
               </group>
-              <group restype="x-html-th" id="tu152" resname="/html/body/table/thead/tr/th[8]">
+              <group restype="x-html-th" id="grp152" resname="/html/body/table/thead/tr/th[8]">
                 <trans-unit restype="x-html-p" id="tu153" resname="/html/body/table/thead/tr/th[8]/p">
                   <source xml:lang="nl"> RVA-codes. </source>
                   <target xml:lang="de" state="final"> LfA-Codes. </target>
                 </trans-unit>
               </group>
-              <group restype="x-html-th" id="tu154" resname="/html/body/table/thead/tr/th[9]">
+              <group restype="x-html-th" id="grp154" resname="/html/body/table/thead/tr/th[9]">
                 <trans-unit restype="x-html-p" id="tu155" resname="/html/body/table/thead/tr/th[9]/p[1]">
                   <source xml:lang="nl"> Verminderings </source>
                   <target xml:lang="de" state="final"> Ermäßigungs </target>
@@ -383,344 +383,344 @@
               </group>
             </group>
           </group>
-          <group restype="x-html-tbody" id="tu157" resname="/html/body/table/tbody">
-            <group restype="row" id="tu158" resname="/html/body/table/tbody/tr[1]">
-              <group restype="cell" id="tu159" resname="/html/body/table/tbody/tr[1]/td[1]">
+          <group restype="x-html-tbody" id="grp157" resname="/html/body/table/tbody">
+            <group restype="row" id="grp158" resname="/html/body/table/tbody/tr[1]">
+              <group restype="cell" id="grp159" resname="/html/body/table/tbody/tr[1]/td[1]">
                 <trans-unit restype="x-html-p" id="tu160" resname="/html/body/table/tbody/tr[1]/td[1]/p">
                   <source xml:lang="nl"> &lt; 45 </source>
                   <target xml:lang="de" state="final"> &lt; 45 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu161" resname="/html/body/table/tbody/tr[1]/td[2]">
+              <group restype="cell" id="grp161" resname="/html/body/table/tbody/tr[1]/td[2]">
                 <trans-unit restype="x-html-p" id="tu162" resname="/html/body/table/tbody/tr[1]/td[2]/p">
                   <source xml:lang="nl"> ACTIVA </source>
                   <target xml:lang="de" state="final"> AKTIVA </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu163" resname="/html/body/table/tbody/tr[1]/td[3]">
+              <group restype="cell" id="grp163" resname="/html/body/table/tbody/tr[1]/td[3]">
                 <trans-unit restype="x-html-p" id="tu164" resname="/html/body/table/tbody/tr[1]/td[3]/p">
                   <source xml:lang="nl"> 936 </source>
                   <target xml:lang="de" state="final"> 936 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu165" resname="/html/body/table/tbody/tr[1]/td[4]">
+              <group restype="cell" id="grp165" resname="/html/body/table/tbody/tr[1]/td[4]">
                 <trans-unit restype="x-html-p" id="tu166" resname="/html/body/table/tbody/tr[1]/td[4]/p">
                   <source xml:lang="nl"> 54 </source>
                   <target xml:lang="de" state="final"> 54 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu167" resname="/html/body/table/tbody/tr[1]/td[5]">
+              <group restype="cell" id="grp167" resname="/html/body/table/tbody/tr[1]/td[5]">
                 <trans-unit restype="x-html-p" id="tu168" resname="/html/body/table/tbody/tr[1]/td[5]/p">
                   <source xml:lang="nl"> - </source>
                   <target xml:lang="de" state="final"> - </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu169" resname="/html/body/table/tbody/tr[1]/td[6]">
+              <group restype="cell" id="grp169" resname="/html/body/table/tbody/tr[1]/td[6]">
                 <trans-unit restype="x-html-p" id="tu170" resname="/html/body/table/tbody/tr[1]/td[6]/p">
                   <source xml:lang="nl"> 9 </source>
                   <target xml:lang="de" state="final"> 9 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu171" resname="/html/body/table/tbody/tr[1]/td[7]">
+              <group restype="cell" id="grp171" resname="/html/body/table/tbody/tr[1]/td[7]">
                 <trans-unit restype="x-html-p" id="tu172" resname="/html/body/table/tbody/tr[1]/td[7]/p">
                   <source xml:lang="nl"> 4 </source>
                   <target xml:lang="de" state="final"> 4 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu173" resname="/html/body/table/tbody/tr[1]/td[8]">
+              <group restype="cell" id="grp173" resname="/html/body/table/tbody/tr[1]/td[8]">
                 <trans-unit restype="x-html-p" id="tu174" resname="/html/body/table/tbody/tr[1]/td[8]/p">
                   <source xml:lang="nl"> C5, C6, C38 </source>
                   <target xml:lang="de" state="final"> C5, C6, C38 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu175" resname="/html/body/table/tbody/tr[1]/td[9]">
+              <group restype="cell" id="grp175" resname="/html/body/table/tbody/tr[1]/td[9]">
                 <trans-unit restype="x-html-p" id="tu176" resname="/html/body/table/tbody/tr[1]/td[9]/p">
-                  <source xml:lang="nl"> 3202<x id="x177" ctype="x-html-br" equiv-text=" "/> <x id="x178" ctype="x-html-br" equiv-text=" "/>   </source>
-                  <target xml:lang="de" state="final"> 3202<x id="x179" ctype="x-html-br" equiv-text=" "/> <x id="x180" ctype="x-html-br" equiv-text=" "/>   </target>
+                  <source xml:lang="nl"> 3202<x id="x177" ctype="lb" equiv-text=" "/> <x id="x178" ctype="lb" equiv-text=" "/>   </source>
+                  <target xml:lang="de" state="final"> 3202<x id="x179" ctype="lb" equiv-text=" "/> <x id="x180" ctype="lb" equiv-text=" "/>   </target>
                 </trans-unit>
               </group>
             </group>
-            <group restype="row" id="tu181" resname="/html/body/table/tbody/tr[2]">
-              <group restype="cell" id="tu182" resname="/html/body/table/tbody/tr[2]/td[1]">
+            <group restype="row" id="grp181" resname="/html/body/table/tbody/tr[2]">
+              <group restype="cell" id="grp182" resname="/html/body/table/tbody/tr[2]/td[1]">
                 <trans-unit restype="x-html-p" id="tu183" resname="/html/body/table/tbody/tr[2]/td[1]/p">
                   <source xml:lang="nl"> &lt; 45 </source>
                   <target xml:lang="de" state="final"> &lt; 45 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu184" resname="/html/body/table/tbody/tr[2]/td[2]">
+              <group restype="cell" id="grp184" resname="/html/body/table/tbody/tr[2]/td[2]">
                 <trans-unit restype="x-html-p" id="tu185" resname="/html/body/table/tbody/tr[2]/td[2]/p">
                   <source xml:lang="nl"> ACTIVA </source>
                   <target xml:lang="de" state="final"> AKTIVA </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu186" resname="/html/body/table/tbody/tr[2]/td[3]">
+              <group restype="cell" id="grp186" resname="/html/body/table/tbody/tr[2]/td[3]">
                 <trans-unit restype="x-html-p" id="tu187" resname="/html/body/table/tbody/tr[2]/td[3]/p">
                   <source xml:lang="nl"> 1560 </source>
                   <target xml:lang="de" state="final"> 1560 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu188" resname="/html/body/table/tbody/tr[2]/td[4]">
+              <group restype="cell" id="grp188" resname="/html/body/table/tbody/tr[2]/td[4]">
                 <trans-unit restype="x-html-p" id="tu189" resname="/html/body/table/tbody/tr[2]/td[4]/p">
                   <source xml:lang="nl"> 90 </source>
                   <target xml:lang="de" state="final"> 90 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu190" resname="/html/body/table/tbody/tr[2]/td[5]">
+              <group restype="cell" id="grp190" resname="/html/body/table/tbody/tr[2]/td[5]">
                 <trans-unit restype="x-html-p" id="tu191" resname="/html/body/table/tbody/tr[2]/td[5]/p">
                   <source xml:lang="nl"> - </source>
                   <target xml:lang="de" state="final"> - </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu192" resname="/html/body/table/tbody/tr[2]/td[6]">
+              <group restype="cell" id="grp192" resname="/html/body/table/tbody/tr[2]/td[6]">
                 <trans-unit restype="x-html-p" id="tu193" resname="/html/body/table/tbody/tr[2]/td[6]/p">
                   <source xml:lang="nl"> 9 </source>
                   <target xml:lang="de" state="final"> 9 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu194" resname="/html/body/table/tbody/tr[2]/td[7]">
+              <group restype="cell" id="grp194" resname="/html/body/table/tbody/tr[2]/td[7]">
                 <trans-unit restype="x-html-p" id="tu195" resname="/html/body/table/tbody/tr[2]/td[7]/p">
                   <source xml:lang="nl"> 12 </source>
                   <target xml:lang="de" state="final"> 12 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu196" resname="/html/body/table/tbody/tr[2]/td[8]">
+              <group restype="cell" id="grp196" resname="/html/body/table/tbody/tr[2]/td[8]">
                 <trans-unit restype="x-html-p" id="tu197" resname="/html/body/table/tbody/tr[2]/td[8]/p">
                   <source xml:lang="nl"> C7, C8, C39 </source>
                   <target xml:lang="de" state="final"> C7, C8, C39 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu198" resname="/html/body/table/tbody/tr[2]/td[9]">
+              <group restype="cell" id="grp198" resname="/html/body/table/tbody/tr[2]/td[9]">
                 <trans-unit restype="x-html-p" id="tu199" resname="/html/body/table/tbody/tr[2]/td[9]/p">
-                  <source xml:lang="nl"> 3203<x id="x200" ctype="x-html-br" equiv-text=" "/> <x id="x201" ctype="x-html-br" equiv-text=" "/>   </source>
-                  <target xml:lang="de" state="final"> 3203<x id="x202" ctype="x-html-br" equiv-text=" "/> <x id="x203" ctype="x-html-br" equiv-text=" "/>   </target>
+                  <source xml:lang="nl"> 3203<x id="x200" ctype="lb" equiv-text=" "/> <x id="x201" ctype="lb" equiv-text=" "/>   </source>
+                  <target xml:lang="de" state="final"> 3203<x id="x202" ctype="lb" equiv-text=" "/> <x id="x203" ctype="lb" equiv-text=" "/>   </target>
                 </trans-unit>
               </group>
             </group>
-            <group restype="row" id="tu204" resname="/html/body/table/tbody/tr[3]">
-              <group restype="cell" id="tu205" resname="/html/body/table/tbody/tr[3]/td[1]">
+            <group restype="row" id="grp204" resname="/html/body/table/tbody/tr[3]">
+              <group restype="cell" id="grp205" resname="/html/body/table/tbody/tr[3]/td[1]">
                 <trans-unit restype="x-html-p" id="tu206" resname="/html/body/table/tbody/tr[3]/td[1]/p">
                   <source xml:lang="nl"> &gt;= 45 </source>
                   <target xml:lang="de" state="final"> &gt;= 45 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu207" resname="/html/body/table/tbody/tr[3]/td[2]">
+              <group restype="cell" id="grp207" resname="/html/body/table/tbody/tr[3]/td[2]">
                 <trans-unit restype="x-html-p" id="tu208" resname="/html/body/table/tbody/tr[3]/td[2]/p">
                   <source xml:lang="nl"> ACTIVA </source>
                   <target xml:lang="de" state="final"> AKTIVA </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu209" resname="/html/body/table/tbody/tr[3]/td[3]">
+              <group restype="cell" id="grp209" resname="/html/body/table/tbody/tr[3]/td[3]">
                 <trans-unit restype="x-html-p" id="tu210" resname="/html/body/table/tbody/tr[3]/td[3]/p">
                   <source xml:lang="nl"> 156 </source>
                   <target xml:lang="de" state="final"> 156 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu211" resname="/html/body/table/tbody/tr[3]/td[4]">
+              <group restype="cell" id="grp211" resname="/html/body/table/tbody/tr[3]/td[4]">
                 <trans-unit restype="x-html-p" id="tu212" resname="/html/body/table/tbody/tr[3]/td[4]/p">
                   <source xml:lang="nl"> 9 </source>
                   <target xml:lang="de" state="final"> 9 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu213" resname="/html/body/table/tbody/tr[3]/td[5]">
+              <group restype="cell" id="grp213" resname="/html/body/table/tbody/tr[3]/td[5]">
                 <trans-unit restype="x-html-p" id="tu214" resname="/html/body/table/tbody/tr[3]/td[5]/p">
                   <source xml:lang="nl"> - </source>
                   <target xml:lang="de" state="final"> - </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu215" resname="/html/body/table/tbody/tr[3]/td[6]">
+              <group restype="cell" id="grp215" resname="/html/body/table/tbody/tr[3]/td[6]">
                 <trans-unit restype="x-html-p" id="tu216" resname="/html/body/table/tbody/tr[3]/td[6]/p">
                   <source xml:lang="nl"> 5 </source>
                   <target xml:lang="de" state="final"> 5 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu217" resname="/html/body/table/tbody/tr[3]/td[7]">
+              <group restype="cell" id="grp217" resname="/html/body/table/tbody/tr[3]/td[7]">
                 <trans-unit restype="x-html-p" id="tu218" resname="/html/body/table/tbody/tr[3]/td[7]/p">
                   <source xml:lang="nl"> 16 </source>
                   <target xml:lang="de" state="final"> 16 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu219" resname="/html/body/table/tbody/tr[3]/td[8]">
+              <group restype="cell" id="grp219" resname="/html/body/table/tbody/tr[3]/td[8]">
                 <trans-unit restype="x-html-p" id="tu220" resname="/html/body/table/tbody/tr[3]/td[8]/p">
                   <source xml:lang="nl"> D1, D19 </source>
                   <target xml:lang="de" state="final"> D1, D19 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu221" resname="/html/body/table/tbody/tr[3]/td[9]">
+              <group restype="cell" id="grp221" resname="/html/body/table/tbody/tr[3]/td[9]">
                 <trans-unit restype="x-html-p" id="tu222" resname="/html/body/table/tbody/tr[3]/td[9]/p">
-                  <source xml:lang="nl"> 3210<x id="x223" ctype="x-html-br" equiv-text=" "/> <x id="x224" ctype="x-html-br" equiv-text=" "/>   </source>
-                  <target xml:lang="de" state="final"> 3210<x id="x225" ctype="x-html-br" equiv-text=" "/> <x id="x226" ctype="x-html-br" equiv-text=" "/>   </target>
+                  <source xml:lang="nl"> 3210<x id="x223" ctype="lb" equiv-text=" "/> <x id="x224" ctype="lb" equiv-text=" "/>   </source>
+                  <target xml:lang="de" state="final"> 3210<x id="x225" ctype="lb" equiv-text=" "/> <x id="x226" ctype="lb" equiv-text=" "/>   </target>
                 </trans-unit>
               </group>
             </group>
-            <group restype="row" id="tu227" resname="/html/body/table/tbody/tr[4]">
-              <group restype="cell" id="tu228" resname="/html/body/table/tbody/tr[4]/td[1]">
+            <group restype="row" id="grp227" resname="/html/body/table/tbody/tr[4]">
+              <group restype="cell" id="grp228" resname="/html/body/table/tbody/tr[4]/td[1]">
                 <trans-unit restype="x-html-p" id="tu229" resname="/html/body/table/tbody/tr[4]/td[1]/p">
                   <source xml:lang="nl"> &gt;= 45 </source>
                   <target xml:lang="de" state="final"> &gt;= 45 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu230" resname="/html/body/table/tbody/tr[4]/td[2]">
+              <group restype="cell" id="grp230" resname="/html/body/table/tbody/tr[4]/td[2]">
                 <trans-unit restype="x-html-p" id="tu231" resname="/html/body/table/tbody/tr[4]/td[2]/p">
                   <source xml:lang="nl"> ACTIVA </source>
                   <target xml:lang="de" state="final"> AKTIVA </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu232" resname="/html/body/table/tbody/tr[4]/td[3]">
+              <group restype="cell" id="grp232" resname="/html/body/table/tbody/tr[4]/td[3]">
                 <trans-unit restype="x-html-p" id="tu233" resname="/html/body/table/tbody/tr[4]/td[3]/p">
                   <source xml:lang="nl"> 312 </source>
                   <target xml:lang="de" state="final"> 312 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu234" resname="/html/body/table/tbody/tr[4]/td[4]">
+              <group restype="cell" id="grp234" resname="/html/body/table/tbody/tr[4]/td[4]">
                 <trans-unit restype="x-html-p" id="tu235" resname="/html/body/table/tbody/tr[4]/td[4]/p">
                   <source xml:lang="nl"> 18 </source>
                   <target xml:lang="de" state="final"> 18 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu236" resname="/html/body/table/tbody/tr[4]/td[5]">
+              <group restype="cell" id="grp236" resname="/html/body/table/tbody/tr[4]/td[5]">
                 <trans-unit restype="x-html-p" id="tu237" resname="/html/body/table/tbody/tr[4]/td[5]/p">
                   <source xml:lang="nl"> - </source>
                   <target xml:lang="de" state="final"> - </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu238" resname="/html/body/table/tbody/tr[4]/td[6]">
+              <group restype="cell" id="grp238" resname="/html/body/table/tbody/tr[4]/td[6]">
                 <trans-unit restype="x-html-p" id="tu239" resname="/html/body/table/tbody/tr[4]/td[6]/p">
                   <source xml:lang="nl"> 21 </source>
                   <target xml:lang="de" state="final"> 21 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu240" resname="/html/body/table/tbody/tr[4]/td[7]">
+              <group restype="cell" id="grp240" resname="/html/body/table/tbody/tr[4]/td[7]">
                 <trans-unit restype="x-html-p" id="tu241" resname="/html/body/table/tbody/tr[4]/td[7]/p">
                   <source xml:lang="nl"> – </source>
                   <target xml:lang="de" state="final"> – </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu242" resname="/html/body/table/tbody/tr[4]/td[8]">
+              <group restype="cell" id="grp242" resname="/html/body/table/tbody/tr[4]/td[8]">
                 <trans-unit restype="x-html-p" id="tu243" resname="/html/body/table/tbody/tr[4]/td[8]/p">
                   <source xml:lang="nl"> D3, D20 </source>
                   <target xml:lang="de" state="final"> D3, D20 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu244" resname="/html/body/table/tbody/tr[4]/td[9]">
+              <group restype="cell" id="grp244" resname="/html/body/table/tbody/tr[4]/td[9]">
                 <trans-unit restype="x-html-p" id="tu245" resname="/html/body/table/tbody/tr[4]/td[9]/p">
-                  <source xml:lang="nl"> 3211<x id="x246" ctype="x-html-br" equiv-text=" "/> <x id="x247" ctype="x-html-br" equiv-text=" "/>   </source>
-                  <target xml:lang="de" state="final"> 3211<x id="x248" ctype="x-html-br" equiv-text=" "/> <x id="x249" ctype="x-html-br" equiv-text=" "/>   </target>
+                  <source xml:lang="nl"> 3211<x id="x246" ctype="lb" equiv-text=" "/> <x id="x247" ctype="lb" equiv-text=" "/>   </source>
+                  <target xml:lang="de" state="final"> 3211<x id="x248" ctype="lb" equiv-text=" "/> <x id="x249" ctype="lb" equiv-text=" "/>   </target>
                 </trans-unit>
               </group>
             </group>
-            <group restype="row" id="tu250" resname="/html/body/table/tbody/tr[5]">
-              <group restype="cell" id="tu251" resname="/html/body/table/tbody/tr[5]/td[1]">
+            <group restype="row" id="grp250" resname="/html/body/table/tbody/tr[5]">
+              <group restype="cell" id="grp251" resname="/html/body/table/tbody/tr[5]/td[1]">
                 <trans-unit restype="x-html-p" id="tu252" resname="/html/body/table/tbody/tr[5]/td[1]/p">
                   <source xml:lang="nl"> &gt;= 45 </source>
                   <target xml:lang="de" state="final"> &gt;= 45 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu253" resname="/html/body/table/tbody/tr[5]/td[2]">
+              <group restype="cell" id="grp253" resname="/html/body/table/tbody/tr[5]/td[2]">
                 <trans-unit restype="x-html-p" id="tu254" resname="/html/body/table/tbody/tr[5]/td[2]/p">
                   <source xml:lang="nl"> ACTIVA </source>
                   <target xml:lang="de" state="final"> AKTIVA </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu255" resname="/html/body/table/tbody/tr[5]/td[3]">
+              <group restype="cell" id="grp255" resname="/html/body/table/tbody/tr[5]/td[3]">
                 <trans-unit restype="x-html-p" id="tu256" resname="/html/body/table/tbody/tr[5]/td[3]/p">
                   <source xml:lang="nl"> 468 </source>
                   <target xml:lang="de" state="final"> 468 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu257" resname="/html/body/table/tbody/tr[5]/td[4]">
+              <group restype="cell" id="grp257" resname="/html/body/table/tbody/tr[5]/td[4]">
                 <trans-unit restype="x-html-p" id="tu258" resname="/html/body/table/tbody/tr[5]/td[4]/p">
                   <source xml:lang="nl"> 27 </source>
                   <target xml:lang="de" state="final"> 27 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu259" resname="/html/body/table/tbody/tr[5]/td[5]">
+              <group restype="cell" id="grp259" resname="/html/body/table/tbody/tr[5]/td[5]">
                 <trans-unit restype="x-html-p" id="tu260" resname="/html/body/table/tbody/tr[5]/td[5]/p">
                   <source xml:lang="nl"> - </source>
                   <target xml:lang="de" state="final"> - </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu261" resname="/html/body/table/tbody/tr[5]/td[6]">
+              <group restype="cell" id="grp261" resname="/html/body/table/tbody/tr[5]/td[6]">
                 <trans-unit restype="x-html-p" id="tu262" resname="/html/body/table/tbody/tr[5]/td[6]/p">
                   <source xml:lang="nl"> 21 </source>
                   <target xml:lang="de" state="final"> 21 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu263" resname="/html/body/table/tbody/tr[5]/td[7]">
+              <group restype="cell" id="grp263" resname="/html/body/table/tbody/tr[5]/td[7]">
                 <trans-unit restype="x-html-p" id="tu264" resname="/html/body/table/tbody/tr[5]/td[7]/p">
                   <source xml:lang="nl"> – </source>
                   <target xml:lang="de" state="final"> – </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu265" resname="/html/body/table/tbody/tr[5]/td[8]">
+              <group restype="cell" id="grp265" resname="/html/body/table/tbody/tr[5]/td[8]">
                 <trans-unit restype="x-html-p" id="tu266" resname="/html/body/table/tbody/tr[5]/td[8]/p">
                   <source xml:lang="nl"> D5, D6, D21 </source>
                   <target xml:lang="de" state="final"> D5, D6, D21 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu267" resname="/html/body/table/tbody/tr[5]/td[9]">
+              <group restype="cell" id="grp267" resname="/html/body/table/tbody/tr[5]/td[9]">
                 <trans-unit restype="x-html-p" id="tu268" resname="/html/body/table/tbody/tr[5]/td[9]/p">
-                  <source xml:lang="nl"> 3211<x id="x269" ctype="x-html-br" equiv-text=" "/> <x id="x270" ctype="x-html-br" equiv-text=" "/>   </source>
-                  <target xml:lang="de" state="final"> 3211<x id="x271" ctype="x-html-br" equiv-text=" "/> <x id="x272" ctype="x-html-br" equiv-text=" "/>   </target>
+                  <source xml:lang="nl"> 3211<x id="x269" ctype="lb" equiv-text=" "/> <x id="x270" ctype="lb" equiv-text=" "/>   </source>
+                  <target xml:lang="de" state="final"> 3211<x id="x271" ctype="lb" equiv-text=" "/> <x id="x272" ctype="lb" equiv-text=" "/>   </target>
                 </trans-unit>
               </group>
             </group>
-            <group restype="row" id="tu273" resname="/html/body/table/tbody/tr[6]">
-              <group restype="cell" id="tu274" resname="/html/body/table/tbody/tr[6]/td[1]">
+            <group restype="row" id="grp273" resname="/html/body/table/tbody/tr[6]">
+              <group restype="cell" id="grp274" resname="/html/body/table/tbody/tr[6]/td[1]">
                 <trans-unit restype="x-html-p" id="tu275" resname="/html/body/table/tbody/tr[6]/td[1]/p">
                   <source xml:lang="nl"> &lt; 27 </source>
                   <target xml:lang="de" state="final"> &lt; 27 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu276" resname="/html/body/table/tbody/tr[6]/td[2]">
+              <group restype="cell" id="grp276" resname="/html/body/table/tbody/tr[6]/td[2]">
                 <trans-unit restype="x-html-p" id="tu277" resname="/html/body/table/tbody/tr[6]/td[2]/p">
                   <source xml:lang="nl"> ACTIVA </source>
                   <target xml:lang="de" state="final"> AKTIVA </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu278" resname="/html/body/table/tbody/tr[6]/td[3]">
+              <group restype="cell" id="grp278" resname="/html/body/table/tbody/tr[6]/td[3]">
                 <trans-unit restype="x-html-p" id="tu279" resname="/html/body/table/tbody/tr[6]/td[3]/p">
                   <source xml:lang="nl"> 312 </source>
                   <target xml:lang="de" state="final"> 312 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu280" resname="/html/body/table/tbody/tr[6]/td[4]">
+              <group restype="cell" id="grp280" resname="/html/body/table/tbody/tr[6]/td[4]">
                 <trans-unit restype="x-html-p" id="tu281" resname="/html/body/table/tbody/tr[6]/td[4]/p">
                   <source xml:lang="nl"> 18 </source>
                   <target xml:lang="de" state="final"> 18 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu282" resname="/html/body/table/tbody/tr[6]/td[5]">
+              <group restype="cell" id="grp282" resname="/html/body/table/tbody/tr[6]/td[5]">
                 <trans-unit restype="x-html-p" id="tu283" resname="/html/body/table/tbody/tr[6]/td[5]/p">
                   <source xml:lang="nl"> 12 </source>
                   <target xml:lang="de" state="final"> 12 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu284" resname="/html/body/table/tbody/tr[6]/td[6]">
+              <group restype="cell" id="grp284" resname="/html/body/table/tbody/tr[6]/td[6]">
                 <trans-unit restype="x-html-p" id="tu285" resname="/html/body/table/tbody/tr[6]/td[6]/p">
                   <source xml:lang="nl"> – </source>
                   <target xml:lang="de" state="final"> – </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu286" resname="/html/body/table/tbody/tr[6]/td[7]">
+              <group restype="cell" id="grp286" resname="/html/body/table/tbody/tr[6]/td[7]">
                 <trans-unit restype="x-html-p" id="tu287" resname="/html/body/table/tbody/tr[6]/td[7]/p">
                   <source xml:lang="nl"> – </source>
                   <target xml:lang="de" state="final"> – </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu288" resname="/html/body/table/tbody/tr[6]/td[8]">
+              <group restype="cell" id="grp288" resname="/html/body/table/tbody/tr[6]/td[8]">
                 <trans-unit restype="x-html-p" id="tu289" resname="/html/body/table/tbody/tr[6]/td[8]/p">
                   <source xml:lang="nl"> C40, C41 </source>
                   <target xml:lang="de" state="final"> C40, C41 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu290" resname="/html/body/table/tbody/tr[6]/td[9]">
+              <group restype="cell" id="grp290" resname="/html/body/table/tbody/tr[6]/td[9]">
                 <trans-unit restype="x-html-p" id="tu291" resname="/html/body/table/tbody/tr[6]/td[9]/p">
-                  <source xml:lang="nl"> 3205<x id="x292" ctype="x-html-br" equiv-text=" "/> <x id="x293" ctype="x-html-br" equiv-text=" "/>   </source>
-                  <target xml:lang="de" state="final"> 3205<x id="x294" ctype="x-html-br" equiv-text=" "/> <x id="x295" ctype="x-html-br" equiv-text=" "/>   </target>
+                  <source xml:lang="nl"> 3205<x id="x292" ctype="lb" equiv-text=" "/> <x id="x293" ctype="lb" equiv-text=" "/>   </source>
+                  <target xml:lang="de" state="final"> 3205<x id="x294" ctype="lb" equiv-text=" "/> <x id="x295" ctype="lb" equiv-text=" "/>   </target>
                 </trans-unit>
               </group>
             </group>
-            <group restype="row" id="tu296" resname="/html/body/table/tbody/tr[7]">
+            <group restype="row" id="grp296" resname="/html/body/table/tbody/tr[7]">
               <trans-unit restype="cell" id="tu297" resname="/html/body/table/tbody/tr[7]/td[1]">
                 <source xml:lang="nl"> &lt; 30 </source>
                 <target xml:lang="de" state="final"> &lt; 30 </target>
@@ -754,8 +754,8 @@
                 <target xml:lang="de" state="final"> C42, C43 </target>
               </trans-unit>
               <trans-unit restype="cell" id="tu305" resname="/html/body/table/tbody/tr[7]/td[9]">
-                <source xml:lang="nl"> 3205<x id="x306" ctype="x-html-br" equiv-text=" "/> <x id="x307" ctype="x-html-br" equiv-text=" "/>   </source>
-                <target xml:lang="de" state="final"> 3205<x id="x308" ctype="x-html-br" equiv-text=" "/> <x id="x309" ctype="x-html-br" equiv-text=" "/>   </target>
+                <source xml:lang="nl"> 3205<x id="x306" ctype="lb" equiv-text=" "/> <x id="x307" ctype="lb" equiv-text=" "/>   </source>
+                <target xml:lang="de" state="final"> 3205<x id="x308" ctype="lb" equiv-text=" "/> <x id="x309" ctype="lb" equiv-text=" "/>   </target>
               </trans-unit>
             </group>
           </group>

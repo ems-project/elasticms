@@ -1,0 +1,66 @@
+{% extends '@EMSAdminUI/bootstrap5/page/default.html.twig' %}
+
+{% block page_content %}
+    {% embed '@EMSAdminUI/bootstrap5/core/card.html.twig' with {
+        class: 'card-primary',
+        log: log,
+        date_time_format: date_time_format,
+    } only %}
+        {% block card_content %}
+            {% set severityColors = {
+                DEBUG: 'secondary',
+                INFO: 'info',
+                NOTICE: 'primary',
+                WARNING: 'warning',
+                ERROR: 'danger',
+                CRITICAL: 'danger',
+                ALERT: 'danger',
+                EMERGENCY: 'danger',
+            } %}
+
+            <dl class="row mb-0">
+                {% if log.username|default(false) %}
+                    {% set displayName = log.username|emsco_display_name %}
+                    <dt class="col-sm-3">{{ 'field.user'|trans({}, 'emsco-core') }}</dt>
+                    <dd class="col-sm-9">{{ displayName }}{% if log.username != displayName %} ({{ log.username }}){% endif %}</dd>
+                {% endif %}
+                {% if log.impersonator|default(false) %}
+                    {% set displayName = log.impersonator|emsco_display_name %}
+                    <dt class="col-sm-3">{{ 'field.user_impersonator'|trans({}, 'emsco-core') }}</dt>
+                    <dd class="col-sm-9">{{ displayName }}{% if log.impersonator != displayName %} ({{ log.impersonator }}){% endif %}</dd>
+                {% endif %}
+                <dt class="col-sm-3">{{ 'field.date_created'|trans({}, 'emsco-core') }}</dt>
+                <dd class="col-sm-9">{{ log.created|date(date_time_format) }}</dd>
+
+                <dt class="col-sm-3">{{ 'field.message'|trans({}, 'emsco-core') }}</dt>
+                <dd class="col-sm-9 fw-bold">{{ log.message }}</dd>
+
+                <dt class="col-sm-3">{{ 'field.severity'|trans({}, 'emsco-core') }}</dt>
+                <dd class="col-sm-9">
+                    <span class="badge text-bg-{{ severityColors[log.levelName|upper]|default('secondary') }}">{{ log.levelName }}</span>
+                    <small class="text-muted">({{ log.level }})</small>
+                </dd>
+
+                <dt class="col-sm-3">{{ 'field.channel'|trans({}, 'emsco-core') }}</dt>
+                <dd class="col-sm-9">
+                    <span class="badge text-bg-primary">{{ log.channel }}</span>
+                </dd>
+
+                <dt class="col-sm-3">{{ 'field.context'|trans({}, 'emsco-core') }}</dt>
+                <dd class="col-sm-9"><pre class="pre-block">{{ log.context|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></dd>
+
+                <dt class="col-sm-3">{{ 'field.extra'|trans({}, 'emsco-core') }}</dt>
+                <dd class="col-sm-9"><pre class="pre-block">{{ log.extra|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></dd>
+            </dl>
+        {% endblock %}
+        {% block card_footer %}
+            {{ include('@EMSCore/elements/post-button.html.twig', {
+                url: path('emsco_log_delete', {log: log.id}),
+                label: 'action.delete'|trans({}, 'emsco-core'),
+                message: 'type.delete_confirm'|trans({type: 'log'}, 'emsco-core'),
+                icon: 'trash',
+                btnType: 'outline-danger',
+            }) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock page_content %}

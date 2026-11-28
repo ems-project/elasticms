@@ -12,7 +12,7 @@ class Phone extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        $constraint = new IsBelgiumPhoneNumber($this->value);
+        $constraint = new IsBelgiumPhoneNumber(message: $this->value);
         if ($this->message) {
             $constraint->message = $this->message;
         }

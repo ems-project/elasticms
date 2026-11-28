@@ -1,0 +1,45 @@
+{
+    "type": "object",
+    "properties": {
+        "news": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "ouuid": {
+                        "type": "string",
+                        "description": "The news unique ID"
+                    },
+                    "publication_date": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "title_fr": {
+                        "type": "string",
+                        "description": "The news title in French"
+                    },
+                    "title_nl": {
+                        "type": "string",
+                        "description": "The news title in Dutch"
+                    }
+                },
+                "required": [
+                    "ouuid",
+                    "publication_date",
+                    "title_fr",
+                    "title_nl"
+                ],
+                "additionalProperties": false
+            }
+        },
+        "total": {
+            "type": "integer",
+            "description": "Total number of matching news items"
+        }
+    },
+    "required": [
+        "news",
+        "total"
+    ],
+    "additionalProperties": false
+}

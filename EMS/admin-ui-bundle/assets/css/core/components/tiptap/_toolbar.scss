@@ -1,0 +1,71 @@
+@import "./toolbar_dropdown";
+
+.tiptap-toolbar {
+  display: flex;
+  gap: 4px;
+  flex-direction: column;
+
+  .tiptap-toolbar-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .tiptap-toolbar-group {
+    display: flex;
+    padding-right: 2px;
+    border-right: 1px solid #dee2e6;
+  }
+
+  .tiptap-toolbar-group:last-child {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  .tiptap-toolbar-button {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #495057;
+    cursor: pointer;
+    width: 28px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #e9ecef;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    svg {
+      display: block;
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      min-height: 16px;
+      flex-shrink: 0;
+      stroke: #333333;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    &.is-active {
+      background-color: #fff;
+      color: #007bff;
+      border-color: #adb5bd;
+    }
+  }
+}
+
+
+

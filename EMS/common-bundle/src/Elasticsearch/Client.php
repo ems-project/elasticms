@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Elasticsearch;
 
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Exception\ServerResponseException;
+use Elastic\Elasticsearch\Response\Elasticsearch;
 use Elastica\Client as BaseClient;
-use Elastica\Exception\ClientException;
-use Elastica\Exception\ResponseException;
-use Elastica\Request;
 use Elastica\Response;
-use EMS\Helpers\Standard\Json;
+use Http\Promise\Promise;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 class Client extends BaseClient
@@ -17,43 +19,58 @@ class Client extends BaseClient
     private ?Stopwatch $stopwatch = null;
 
     /**
-     * @param string              $path
-     * @param array<mixed>|string $data
-     * @param string              $contentType
-     * @param array<mixed>        $query
-     * @param string              $contentType
+     * @param string[]                 $headers
+     * @param array<mixed>|string|null $body
      */
-    #[\Override]
-    public function request($path, $method = Request::GET, $data = [], array $query = [], $contentType = Request::DEFAULT_CONTENT_TYPE): Response
+    public function request(string $method, string $url, array $headers, array|string|null $body = null): Response
     {
-        $this->stopwatch?->start('es_request', 'fos_elastica');
+        try {
+            $request = $this->createRequest($method, $url, $headers, $body);
+
+            return $this->resolveResponse($this->sendRequest($request));
+        } catch (\Throwable $throwable) {
+            if ($throwable instanceof ClientResponseException || $throwable instanceof ServerResponseException) {
+                return $this->toElasticaResponse($throwable->getResponse());
+            }
+            throw $throwable;
+        }
+    }
+
+    public function resolveResponse(Elasticsearch|Promise $response): Response
+    {
+        if ($response instanceof Promise) {
+            $response->wait();
+        }
+
+        if (!$response instanceof ResponseInterface) {
+            throw new \RuntimeException('Unexpected response type');
+        }
+
+        return $this->toElasticaResponse($response);
+    }
+
+    #[\Override]
+    public function sendRequest(RequestInterface $request): Elasticsearch
+    {
+        $this->stopwatch?->start('es_request', 'elastica');
+        $start = \microtime(true);
 
         try {
-            $path = ('/' === $path) ? '' : $path;
-            $response = parent::request($path, $method, $data, $query, $contentType);
-        } catch (ResponseException $e) {
-            $this->getLogger()?->logResponse($e->getResponse(), $e->getRequest());
-            throw $e;
+            $elasticResponse = parent::sendRequest($request);
+            $response = $this->toElasticaResponse($elasticResponse);
+        } catch (\Throwable $throwable) {
+            if ($throwable instanceof ClientResponseException || $throwable instanceof ServerResponseException) {
+                $this->logResponse($this->toElasticaResponse($throwable->getResponse()));
+            }
+            $this->getLogger()->error($throwable->getMessage());
+            throw $throwable;
         }
-        $responseData = $response->getData();
-
-        $transportInfo = $response->getTransferInfo();
-        if (null === $lastRequest = $this->getLastRequest()) {
-            return $response;
-        }
-
-        $connection = $lastRequest->getConnection();
-        $forbiddenHttpCodes = $connection->hasConfig('http_error_codes') ? $connection->getConfig('http_error_codes') : [];
-
-        if (isset($transportInfo['http_code']) && \is_array($forbiddenHttpCodes) && \in_array($transportInfo['http_code'], $forbiddenHttpCodes, true)) {
-            $message = \sprintf('Error in transportInfo: response code is %s, response body is %s', $transportInfo['http_code'], Json::encode($responseData));
-            throw new ClientException($message);
-        }
-
-        $this->getLogger()?->logResponse($response, $lastRequest);
+        $end = \microtime(true);
         $this->stopwatch?->stop('es_request');
 
-        return $response;
+        $this->logResponse($response, $end - $start);
+
+        return $elasticResponse;
     }
 
     public function setStopwatch(?Stopwatch $stopwatch = null): void
@@ -61,8 +78,16 @@ class Client extends BaseClient
         $this->stopwatch = $stopwatch;
     }
 
-    public function getLogger(): ?ElasticaLogger
+    private function logResponse(Response $response, float $queryTime = 0.0): void
     {
-        return $this->_logger instanceof ElasticaLogger && $this->_logger->isEnabled() ? $this->_logger : null;
+        if (!$this->_logger instanceof ElasticaLogger) {
+            return;
+        }
+
+        if (null === $request = $this->getTransport()->getLastRequest()) {
+            return;
+        }
+
+        $this->_logger->logResponse($request, $response, $queryTime);
     }
 }

@@ -1,4 +1,4 @@
-{% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
+{% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'emsco-core' %}
 
 {% block title %}Edit "{{ contentType.singularName }}"  structure{% endblock %}
 {% block pagetitle %}Edit "{{ contentType.singularName }}" structure{% endblock %}
@@ -46,10 +46,5 @@
 	</div>
 
 	{{ form_end(form) }}
-
-    {% include '@EMSCore/app/menu.html.twig' with {
-        'item':  'contenttype-list'
-    }%}
-
 
 {% endblock %}

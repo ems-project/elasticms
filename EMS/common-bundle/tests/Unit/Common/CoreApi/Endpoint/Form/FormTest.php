@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Tests\Unit\Common\CoreApi\Endpoint\Form;
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Form\Form;
 use EMS\CommonBundle\Common\CoreApi\Result;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 final class FormTest extends TestCase
@@ -23,6 +24,7 @@ final class FormTest extends TestCase
         parent::setUp();
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testCreateVerification(): void
     {
         $testCode = '156897';
@@ -35,6 +37,7 @@ final class FormTest extends TestCase
         $this->assertEquals($testCode, $this->form->createVerification('test'));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetVerification(): void
     {
         $testCode = '989786';

@@ -6,19 +6,16 @@ namespace EMS\CommonBundle\Common\Spreadsheet;
 
 use EMS\Helpers\File\TempDirectory;
 
-final class DeterministicXlsxNormalizer
+final readonly class DeterministicXlsxNormalizer
 {
     private string $fixedIso8601;
     private int $fixedUnixTime;
-    private string $fixedCreator;
-    private string $fixedLastModifiedBy;
-    private string $fixedCalcId;
 
     public function __construct(
         ?\DateTimeImmutable $fixedDate = null,
-        string $fixedCreator = 'Normalized',
-        string $fixedLastModifiedBy = 'Normalized',
-        string $fixedCalcId = '171027'
+        private string $fixedCreator = 'Normalized',
+        private string $fixedLastModifiedBy = 'Normalized',
+        private string $fixedCalcId = '171027'
     ) {
         $fixedDate ??= new \DateTimeImmutable('2000-01-01 00:00:00', new \DateTimeZone('UTC'));
 
@@ -26,9 +23,6 @@ final class DeterministicXlsxNormalizer
 
         $this->fixedIso8601 = $utcDate->format('Y-m-d\TH:i:s\Z');
         $this->fixedUnixTime = $utcDate->getTimestamp();
-        $this->fixedCreator = $fixedCreator;
-        $this->fixedLastModifiedBy = $fixedLastModifiedBy;
-        $this->fixedCalcId = $fixedCalcId;
     }
 
     public function normalize(string $inputFile, string $outputFile): void
@@ -48,8 +42,8 @@ final class DeterministicXlsxNormalizer
             $this->normalizeContentTypes($extractDir.'/[Content_Types].xml');
 
             $this->createDeterministicZip($extractDir, $outputFile);
-        } catch (\Throwable $e) {
-            throw new \RuntimeException(\sprintf('Impossible to normalize the file XLSX "%s": %s', $inputFile, $e->getMessage()), 0, $e);
+        } catch (\Throwable $throwable) {
+            throw new \RuntimeException(\sprintf('Impossible to normalize the file XLSX "%s": %s', $inputFile, $throwable->getMessage()), 0, $throwable);
         }
     }
 

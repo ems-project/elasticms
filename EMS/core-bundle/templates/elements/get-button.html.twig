@@ -1,4 +1,4 @@
-{% trans_default_domain 'EMSCoreBundle' %}
+{% trans_default_domain 'emsco-core' %}
 {% set attributes = attributes|default([])|map((v,k) => "#{k}=#{v}")|join(' ') %}
 
 <a  class="{% if btnClass is defined %}{{ btnClass }}{% else %}btn btn-sm btn-{{ btnType|default('default') }}{% endif %} {%  if disabled is defined and disabled %}disabled{% endif %}" href="{{ url }}"
@@ -17,6 +17,6 @@
 		{% endif  %}
 	{% endif %}
 	{% if label is defined %}
-		{{ label|trans }}
+		{{ label is ems_translatable_message ? label|trans : label }}
 	{% endif %}
 </a>

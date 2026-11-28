@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+# The image's own commands, picked from the first argument. Everything else --
+# PHP configuration, AWS settings, the cleanup of the variables the application
+# must not see, the banner -- is base-php's cli entrypoint, which runs the
+# chosen command once it is done. Sourcing base-php's internal scripts instead
+# is what made 7.3.8 exit 1 at start when base-php removed two of them.
+
+# first arg is a symfony cmd (fe. `ems:version`)
+if [[ $1 =~ ^([A-z0-9\-]+:){1,}([A-z0-9\-]+)$ ]]; then
+    set -- elasticms "$@"
+elif [[ $1 = crontab ]]; then
+    shift
+    set -- elasticms-crontab "$@"
+elif [[ $1 = cronjob ]]; then
+    shift
+    set -- elasticms-cronjob "$@"
+fi
+
+exec container-entrypoint-cli "$@"

@@ -78,7 +78,7 @@ final class StatusCommand extends AbstractLocalCommand
             }
         }
 
-        if (\count($rows) > 0) {
+        if ([] !== $rows) {
             $this->io->newLine();
             $table = new Table($output);
             $table

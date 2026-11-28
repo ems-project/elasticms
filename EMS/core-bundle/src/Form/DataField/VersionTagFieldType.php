@@ -8,6 +8,7 @@ use EMS\CommonBundle\Common\EMSLink;
 use EMS\CoreBundle\Core\ContentType\Version\VersionOptions;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
+use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\ElasticsearchService;
 use EMS\CoreBundle\Service\EnvironmentService;
@@ -15,8 +16,12 @@ use EMS\CoreBundle\Service\Revision\RevisionService;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormRegistryInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Component\Validator\Constraints\NotBlank;
+
+use function Symfony\Component\Translation\t;
 
 class VersionTagFieldType extends DataFieldType
 {
@@ -24,17 +29,24 @@ class VersionTagFieldType extends DataFieldType
         AuthorizationCheckerInterface $authorizationChecker,
         FormRegistryInterface $formRegistry,
         ElasticsearchService $elasticsearchService,
+        TokenStorageInterface $tokenStorage,
         private readonly RevisionService $revisionService,
         private readonly EnvironmentService $environmentService,
         private readonly ContentTypeService $contentTypeService,
     ) {
-        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
+        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService, $tokenStorage);
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Select version tag';
+        return ['type' => 'string'];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.version_tag', [], 'emsco-core');
     }
 
     #[\Override]
@@ -78,7 +90,7 @@ class VersionTagFieldType extends DataFieldType
 
         if ($emsId) {
             $revision = $this->revisionService->getByEmsLink(EMSLink::fromText($emsId));
-            $countEnvironments = $revision ? $this->environmentService->getPublishedForRevision($revision, true)->count() : 0;
+            $countEnvironments = $revision instanceof Revision ? $this->environmentService->getPublishedForRevision($revision, true)->count() : 0;
         }
 
         $notBlankNewVersion = $contentType->getVersioning()->option(VersionOptions::NOT_BLANK_NEW_VERSION);

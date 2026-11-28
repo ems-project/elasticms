@@ -21,4 +21,18 @@ interface UserInterface
     public function getProfiles(): array;
 
     public function proxyAuthenticate(string $username, ?string $email = null, ?string $group = null): ?string;
+
+    public function resetPasswordUrl(string $username): string;
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function create(array $data): string;
+
+    public function delete(string $username): bool;
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function edit(array $data): bool;
 }

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\DataField;
 
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Form\Field\IconPickerType;
 use EMS\CoreBundle\Form\Form\EmsCollectionType;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\ElasticsearchService;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,30 +19,38 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 
-/**
- * Defined a Container content type.
- * It's used to logically groups subfields together. However a Container is invisible in Elastic search.
- *
- * @author Mathieu De Keyzer <ems@theus.be>
- */
+use function Symfony\Component\Translation\t;
+
 class CollectionFieldType extends DataFieldType
 {
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         FormRegistryInterface $formRegistry,
         ElasticsearchService $elasticsearchService,
+        TokenStorageInterface $tokenStorage,
         private readonly DataService $dataService,
-        private readonly LoggerInterface $logger
+        private readonly LocalizedLoggerInterface $logger,
     ) {
-        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
+        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService, $tokenStorage);
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Collection (manage array of children types)';
+        return [
+            'type' => 'array',
+            'items' => $buildObjectSchema($fieldType->getValidChildren()),
+        ];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.collection', [], 'emsco-core');
     }
 
     #[\Override]
@@ -55,7 +63,7 @@ class CollectionFieldType extends DataFieldType
     public function importData(DataField $dataField, array|string|int|float|bool|null $sourceArray, bool $isMigration): array
     {
         $migrationOptions = $dataField->giveFieldType()->getMigrationOptions();
-        if (!$isMigration || empty($migrationOptions) || !$migrationOptions['protected']) {
+        if (!$isMigration || [] === $migrationOptions || !$migrationOptions['protected']) {
             if (!\is_array($sourceArray)) {
                 $sourceArray = [$sourceArray];
             }
@@ -64,7 +72,7 @@ class CollectionFieldType extends DataFieldType
             foreach ($sourceArray as $idx => $item) {
                 $colItem = new DataField();
                 $colItem->setOrderKey($idx);
-                $colItem->setFieldType(null); // it's a collection item
+                $colItem->setFieldType(); // it's a collection item
                 foreach ($dataField->giveFieldType()->getChildren() as $grandChildKey => $childFieldType) {
                     /** @var FieldType $childFieldType */
                     if (!$childFieldType->getDeleted()) {
@@ -76,10 +84,9 @@ class CollectionFieldType extends DataFieldType
                         if (\is_array($item)) {
                             $this->dataService->updateDataValue($grandChild, $item, $isMigration);
                         } else {
-                            $this->logger->warning('form.data_field.collection.import_not_an_array', [
-                                'import_data' => $item,
+                            $this->logger->messageWarning(t('message.field_collection_import_array', [
                                 'field_name' => $dataField->giveFieldType()->getName(),
-                            ]);
+                            ], 'emsco-core'), ['import_data' => $item]);
                         }
 
                         $colItem->addChild($grandChild, $grandChildKey);
@@ -158,7 +165,7 @@ class CollectionFieldType extends DataFieldType
         $restrictionOptions = $dataField->giveFieldType()->getRestrictionOptions();
         $rawData = $dataField->getRawData();
 
-        if (!empty($restrictionOptions['min']) && (!\is_array($rawData) ? 0 : \count($rawData)) < $restrictionOptions['min']) {
+        if (!empty($restrictionOptions['min']) && (\is_array($rawData) ? \count($rawData) : 0) < $restrictionOptions['min']) {
             if (1 == $restrictionOptions['min']) {
                 $dataField->addMessage('At least 1 item is required');
             } else {
@@ -186,30 +193,38 @@ class CollectionFieldType extends DataFieldType
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')
                 ->add('renumbering', CheckboxType::class, [
+                    'label' => t('field.renumbering', [], 'emsco-core'),
                     'required' => false,
-                    'label' => 'Items will be renumbered',
                 ]);
         }
 
         // an optional icon can't be specified ritgh to the container label
         $optionsForm->get('displayOptions')->add('singularLabel', TextType::class, [
+            'label' => t('field.renumbering', [], 'emsco-core'),
             'required' => false,
         ])->add('itemBootstrapClass', TextType::class, [
+            'label' => t('field.item_bootstrap_class', [], 'emsco-core'),
             'required' => false,
         ])->add('labelField', TextType::class, [
+            'label' => t('field.label_field', [], 'emsco-core'),
             'required' => false,
         ])->add('icon', IconPickerType::class, [
+            'label' => t('field.icon', [], 'emsco-core'),
             'required' => false,
         ])->add('collapsible', CheckboxType::class, [
+            'label' => t('field.collapsible', [], 'emsco-core'),
             'required' => false,
         ])->add('sortable', CheckboxType::class, [
+            'label' => t('field.sortable', [], 'emsco-core'),
             'required' => false,
         ]);
 
         $optionsForm->get('restrictionOptions')
         ->add('min', IntegerType::class, [
+            'label' => t('field.min', [], 'emsco-core'),
             'required' => false,
         ])->add('max', IntegerType::class, [
+            'label' => t('field.max', [], 'emsco-core'),
             'required' => false,
         ]);
         $optionsForm->get('restrictionOptions')->remove('mandatory');
@@ -268,9 +283,8 @@ class CollectionFieldType extends DataFieldType
                 }
             }
         }
-        $out = parent::reverseViewTransform($cleaned, $fieldType);
 
-        return $out;
+        return parent::reverseViewTransform($cleaned, $fieldType);
     }
 
     #[\Override]

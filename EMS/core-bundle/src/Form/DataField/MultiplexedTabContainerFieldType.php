@@ -18,7 +18,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Intl\Locales;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class MultiplexedTabContainerFieldType extends DataFieldType
 {
@@ -35,16 +39,38 @@ class MultiplexedTabContainerFieldType extends DataFieldType
         AuthorizationCheckerInterface $authorizationChecker,
         FormRegistryInterface $formRegistry,
         ElasticsearchService $elasticsearchService,
+        TokenStorageInterface $tokenStorage,
         private readonly UserManager $userManager,
         private readonly array $locales
     ) {
-        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
+        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService, $tokenStorage);
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Multiplexed Tab Container';
+        $schema = [
+            'type' => 'object',
+            'properties' => [],
+            'additionalProperties' => false,
+        ];
+        $childSchema = $buildObjectSchema($fieldType->getValidChildren());
+
+        foreach ($this->buildSchemaChoices($fieldType) as $label => $value) {
+            $schema['properties'][$value] = [...$childSchema, 'title' => $label];
+        }
+
+        if ([] === $schema['properties']) {
+            $schema['properties'] = new \stdClass();
+        }
+
+        return $schema;
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.multiplex_tab', [], 'emsco-core');
     }
 
     #[\Override]
@@ -66,17 +92,22 @@ class MultiplexedTabContainerFieldType extends DataFieldType
         $optionsForm = $builder->get('options');
 
         $optionsForm->get('displayOptions')->add(self::VALUES_DISPLAY_OPTION, TextareaType::class, [
+            'label' => t('field.values', [], 'emsco-core'),
             'required' => false,
         ])->add(self::LABELS_DISPLAY_OPTION, TextareaType::class, [
+            'label' => t('field.labels', [], 'emsco-core'),
             'required' => false,
         ])
         ->add(self::LOCALE_PREFERRED_FIRST_DISPLAY_OPTION, CheckboxType::class, [
+            'label' => t('field.locale_preferred_first', [], 'emsco-core'),
             'required' => false,
         ])
         ->add(self::WITH_LOCALES_VARIABLE_DISPLAY_OPTION, CheckboxType::class, [
+            'label' => t('field.with_locales_variable', [], 'emsco-core'),
             'required' => false,
         ])
         ->add(self::ICON_DISPLAY_OPTION, IconPickerType::class, [
+            'label' => t('field.icon', [], 'emsco-core'),
             'required' => false,
         ]);
 
@@ -116,6 +147,31 @@ class MultiplexedTabContainerFieldType extends DataFieldType
         }
 
         return [];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function buildSchemaChoices(FieldType $fieldType): array
+    {
+        $choices = [];
+
+        if (true === $fieldType->getDisplayOption(self::WITH_LOCALES_VARIABLE_DISPLAY_OPTION, false)) {
+            foreach ($this->locales as $locale) {
+                $choices[$locale] = Locales::getName($locale);
+            }
+        }
+
+        $values = self::textAreaToArray($fieldType->getDisplayOption(self::VALUES_DISPLAY_OPTION));
+        $labels = self::textAreaToArray($fieldType->getDisplayOption(self::LABELS_DISPLAY_OPTION));
+
+        foreach ($values as $index => $value) {
+            if ('' !== $value) {
+                $choices[$value] = $labels[$index] ?? $value;
+            }
+        }
+
+        return \array_flip($choices);
     }
 
     #[\Override]

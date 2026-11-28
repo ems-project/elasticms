@@ -1,4 +1,4 @@
-{% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
+{% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'emsco-core' %}
 
 {% block title %}Edit user "{{ user.displayName }}"{% endblock %}
 {% block pagetitle %}Edit user "{{ user.displayName }}"{% endblock %}
@@ -44,11 +44,6 @@
 		{{ form_end(form) }}
 	</div>
 	<!-- /.box -->
-
-    {% include '@EMSCore/app/menu.html.twig' with {
-        'item':  'user-index'
-    }%}
-
 {% endblock body %}
 
 

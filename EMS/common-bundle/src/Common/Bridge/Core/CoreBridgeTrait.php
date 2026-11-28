@@ -10,8 +10,8 @@ trait CoreBridgeTrait
     {
         try {
             return CoreBridgeResponse::onSuccess($callable());
-        } catch (\Throwable $e) {
-            return CoreBridgeResponse::onError($e);
+        } catch (\Throwable $throwable) {
+            return CoreBridgeResponse::onError($throwable);
         }
     }
 }

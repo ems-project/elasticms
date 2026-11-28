@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Elastica\Query\AbstractQuery;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\Term;
 use EMS\CommonBundle\Common\EMSLink;
@@ -18,7 +17,6 @@ use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Form\Search;
 use EMS\CoreBundle\Repository\RevisionRepository;
-use EMS\CoreBundle\Repository\SearchRepository;
 
 class SearchService
 {
@@ -28,35 +26,8 @@ class SearchService
         private readonly ElasticaService $elasticaService,
         private readonly EnvironmentService $environmentService,
         private readonly ContentTypeService $contentTypeService,
-        private readonly SearchRepository $searchRepository,
         private readonly RevisionRepository $revisionRepository
     ) {
-    }
-
-    /**
-     * @return Search[]
-     */
-    public function getAll(): array
-    {
-        return $this->searchRepository->getAll();
-    }
-
-    /**
-     * @return array<mixed>
-     */
-    #[\Deprecated]
-    public function generateSearchBody(Search $search): array
-    {
-        @\trigger_error('SearchService::generateSearchBody is deprecated use the SearchService::generateSearch method instead', E_USER_DEPRECATED);
-        $commonSearch = $this->generateSearch($search);
-        $body = [];
-        $query = $commonSearch->getQuery();
-        if (null !== $query) {
-            $body['query'] = $query instanceof AbstractQuery ? $query->toArray() : $query;
-        }
-        $body['sort'] = $commonSearch->getSort();
-
-        return $body;
     }
 
     public function generateSearch(Search $search): CommonSearch
@@ -105,7 +76,7 @@ class SearchService
         $commonSearch = new CommonSearch($indexes, $this->elasticaService->filterByContentTypes($boolQuery, $search->getContentTypes()));
 
         $sortBy = $search->getSortBy();
-        if (null !== $sortBy && \strlen($sortBy) > 0) {
+        if (null !== $sortBy && '' !== $sortBy) {
             $commonSearch->setSort([
                 $sortBy => \array_filter([
                     'order' => (empty($search->getSortOrder()) ? 'asc' : $search->getSortOrder()),
@@ -126,13 +97,13 @@ class SearchService
     {
         try {
             return $this->getDocument($contentType, $ouuid);
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException $notFoundException) {
             $revision = $this->revisionRepository->findRevision($ouuid, $contentType->getName());
             $environment = $revision?->getEnvironments()->first();
             if ($environment instanceof Environment) {
                 return $this->getDocument($contentType, $ouuid, $environment);
             }
-            throw $e;
+            throw $notFoundException;
         }
     }
 
@@ -218,7 +189,7 @@ class SearchService
             }
         }
 
-        return \count($nestedPath) > 0 ? ['path' => \implode('.', $nestedPath)] : null;
+        return [] !== $nestedPath ? ['path' => \implode('.', $nestedPath)] : null;
     }
 
     /**
@@ -230,7 +201,7 @@ class SearchService
 
         $search = null;
         if (1 === \count($contentTypes)) {
-            $contentTypeName = \array_values($contentTypes)[0];
+            $contentTypeName = \array_first($contentTypes);
             $contentType = $this->contentTypeService->giveByName($contentTypeName);
             $search = $searchRepository->findOneBy(['contentType' => $contentType]);
 
@@ -246,9 +217,9 @@ class SearchService
             $search = $searchRepository->findOneBy([
                 'default' => true,
             ]);
-            if ($search instanceof Search and \count($search->getContentTypes()) > 0) {
+            if ($search instanceof Search && [] !== $search->getContentTypes()) {
                 $contentTypesNotCovertByTheDefaultSearch = \array_diff($contentTypes, $search->getContentTypes());
-                if (\count($contentTypesNotCovertByTheDefaultSearch) > 0) {
+                if ([] !== $contentTypesNotCovertByTheDefaultSearch) {
                     $search = null;
                 }
             }
@@ -258,7 +229,7 @@ class SearchService
             $search = new Search();
         }
         $search->setContentTypes($contentTypes);
-        if (0 === \count($search->getEnvironments())) {
+        if ([] === $search->getEnvironments()) {
             $all = [];
             $defaults = [];
             foreach ($this->environmentService->getEnvironments() as $environment) {
@@ -267,7 +238,7 @@ class SearchService
                     $defaults[] = $environment->getName();
                 }
             }
-            $search->setEnvironments(\count($defaults) > 0 ? $defaults : $all);
+            $search->setEnvironments([] !== $defaults ? $defaults : $all);
         }
 
         return $search;

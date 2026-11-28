@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\View;
 
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Command\DocumentCommand;
 use EMS\CoreBundle\Entity\UserInterface;
@@ -11,7 +12,6 @@ use EMS\CoreBundle\Entity\View;
 use EMS\CoreBundle\Form\Nature\ImporterType;
 use EMS\CoreBundle\Service\FileService;
 use EMS\CoreBundle\Service\JobService;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactory;
@@ -28,7 +28,7 @@ class ImporterViewType extends ViewType
     public function __construct(
         FormFactory $formFactory,
         Environment $twig,
-        LoggerInterface $logger,
+        LocalizedLoggerInterface $logger,
         private readonly FileService $fileService,
         private readonly JobService $jobService,
         private readonly TokenStorageInterface $security,
@@ -124,13 +124,13 @@ class ImporterViewType extends ViewType
 
             $job = $this->jobService->createCommand($user, $command);
 
-            return new RedirectResponse($this->router->generate('job.status', [
+            return new RedirectResponse($this->router->generate('emsco_job_status', [
                 'job' => $job->getId(),
             ]));
         }
 
         $response = new Response();
-        $response->setContent($this->twig->render("@$this->templateNamespace/view/custom/simple_form_view.html.twig", [
+        $response->setContent($this->twig->render(\sprintf('@%s/view/custom/simple_form_view.html.twig', $this->templateNamespace), [
             'view' => $view,
             'form' => $form->createView(),
             'contentType' => $view->getContentType(),

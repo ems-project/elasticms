@@ -20,4 +20,9 @@ class Locale
 
         return $result;
     }
+
+    public static function normalize(string $locale): string
+    {
+        return \str_replace('_', '-', $locale);
+    }
 }

@@ -27,8 +27,8 @@ class MediaLibraryFolder extends MediaLibraryDocument
     {
         $parents = [$this];
 
-        if ($this->parent) {
-            $parents = \array_merge($this->parent->parents(), $parents);
+        if ($this->parent instanceof MediaLibraryFolder) {
+            return \array_merge($this->parent->parents(), $parents);
         }
 
         return $parents;

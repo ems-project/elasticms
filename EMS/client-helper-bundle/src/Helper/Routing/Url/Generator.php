@@ -45,7 +45,7 @@ final class Generator
 
         $baseUrl = $this->baseUrl.$this->phpApp;
 
-        if (\strlen($baseUrl) > 0 && \str_starts_with($url, $baseUrl)) {
+        if ('' !== $baseUrl && \str_starts_with($url, $baseUrl)) {
             return $url;
         }
 

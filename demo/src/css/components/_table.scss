@@ -1,9 +1,11 @@
 .table {
   margin: 2rem 0;
-  thead {
-    th {
-      background-color: $table-head-bg;
-      border-color: $table-head-bg;
-    }
+  th {
+    background-color: $table-head-bg;
+    border-color: $table-head-bg;
+  }
+
+  th > p, td > p {
+    margin: 0;
   }
 }

@@ -11,7 +11,7 @@ use EMS\CommonBundle\Helper\Url;
 class Report extends AbstractReport
 {
     /** @var string[][] */
-    private array $accessibilityErrors = [['URL', 'WCAG2AA', 'Accessibility\'s score']];
+    private array $accessibilityErrors = [['URL', 'WCAG2AA', "Accessibility's score"]];
     /** @var string[][] */
     private array $securityErrors = [['URL', 'Missing headers']];
     /** @var string[][] */

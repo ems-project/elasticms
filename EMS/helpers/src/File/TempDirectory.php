@@ -76,17 +76,17 @@ class TempDirectory
         \array_pop($explodedPath);
         $this->filesystem->mkdir(\implode(\DIRECTORY_SEPARATOR, $explodedPath));
         if (!$handle = \fopen($this->path.\DIRECTORY_SEPARATOR.$filename, 'w')) {
-            throw new \RuntimeException(\sprintf('Can\'t open a temporary file %s', $this->path));
+            throw new \RuntimeException(\sprintf("Can't open a temporary file %s", $this->path));
         }
 
         while (!$stream->eof()) {
             if (false === \fwrite($handle, $stream->read(File::DEFAULT_CHUNK_SIZE))) {
-                throw new \RuntimeException(\sprintf('Can\'t write in temporary file %s', $this->path));
+                throw new \RuntimeException(\sprintf("Can't write in temporary file %s", $this->path));
             }
         }
 
         if (false === \fclose($handle)) {
-            throw new \RuntimeException(\sprintf('Can\'t close the temporary file %s', $this->path));
+            throw new \RuntimeException(\sprintf("Can't close the temporary file %s", $this->path));
         }
     }
 }

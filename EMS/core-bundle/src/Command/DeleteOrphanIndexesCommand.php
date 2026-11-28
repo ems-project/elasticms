@@ -4,20 +4,14 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\IndexService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: Commands::DELETE_ORPHANS,
-    description: 'Removes all orphan indexes.',
-    hidden: false,
-    aliases: ['ems:delete:orphans']
-)]
-class DeleteOrphanIndexesCommand extends AbstractCommand
+#[AsCommand(name: Commands::DELETE_ORPHANS, description: 'Removes all orphan indexes.', aliases: ['ems:delete:orphans'], hidden: false)]
+class DeleteOrphanIndexesCommand extends AbstractCoreCommand
 {
     public function __construct(protected IndexService $indexService)
     {
@@ -31,8 +25,8 @@ class DeleteOrphanIndexesCommand extends AbstractCommand
             $this->indexService->deleteOrphanIndexes();
 
             return self::EXECUTE_SUCCESS;
-        } catch (\Throwable $e) {
-            $this->io->error($e->getMessage());
+        } catch (\Throwable $throwable) {
+            $this->io->error($throwable->getMessage());
 
             return self::EXECUTE_ERROR;
         }

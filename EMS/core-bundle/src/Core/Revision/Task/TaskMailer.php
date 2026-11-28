@@ -6,14 +6,16 @@ namespace EMS\CoreBundle\Core\Revision\Task;
 
 use EMS\CoreBundle\Core\Mail\MailerService;
 use EMS\CoreBundle\Core\Mail\MailTemplate;
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\Task;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\UserService;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
+use function Symfony\Component\Translation\t;
 
 class TaskMailer
 {
@@ -48,9 +50,9 @@ class TaskMailer
         $context = [
             'receiver' => $receiver,
             'senderUsername' => $senderUsername,
-            'senderRole' => $sender ? $this->getSenderRole($task, $sender) : null,
+            'senderRole' => $sender instanceof UserInterface ? $this->getSenderRole($task, $sender) : null,
             'type' => $type,
-            'action' => $this->translator->trans(\sprintf('task.mail.%s.action', $type), [], EMSCoreBundle::TRANS_DOMAIN),
+            'action' => $this->transAction($type)->trans($this->translator),
             'task' => $task,
             'revision' => $revision,
             'comment' => $event->comment,
@@ -101,7 +103,7 @@ class TaskMailer
     private function getMailTemplate(UserInterface $receiver): MailTemplate
     {
         return $this->mailerService
-            ->makeMailTemplate("@$this->templateNamespace".self::MAIL_TEMPLATE)
+            ->makeMailTemplate('@'.$this->templateNamespace.self::MAIL_TEMPLATE)
             ->addTo($receiver->getEmail());
     }
 
@@ -120,6 +122,20 @@ class TaskMailer
             ($sender->getUsername() === $task->getCreatedBy()) => 'creator',
             $this->taskManager->isTaskManager($sender) => 'task admin',
             default => null,
+        };
+    }
+
+    private function transAction(string $type): TranslatableMessage
+    {
+        return match ($type) {
+            'approved' => t('key.mail_action_approved', [], 'emsco-core'),
+            'assignee_changed' => t('key.mail_action_assignee_changed', [], 'emsco-core'),
+            'completed' => t('key.mail_action_completed', [], 'emsco-core'),
+            'created' => t('key.mail_action_created', [], 'emsco-core'),
+            'deleted' => t('key.mail_action_deleted', [], 'emsco-core'),
+            'rejected' => t('key.mail_action_rejected', [], 'emsco-core'),
+            'updated' => t('key.mail_action_updated', [], 'emsco-core'),
+            default => t('key.unknown', [], 'emsco-core')
         };
     }
 }

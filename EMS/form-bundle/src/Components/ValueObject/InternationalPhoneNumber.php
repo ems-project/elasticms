@@ -22,18 +22,14 @@ final readonly class InternationalPhoneNumber
 
     public function validate(): bool
     {
-        if ($this->validateNumber()) {
-            return true;
-        }
-
-        return false;
+        return $this->validateNumber();
     }
 
     private function validateNumber(): bool
     {
         $phoneNumberUtil = PhoneNumberUtil::getInstance();
         try {
-            $phoneNumberObject = $phoneNumberUtil->parse($this->number->getInput(), null);
+            $phoneNumberObject = $phoneNumberUtil->parse($this->number->getInput());
         } catch (\Exception) {
             return false;
         }
@@ -44,7 +40,7 @@ final readonly class InternationalPhoneNumber
     public function transform(): string
     {
         $phoneNumberUtil = PhoneNumberUtil::getInstance();
-        $phoneNumberObject = $phoneNumberUtil->parse($this->number->getInput(), null);
+        $phoneNumberObject = $phoneNumberUtil->parse($this->number->getInput());
 
         return $phoneNumberUtil->format($phoneNumberObject, PhoneNumberFormat::E164);
     }

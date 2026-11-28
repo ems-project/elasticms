@@ -5,6 +5,15 @@
         "name": "page",
         "pluralName": "Pages",
         "singularName": "Page",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": {
+            "fr": {
+                "label": "Page",
+                "gender": "female",
+                "number": "singular",
+                "elision": "false"
+            }
+        },
         "icon": "fa fa-file-text-o",
         "description": null,
         "indexTwig": null,
@@ -28,6 +37,8 @@
                         "lastOfRow": false,
                         "helptext": null,
                         "icon": null,
+                        "labelTranslations": [],
+                        "helptextTranslations": [],
                         "language": null
                     },
                     "restrictionOptions": {
@@ -36,7 +47,8 @@
                     "extraOptions": {
                         "extra": null,
                         "clear_on_copy": false,
-                        "postProcessing": null
+                        "postProcessing": null,
+                        "description": null
                     }
                 },
                 "orderKey": 0,
@@ -61,7 +73,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "description": null
                                 },
                                 "raw_data": []
                             },
@@ -93,7 +106,9 @@
                                     "query": "{\r\n  \"_source\": [\"structure\", \"label\"], \r\n  \"query\": {\r\n    \"bool\": {\r\n      \"must\": [\r\n        {\r\n          \"term\": {\r\n            \"_contenttype\": {\r\n              \"value\": \"section\"\r\n            }\r\n          }\r\n        }\r\n      ]\r\n    }\r\n  },\r\n  \"sort\": [ { \"order\": { \"order\": \"asc\" } }]\r\n}",
                                     "display_template": "{{ block('menu_choice_display', '@EMSCH/template_ems/content_type/page.twig') }}",
                                     "choices_template": "{{ block('menu_choice_template', '@EMSCH/template_ems/content_type/page.twig') }}",
-                                    "environment": null
+                                    "environment": null,
+                                    "labelTranslations": [],
+                                    "helptextTranslations": []
                                 },
                                 "mappingOptions": {
                                     "analyzer": "keyword",
@@ -107,7 +122,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": "{{ block('menu_post_processing', '@EMSCH/template_ems/content_type/page.twig') }}"
+                                    "postProcessing": "{{ block('menu_post_processing', '@EMSCH/template_ems/content_type/page.twig') }}",
+                                    "description": null
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {
@@ -134,6 +150,8 @@
                                     "class": "col-md-12",
                                     "lastOfRow": false,
                                     "helptext": null,
+                                    "labelTranslations": [],
+                                    "helptextTranslations": [],
                                     "localePreferredFirst": false
                                 },
                                 "mappingOptions": [],
@@ -143,7 +161,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "description": null
                                 },
                                 "raw_data": []
                             },
@@ -168,14 +187,17 @@
                                                 "labels": null,
                                                 "localePreferredFirst": true,
                                                 "icon": "fa fa-language",
-                                                "withLocalesVariable": true
+                                                "withLocalesVariable": true,
+                                                "labelTranslations": [],
+                                                "helptextTranslations": []
                                             },
                                             "mappingOptions": [],
                                             "restrictionOptions": [],
                                             "extraOptions": {
                                                 "extra": null,
                                                 "clear_on_copy": false,
-                                                "postProcessing": null
+                                                "postProcessing": null,
+                                                "description": null
                                             },
                                             "raw_data": []
                                         },
@@ -201,6 +223,15 @@
                                                             "suffixIcon": null,
                                                             "suffixText": null,
                                                             "placeholder": null,
+                                                            "labelTranslations": {
+                                                                "fr": {
+                                                                    "label": "Titre"
+                                                                },
+                                                                "nl": {
+                                                                    "label": "Titel"
+                                                                }
+                                                            },
+                                                            "helptextTranslations": [],
                                                             "icon": null
                                                         },
                                                         "mappingOptions": {
@@ -215,7 +246,8 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -244,7 +276,9 @@
                                                             "helptext": null,
                                                             "valueTemplate": "{{ block('slug_value', '@EMSCH/template_ems/content_type/page.twig') }}",
                                                             "json": true,
-                                                            "displayTemplate": null
+                                                            "displayTemplate": null,
+                                                            "labelTranslations": [],
+                                                            "helptextTranslations": []
                                                         },
                                                         "mappingOptions": {
                                                             "mappingOptions": null,
@@ -254,7 +288,9 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null,
+                                                            "mcpOutputSchema": "{{ {\r\n    type: 'string' \r\n}|json_encode|raw }}"
                                                         },
                                                         "raw_data": []
                                                     },
@@ -283,6 +319,22 @@
                                                             "suffixIcon": null,
                                                             "suffixText": null,
                                                             "placeholder": null,
+                                                            "labelTranslations": {
+                                                                "fr": {
+                                                                    "label": "Sous-titre"
+                                                                },
+                                                                "nl": {
+                                                                    "label": "Ondertitel"
+                                                                }
+                                                            },
+                                                            "helptextTranslations": {
+                                                                "fr": {
+                                                                    "label": "Utilis\u00e9 dans un bouton d'appel \u00e0 l'action"
+                                                                },
+                                                                "nl": {
+                                                                    "label": "Gebruikt in een call-to-action-knop"
+                                                                }
+                                                            },
                                                             "icon": null
                                                         },
                                                         "mappingOptions": {
@@ -298,7 +350,8 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -330,7 +383,16 @@
                                                             "lastOfRow": false,
                                                             "helptext": null,
                                                             "language": null,
-                                                            "styles_set_preview": true
+                                                            "styles_set_preview": true,
+                                                            "labelTranslations": {
+                                                                "fr": {
+                                                                    "label": "Corps"
+                                                                },
+                                                                "af": {
+                                                                    "label": "Lichaam"
+                                                                }
+                                                            },
+                                                            "helptextTranslations": []
                                                         },
                                                         "mappingOptions": {
                                                             "index": null,
@@ -345,7 +407,8 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -374,7 +437,16 @@
                                                             "lastOfRow": false,
                                                             "helptext": null,
                                                             "icon": "fa fa-sitemap",
-                                                            "blocks_template": "@EMSCH/template_ems/content_type/blocks.html.twig"
+                                                            "labelTranslations": {
+                                                                "fr": {
+                                                                    "label": "Composants"
+                                                                },
+                                                                "nl": {
+                                                                    "label": "Onderdelen"
+                                                                }
+                                                            },
+                                                            "helptextTranslations": [],
+                                                            "blocks_template": null
                                                         },
                                                         "mappingOptions": {
                                                             "index": null,
@@ -390,7 +462,8 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -415,6 +488,8 @@
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
                                                                         "icon": "fa fa-file-text",
+                                                                        "labelTranslations": [],
+                                                                        "helptextTranslations": [],
                                                                         "language": null
                                                                     },
                                                                     "mappingOptions": [],
@@ -426,7 +501,8 @@
                                                                     "extraOptions": {
                                                                         "extra": null,
                                                                         "clear_on_copy": false,
-                                                                        "postProcessing": null
+                                                                        "postProcessing": null,
+                                                                        "description": null
                                                                     },
                                                                     "raw_data": []
                                                                 },
@@ -452,7 +528,9 @@
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
                                                                                     "language": null,
-                                                                                    "styles_set_preview": true
+                                                                                    "styles_set_preview": true,
+                                                                                    "labelTranslations": [],
+                                                                                    "helptextTranslations": []
                                                                                 },
                                                                                 "mappingOptions": [],
                                                                                 "restrictionOptions": {
@@ -463,7 +541,8 @@
                                                                                 "extraOptions": {
                                                                                     "extra": null,
                                                                                     "clear_on_copy": false,
-                                                                                    "postProcessing": null
+                                                                                    "postProcessing": null,
+                                                                                    "description": null
                                                                                 },
                                                                                 "raw_data": [],
                                                                                 "migrationOptions": {
@@ -489,8 +568,10 @@
                                                                                 "displayOptions": {
                                                                                     "label": "Label",
                                                                                     "class": "col-md-12",
+                                                                                    "labelTranslations": [],
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
+                                                                                    "helptextTranslations": [],
                                                                                     "prefixIcon": null,
                                                                                     "prefixText": null,
                                                                                     "suffixIcon": null,
@@ -507,6 +588,7 @@
                                                                                     "protected": false
                                                                                 },
                                                                                 "extraOptions": {
+                                                                                    "description": null,
                                                                                     "extra": null,
                                                                                     "clear_on_copy": false,
                                                                                     "postProcessing": null
@@ -534,7 +616,9 @@
                                                                                     "helptext": null,
                                                                                     "multiple": false,
                                                                                     "icon": null,
-                                                                                    "imageAssetConfigIdentifier": null
+                                                                                    "imageAssetConfigIdentifier": null,
+                                                                                    "labelTranslations": [],
+                                                                                    "helptextTranslations": []
                                                                                 },
                                                                                 "mappingOptions": [],
                                                                                 "restrictionOptions": {
@@ -545,7 +629,8 @@
                                                                                 "extraOptions": {
                                                                                     "extra": null,
                                                                                     "clear_on_copy": false,
-                                                                                    "postProcessing": null
+                                                                                    "postProcessing": null,
+                                                                                    "description": null
                                                                                 },
                                                                                 "raw_data": [],
                                                                                 "migrationOptions": {
@@ -577,6 +662,8 @@
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
                                                                         "icon": "fa fa-table",
+                                                                        "labelTranslations": [],
+                                                                        "helptextTranslations": [],
                                                                         "language": null
                                                                     },
                                                                     "mappingOptions": [],
@@ -591,7 +678,8 @@
                                                                     "extraOptions": {
                                                                         "extra": null,
                                                                         "clear_on_copy": false,
-                                                                        "postProcessing": null
+                                                                        "postProcessing": null,
+                                                                        "description": null
                                                                     },
                                                                     "raw_data": []
                                                                 },
@@ -617,6 +705,8 @@
                                                                                     "suffixIcon": null,
                                                                                     "suffixText": null,
                                                                                     "placeholder": null,
+                                                                                    "labelTranslations": [],
+                                                                                    "helptextTranslations": [],
                                                                                     "icon": null
                                                                                 },
                                                                                 "mappingOptions": [],
@@ -628,7 +718,8 @@
                                                                                 "extraOptions": {
                                                                                     "extra": null,
                                                                                     "clear_on_copy": false,
-                                                                                    "postProcessing": null
+                                                                                    "postProcessing": null,
+                                                                                    "description": null
                                                                                 },
                                                                                 "raw_data": [],
                                                                                 "migrationOptions": {
@@ -653,8 +744,10 @@
                                                                                 "displayOptions": {
                                                                                     "label": "Label",
                                                                                     "class": "col-md-12",
+                                                                                    "labelTranslations": [],
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
+                                                                                    "helptextTranslations": [],
                                                                                     "prefixIcon": null,
                                                                                     "prefixText": null,
                                                                                     "suffixIcon": null,
@@ -671,6 +764,7 @@
                                                                                     "protected": false
                                                                                 },
                                                                                 "extraOptions": {
+                                                                                    "description": null,
                                                                                     "extra": null,
                                                                                     "clear_on_copy": false,
                                                                                     "postProcessing": null
@@ -703,7 +797,9 @@
                                                                                     "labels": "With dark background\nWith horizontal rule (HR)\nNarrow\nWith blue background",
                                                                                     "linked_collection": null,
                                                                                     "collection_label_field": null,
-                                                                                    "placeholder": null
+                                                                                    "placeholder": null,
+                                                                                    "labelTranslations": [],
+                                                                                    "helptextTranslations": []
                                                                                 },
                                                                                 "mappingOptions": {
                                                                                     "analyzer": "keyword"
@@ -716,7 +812,8 @@
                                                                                 "extraOptions": {
                                                                                     "extra": null,
                                                                                     "clear_on_copy": false,
-                                                                                    "postProcessing": null
+                                                                                    "postProcessing": null,
+                                                                                    "description": null
                                                                                 },
                                                                                 "raw_data": [],
                                                                                 "migrationOptions": {
@@ -744,6 +841,8 @@
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
                                                                                     "icon": "fa fa-link",
+                                                                                    "labelTranslations": [],
+                                                                                    "helptextTranslations": [],
                                                                                     "language": null
                                                                                 },
                                                                                 "mappingOptions": [],
@@ -753,7 +852,8 @@
                                                                                 "extraOptions": {
                                                                                     "extra": null,
                                                                                     "clear_on_copy": false,
-                                                                                    "postProcessing": null
+                                                                                    "postProcessing": null,
+                                                                                    "description": null
                                                                                 },
                                                                                 "raw_data": []
                                                                             },
@@ -780,7 +880,8 @@
                                                                                                 "sortable": false,
                                                                                                 "type": null,
                                                                                                 "searchId": null,
-                                                                                                "defaultValue": null
+                                                                                                "labelTranslations": [],
+                                                                                                "helptextTranslations": []
                                                                                             },
                                                                                             "mappingOptions": {
                                                                                                 "analyzer": "keyword"
@@ -794,7 +895,8 @@
                                                                                                 "extra": null,
                                                                                                 "clear_on_copy": false,
                                                                                                 "postProcessing": null,
-                                                                                                "updateReferersField": null
+                                                                                                "updateReferersField": null,
+                                                                                                "description": null
                                                                                             },
                                                                                             "raw_data": [],
                                                                                             "migrationOptions": {
@@ -826,6 +928,8 @@
                                                                                                 "suffixIcon": null,
                                                                                                 "suffixText": null,
                                                                                                 "placeholder": null,
+                                                                                                "labelTranslations": [],
+                                                                                                "helptextTranslations": [],
                                                                                                 "icon": null
                                                                                             },
                                                                                             "mappingOptions": [],
@@ -837,7 +941,8 @@
                                                                                             "extraOptions": {
                                                                                                 "extra": null,
                                                                                                 "clear_on_copy": false,
-                                                                                                "postProcessing": null
+                                                                                                "postProcessing": null,
+                                                                                                "description": null
                                                                                             },
                                                                                             "raw_data": [],
                                                                                             "migrationOptions": {
@@ -873,6 +978,8 @@
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
                                                                         "icon": "fa fa-photo",
+                                                                        "labelTranslations": [],
+                                                                        "helptextTranslations": [],
                                                                         "language": null
                                                                     },
                                                                     "mappingOptions": [],
@@ -884,7 +991,8 @@
                                                                     "extraOptions": {
                                                                         "extra": null,
                                                                         "clear_on_copy": false,
-                                                                        "postProcessing": null
+                                                                        "postProcessing": null,
+                                                                        "description": null
                                                                     },
                                                                     "raw_data": []
                                                                 },
@@ -911,7 +1019,8 @@
                                                                                     "sortable": false,
                                                                                     "type": null,
                                                                                     "searchId": null,
-                                                                                    "defaultValue": null
+                                                                                    "labelTranslations": [],
+                                                                                    "helptextTranslations": []
                                                                                 },
                                                                                 "mappingOptions": {
                                                                                     "analyzer": "keyword"
@@ -925,7 +1034,8 @@
                                                                                     "extra": null,
                                                                                     "clear_on_copy": false,
                                                                                     "postProcessing": null,
-                                                                                    "updateReferersField": null
+                                                                                    "updateReferersField": null,
+                                                                                    "description": null
                                                                                 },
                                                                                 "raw_data": [],
                                                                                 "migrationOptions": {
@@ -950,8 +1060,10 @@
                                                                                 "displayOptions": {
                                                                                     "label": "Label",
                                                                                     "class": "col-md-12",
+                                                                                    "labelTranslations": [],
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
+                                                                                    "helptextTranslations": [],
                                                                                     "prefixIcon": null,
                                                                                     "prefixText": null,
                                                                                     "suffixIcon": null,
@@ -968,6 +1080,7 @@
                                                                                     "protected": false
                                                                                 },
                                                                                 "extraOptions": {
+                                                                                    "description": null,
                                                                                     "extra": null,
                                                                                     "clear_on_copy": false,
                                                                                     "postProcessing": null
@@ -998,6 +1111,8 @@
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
                                                                         "icon": "fa fa-clone",
+                                                                        "labelTranslations": [],
+                                                                        "helptextTranslations": [],
                                                                         "language": null
                                                                     },
                                                                     "mappingOptions": [],
@@ -1009,7 +1124,8 @@
                                                                     "extraOptions": {
                                                                         "extra": null,
                                                                         "clear_on_copy": false,
-                                                                        "postProcessing": null
+                                                                        "postProcessing": null,
+                                                                        "description": null
                                                                     },
                                                                     "raw_data": []
                                                                 },
@@ -1037,7 +1153,9 @@
                                                                                     "labels": "Accessibility report\nNews",
                                                                                     "linked_collection": null,
                                                                                     "collection_label_field": null,
-                                                                                    "placeholder": null
+                                                                                    "placeholder": null,
+                                                                                    "labelTranslations": [],
+                                                                                    "helptextTranslations": []
                                                                                 },
                                                                                 "mappingOptions": {
                                                                                     "analyzer": "keyword"
@@ -1050,7 +1168,8 @@
                                                                                 "extraOptions": {
                                                                                     "extra": null,
                                                                                     "clear_on_copy": false,
-                                                                                    "postProcessing": null
+                                                                                    "postProcessing": null,
+                                                                                    "description": null
                                                                                 },
                                                                                 "raw_data": [],
                                                                                 "migrationOptions": {
@@ -1075,8 +1194,10 @@
                                                                                 "displayOptions": {
                                                                                     "label": "Label",
                                                                                     "class": "col-md-12",
+                                                                                    "labelTranslations": [],
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
+                                                                                    "helptextTranslations": [],
                                                                                     "prefixIcon": null,
                                                                                     "prefixText": null,
                                                                                     "suffixIcon": null,
@@ -1093,6 +1214,7 @@
                                                                                     "protected": false
                                                                                 },
                                                                                 "extraOptions": {
+                                                                                    "description": null,
                                                                                     "extra": null,
                                                                                     "clear_on_copy": false,
                                                                                     "postProcessing": null
@@ -1123,6 +1245,8 @@
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
                                                                         "icon": "fa fa-mouse-pointer",
+                                                                        "labelTranslations": [],
+                                                                        "helptextTranslations": [],
                                                                         "language": null
                                                                     },
                                                                     "mappingOptions": [],
@@ -1134,7 +1258,8 @@
                                                                     "extraOptions": {
                                                                         "extra": null,
                                                                         "clear_on_copy": false,
-                                                                        "postProcessing": null
+                                                                        "postProcessing": null,
+                                                                        "description": null
                                                                     },
                                                                     "raw_data": []
                                                                 },
@@ -1161,7 +1286,8 @@
                                                                                     "sortable": false,
                                                                                     "type": null,
                                                                                     "searchId": null,
-                                                                                    "defaultValue": null
+                                                                                    "labelTranslations": [],
+                                                                                    "helptextTranslations": []
                                                                                 },
                                                                                 "mappingOptions": {
                                                                                     "analyzer": "keyword"
@@ -1175,7 +1301,8 @@
                                                                                     "extra": null,
                                                                                     "clear_on_copy": false,
                                                                                     "postProcessing": null,
-                                                                                    "updateReferersField": null
+                                                                                    "updateReferersField": null,
+                                                                                    "description": null
                                                                                 },
                                                                                 "raw_data": [],
                                                                                 "migrationOptions": {
@@ -1200,8 +1327,10 @@
                                                                                 "displayOptions": {
                                                                                     "label": "Label",
                                                                                     "class": "col-md-12",
+                                                                                    "labelTranslations": [],
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
+                                                                                    "helptextTranslations": [],
                                                                                     "prefixIcon": null,
                                                                                     "prefixText": null,
                                                                                     "suffixIcon": null,
@@ -1218,6 +1347,7 @@
                                                                                     "protected": false
                                                                                 },
                                                                                 "extraOptions": {
+                                                                                    "description": null,
                                                                                     "extra": null,
                                                                                     "clear_on_copy": false,
                                                                                     "postProcessing": null
@@ -1256,7 +1386,9 @@
                                                             "lastOfRow": false,
                                                             "helptext": null,
                                                             "language": null,
-                                                            "styles_set_preview": true
+                                                            "styles_set_preview": true,
+                                                            "labelTranslations": [],
+                                                            "helptextTranslations": []
                                                         },
                                                         "mappingOptions": {
                                                             "index": null,
@@ -1271,7 +1403,8 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -1300,6 +1433,8 @@
                                                             "lastOfRow": false,
                                                             "helptext": null,
                                                             "icon": "fa fa-search",
+                                                            "labelTranslations": [],
+                                                            "helptextTranslations": [],
                                                             "language": null
                                                         },
                                                         "mappingOptions": [],
@@ -1309,7 +1444,8 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": []
                                                     },
@@ -1335,6 +1471,8 @@
                                                                         "suffixIcon": null,
                                                                         "suffixText": null,
                                                                         "placeholder": null,
+                                                                        "labelTranslations": [],
+                                                                        "helptextTranslations": [],
                                                                         "icon": null
                                                                     },
                                                                     "mappingOptions": {
@@ -1350,7 +1488,8 @@
                                                                     "extraOptions": {
                                                                         "extra": null,
                                                                         "clear_on_copy": false,
-                                                                        "postProcessing": null
+                                                                        "postProcessing": null,
+                                                                        "description": null
                                                                     },
                                                                     "raw_data": [],
                                                                     "migrationOptions": {
@@ -1377,12 +1516,14 @@
                                                                         "class": "col-md-12",
                                                                         "height": 200,
                                                                         "format_tags": null,
-                                                                        "styles_set": null,
+                                                                        "styles_set": "bootstrap",
                                                                         "content_css": null,
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
                                                                         "language": null,
-                                                                        "styles_set_preview": false
+                                                                        "styles_set_preview": true,
+                                                                        "labelTranslations": [],
+                                                                        "helptextTranslations": []
                                                                     },
                                                                     "mappingOptions": {
                                                                         "index": null,
@@ -1397,7 +1538,8 @@
                                                                     "extraOptions": {
                                                                         "extra": null,
                                                                         "clear_on_copy": false,
-                                                                        "postProcessing": null
+                                                                        "postProcessing": null,
+                                                                        "description": null
                                                                     },
                                                                     "raw_data": [],
                                                                     "migrationOptions": {
@@ -1425,7 +1567,9 @@
                                                                         "class": "col-md-12",
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
-                                                                        "question_label": "To prevent search engines (e.g. Google) from indexing a page"
+                                                                        "question_label": "To prevent search engines (e.g. Google) from indexing a page",
+                                                                        "labelTranslations": [],
+                                                                        "helptextTranslations": []
                                                                     },
                                                                     "mappingOptions": {
                                                                         "index": null
@@ -1436,7 +1580,8 @@
                                                                     "extraOptions": {
                                                                         "extra": null,
                                                                         "clear_on_copy": false,
-                                                                        "postProcessing": null
+                                                                        "postProcessing": null,
+                                                                        "description": null
                                                                     },
                                                                     "raw_data": [],
                                                                     "migrationOptions": {
@@ -1472,6 +1617,8 @@
                                                 "lastOfRow": false,
                                                 "helptext": null,
                                                 "icon": "fa fa-gears",
+                                                "labelTranslations": [],
+                                                "helptextTranslations": [],
                                                 "language": null
                                             },
                                             "mappingOptions": [],
@@ -1481,7 +1628,8 @@
                                             "extraOptions": {
                                                 "extra": null,
                                                 "clear_on_copy": false,
-                                                "postProcessing": null
+                                                "postProcessing": null,
+                                                "description": null
                                             },
                                             "raw_data": []
                                         },
@@ -1509,7 +1657,9 @@
                                                             "labels": "With header banner (hero)",
                                                             "linked_collection": null,
                                                             "collection_label_field": null,
-                                                            "placeholder": null
+                                                            "placeholder": null,
+                                                            "labelTranslations": [],
+                                                            "helptextTranslations": []
                                                         },
                                                         "mappingOptions": {
                                                             "analyzer": "keyword",
@@ -1523,7 +1673,8 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -1555,7 +1706,8 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": null,
+                                                            "description": null
                                                         },
                                                         "raw_data": []
                                                     },
@@ -1591,6 +1743,14 @@
                 "properties": {
                     "name": "show-fr",
                     "label": "Show FR",
+                    "labelTranslations": {
+                        "fr": {
+                            "label": "Afficher FR"
+                        },
+                        "nl": {
+                            "label": "Toon FR"
+                        }
+                    },
                     "icon": "fa fa-eye",
                     "body": "{{ block('show_page_fr', '@EMSCH/template_ems/actions.twig') }}",
                     "header": null,
@@ -1632,6 +1792,7 @@
                 "properties": {
                     "name": "show-nl",
                     "label": "Show NL",
+                    "labelTranslations": null,
                     "icon": "fa fa-eye",
                     "body": "{{ block('show_page_nl', '@EMSCH/template_ems/actions.twig') }}",
                     "header": null,
@@ -1666,6 +1827,125 @@
                 "replaced": [
                     "environments"
                 ]
+            },
+            {
+                "class": "EMS\\CoreBundle\\Entity\\Template",
+                "arguments": [],
+                "properties": {
+                    "name": "ask_for_validation",
+                    "label": "Ask for validation",
+                    "labelTranslations": null,
+                    "icon": "fa fa-paper-plane",
+                    "body": "{{ block('body', '@EMSCH/template_ems/content_type/notification.twig') }}",
+                    "header": null,
+                    "editWithWysiwyg": false,
+                    "renderOption": "notification",
+                    "orderKey": 3,
+                    "accumulateInOneFile": false,
+                    "preview": false,
+                    "mimeType": null,
+                    "filename": null,
+                    "extension": null,
+                    "active": true,
+                    "role": "ROLE_USER",
+                    "environments": [
+                        "preview"
+                    ],
+                    "roleTo": "ROLE_USER",
+                    "roleCc": "ROLE_REVIEWER",
+                    "circlesTo": null,
+                    "responseTemplate": "{{ block('reponse', '@EMSCH/template_ems/content_type/notification.twig') }}",
+                    "emailContentType": null,
+                    "allowOrigin": null,
+                    "disposition": null,
+                    "orientation": null,
+                    "size": null,
+                    "public": false,
+                    "spreadsheet": false,
+                    "tag": null,
+                    "allowedRemoteHosts": []
+                },
+                "replaced": [
+                    "environments"
+                ]
+            },
+            {
+                "class": "EMS\\CoreBundle\\Entity\\Template",
+                "arguments": [],
+                "properties": {
+                    "name": "clear_cache",
+                    "label": "Clear cache",
+                    "labelTranslations": null,
+                    "icon": "glyphicon glyphicon-erase",
+                    "body": "{{ block(\"clear_caches\", \"@EMSCH/template_ems/actions.twig\") }}",
+                    "header": null,
+                    "editWithWysiwyg": false,
+                    "renderOption": "job",
+                    "orderKey": 4,
+                    "accumulateInOneFile": false,
+                    "preview": false,
+                    "mimeType": null,
+                    "filename": null,
+                    "extension": null,
+                    "active": false,
+                    "role": "not-defined",
+                    "environments": [],
+                    "roleTo": "not-defined",
+                    "roleCc": "not-defined",
+                    "circlesTo": null,
+                    "responseTemplate": null,
+                    "emailContentType": null,
+                    "allowOrigin": null,
+                    "disposition": null,
+                    "orientation": null,
+                    "size": null,
+                    "public": false,
+                    "spreadsheet": false,
+                    "tag": null,
+                    "allowedRemoteHosts": []
+                },
+                "replaced": [
+                    "environments"
+                ]
+            },
+            {
+                "class": "EMS\\CoreBundle\\Entity\\Template",
+                "arguments": [],
+                "properties": {
+                    "name": "clear_all_caches",
+                    "label": "Clear all caches",
+                    "labelTranslations": null,
+                    "icon": "fa fa-exclamation-triangle",
+                    "body": "{{ block(\"clear_all_caches\", \"@EMSCH/template_ems/actions.twig\") }}",
+                    "header": null,
+                    "editWithWysiwyg": false,
+                    "renderOption": "job",
+                    "orderKey": 5,
+                    "accumulateInOneFile": false,
+                    "preview": false,
+                    "mimeType": null,
+                    "filename": null,
+                    "extension": null,
+                    "active": false,
+                    "role": "not-defined",
+                    "environments": [],
+                    "roleTo": "not-defined",
+                    "roleCc": "not-defined",
+                    "circlesTo": null,
+                    "responseTemplate": null,
+                    "emailContentType": null,
+                    "allowOrigin": null,
+                    "disposition": null,
+                    "orientation": null,
+                    "size": null,
+                    "public": false,
+                    "spreadsheet": false,
+                    "tag": null,
+                    "allowedRemoteHosts": []
+                },
+                "replaced": [
+                    "environments"
+                ]
             }
         ],
         "views": [
@@ -1676,6 +1956,14 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
+                    "labelTranslations": {
+                        "fr": {
+                            "label": "Aper\u00e7u"
+                        },
+                        "nl": {
+                            "label": "Overzicht"
+                        }
+                    },
                     "icon": "fa fa-list-ul",
                     "options": {
                         "body": "{}",
@@ -1712,8 +2000,7 @@
             "delete": "ROLE_PUBLISHER",
             "trash": "ROLE_WEBMASTER",
             "archive": "not-defined",
-            "show_link_create": "ROLE_AUTHOR",
-            "show_link_search": "not-defined"
+            "show_link_create": "ROLE_AUTHOR"
         },
         "fields": {
             "display": "(rawData['display_label_'~userLocale] ?? rawData['display_label_fr'])",
@@ -1735,7 +2022,10 @@
             "tasks_helptexts": [],
             "hide_revision_sidebar": false,
             "recompute_on_publish": false
-        }
+        },
+        "querySearch": "pages"
     },
-    "replaced": []
+    "replaced": [
+        "querySearch"
+    ]
 }

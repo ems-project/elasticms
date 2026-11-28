@@ -31,12 +31,6 @@ final class SelectUserPropertyType extends AbstractType
         return ChoiceType::class;
     }
 
-    #[\Override]
-    public function getBlockPrefix(): string
-    {
-        return 'select2';
-    }
-
     /**
      * @param FormBuilderInterface<mixed> $builder
      * @param array<string, mixed>        $options
@@ -48,7 +42,7 @@ final class SelectUserPropertyType extends AbstractType
 
         $eventDispatcher = $options['event_dispatcher'];
 
-        if ($eventDispatcher instanceof EventDispatcher || false !== (bool) $options['allow_add']) {
+        if ($eventDispatcher instanceof EventDispatcher || (bool) $options['allow_add']) {
             $this->allowDynamicChoices($builder, $eventDispatcher);
         }
     }
@@ -63,11 +57,15 @@ final class SelectUserPropertyType extends AbstractType
             ->setDefaults([
                 'is_dynamic' => false,
                 'user_roles' => [],
+                'user_groups' => [],
                 'exclude_values' => [],
                 'event_dispatcher' => null,
                 'multiple' => false,
                 'label_property' => null,
                 'choice_translation_domain' => false,
+                'attr' => [
+                    'class' => 'select2',
+                ],
             ])
             ->setNormalizer('choices', function (Options $options, $value) {
                 if (true === $options['is_dynamic']) {
@@ -80,11 +78,12 @@ final class SelectUserPropertyType extends AbstractType
                     $options['user_property'],
                     $labelProperty,
                     $options['user_roles'],
+                    $options['user_groups'],
                     $options['exclude_values']
                 );
             })
             ->setNormalizer('attr', function (Options $options, $value) {
-                $allowAdd = (bool) ($options['allow_add']) ? true : false;
+                $allowAdd = (bool) $options['allow_add'];
 
                 if ($allowAdd) {
                     $value['data-tags'] = true; // select2 allow add tags
@@ -96,14 +95,15 @@ final class SelectUserPropertyType extends AbstractType
 
     /**
      * @param string[] $roles
+     * @param string[] $groups
      * @param string[] $excludeValues
      *
      * @return array<int|string, int|string>
      */
-    private function getChoices(string $property, string $propertyLabel, array $roles, array $excludeValues): array
+    private function getChoices(string $property, string $propertyLabel, array $roles, array $groups, array $excludeValues): array
     {
         $accessor = new PropertyAccessor();
-        $users = $this->userService->findUsersWithRoles($roles);
+        $users = $this->userService->findUsersWithRolesOrGroups($roles, $groups);
 
         $choices = [];
 

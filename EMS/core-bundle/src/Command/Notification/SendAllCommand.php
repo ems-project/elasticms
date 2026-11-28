@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Command\Notification;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Notification;
 use EMS\CoreBundle\Repository\NotificationRepository;
@@ -16,13 +17,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: Commands::NOTIFICATION_SEND,
-    description: 'Send all notifications and notification\'s responses emails.',
-    hidden: false,
-    aliases: ['ems:notification:send']
-)]
-final class SendAllCommand extends Command
+#[AsCommand(name: Commands::NOTIFICATION_SEND, description: "Send all notifications and notification's responses emails.", aliases: ['ems:notification:send'], hidden: false)]
+final class SendAllCommand extends AbstractCoreCommand
 {
     public function __construct(private readonly Registry $doctrine, private readonly NotificationService $notificationService, private readonly string $notificationPendingTimeout)
     {
@@ -48,30 +44,30 @@ final class SendAllCommand extends Command
     {
         $count = \count($resultSet);
         $progress = new ProgressBar($output, $count);
-        if (!$output->isVerbose()) {
+        if (!$this->output->isVerbose()) {
             $progress->start();
         }
 
         foreach ($resultSet as $idx => $item) {
-            if ($output->isVerbose()) {
-                $output->writeln(($idx + 1).'/'.$count.' : '.$item.' for '.$item->getRevision());
+            if ($this->output->isVerbose()) {
+                $this->io->text(($idx + 1).'/'.$count.' : '.$item.' for '.$item->getRevision());
             }
 
             $this->notificationService->sendEmail($item);
-            if (!$output->isVerbose()) {
+            if (!$this->output->isVerbose()) {
                 $progress->advance();
             }
         }
-        if (!$output->isVerbose()) {
+        if (!$this->output->isVerbose()) {
             $progress->finish();
-            $output->writeln('');
+            $this->io->newLine();
         }
     }
 
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln('Sending pending notification and response emails to enabled users');
+        $this->io->text('Sending pending notification and response emails to enabled users');
 
         $this->notificationService->setDryRun((bool) $input->getOption('dry-run'));
 
@@ -85,26 +81,27 @@ final class SendAllCommand extends Command
             'status' => 'pending',
             'emailed' => null,
         ]);
-        if (!empty($notifications)) {
-            $output->writeln('Sending new notifications');
+        if ([] !== $notifications) {
+            $this->io->text('Sending new notifications');
             $this->sendEmails($notifications, $output);
         }
 
         $date = new \DateTime();
         $date->sub(new \DateInterval($this->notificationPendingTimeout));
+
         $notifications = $notificationRepository->findReminders($date);
 
-        if (!empty($notifications)) {
-            $output->writeln('Sending reminders');
+        if ([] !== $notifications) {
+            $this->io->text('Sending reminders');
             $this->sendEmails($notifications, $output);
         }
 
         $notifications = $notificationRepository->findResponses();
-        if (!empty($notifications)) {
-            $output->writeln('Sending responses');
+        if ([] !== $notifications) {
+            $this->io->text('Sending responses');
             $this->sendEmails($notifications, $output);
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

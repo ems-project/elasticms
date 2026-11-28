@@ -27,7 +27,7 @@ final class Response implements ResponseInterface
     /** @var array<mixed> */
     private array $aggregations;
     /** @var array<mixed> */
-    private array $suggest;
+    private readonly array $suggest;
 
     /**
      * @param array<mixed> $response
@@ -62,7 +62,7 @@ final class Response implements ResponseInterface
     #[\Override]
     public function hasDocuments(): bool
     {
-        return \count($this->hits) > 0;
+        return [] !== $this->hits;
     }
 
     /**

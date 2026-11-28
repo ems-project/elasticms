@@ -1,0 +1,211 @@
+---
+name: elasticms-links
+description: Explain how links and file references are represented in elasticMS data fields, assets, and WYSIWYG content. Use this resource when creating or updating CMS documents through MCP tools.
+---
+
+# elasticMS links and file references
+
+## Purpose
+
+Use this guide when you create or update elasticMS documents through MCP.
+
+elasticMS uses different link formats depending on the field type:
+
+- data links for references to other CMS documents;
+- asset objects for file fields;
+- internal `ems://` links inside WYSIWYG HTML.
+
+Use the exact format expected by the target field.
+
+## Data link fields
+
+Data links are used by fields based on:
+
+`EMS\CoreBundle\Form\DataField\DataLinkFieldType`
+
+A single data link is a string with this format:
+
+```text
+{content_type_name}:{ouuid}
+```
+
+Example:
+
+```text
+news:7b3d9a4f-6a2f-4f9d-8b5a-2df5f0b4c123
+```
+
+`content_type_name` is the technical name of the linked content type.
+
+`ouuid` is the object unique identifier of the linked document.
+
+When a `DataLinkFieldType` field is multiple, the value is an array of data link
+strings:
+
+```json
+[
+    "news:7b3d9a4f-6a2f-4f9d-8b5a-2df5f0b4c123",
+    "event:1d3e8a62-ec40-4d2f-91bb-39ad7c7a4567"
+]
+```
+
+## File fields
+
+File links are used by fields based on:
+
+- `EMS\CoreBundle\Form\DataField\AssetFieldType`
+- `EMS\CoreBundle\Form\DataField\IndexedAssetFieldType`
+
+The field value is an object with file metadata:
+
+```json
+{
+    "sha1": "9a323a5b625999e1a13ed88e0b14c86cf0e76edb",
+    "mimetype": "application/pdf",
+    "filesize": 123456,
+    "filename": "document.pdf",
+    "_algo": "sha1"
+}
+```
+
+Before writing this object into a document, upload the file itself with the MCP
+asset tools:
+
+1. Call `init_asset_upload`.
+2. Send the file bytes with one or more `upload_asset_chunk` calls.
+3. Use the returned `sha1`, `mimetype`, `filesize`, `_algo`, and `filename` values in
+   the field.
+
+Do not invent the `sha1`, `filesize` or `_algo`. They must describe the uploaded file content.
+
+Fields based on `IndexedAssetFieldType` can also contain these optional
+attributes:
+
+- `_author`: file author;
+- `_title`: file title;
+- `_date`: file date;
+- `_language`: file language;
+- `_content`: file summary used to feed the search engine.
+
+Provide these optional attributes when they are available. The `_content` name
+is misleading: it is expected to contain a summary, not the full file content.
+Before generating this summary, ask the user whether they want the agent to
+summarize the file.
+
+## WYSIWYG fields
+
+WYSIWYG links are used inside HTML stored by fields based on:
+
+`EMS\CoreBundle\Form\DataField\WysiwygFieldType`
+
+Internal WYSIWYG links use the `ems://` URI scheme.
+
+The class that parses these links is:
+
+`EMS\CommonBundle\Common\EMSLink`
+
+## Links to CMS documents in WYSIWYG
+
+Use this format for an internal link to a CMS document:
+
+```text
+ems://object:{content_type_name}:{ouuid}
+```
+
+Example:
+
+```html
+<a href="ems://object:news:7b3d9a4f-6a2f-4f9d-8b5a-2df5f0b4c123">
+    Read the news
+</a>
+```
+
+`content_type_name` is the technical name of the linked content type.
+
+`ouuid` is the object unique identifier of the linked document.
+
+## Links to assets in WYSIWYG
+
+Use this format for an internal link to an uploaded asset:
+
+```text
+ems://asset:{sha1}?type={mime_type}&name={filename}
+```
+
+Example:
+
+```html
+<a href="ems://asset:9a323a5b625999e1a13ed88e0b14c86cf0e76edb?type=application/pdf&name=document.pdf">
+    Download the document
+</a>
+```
+
+The query attributes are:
+
+- `type`: the MIME type of the file;
+- `name`: the filename served to the user.
+
+The `type` and `name` query attributes are optional.
+
+If `type` is missing, the asset is served with:
+
+```text
+application.bin
+```
+
+If `name` is missing, the asset is served with:
+
+```text
+filename.bin
+```
+
+For a good user experience, always provide both `type` and `name` when
+generating WYSIWYG asset links.
+
+## Recommended workflow for files used in WYSIWYG
+
+1. Upload the file with `init_asset_upload` and `upload_asset_chunk`.
+2. Read the returned file metadata.
+3. Build the `ems://asset:{sha1}` link.
+4. Add the `type` query parameter with the MIME type.
+5. Add the `name` query parameter with the filename.
+6. Insert the link into the WYSIWYG HTML.
+
+Example:
+
+```html
+<p>
+    <a href="ems://asset:9a323a5b625999e1a13ed88e0b14c86cf0e76edb?type=application/pdf&name=brochure.pdf">
+        Download the brochure
+    </a>
+</p>
+```
+
+## Quick reference
+
+- Single document reference:
+  - field type: `DataLinkFieldType`
+  - value: `"{content_type_name}:{ouuid}"`
+- Multiple document references:
+  - field type: `DataLinkFieldType`
+  - value: array of `"{content_type_name}:{ouuid}"` strings
+- File field:
+  - field type: `AssetFieldType` or `IndexedAssetFieldType`
+  - value: object with `sha1`, `mimetype`, `filesize`, and `filename`
+- WYSIWYG document link:
+  - field type: `WysiwygFieldType`
+  - value: `ems://object:{content_type_name}:{ouuid}`
+- WYSIWYG asset link:
+  - field type: `WysiwygFieldType`
+  - value: `ems://asset:{sha1}?type={mime_type}&name={filename}`
+
+## Validation checklist
+
+Before saving a document, verify that:
+
+- every data link uses an existing content type name and document OUUID;
+- every multiple data link field is an array;
+- every file field uses metadata returned by the MCP asset upload tools;
+- every WYSIWYG document link starts with `ems://object:`;
+- every WYSIWYG asset link starts with `ems://asset:`;
+- WYSIWYG asset links include `type` and `name` whenever possible.

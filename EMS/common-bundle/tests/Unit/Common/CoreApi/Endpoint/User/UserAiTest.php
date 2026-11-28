@@ -8,6 +8,7 @@ use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\User\Profile;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\User\User;
 use EMS\CommonBundle\Common\CoreApi\Result;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 final class UserAiTest extends TestCase
@@ -22,6 +23,7 @@ final class UserAiTest extends TestCase
         $this->user = new User($this->client);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetProfiles(): void
     {
         $result = $this->createMock(Result::class);
@@ -40,6 +42,7 @@ final class UserAiTest extends TestCase
         $this->assertEquals('user2', $profiles[1]->getUsername());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetProfileAuthenticated(): void
     {
         $result = $this->createMock(Result::class);

@@ -4,19 +4,23 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use EMS\CoreBundle\Entity\Group;
 use Ramsey\Uuid\Uuid;
 
 /**
  * @extends ServiceEntityRepository<Group>
+ *
+ * @method Group|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Group|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method Group[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class GroupRepository extends ServiceEntityRepository
 {
-    public function __construct(Registry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Group::class);
     }
@@ -52,7 +56,7 @@ class GroupRepository extends ServiceEntityRepository
             ->setMaxResults($size);
         $this->addSearchFilters($qb, $searchValue);
 
-        if (\in_array($orderField, ['name', 'label'])) {
+        if (\in_array($orderField, ['name', 'label'], true)) {
             $qb->orderBy(\sprintf('g.%s', $orderField), $orderDirection);
         } else {
             $qb->orderBy('g.name', $orderDirection);
@@ -63,7 +67,7 @@ class GroupRepository extends ServiceEntityRepository
 
     private function addSearchFilters(QueryBuilder $qb, string $searchValue): void
     {
-        if (\strlen($searchValue) > 0) {
+        if ('' !== $searchValue) {
             $or = $qb->expr()->orX(
                 $qb->expr()->like('c.label', ':term'),
                 $qb->expr()->like('c.name', ':term'),

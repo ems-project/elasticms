@@ -1,4 +1,4 @@
-{% trans_default_domain 'EMSCoreBundle' %}
+{% trans_default_domain 'emsco-core' %}
 {%- set ouuid = object.ouuid|default(object._id is defined ? object._id : '') -%}
 {%- set source = object.source|default(object._source is defined ? object._source : []) -%}
 {%- if contentType -%}
@@ -19,7 +19,7 @@
                         link: link,
                         link_attributes: [ { name: 'target', value: '_blank' } ],
                         icon: template.icon,
-                        label: template.label,
+                        label: template.label(app.user),
                         suffix_icon: 'fa fa-external-link pull-right'
                     } %}
                     {% if not link %}
@@ -32,7 +32,8 @@
                             environment: environment,
                             contentType: contentType,
                             object: object,
-                            source: source
+                            source: source,
+                            template: template,
                         }) -%}
                         {%- if rawHTML != '' -%}
                             {% set contentTypeActions = contentTypeActions|merge([{ label: rawHTML|raw, rawHtml: true }]) %}
@@ -48,7 +49,7 @@
                                 { name: 'data-url', value: path('notification.ajaxnotification', {'objectId' : ouuid}) }
                             ],
                             icon: template.icon,
-                            label: template.label
+                            label: template.label(app.user)
                         } %}
                         {% set contentTypeActions = contentTypeActions|merge([action]) %}
                     {% endif %}
@@ -58,10 +59,10 @@
                             link: '#',
                             link_attributes: [
                                 { name: 'class', value: 'request_job' },
-                                { name: 'data-url', value: path('ems_job_custom_view', {'environmentName': environment.name, 'templateId': template.id, 'ouuid': ouuid}) }
+                                { name: 'data-url', value: path('emsco_job_custom_view', {'environmentName': environment.name, 'templateId': template.id, 'ouuid': ouuid}) }
                             ],
                             icon: template.icon,
-                            label: template.label
+                            label: template.label(app.user)
                         } %}
                         {% set contentTypeActions = contentTypeActions|merge([action]) %}
                     {% endif %}
@@ -75,19 +76,19 @@
                                 { name: 'data-ajax-modal-size', value: 'md' },
                             ],
                             icon: template.icon,
-                            label: template.label
+                            label: template.label(app.user)
                         } %}
                         {% set contentTypeActions = contentTypeActions|merge([action]) %}
                     {%- endif -%}
                 {% elseif template.renderOption not in [constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::EVENT')] %}
                     {% set action = {
-                        link: path(template.public?'ems_data_custom_template_public':'ems_data_custom_template_protected', {
+                        link: path(template.public?'emsco_data_public_action':'emsco_data_private_action', {
                             environmentName: environment.name,
                             ouuid: ouuid,
                             templateId: template.id
                         }),
                         icon: template.icon,
-                        label: template.label
+                        label: template.label(app.user)
                     } %}
                     {% set contentTypeActions = contentTypeActions|merge([action]) %}
                 {% endif %}
@@ -97,32 +98,32 @@
 
     {% if is_granted('ROLE_COPY_PASTE') %}
         {% set contentTypeActions = contentTypeActions|merge([{
-            link: path('revision.copy', {'environment': environment.name, 'type': contentType.name, 'ouuid': ouuid} ),
-            icon: 'views.elements.object-views-button.copy-data-icon-class'|trans,
-            label: 'views.elements.object-views-button.copy-data'|trans
+            link: path('emsco_data_copy', {'environment': environment.name, 'type': contentType.name, 'ouuid': ouuid} ),
+            icon: 'fa fa-copy',
+            label: 'action.copy_data'|trans
         }]) %}
         {% if not contentType.askForOuuid  %}
             {% set contentTypeActions = contentTypeActions|merge([{
                 link: path('emsco_duplicate_revision', {'environment': environment.name, 'type': contentType.name, 'ouuid': ouuid}),
                 icon: 'clone',
-                label: 'Duplicate',
+                label: 'action.duplicate'|trans,
                 post_button: true
             }]) %}
         {% endif %}
         {% set contentTypeActions = contentTypeActions|merge([{
-            link: path('data.view', {'environmentName': environment.name, 'type': contentType.name, 'ouuid': ouuid} ),
-            icon: 'views.elements.object-views-button.raw-view-icon-class'|trans,
-            label: 'views.elements.object-views-button.raw-view'|trans
+            link: path('emsco_data_view', {'environmentName': environment.name, 'type': contentType.name, 'ouuid': ouuid} ),
+            icon: 'fa fa-th',
+            label: 'key.raw_view'|trans
         }]) %}
     {% endif %}
 
     <div class="btn-group">
         {% if contentTypeActions|default([])|length > 0 %}
             <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-testid="revision-actions-in-{{ environment.label|lower }}">
-                <i class="{{ 'views.elements.object-views-button.action-dropdown-icon-class'|trans }}"></i>
-                {{ 'views.elements.object-views-button.action-dropdown-label'|trans({'%environment%': environment.label}) }}
+                <i class="fa fa-eye"></i>
+                {{ 'field.action_dropdown_label'|trans({'environment': environment.label(app.user)}) }}
                 <span class="caret"></span>
-                <span class="sr-only">{{ 'views.elements.object-views-button.action-dropdown-sr-only'|trans({'%environment%': environment.label}) }}</span>
+                <span class="sr-only">{{ 'field.action_dropdown_sr_only'|trans({'environment': environment.label(app.user)}) }}</span>
             </button>
             <ul class="dropdown-menu" role="menu">
                 {% for a in contentTypeActions %}
@@ -149,14 +150,14 @@
             </ul>
         {% else %}
             <button type="button" class="btn btn-default btn-sm" style="cursor: default">
-                <i class="{{ 'views.elements.object-views-button.action-dropdown-icon-class'|trans }}"></i>
-                {{ 'views.elements.object-views-button.published-label'|trans({'%environment%': environment.label}) }}
+                <i class="fa fa-eye"></i>
+                {{ 'field.published_label'|trans({'environment': environment.label(app.user)}) }}
             </button>
         {% endif %}
     </div>
 {% else %}
-    <a class="btn btn-sm btn-default " href="{{ path('data.view', {'environmentName': environment.name, 'type': contentType.name, 'ouuid': object.ouuid} ) }}" data-testid="revision-actions-view-current">
-        <i class="{{ 'views.elements.object-views-button.raw-view-icon-class'|trans }}"></i>
-        {{ 'views.elements.object-views-button.raw-view'|trans }}
+    <a class="btn btn-sm btn-default " href="{{ path('emsco_data_view', {'environmentName': environment.name, 'type': contentType.name, 'ouuid': object.ouuid} ) }}" data-testid="revision-actions-view-current">
+        <i class="fa fa-th"></i>
+        {{ 'key.raw_view'|trans }}
     </a>
 {% endif %}

@@ -1,7 +1,0 @@
-action:
-    select_all: 'Select all'
-form:
-    data:
-        bool_table_column:
-            false_value: Uncheck
-            true_value: Check

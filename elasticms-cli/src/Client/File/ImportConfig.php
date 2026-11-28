@@ -54,7 +54,7 @@ class ImportConfig
                 'exclude_expression' => null,
                 'generate_hash' => false,
                 'generate_ouuid' => false,
-                'ouuid_expression' => 'row[\'ouuid\']',
+                'ouuid_expression' => "row['ouuid']",
                 'ouuid_version_expression' => null,
                 'ouuid_prefix' => null,
                 'align_environments' => [],

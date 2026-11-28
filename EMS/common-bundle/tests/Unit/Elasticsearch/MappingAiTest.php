@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Tests\Elasticsearch;
 
 use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\CommonBundle\Elasticsearch\Mapping;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 final class MappingAiTest extends TestCase
@@ -20,6 +21,7 @@ final class MappingAiTest extends TestCase
         $this->mapping = new Mapping($this->client);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testDefaultMapping(): void
     {
         $expected = [
@@ -28,6 +30,7 @@ final class MappingAiTest extends TestCase
         $this->assertSame($expected, $this->mapping->defaultMapping());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetKeywordMapping(): void
     {
         $this->assertSame(['type' => 'keyword'], $this->mapping->getKeywordMapping());
@@ -39,36 +42,43 @@ final class MappingAiTest extends TestCase
         $this->assertSame('7.10', $this->mapping->getVersion());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetNotIndexedStringMapping(): void
     {
         $this->assertSame(['type' => 'text', 'index' => false], $this->mapping->getNotIndexedStringMapping());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetDateTimeMapping(): void
     {
         $this->assertSame(['type' => 'date', 'format' => 'date_time_no_millis'], $this->mapping->getDateTimeMapping());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetIndexedStringMapping(): void
     {
         $this->assertSame(['type' => 'text', 'index' => true], $this->mapping->getIndexedStringMapping());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetLongMapping(): void
     {
         $this->assertSame(['type' => 'long'], $this->mapping->getLongMapping());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetFloatMapping(): void
     {
         $this->assertSame(['type' => 'float'], $this->mapping->getFloatMapping());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetLimitedKeywordMapping(): void
     {
         $this->assertSame(['type' => 'keyword', 'ignore_above' => 256], $this->mapping->getLimitedKeywordMapping());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetTextWithSubRawMapping(): void
     {
         $expected = [
@@ -82,6 +92,7 @@ final class MappingAiTest extends TestCase
         $this->assertSame($expected, $this->mapping->getTextWithSubRawMapping());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetTextMapping(): void
     {
         $this->assertSame(['type' => 'text'], $this->mapping->getTextMapping());

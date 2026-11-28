@@ -1,5 +1,5 @@
 {% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
-{% trans_default_domain 'ems-adminui-twigs' %}
+{% trans_default_domain 'emsco-core' %}
 
 {% block form %}
 <div class="row">
@@ -13,19 +13,22 @@
         {{ form_row(form.webContent) }}
         {{ form_row(form.editTwigWithWysiwyg) }}
         {{ form_row(form.singularName) }}
+        {{ form_row(form.singularNameTranslations) }}
         {{ form_row(form.pluralName) }}
+        {{ form_row(form.pluralNameTranslations) }}
         {{ form_row(form.icon) }}
         {{ form_row(form.color) }}
         {% if form.sortOrder is defined %}
             {{ form_row(form.sortOrder) }}
         {% endif %}
+        {{ form_row(form.querySearch) }}
         {{ form_row(form.refererFieldName) }}
 
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>{{ 'content_type.permission'|trans }}</th>
-                <th>{{ 'content_type.role'|trans }}</th>
+                <th>{{ 'field.permission'|trans }}</th>
+                <th>{{ 'field.role'|trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -42,8 +45,8 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>{{ 'content_type.field'|trans }}</th>
-                    <th>{{ 'content_type.mapping'|trans }}</th>
+                    <th>{{ 'field.field'|trans }}</th>
+                    <th>{{ 'field.mapping'|trans }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -66,31 +69,31 @@
         {{ form_row(form.extra) }}
 
         {% if mapping %}
-            {% embed "@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig" with { icon: 'fa fa-sliders'} %}
-                {% trans_default_domain 'ems-adminui-twigs' %}
-                {% block title %}{{ 'content_type.mapping'|trans }}{% endblock title %}
+            {% embed '@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig' with {icon: 'fa fa-sliders'} %}
+                {% trans_default_domain 'emsco-core' %}
+                {% block title %}{{ 'field.mapping'|trans }}{% endblock title %}
                 {% block body %}
                     <pre class="ems-code-editor" data-language="ace/mode/json"
                          data-theme="ace/theme/chrome">{{ mapping|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
                 {% endblock body %}
-            {% endembed  %}
+            {% endembed %}
         {% endif %}
 
-        {% embed "@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig" with { icon: 'fa fa-ticket'} %}
-            {% trans_default_domain 'ems-adminui-twigs' %}
-            {% block title %}{{ 'content_type.tasks'|trans }}{% endblock title %}
+        {% embed '@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig' with {icon: 'fa fa-ticket'} %}
+            {% trans_default_domain 'emsco-core' %}
+            {% block title %}{{ 'key.tasks'|trans }}{% endblock title %}
             {% block body %}
                 <div class="row">
                     <div class="col-md-2">{{ form_row(form.settings.tasks_enabled) }}</div>
                     <div class="col-md-8">{{ form_row(form.settings.tasks_titles) }}</div>
                 </div>
             {% endblock body %}
-        {% endembed  %}
+        {% endembed %}
 
         {% if form.versioning is defined %}
-            {% embed "@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig" with { icon: 'fa fa-tags'} %}
-                {% trans_default_domain 'ems-adminui-twigs' %}
-                {% block title %}{{ 'content_type.versioning'|trans }}{% endblock title %}
+            {% embed '@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig' with {icon: 'fa fa-tags'} %}
+                {% trans_default_domain 'emsco-core' %}
+                {% block title %}{{ 'key.versioning'|trans }}{% endblock title %}
                 {% block body %}
                     <div class="row">
                         {% for versionField in form.versioning.fields %}
@@ -100,13 +103,13 @@
                         <div class="col-md-8">{{ form_row(form.versioning.options) }}</div>
                     </div>
                 {% endblock body %}
-            {% endembed  %}
+            {% endembed %}
         {% endif %}
 
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>{{ 'content_type.settings'|trans }}</th>
+                <th>{{ 'key.settings'|trans }}</th>
             </tr>
             </thead>
             <tbody>

@@ -1,0 +1,6 @@
+{{- [
+    {
+        role: 'user',
+        content: 'Draft a ' ~ locale ~ ' news article about "' ~ topic ~ '" for ' ~ audience|default('the demo website audience') ~ '. First inspect existing news with the list_news tool to avoid duplicates. Follow the MCP resources elasticms://guidelines/writing/accessibility, elasticms://resources/links and elasticms://guidelines/writing/falc. Return a proposed title, short summary, body structure, SEO title and SEO description. Do not save anything without confirmation.',
+    },
+]|json_encode|raw -}}

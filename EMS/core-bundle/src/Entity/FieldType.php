@@ -12,6 +12,8 @@ use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Form\DataField\DataFieldType;
 use EMS\CoreBundle\Form\DataField\JsonMenuNestedEditorFieldType;
+use EMS\Helpers\Translations\Translation;
+use EMS\Helpers\Translations\Translations;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FieldType extends JsonDeserializer implements \JsonSerializable
@@ -80,27 +82,12 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     {
         if (null != $this->children) {
             /** @var FieldType $child */
-            foreach ($this->children as $key => $child) {
+            foreach ($this->children as $child) {
                 $child->removeCircularReference();
             }
-            $this->setContentType(null);
-            $this->setParent(null);
+            $this->setContentType();
+            $this->setParent();
         }
-    }
-
-    /**
-     * @param mixed $input
-     *
-     * set the data value(s) from a string received from the symfony form) in the context of this field
-     */
-    public function setDataValue(mixed $input, DataField &$dataField): never
-    {
-        throw new \Exception('Deprecated method');
-        //         $type = $this->getType();
-        //         /** @var DataFieldType $dataFieldType */
-        //         $dataFieldType = new $type;
-
-        //         $dataFieldType->setDataValue($input, $dataField, $this->getOptions());
     }
 
     /**
@@ -118,11 +105,6 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         }
 
         return $out;
-    }
-
-    public function getDataValue(DataField &$dataField): never
-    {
-        throw new \Exception('Deprecated method');
     }
 
     /**
@@ -446,13 +428,12 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     {
         if (!\str_starts_with($key, 'ems_')) {
             throw new \Exception('unprotected ems get with key '.$key);
-        } else {
-            $key = \substr($key, 4);
         }
+        $key = \substr($key, 4);
 
         /** @var FieldType $fieldType */
         foreach ($this->getChildren() as $fieldType) {
-            if (!$fieldType->getDeleted() && 0 == \strcmp($key, $fieldType->getName())) {
+            if (!$fieldType->getDeleted() && 0 === \strcmp($key, $fieldType->getName())) {
                 return $fieldType;
             }
         }
@@ -508,6 +489,29 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         }
     }
 
+    /**
+     * @return array<string, mixed>
+     */
+    public function translateDisplayOptions(User $user): array
+    {
+        $options = $this->getDisplayOptions();
+        foreach ($options as $key => $value) {
+            if (!\str_ends_with($key, 'Translations') || !\is_array($value)) {
+                continue;
+            }
+            $labelKey = \substr($key, 0, -\strlen('Translations'));
+            $options[$labelKey] = $this->translate($labelKey, $user)->getLabel();
+            unset($options[$key]);
+        }
+
+        return $options;
+    }
+
+    public function translate(string $key, User $user): Translation
+    {
+        return Translations::fromArray($this->getDisplayOption(\sprintf('%sTranslations', $key), []))->getTranslation($user->getLocales(), $this->getDisplayOption($key, $this->getName()));
+    }
+
     public function addChild(FieldType $child, bool $prepend = false): self
     {
         $child->setParent($this);
@@ -553,7 +557,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         $path = [$this];
 
         if (null !== $this->parent) {
-            $path = \array_merge($this->parent->getPathTypes(), $path);
+            return \array_merge($this->parent->getPathTypes(), $path);
         }
 
         return $path;
@@ -638,28 +642,6 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     }
 
     /**
-     * Get child by path.
-     */
-    #[\Deprecated(message: "it's not clear if its the mapping of the rawdata or of the formdata (with ou without the virtual fields) see the same function in the contenttypeservice")]
-    public function getChildByPath(string $path): FieldType|false
-    {
-        $elem = \explode('.', $path);
-
-        /** @var FieldType $child */
-        foreach ($this->children as $child) {
-            if (!$child->getDeleted() && $child->getName() == $elem[0]) {
-                if (\strpos($path, '.')) {
-                    return $child->getChildByPath(\substr($path, \strpos($path, '.') + 1));
-                }
-
-                return $child;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * @param array<mixed>|null $options
      */
     public function setOptions(?array $options): self
@@ -717,7 +699,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
 
         $filtered = \array_filter(
             $this->getDisplayOptions(),
-            fn ($value) => \in_array($value, $defineOptions),
+            fn ($value) => \in_array($value, $defineOptions) || (\str_ends_with($value, 'Translations') && \in_array(\substr($value, 0, -\strlen('Translations')), $defineOptions)),
             ARRAY_FILTER_USE_KEY
         );
         $this->options[self::DISPLAY_OPTIONS] = $filtered;

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use EMS\CoreBundle\Entity\Channel;
 use EMS\CoreBundle\Exception\NotFoundException;
 
@@ -19,9 +19,9 @@ use EMS\CoreBundle\Exception\NotFoundException;
  * @method Channel|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
  * @method Channel[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
-final class ChannelRepository extends ServiceEntityRepository
+class ChannelRepository extends ServiceEntityRepository
 {
-    public function __construct(Registry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Channel::class);
     }
@@ -39,14 +39,6 @@ final class ChannelRepository extends ServiceEntityRepository
         }
 
         return $channel;
-    }
-
-    /**
-     * @return Channel[]
-     */
-    public function getAll(): array
-    {
-        return $this->findBy([], ['orderKey' => 'ASC']);
     }
 
     public function counter(string $searchValue = ''): int
@@ -107,7 +99,7 @@ final class ChannelRepository extends ServiceEntityRepository
             ->setMaxResults($size);
         $this->addSearchFilters($qb, $searchValue);
 
-        if (\in_array($orderField, ['label', 'name', 'alias', 'public'])) {
+        if (\in_array($orderField, ['label', 'name', 'alias', 'public'], true)) {
             $qb->orderBy(\sprintf('c.%s', $orderField), $orderDirection);
         } else {
             $qb->orderBy('c.orderKey', $orderDirection);
@@ -118,7 +110,7 @@ final class ChannelRepository extends ServiceEntityRepository
 
     private function addSearchFilters(QueryBuilder $qb, string $searchValue): void
     {
-        if (\strlen($searchValue) > 0) {
+        if ('' !== $searchValue) {
             $or = $qb->expr()->orX(
                 $qb->expr()->like('c.label', ':term'),
                 $qb->expr()->like('c.name', ':term'),

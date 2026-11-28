@@ -7,7 +7,6 @@ namespace App\CLI\Command\Photos;
 use App\CLI\Client\Photos\ApplePhotosLibrary;
 use App\CLI\Client\Photos\PhotosLibraryInterface;
 use App\CLI\Commands;
-use EMS\CommonBundle\Common\Admin\AdminHelper;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,11 +21,6 @@ class ApplePhotosMigrationCommand extends AbstractPhotosMigrationCommand
 {
     final public const string ARG_PHOTOS_LIBRARY_PATH = 'photos-library-path';
     private string $applePhotosPathPath;
-
-    public function __construct(AdminHelper $adminHelper)
-    {
-        parent::__construct($adminHelper);
-    }
 
     #[\Override]
     protected function configure(): void

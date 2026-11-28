@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Controller;
 
 use Doctrine\Persistence\ManagerRegistry;
-use EMS\CoreBundle\Core\Dashboard\DashboardManager;
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CoreBundle\Core\UI\FlashMessageLogger;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
@@ -23,7 +23,6 @@ use EMS\CoreBundle\Service\EnvironmentService;
 use EMS\CoreBundle\Service\NotificationService;
 use EMS\CoreBundle\Service\PublishService;
 use EMS\Helpers\Standard\Type;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,15 +30,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+use function Symfony\Component\Translation\t;
+
 class NotificationController extends AbstractController
 {
     public function __construct(
-        private readonly LoggerInterface $logger,
+        private readonly LocalizedLoggerInterface $logger,
         private readonly PublishService $publishService,
         private readonly EnvironmentService $environmentService,
         private readonly ManagerRegistry $doctrine,
         private readonly NotificationService $notificationService,
-        private readonly DashboardManager $dashboardManager,
         private readonly NotificationRepository $notificationRepository,
         private readonly FlashMessageLogger $flashMessageLogger,
         private readonly int $pagingSize,
@@ -82,7 +82,7 @@ class NotificationController extends AbstractController
             throw new NotFoundHttpException('Unknown revision');
         }
 
-        $success = $this->notificationService->addNotification($ct->getActionById((int) $templateId), $revision, $env);
+        $success = $this->notificationService->addNotification($ct->getActionById($templateId), $revision, $env);
 
         return $this->flashMessageLogger->buildJsonResponse([
             'success' => $success,
@@ -126,13 +126,13 @@ class NotificationController extends AbstractController
 
         foreach ($treatNotification->getNotifications() as $notificationId => $true) {
             if (null === $notification = $this->notificationRepository->find($notificationId)) {
-                $this->logger->error('log.notification.notification_not_found', [
+                $this->logger->messageError(t('message.notification_not_found', [
                     'notification_id' => $notificationId,
-                ]);
+                ], 'emsco-core'));
                 continue;
             }
 
-            if ($publishIn) {
+            if ($publishIn instanceof Environment) {
                 $this->publishService->publish($notification->getRevision(), $publishIn);
             }
 
@@ -146,14 +146,6 @@ class NotificationController extends AbstractController
         }
 
         return $this->redirectToRoute('notifications.inbox');
-    }
-
-    public function menuNotification(): Response
-    {
-        return $this->render("@$this->templateNamespace/notification/menu.html.twig", [
-            'counter' => $this->notificationService->menuNotification(),
-            'dashboardMenu' => $this->dashboardManager->getNotificationMenu(),
-        ]);
     }
 
     public function listNotifications(string $folder, Request $request): Response
@@ -182,13 +174,13 @@ class NotificationController extends AbstractController
         $page = $request->query->getInt('page', 1);
 
         $rejectedNotifications = [];
-        if ('sent' == $folder) {
+        if ('sent' === $folder) {
             $notifications = $this->notificationService->listSentNotifications(($page - 1) * $paging_size, $paging_size, $notificationFilter);
             $lastPage = \ceil($countSent / $paging_size);
         } else {
             $notifications = $this->notificationService->listInboxNotifications(($page - 1) * $paging_size, $paging_size, $filters);
             $rejectedNotifications = $this->notificationService->listRejectedNotifications(($page - 1) * $paging_size, $paging_size, $filters);
-            $lastPage = \ceil(($countRejected > $countPending ? $countRejected : $countPending) / $paging_size);
+            $lastPage = \ceil(\max($countRejected, $countPending) / $paging_size);
         }
 
         $treatNotification = new TreatNotifications();
@@ -198,7 +190,7 @@ class NotificationController extends AbstractController
             'notifications' => $notifications,
         ]);
 
-        return $this->render("@$this->templateNamespace/notification/list.html.twig", [
+        return $this->render(\sprintf('@%s/notification/list.html.twig', $this->templateNamespace), [
             'counter' => $count,
             'notifications' => $notifications,
             'lastPage' => $lastPage,

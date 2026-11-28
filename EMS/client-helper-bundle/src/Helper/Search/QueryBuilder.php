@@ -12,7 +12,6 @@ use Elastica\Aggregation\Terms as TermsAggregation;
 use Elastica\Query\AbstractQuery;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\Nested;
-use Elastica\Query\Terms;
 use Elastica\Suggest;
 use Elastica\Suggest\Term;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
@@ -34,6 +33,7 @@ final readonly class QueryBuilder
         $query = $this->getQuery();
         $search = $this->clientRequest->initializeCommonSearch($types, $query);
         $search->setPostFilter($this->getPostFilters());
+
         $hasPostFilter = (null !== $search->getPostFilter());
         foreach ($this->getAggs($hasPostFilter) as $aggregation) {
             $search->addAggregation($aggregation);
@@ -61,7 +61,7 @@ final readonly class QueryBuilder
             return $this->getQueryWithStringAnalyzed($queryString);
         }
 
-        if ($this->getQueryFilters()) {
+        if ($this->getQueryFilters() instanceof BoolQuery) {
             $querySearch->addMust($this->getQueryFilters());
         }
 
@@ -71,7 +71,7 @@ final readonly class QueryBuilder
     private function getQueryWithStringAnalyzed(string $queryString): ?AbstractQuery
     {
         $query = new BoolQuery();
-        if ($this->getQueryFilters()) {
+        if ($this->getQueryFilters() instanceof BoolQuery) {
             $query->addMust($this->getQueryFilters());
         }
 
@@ -81,7 +81,7 @@ final readonly class QueryBuilder
         $queryFields = new BoolQuery();
         foreach ($this->search->getFields() as $field) {
             $textValues = $analyzer->getTextValues($field, $this->search->getAnalyzer(), $tokens, $this->search->getSynonyms());
-            if (0 === \count($textValues)) {
+            if ([] === $textValues) {
                 continue;
             }
 
@@ -106,10 +106,6 @@ final readonly class QueryBuilder
         $minimumShouldMatch = $this->search->getMinimumShouldMatch();
         if (null !== $minimumShouldMatch) {
             $query->setMinimumShouldMatch($minimumShouldMatch);
-        }
-
-        foreach ($this->search->getQueryFacets() as $field => $terms) {
-            $query->addMust(new Terms($field, $terms));
         }
 
         foreach ($this->search->getFilters() as $filter) {
@@ -180,13 +176,6 @@ final readonly class QueryBuilder
     {
         $aggs = [];
 
-        foreach ($this->search->getQueryFacets() as $facet => $size) {
-            $terms = new TermsAggregation($facet);
-            $terms->setField($facet);
-            $terms->setSize($size);
-            $aggs[$facet] = $terms;
-        }
-
         foreach ($this->search->getFilters() as $filter) {
             if (!$filter->hasAggSize()) {
                 continue;
@@ -203,6 +192,7 @@ final readonly class QueryBuilder
     {
         $agg = new TermsAggregation($filter->getName());
         $agg->setField($filter->getField());
+
         $aggSize = $filter->getAggSize();
         if (null !== $aggSize) {
             $agg->setSize($aggSize);

@@ -22,19 +22,36 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class JsonMenuLinkFieldType extends DataFieldType
 {
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker, FormRegistryInterface $formRegistry, ElasticsearchService $elasticsearchService, private readonly ContentTypeService $contentTypeService, private readonly ElasticaService $elasticaService, private readonly Decoder $decoder)
-    {
-        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        FormRegistryInterface $formRegistry,
+        ElasticsearchService $elasticsearchService,
+        TokenStorageInterface $tokenStorage,
+        private readonly ContentTypeService $contentTypeService,
+        private readonly ElasticaService $elasticaService,
+        private readonly Decoder $decoder
+    ) {
+        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService, $tokenStorage);
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'JSON menu link field';
+        return ['type' => 'string'];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.json_menu_link', [], 'emsco-core');
     }
 
     #[\Override]
@@ -72,7 +89,7 @@ class JsonMenuLinkFieldType extends DataFieldType
             ]);
 
             $isMigration = $options['migration'] ?? false;
-            $alreadyAssignedUuids = !$isMigration ? $this->collectAlreadyAssignedJsonUuids($fieldType, $options['raw_data'] ?? []) : [];
+            $alreadyAssignedUuids = $isMigration ? [] : $this->collectAlreadyAssignedJsonUuids($fieldType, $options['raw_data'] ?? []);
 
             $scroll = $this->elasticaService->scroll($search);
             foreach ($scroll as $resultSet) {
@@ -90,10 +107,8 @@ class JsonMenuLinkFieldType extends DataFieldType
 
                     $jsonMenu = $this->decoder->jsonMenuDecode($result->getSource()[$options['json_menu_field']] ?? '{}', '/');
                     foreach ($jsonMenu->getUids() as $uid) {
-                        if (!\in_array($uid, $alreadyAssignedUuids)) {
-                            if (($jsonMenu->getItem($uid)['contentType'] ?? false) === $fieldType->giveContentType()->getName()) {
-                                $choices[$label.$jsonMenu->getSlug($uid)] = $uid;
-                            }
+                        if (!\in_array($uid, $alreadyAssignedUuids) && ($jsonMenu->getItem($uid)['contentType'] ?? false) === $fieldType->giveContentType()->getName()) {
+                            $choices[$label.$jsonMenu->getSlug($uid)] = $uid;
                         }
                     }
                 }
@@ -145,22 +160,30 @@ class JsonMenuLinkFieldType extends DataFieldType
         $optionsForm = $builder->get('options');
 
         $optionsForm->get('displayOptions')->add('expanded', CheckboxType::class, [
+            'label' => t('field.expanded', [], 'emsco-core'),
             'required' => false,
         ])->add('allow_link_to_root', CheckboxType::class, [
+            'label' => t('field.allow_link_to_root', [], 'emsco-core'),
             'required' => false,
         ])->add('json_menu_content_type', ContentTypePickerType::class, [
+            'label' => t('field.json_menu_content_type', [], 'emsco-core'),
             'required' => false,
         ])->add('json_menu_field', TextType::class, [
+            'label' => t('field.json_menu_field', [], 'emsco-core'),
             'required' => false,
         ])->add('query', CodeEditorType::class, [
+            'label' => t('field.query', [], 'emsco-core'),
             'required' => false,
             'language' => 'ace/mode/json',
         ]);
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')
-                ->add('analyzer', AnalyzerPickerType::class)
+                ->add('analyzer', AnalyzerPickerType::class, [
+                    'label' => t('field.analyzer', [], 'emsco-core'),
+                ])
                 ->add('copy_to', TextType::class, [
+                    'label' => t('field.copy_to', [], 'emsco-core'),
                     'required' => false,
                 ]);
         }

@@ -13,7 +13,7 @@
       <group resname="[introduction]" id="grp3">
         <trans-unit restype="x-html-p" id="tu4" resname="/html/body/p[1]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu5" resname="/html/body/p[2]">
           <source xml:lang="nl"> Vanaf 1 juli 2017 introduceert Wallonië een nieuwe doelgroepvermindering voor oudere werknemers <g id="g6" ctype="x-html-strong">ter vervanging</g> van de bestaande doelgroepvermindering ouderen. Dit geldt enkel voor de werknemers die werkzaam zijn in of afhangen van een vestigingseenheid in het <g id="g7" ctype="x-html-strong">Waals Gewest</g> (zonder de Duitstalige Gemeenschap). Voor de werknemers tewerkgesteld in een andere regio wijzigt er niets. </source>
@@ -25,7 +25,7 @@
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu11" resname="/html/body/p[4]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
       </group>
       <group resname="[description]" id="grp12">
@@ -37,7 +37,7 @@
           <source xml:lang="nl"> Alle werkgevers die werknemers tewerkstellen die onderworpen zijn aan het <g id="g15" ctype="x-html-strong">geheel der regelingen.</g> Voor de RSZ zijn dit: </source>
           <target xml:lang="de" state="final"> Alle Arbeitgeber, die Arbeitnehmer beschäftigen, die <g id="g16" ctype="x-html-strong">allen Regelungen</g> unterliegen. </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu17" resname="/html/body/ul[1]">
+        <group restype="x-html-ul" id="grp17" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu18" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">de rust- en overlevingspensioenen voor werknemers; </source>
             <target xml:lang="de" state="final">Alters- und Hinterbliebenenpensionen für Arbeitnehmer; </target>
@@ -72,7 +72,7 @@
           <target xml:lang="de" state="final"> Betroffene Arbeitnehmer </target>
           <note from="id">h21</note>
         </trans-unit>
-        <group restype="x-html-ul" id="tu26" resname="/html/body/ul[2]">
+        <group restype="x-html-ul" id="grp26" resname="/html/body/ul[2]">
           <trans-unit restype="listitem" id="tu27" resname="/html/body/ul[2]/li[1]">
             <source xml:lang="nl">Het gaat (zoals bij het vroegere systeem) enkel om werknemers uit categorie 1 van de structurele vermindering </source>
             <target xml:lang="de" state="final">Es handelt sich (wie beim früheren System) ausschließlich um Arbeitnehmer der Kategorie 1 der Strukturermäßigung, </target>
@@ -81,16 +81,16 @@
             <source xml:lang="nl">De werknemer moet op de laatste dag van het kwartaal minimum 55 jaar zijn en hij mag het voorafgaande kwartaal de wettelijke pensioenleeftijd (65 jaar) niet bereikt hebben. </source>
             <target xml:lang="de" state="final">Der Arbeitnehmer muss am letzten Tag des Quartals wenigstens 55 Jahre alt sein und er darf im vorhergehenden Quartal das gesetzliche Rentenalter (65 Jahre) nicht erreicht haben. </target>
           </trans-unit>
-          <group restype="listitem" id="tu29" resname="/html/body/ul[2]/li[3]">
+          <group restype="listitem" id="grp29" resname="/html/body/ul[2]/li[3]">
             <trans-unit id="tu30" resname="/html/body/ul[2]/li[3]/text()[1]">
               <source xml:lang="nl">Enkel oudere werknemers van wie het refertekwartaalloon van het lopende kwartaal lager is dan 13.942,47 EUR komen in aanmerking. Dit plafond wordt aangepast bij de aanpassing van de loonplafonds van de werkbonus, vanaf het kwartaal dat volgt op het kwartaal waarin deze loongrenzen verhoogd worden of, indien deze verhoging samenvalt met het begin van een kwartaal, met ingang van dat kwartaal: </source>
               <target xml:lang="de" state="final">Nur ältere Arbeitnehmer, deren Referenzquartalslohn des laufenden Quartals weniger als 13.942,47 EUR beträgt, kommen in Betracht. Diese Grenze wird bei der Anpassung der Lohngrenze des Arbeitsbonus ab dem Quartal, das auf das Quartal folgt, in dem diese Lohngrenze erhöht wird, oder, wenn diese Erhöhung bei Quartalsbeginn erfolgt, ab diesem Quartal, angepasst: </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu31" resname="/html/body/ul[2]/li[3]/ul">
+            <group restype="x-html-ul" id="grp31" resname="/html/body/ul[2]/li[3]/ul">
               <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
               <trans-unit restype="listitem" id="tu32" resname="/html/body/ul[2]/li[3]/ul/li">
-                <source xml:lang="nl">vanaf het <bx id="bx34" rid="rid33" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>4<g id="g35" ctype="x-html-sup">de</g> kwartaal 2021<ex id="ex36" rid="rid33" equiv-text="&amp;lt;/span&amp;gt;"/> is het plafond gelijk aan <bx id="bx38" rid="rid37" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>14.795,87 EUR<ex id="ex39" rid="rid37" equiv-text="&amp;lt;/span&amp;gt;"/>. </source>
-                <target xml:lang="de" state="final">ab dem <bx id="bx41" rid="rid40" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>4.<x id="x42" ctype="x-html-sup" equiv-text=" "/> Quartal 2021<ex id="ex43" rid="rid40" equiv-text="&amp;lt;/span&amp;gt;"/> entspricht die Grenze <bx id="bx45" rid="rid44" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>14.795,87 EUR<ex id="ex46" rid="rid44" equiv-text="&amp;lt;/span&amp;gt;"/>. </target>
+                <source xml:lang="nl">vanaf het <bx id="bx34" rid="rid33" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>4<g id="g36" ctype="x-html-sup">de</g> kwartaal 2021<ex id="ex35" rid="rid33" equiv-text="&amp;lt;/span&amp;gt;"/> is het plafond gelijk aan <bx id="bx38" rid="rid37" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>14.795,87 EUR<ex id="ex39" rid="rid37" equiv-text="&amp;lt;/span&amp;gt;"/>. </source>
+                <target xml:lang="de" state="final">ab dem <bx id="bx41" rid="rid40" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>4.<x id="x43" ctype="x-html-sup" equiv-text=" "/> Quartal 2021<ex id="ex42" rid="rid40" equiv-text="&amp;lt;/span&amp;gt;"/> entspricht die Grenze <bx id="bx45" rid="rid44" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>14.795,87 EUR<ex id="ex46" rid="rid44" equiv-text="&amp;lt;/span&amp;gt;"/>. </target>
               </trans-unit>
             </group>
           </group>
@@ -103,13 +103,13 @@
           <source xml:lang="nl"> Werknemers die het volledige kwartaal geen effectieve prestaties leveren, zijn uitgesloten, behalve in het geval van: </source>
           <target xml:lang="de" state="final"> Arbeitnehmer, die über das gesamte Quartal keine effektiven Leistungen erbringen, sind ausgeschlossen, ausgenommen im Fall: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu49" resname="/html/body/ul[3]">
-          <group restype="listitem" id="tu50" resname="/html/body/ul[3]/li[1]">
+        <group restype="x-html-ul" id="grp49" resname="/html/body/ul[3]">
+          <group restype="listitem" id="grp50" resname="/html/body/ul[3]/li[1]">
             <trans-unit id="tu51" resname="/html/body/ul[3]/li[1]/text()[1]">
               <source xml:lang="nl">wettelijke volledige schorsing van de uitvoering van de arbeidsovereenkomst zoals </source>
               <target xml:lang="de" state="final">einer gesetzlichen vollständigen Aussetzung der Ausführung des Arbeitsvertrags, wie </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu52" resname="/html/body/ul[3]/li[1]/ul">
+            <group restype="x-html-ul" id="grp52" resname="/html/body/ul[3]/li[1]/ul">
               <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
               <trans-unit restype="listitem" id="tu53" resname="/html/body/ul[3]/li[1]/ul/li[1]">
                 <source xml:lang="nl">de schorsingen bepaald in de wet van 3 juli 1978 betreffende de arbeidsovereenkomsten (ziekte en ongeval, ...) </source>
@@ -139,7 +139,7 @@
           <target xml:lang="de" state="final"> Betrag der Ermäßigung </target>
           <note from="id">h22</note>
         </trans-unit>
-        <group restype="x-html-ul" id="tu65" resname="/html/body/ul[4]">
+        <group restype="x-html-ul" id="grp65" resname="/html/body/ul[4]">
           <trans-unit restype="listitem" id="tu66" resname="/html/body/ul[4]/li[1]">
             <source xml:lang="nl">De oudere werknemer van minstens 55 jaar en jonger dan 58 jaar (op de laatste dag van het kwartaal) opent het recht op een doelgroepvermindering <g id="g67" ctype="x-html-strong">G<g id="g68" ctype="x-html-sub">2</g></g> (400,00 EUR). </source>
             <target xml:lang="de" state="final">Der mindestens 55, aber weniger als 58 Jahre alte Arbeitnehmer (am letzten Tag des Quartals) eröffnet das Recht auf eine Zielgruppenermäßigung <g id="g69" ctype="x-html-strong">G<g id="g70" ctype="x-html-sub">2</g></g> (400,00 EUR). </target>

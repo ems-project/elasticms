@@ -22,7 +22,7 @@ abstract class JsonDeserializer
     {
         $dateFields = ['created', 'modified', 'lockUntil'];
 
-        if (null !== $value && \in_array($name, $dateFields)) {
+        if (null !== $value && \in_array($name, $dateFields, true)) {
             $value = $this->convertToDateTime($value);
         }
 
@@ -65,6 +65,6 @@ abstract class JsonDeserializer
 
         $keys = [JsonClass::CLASS_INDEX, JsonClass::CONSTRUCTOR_ARGUMENTS_INDEX, JsonClass::PROPERTIES_INDEX];
 
-        return \array_all($keys, fn ($key) => \array_key_exists($key, $array));
+        return \array_all($keys, fn ($key) => \array_key_exists((string) $key, $array));
     }
 }

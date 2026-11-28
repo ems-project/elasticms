@@ -5,7 +5,9 @@ on:
   push:
 
 env:
-  PHP_VERSION: 8.4
+  PHP_VERSION: 8.5
+  OTEL_PHP_AUTOLOAD_ENABLED: false
+  OTEL_PHP_DISABLED_INSTRUMENTATIONS: all
 
 jobs:
   code-quality:
@@ -41,7 +43,7 @@ jobs:
 
       - name: "Install Composer dependencies"
         if: steps.restore-composer.outputs.cache-hit != 'true'
-        run: composer install --no-progress
+        run: composer install --no-progress --ignore-platform-req=ext-opentelemetry
 
       - name: "Run PHPStan"
         run: vendor/bin/phpstan analyse --configuration=./config/phpstan.neon.dist --error-format=github -vvv

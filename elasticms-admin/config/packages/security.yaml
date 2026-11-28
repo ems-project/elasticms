@@ -12,6 +12,7 @@ security:
         ROLE_COPYWRITER:      ROLE_AUDITOR
         ROLE_PUBLISHER:       ROLE_COPYWRITER
         ROLE_WEBMASTER:       ROLE_PUBLISHER
+        ROLE_USER_MANAGEMENT: ROLE_WEBMASTER
         ROLE_ADMIN:           [ROLE_WEBMASTER, ROLE_USER_MANAGEMENT]
         ROLE_SUPER_ADMIN:     ROLE_ADMIN
 
@@ -83,8 +84,8 @@ security:
         - { path: ^/bundles, role: PUBLIC_ACCESS }
         - { path: ^/action, roles: ROLE_USER }
         - { path: ^/api/user-profile, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/api, roles: ROLE_API }
         - { path: ^/api/admin, roles: ROLE_ADMIN }
+        - { path: ^/api, roles: ROLE_API }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/channel-admin, roles: ROLE_ADMIN }
         - { path: ^/user, roles: ROLE_USER_MANAGEMENT }

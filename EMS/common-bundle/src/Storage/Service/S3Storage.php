@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Storage\Service;
 
 use Aws\CommandPool;
-use Aws\Exception\AwsException;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use EMS\CommonBundle\Common\Cache\Cache;
@@ -22,7 +21,7 @@ use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\SplFileInfo;
 
-class S3Storage extends AbstractUrlStorage
+class S3Storage extends AbstractUrlStorage implements \Stringable
 {
     private ?S3Client $s3Client = null;
     private bool $streamWrapperRegistered = false;
@@ -57,13 +56,13 @@ class S3Storage extends AbstractUrlStorage
             $this->streamWrapperRegistered = true;
         }
 
-        return "s3://$this->bucket";
+        return 's3://'.$this->bucket;
     }
 
     #[\Override]
     public function __toString(): string
     {
-        return S3Storage::class." ($this->bucket)";
+        return S3Storage::class.\sprintf(' (%s)', $this->bucket);
     }
 
     #[\Override]
@@ -114,7 +113,7 @@ class S3Storage extends AbstractUrlStorage
             'Key' => $uploadKey,
             'PartNumber' => 1,
             'UploadId' => $uploadId,
-            'CopySource' => "$this->bucket/$uploadKey",
+            'CopySource' => \sprintf('%s/%s', $this->bucket, $uploadKey),
         ]);
         $parts[] = [
             'PartNumber' => 1,
@@ -270,14 +269,14 @@ class S3Storage extends AbstractUrlStorage
 
     private function uploadKey(string $hash): string
     {
-        return "uploads/$hash";
+        return 'uploads/'.$hash;
     }
 
     private function key(string $hash): string
     {
         $folder = \substr($hash, 0, 3);
 
-        return "$folder/$hash";
+        return \sprintf('%s/%s', $folder, $hash);
     }
 
     #[\Override]
@@ -427,8 +426,8 @@ class S3Storage extends AbstractUrlStorage
             ]);
 
             return true;
-        } catch (S3Exception $exception) {
-            if (null === $exception->getStatusCode() || $exception->getStatusCode() >= 500) {
+        } catch (S3Exception $s3Exception) {
+            if (null === $s3Exception->getStatusCode() || $s3Exception->getStatusCode() >= 500) {
                 throw new StorageNotAvailableException($this);
             }
 
@@ -440,25 +439,25 @@ class S3Storage extends AbstractUrlStorage
     public function heads(string ...$hashes): array
     {
         $client = $this->getS3Client();
-        $notFound = [];
+        $notFound = \array_fill(0, \count($hashes), true);
 
         $promiseGenerator = function () use ($hashes, $client, &$notFound) {
-            foreach ($hashes as $hash) {
+            foreach ($hashes as $index => $hash) {
                 yield $client->headObjectAsync([
                     'Bucket' => $this->bucket,
                     'Key' => \implode('/', [\substr($hash, 0, 3), $hash]),
-                ])->then(onFulfilled: function () use (&$notFound) {
-                    $notFound[] = true;
-                }, onRejected: function (AwsException $exception) use (&$notFound, $hash) {
-                    if ('NotFound' === $exception->getAwsErrorCode()) {
-                        $notFound[] = $hash;
-                    }
-                });
+                ])->then(
+                    onFulfilled: function () use (&$notFound, $index) {
+                        $notFound[$index] = true;
+                    },
+                    onRejected: function () use (&$notFound, $hash, $index) {
+                        $notFound[$index] = $hash;
+                    },
+                );
             }
         };
 
-        $promise = Each::ofLimit(iterable: $promiseGenerator(), concurrency: 500);
-        $promise->wait();
+        Each::ofLimit(iterable: $promiseGenerator(), concurrency: 500)->wait();
 
         return $notFound;
     }

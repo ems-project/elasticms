@@ -20,7 +20,11 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * Defined a Container content type.
@@ -34,9 +38,10 @@ class DataLinkFieldType extends DataFieldType
         AuthorizationCheckerInterface $authorizationChecker,
         FormRegistryInterface $formRegistry,
         ElasticsearchService $elasticsearchService,
+        TokenStorageInterface $tokenStorage,
         protected EventDispatcherInterface $dispatcher,
     ) {
-        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
+        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService, $tokenStorage);
     }
 
     #[\Override]
@@ -50,8 +55,8 @@ class DataLinkFieldType extends DataFieldType
             $referersToRemove = $previousData[$name] ?? [];
             $referersToAdd = \is_array($rawData) ? $rawData[$name] : $rawData;
 
-            $referersToRemove = !\is_array($referersToRemove) ? [$referersToRemove] : $referersToRemove;
-            $referersToAdd = !\is_array($referersToAdd) ? [$referersToAdd] : $referersToAdd;
+            $referersToRemove = \is_array($referersToRemove) ? $referersToRemove : [$referersToRemove];
+            $referersToAdd = \is_array($referersToAdd) ? $referersToAdd : [$referersToAdd];
 
             $event = new UpdateRevisionReferersEvent($type, $id, $dataField->giveFieldType()->getExtraOptions()['updateReferersField'], $referersToRemove, $referersToAdd);
             $this->dispatcher->dispatch($event);
@@ -61,9 +66,22 @@ class DataLinkFieldType extends DataFieldType
     }
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Link to data object(s)';
+        if ((bool) $fieldType->getDisplayOption('multiple', false)) {
+            return [
+                'type' => 'array',
+                'items' => ['type' => 'string'],
+            ];
+        }
+
+        return ['type' => 'string'];
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.data_link', [], 'emsco-core');
     }
 
     #[\Override]
@@ -72,27 +90,24 @@ class DataLinkFieldType extends DataFieldType
         $opt = [...[
             'nested' => '',
         ], ...$options];
-        if (\strlen((string) $opt['nested'])) {
+        if (0 !== \strlen((string) $opt['nested'])) {
             $opt['nested'] .= '.';
         }
 
         $data = $dataField->getRawData();
-        $out = [];
         if (\is_array($data)) {
-            $out = [
+            return [
                 'terms' => [
-                    $opt['nested'].$dataField->giveFieldType()->getName() => $data,
-                ],
-            ];
-        } else {
-            $out = [
-                'term' => [
                     $opt['nested'].$dataField->giveFieldType()->getName() => $data,
                 ],
             ];
         }
 
-        return $out;
+        return [
+            'term' => [
+                $opt['nested'].$dataField->giveFieldType()->getName() => $data,
+            ],
+        ];
     }
 
     #[\Override]
@@ -132,8 +147,8 @@ class DataLinkFieldType extends DataFieldType
             if (!empty($rawData) && \is_array($rawData)) {
                 \usort($rawData, function ($a, $b) use ($event) {
                     if (!empty($event->getData()['value'])) {
-                        $indexA = \array_search($a, $event->getData()['value']);
-                        $indexB = \array_search($b, $event->getData()['value']);
+                        $indexA = \array_search($a, $event->getData()['value'], true);
+                        $indexB = \array_search($b, $event->getData()['value'], true);
                         if (false === $indexA || $indexA > $indexB) {
                             return 1;
                         }
@@ -177,7 +192,6 @@ class DataLinkFieldType extends DataFieldType
         $resolver->setDefault('type', null);
         $resolver->setDefault('searchId', null);
         $resolver->setDefault('environment', null);
-        $resolver->setDefault('defaultValue', null);
         $resolver->setDefault('required', false);
         $resolver->setDefault('sortable', false);
         $resolver->setDefault('dynamicLoading', true);
@@ -210,7 +224,7 @@ class DataLinkFieldType extends DataFieldType
 
         $loader = $objectPickerType->getChoiceListFactory()->createLoader($fieldType->getDisplayOptions()['type'], true /* count($choices) == 0 || !$fieldType->getDisplayOptions()['dynamicLoading'] */);
         $all = $loader->loadAll();
-        if (\count($choices) > 0) {
+        if ([] !== $choices) {
             foreach ($all as $key => $data) {
                 if (!\in_array($key, $choices)) {
                     unset($all[$key]);
@@ -230,29 +244,39 @@ class DataLinkFieldType extends DataFieldType
 
         // String specific display options
         $optionsForm->get('displayOptions')->add('multiple', CheckboxType::class, [
+            'label' => t('field.multiple', [], 'emsco-core'),
             'required' => false,
         ])->add('dynamicLoading', CheckboxType::class, [
+            'label' => t('field.dynamic_loading', [], 'emsco-core'),
             'required' => false,
         ])->add('sortable', CheckboxType::class, [
+            'label' => t('field.sortable', [], 'emsco-core'),
             'required' => false,
         ])->add('querySearch', QuerySearchPickerType::class, [
+            'label' => t('field.query_search', [], 'emsco-core'),
             'required' => false,
         ])->add('type', TextType::class, [
+            'label' => t('field.type', [], 'emsco-core'),
             'required' => false,
         ])->add('searchId', TextType::class, [
-            'required' => false,
-        ])->add('defaultValue', TextType::class, [
+            'label' => t('field.search_id', [], 'emsco-core'),
             'required' => false,
         ]);
 
         $optionsForm->get('extraOptions')->add('updateReferersField', TextType::class, [
+            'label' => t('field.update_referers_field', [], 'emsco-core'),
             'required' => false,
         ]);
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')
-                ->add('analyzer', AnalyzerPickerType::class)
-                ->add('copy_to', TextType::class, ['required' => false]);
+                ->add('analyzer', AnalyzerPickerType::class, [
+                    'label' => t('field.analyzer', [], 'emsco-core'),
+                ])
+                ->add('copy_to', TextType::class, [
+                    'label' => t('field.copy_to', [], 'emsco-core'),
+                    'required' => false,
+                ]);
         }
     }
 
@@ -324,8 +348,6 @@ class DataLinkFieldType extends DataFieldType
             $data = \array_values($data);
         }
 
-        $out = parent::reverseViewTransform($data, $fieldType);
-
-        return $out;
+        return parent::reverseViewTransform($data, $fieldType);
     }
 }

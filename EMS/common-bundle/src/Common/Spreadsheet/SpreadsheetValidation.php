@@ -23,7 +23,7 @@ final readonly class SpreadsheetValidation implements SpreadsheetValidationInter
      */
     public function __construct(array $options)
     {
-        $options = self::resolveOptions($options);
+        $options = $this->resolveOptions($options);
         $this->type = $options[self::TYPE];
         $this->formula = $options[self::FORMULA];
         $this->allowBlank = $options[self::ALLOW_BLANK];
@@ -38,7 +38,7 @@ final readonly class SpreadsheetValidation implements SpreadsheetValidationInter
      *
      * @return array{type: string, formula: string, allow_blank: bool, show_input: bool, show_error: bool, prompt_title: string, error_title: string}
      */
-    private static function resolveOptions(array $options): array
+    private function resolveOptions(array $options): array
     {
         $resolver = new OptionsResolver();
         $resolver

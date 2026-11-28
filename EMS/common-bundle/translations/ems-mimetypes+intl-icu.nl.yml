@@ -1,0 +1,73 @@
+application/epub+zip: 'Elektronische publicatie (EPUB)'
+application/java-archive: 'Java-archief (JAR)'
+application/js: 'JavaScript (ECMAScript)'
+application/json: JSON-formaat
+application/msword: 'Microsoft Word'
+application/octet-stream: 'Willekeurige binaire gegevens'
+application/ogg: OGG
+application/pdf: 'Adobe Portable Document Format (PDF)'
+application/rtf: 'Rich Text Format (RTF)'
+application/vnd:
+    amazon:
+        ebook: 'Amazon Kindle e-boekformaat'
+    apple:
+        installer+xml: Apple-installatiepakket
+    mozilla:
+        xul+xml: XUL
+    ms-excel: 'Microsoft Excel'
+    ms-excel.sheet.macroenabled.12: 'Microsoft Excel'
+    ms-powerpoint: 'Microsoft PowerPoint'
+    oasis:
+        opendocument:
+            presentation: OpenDocument-presentatie
+            spreadsheet: OpenDocument-rekenblad
+            text: OpenDocument-tekstdocument
+    openxmlformats-officedocument:
+        presentationml:
+            presentation: 'Microsoft PowerPoint'
+        spreadsheetml:
+            sheet: 'Microsoft Excel'
+        wordprocessingml:
+            document: 'Microsoft Word'
+    visio: 'Microsoft Visio'
+application/x-7z-compressed: 7-Zip-archief
+application/x-abiword: AbiWord-document
+application/x-bzip: BZip-archief
+application/x-bzip2: BZip2-archief
+application/x-csh: C-Shell-script
+application/x-font-ttf: TrueType-lettertype
+application/x-font-woff: 'Web Open Font Format (WOFF)'
+application/x-rar-compressed: RAR-archief
+application/x-sh: Bourne-shellscript
+application/x-shockwave-flash: 'Small Web Format (SWF) of Adobe Flash-document'
+application/x-tar: 'Tape Archive (TAR)'
+application/xhtml+xml: XHTML
+application/xml: XML
+application/zip: ZIP-archief
+audio/3gpp: 3GPP-audiocontainer
+audio/aac: AAC-audiobestand
+audio/midi: 'Musical Instrument Digital Interface (MIDI)'
+audio/ogg: OGG-audio
+audio/webm: WEBM-audio
+audio/x-wav: 'Waveform Audio Format'
+audo/3gpp2: 3GPP2-audiocontainer
+image/gif: 'Graphics Interchange Format (GIF)'
+image/jpeg: JPEG-afbeelding
+image/png: PNG-afbeelding
+image/svg+xml: 'Scalable Vector Graphics (SVG)'
+image/tiff: 'Tagged Image File Format (TIFF)'
+image/webp: WEBP-afbeelding
+image/x-icon: Icoonformaat
+text/calendar: iCalendar-formaat
+text/css: 'Cascading Style Sheets (CSS)'
+text/csv: 'Kommagescheiden waarden (CSV)'
+text/html: 'HyperText Markup Language (HTML)'
+text/plain: Tekstbestand
+text/xml: XML-bestand
+video/3gpp: 3GPP-videocontainer
+video/3gpp2: 3GPP2-videocontainer
+video/mp4: MP4-video
+video/mpeg: MPEG-video
+video/ogg: OGG-video
+video/webm: WEBM-video
+video/x-msvideo: 'AVI: Audio Video Interleave'

@@ -7,10 +7,18 @@ namespace EMS\CoreBundle\Form\DataField;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Form\Field\IconPickerType;
+use EMS\CoreBundle\Service\DataService;
+use EMS\CoreBundle\Service\ElasticsearchService;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * Defined a Nested obecjt.
@@ -20,10 +28,26 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class NestedFieldType extends DataFieldType
 {
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        FormRegistryInterface $formRegistry,
+        ElasticsearchService $elasticsearchService,
+        TokenStorageInterface $tokenStorage,
+        private readonly DataService $dataService,
+    ) {
+        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService, $tokenStorage);
+    }
+
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Nested object';
+        return $buildObjectSchema($fieldType->getValidChildren());
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.nested', [], 'emsco-core');
     }
 
     #[\Override]
@@ -36,10 +60,10 @@ class NestedFieldType extends DataFieldType
     public function importData(DataField $dataField, array|string|int|float|bool|null $sourceArray, bool $isMigration): array
     {
         $migrationOptions = $dataField->giveFieldType()->getMigrationOptions();
-        if (!$isMigration || empty($migrationOptions) || !$migrationOptions['protected']) {
+        if (!$isMigration || [] === $migrationOptions || !$migrationOptions['protected']) {
             foreach ($dataField->getChildren() as $child) {
                 if (\is_array($sourceArray)) {
-                    $child->updateDataValue($sourceArray);
+                    $this->dataService->updateDataValue($child, $sourceArray, $isMigration);
                 }
             }
         }
@@ -54,7 +78,6 @@ class NestedFieldType extends DataFieldType
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /* get the metadata associate */
         /** @var FieldType $fieldType */
         $fieldType = $builder->getOptions()['metadata'];
 
@@ -77,7 +100,6 @@ class NestedFieldType extends DataFieldType
     #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
-        /* give options for twig context */
         parent::buildView($view, $form, $options);
         $view->vars['icon'] = $options['icon'];
         $view->vars['multiple'] = $options['multiple'];
@@ -86,9 +108,7 @@ class NestedFieldType extends DataFieldType
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
-        /* set the default option value for this kind of compound field */
         parent::configureOptions($resolver);
-        /* an optional icon can't be specified ritgh to the container label */
         $resolver->setDefault('icon', null);
         $resolver->setDefault('multiple', false);
     }
@@ -100,8 +120,6 @@ class NestedFieldType extends DataFieldType
             $tmp = [];
             /** @var DataField $child */
             foreach ($data->getChildren() as $child) {
-                //                 $className = $child->getFieldType()->getType();
-                //                 $class = new $className;
                 $class = $this->formRegistry->getType($child->giveFieldType()->getType());
 
                 if (\method_exists($class, 'buildObjectArray')) {
@@ -132,10 +150,9 @@ class NestedFieldType extends DataFieldType
     {
         parent::buildOptionsForm($builder, $options);
         $optionsForm = $builder->get('options');
-        // nested doesn't not have that much options in elasticsearch
         $optionsForm->remove('mappingOptions');
-        // an optional icon can't be specified ritgh to the container label
         $optionsForm->get('displayOptions')->add('icon', IconPickerType::class, [
+            'label' => t('field.icon', [], 'emsco-core'),
             'required' => false,
         ]);
     }

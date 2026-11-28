@@ -1,7 +1,0 @@
-Inbox: Inbox
-Outbox: Outbox
-notification:
-    dashboard:
-        title: Notifications
-    menu:
-        link_title: Notifications

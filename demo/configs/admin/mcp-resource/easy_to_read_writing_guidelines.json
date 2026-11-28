@@ -1,0 +1,15 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\McpResource",
+    "arguments": [],
+    "properties": {
+        "name": "easy_to_read_writing_guidelines",
+        "label": "Easy-to-read writing guidelines (FALC)",
+        "uri": "elasticms://guidelines/writing/falc",
+        "role": "ROLE_AUTHOR",
+        "description": "Instructions for writing or rewriting CMS content according to Easy-to-Read and Easy-to-Understand (FALC) principles. Use this resource when creating or adapting content for people with intellectual disabilities or reading difficulties.",
+        "mimeType": "text/markdown",
+        "response": "{{ include('@EMSCH/template_ems/mcp/resources/skills/falc.md.twig') }}",
+        "enabled": true
+    },
+    "replaced": []
+}

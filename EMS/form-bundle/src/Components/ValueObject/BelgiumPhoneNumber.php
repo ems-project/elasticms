@@ -25,11 +25,7 @@ class BelgiumPhoneNumber
     {
         $numberType = $this->getNumberType();
 
-        if ($this->validateNumberOfDigit($numberType) && $this->validateCountryCode($numberType) && $this->validateLongDistanceCode($numberType)) {
-            return true;
-        }
-
-        return false;
+        return $this->validateNumberOfDigit($numberType) && $this->validateCountryCode($numberType) && $this->validateLongDistanceCode($numberType);
     }
 
     private function validateNumberOfDigit(string $numberType): bool
@@ -61,11 +57,7 @@ class BelgiumPhoneNumber
             return 1 === \strpos($this->transform(), '32');
         }
 
-        if (self::LOCAL === $numberType) {
-            return true;
-        }
-
-        return false;
+        return self::LOCAL === $numberType;
     }
 
     private function validateLongDistanceCode(string $numberType): bool

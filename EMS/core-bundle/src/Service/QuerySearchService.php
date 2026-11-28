@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Service;
 
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Elasticsearch\Response\Response as CommonResponse;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\Core\Dashboard\Services\AdvancedSearch;
 use EMS\CoreBundle\Core\Document\DataLinks;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
@@ -18,7 +20,8 @@ use EMS\CoreBundle\Entity\QuerySearch;
 use EMS\CoreBundle\Repository\QuerySearchRepository;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\Helpers\Standard\Json;
-use Psr\Log\LoggerInterface;
+
+use function Symfony\Component\Translation\t;
 
 final readonly class QuerySearchService implements EntityServiceInterface
 {
@@ -27,7 +30,7 @@ final readonly class QuerySearchService implements EntityServiceInterface
         private RevisionService $revisionService,
         private ElasticaService $elasticaService,
         private QuerySearchRepository $querySearchRepository,
-        private LoggerInterface $logger,
+        private LocalizedLoggerInterface $logger,
         private EnvironmentService $environmentService,
     ) {
     }
@@ -50,11 +53,15 @@ final readonly class QuerySearchService implements EntityServiceInterface
 
     public function delete(QuerySearch $querySearch): void
     {
-        $name = $querySearch->getName();
+        $label = $querySearch->getLabel();
+        $count = $querySearch->getContentTypesHavingThisAsDefault()->count();
+        if ($count > 0) {
+            $this->logger->messageError(t('message.cant_delete_query_search', ['label' => $label, 'count' => $count], 'emsco-core'));
+
+            return;
+        }
         $this->querySearchRepository->delete($querySearch);
-        $this->logger->warning('log.service.query_search.delete', [
-            'name' => $name,
-        ]);
+        $this->logger->messageWarning(t('message.query_search_deleted', ['label' => $label], 'emsco-core'));
     }
 
     /**
@@ -160,18 +167,15 @@ final readonly class QuerySearchService implements EntityServiceInterface
         }
     }
 
-    public function querySearchDataLinks(DataLinks $dataLinks): void
+    public function querySearchDataLinks(DataLinks $dataLinks, QuerySearch $querySearch): void
     {
-        $querySearch = $this->getOneByName($dataLinks->getQuerySearchName());
-        if (!$querySearch instanceof QuerySearch) {
-            throw new \RuntimeException(\sprintf('QuerySearch %s not found', $dataLinks->getQuerySearchName()));
-        }
         $encodedPattern = Json::encode($dataLinks->getPattern());
         $encodedPattern = \substr($encodedPattern, 1, \strlen($encodedPattern) - 2);
 
         $commonSearch = $this->buildSearch($querySearch, $encodedPattern);
         $commonSearch->setFrom($dataLinks->getFrom());
         $commonSearch->setSize($dataLinks->getSize());
+
         $resultSet = $this->elasticaService->search($commonSearch);
 
         foreach ($resultSet->getAggregation('types')['buckets'] ?? [] as $bucket) {
@@ -273,8 +277,24 @@ final readonly class QuerySearchService implements EntityServiceInterface
         $aliases = $this->getAliasesFromEnvironments($querySearch->getEnvironments());
         $query = Json::decode($query);
         $search = $this->elasticaService->convertElasticsearchBody($aliases, [], $query);
-        $search->addTermsAggregation(AggregateOptionService::CONTENT_TYPES_AGGREGATION, EMSSource::FIELD_CONTENT_TYPE, 30);
+        $search->addTermsAggregation(AdvancedSearch::CONTENT_TYPES_AGGREGATION, EMSSource::FIELD_CONTENT_TYPE, 30);
 
         return $search;
+    }
+
+    public function setAsDefault(QuerySearch $querySearch): void
+    {
+        if (null !== $defaultQuerySearch = $this->querySearchRepository->getDefault()) {
+            $defaultQuerySearch->setDefault(false);
+            $this->update($defaultQuerySearch);
+        }
+
+        $querySearch->setDefault(true);
+        $this->update($querySearch);
+    }
+
+    public function getDefault(): ?QuerySearch
+    {
+        return $this->querySearchRepository->getDefault();
     }
 }

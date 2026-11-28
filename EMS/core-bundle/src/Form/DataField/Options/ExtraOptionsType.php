@@ -10,8 +10,11 @@ use EMS\CoreBundle\Form\Field\CodeEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use function Symfony\Component\Translation\t;
 
 /**
  * @extends AbstractType<mixed>
@@ -29,7 +32,7 @@ class ExtraOptionsType extends AbstractType
 
         if (ActionFieldType::class === $fieldType->getType()) {
             $builder->add('config', CodeEditorType::class, [
-                'label' => 'Action config',
+                'label' => t('field.action_config', [], 'emsco-core'),
                 'required' => true,
                 'language' => 'ace/mode/json',
             ]);
@@ -53,9 +56,23 @@ class ExtraOptionsType extends AbstractType
     private function addDefaultExtraOptions(FormBuilderInterface $builder): void
     {
         $builder
-            ->add('extra', TextareaType::class, ['attr' => ['rows' => 8], 'required' => false])
-            ->add('clear_on_copy', CheckboxType::class, ['required' => false])
-            ->add('postProcessing', CodeEditorType::class, ['required' => false])
+            ->add('description', TextType::class, [
+                'label' => t('field.description', [], 'emsco-core'),
+                'required' => false,
+            ])
+            ->add('extra', TextareaType::class, [
+                'label' => t('field.extra', [], 'emsco-core'),
+                'attr' => ['rows' => 8],
+                'required' => false,
+            ])
+            ->add('clear_on_copy', CheckboxType::class, [
+                'label' => t('field.clear_on_copy', [], 'emsco-core'),
+                'required' => false,
+            ])
+            ->add('postProcessing', CodeEditorType::class, [
+                'label' => t('field.post_processing', [], 'emsco-core'),
+                'required' => false,
+            ])
         ;
     }
 }

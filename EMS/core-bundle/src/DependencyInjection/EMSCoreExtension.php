@@ -10,14 +10,12 @@ use EMS\CoreBundle\Routes;
 use Ramsey\Uuid\Doctrine\UuidType;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class EMSCoreExtension extends Extension implements PrependExtensionInterface
 {
-    final public const string TRANS_DOMAIN = 'EMSCoreBundle';
-
     /**
      * @param array<mixed> $configs
      */
@@ -27,22 +25,22 @@ class EMSCoreExtension extends Extension implements PrependExtensionInterface
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $xmlLoader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
-        $xmlLoader->load('command.xml');
-        $xmlLoader->load('contracts.xml');
-        $xmlLoader->load('controllers.xml');
-        $xmlLoader->load('core.xml');
-        $xmlLoader->load('form.xml');
-        $xmlLoader->load('log.xml');
-        $xmlLoader->load('repositories.xml');
-        $xmlLoader->load('view_types.xml');
-        $xmlLoader->load('dashboards.xml');
-        $xmlLoader->load('datatable.xml');
-        $xmlLoader->load('controllers.xml');
-        $xmlLoader->load('services.xml');
-        $xmlLoader->load('twig.xml');
-        $xmlLoader->load('security/security.xml');
-        $xmlLoader->load('security/ldap.xml');
+        $xmlLoader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../config'));
+        $xmlLoader->load('command.php');
+        $xmlLoader->load('contracts.php');
+        $xmlLoader->load('controllers.php');
+        $xmlLoader->load('core.php');
+        $xmlLoader->load('form.php');
+        $xmlLoader->load('log.php');
+        $xmlLoader->load('repositories.php');
+        $xmlLoader->load('view_types.php');
+        $xmlLoader->load('dashboards.php');
+        $xmlLoader->load('datatable.php');
+        $xmlLoader->load('controllers.php');
+        $xmlLoader->load('services.php');
+        $xmlLoader->load('twig.php');
+        $xmlLoader->load('security/security.php');
+        $xmlLoader->load('security/ldap.php');
 
         $container->setParameter('ems_core.from_email', $config['from_email']);
         $container->setParameter('ems_core.instance_id', $config['instance_id']);
@@ -120,10 +118,11 @@ class EMSCoreExtension extends Extension implements PrependExtensionInterface
 
         if (\is_array($bundles) && isset($bundles['TwigBundle'])) {
             $themeNamespace = $configs[0]['template_namespace'] ?? 'EMSCore';
+            $globals['themeNamespace'] = $themeNamespace;
             $container->prependExtensionConfig('twig', [
                 'globals' => $globals,
                 'form_themes' => [
-                    "@$themeNamespace/form/fields.html.twig",
+                    \sprintf('@%s/form/fields.html.twig', $themeNamespace),
                 ],
             ]);
         }

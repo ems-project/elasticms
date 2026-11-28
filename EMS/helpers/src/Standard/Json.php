@@ -102,7 +102,7 @@ final class Json
                 self::normalize($arr, $sort_flags);
             }
 
-            if (\is_array($arr) && empty($arr)) {
+            if (\is_array($arr) && [] === $arr) {
                 unset($array[$index]);
             }
         }

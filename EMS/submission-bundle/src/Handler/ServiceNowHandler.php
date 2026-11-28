@@ -46,8 +46,8 @@ final class ServiceNowHandler extends AbstractHandler
             }
 
             return $serviceNowResponse;
-        } catch (\Throwable $exception) {
-            return new FailedHandleResponse($exception);
+        } catch (\Throwable $throwable) {
+            return new FailedHandleResponse($throwable);
         }
     }
 
@@ -72,7 +72,7 @@ final class ServiceNowHandler extends AbstractHandler
                 'body' => $file->getContents(),
             ]);
         } catch (\Exception $exception) {
-            throw new \Exception(\sprintf('Attachment submission failed: %s', $exception->getMessage()));
+            throw new \Exception(\sprintf('Attachment submission failed: %s', $exception->getMessage()), $exception->getCode(), $exception);
         }
     }
 }

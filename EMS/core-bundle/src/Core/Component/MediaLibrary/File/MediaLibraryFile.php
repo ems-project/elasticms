@@ -50,7 +50,7 @@ class MediaLibraryFile extends MediaLibraryDocument
 
         $extension = \pathinfo($this->name, PATHINFO_EXTENSION);
 
-        $this->setName($extension ? $filename.'.'.$extension : $filename);
+        $this->setName('' !== $extension && '0' !== $extension ? $filename.'.'.$extension : $filename);
     }
 
     public function getFileHash(): ?string

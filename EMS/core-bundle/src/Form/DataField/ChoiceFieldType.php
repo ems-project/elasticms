@@ -16,15 +16,41 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
+
+use function Symfony\Component\Translation\t;
 
 class ChoiceFieldType extends DataFieldType
 {
     private ?int $fakeIndex = null;
 
     #[\Override]
-    public function getLabel(): string
+    public function generateMcpSchema(FieldType $fieldType, callable $buildObjectSchema, bool $isOutputSchema = false): array
     {
-        return 'Choice field';
+        $choices = \array_values(\array_filter(\array_map(
+            \trim(...),
+            \preg_split('/\r\n|\r|\n/', (string) $fieldType->getDisplayOption('choices', ''), -1, \PREG_SPLIT_NO_EMPTY) ?: []
+        ), static fn (string $choice): bool => '' !== $choice));
+
+        $valueSchema = ['type' => 'string'];
+        if ([] !== $choices) {
+            $valueSchema['enum'] = $choices;
+        }
+
+        if ((bool) $fieldType->getDisplayOption('multiple', false)) {
+            return [
+                'type' => 'array',
+                'items' => $valueSchema,
+            ];
+        }
+
+        return $valueSchema;
+    }
+
+    #[\Override]
+    public function getLabel(): TranslatableMessage
+    {
+        return t('field_type.choice', [], 'emsco-core');
     }
 
     #[\Override]
@@ -37,7 +63,7 @@ class ChoiceFieldType extends DataFieldType
     public function buildObjectArray(DataField $data, array &$out): void
     {
         if (!$data->giveFieldType()->getDeleted()) {
-            if ($data->giveFieldType()->getDisplayOptions()['multiple']) {
+            if ((bool) $data->giveFieldType()->getDisplayOption('multiple', false)) {
                 $out[$data->giveFieldType()->getName()] = $data->getArrayTextValue();
             } else {
                 parent::buildObjectArray($data, $out);
@@ -185,7 +211,7 @@ class ChoiceFieldType extends DataFieldType
     {
         $temp = parent::viewTransform($dataField);
         $out = [];
-        if ($dataField->giveFieldType()->getDisplayOptions()['multiple']) {
+        if ((bool) $dataField->giveFieldType()->getDisplayOption('multiple', false)) {
             if (empty($temp)) {
                 $out = [];
             } elseif (\is_string($temp)) {
@@ -203,18 +229,17 @@ class ChoiceFieldType extends DataFieldType
                 $dataField->addMessage('Was not able to import the data : '.Json::encode($out));
                 $out = [];
             }
-        } else { // not mutiple
-            if (null === $temp) {
-                $out = null;
-            } elseif (\is_string($temp) || \is_int($temp)) {
-                $out = $temp;
-            } elseif (\is_array($temp) && null != $temp && (\is_string(\array_values($temp)[0]) || \is_int(\array_values($temp)[0]))) {
-                $out = \array_values($temp)[0];
-                $dataField->addMessage('Only the first item has been imported : '.Json::encode($temp));
-            } else {
-                $dataField->addMessage('Was not able to import the data : '.Json::encode($temp));
-                $out = [];
-            }
+        } elseif (null === $temp) {
+            // not mutiple
+            $out = null;
+        } elseif (\is_string($temp) || \is_int($temp)) {
+            $out = $temp;
+        } elseif (\is_array($temp) && null != $temp && (\is_string(\array_first($temp)) || \is_int(\array_first($temp)))) {
+            $out = \array_first($temp);
+            $dataField->addMessage('Only the first item has been imported : '.Json::encode($temp));
+        } else {
+            $dataField->addMessage('Was not able to import the data : '.Json::encode($temp));
+            $out = [];
         }
 
         return ['value' => $out];
@@ -227,11 +252,11 @@ class ChoiceFieldType extends DataFieldType
     private function buildChoices(array $options): array
     {
         $choices = [];
-        $values = \explode("\n", \str_replace("\r", '', (string) $options['choices']));
-        $labels = \explode("\n", \str_replace("\r", '', (string) $options['labels']));
+        $values = $this->normalizeChoiceLines($options['choices'] ?? '');
+        $labels = $this->normalizeChoiceLines($options['labels'] ?? '');
 
         foreach ($values as $id => $value) {
-            if ('' != $value) {
+            if ('' !== $value) {
                 if (isset($labels[$id]) && !empty($labels[$id])) {
                     $choices[$labels[$id]] = $value;
                 } else {
@@ -257,5 +282,17 @@ class ChoiceFieldType extends DataFieldType
         }
 
         return $choices;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function normalizeChoiceLines(mixed $value): array
+    {
+        if (\is_array($value)) {
+            return \array_map(static fn (mixed $item): string => (string) $item, $value);
+        }
+
+        return \explode("\n", \str_replace("\r", '', (string) $value));
     }
 }

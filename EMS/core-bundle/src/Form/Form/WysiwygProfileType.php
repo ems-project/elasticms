@@ -36,7 +36,7 @@ class WysiwygProfileType extends AbstractType
                 'required' => true,
                 'choices' => [
                     t('key.ckeditor4', [], 'emsco-core')->getMessage() => WysiwygProfile::CKEDITOR4,
-                    t('key.ckeditor5', [], 'emsco-core')->getMessage() => WysiwygProfile::CKEDITOR5,
+                    t('key.tiptap', [], 'emsco-core')->getMessage() => WysiwygProfile::TIPTAP,
                 ],
                 'label' => t('field.editor', [], 'emsco-core'),
                 'choice_translation_domain' => 'emsco-core',
@@ -46,12 +46,8 @@ class WysiwygProfileType extends AbstractType
                 'label' => t('field.config', [], 'emsco-core'),
             ])
             ->add('save', SubmitEmsType::class, [
-                'attr' => [
-                    'class' => 'btn btn-primary btn-sm ',
-                    'data-testid' => 'btn-action-save',
-                ],
+                'attr' => ['data-testid' => 'btn-action-save'],
                 'label' => t('action.save', [], 'emsco-core'),
-                'icon' => 'fa fa-save',
             ]);
     }
 

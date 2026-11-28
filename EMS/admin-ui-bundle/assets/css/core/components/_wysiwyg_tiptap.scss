@@ -1,0 +1,127 @@
+body.wysiwyg-maximized-active {
+    overflow: hidden;
+    .modal, .modal-dialog, .modal-content {
+        transform: none !important;
+        position: static !important;
+        overflow: visible !important;
+    }
+    .tiptap-context-menu {
+        z-index: 99999;
+    }
+}
+
+body.wysiwyg-resizing {
+    user-select: none;
+
+    .wysiwyg-iframe {
+        pointer-events: none;
+    }
+}
+
+.wysiwyg-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+    min-height: 150px;
+    position: relative;
+
+    .wysiwyg-toolbar {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #ced4da;
+        padding: 4px;
+    }
+
+    &.is-source-mode {
+        .wysiwyg-iframe-wrapper,
+        .wysiwyg-source-view {
+            display: none;
+        }
+        .wysiwyg-source-container {
+            display: block;
+        }
+    }
+
+    &.is-maximized {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 99999;
+        border-radius: 0;
+        overflow: hidden;
+
+        .wysiwyg-resize-handle {
+            display: none;
+        }
+    }
+
+    .wysiwyg-iframe-wrapper {
+        position: relative;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    .wysiwyg-iframe {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        border: none;
+        margin: 0;
+        display: block;
+        outline: none;
+    }
+
+    .wysiwyg-source-view {
+        display: none;
+        flex: 1;
+        width: 100%;
+        min-height: 0;
+        border: none;
+        margin: 0;
+        outline: none;
+        resize: none;
+        font-family: 'Courier New', monospace;
+        box-sizing: border-box;
+    }
+
+    .wysiwyg-source-container {
+        display: none;
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+
+        .ems-code-editor,
+        .ace_editor {
+            height: 100% !important;
+            width: 100%;
+        }
+    }
+
+    .wysiwyg-resize-handle {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 16px;
+        height: 16px;
+        cursor: ns-resize;
+        z-index: 10;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 3px;
+            right: 3px;
+            width: 8px;
+            height: 8px;
+            border-right: 2px solid #adb5bd;
+            border-bottom: 2px solid #adb5bd;
+        }
+    }
+}

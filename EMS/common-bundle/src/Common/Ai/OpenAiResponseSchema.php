@@ -24,11 +24,7 @@ class OpenAiResponseSchema
     {
         $propertiesArray = [];
         foreach ($this->properties as $key => $property) {
-            if ($property instanceof self) {
-                $propertiesArray[$key] = $property->toArray();
-            } else {
-                $propertiesArray[$key] = $property;
-            }
+            $propertiesArray[$key] = $property instanceof self ? $property->toArray() : $property;
         }
 
         return [

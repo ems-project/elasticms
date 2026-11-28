@@ -8,5 +8,15 @@ use Symfony\Component\Validator\Constraint;
 
 class IsBelgiumPhoneNumber extends Constraint
 {
-    public string $message = 'The phone number "{{string}}" is invalid.';
+    public string $message;
+
+    public function __construct(
+        ?string $message = null,
+        ?array $groups = null,
+        mixed $payload = null,
+    ) {
+        $this->message = $message ?? 'The phone number "{{ string }}" is invalid.';
+
+        parent::__construct(groups: $groups, payload: $payload);
+    }
 }

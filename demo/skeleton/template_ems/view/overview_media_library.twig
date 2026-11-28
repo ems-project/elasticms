@@ -108,7 +108,7 @@
 
 {% block columnMediaPath %}
 {% verbatim %}
-<a href="{{ path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.media_path|default('???') }}</a>
+<a href="{{ path('emsco_view_revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.media_path|default('???') }}</a>
 {% endverbatim %}
 {% endblock %}
 

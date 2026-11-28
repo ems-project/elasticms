@@ -5,6 +5,8 @@
         "name": "template",
         "pluralName": "Templates",
         "singularName": "Template",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": null,
         "icon": "fa fa-crop",
         "description": null,
         "indexTwig": null,
@@ -27,7 +29,10 @@
                         "class": null,
                         "lastOfRow": false,
                         "icon": null,
-                        "helptext": null
+                        "helptext": null,
+                        "labelTranslations": [],
+                        "helptextTranslations": [],
+                        "language": null
                     },
                     "restrictionOptions": {
                         "minimum_role": null
@@ -35,7 +40,8 @@
                     "extraOptions": {
                         "extra": null,
                         "postProcessing": null,
-                        "clear_on_copy": false
+                        "clear_on_copy": false,
+                        "description": null
                     }
                 },
                 "orderKey": 0,
@@ -60,12 +66,14 @@
                                     "suffixText": null,
                                     "helptext": null,
                                     "placeholder": null,
+                                    "labelTranslations": [],
+                                    "helptextTranslations": [],
                                     "icon": null
                                 },
                                 "mappingOptions": {
                                     "index": null,
                                     "analyzer": "keyword",
-                                    "copy_to": null
+                                    "copy_to": "live_search"
                                 },
                                 "restrictionOptions": {
                                     "mandatory": true,
@@ -75,7 +83,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "postProcessing": null,
-                                    "clear_on_copy": false
+                                    "clear_on_copy": false,
+                                    "description": null
                                 },
                                 "migrationOptions": {
                                     "protected": false
@@ -105,7 +114,9 @@
                                     "height": 500,
                                     "language": "ace/mode/twig",
                                     "theme": "ace/theme/monokai",
-                                    "helptext": null
+                                    "helptext": null,
+                                    "labelTranslations": [],
+                                    "helptextTranslations": []
                                 },
                                 "mappingOptions": {
                                     "index": null,
@@ -119,7 +130,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "postProcessing": null,
-                                    "clear_on_copy": false
+                                    "clear_on_copy": false,
+                                    "description": null
                                 },
                                 "migrationOptions": {
                                     "protected": false
@@ -150,7 +162,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "description": null
                                 },
                                 "raw_data": []
                             },
@@ -180,6 +193,7 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
+                    "labelTranslations": null,
                     "icon": "fa fa-list-ul",
                     "options": {
                         "body": "{}",
@@ -216,8 +230,7 @@
             "delete": "not-defined",
             "trash": "not-defined",
             "archive": "not-defined",
-            "show_link_create": "not-defined",
-            "show_link_search": "not-defined"
+            "show_link_create": "not-defined"
         },
         "fields": {
             "display": null,
@@ -233,8 +246,13 @@
         "settings": {
             "tasks_enabled": false,
             "tasks_titles": [],
-            "hide_revision_sidebar": false
-        }
+            "tasks_helptexts": [],
+            "hide_revision_sidebar": false,
+            "recompute_on_publish": false
+        },
+        "querySearch": null
     },
-    "replaced": []
+    "replaced": [
+        "querySearch"
+    ]
 }

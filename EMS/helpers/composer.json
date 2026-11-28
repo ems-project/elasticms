@@ -7,7 +7,7 @@
         "phpstan",
         "helpers"
     ],
-    "license": "LGPL-3.0",
+    "license": "LGPL-3.0-or-later",
     "authors": [
         {
             "name": "EMS Community",
@@ -15,13 +15,13 @@
         }
     ],
     "require": {
-        "php": "^8.4",
+        "php": "^8.5",
         "ext-json": "*",
         "ext-tidy": "*",
-        "symfony/html-sanitizer": "6.4.*",
-        "symfony/options-resolver": "6.4.*",
-        "symfony/mime": "6.4.*",
-        "symfony/string": "6.4.*"
+        "symfony/html-sanitizer": "7.4.*",
+        "symfony/options-resolver": "7.4.*",
+        "symfony/mime": "7.4.*",
+        "symfony/string": "7.4.*"
     },
     "autoload": {
         "psr-4": {

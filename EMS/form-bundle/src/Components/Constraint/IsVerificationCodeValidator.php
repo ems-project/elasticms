@@ -50,7 +50,6 @@ class IsVerificationCodeValidator extends ConstraintValidator
             return null;
         }
 
-        /** @var mixed $data */
         $data = $form->getData();
 
         if (!\is_array($data)) {
@@ -74,10 +73,8 @@ class IsVerificationCodeValidator extends ConstraintValidator
                 return $value;
             }
 
-            if (\is_array($value)) {
-                if (null !== $subValue = $this->getFieldData($value, $field)) {
-                    return $subValue;
-                }
+            if (\is_array($value) && null !== $subValue = $this->getFieldData($value, $field)) {
+                return $subValue;
             }
         }
 

@@ -12,7 +12,7 @@ class BirthDate extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        $constraint = new IsBirthDate(['age' => $this->value]);
+        $constraint = new IsBirthDate(age: $this->value);
         if ($this->message) {
             $constraint->message = $this->message;
             $constraint->messageAge = $this->message;

@@ -33,11 +33,7 @@ class StreamRange
         [$start, $end] = \explode('-', \substr($range, 6), 2);
 
         $this->start = ('' === $start) ? 0 : (int) $start;
-        if ('' === $end) {
-            $this->end = \min($this->fileSize - 1, $this->start + self::DEFAULT_RANGE_SIZE);
-        } else {
-            $this->end = (int) $end;
-        }
+        $this->end = '' === $end ? \min($this->fileSize - 1, $this->start + self::DEFAULT_RANGE_SIZE) : (int) $end;
     }
 
     public function isSatisfiable(): bool

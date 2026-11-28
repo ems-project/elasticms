@@ -71,6 +71,28 @@ final class Form implements FormInterface
         return $data['code'];
     }
 
+    /**
+     * @param string[] $names
+     * @param string[] $instances
+     * @param string[] $locales
+     *
+     * @return mixed[]
+     */
+    public function getSubmissions(int $from, int $size, ?\DateTimeImmutable $fromDateTime, ?\DateTimeImmutable $toDateTime, array $names, array $instances, array $locales): array
+    {
+        $resource = $this->makeResource('submissions');
+
+        return $this->client->get($resource, \array_filter([
+            'from' => $from,
+            'size' => $size,
+            'from-datetime' => $fromDateTime?->format('c'),
+            'to-datetime' => $toDateTime?->format('c'),
+            'names' => [] === $names ? null : $names,
+            'instances' => [] === $instances ? null : $instances,
+            'locales' => [] === $locales ? null : $locales,
+        ]))->getData();
+    }
+
     private function makeResource(?string ...$path): string
     {
         return \implode('/', \array_merge($this->endPoint, \array_filter($path)));

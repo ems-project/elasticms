@@ -1,24 +1,78 @@
-emsch:
-  security:
-    exception:
-      bad_credentials: 'Bad credentials!'
-      error: 'Something went wrong!'
-    form:
-      username: Username
-      password: Password
-      submit: Login
-login: Login
-files_browse: 'Choose files'
+ajax-search:
+    load-more: 'Load more'
+annexe: Annex
+aria:
+    back-to-top: 'Back to top'
+    navbar:
+        active-item: 'Active item'
+    skip-to-content: 'Skip to content'
+    toggle-navbar: 'Toggle navigation'
+block:
+    grid:
+        see_also: 'See also'
+blog:
+    filter: Filters
+    title: "What's new?"
+breadcrumb:
+    back-to: 'Back to %title%'
+    homepage: Homepage
+ems:
+    back_to_ems: 'Back to eMS'
+ems_file_browse: 'Choose files'
+ems_form:
+    ignore_iframe: 'Ignore iframe'
+    loading: Loading...
+error:
+    page-not-found: 'Page not found'
+    target-not-found: 'Target not found'
 js:
-  file_selected: '1 file selected'
-  files_selected: '%count% files selected'
-  form_error: 'The form encountered an issue : %message%'
-  form_error_try_later: 'The form encountered an issue, please try again later.'
-  form_processed: 'Your message has been sent.'
-  form_saved: 'Your message has been sent.'
-  format_not_supported: 'Error: format not supported.'
-  incorrect_format: 'Incorrect format'
-  max_size_reached: 'The data is large. The maximum size is %fileSize%.'
-  required_field: '(*) Required field'
-  remove: Remove
-  remove_all: 'Remove all'
+    file_selected: '1 file selected'
+    files_selected: '%count% files selected'
+    form_error: 'The form encountered an issue : %message%'
+    form_error_try_later: 'The form encountered an issue, please try again later.'
+    form_processed: 'Your message has been sent.'
+    form_saved: 'Your message has been sent.'
+    format_not_supported: 'Error: format not supported.'
+    incorrect_format: 'Incorrect format'
+    max_size_reached: 'The data is large. The maximum size is %fileSize%.'
+    remove: Remove
+    remove_all: 'Remove all'
+    required_field: '(*) Required field'
+key:
+    new_window: 'Opens in a new window'
+locale: English
+login: Login
+missing:
+    description: 'Change language to see alternative versions.'
+    title: 'This content is not available in English'
+month:
+    April: April
+    August: August
+    December: December
+    February: February
+    January: January
+    July: July
+    June: June
+    March: March
+    May: May
+    November: November
+    October: October
+    September: September
+navbar:
+    swith-to-locale: EN
+search:
+    pagination:
+        current: 'Page %current% of %total%'
+        next: Next
+        previous: Previous
+site:
+    copy: 'Copyright %year%'
+    name: elasticMS
+    short_name: elasticMS
+usergroup:
+    facilitator: 'Facilitator of the next User Group'
+    intro: 'Register and participate in the next User Group event online.'
+    next-event: 'Date and time'
+    team-meeting: Duration
+    title: 'Next session'
+    topic: Topics

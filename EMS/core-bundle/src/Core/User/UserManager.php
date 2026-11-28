@@ -7,7 +7,6 @@ namespace EMS\CoreBundle\Core\User;
 use EMS\CoreBundle\Core\Mail\MailerService;
 use EMS\CoreBundle\Core\Security\Canonicalizer;
 use EMS\CoreBundle\Core\Security\Token;
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Repository\AuthTokenRepository;
@@ -22,6 +21,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AccountExpiredException;
 use Symfony\Component\Security\Core\Exception\DisabledException;
 use Symfony\Component\String\ByteString;
+
+use function Symfony\Component\Translation\t;
 
 class UserManager
 {
@@ -106,6 +107,11 @@ class UserManager
         return $this->userRepository->findOneBy(['emailCanonical' => Canonicalizer::canonicalize($email)]);
     }
 
+    public function getUserByUsernameOrEmail(string $usernameOrEmail): ?User
+    {
+        return $this->userRepository->findUserByUsernameOrEmail($usernameOrEmail);
+    }
+
     public function getUserByUsername(string $username): ?User
     {
         return $this->userRepository->findOneBy(['usernameCanonical' => Canonicalizer::canonicalize($username)]);
@@ -171,10 +177,10 @@ class UserManager
             $user->setConfirmationToken(Token::generate());
         }
 
-        $mailTemplate = $this->mailerService->makeMailTemplate("@$this->templateNamespace".self::MAIL_TEMPLATE);
+        $mailTemplate = $this->mailerService->makeMailTemplate('@'.$this->templateNamespace.self::MAIL_TEMPLATE);
         $mailTemplate
             ->addTo($user->getEmail())
-            ->setSubject('user.resetting.email.subject', ['username' => $user->getUsername()], EMSCoreBundle::TRANS_USER_DOMAIN)
+            ->setSubject(t('key.reset_password_subject', ['username' => $user->getUsername()], 'emsco-core'))
             ->setBodyBlock('resetPassword', ['user' => $user])
         ;
 
@@ -198,12 +204,14 @@ class UserManager
 
     public function update(User $user): void
     {
-        $user->setUsernameCanonical(Canonicalizer::canonicalize($user->getUsername()));
-        $user->setEmailCanonical(Canonicalizer::canonicalize($user->getEmail()));
-
         $this->hashPassword($user);
 
         $this->userRepository->save($user);
+    }
+
+    public function delete(User $user): void
+    {
+        $this->userRepository->remove($user);
     }
 
     public function updateEnabled(string $username, bool $enabled): void
@@ -265,7 +273,6 @@ class UserManager
         $hashedPassword = $this->userPasswordHasher->hashPassword($user, $plainPassword);
 
         $user->setPassword($hashedPassword);
-        $user->eraseCredentials();
     }
 
     private function getToken(): TokenInterface

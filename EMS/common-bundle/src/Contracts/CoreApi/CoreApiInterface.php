@@ -65,13 +65,4 @@ interface CoreApiInterface
     public function meta(): MetaInterface;
 
     public function form(): FormInterface;
-
-    #[\Deprecated]
-    public function hashFile(string $filename): string;
-
-    #[\Deprecated]
-    public function initUpload(string $hash, int $size, string $filename, string $mimetype): int;
-
-    #[\Deprecated]
-    public function addChunk(string $hash, string $chunk): int;
 }

@@ -73,7 +73,7 @@ final class EnvironmentHelper implements EnvironmentHelperInterface
     {
         $current = $this->requestStack->getCurrentRequest();
 
-        return null !== $current ? $current->get(Environment::BACKEND_ATTRIBUTE) : null;
+        return $current?->attributes->get(Environment::BACKEND_ATTRIBUTE);
     }
 
     public function getLocale(): string

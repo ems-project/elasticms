@@ -7,9 +7,9 @@ namespace EMS\CoreBundle\Service\Revision;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Common\EMSLinkCollection;
 use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException as CommonNotFoundException;
-use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Common\DocumentInfo;
 use EMS\CoreBundle\Contracts\Revision\RevisionServiceInterface;
@@ -28,7 +28,6 @@ use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\EnvironmentService;
 use EMS\CoreBundle\Service\Mapping;
 use EMS\CoreBundle\Service\PublishService;
-use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Form\FormFactory;
@@ -43,8 +42,8 @@ class RevisionService implements RevisionServiceInterface
     public function __construct(
         private readonly DataService $dataService,
         private readonly FormFactory $formFactory,
-        private readonly LoggerInterface $logger,
-        private readonly LoggerInterface $auditLogger,
+        private readonly LocalizedLoggerInterface $logger,
+        private readonly LocalizedLoggerInterface $auditLogger,
         private readonly RevisionRepository $revisionRepository,
         private readonly PublishService $publishService,
         private readonly ContentTypeService $contentTypeService,
@@ -77,33 +76,45 @@ class RevisionService implements RevisionServiceInterface
      */
     public function compare(Revision $revision, int $compareRevisionId): ?array
     {
-        $logContext = [
-            EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-            EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-            EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-            'compare_revision_id' => $compareRevisionId,
-        ];
-
         try {
             $compareRevision = $this->revisionRepository->findOneById($compareRevisionId);
         } catch (\Throwable) {
-            $this->logger->warning('log.data.revision.compare_revision_not_found', $logContext);
+            $this->logger->messageWarning(t('message.revision_compare_not_found', [
+                'ouuid' => $revision->getOuuid(),
+                'content_type' => $revision->giveContentType()->getSingularName(),
+                'revision_id' => $revision->getId(),
+                'compare_revision_id' => $compareRevisionId,
+            ], 'emsco-core'));
 
             return null;
         }
 
         if ($revision->giveContentType() === $compareRevision->giveContentType()
-            && $revision->getOuuid() == $compareRevision->getOuuid()) {
+            && $revision->getOuuid() === $compareRevision->getOuuid()) {
             if ($compareRevision->getCreated() <= $revision->getCreated()) {
-                $this->logger->notice('log.data.revision.compare', $logContext);
+                $this->logger->messageNotice(t('message.revision_compare', [
+                    'ouuid' => $revision->getOuuid(),
+                    'content_type' => $revision->giveContentType()->getSingularName(),
+                    'revision_id' => $revision->getId(),
+                    'compare_revision_id' => $compareRevision->getId(),
+                ], 'emsco-core'));
             } else {
-                $this->logger->warning('log.data.revision.compare_more_recent', $logContext);
+                $this->logger->messageWarning(t('message.revision_compare_more_recent', [
+                    'ouuid' => $revision->getOuuid(),
+                    'content_type' => $revision->giveContentType()->getSingularName(),
+                    'revision_id' => $revision->getId(),
+                    'compare_revision_id' => $compareRevision->getId(),
+                ], 'emsco-core'));
             }
         } else {
-            $this->logger->notice('log.data.document.compare', \array_merge($logContext, [
-                'compare_contenttype' => $compareRevision->giveContentType()->getName(),
+            $this->logger->messageNotice(t('message.document_compared', [
+                'revision_id' => $revision->getId(),
+                'content_type' => $revision->giveContentType()->getSingularName(),
+                'ouuid' => $revision->getOuuid(),
+                'compare_revision_id' => $compareRevision->getId(),
+                'compare_content_type' => $compareRevision->giveContentType()->getSingularName(),
                 'compare_ouuid' => $compareRevision->getOuuid(),
-            ]));
+            ], 'emsco-core'));
         }
 
         return $compareRevision->getRawData();
@@ -177,7 +188,7 @@ class RevisionService implements RevisionServiceInterface
 
         return match (true) {
             ($object instanceof Revision && null === $object->getOuuid() && $object->getEnvironments()->isEmpty()) => t(
-                'revision.new',
+                'title.new_content_type',
                 ['contentType' => $contentType->getSingularName()],
                 'emsco-core'
             )->trans($this->translator),
@@ -326,13 +337,11 @@ class RevisionService implements RevisionServiceInterface
         }
         $revision->setRawData($rawData);
         $this->dataService->setMetaFields($revision);
-
-        $this->logger->debug('Revision before persist');
         $this->revisionRepository->save($revision);
 
-        $this->auditLogger->info('log.revision.draft.updated', LogRevisionContext::update($revision));
-
-        $this->logger->debug('Revision after persist flush');
+        $this->auditLogger->messageInfo(t('message.revision_draft_updated', [
+            'label' => $revision->getLabel(),
+        ], 'emsco-core'), LogRevisionContext::update($revision));
     }
 
     /** @param array<string, mixed> $autoSave */
@@ -371,8 +380,8 @@ class RevisionService implements RevisionServiceInterface
 
     public function getDocumentInfo(EMSLink $documentLink): DocumentInfo
     {
-        $publishedRevisions = $this->revisionRepository->findAllPublishedRevision($documentLink);
-        $revisions = $publishedRevisions[$documentLink->getEmsId()] ?? [];
+        $currentRevisions = $this->revisionRepository->findAllCurrentRevisions($documentLink);
+        $revisions = $currentRevisions[$documentLink->getEmsId()] ?? [];
 
         return new DocumentInfo($documentLink, $revisions);
     }
@@ -382,10 +391,10 @@ class RevisionService implements RevisionServiceInterface
      */
     public function getDocumentsInfo(EMSLink ...$documentLinks): array
     {
-        $publishedRevisions = $this->revisionRepository->findAllPublishedRevision(...$documentLinks);
+        $currentRevisions = $this->revisionRepository->findAllCurrentRevisions(...$documentLinks);
 
         $documentsInfo = [];
-        foreach ($publishedRevisions as $emsId => $revisions) {
+        foreach ($currentRevisions as $emsId => $revisions) {
             $documentsInfo[$emsId] = new DocumentInfo(EMSLink::fromText($emsId), $revisions);
         }
 
@@ -565,7 +574,7 @@ class RevisionService implements RevisionServiceInterface
                 continue;
             }
 
-            $results[$version->getOuuid()] = $this->publishService->publish($version, $environment);
+            $results[$version->giveOuuid()] = $this->publishService->publish($version, $environment);
         }
 
         $published = \array_filter($results, static fn ($result) => 1 === $result);

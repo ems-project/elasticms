@@ -8,5 +8,15 @@ use Symfony\Component\Validator\Constraint;
 
 class IsCompanyNumberMultiple extends Constraint
 {
-    public string $message = 'At least one company registration number "{{string}}" is invalid.';
+    public string $message;
+
+    public function __construct(
+        ?string $message = null,
+        ?array $groups = null,
+        mixed $payload = null,
+    ) {
+        $this->message = $message ?? 'At least one company registration number "{{string}}" is invalid.';
+
+        parent::__construct(groups: $groups, payload: $payload);
+    }
 }

@@ -1,11 +1,11 @@
-{% trans_default_domain 'emsco-contenttype' %}
+{% trans_default_domain 'emsco-core' %}
 
 {% block body %}
-    {% include '@EMSAdminUI/bootstrap5/core/alerts.twig' %}
+    {{ include('@EMSAdminUI/bootstrap5/core/alerts.twig') }}
     {{ form(form) }}
 {% endblock %}
 
 {% block footer %}
-    <button id="ajax-modal-submit" class="btn btn-sm btn-primary">{{ 'contenttype.action.modal_import.submit'|trans }}</button>
-    <button type="button" class="btn btn-sm btn-default" data-bs-dismiss="modal">{{ 'contenttype.action.modal_import.cancel'|trans }}</button>
+    <button id="ajax-modal-submit" class="btn btn-sm btn-primary">{{ 'action.import'|trans }}</button>
+    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">{{ 'action.cancel'|trans }}</button>
 {% endblock %}

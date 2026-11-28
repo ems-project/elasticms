@@ -45,13 +45,13 @@
           <source xml:lang="nl"> Concreet gaat het om de werkgevers </source>
           <target xml:lang="de" state="final"> Im Einzelnen sind dies die Arbeitgeber, </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu23" resname="/html/body/ul[1]">
-          <group restype="listitem" id="tu24" resname="/html/body/ul[1]/li[1]">
+        <group restype="x-html-ul" id="grp23" resname="/html/body/ul[1]">
+          <group restype="listitem" id="grp24" resname="/html/body/ul[1]/li[1]">
             <trans-unit id="tu25" resname="/html/body/ul[1]/li[1]/text()[1]">
               <source xml:lang="nl">die de hoofdactiviteit 'reisbureau' of 'reisorganisator' uitoefenen en die voor die hoofdactiviteit onder één van de volgende twee Nace-codes vallen: </source>
               <target xml:lang="de" state="final">die die Haupttätigkeit „Reisebüro“ oder „Reiseveranstalter“ ausüben und unter einen der beiden folgenden Nace-Codes für diese Haupttätigkeit fallen: </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu26" resname="/html/body/ul[1]/li[1]/ul">
+            <group restype="x-html-ul" id="grp26" resname="/html/body/ul[1]/li[1]/ul">
               <trans-unit restype="listitem" id="tu27" resname="/html/body/ul[1]/li[1]/ul/li[1]">
                 <source xml:lang="nl">Nace-code 79110: reisbureaus </source>
                 <target xml:lang="de" state="final">Nace-Code 79110: Reisebüros </target>
@@ -63,8 +63,8 @@
             </group>
           </group>
           <trans-unit restype="listitem" id="tu29" resname="/html/body/ul[1]/li[2]">
-            <source xml:lang="nl"> <g id="g30" ctype="x-html-strong">en</g> die gedurende de periode van het 2<g id="g31" ctype="x-html-sup">de</g> kwartaal 2020 tot en met het laatste kwartaal waarop de vermindering betrekking heeft, namelijk het 3<g id="g32" ctype="x-html-sup">de</g> kwartaal 2021, tegen insolventie verzekerd zijn zoals voorzien in de wet van 21 november 2017.<x id="x33" ctype="x-html-br" equiv-text=" "/> De werkgever mag daarbij in België of in een ander Europees land verzekerd zijn. </source>
-            <target xml:lang="de" state="final"> <g id="g34" ctype="x-html-strong">und</g> im Zeitraum vom 2.<x id="x35" ctype="x-html-sup" equiv-text=" "/> Quartal 2020 bis zum letzten Quartal, auf das sich die Ermäßigung bezieht, nämlich dem 3.<x id="x36" ctype="x-html-sup" equiv-text=" "/> Quartal 2021, gemäß dem Gesetz vom 21. November 2017 gegen Insolvenz versichert sind.<x id="x37" ctype="x-html-br" equiv-text=" "/> Der Arbeitgeber kann in Belgien oder in einem anderen europäischen Land versichert sein. </target>
+            <source xml:lang="nl"> <g id="g30" ctype="x-html-strong">en</g> die gedurende de periode van het 2<g id="g31" ctype="x-html-sup">de</g> kwartaal 2020 tot en met het laatste kwartaal waarop de vermindering betrekking heeft, namelijk het 3<g id="g32" ctype="x-html-sup">de</g> kwartaal 2021, tegen insolventie verzekerd zijn zoals voorzien in de wet van 21 november 2017.<x id="x33" ctype="lb" equiv-text=" "/> De werkgever mag daarbij in België of in een ander Europees land verzekerd zijn. </source>
+            <target xml:lang="de" state="final"> <g id="g34" ctype="x-html-strong">und</g> im Zeitraum vom 2.<x id="x35" ctype="x-html-sup" equiv-text=" "/> Quartal 2020 bis zum letzten Quartal, auf das sich die Ermäßigung bezieht, nämlich dem 3.<x id="x36" ctype="x-html-sup" equiv-text=" "/> Quartal 2021, gemäß dem Gesetz vom 21. November 2017 gegen Insolvenz versichert sind.<x id="x37" ctype="lb" equiv-text=" "/> Der Arbeitgeber kann in Belgien oder in einem anderen europäischen Land versichert sein. </target>
           </trans-unit>
         </group>
         <trans-unit restype="x-html-h3" id="tu38" resname="/html/body/h3[1]">
@@ -75,13 +75,13 @@
           <source xml:lang="nl"> Om voor de bijdragevermindering in aanmerking te komen, moet de werkgever aan de volgende bijkomende voorwaarden voldoen: </source>
           <target xml:lang="de" state="final"> Um die Beitragsermäßigung in Anspruch nehmen zu können, muss der Arbeitgeber die folgenden zusätzlichen Bedingungen erfüllen: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu40" resname="/html/body/ul[2]">
-          <group restype="listitem" id="tu41" resname="/html/body/ul[2]/li[1]">
+        <group restype="x-html-ul" id="grp40" resname="/html/body/ul[2]">
+          <group restype="listitem" id="grp41" resname="/html/body/ul[2]/li[1]">
             <trans-unit id="tu42" resname="/html/body/ul[2]/li[1]/text()[1]">
               <source xml:lang="nl"> <g id="g43" ctype="x-html-strong">zich ertoe verbinden</g> om alle in dienst zijnde werknemers ononderbroken tussen 1 april 2021 en 30 september 2021 in dienst te houden, behalve als de werknemer zelf ontslag neemt (dus <g id="g45" ctype="x-html-strong">niet</g> als met wederzijds akkoord) of wegens dringende redenen wordt ontslagen. Deze voorwaarde geldt om van de vermindering te kunnen genieten voor alle kwartalen. </source>
               <target xml:lang="de" state="final"> <g id="g44" ctype="x-html-strong">sich dazu verpflichten</g>, alle angestellten Arbeitnehmer zwischen dem 1. April 2021 und dem 30. September 2021 ununterbrochen weiter zu beschäftigen, es sei denn, der Arbeitnehmer kündigt (demnach <g id="g46" ctype="x-html-strong">nicht</g> in gegenseitigem Einvernehmen) oder wird aus schwerwiegendem Grund entlassen. Diese Bedingung gilt, um die Ermäßigung für alle Quartale in Anspruch nehmen zu können. </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu47" resname="/html/body/ul[2]/li[1]/ul">
+            <group restype="x-html-ul" id="grp47" resname="/html/body/ul[2]/li[1]/ul">
               <trans-unit restype="listitem" id="tu48" resname="/html/body/ul[2]/li[1]/ul/li[1]">
                 <source xml:lang="nl">In ieder geval mag de som van de tewerkstelling van alle werknemers bij de werkgever tijdens het 2<g id="g49" ctype="x-html-sup">de</g> kwartaal 2021 niet kleiner zijn dan die van het 1<g id="g50" ctype="x-html-sup">ste</g> kwartaal 2021 ; deze tewerkstelling wordt berekend op basis van µ(glob). </source>
                 <target xml:lang="de" state="final">In jedem Fall darf die Summe der Beschäftigung aller Arbeitnehmer beim Arbeitgeber im 2.<x id="x51" ctype="x-html-sup" equiv-text=" "/> Quartal 2021 nicht geringer sein als die des 1.<x id="x52" ctype="x-html-sup" equiv-text=" "/> Quartals 2021; diese Beschäftigung wird auf Basis von µ(glob) berechnet. </target>
@@ -96,12 +96,12 @@
             <source xml:lang="nl">een concreet en individueel opleidingsaanbod aan de werknemers aanbieden dat overeenstemt met minstens 20% van hun contractuele arbeidsduur in het 1<g id="g63" ctype="x-html-sup">ste</g> en 2<g id="g64" ctype="x-html-sup">de</g> kwartaal 2021. Dit slaat op alle werknemers, of ze nu in tijdelijke werkloosheid zijn of niet.  Deze opleidingen moeten uiterlijk op 31 december 2021 gevolgd zijn ; </source>
             <target xml:lang="de" state="final">den Arbeitnehmern ein konkretes und individuelles Schulungsangebot im Umfang von mindestens 20 % ihrer vertraglichen Arbeitszeit im 1.<x id="x65" ctype="x-html-sup" equiv-text=" "/> und 2.<x id="x66" ctype="x-html-sup" equiv-text=" "/> Quartal 2021 anbieten. Dies gilt für alle Arbeitnehmer, unabhängig davon, ob sie sich in zeitweiliger Arbeitslosigkeit befinden oder nicht.  Diese Kurse müssen bis spätestens 31. Dezember 2021 abgeschlossen sein; </target>
           </trans-unit>
-          <group restype="listitem" id="tu67" resname="/html/body/ul[2]/li[3]">
+          <group restype="listitem" id="grp67" resname="/html/body/ul[2]/li[3]">
             <trans-unit id="tu68" resname="/html/body/ul[2]/li[3]/text()[1]">
               <source xml:lang="nl">zich in 2021 van het volgende onthouden: </source>
               <target xml:lang="de" state="final">im Jahr 2021 Folgendes zu unterlassen: </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu69" resname="/html/body/ul[2]/li[3]/ul">
+            <group restype="x-html-ul" id="grp69" resname="/html/body/ul[2]/li[3]/ul">
               <trans-unit restype="listitem" id="tu70" resname="/html/body/ul[2]/li[3]/ul/li[1]">
                 <source xml:lang="nl">de uitkering van dividenden aan de aandeelhouders; </source>
                 <target xml:lang="de" state="final">die Ausschüttung von Dividenden an die Aktionäre; </target>
@@ -141,13 +141,13 @@
           <source xml:lang="nl"> Deze bijdragevermindering wordt door de RSZ in twee stappen berekend en toegekend: </source>
           <target xml:lang="de" state="final"> Diese Beitragsermäßigung wird vom LSS in zwei Schritten berechnet und gewährt: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu85" resname="/html/body/ul[3]">
-          <group restype="listitem" id="tu86" resname="/html/body/ul[3]/li[1]">
+        <group restype="x-html-ul" id="grp85" resname="/html/body/ul[3]">
+          <group restype="listitem" id="grp86" resname="/html/body/ul[3]/li[1]">
             <trans-unit id="tu87" resname="/html/body/ul[3]/li[1]/text()[1]">
               <source xml:lang="nl"> <g id="g88" ctype="x-html-strong">Stap 1:</g> Berekening van het bedrag van de bijdragevermindering betreffende het <g id="g90" ctype="x-html-strong">2<g id="g91" ctype="x-html-sup">de</g> en 4<g id="g92" ctype="x-html-sup">de</g> kwartaal 2020</g> op basis van de DmfA van deze kwartalen. </source>
               <target xml:lang="de" state="final"> <g id="g89" ctype="x-html-strong">Schritt 1:</g> Berechnung der Höhe der Beitragsermäßigung betreffend das <g id="g93" ctype="x-html-strong">2.<x id="x94" ctype="x-html-sup" equiv-text=" "/> und 4.<x id="x95" ctype="x-html-sup" equiv-text=" "/> Quartal 2020</g> auf Basis der DmfA dieser Quartale. </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu96" resname="/html/body/ul[3]/li[1]/ul">
+            <group restype="x-html-ul" id="grp96" resname="/html/body/ul[3]/li[1]/ul">
               <trans-unit restype="listitem" id="tu97" resname="/html/body/ul[3]/li[1]/ul/li[1]">
                 <source xml:lang="nl">Het bedrag van deze bijdragevermindering wordt eerst gebruikt om de bedragen betreffende het <g id="g98" ctype="x-html-strong">1<g id="g99" ctype="x-html-sup">ste</g> kwartaal 2021</g>, die aan de RSZ verschuldigd zijn, te vereffenen, en vervolgens eventueel de andere verschuldigde bedragen, met toerekening op de oudste schuld, overeenkomstig artikel 25 van de voornoemde wet van 27 juni 1969. </source>
                 <target xml:lang="de" state="final">Der Betrag dieser Beitragsermäßigung wird zunächst für die Begleichung der dem LSS geschuldeten Beträge für das 1. <g id="g100" ctype="x-html-strong"><x id="x101" ctype="x-html-sup" equiv-text=" "/>Quartal 2021</g> verwendet und dann eventuell für die Begleichung der anderen geschuldeten Beträge, mit Anrechnung auf die älteste Schuld, gemäß Artikel 25 des vorgenannten Gesetzes vom 27. Juni 1969. </target>
@@ -158,12 +158,12 @@
               </trans-unit>
             </group>
           </group>
-          <group restype="listitem" id="tu103" resname="/html/body/ul[3]/li[2]">
+          <group restype="listitem" id="grp103" resname="/html/body/ul[3]/li[2]">
             <trans-unit id="tu104" resname="/html/body/ul[3]/li[2]/text()[1]">
               <source xml:lang="nl"> <g id="g105" ctype="x-html-strong">Stap 2:</g> Berekening van het bedrag van de bijdragevermindering over het <g id="g107" ctype="x-html-strong">1<g id="g108" ctype="x-html-sup">ste</g> kwartaal 2021</g> op basis van de DmfA van dat kwartaal. </source>
               <target xml:lang="de" state="final"> <g id="g106" ctype="x-html-strong">Schritt 2:</g> Berechnung des Betrags der Beitragsermäßigung für das <g id="g109" ctype="x-html-strong">1.<x id="x110" ctype="x-html-sup" equiv-text=" "/> Quartal 2021</g> auf der Grundlage der DmfA für dieses Quartal. </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu111" resname="/html/body/ul[3]/li[2]/ul">
+            <group restype="x-html-ul" id="grp111" resname="/html/body/ul[3]/li[2]/ul">
               <trans-unit restype="listitem" id="tu112" resname="/html/body/ul[3]/li[2]/ul/li[1]">
                 <source xml:lang="nl">Het bedrag van deze bijdragevermindering wordt eerst gebruikt om de bedragen over het <g id="g113" ctype="x-html-strong">2<g id="g114" ctype="x-html-sup">de</g> kwartaal 2021</g>, die aan de RSZ verschuldigd zijn, te vereffenen, en vervolgens eventueel de andere verschuldigde bedragen, met toerekening op de oudste schuld, overeenkomstig artikel 25 van de voornoemde wet van 27 juni 1969. </source>
                 <target xml:lang="de" state="final">Der Betrag dieser Beitragsermäßigung wird zunächst für die Begleichung der dem LSS für das <g id="g115" ctype="x-html-strong">2.<x id="x116" ctype="x-html-sup" equiv-text=" "/> Quartal 2021</g> geschuldeten Beträge verwendet und dann eventuell für die Begleichung der anderen geschuldeten Beträge, mit Anrechnung auf die älteste Schuld, gemäß Artikel 25 des vorgenannten Gesetzes vom 27. Juni 1969. </target>
@@ -191,7 +191,7 @@
           <source xml:lang="nl"> Praktisch in de DmfA van het 2<g id="g138" ctype="x-html-sup">de</g> en 3<g id="g139" ctype="x-html-sup">de</g> kwartaal 2021: </source>
           <target xml:lang="de" state="final"> Praktisch in der DmfA des 2.<x id="x140" ctype="x-html-sup" equiv-text=" "/> und 3.<x id="x141" ctype="x-html-sup" equiv-text=" "/> Quartals 2021: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu142" resname="/html/body/ul[4]">
+        <group restype="x-html-ul" id="grp142" resname="/html/body/ul[4]">
           <trans-unit restype="listitem" id="tu143" resname="/html/body/ul[4]/li[1]">
             <source xml:lang="nl">nieuwe verminderingscode: 3702 ; </source>
             <target xml:lang="de" state="final">neuer Ermäßigungscode: 3702; </target>
@@ -223,9 +223,9 @@
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu152" resname="/html/body/p[11]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
-        <group restype="x-html-div" id="tu153" resname="/html/body/div[1]">
+        <group restype="x-html-div" id="grp153" resname="/html/body/div[1]">
           <note from="class">message</note>
           <trans-unit restype="x-html-p" id="tu154" resname="/html/body/div[1]/p[1]">
             <source xml:lang="nl"> <g id="g155" ctype="x-html-strong">Om de bijdragevermindering te kunnen genieten, moet de werkgever uiterlijk op 30 september 2021 een aanvraag aan de RSZ richten via een <bx id="bx157" rid="rid156" equiv-text="&amp;lt;a class=&amp;quot;external&amp;quot; href=&amp;quot;https://nssoservicerequest.prd.pub.socialsecurity.be/form/secured/CORONA_TRAVEL_SECTOR?login.type=enterprise&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;"/>beveiligde online toepassing<ex id="ex158" rid="rid156" equiv-text="&amp;lt;/a&amp;gt;"/>.</g> De werkgevers die hun <g id="g159" ctype="x-html-strong">aanvraag indienen tussen 1 juli en 30 september</g> kunnen <g id="g160" ctype="x-html-strong">enkel voor het 3<g id="g161" ctype="x-html-sup">de</g> kwartaal 2021</g> genieten van de vermindering, onder voorbehoud van a posteriori controles. </source>
@@ -238,7 +238,7 @@
         </group>
         <trans-unit restype="x-html-p" id="tu172" resname="/html/body/p[12]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu173" resname="/html/body/p[13]">
           <source xml:lang="nl"> De werkgever moet <g id="g174" ctype="x-html-strong">zich er formeel toe verbinden</g> om alle in dienst zijnde werknemers ononderbroken tussen 1 april 2021 en 30 september 2021 in dienst te houden, behalve als de werknemer zelf ontslag neemt of wegens dringende redenen wordt ontslagen. Hij dient ook te bevestigen dat hij de andere voorwaarden naleeft. </source>
@@ -252,17 +252,17 @@
           <source xml:lang="nl"> De RSZ zal op grond van zijn aanvraag nagaan of de voorwaarden inzake de Nace-code en de verzekerbaarheid werden nageleefd. </source>
           <target xml:lang="de" state="final"> Anhand seines Antrags prüft das LSS, ob die Bedingungen bezüglich des Nace-Codes und der Versicherbarkeit erfüllt sind. </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu178" resname="/html/body/ul[5]">
+        <group restype="x-html-ul" id="grp178" resname="/html/body/ul[5]">
           <trans-unit restype="listitem" id="tu179" resname="/html/body/ul[5]/li[1]">
             <source xml:lang="nl">Als de werkgever voldoet aan de voorwaarde inzake de NACE-code en hij opgenomen is in de officiële lijst inzake verzekerbaarheid van de FOD Economie, dan krijgt hij voor zijn aanvraag een ontvangstbevestiging en een samenvatting, alsook de mededeling dat hij voor de maatregel in aanmerking komt, onder voorbehoud van controles a posteriori. </source>
             <target xml:lang="de" state="final">Wenn der Arbeitgeber die Bedingung in Bezug auf den NACE-Code erfüllt und in der offiziellen Liste der Versicherbarkeit des FÖD Wirtschaft aufgeführt ist, wird sein Antrag bestätigt und zusammengefasst und er wird vorbehaltlich späterer Kontrollen über seine darüber informiert, ob er für diese Maßnahme in Frage kommt. </target>
           </trans-unit>
-          <group restype="listitem" id="tu180" resname="/html/body/ul[5]/li[2]">
+          <group restype="listitem" id="grp180" resname="/html/body/ul[5]/li[2]">
             <trans-unit id="tu181" resname="/html/body/ul[5]/li[2]/text()[1]">
-              <source xml:lang="nl">Als de werkgever voldoet aan de voorwaarde inzake de NACE-code maar hij niet opgenomen is in de officiële lijst inzake verzekerbaarheid van de FOD Economie, zal hij verzocht worden om zijn bewijs van verzekerbaarheid  in de toepassing te downloaden. De werkgever krijgt een ontvangstbewijs met een samenvatting van zijn aanvraag.<x id="x182" ctype="x-html-br" equiv-text=" "/> De RSZ zal nadien het bewijs van verzekerbaarheid in een Europees land, dat de werkgever gedownload heeft, nakijken. </source>
-              <target xml:lang="de" state="final">Wenn der Arbeitgeber die Bedingung bezüglich des NACE-Codes erfüllt, aber nicht in der offiziellen Liste bezüglich der Versicherbarkeit des FÖD Wirtschaft aufgeführt ist, wird er aufgefordert, dem Antrag seinen Versicherungsnachweis beizufügen. Der Arbeitgeber erhält eine Empfangsbestätigung mit einer Zusammenfassung seines Antrags.<x id="x183" ctype="x-html-br" equiv-text=" "/> Das LSS prüft anschließend den Nachweis der Versicherungsfähigkeit in einem europäischen Land, den der Arbeitgeber beigefügt hat. </target>
+              <source xml:lang="nl">Als de werkgever voldoet aan de voorwaarde inzake de NACE-code maar hij niet opgenomen is in de officiële lijst inzake verzekerbaarheid van de FOD Economie, zal hij verzocht worden om zijn bewijs van verzekerbaarheid  in de toepassing te downloaden. De werkgever krijgt een ontvangstbewijs met een samenvatting van zijn aanvraag.<x id="x182" ctype="lb" equiv-text=" "/> De RSZ zal nadien het bewijs van verzekerbaarheid in een Europees land, dat de werkgever gedownload heeft, nakijken. </source>
+              <target xml:lang="de" state="final">Wenn der Arbeitgeber die Bedingung bezüglich des NACE-Codes erfüllt, aber nicht in der offiziellen Liste bezüglich der Versicherbarkeit des FÖD Wirtschaft aufgeführt ist, wird er aufgefordert, dem Antrag seinen Versicherungsnachweis beizufügen. Der Arbeitgeber erhält eine Empfangsbestätigung mit einer Zusammenfassung seines Antrags.<x id="x183" ctype="lb" equiv-text=" "/> Das LSS prüft anschließend den Nachweis der Versicherungsfähigkeit in einem europäischen Land, den der Arbeitgeber beigefügt hat. </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu184" resname="/html/body/ul[5]/li[2]/ul">
+            <group restype="x-html-ul" id="grp184" resname="/html/body/ul[5]/li[2]/ul">
               <trans-unit restype="listitem" id="tu185" resname="/html/body/ul[5]/li[2]/ul/li[1]">
                 <source xml:lang="nl">Als de werkgever voldoet aan de voorwaarden inzake verzekerbaarheid, krijgt hij de bevestiging dat hij voor de maatregel in aanmerking komt, onder voorbehoud van controles a posteriori. </source>
                 <target xml:lang="de" state="final">Erfüllt der Arbeitgeber die Bedingungen der Versicherbarkeit, erhält er vorbehaltlich nachfolgender Prüfungen eine Bestätigung, dass er für die Maßnahme in Frage kommt. </target>
@@ -310,7 +310,7 @@
           <source xml:lang="nl"> Het bedrag zal worden toegerekend op de RSZ-rekeningen in de 2<g id="g208" ctype="x-html-sup">de</g> helft van april 2021 en eerst toegerekend op de bestaande schuld in het 1<g id="g209" ctype="x-html-sup">ste</g> kwartaal 2021 en vervolgens eventueel op de andere schulden aan de RSZ.  Het eventueel overblijvende saldo kan aan de werkgever op zijn verzoek gestort worden. </source>
           <target xml:lang="de" state="final"> Der Betrag wird in der 2.<x id="x210" ctype="x-html-sup" equiv-text=" "/> Aprilhälfte 2021 den Rechnungen des LSS zugewiesen und im 1.<x id="x211" ctype="x-html-sup" equiv-text=" "/> Quartal 2021 zunächst auf die bestehenden Schulden und dann möglicherweise auf die anderen Schulden des LSS aufgeteilt.  Ein eventuell verbleibender Restbetrag kann auf Wunsch an den Arbeitgeber ausgezahlt werden. </target>
         </trans-unit>
-        <group restype="x-html-div" id="tu212" resname="/html/body/div[2]">
+        <group restype="x-html-div" id="grp212" resname="/html/body/div[2]">
           <note from="class">message</note>
           <trans-unit restype="x-html-p" id="tu213" resname="/html/body/div[2]/p">
             <source xml:lang="nl"> Voor de werkgevers die hun <g id="g214" ctype="x-html-strong">aanvraag na 15 april 2021</g> ingediend hebben, zal de berekening van de vermindering voor het 2<g id="g215" ctype="x-html-sup">de</g> en 4<g id="g216" ctype="x-html-sup">de</g> kwartaal 2020 op hetzelfde ogenblik als de berekening in stap 3 uitgevoerd worden. </source>

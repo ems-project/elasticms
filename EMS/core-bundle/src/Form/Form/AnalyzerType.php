@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Form;
 
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\Analyzer;
 use EMS\CoreBundle\Form\Field\AnalyzerOptionsType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
@@ -30,22 +29,18 @@ class AnalyzerType extends AbstractType
             ->add('name', null, [
                 'label' => t('field.name', [], 'emsco-core'),
                 'required' => true,
-                'row_attr' => ['class' => 'col-md-12'],
             ])
             ->add('label', null, [
                 'label' => t('field.label', [], 'emsco-core'),
                 'required' => true,
-                'row_attr' => ['class' => 'col-md-12'],
             ])
             ->add('options', AnalyzerOptionsType::class, [
                 'attr' => ['class' => 'fields-to-display-by-value'],
                 'label' => false,
-                'row_attr' => ['class' => 'col-md-12'],
             ])
             ->add('save', SubmitEmsType::class, [
-                'attr' => ['class' => 'btn btn-primary', 'data-testid' => 'btn-action-save'],
+                'attr' => ['data-testid' => 'btn-action-save'],
                 'label' => t('action.save', [], 'emsco-core'),
-                'icon' => 'fa fa-save',
             ]);
     }
 
@@ -54,7 +49,6 @@ class AnalyzerType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Analyzer::class,
-            'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
         ]);
     }
 }

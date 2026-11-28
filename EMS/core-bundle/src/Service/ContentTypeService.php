@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Elastica\Exception\ResponseException;
 use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Entity\EntityInterface;
@@ -15,15 +14,14 @@ use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\ContentType\ContentTypeUnreferenced;
 use EMS\CoreBundle\Core\ContentType\ViewDefinition;
-use EMS\CoreBundle\Core\UI\Menu;
-use EMS\CoreBundle\Core\UI\MenuEntry;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
+use EMS\CoreBundle\Entity\QuerySearch;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\Template;
-use EMS\CoreBundle\Entity\UserInterface;
+use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Entity\View;
 use EMS\CoreBundle\Exception\ContentTypeAlreadyExistException;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
@@ -36,8 +34,8 @@ use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function Symfony\Component\Translation\t;
@@ -59,11 +57,35 @@ class ContentTypeService implements EntityServiceInterface
         private readonly EnvironmentService $environmentService,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly RevisionRepository $revisionRepository,
-        private readonly TokenStorageInterface $tokenStorage,
         private readonly TranslatorInterface $translator,
         private readonly RouterInterface $router,
-        private readonly ?string $circleContentTypeName
     ) {
+    }
+
+    /**
+     * @return array<int, string[]>
+     */
+    public function getLinkTypes(bool $allContentTypes): array
+    {
+        $types = [];
+        $names = [];
+
+        foreach ($this->getAll() as $contentType) {
+            if (!$contentType->getWebContent()) {
+                continue;
+            }
+            $names[] = $contentType->getName();
+            $types[] = [$contentType->getSingularName(), $contentType->getName()];
+        }
+
+        if (!$allContentTypes) {
+            return $types;
+        }
+
+        return [
+            [$this->translator->trans('key.all_content_types', [], 'emsco-core'), \implode(',', $names)],
+            ...$types,
+        ];
     }
 
     public function getChildByPath(FieldType $fieldType, string $path, bool $skipVirtualFields = false): FieldType|false
@@ -93,6 +115,36 @@ class ContentTypeService implements EntityServiceInterface
         }
 
         return false;
+    }
+
+    /**
+     * @return ContentType[]
+     */
+    public function getActiveContentTypes(): array
+    {
+        $this->loadEnvironment();
+
+        return \array_filter(
+            $this->orderedContentTypes,
+            static fn (ContentType $contentType) => $contentType->getActive() && !$contentType->getDeleted()
+        );
+    }
+
+    /**
+     * @return array<int, int|string>
+     */
+    public function getDraftCounters(UserInterface $user): array
+    {
+        if (!$user instanceof User) {
+            return [];
+        }
+
+        $rows = $this->revisionRepository->draftCounterGroupedByContentType(
+            $user->getCircles(),
+            $this->authorizationChecker->isGranted('ROLE_ADMIN')
+        );
+
+        return \array_column($rows, 'counter', 'content_type_id');
     }
 
     private function loadEnvironment(): void
@@ -136,9 +188,9 @@ class ContentTypeService implements EntityServiceInterface
         $em->persist($contentType);
         $em->flush();
 
-        $this->logger->notice('service.contenttype.reordered', [
-            EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-        ]);
+        $this->logger->messageNotice(t('message.content_type_reordered', [
+            'content_type' => $contentType->getSingularName(),
+        ], 'emsco-core'));
     }
 
     public function getIndex(ContentType $contentType, ?Environment $environment = null): string
@@ -177,17 +229,18 @@ class ContentTypeService implements EntityServiceInterface
             }
 
             $this->contentTypeRepository->save($contentType);
-        } catch (ResponseException $e) {
+        } catch (\Throwable $throwable) {
             $contentType->setDirty(true);
-            $message = $e->getMessage();
-            if (!empty($e->getPrevious())) {
-                $message = $e->getPrevious()->getMessage();
+            $message = $throwable->getMessage();
+            if (!empty($throwable->getPrevious())) {
+                $message = $throwable->getPrevious()->getMessage();
             }
 
-            $this->logger->error('service.contenttype.update_mapping_exception', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
+            $this->logger->messageError(t('message.content_type_update_mapping_error', [
                 'environments' => $envs,
                 'elasticsearch_error' => $message,
+            ], 'emsco-core'), [
+                EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
             ]);
         }
     }
@@ -385,11 +438,39 @@ class ContentTypeService implements EntityServiceInterface
             $environmentName = $data['properties']['environment'] ?? null;
             $environment = \is_string($environmentName) ? $this->environmentService->giveByName($environmentName) : $this->getFirstEnvironment();
         }
-
         $contentType->setEnvironment($environment);
+        $this->syncQuerySearchFromJson($contentType, $data);
         $this->syncActionsFromJson($contentType, $data['properties']['templates'] ?? []);
 
         return $contentType;
+    }
+
+    /**
+     * @param array<mixed> $data
+     */
+    private function syncQuerySearchFromJson(ContentType $contentType, array $data): void
+    {
+        if (!\in_array('querySearch', $data[JsonClass::REPLACED_FIELDS] ?? [], true)) {
+            return;
+        }
+
+        $querySearchName = $data[JsonClass::PROPERTIES_INDEX]['querySearch'] ?? null;
+        if (null === $querySearchName) {
+            $contentType->setQuerySearch(null);
+
+            return;
+        }
+        if (!\is_string($querySearchName)) {
+            throw new \RuntimeException('Unexpected non string querySearch name');
+        }
+
+        /** @var QuerySearch|null $querySearch */
+        $querySearch = $this->doctrine->getManager()->getRepository(QuerySearch::class)->findOneBy(['name' => $querySearchName]);
+        if (null === $querySearch) {
+            throw new \RuntimeException(\sprintf('Could not find querySearch with the name %s', $querySearchName));
+        }
+
+        $contentType->setQuerySearch($querySearch);
     }
 
     /**
@@ -506,7 +587,7 @@ class ContentTypeService implements EntityServiceInterface
                 ];
             } catch (\Throwable $e) {
                 $this->logger->messageError(t(
-                    'log.error.content_type_add_unreferenced',
+                    'message.log_content_type_add_unreferenced',
                     ['environment' => $environment->getName(), 'error' => $e->getMessage()],
                     'emsco-core'
                 ));
@@ -524,6 +605,7 @@ class ContentTypeService implements EntityServiceInterface
         $search = new Search([$environment->getAlias()]);
         $search->setSize(0);
         $search->addTermsAggregation(self::CONTENT_TYPE_AGGREGATION_NAME, EMSSource::FIELD_CONTENT_TYPE, 30);
+
         $resultSet = $this->elasticaService->search($search);
         $aggregationBuckets = $resultSet->getAggregation(self::CONTENT_TYPE_AGGREGATION_NAME)['buckets'] ?? [];
         $unreferencedContentTypes = [];
@@ -555,119 +637,6 @@ class ContentTypeService implements EntityServiceInterface
             $contentType->setOrderKey($contentTypeRepository->nextOrderKey());
         }
         $contentTypeRepository->save($contentType);
-    }
-
-    public function getCircleContentType(): ?ContentType
-    {
-        return $this->contentTypeArrayByName[$this->circleContentTypeName] ?? null;
-    }
-
-    public function getContentTypeMenu(): Menu
-    {
-        $menu = new Menu('views.elements.sidebar-menu-html.content-types');
-        $token = $this->tokenStorage->getToken();
-        if (null === $token) {
-            throw new \RuntimeException('Unexpected null token');
-        }
-        $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
-            throw new \RuntimeException('Unexpected user type');
-        }
-        $this->loadEnvironment();
-        $isAdmin = $this->authorizationChecker->isGranted('ROLE_ADMIN');
-        $temp = $this->revisionRepository->draftCounterGroupedByContentType($user->getCircles(), $isAdmin);
-        $counters = [];
-        foreach ($temp as $item) {
-            $counters[$item['content_type_id']] = $item['counter'];
-        }
-        $circleContentType = $this->getCircleContentType();
-
-        foreach ($this->orderedContentTypes as $contentType) {
-            $roles = $contentType->getRoles();
-
-            if ($contentType->getDeleted()
-                || !$contentType->getActive()
-                || (!$this->authorizationChecker->isGranted($roles[ContentTypeRoles::VIEW])) && !$contentType->getRootContentType()) {
-                continue;
-            }
-
-            [$routeOverview, $routeOverviewParams] = $this->getRedirectOverviewRoute($contentType);
-            $menuEntry = new MenuEntry(
-                label: $contentType->getPluralName(),
-                icon: $contentType->getIcon() ?? 'fa fa-book',
-                route: $routeOverview,
-                routeParameters: $routeOverviewParams,
-                color: $contentType->getColor()
-            );
-            if (isset($counters[$contentType->getId()])) {
-                $menuEntry->setBadge((string) $counters[$contentType->getId()]);
-            }
-            $this->addMenuSearchLinks($contentType, $menuEntry, $circleContentType, $user);
-            $this->addMenuViewLinks($contentType, $menuEntry);
-            $this->addDraftInProgressLink($contentType, $menuEntry);
-
-            if ($this->authorizationChecker->isGranted($roles[ContentTypeRoles::SHOW_LINK_CREATE])
-                && $this->authorizationChecker->isGranted($roles[ContentTypeRoles::CREATE])) {
-                $createLink = $menuEntry->addChild('sidebar_menu.content_type.create', 'fa fa-plus', Routes::DATA_ADD, ['contentType' => $contentType->getId()]);
-                $createLink->setTranslation([
-                    '%name%' => $contentType->getSingularName(),
-                ]);
-            }
-            if ($this->authorizationChecker->isGranted($roles[ContentTypeRoles::TRASH])) {
-                $trashLink = $menuEntry->addChild('sidebar_menu.content_type.trash', 'fa fa-trash', Routes::DATA_TRASH, ['contentType' => $contentType->getId()]);
-                $trashLink->setTranslation([]);
-            }
-            if ($menuEntry->hasChildren()) {
-                $menu->addMenuEntry($menuEntry);
-            }
-        }
-
-        return $menu;
-    }
-
-    private function addMenuSearchLinks(ContentType $contentType, MenuEntry $menuEntry, ?ContentType $circleContentType, UserInterface $user): void
-    {
-        $roles = $contentType->getRoles();
-
-        if (!$this->authorizationChecker->isGranted($roles[ContentTypeRoles::SHOW_LINK_SEARCH])) {
-            return;
-        }
-
-        $search = $menuEntry->addChild('sidebar_menu.content_type.search', 'fa fa-search', Routes::DATA_DEFAULT_VIEW, ['type' => $contentType->getName()]);
-        $search->setTranslation(['%plural%' => $contentType->getPluralName()]);
-
-        if (null === $circleContentType || null === $contentType->getCirclesField() || '' === $contentType->getCirclesField() || empty($user->getCircles())) {
-            return;
-        }
-
-        $inMyCircle = $menuEntry->addChild('sidebar_menu.content_type.search_in_my_circle', $circleContentType->getIcon() ?? '', Routes::DATA_IN_MY_CIRCLE_VIEW, ['name' => $contentType->getName()]);
-        $inMyCircle->setTranslation([
-            '%name%' => \count($user->getCircles()) > 1 ? $circleContentType->getPluralName() : $circleContentType->getSingularName(),
-        ]);
-    }
-
-    private function addMenuViewLinks(ContentType $contentType, MenuEntry $menuEntry): void
-    {
-        foreach ($contentType->getViews() as $view) {
-            if (null !== $view->getRole() && !$this->authorizationChecker->isGranted($view->getRole())) {
-                continue;
-            }
-            if ('ems.view.data_link' === $view->getType()) {
-                continue;
-            }
-            $menuEntry->addChild($view->getLabel(), $view->getIcon() ?? '', $view->isPublic() ? Routes::DATA_PUBLIC_VIEW : Routes::DATA_PRIVATE_VIEW, ['viewId' => $view->getId()]);
-        }
-    }
-
-    private function addDraftInProgressLink(ContentType $contentType, MenuEntry $menuEntry): void
-    {
-        if (!$contentType->giveEnvironment()->getManaged() || !$menuEntry->hasBadge() || !$this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::EDIT))) {
-            return;
-        }
-
-        $draftInProgress = $menuEntry->addChild('sidebar_menu.content_type.draft_in_progress', 'fa fa-fire', Routes::DRAFT_IN_PROGRESS, ['contentTypeId' => $contentType->getId()]);
-        $draftInProgress->setTranslation([]);
-        $draftInProgress->setBadge($menuEntry->getBadge(), $contentType->getColor());
     }
 
     #[\Override]
@@ -767,7 +736,7 @@ class ContentTypeService implements EntityServiceInterface
     public function getVersionDefault(ContentType $contentType): array
     {
         $versionTags = $contentType->getVersioning()->getTags();
-        if (0 === \count($versionTags)) {
+        if ([] === $versionTags) {
             return [];
         }
 
@@ -787,7 +756,7 @@ class ContentTypeService implements EntityServiceInterface
     public function getVersionTagsByContentType(ContentType $contentType, ?bool $notBlankNewVersion = false): array
     {
         $versionTags = $contentType->getVersioning()->getTags();
-        if (0 === \count($versionTags)) {
+        if ([] === $versionTags) {
             return [];
         }
 
@@ -847,7 +816,9 @@ class ContentTypeService implements EntityServiceInterface
         $contentType->setActive(false)->setDeleted(true);
         $this->contentTypeRepository->save($contentType);
 
-        $this->logger->messageNotice(t('log.notice.content_type_deleted', ['contentType' => $contentType->getName()], 'emsco-core'));
+        $this->logger->messageNotice(t('message.content_type_deleted', [
+            'label' => $contentType->getSingularName(),
+        ], 'emsco-core'));
     }
 
     public function softDeleteById(string ...$ids): void
@@ -889,7 +860,7 @@ class ContentTypeService implements EntityServiceInterface
     {
         $defaultOverviewView = $contentType->getViewByDefinition(ViewDefinition::DEFAULT_OVERVIEW);
 
-        if ($defaultOverviewView) {
+        if ($defaultOverviewView instanceof View) {
             return [
                 $defaultOverviewView->isPublic() ? Routes::DATA_PUBLIC_VIEW : Routes::DATA_PRIVATE_VIEW,
                 ['viewId' => $defaultOverviewView->getId()],

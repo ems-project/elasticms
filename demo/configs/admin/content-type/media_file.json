@@ -5,6 +5,8 @@
         "name": "media_file",
         "pluralName": "Media library",
         "singularName": "Media",
+        "pluralNameTranslations": null,
+        "singularNameTranslations": null,
         "icon": "fa fa-book",
         "description": null,
         "indexTwig": null,
@@ -28,7 +30,9 @@
                         "lastOfRow": false,
                         "helptext": null,
                         "icon": null,
-                        "language": null
+                        "language": null,
+                        "labelTranslations": [],
+                        "helptextTranslations": []
                     },
                     "restrictionOptions": {
                         "minimum_role": null
@@ -36,7 +40,8 @@
                     "extraOptions": {
                         "extra": null,
                         "clear_on_copy": false,
-                        "postProcessing": null
+                        "postProcessing": null,
+                        "description": null
                     }
                 },
                 "orderKey": 0,
@@ -61,6 +66,8 @@
                                     "suffixIcon": null,
                                     "suffixText": null,
                                     "placeholder": null,
+                                    "labelTranslations": [],
+                                    "helptextTranslations": [],
                                     "icon": null
                                 },
                                 "mappingOptions": {
@@ -75,7 +82,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "description": null
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {
@@ -134,6 +142,8 @@
                                     "suffixIcon": null,
                                     "suffixText": null,
                                     "placeholder": null,
+                                    "labelTranslations": [],
+                                    "helptextTranslations": [],
                                     "icon": null
                                 },
                                 "mappingOptions": {
@@ -148,7 +158,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "description": null
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {
@@ -176,7 +187,9 @@
                                     "lastOfRow": false,
                                     "helptext": null,
                                     "icon": null,
-                                    "imageAssetConfigIdentifier": null
+                                    "imageAssetConfigIdentifier": null,
+                                    "labelTranslations": [],
+                                    "helptextTranslations": []
                                 },
                                 "mappingOptions": {
                                     "index": null,
@@ -191,7 +204,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": "{{ block('media_file_processing', '@EMSCH/template_ems/content_type/media_library.twig') }}"
+                                    "postProcessing": "{{ block('media_file_processing', '@EMSCH/template_ems/content_type/media_library.twig') }}",
+                                    "description": null
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {
@@ -219,7 +233,9 @@
                                     "lastOfRow": false,
                                     "helptext": null,
                                     "icon": "fa fa-gears",
-                                    "language": null
+                                    "language": null,
+                                    "labelTranslations": [],
+                                    "helptextTranslations": []
                                 },
                                 "mappingOptions": [],
                                 "restrictionOptions": {
@@ -228,7 +244,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "description": null
                                 },
                                 "raw_data": []
                             },
@@ -238,24 +255,37 @@
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
                                     "arguments": [],
                                     "properties": {
-                                        "type": "EMS\\CoreBundle\\Form\\DataField\\ChoiceFieldType",
+                                        "type": "EMS\\CoreBundle\\Form\\DataField\\ChoiceListFieldType",
                                         "name": "disposition",
                                         "contentType": null,
                                         "deleted": false,
                                         "description": null,
                                         "options": {
                                             "displayOptions": {
-                                                "label": "Disposition",
+                                                "label": "Content Disposition",
                                                 "class": "col-md-12",
+                                                "labelTranslations": {
+                                                    "fr": {
+                                                        "label": "Disposition du contenu"
+                                                    },
+                                                    "nl": {
+                                                        "label": "Content-dispositie"
+                                                    }
+                                                },
                                                 "lastOfRow": false,
-                                                "helptext": "Specify if the file must be downloaded or open in the browser:\r\n<ul>\r\n<lI><strong>Attachment : </strong>Force the download</li>\r\n<lI><strong>Inline : </strong>The browser will try to open the file</li>\r\n</ul>",
+                                                "helptext": "Specify if the file must be downloaded or open in the browser:\n<ul>\n<lI><strong>Attachment : </strong>Force the download</li>\n<lI><strong>Inline : </strong>The browser will try to open the file</li>\n</ul>",
+                                                "helptextTranslations": {
+                                                    "fr": {
+                                                        "label": "Indiquez si le fichier doit \u00eatre t\u00e9l\u00e9charg\u00e9 ou ouvert dans le navigateur :\n<ul>\n<li><strong>Pi\u00e8ce jointe : </strong>Forcer le t\u00e9l\u00e9chargement</li>\n<li><strong>En ligne : </strong>Le navigateur tentera d'ouvrir le fichier</li>\n</ul>"
+                                                    },
+                                                    "nl": {
+                                                        "label": "Geef aan of het bestand moet worden gedownload of in de browser moet worden geopend:\n<ul>\n<li><strong>Bijlage (Attachment): </strong>Dwing het downloaden af</li>\n<li><strong>Inline: </strong>De browser probeert het bestand te openen</li>\n</ul>"
+                                                    }
+                                                },
+                                                "choice_list": "content_disposition",
                                                 "multiple": false,
                                                 "expanded": false,
                                                 "select2": true,
-                                                "choices": "attachment\r\ninline",
-                                                "labels": "Attachment\r\nInline",
-                                                "linked_collection": null,
-                                                "collection_label_field": null,
                                                 "placeholder": null
                                             },
                                             "mappingOptions": {
@@ -268,6 +298,7 @@
                                                 "minimum_role": null
                                             },
                                             "extraOptions": {
+                                                "description": null,
                                                 "extra": null,
                                                 "clear_on_copy": false,
                                                 "postProcessing": null
@@ -302,6 +333,8 @@
                                                 "suffixIcon": null,
                                                 "suffixText": null,
                                                 "placeholder": null,
+                                                "labelTranslations": [],
+                                                "helptextTranslations": [],
                                                 "icon": null
                                             },
                                             "mappingOptions": {
@@ -317,7 +350,8 @@
                                             "extraOptions": {
                                                 "extra": null,
                                                 "clear_on_copy": false,
-                                                "postProcessing": null
+                                                "postProcessing": null,
+                                                "description": null
                                             },
                                             "raw_data": [],
                                             "migrationOptions": {
@@ -349,6 +383,8 @@
                                                 "suffixIcon": null,
                                                 "suffixText": null,
                                                 "placeholder": null,
+                                                "labelTranslations": [],
+                                                "helptextTranslations": [],
                                                 "icon": null
                                             },
                                             "mappingOptions": {
@@ -364,7 +400,8 @@
                                             "extraOptions": {
                                                 "extra": null,
                                                 "clear_on_copy": false,
-                                                "postProcessing": null
+                                                "postProcessing": null,
+                                                "description": null
                                             },
                                             "raw_data": [],
                                             "migrationOptions": {
@@ -394,7 +431,9 @@
                                                 "displayFormat": null,
                                                 "parseFormat": null,
                                                 "daysOfWeekDisabled": null,
-                                                "hoursDisabled": null
+                                                "hoursDisabled": null,
+                                                "labelTranslations": [],
+                                                "helptextTranslations": []
                                             },
                                             "mappingOptions": {
                                                 "index": null
@@ -407,7 +446,8 @@
                                             "extraOptions": {
                                                 "extra": null,
                                                 "clear_on_copy": false,
-                                                "postProcessing": null
+                                                "postProcessing": null,
+                                                "description": null
                                             },
                                             "raw_data": [],
                                             "migrationOptions": {
@@ -437,7 +477,9 @@
                                                 "displayFormat": null,
                                                 "parseFormat": null,
                                                 "daysOfWeekDisabled": null,
-                                                "hoursDisabled": null
+                                                "hoursDisabled": null,
+                                                "labelTranslations": [],
+                                                "helptextTranslations": []
                                             },
                                             "mappingOptions": {
                                                 "index": null
@@ -450,7 +492,8 @@
                                             "extraOptions": {
                                                 "extra": null,
                                                 "clear_on_copy": false,
-                                                "postProcessing": null
+                                                "postProcessing": null,
+                                                "description": null
                                             },
                                             "raw_data": [],
                                             "migrationOptions": {
@@ -483,7 +526,9 @@
                                     "helptext": null,
                                     "valueTemplate": null,
                                     "json": false,
-                                    "displayTemplate": null
+                                    "displayTemplate": null,
+                                    "labelTranslations": [],
+                                    "helptextTranslations": []
                                 },
                                 "mappingOptions": {
                                     "mappingOptions": null,
@@ -493,7 +538,9 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "description": null,
+                                    "mcpOutputSchema": null
                                 },
                                 "raw_data": []
                             },
@@ -520,7 +567,9 @@
                                     "displayFormat": null,
                                     "parseFormat": null,
                                     "daysOfWeekDisabled": null,
-                                    "hoursDisabled": null
+                                    "hoursDisabled": null,
+                                    "labelTranslations": [],
+                                    "helptextTranslations": []
                                 },
                                 "mappingOptions": {
                                     "index": null
@@ -533,7 +582,8 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": "{{ block('media_file_date_creation', '@EMSCH/template_ems/content_type/post_processing.twig') }}"
+                                    "postProcessing": "{{ block('media_file_date_creation', '@EMSCH/template_ems/content_type/post_processing.twig') }}",
+                                    "description": null
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {
@@ -566,6 +616,7 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
+                    "labelTranslations": null,
                     "icon": "fa fa-list",
                     "options": {
                         "body": "{}",
@@ -602,8 +653,7 @@
             "delete": "ROLE_PUBLISHER",
             "trash": "ROLE_PUBLISHER",
             "archive": "not-defined",
-            "show_link_create": "ROLE_PUBLISHER",
-            "show_link_search": "not-defined"
+            "show_link_create": "ROLE_PUBLISHER"
         },
         "fields": {
             "display": null,
@@ -619,8 +669,13 @@
         "settings": {
             "tasks_enabled": false,
             "tasks_titles": [],
-            "hide_revision_sidebar": false
-        }
+            "tasks_helptexts": [],
+            "hide_revision_sidebar": false,
+            "recompute_on_publish": false
+        },
+        "querySearch": null
     },
-    "replaced": []
+    "replaced": [
+        "querySearch"
+    ]
 }

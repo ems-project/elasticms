@@ -1,6 +1,18 @@
 @import 'datatables.net-bs/css/dataTables.bootstrap.css';
 
-div.dataTables_paginate > ul.pagination > li.paginate_button {
+div.dataTables_paginate>ul.pagination>li.paginate_button {
   margin-left: 0.2rem;
   margin-right: 0.2rem;
+}
+
+div.dt-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  div.dt-layout-row {
+    div.dt-layout-cell {
+      padding: 0;
+    }
+  }
 }

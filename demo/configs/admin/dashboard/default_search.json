@@ -5,6 +5,7 @@
         "name": "default_search",
         "icon": "fa fa-search",
         "label": "Default search",
+        "labelTranslations": null,
         "sidebarMenu": false,
         "notificationMenu": false,
         "definition": "quick_search",

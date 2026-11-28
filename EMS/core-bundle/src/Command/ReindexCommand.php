@@ -6,8 +6,7 @@ namespace EMS\CoreBundle\Command;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
-use EMS\CommonBundle\Common\Command\AbstractCommand;
-use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Elasticsearch\Bulker;
 use EMS\CoreBundle\Entity\ContentType;
@@ -19,29 +18,33 @@ use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\Mapping;
 use Psr\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: Commands::ENVIRONMENT_REINDEX,
-    description: 'Reindex an environment in it\'s existing index.',
-    hidden: false,
-    aliases: ['ems:environment:reindex']
-)]
-class ReindexCommand extends AbstractCommand
+use function Symfony\Component\Translation\t;
+
+#[AsCommand(name: Commands::ENVIRONMENT_REINDEX, description: "Reindex an environment in it's existing index.", aliases: ['ems:environment:reindex'], hidden: false)]
+class ReindexCommand extends AbstractCoreCommand
 {
     private int $count = 0;
     private int $deleted = 0;
     private int $reloaded = 0;
     private int $error = 0;
 
-    public function __construct(protected Registry $doctrine, protected LoggerInterface $logger, protected Mapping $mapping, protected ContainerInterface $container, protected DataService $dataService, private readonly Bulker $bulker, private readonly string $defaultBulkSize)
-    {
+    public function __construct(
+        protected Registry $doctrine,
+        protected LocalizedLoggerInterface $logger,
+        protected Mapping $mapping,
+        protected ContainerInterface $container,
+        protected DataService $dataService,
+        private readonly Bulker $bulker,
+        private readonly string $defaultBulkSize
+    ) {
         parent::__construct();
     }
 
@@ -68,7 +71,7 @@ class ReindexCommand extends AbstractCommand
                 'sign-data',
                 null,
                 InputOption::VALUE_NONE,
-                'The content won\'t be (re)signed during the reindexing process'
+                "The content won't be (re)signed during the reindexing process"
             )
             ->addOption(
                 'reload-data',
@@ -123,16 +126,15 @@ class ReindexCommand extends AbstractCommand
             $this->reindex($name, $contentType, $index, $output, $signData, $bulkSize, $reloadData);
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     public function reindex(string $name, ContentType $contentType, ?string $index, OutputInterface $output, bool $signData = true, int $bulkSize = 1000, bool $reloadData = false): void
     {
-        $this->logger->notice('command.reindex.start', [
-            EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
-            EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-            EmsFields::LOG_ENVIRONMENT_FIELD => $name,
-        ]);
+        $this->logger->messageNotice(t('message.reindex_command_start', [
+            'environment' => $name,
+            'content_type' => $contentType->getSingularName(),
+        ], 'emsco-core'));
 
         /** @var EntityManager $em */
         $em = $this->doctrine->getManager();
@@ -143,7 +145,7 @@ class ReindexCommand extends AbstractCommand
         $revRepo = $em->getRepository(Revision::class);
         $environment = $envRepo->findBy(['name' => $name, 'managed' => true]);
 
-        if ($environment && 1 == \count($environment)) {
+        if ($environment && 1 === \count($environment)) {
             /** @var Environment $environment */
             $environment = $environment[0];
 
@@ -169,12 +171,11 @@ class ReindexCommand extends AbstractCommand
 
                     if ($revision->getDeleted()) {
                         ++$this->deleted;
-                        $this->logger->warning('log.reindex.revision.deleted_but_referenced', [
-                            EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-                            EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                            EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
-                            EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                        ]);
+
+                        $this->logger->messageWarning(t('message.revision_deleted_but_referenced', [
+                            'environment' => $environment->getLabel(),
+                            'label' => $revision->getLabel(),
+                        ], 'emsco-core'));
                     } else {
                         if ($reloadData) {
                             $this->reloaded += $this->dataService->reloadData($revision, false);
@@ -198,27 +199,21 @@ class ReindexCommand extends AbstractCommand
 
             $progress->finish();
             $output->writeln('');
-
             $output->writeln(' '.$this->count.' objects are re-indexed in '.$index.' ('.$this->deleted.' not indexed as deleted, '.$this->error.' with indexing error)');
 
             if ($this->reloaded > 0) {
                 $output->writeln(\sprintf('%d documents are reloaded', $this->reloaded));
             }
 
-            $this->logger->notice('command.reindex.end', [
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
-                EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-                EmsFields::LOG_ENVIRONMENT_FIELD => $name,
+            $this->logger->messageNotice(t('message.reindex_command_end', [
+                'content_type' => $contentType->getSingularName(),
+                'environment' => $environment->getLabel(),
                 'index' => $index,
-                'deleted' => $this->deleted,
-                'with_error' => $this->error,
-                'total' => $this->count,
-            ]);
+            ], 'emsco-core'));
         } else {
-            $this->logger->warning('command.reindex.environment_not_found', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-                EmsFields::LOG_ENVIRONMENT_FIELD => $name,
-            ]);
+            $this->logger->messageNotice(t('message.reindex_command_environment_not_found', [
+                'environment' => $name,
+            ], 'emsco-core'));
 
             $output->writeln('WARNING: Environment named '.$name.' not found');
         }

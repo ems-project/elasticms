@@ -8,9 +8,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Core\Revision\Release\ReleaseRevisionType;
-use EMS\CoreBundle\EMSCoreBundle;
+use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
+use function Symfony\Component\Translation\t;
 
 class Release implements EntityInterface
 {
@@ -58,6 +60,18 @@ class Release implements EntityInterface
         $this->status = $status;
 
         return $this;
+    }
+
+    public function getStatusLabel(): TranslatableMessage
+    {
+        return match ($this->status) {
+            self::WIP_STATUS => t('key.draft', [], 'emsco-core'),
+            self::READY_STATUS => t('key.ready', [], 'emsco-core'),
+            self::APPLIED_STATUS => t('key.applied', [], 'emsco-core'),
+            self::CANCELED_STATUS => t('key.canceled', [], 'emsco-core'),
+            self::SCHEDULED_STATUS => t('key.scheduled', [], 'emsco-core'),
+            default => t('key.unknown', [], 'emsco-core')
+        };
     }
 
     public function getExecutionDate(): ?\DateTime
@@ -139,8 +153,7 @@ class Release implements EntityInterface
     public function validate(ExecutionContextInterface $context): void
     {
         if ($this->getEnvironmentTarget() === $this->getEnvironmentSource()) {
-            $context->buildViolation('entity.release.violation.same_source_and_target')
-                ->setTranslationDomain(EMSCoreBundle::TRANS_DOMAIN_VALIDATORS)
+            $context->buildViolation(t('environment.target_diff_source', [], 'validators'))
                 ->atPath('environmentTarget')
                 ->addViolation();
         }

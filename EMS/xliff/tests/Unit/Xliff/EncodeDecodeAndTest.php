@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace EMS\Xliff\Tests\Unit\Xliff;
 
 use EMS\Helpers\File\TempFile;
-use EMS\Xliff\Xliff\Entity\InsertReport;
-use EMS\Xliff\Xliff\Extractor;
-use EMS\Xliff\Xliff\Inserter;
+use EMS\Helpers\Html\HtmlHelper;
+use EMS\Xliff\Options;
+use EMS\Xliff\Version;
+use EMS\Xliff\Xliff;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -27,39 +28,49 @@ class EncodeDecodeAndTest extends TestCase
         ], [
             \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'EncodeDecode', 'TC-3', 'source.html'])),
             \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'EncodeDecode', 'TC-3', 'expected.xlf']),
+        ], [
+            \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'EncodeDecode', 'TC-4', 'source.html'])),
+            \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'EncodeDecode', 'TC-4', 'expected.xlf']),
+        ], [
+            \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'EncodeDecode', 'TC-5', 'source.html'])),
+            \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'EncodeDecode', 'TC-5', 'expected.xlf']),
         ]];
     }
 
     #[DataProvider('htmlProvider')]
     public function testWithBaseline(string $sourceHtml, string $expectedPath): void
     {
-        $xliffParser = new Extractor('en', 'fr', Extractor::XLIFF_1_2);
-        $document = $xliffParser->addDocument('content_type', 'fakeOuuid', 'fakeRevisionId');
-        $xliffParser->addHtmlField($document, '[body]', $sourceHtml);
-        $insertReport = new InsertReport();
+        $option = new Options(Version::V12);
+        $readerPackage = Xliff::create($option);
+        $readerPackage->init('en', 'fr');
+
+        $document = $readerPackage->getPackage()->addDocument('content_type:fakeOuuid:fakeRevisionId');
+        $document->createHtml('[body]', $sourceHtml, $sourceHtml, $sourceHtml);
 
         if (!\file_exists($expectedPath)) {
-            $xliffParser->saveXML($expectedPath);
+            $readerPackage->saveXML($expectedPath);
         }
         $expected = \file_get_contents($expectedPath);
 
         $tempFile = TempFile::create();
-        $xliffParser->saveXML($tempFile->path);
+        $readerPackage->saveXML($tempFile->path);
         $extracted = \file_get_contents($tempFile->path);
         $this->assertSame($expected, $extracted);
         $tempFile->clean();
 
-        $importer = Inserter::fromFile($expectedPath);
-        foreach ($importer->getDocuments() as $document) {
-            $this->assertSame('fakeOuuid', $document->getOuuid());
-            $this->assertSame('content_type', $document->getContentType());
-            $this->assertSame('fakeRevisionId', $document->getRevisionId());
+        $readerPackage->fromFile($expectedPath);
+        foreach ($readerPackage->getPackage()->getDocuments() as $document) {
+            [$contentType, $ouuid, $revisionId] = \explode(':', $document->id);
+            $this->assertSame('fakeOuuid', $ouuid);
+            $this->assertSame('content_type', $contentType);
+            $this->assertSame('fakeRevisionId', $revisionId);
             $correspondingJson = [
                 'body' => $sourceHtml,
             ];
             $target = [];
-            $document->extractTranslations($insertReport, $correspondingJson, $target);
-            $this->assertSame(0, $insertReport->countErrors(), 'Errors in extract translations');
+            $document->unitToAssociativeArray($readerPackage->getPackage(), $correspondingJson, $target);
+            $this->assertSame(HtmlHelper::prettyPrint(HtmlHelper::stripZeroWidthCharacters($sourceHtml)), $target['body']);
         }
+        $this->assertSame(0, $readerPackage->getPackage()->getInsertReport()->countErrors(), 'Errors in extract translations');
     }
 }

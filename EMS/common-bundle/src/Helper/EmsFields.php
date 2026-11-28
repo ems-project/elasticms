@@ -37,6 +37,8 @@ final class EmsFields
     public const string ASSET_CONFIG_HEIGHT = '_height';
     public const string ASSET_CONFIG_QUALITY = '_quality';
     public const string ASSET_CONFIG_IMAGE_FORMAT = '_image_format';
+    public const string ASSET_CONFIG_AUTHOR = '_author';
+    public const string ASSET_CONFIG_COPYRIGHT = '_copyright';
     public const string ASSET_CONFIG_WEBP_IMAGE_FORMAT = 'webp';
     public const string ASSET_CONFIG_GIF_IMAGE_FORMAT = 'gif';
     public const string ASSET_CONFIG_BMP_IMAGE_FORMAT = 'bmp';
@@ -62,6 +64,7 @@ final class EmsFields
     public const string ASSET_CONFIG_X = '_x';
     public const string ASSET_CONFIG_Y = '_y';
     public const string ASSET_CONFIG_CANONICAL = '_canonical';
+    public const string ASSET_CONFIG_PATH_IN_ARCHIVE = '_path_in_archive';
 
     public const string LOG_ALIAS = 'ems_internal_logger_alias';
     public const string LOG_TYPE = 'doc';

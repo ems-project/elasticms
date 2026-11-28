@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Helpers\Tests\Unit\Html\Sanitizer;
 
 use EMS\Helpers\Html\Sanitizer\HtmlSanitizerClass;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
 
@@ -33,9 +34,10 @@ class HtmlSanitizerClassAiTest extends TestCase
         $this->assertEquals($expectedAttributes, $this->sanitizer->getSupportedAttributes());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testSanitizeAttribute(): void
     {
-        $config = $this->createMock(HtmlSanitizerConfig::class);
+        $config = $this->createStub(HtmlSanitizerConfig::class);
         $element = 'div';
         $attribute = 'class';
 

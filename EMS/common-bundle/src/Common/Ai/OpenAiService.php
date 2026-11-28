@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\Ai;
 
 use EMS\CommonBundle\Common\KeyStore;
-use EMS\Helpers\Standard\Json;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class OpenAiService
@@ -33,7 +32,7 @@ class OpenAiService
 
         if ($statusCode >= 400) {
             $body = $response->getContent(false);
-            throw new \RuntimeException("Open AI - error ($statusCode): $body");
+            throw new \RuntimeException(\sprintf('Open AI - error (%d): %s', $statusCode, $body));
         }
 
         return new OpenAiResponse($response);

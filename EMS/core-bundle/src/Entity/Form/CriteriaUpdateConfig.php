@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Entity\Form;
 
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\View;
-use Psr\Log\LoggerInterface;
+use EMS\CoreBundle\Service\ContentTypeService;
 
-/**
- * RebuildIndex.
- */
+use function Symfony\Component\Translation\t;
+
 class CriteriaUpdateConfig
 {
     private ?string $columnCriteria = null;
@@ -20,13 +20,16 @@ class CriteriaUpdateConfig
     /** @var array<mixed> */
     private array $criterion = [];
 
-    public function __construct(View $view, private readonly LoggerInterface $logger)
-    {
+    public function __construct(
+        View $view,
+        private readonly ContentTypeService $contentTypeService,
+        private readonly LocalizedLoggerInterface $logger
+    ) {
         $contentType = $view->getContentType();
 
         $rootFieldType = $contentType->getFieldType();
 
-        if (!empty($view->getOptions()['categoryFieldPath']) && $categoryField = $rootFieldType->getChildByPath($view->getOptions()['categoryFieldPath'])) {
+        if (!empty($view->getOptions()['categoryFieldPath']) && $categoryField = $this->contentTypeService->getChildByPath($rootFieldType, $view->getOptions()['categoryFieldPath'])) {
             $dataField = new DataField();
             $dataField->setFieldType($categoryField);
             $this->setCategory($dataField);
@@ -45,15 +48,15 @@ class CriteriaUpdateConfig
 
         if (\is_array($fieldPaths)) {
             foreach ($fieldPaths as $path) {
-                $child = $criteriaField->getChildByPath($path);
+                $child = $this->contentTypeService->getChildByPath($criteriaField, $path);
                 if ($child) {
                     $dataField = new DataField();
                     $dataField->setFieldType($child);
                     $this->criterion[$child->getName()] = $dataField;
                 } else {
-                    $this->logger->warning('log.view.criteria.field_not_found', [
+                    $this->logger->messageWarning(t('message.view_criteria_field_not_found', [
                         'field_path' => $path,
-                    ]);
+                    ], 'emsco-core'));
                 }
             }
         }

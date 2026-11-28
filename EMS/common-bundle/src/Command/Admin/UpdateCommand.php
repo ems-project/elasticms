@@ -32,7 +32,7 @@ class UpdateCommand extends AbstractCommand
     }
 
     #[\Override]
-    public function initialize(InputInterface $input, OutputInterface $output): void
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
         $this->adminHelper->setLogger(new ConsoleLogger($output));
@@ -50,7 +50,7 @@ class UpdateCommand extends AbstractCommand
     {
         parent::configure();
         $this->addArgument(self::CONFIG_TYPE, InputArgument::REQUIRED, 'Type of config to update');
-        $this->addArgument(self::ENTITY_NAME, InputArgument::REQUIRED, 'Entity\'s name to update');
+        $this->addArgument(self::ENTITY_NAME, InputArgument::REQUIRED, "Entity's name to update");
         $this->addArgument(self::JSON_PATH, InputArgument::OPTIONAL, 'Path to the JSON file');
         $this->addOption(self::FOLDER, null, InputOption::VALUE_OPTIONAL, 'Export folder');
     }

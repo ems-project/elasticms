@@ -25,7 +25,7 @@ class ClassCleaner implements HtmlInterface
             }
             $classes = \explode(' ', $item->getAttribute('class'));
             $classes = \array_intersect($classes, $this->config->getValidClasses());
-            if (empty($classes)) {
+            if ([] === $classes) {
                 $item->removeAttribute('class');
             } else {
                 $item->setAttribute('class', \implode(' ', $classes));

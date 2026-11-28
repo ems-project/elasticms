@@ -4,20 +4,28 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Repository;
 
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\ArrayParameterType;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use EMS\CoreBundle\Entity\Job;
 
 /**
- * @extends EntityRepository<Job>
+ * @extends ServiceEntityRepository<Job>
  *
+ * @method Job|null find($id, $lockMode = null, $lockVersion = null)
  * @method Job|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method Job[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
-class JobRepository extends EntityRepository
+class JobRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Job::class);
+    }
+
     public function findById(int $jobId): Job
     {
         if (null === $job = $this->findOneBy(['id' => $jobId])) {
@@ -51,7 +59,7 @@ class JobRepository extends EntityRepository
     public function countFailedJobs(): int
     {
         $qb = $this->createQueryBuilder('job')->select('COUNT(job)');
-        $qb->where($qb->expr()->eq('job.status', ':failed'));
+        $qb->where($qb->expr()->eq('emsco_job_status', ':failed'));
         $qb->setParameter('failed', 'failed');
 
         return (int) $qb->getQuery()->getSingleScalarResult();
@@ -93,7 +101,7 @@ class JobRepository extends EntityRepository
 
         if ($modifiedBefore) {
             $qb
-                ->andWhere($qb->expr()->lt('job.modified', ':modified_before'))
+                ->andWhere($qb->expr()->lt('field.date_modified', ':modified_before'))
                 ->setParameter('modified_before', $modifiedBefore);
         }
 
@@ -110,7 +118,7 @@ class JobRepository extends EntityRepository
             ->setMaxResults($size);
         $this->addSearchFilters($qb, $searchValue);
 
-        if (\in_array($orderField, ['username', 'command', 'created', 'modified'])) {
+        if (\in_array($orderField, ['username', 'command', 'created', 'modified'], true)) {
             $qb->orderBy(\sprintf('job.%s', $orderField), $orderDirection);
         } else {
             $qb->orderBy('job.created', $orderDirection);
@@ -141,8 +149,8 @@ class JobRepository extends EntityRepository
             ->addSelect('count(id) as count_jobs')
             ->addSelect('count(CASE WHEN started = FALSE AND done = FALSE THEN 1 END) AS count_jobs_pending')
             ->addSelect('count(CASE WHEN started = TRUE AND done = FALSE THEN 1 END) AS count_jobs_started')
-            ->addSelect('count(CASE WHEN done = TRUE and status != \'failed\' THEN 1 END) AS count_jobs_done')
-            ->addSelect('count(CASE WHEN status = \'failed\' THEN 1 END) AS count_jobs_failed')
+            ->addSelect("count(CASE WHEN done = TRUE and status != 'failed' THEN 1 END) AS count_jobs_done")
+            ->addSelect("count(CASE WHEN status = 'failed' THEN 1 END) AS count_jobs_failed")
             ->from('job')
             ->groupBy('tag');
 
@@ -151,11 +159,11 @@ class JobRepository extends EntityRepository
 
     private function addSearchFilters(QueryBuilder $qb, string $searchValue): void
     {
-        if (\strlen($searchValue) > 0) {
+        if ('' !== $searchValue) {
             $or = $qb->expr()->orX(
                 $qb->expr()->like('job.username', ':term'),
-                $qb->expr()->like('job.command', ':term'),
-                $qb->expr()->like('job.output', ':term')
+                $qb->expr()->like('field.command', ':term'),
+                $qb->expr()->like('key.job_output', ':term')
             );
             $qb->andWhere($or)
                 ->setParameter(':term', '%'.$searchValue.'%');

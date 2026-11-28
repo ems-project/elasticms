@@ -11,6 +11,7 @@ final class ContentTypeCollection
 {
     /** @var array<ContentType> */
     private array $contentTypes = [];
+    private ?\DateTimeImmutable $freshUntil = null;
 
     public static function fromResponse(Environment $environment, Response $response): ContentTypeCollection
     {
@@ -42,5 +43,19 @@ final class ContentTypeCollection
     public function getByName(string $name): ?ContentType
     {
         return $this->contentTypes[$name] ?? null;
+    }
+
+    public function isFresh(): bool
+    {
+        if (null === $this->freshUntil) {
+            return false;
+        }
+
+        return \time() < $this->freshUntil->getTimestamp();
+    }
+
+    public function setFreshPeriod(\DateInterval $freshInterval): void
+    {
+        $this->freshUntil = new \DateTimeImmutable()->add($freshInterval);
     }
 }

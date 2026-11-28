@@ -110,7 +110,7 @@ final class Configuration implements ConfigurationInterface
                                 ->example('{"enable": true, "name": "api"}')
                             ->end()
                             ->variableNode('search_config')->end()
-                            ->scalarNode('cache_content_types_expire_after')
+                            ->scalarNode('cache_content_types_fresh_period')
                                 ->defaultValue('10 seconds')
                             ->end()
                         ->end()

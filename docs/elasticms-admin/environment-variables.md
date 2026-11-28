@@ -408,6 +408,30 @@ elasticMS serves the cached collection for the given environment.
 EMSCH_CACHE_CONTENT_TYPES_FRESH_PERIOD='10 seconds'
 ```
 
+After the fresh period ends, the next request attempts to refresh the collection
+from Elasticsearch. If a transient error occurs, elasticMS can serve the last
+successfully cached collection during the additional window configured by
+`EMSCH_CACHE_CONTENT_TYPES_GRACE_PERIOD`. A failed refresh does not extend that
+window.
+
+### EMSCH_CACHE_CONTENT_TYPES_GRACE_PERIOD
+
+How long elasticMS can serve the last successfully cached content type 
+collection after the fresh period ends. During this grace period, elasticMS 
+attempts to refresh the collection from Elasticsearch and falls back to the 
+cached collection if a transient error occurs.
+
+* Default value : `5 minutes`
+* Format: A duration string, such as `30 seconds` or `15 minutes`
+
+```dotenv
+EMSCH_CACHE_CONTENT_TYPES_GRACE_PERIOD="5 minutes"
+```
+
+The grace period starts when EMSCH_CACHE_CONTENT_TYPES_FRESH_PERIOD ends. Failed 
+refresh attempts do not extend it. Once the grace period ends, elasticMS 
+propagates any refresh error.
+
 ## Elasticms Common Bundle variables
 
 ### EMS_LOG_LEVEL

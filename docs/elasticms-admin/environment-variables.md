@@ -395,6 +395,19 @@ Example for locally loading the demo inside local elasticms-admin.
 EMSCH_LOCAL_PATH='../demo/skeleton'
 ```
 
+### EMSCH_CACHE_CONTENT_TYPES_FRESH_PERIOD
+
+How long elasticMS considers the cached content type collection fresh after it
+was last successfully retrieved from Elasticsearch. During this period,
+elasticMS serves the cached collection for the current environment.
+
+* Default value : `10 seconds`
+* Format: A duration string, such as `30 seconds` or `1 minute`
+
+```dotenv
+EMSCH_CACHE_CONTENT_TYPES_FRESH_PERIOD='10 seconds'
+```
+
 ## Elasticms Common Bundle variables
 
 ### EMS_LOG_LEVEL

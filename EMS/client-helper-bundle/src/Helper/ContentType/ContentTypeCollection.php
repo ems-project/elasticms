@@ -58,4 +58,13 @@ final class ContentTypeCollection
     {
         $this->freshUntil = new \DateTimeImmutable()->add($freshInterval);
     }
+
+    public function getFreshUntil(): \DateTimeImmutable
+    {
+        if (null === $this->freshUntil) {
+            throw new \RuntimeException('Fresh period not set');
+        }
+
+        return $this->freshUntil;
+    }
 }

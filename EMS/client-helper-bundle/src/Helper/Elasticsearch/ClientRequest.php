@@ -29,6 +29,8 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 final class ClientRequest implements ClientRequestInterface
 {
     private const int CONTENT_TYPE_LIMIT = 500;
+    private ?\DateInterval $freshInterval = null;
+    private ?\DateInterval $graceInterval = null;
 
     /**
      * @param array<string, mixed> $options
@@ -776,5 +778,30 @@ final class ClientRequest implements ClientRequestInterface
         $cacheItem->set($data);
         $cacheItem->expiresAfter(new \DateInterval('P1D'));
         $this->cache->save($cacheItem);
+    }
+
+    private function getFreshInterval(): \DateInterval
+    {
+        $this->freshInterval ??= $this->getInterval('cache_content_types_fresh_period', '10 seconds');
+
+        return $this->freshInterval;
+    }
+
+    private function getGraceInterval(): \DateInterval
+    {
+        $this->graceInterval ??= $this->getInterval('cache_content_types_grace_period', '5 minutes');
+
+        return $this->graceInterval;
+    }
+
+    private function getInterval(string $optionDurationName, string $defaultDuration): \DateInterval
+    {
+        $duration = $this->options[$optionDurationName] ?? $defaultDuration;
+        $interval = \DateInterval::createFromDateString($duration);
+        if (false === $interval) {
+            throw new \RuntimeException(\sprintf('Invalid %s duration format : %s', $optionDurationName, $duration));
+        }
+
+        return $interval;
     }
 }

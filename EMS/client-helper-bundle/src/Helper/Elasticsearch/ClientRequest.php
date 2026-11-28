@@ -325,10 +325,10 @@ final class ClientRequest implements ClientRequestInterface
         } else {
             $contentTypeCollection = $this->contentTypeHelper->getContentTypeCollection($this, $environment);
             $contentTypeCollectionCache->set($contentTypeCollection);
-            $freshDuration = $this->options['cache_content_types_expire_after'] ?? '10 seconds';
-            $interval = \DateInterval::createFromDateString($freshDuration);
+            $freshPeriod = $this->options['cache_content_types_fresh_period'] ?? '10 seconds';
+            $interval = \DateInterval::createFromDateString($freshPeriod);
             if (false === $interval) {
-                throw new \RuntimeException(\sprintf('Invalid content type fresh cache durations : %s', $freshDuration));
+                throw new \RuntimeException(\sprintf('Invalid content type fresh cache durations : %s', $freshPeriod));
             }
             $contentTypeCollectionCache->expiresAfter($interval);
             $this->cache->save($contentTypeCollectionCache);

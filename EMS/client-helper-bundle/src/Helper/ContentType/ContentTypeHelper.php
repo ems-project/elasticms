@@ -24,11 +24,6 @@ final class ContentTypeHelper
         $this->contentTypeCollections = [];
     }
 
-    public function get(ClientRequest $clientRequest, Environment $environment, string $contentTypeName): ?ContentType
-    {
-        return $this->getContentTypeCollection($clientRequest, $environment)->getByName($contentTypeName);
-    }
-
     public function getContentTypeCollection(ClientRequest $clientRequest, Environment $environment): ContentTypeCollection
     {
         $environmentName = $environment->getName();

@@ -334,13 +334,7 @@ final class ClientRequest implements ClientRequestInterface
             $this->cache->save($contentTypeCollectionCache);
         }
 
-        if (null === $contentType = $contentTypeCollection->getByName($name)) {
-            return null;
-        }
-
-        $cachedContentType = $this->cacheHelper->getContentType($contentType);
-
-        return $cachedContentType ?: $contentType;
+        return $contentTypeCollection->getByName($name);
     }
 
     public function getLocale(): string

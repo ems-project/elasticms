@@ -9,8 +9,10 @@ use Elastica\Query\AbstractQuery;
 use Elastica\ResultSet;
 use EMS\ClientHelperBundle\Contracts\Elasticsearch\ClientRequestInterface;
 use EMS\ClientHelperBundle\Exception\SingleResultException;
+use EMS\ClientHelperBundle\Exception\TransientException;
 use EMS\ClientHelperBundle\Helper\Cache\CacheHelper;
 use EMS\ClientHelperBundle\Helper\ContentType\ContentType;
+use EMS\ClientHelperBundle\Helper\ContentType\ContentTypeCollection;
 use EMS\ClientHelperBundle\Helper\ContentType\ContentTypeHelper;
 use EMS\ClientHelperBundle\Helper\Environment\Environment;
 use EMS\ClientHelperBundle\Helper\Environment\EnvironmentHelper;
@@ -321,19 +323,24 @@ final class ClientRequest implements ClientRequestInterface
             $environment = $currentEnvironment;
         }
 
-        $contentTypeCollectionCache = $this->cache->getItem(\sprintf('ContentTypeCollectionFor%s', $environment->getName()));
-        if ($contentTypeCollectionCache->isHit()) {
-            $contentTypeCollection = $contentTypeCollectionCache->get();
+        $contentTypeCollectionCacheItem = $this->cache->getItem(\sprintf('ContentTypeCollectionFor%s', $environment->getName()));
+        /** @var ?ContentTypeCollection $cached */
+        $cached = $contentTypeCollectionCacheItem->isHit() ? $contentTypeCollectionCacheItem->get() : null;
+        if (null !== $cached && $cached->isFresh()) {
+            $contentTypeCollection = $cached;
         } else {
-            $contentTypeCollection = $this->contentTypeHelper->getContentTypeCollection($this, $environment);
-            $contentTypeCollectionCache->set($contentTypeCollection);
-            $freshPeriod = $this->options['cache_content_types_fresh_period'] ?? '10 seconds';
-            $interval = \DateInterval::createFromDateString($freshPeriod);
-            if (false === $interval) {
-                throw new \RuntimeException(\sprintf('Invalid content type fresh cache durations : %s', $freshPeriod));
+            try {
+                $contentTypeCollection = $this->contentTypeHelper->getContentTypeCollection($this, $environment);
+                $contentTypeCollection->setFreshPeriod($this->getFreshInterval());
+                $contentTypeCollectionCacheItem->set($contentTypeCollection);
+                $contentTypeCollectionCacheItem->expiresAfter($this->getGraceInterval());
+                $this->cache->save($contentTypeCollectionCacheItem);
+            } catch (TransientException $exception) {
+                if (null === $cached) {
+                    throw $exception;
+                }
+                $contentTypeCollection = $cached;
             }
-            $contentTypeCollectionCache->expiresAfter($interval);
-            $this->cache->save($contentTypeCollectionCache);
         }
 
         if (null === $contentType = $contentTypeCollection->getByName($name)) {

@@ -33,6 +33,7 @@ final class ClientRequest implements ClientRequestInterface
     private const int CONTENT_TYPE_LIMIT = 500;
     private ?\DateInterval $freshInterval = null;
     private ?\DateInterval $graceInterval = null;
+    private ?ContentTypeCollection $contentTypeCollection = null;
 
     /**
      * @param array<string, mixed> $options
@@ -323,30 +324,9 @@ final class ClientRequest implements ClientRequestInterface
             $environment = $currentEnvironment;
         }
 
-        $contentTypeCollectionCacheItem = $this->cache->getItem(\sprintf('ContentTypeCollectionFor%s', $environment->getName()));
-        /** @var ?ContentTypeCollection $cached */
-        $cached = $contentTypeCollectionCacheItem->isHit() ? $contentTypeCollectionCacheItem->get() : null;
-        if (null !== $cached && $cached->isFresh()) {
-            $contentTypeCollection = $cached;
-        } else {
-            try {
-                $contentTypeCollection = $this->contentTypeHelper->getContentTypeCollection($this, $environment);
-                $contentTypeCollection->setFreshPeriod($this->getFreshInterval());
-                $contentTypeCollectionCacheItem->set($contentTypeCollection);
-                $contentTypeCollectionCacheItem->expiresAfter($this->getGraceInterval());
-                $this->cache->save($contentTypeCollectionCacheItem);
-            } catch (TransientException $exception) {
-                if (null === $cached) {
-                    throw $exception;
-                }
-                $contentTypeCollection = $cached;
-            }
-        }
-
-        if (null === $contentType = $contentTypeCollection->getByName($name)) {
+        if (null === $contentType = $this->getContentTypeCollection($environment)->getByName($name)) {
             return null;
         }
-
         $cachedContentType = $this->cacheHelper->getContentType($contentType);
 
         return $cachedContentType ?: $contentType;
@@ -810,5 +790,37 @@ final class ClientRequest implements ClientRequestInterface
         }
 
         return $interval;
+    }
+
+    private function getContentTypeCollection(Environment $environment): ContentTypeCollection
+    {
+        if (null !== $this->contentTypeCollection) {
+            return $this->contentTypeCollection;
+        }
+
+        $contentTypeCollectionCacheItem = $this->cache->getItem(\sprintf('ContentTypeCollectionFor%s', $environment->getName()));
+        /** @var ?ContentTypeCollection $cached */
+        $cached = $contentTypeCollectionCacheItem->isHit() ? $contentTypeCollectionCacheItem->get() : null;
+        if (null !== $cached && $cached->isFresh()) {
+            $this->contentTypeCollection = $cached;
+
+            return $this->contentTypeCollection;
+        }
+
+        try {
+            $contentTypeCollection = $this->contentTypeHelper->getContentTypeCollection($this, $environment);
+            $contentTypeCollection->setFreshPeriod($this->getFreshInterval());
+            $contentTypeCollectionCacheItem->set($contentTypeCollection);
+            $contentTypeCollectionCacheItem->expiresAt($contentTypeCollection->getFreshUntil()->add($this->getGraceInterval()));
+            $this->cache->save($contentTypeCollectionCacheItem);
+        } catch (TransientException $exception) {
+            if (null === $cached) {
+                throw $exception;
+            }
+            $contentTypeCollection = $cached;
+        }
+        $this->contentTypeCollection = $contentTypeCollection;
+
+        return $this->contentTypeCollection;
     }
 }
